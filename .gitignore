@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+inst/doc
+.httr-oauth
+.*.Rnb.cached
+*.xlsx
+*.png
+*.pdf
+*.html
+*.md
+*.log
