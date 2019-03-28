@@ -65,7 +65,8 @@ pca_scores_plot<-setClass(
     params.points_to_label='enum',
     params.factor_name='entity',
     params.groups='entity',
-    params.ellipse='enum'
+    params.ellipse='enum',
+    params.label_filter='entity'
   ),
 
   prototype = list(name='PCA scores plot',
@@ -82,8 +83,8 @@ pca_scores_plot<-setClass(
     params.points_to_label=enum(name='points_to_label',
       value='none',
       type='character',
-      description='("none"), "all", or "outliers" will be labelled on the plot.'
-
+      description='("none"), "all", or "outliers" will be labelled on the plot.',
+      list=c('none','all','outliers')
     ),
     params.factor_name=entity(name='Factor name',
       value='factor',
@@ -101,7 +102,12 @@ pca_scores_plot<-setClass(
       '"none" will not plot any ellipses',
       '"sample" will plot ellipse for all samples (ignoring group)'),
       list=c('all','group','none','sample'),
-      value='all')
+      value='all'),
+    params.label_filter=entity(name='Label filter',
+      value=character(0),
+      type='character',
+      description='Only include the param.group labels included in params.label_filter. If zero length then all labels will be included.'
+    )
   )
 )
 
@@ -137,6 +143,12 @@ setMethod(f="chart.plot",
     for (i in 1:length(slabels))
     {
       slabels[i]=paste0('  ',slabels[i], '  ')
+    }
+
+    # filter by label_filter list if provided
+    if (length(obj$label_filter)>0) {
+      out=!(opt$groups %in% obj$label_filter)
+      slabels[out]=''
     }
 
     if (is(opt$groups,'factor')) {
