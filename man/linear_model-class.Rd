@@ -6,5 +6,5 @@
 \alias{linear_model}
 \title{linear model class}
 \description{
-wrapper for R lm. Intended to be inherited by other classes e.g. for ANOVA but can be used as is
+wrapper for R lm.
 }
