@@ -71,6 +71,7 @@ Imports: ggplot2,
     nlme
 RoxygenNote: 6.1.1
 Suggests: 
-    testthat
+    testthat,
+    covr
 Remotes: computational-metabolomics/pmp,
   computational-metabolomics/struct
