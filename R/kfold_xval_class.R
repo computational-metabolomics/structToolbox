@@ -14,7 +14,7 @@ kfold_xval<-setClass(
   ),
   prototype = list(name='k-fold cross-validation',
                    type="resampling",
-                   predicted='results',
+                   result='results',
                    params.folds=10,
                    params.method='venetian'
   )

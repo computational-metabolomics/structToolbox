@@ -12,7 +12,7 @@ permutation_test<-setClass(
   ),
   prototype = list(name='permutation test',
                    type='permutation',
-                   predicted='results',
+                   result='results',
                    params.number_of_permutations=10
   )
 )
