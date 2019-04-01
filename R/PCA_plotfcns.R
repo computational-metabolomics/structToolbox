@@ -237,8 +237,8 @@ pca_biplot_plot<-setClass(
     params.points_to_label='entity',
     params.factor_name='entity',
     params.groups='entity',
-    params.sf='entity'
-
+    params.scale_factor='entity',
+    params.style='entity'
   ),
   prototype = list(name='Feature boxplot',
     description='plots a boxplot of a chosen feature for each group of a dataset.',
@@ -268,6 +268,11 @@ pca_biplot_plot<-setClass(
       value=0.95,
       type='numeric',
       description='Scaling factor to apply to loadings. Default = 0.95.'
+    ),
+    params.style=entity(name='Plot style',
+      value='points',
+      type='character',
+      description='Named plot styles for the biplot. [points]'
     )
   )
 
@@ -307,7 +312,7 @@ setMethod(f="chart.plot",
 
     # plot
     A=data.frame("x"=P[,opt$components[1]]*sf*0.8,"y"=P[,opt$components[2]]*sf*0.8)
-    SP=pca_scores_plot()
+    out=pca_scores_plot()
 
 
     if (opt$style=='points')
