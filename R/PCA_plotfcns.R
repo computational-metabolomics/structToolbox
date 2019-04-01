@@ -238,7 +238,8 @@ pca_biplot_plot<-setClass(
     params.factor_name='entity',
     params.groups='entity',
     params.scale_factor='entity',
-    params.style='entity'
+    params.style='enum',
+    params.label_features='entity'
   ),
   prototype = list(name='Feature boxplot',
     description='plots a boxplot of a chosen feature for each group of a dataset.',
@@ -269,10 +270,16 @@ pca_biplot_plot<-setClass(
       type='numeric',
       description='Scaling factor to apply to loadings. Default = 0.95.'
     ),
-    params.style=entity(name='Plot style',
+    params.style=enum(name='Plot style',
       value='points',
       type='character',
-      description='Named plot styles for the biplot. [points]'
+      description='Named plot styles for the biplot. [points], arrows',
+      list=c('points','arrows')
+    ),
+    params.label_features=entity(name='Add feature labels',
+      value=FALSE,
+      type='logical',
+      description='Include feature labels on the plot'
     )
   )
 
@@ -308,19 +315,19 @@ setMethod(f="chart.plot",
     # additionaly scale the loadings
     sf=min(max(abs(Ts[,opt$components[1]]))/max(abs(P[,opt$components[1]])),
       max(abs(Ts[,opt$components[2]]))/max(abs(P[,opt$components[2]])))
-    output.value(obj,'scores')=as.data.frame(Ts) # nb object not returned, so only temporary scaling
+    dobj$scores=as.data.frame(Ts) # nb object not returned, so only temporary scaling
 
     # plot
     A=data.frame("x"=P[,opt$components[1]]*sf*0.8,"y"=P[,opt$components[2]]*sf*0.8)
-    out=pca_scores_plot()
-
+    C=pca_scores_plot(groups=obj$groups,points_to_label=obj$points_to_label,components=obj$components,factor_name=obj$factor_name)
+    out=chart.plot(C,dobj)
 
     if (opt$style=='points')
     {
       out=out+
         geom_point(data=A,inherit.aes = FALSE,color='black',mapping = aes_(x=~x,y=~y))
     }
-    if (opt$style=='arrow')
+    if (opt$style=='arrows')
     {
       out=out+
 
@@ -333,10 +340,10 @@ setMethod(f="chart.plot",
     #label features if requested
     if (opt$label_features)
     {
-      vlabels=opt$feature_labels
-      for (i in 1:length(opt$feature_labels))
+      vlabels=rownames(dobj$loadings)
+      for (i in 1:length(vlabels))
       {
-        vlabels[i]=paste0('  ',opt$feature_labels[i], '  ')
+        vlabels[i]=paste0('  ',vlabels[i], '  ')
       }
       A$vlabels=vlabels
       out=out+
