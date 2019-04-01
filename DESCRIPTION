@@ -71,3 +71,5 @@ Imports: ggplot2,
 RoxygenNote: 6.1.1
 Suggests: 
     testthat
+Remotes: computational-metabolomics/pmp
+  computational-metabolomics/struct
