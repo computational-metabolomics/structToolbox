@@ -67,7 +67,8 @@ Imports: ggplot2,
     reshape2,
     agricolae,
     emmeans,
-    lme4
+    lme4,
+    nlme
 RoxygenNote: 6.1.1
 Suggests: 
     testthat
