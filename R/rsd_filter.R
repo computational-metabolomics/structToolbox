@@ -15,8 +15,6 @@ rsd_filter<-setClass(
                  description = 'Filters features by calculating the relative standard deviation (RSD) for the QC samples and removing features with RSD greater than the threshold.',
                  type = 'filter',
                  predicted = 'filtered',
-                 params=c('rsd_threshold','qc_label'),
-                 outputs=c('filtered','flags'),
 
                  params.rsd_threshold=entity(name = 'RSD threhsold',
                                            description = 'Features with RSD greather than the threshold are removed.',

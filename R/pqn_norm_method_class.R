@@ -14,8 +14,6 @@ pqn_norm<-setClass(
                  description = 'PQN normalisation using QC samples as reference samples',
                  type = 'normalisation',
                  predicted = 'normalised',
-                 params=c('qc_label'),
-                 outputs=c('normalised','coeff'),
 
                  params.qc_label=entity(name = 'QC label',
                                         description = 'Label used to identify QC samples.',

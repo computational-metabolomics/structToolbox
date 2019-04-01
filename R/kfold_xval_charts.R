@@ -15,9 +15,6 @@ kfoldxcv_grid<-setClass(
   prototype = list(name='kfoldxcv grid plot',
                    description='plots the predictions for each cross-validation loop',
                    type="grid",
-                   params=c('factor_name'),
-
-
                    params.factor_name=entity(name='Factor name',
                                              value='factor',
                                              type='character',

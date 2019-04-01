@@ -12,9 +12,7 @@ filter_smeta<-setClass(
           outputs.filtered='dataset'
   ),
   prototype=list(type = 'filter',
-                 predicted = 'filtered',
-                 params=c('mode','levels','factor_name'),
-                 outputs=c('filtered')
+                 predicted = 'filtered'
   )
 )
 

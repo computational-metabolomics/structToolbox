@@ -14,8 +14,6 @@ split_data<-setClass(
                  description = 'Splits the data into a training and test set',
                  type = 'processing',
                  predicted = 'testing',
-                 params=c('p'),
-                 outputs=c('training','testing'),
 
                  params.p=entity(name = 'Proportion in training set',
                                         description = 'The proportion of samples selected for the training set. All other samples willbe in assigned to the test set.',

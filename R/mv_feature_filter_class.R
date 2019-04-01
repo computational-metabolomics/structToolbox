@@ -17,8 +17,6 @@ mv_feature_filter<-setClass(
                  description = 'Filters by removing features where the percent number of missing values exceeds the threshold',
                  type = 'filter',
                  predicted = 'filtered',
-                 params=c('threshold','qc_label','method'),
-                 outputs=c('filtered','flags'),
 
                  params.factor_name=entity(name='Factor name',
                                             type='character',

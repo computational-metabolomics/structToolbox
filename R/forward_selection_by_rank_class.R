@@ -16,12 +16,10 @@ forward_selection_byrank <- setClass(
           outputs.smoothed='numeric',
           outputs.searchlist='numeric'
   ),
-  prototype = list(params=c("variable_rank","min_no_vars","max_no_vars","step_size"),
-                   params.variable_rank=c(1,2,3),
+  prototype = list(params.variable_rank=c(1,2,3),
                    params.min_no_vars=1,
                    params.max_no_vars=100,
                    params.step_size=1,
-                   outputs=c("metric",'results','chosen_vars','smoothed','searchlist'),
                    result='results'
   ),
   contains = 'resampler'

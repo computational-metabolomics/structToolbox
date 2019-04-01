@@ -16,8 +16,6 @@ blank_filter<-setClass(
                  description = 'Filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the intensity is not large compared to the blank are removed.',
                  type = 'filter',
                  predicted = 'filtered',
-                 params=c('fold_change','blank_label','qc_label'),
-                 outputs=c('filtered','flags'),
                  params.fold_change=entity(name = 'Fold change threhsold',
                                            description = 'Features with median intensity less than FOLD_CHANGE times the median intensity of blanks are removed.',
                                            value = 20,

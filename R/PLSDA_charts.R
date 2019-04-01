@@ -21,7 +21,6 @@ plsda_scores_plot<-setClass(
   prototype = list(name='PLSDA scores plot',
                    description='scatter plot of PLSDA component scores',
                    type="scatter",
-                   params=c('components','points_to_label','factor_name','groups'),
                    params.components=entity(name='Components to plot',
                                             value=c(1,2),
                                             type='numeric',

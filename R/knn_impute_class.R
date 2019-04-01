@@ -16,8 +16,6 @@ knn_impute<-setClass(
                  description = 'k-nearest neighbour missing value imputation.',
                  type = 'normalisation',
                  predicted = 'imputed',
-                 params=c('neighbours','row_max','col_max'),
-                 outputs=c('imputed'),
 
                  params.neighbours=entity(name = 'Number of neighbours',
                                         description = 'The number of neighbours (k) to use ofr imputation of missing values.',

@@ -50,8 +50,6 @@ Collate:
     'split_data_class.R'
     'structtoolbox.R'
     'ttest_class.R'
-    'ttest_plotfcns.R'
-    'univarate_ancova.R'
     'vec_norm_class.R'
 Depends: struct
 Imports: ggplot2,

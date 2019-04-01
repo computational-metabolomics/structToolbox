@@ -13,7 +13,6 @@ filter_by_name<-setClass(
   ),
   prototype=list(type = 'filter',
                  predicted = 'filtered',
-                 params=c('mode','dimension','names'),
                  params.mode=entity(value='exclude',
                                     name='Filter mode',
                                     description = 'The filtering mode controls whether samples/features are mode="included" or mode="excluded" based on their name',
@@ -27,8 +26,7 @@ filter_by_name<-setClass(
 
                  params.names=entity(name='Names',
                                      description = 'The name of features/samples to be filtered. Must be an exact match.',
-                                     type='character'),
-                 outputs=c('filtered')
+                                     type='character')
   )
 )
 

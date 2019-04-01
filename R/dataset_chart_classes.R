@@ -17,7 +17,6 @@ feature_boxplot<-setClass(
   prototype = list(name='Feature boxplot',
                    description='plots a boxplot of a chosen feature for each group of a dataset.',
                    type="boxlot",
-                   params=c('label_outliers','feature_to_plot','factor_name','show_counts'),
                    stato.id='STATO:0000243',
 
                    params.label_outliers=entity(name='Label outliers',
@@ -136,7 +135,6 @@ mv_histogram<-setClass(
   prototype = list(name='Missing value histogram',
                    description='Histogram ofmissing values per sample/feature.',
                    type="histogram",
-                   params=c('by_sample'),
                    params.by_sample=entity(name='Plot by sample or by feature',
                                            value=TRUE,
                                            type='logical',
@@ -336,7 +334,6 @@ dataset.dist<-setClass(
   prototype = list(name='Distribution plot',
                    description='Plot of the distribution of all values in the data matrix.',
                    type="boxlot",
-                   params=c('factor_name','per_class'),
 
                    params.factor_name=entity(name='Factor name',
                                              value='factor',

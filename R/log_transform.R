@@ -13,8 +13,6 @@ log_transform<-setClass(
                  description = 'applies a log tranform to the data.',
                  type = 'transform',
                  predicted = 'transformed',
-                 params=c('base'),
-                 outputs=c('transformed'),
 
                  params.qc_label=entity(name = 'logarithm base',
                                         description = 'The base of the logarithm used for the tranform.',

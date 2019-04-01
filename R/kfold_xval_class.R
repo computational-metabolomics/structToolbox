@@ -16,10 +16,7 @@ kfold_xval<-setClass(
                    type="resampling",
                    predicted='results',
                    params.folds=10,
-                   params.method='venetian',
-                   params=c('folds','method'),
-                   outputs=c('results','metric','metric.train','metric.test'),
-                   charts=c('metric')
+                   params.method='venetian'
   )
 )
 

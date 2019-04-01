@@ -22,9 +22,6 @@ PLSDA<-setClass(
   ),
   prototype = list(name='Partial least squares discriminant analysis',
                    type="classification",
-                   params=c('number_components'),
-                   outputs=c('scores','loadings','yhat','design_matrix','y','reg_coef','probability','vip','pls_model','pred','theshold'),
-                   charts=c('scores'),
                    predicted='pred',
                    params.number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric')
     )

@@ -11,7 +11,6 @@ autoscale<-setClass(
   ),
   prototype = list(name='Autoscaling',
                    type="preprocessing",
-                   outputs=c('mean','sd','autoscaled'),
                    predicted='autoscaled'
   )
 )

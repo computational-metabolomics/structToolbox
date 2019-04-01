@@ -14,8 +14,6 @@ glog_transform<-setClass(
                  description = 'applies a glog tranform using using QC samples as reference samples.',
                  type = 'normalisation',
                  predicted = 'transformed',
-                 params=c('qc_label'),
-                 outputs=c('transformed'),
 
                  params.qc_label=entity(name = 'QC label',
                                         description = 'Label used to identify QC samples.',

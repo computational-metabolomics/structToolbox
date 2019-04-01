@@ -13,10 +13,7 @@ permutation_test<-setClass(
   prototype = list(name='permutation test',
                    type='permutation',
                    predicted='results',
-                   params.number_of_permutations=10,
-                   params=c('number_of_permutations'),
-                   outputs=c('results.permuted','results.unpermuted','metric'),
-                   charts=c('boxplot','violin','histogram','scatter')
+                   params.number_of_permutations=10
   )
 )
 

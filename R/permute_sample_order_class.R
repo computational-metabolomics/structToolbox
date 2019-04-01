@@ -13,9 +13,7 @@ permute_sample_order<-setClass(
   prototype = list(name='Permute Sample Order',
                    type="permutation",
                    result='results',
-                   params.number_of_permutations=10,
-                   params=c('number_of_permutations'),
-                   outputs=c('results','metric','metric.train','metric.test')
+                   params.number_of_permutations=10
   )
 )
 

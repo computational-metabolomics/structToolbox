@@ -23,14 +23,6 @@ PCA<-setClass(
   prototype = list(name='Principal Component Analysis (PCA)',
                    description='PCA is a multivariate data reduction technique. It summarises the data in a smaller number of Principal Components that describe the maximum variation present in the dataset.',
                    type="preprocessing",
-                   params=c('number_components'),
-                   outputs=c('scores',
-                             'loadings',
-                             'eigenvalues',
-                             'ssx',
-                             'correlation',
-                             'that'
-                             ),
                    predicted='that',
                    stato.id="OBI:0200051",
 

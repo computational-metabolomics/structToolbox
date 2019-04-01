@@ -26,9 +26,6 @@ ttest<-setClass(
     description='Applies the t-test to each feature to indicate significance, with (optional)
                                 multiple-testing correction.',
     type="univariate",
-    params=c('alpha','mtc'),
-    outputs=c('t_statistic','p_value','rank'),
-    charts=c('boxplots'),
     predicted='p_value',
     stato.id="STATO:0000304",
 
