@@ -7,4 +7,4 @@
 ^\.Rhistory
 LICENSE
 ^\README.md
-^travis\\.yml$
+^.travis\\.yml$
