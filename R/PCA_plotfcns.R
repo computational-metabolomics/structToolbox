@@ -508,7 +508,7 @@ PCA.dstat<-setClass(
     params.alpha=entity(value=0.95,
       name='threshold for rejecting outliers',
       description='a confidence threshold for rejecting samples based on the d-statistic',
-      type='numeric'),
+      type='numeric')
   )
 )
 
