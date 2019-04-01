@@ -15,7 +15,6 @@ pca_correlation_plot<-setClass(
   prototype = list(name='Feature boxplot',
     description='plots a boxplot of a chosen feature for each group of a dataset.',
     type="boxlot",
-    params=c('components'),
     params.components=entity(name='Components to plot',
       value=c(1,2),
       type='numeric',
@@ -72,7 +71,6 @@ pca_scores_plot<-setClass(
   prototype = list(name='PCA scores plot',
     description='Plots a 2d scatter plot of the selected components',
     type="scatter",
-    params=c('components','points_to_label','factor_name','groups'),
 
     params.components=entity(name='Components to plot',
       value=c(1,2),
@@ -244,7 +242,6 @@ pca_biplot_plot<-setClass(
   prototype = list(name='Feature boxplot',
     description='plots a boxplot of a chosen feature for each group of a dataset.',
     type="boxlot",
-    params=c('components','points_to_label','factor_name','groups'),
     params.components=entity(name='Components to plot',
       value=c(1,2),
       type='numeric',
@@ -357,47 +354,93 @@ setMethod(f="chart.plot",
 
 
 
+##################################################################
+##################################################################
+
+#' pca_loadings_plot class
+#'
+#' 2d scatter plot of princpal component loadings.
+#'
+#' @import struct
+#' @export pca_loadings_plot
+#' @include PCA_class.R
+pca_loadings_plot<-setClass(
+  "pca_loadings_plot",
+  contains='chart',
+  slots=c(
+    # INPUTS
+    params.components='entity',
+    params.style='enum',
+    params.label_features='entity'
+  ),
+  prototype = list(name='Feature boxplot',
+    description='plots a boxplot of a chosen feature for each group of a dataset.',
+    type="boxlot",
+    params=c('components','points_to_label','factor_name','groups'),
+    params.components=entity(name='Components to plot',
+      value=c(1,2),
+      type='numeric',
+      description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.'
+    ),
+    params.style=enum(name='Plot style',
+      value='points',
+      type='character',
+      description='Named plot styles for the biplot. [points], arrows',
+      list=c('points','arrows')
+    ),
+    params.label_features=entity(name='Add feature labels',
+      value=FALSE,
+      type='logical',
+      description='Include feature labels on the plot'
+    )
+  )
+
+)
 
 
 
 
-
-# loadings plot
-pca_loadings_plot=function(obj,opt)
-{
-  P=output.value(obj,'loadings')
-  # 1D plot
-  if (length(opt$components)==1)
+#' @export
+setMethod(f="chart.plot",
+  signature=c("pca_loadings_plot",'PCA'),
+  definition=function(obj,dobj)
   {
-    A=data.frame("x"=1:nrow(P),"y"=P[,opt$components[1]])
-    out=ggplot(data=A,aes_(x=~x,y=~y)) +
-      geom_line() +
-      ggtitle('PCA Loadings', subtitle=NULL) +
-      xlab('Feature') +
-      ylab('Loading') +
-      scale_colour_Publication() +
-      theme_Publication(base_size = 12)
-    return(out)
-  }
-  # 2D plot
-  if (length(opt$components)==2)
-  {
-    A=data.frame("x"=P[,opt$components[1]],"y"=P[,opt$components[2]])
-    out=ggplot(data=A,aes_(x=~x,y=~y)) +
-      geom_point() +
-      ggtitle('PCA Loadings', subtitle=NULL) +
-      xlab(paste0('Component ',opt$components[1])) +
-      ylab(paste0('Component ',opt$components[2])) +
-      scale_colour_Publication() +
-      theme_Publication(base_size = 12)
-    return(out)
-  }
-  if (length(opt$components)>2)
-  {
-    stop('can only plot loadings for 1 or 2 components at a time')
-  }
+    opt=param.list(obj)
 
-}
+    P=output.value(dobj,'loadings')
+    # 1D plot
+    if (length(opt$components)==1)
+    {
+      A=data.frame("x"=1:nrow(P),"y"=P[,opt$components[1]])
+      out=ggplot(data=A,aes_(x=~x,y=~y)) +
+        geom_line() +
+        ggtitle('PCA Loadings', subtitle=NULL) +
+        xlab('Feature') +
+        ylab('Loading') +
+        scale_colour_Publication() +
+        theme_Publication(base_size = 12)
+      return(out)
+    }
+    # 2D plot
+    if (length(opt$components)==2)
+    {
+      A=data.frame("x"=P[,opt$components[1]],"y"=P[,opt$components[2]])
+      out=ggplot(data=A,aes_(x=~x,y=~y)) +
+        geom_point() +
+        ggtitle('PCA Loadings', subtitle=NULL) +
+        xlab(paste0('Component ',opt$components[1])) +
+        ylab(paste0('Component ',opt$components[2])) +
+        scale_colour_Publication() +
+        theme_Publication(base_size = 12)
+      return(out)
+    }
+    if (length(opt$components)>2)
+    {
+      stop('can only plot loadings for 1 or 2 components at a time')
+    }
+
+  }
+)
 
 
 #' pca_scree_plot class

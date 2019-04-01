@@ -117,3 +117,20 @@ test_that('PCA dstat chart returns ggplot object',{
   plot(gg)
   expect_true(is(gg,'ggplot'))
 })
+
+test_that('PCA loadings chart returns ggplot object',{
+  # dataset
+  D=iris_dataset()
+  # PCA model
+  M=mean_centre()+PCA()
+  # train the model
+  M=model.train(M,D)
+  # apply the model
+  M=model.predict(M,D)
+  # chart
+  C=pca_loadings_plot()
+  # plot
+  gg=chart.plot(C,M[2])
+  plot(gg)
+  expect_true(is(gg,'ggplot'))
+})
