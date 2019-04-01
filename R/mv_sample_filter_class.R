@@ -14,8 +14,6 @@ mv_sample_filter<-setClass(
                  description = 'Filters by removing samples where the percent number of missing values exceeds the threshold.',
                  type = 'filter',
                  predicted = 'filtered',
-                 params=c('mv_threshold'),
-                 outputs=c('filtered','flags'),
                  params.mv_threshold=entity(name = 'Missing value threshold (%)',
                                            description = 'Samples with greather than THRESHOLD% missing values are excluded.',
                                            value = 20,

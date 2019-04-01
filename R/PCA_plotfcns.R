@@ -376,7 +376,6 @@ pca_loadings_plot<-setClass(
   prototype = list(name='Feature boxplot',
     description='plots a boxplot of a chosen feature for each group of a dataset.',
     type="boxlot",
-    params=c('components','points_to_label','factor_name','groups'),
     params.components=entity(name='Components to plot',
       value=c(1,2),
       type='numeric',
@@ -510,7 +509,6 @@ PCA.dstat<-setClass(
       name='threshold for rejecting outliers',
       description='a confidence threshold for rejecting samples based on the d-statistic',
       type='numeric'),
-    params=c('number_components','alpha')
   )
 )
 
