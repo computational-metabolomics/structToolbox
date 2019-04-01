@@ -25,7 +25,7 @@ test_that('PCA scores chart returns ggplot object',{
   # dataset
   D=iris_dataset()
   # PCA model
-  M=PCA()
+  M=mean_centre()+PCA()
   # train the model
   M=model.train(M,D)
   # apply the model
@@ -33,7 +33,36 @@ test_that('PCA scores chart returns ggplot object',{
   # chart
   C=pca_scores_plot(groups=D$sample_meta$Species)
   # plot
-  gg=chart.plot(C,M)
+  gg=chart.plot(C,M[2])
+  plot(gg)
+  expect_true(is(gg,'ggplot'))
+
+  # label all points
+  C=pca_scores_plot(groups=D$sample_meta$Species,points_to_label = 'all')
+  # plot
+  gg=chart.plot(C,M[2])
+  plot(gg)
+  expect_true(is(gg,'ggplot'))
+
+  # label outliers
+  C=pca_scores_plot(groups=D$sample_meta$Species,points_to_label = 'outliers')
+  # plot
+  gg=chart.plot(C,M[2])
+  plot(gg)
+  expect_true(is(gg,'ggplot'))
+
+
+  # continuous factor
+  C=pca_scores_plot(groups=c(1:length(D$sample_meta$Species)))
+  # plot
+  gg=chart.plot(C,M[2])
+  plot(gg)
+  expect_true(is(gg,'ggplot'))
+
+  # label filter
+  C=pca_scores_plot(groups=D$sample_meta$Species,label_filter='virginica',points_to_label='all')
+  # plot
+  gg=chart.plot(C,M[2])
   plot(gg)
   expect_true(is(gg,'ggplot'))
 })
@@ -133,4 +162,17 @@ test_that('PCA loadings chart returns ggplot object',{
   gg=chart.plot(C,M[2])
   plot(gg)
   expect_true(is(gg,'ggplot'))
+
+  # only one component
+  C=pca_loadings_plot(components=1)
+  # plot
+  gg=chart.plot(C,M[2])
+  plot(gg)
+  expect_true(is(gg,'ggplot'))
+
+  # too many components
+  C=pca_loadings_plot(components=c(1,2,3))
+  # plot
+  expect_error(chart.plot(C,M[2]))
+
 })
