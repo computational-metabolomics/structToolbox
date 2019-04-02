@@ -34,6 +34,7 @@ test_that('PCA scores chart returns ggplot object',{
   C=pca_scores_plot(groups=D$sample_meta$Species)
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 
@@ -41,6 +42,7 @@ test_that('PCA scores chart returns ggplot object',{
   C=pca_scores_plot(groups=D$sample_meta$Species,points_to_label = 'all')
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 
@@ -48,6 +50,7 @@ test_that('PCA scores chart returns ggplot object',{
   C=pca_scores_plot(groups=D$sample_meta$Species,points_to_label = 'outliers')
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 
@@ -56,6 +59,7 @@ test_that('PCA scores chart returns ggplot object',{
   C=pca_scores_plot(groups=c(1:length(D$sample_meta$Species)))
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 
@@ -63,6 +67,7 @@ test_that('PCA scores chart returns ggplot object',{
   C=pca_scores_plot(groups=D$sample_meta$Species,label_filter='virginica',points_to_label='all')
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 })
@@ -80,18 +85,21 @@ test_that('PCA biplot chart returns ggplot object',{
   C=pca_biplot_plot(groups=D$sample_meta$Species,style='arrows')
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
   # different style
   C=pca_biplot_plot(groups=D$sample_meta$Species,style='points')
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
   # variable labels
   C=pca_biplot_plot(groups=D$sample_meta$Species,style='points',label_features = TRUE)
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 })
@@ -109,6 +117,7 @@ test_that('PCA correlation chart returns ggplot object',{
   C=pca_correlation_plot()
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 })
@@ -126,6 +135,7 @@ test_that('PCA scree chart returns ggplot object',{
   C=PCA.scree()
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 })
@@ -143,6 +153,7 @@ test_that('PCA dstat chart returns ggplot object',{
   C=PCA.dstat()
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 })
@@ -160,6 +171,7 @@ test_that('PCA loadings chart returns ggplot object',{
   C=pca_loadings_plot()
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 
@@ -167,6 +179,7 @@ test_that('PCA loadings chart returns ggplot object',{
   C=pca_loadings_plot(components=1)
   # plot
   gg=chart.plot(C,M[2])
+  png(filename = "temp.png")
   plot(gg)
   expect_true(is(gg,'ggplot'))
 
