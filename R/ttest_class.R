@@ -56,11 +56,6 @@ ttest<-setClass(
       type='numeric',
       description='the probability of observing the calculated t-statistic.'
     ),
-    outputs.rank=entity(name='rank',
-      #stato.id='STATO:0000xxx',
-      type='numeric',
-      description='A relative status as compared to others within a group.'
-    ),
     outputs.dof=entity.stato(name='degrees of freedom',
       stato.id='STATO:0000069',
       type='numeric',
