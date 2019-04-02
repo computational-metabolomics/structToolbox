@@ -25,7 +25,7 @@ pqn_norm<-setClass(
                                          type='dataset',
                                          value=dataset()
                  ),
-                 outputs.flags=entity(name = 'PQN coefficients',
+                 outputs.coeff=entity(name = 'PQN coefficients',
                                       description = 'The normalisation coefficients calculated by PQN',
                                       type='data.frame',
                                       value=data.frame()
