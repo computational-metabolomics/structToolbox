@@ -138,7 +138,7 @@ setMethod(f="chart.plot",
             u=output.value(dobj,'results.unpermuted')
 
             A=data.frame('value'=c(p$mean,u$mean),'dataset'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
-            plotClass=pmp::createClassAndColors(A$dataset)
+            plotClass= createClassAndColors(A$dataset)
             out=ggplot(data=A,aes_(x=~dataset,y=~value,color=~dataset)) +
               geom_boxplot()+
               theme_Publication(base_size = 12)+
@@ -170,7 +170,7 @@ setMethod(f="chart.plot",
             u=output.value(dobj,'results.unpermuted')
 
             A=data.frame('value'=c(p$mean,u$mean),'dataset'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
-            plotClass=pmp::createClassAndColors(A$dataset)
+            plotClass= createClassAndColors(A$dataset)
             out=ggplot(data=A,aes_(x=~dataset,y=~value,color=~dataset)) +
               geom_violin(trim=F)+
               theme_Publication(base_size = 12)+
@@ -202,7 +202,7 @@ setMethod(f="chart.plot",
             u=output.value(dobj,'results.unpermuted')
 
             A=data.frame('value'=c(p$mean,u$mean),'dataset'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
-            plotClass=pmp::createClassAndColors(A$dataset)
+            plotClass= createClassAndColors(A$dataset)
             out=ggplot(data=A,aes_(x=~value,color=~dataset)) +
               geom_freqpoly(binwidth = 0.05)+
               theme_Publication(base_size = 12)+
@@ -233,7 +233,7 @@ setMethod(f="chart.plot",
             u=output.value(dobj,'results.unpermuted')
 
             A=data.frame('value'=c(p$mean,u$mean),'dataset'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
-            plotClass=pmp::createClassAndColors(A$dataset)
+            plotClass= createClassAndColors(A$dataset)
             out=ggplot(data=A,aes_(x=1:nrow(A),y=~value,color=~dataset)) +
               geom_point(na.rm=T)+
               theme_Publication(base_size = 12)+

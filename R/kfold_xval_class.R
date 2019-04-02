@@ -145,7 +145,7 @@ setMethod(f="evaluate",
 #                        output.value(obj,'metric.test')),
 #                dataset=c(rep('Training',n),'Test'))
 #   A$dataset=factor(A$dataset,levels = c('Training','Test'),ordered=T)
-#   plotClass=pmp::createClassAndColors(A$dataset)
+#   plotClass= createClassAndColors(A$dataset)
 #     out=ggplot(data=A,aes_(x=~dataset,y=~value,color=~dataset)) +
 #       geom_boxplot()+
 #     theme_Publication(base_size = 12)+

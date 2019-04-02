@@ -75,7 +75,7 @@ setMethod(f="chart.plot",
     }
 
     # get color pallete using pmp
-    clrs=pmp::createClassAndColors(class = SM)
+    clrs= createClassAndColors(class = SM)
     SM=clrs$class
 
     #prep the plot
@@ -251,7 +251,7 @@ setMethod(f="chart.plot",
       }
       txt='Missing values per sample'
       # get color pallete using pmp
-      clrs=pmp::createClassAndColors(class = SM)
+      clrs= createClassAndColors(class = SM)
       A=data.frame(x=clrs$class,y=result[,1])
     } else {
       for (i in 1:length(L)) {
@@ -269,7 +269,7 @@ setMethod(f="chart.plot",
       }
       txt='Missing values per feature'
       # get color pallete using pmp
-      clrs=pmp::createClassAndColors(class = as.factor(result$x))
+      clrs= createClassAndColors(class = as.factor(result$x))
       A=data.frame(x=clrs$class,y=result$y)
     }
 

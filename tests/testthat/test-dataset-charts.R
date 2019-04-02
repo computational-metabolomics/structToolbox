@@ -132,7 +132,6 @@ test_that('compare_dist creates ggplot object',{
   C = compare_dist(factor_name='Species')
   # plot
   gg=chart.plot(C,D,D)
-  #ggplot_build(gg)
   expect_true(is(gg,'gtable'))
 }
 )

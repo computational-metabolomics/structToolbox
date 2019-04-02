@@ -51,7 +51,7 @@ setMethod(f="chart.plot",
       # single factor plot(s)
 
       # get color pallete using pmp
-      clrs=pmp::createClassAndColors(class = SM[[obj$factor_names[1]]])
+      clrs= createClassAndColors(class = SM[[obj$factor_names[1]]])
       SM[[obj$factor_names[1]]]=clrs$class
 
       # prep the data
@@ -71,7 +71,7 @@ setMethod(f="chart.plot",
       # dual factor plot(s)
 
       # get color pallete using pmp
-      clrs=pmp::createClassAndColors(class = SM[[obj$factor_names[2]]])
+      clrs= createClassAndColors(class = SM[[obj$factor_names[2]]])
       SM[[obj$factor_names[2]]]=clrs$class
 
       # prep the data
@@ -91,7 +91,7 @@ setMethod(f="chart.plot",
       # dual factor plot(s)
 
       # get color pallete using pmp
-      clrs=pmp::createClassAndColors(class = SM[[obj$factor_names[2]]])
+      clrs= createClassAndColors(class = SM[[obj$factor_names[2]]])
       SM[[obj$factor_names[2]]]=clrs$class
 
       A=data.frame(x=SM[[obj$factor_names[1]]],z=SM[[obj$factor_names[2]]],y=X,a=SM[[obj$factor_names[3]]])

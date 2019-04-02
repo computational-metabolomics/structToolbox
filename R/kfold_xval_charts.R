@@ -34,7 +34,7 @@ setMethod(f="chart.plot",
             dopt=param.list(dobj)
             X=output.value(dobj,'results')
             L=levels(as.factor(X$actual))
-            plotClass=pmp::createClassAndColors(X$actual)
+            plotClass= createClassAndColors(X$actual)
             X$actual=plotClass$class
 
             p=list()
@@ -112,7 +112,7 @@ setMethod(f="chart.plot",
             X2=data.frame('Metric'=output.value(dobj,'metric.test'),'Set'='Test')
             X=rbind(X,X2)
             X$Set=as.factor(X$Set)
-            plotClass=pmp::createClassAndColors(X$Set)
+            plotClass= createClassAndColors(X$Set)
 
             p=ggplot(data=X,aes_(y=~Metric,x=~Set,colour=~Set)) +
               geom_boxplot() +

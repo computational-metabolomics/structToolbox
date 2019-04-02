@@ -69,7 +69,7 @@ setMethod(f="chart.plot",
             }
 
             if (is(opt$groups,'factor')) {
-              plotClass=pmp::createClassAndColors(opt$groups)
+              plotClass= createClassAndColors(opt$groups)
               opt$groups=plotClass$class
             }
 

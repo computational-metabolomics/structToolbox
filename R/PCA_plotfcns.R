@@ -150,7 +150,7 @@ setMethod(f="chart.plot",
     }
 
     if (is(opt$groups,'factor')) {
-      plotClass=pmp::createClassAndColors(opt$groups)
+      plotClass= createClassAndColors(opt$groups)
       opt$groups=plotClass$class
     }
 
@@ -563,3 +563,4 @@ circleFun <- function(center = c(0,0),diameter = 1, npoints = 100){
   yy <- center[2] + r * sin(tt)
   return(data.frame(x = xx, y = yy))
 }
+

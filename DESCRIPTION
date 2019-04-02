@@ -31,6 +31,7 @@ Collate:
     'filter_smeta_class.R'
     'fisher_exact_class.R'
     'forward_selection_by_rank_class.R'
+    'ggplot_theme_pub.R'
     'glog_class.R'
     'grid_search_1d_class.R'
     'kfold_xval_class.R'
@@ -66,7 +67,8 @@ Imports: ggplot2,
     agricolae,
     emmeans,
     lme4,
-    nlme
+    nlme,
+    ggthemes
 RoxygenNote: 6.1.1
 Suggests: 
     testthat,
