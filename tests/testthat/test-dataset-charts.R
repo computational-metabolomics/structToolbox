@@ -6,8 +6,8 @@ test_that('feature_boxplot creates ggplot object',{
   C = feature_boxplot(feature_to_plot=1,factor_name='Species')
   # plot
   gg=chart.plot(C,D)
-  png(filename = "temp.png")
-  plot(gg)
+
+  ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 })
 
@@ -25,15 +25,15 @@ test_that('mv_histogram creates ggplot object',{
   C = mv_histogram(by_sample=TRUE)
   # plot
   gg=chart.plot(C,D)
-  png(filename = "temp.png")
-  plot(gg)
+
+  ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 
   # chart
   C = mv_histogram(by_sample=FALSE)
   # plot
   gg=chart.plot(C,D)
-  #plot(gg)
+  #ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 })
 
@@ -52,16 +52,16 @@ test_that('mv_boxplot creates ggplot object',{
   C = mv_boxplot(by_sample=TRUE,factor_name='Species',show_counts=TRUE)
   # plot
   gg=chart.plot(C,D)
-  png(filename = "temp.png")
-  plot(gg)
+
+  ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 
   # chart
   C = mv_boxplot(by_sample=FALSE,factor_name='Species',show_counts=TRUE)
   # plot
   gg=chart.plot(C,D)
-  png(filename = "temp.png")
-  plot(gg)
+
+  ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 })
 
@@ -73,16 +73,16 @@ test_that('dataset.dist creates ggplot object',{
   C = dataset.dist(factor_name='Species',per_class=TRUE)
   # plot
   gg=chart.plot(C,D)
-  png(filename = "temp.png")
-  plot(gg)
+
+  ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 
   # chart
   C = dataset.dist(factor_name='Species',per_class=FALSE)
   # plot
   gg=chart.plot(C,D)
-  png(filename = "temp.png")
-  plot(gg)
+
+  ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 })
 
@@ -94,32 +94,32 @@ test_that('dataset.boxplot creates ggplot object',{
   C = dataset.boxplot(factor_name='Species',per_class=FALSE,by_sample=FALSE)
   # plot
   gg=chart.plot(C,D)
-  png(filename = "temp.png")
-  plot(gg)
+
+  ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 
   # chart
   C = dataset.boxplot(factor_name='Species',per_class=FALSE,by_sample=TRUE)
   # plot
   gg=chart.plot(C,D)
-  png(filename = "temp.png")
-  plot(gg)
+
+  ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 
   # chart
   C = dataset.boxplot(factor_name='Species',per_class=TRUE,by_sample=FALSE)
   # plot
   gg=chart.plot(C,D)
-  png(filename = "temp.png")
-  plot(gg)
+
+  ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 
   # chart
   C = dataset.boxplot(factor_name='Species',per_class=TRUE,by_sample=TRUE)
   # plot
   gg=chart.plot(C,D)
-  png(filename = "temp.png")
-  plot(gg)
+
+  ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 })
 
@@ -132,7 +132,7 @@ test_that('compare_dist creates ggplot object',{
   C = compare_dist(factor_name='Species')
   # plot
   gg=chart.plot(C,D,D)
-  #plot(gg)
+  #ggplot_build(gg)
   expect_true(is(gg,'gtable'))
 }
 )
