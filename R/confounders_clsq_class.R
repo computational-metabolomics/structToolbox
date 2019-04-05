@@ -29,7 +29,8 @@ confounders_clsq<-setClass(
 
     params.threshold=entity(name='Confounding factor threshold',
       type='character',
-      description='threshold for accepting a factor as confounding (0 < threshold < 1)'
+      description='threshold for accepting a factor as confounding (0 < threshold < 1)',
+      value=0.15
     ),
 
     params.confounding_factors=entity(name='Confounding factors',
@@ -74,7 +75,7 @@ setMethod(f="method.apply",
     nm=character(length(factor_names))
     for (i in 1:length(factor_names)) {
       fn=unique(c(factor_names[1],factor_names[i]))
-      
+
       # for each factor name check the na count
       FF=filter_na_count(threshold=2)
       excl=matrix(NA,nrow=ncol(D$data),ncol=length(fn))
@@ -88,15 +89,15 @@ setMethod(f="method.apply",
               excl[,k]=FALSE
           }
       }
-      
+
       if (!all(!excl)) {
           excl=apply(excl,1,function(x) {
               fn[!x]
           })
       } else {
-          excl=fn # 
+          excl=fn #
       }
-      
+
       clsq$factor_names=excl
       clsq=method.apply(clsq,D)
 
@@ -121,13 +122,13 @@ setMethod(f="method.apply",
     # redo regression including all potential confounders for each feature
     conf=M$percent_change>M$threshold
     factor_names=M$confounding_factors
-    L=apply(conf[,2:ncol(conf)],1,function(x) c(M$factor_name,factor_names[x]))
+    L=apply(conf[,2:ncol(conf),drop=FALSE],1,function(x) c(M$factor_name,factor_names[x]))
     M2=classical_lsq(intercept=TRUE,alpha=M$alpha,mtc=M$mtc,factor_names=L)
     M2=method.apply(M2,D)
 
     M$p_value=data.frame('ttest.p'=pvals[,1],'corrected.p'=M2$p_value[,2]) # MTC already applied
     names(L)=colnames(D$data)
-    M$potential_confounders=L
+    M$potential_confounders=as.list(L)
     M$significant=data.frame('sig'=M$p_value<M$alpha)
 
     return(M)
