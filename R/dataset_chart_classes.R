@@ -637,6 +637,9 @@ setMethod(f="chart.plot",
     SM=dataset.sample_meta(dobj)
     SM=SM[[obj$factor_name]]
 
+    clrs= createClassAndColors(class = SM)
+    SM=clrs$class
+
     # prep the plot
     temp=data.frame(x=SM,y=Xt)
     p<-ggplot(temp, aes_(x=~x,y=~y,color=~x)) +

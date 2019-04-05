@@ -135,3 +135,14 @@ test_that('compare_dist creates ggplot object',{
   expect_true(is(gg,'gtable'))
 }
 )
+
+test_that('dataset.heatmap creates ggplot object',{
+  # dataset
+  D=iris_dataset()
+  # chart
+  C = dataset.heatmap()
+  # plot
+  gg=chart.plot(C,D)
+  expect_true(is(gg,'ggplot'))
+}
+)
