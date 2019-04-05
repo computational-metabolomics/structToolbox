@@ -106,7 +106,7 @@ setMethod(f="method.apply",
       }
 
       if (all(s>2)) {
-        al=alias(params$formula,data=temp)
+        al=alias(M$formula,data=temp)
         if ('Complete' %in% names(al)) {
           dona=TRUE
         }

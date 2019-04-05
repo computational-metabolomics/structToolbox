@@ -98,7 +98,7 @@ setMethod(f="method.apply",
       dona=FALSE
       if (all(unlist(s)>2)) { # check we have enough levels
         temp3=temp[,var_names_ex] # ignore within factors
-        al=alias(params$formula,temp3) # check we have independent columns
+        al=alias(M$formula,temp3) # check we have independent columns
         if ('Complete' %in% names(al)) {
           dona=TRUE
         }
