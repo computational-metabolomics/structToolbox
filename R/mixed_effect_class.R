@@ -126,31 +126,6 @@ setMethod(f="method.apply",
 )
 
 
-aov2lmer = function(f) {
-  # convert the formula to text
-  txt=paste(f[2],f[3],sep='~')
-  # split at Error
-  txt=strsplit(txt,' + Error',fixed=TRUE)[[1]]
-  if (length(txt)>3) {
-    error('aov2lmr: Too many Error terms')
-  }
-  # parse the Error term
-  pattern="[()*/]"
-  s=strsplit(txt[[2]],pattern)[[1]]
-  s=s[nchar(s)>0]
-  # assume first one is pairing factor
-  t1=paste0('(1|',s[1],')')
-  if (length(s)>2) {
-    tn=paste('(1|',s[2:length(s)],':',s[1],')',collapse='+')
-    fnew=paste(txt[1],t1,tn,sep='+')
-  } else {
-    fnew=paste(txt[1],t1,sep='+')
-  }
-
-  fnew=as.formula(fnew,env=globalenv())
-  return(fnew)
-}
-
 aov2lme = function(f) {
   # convert the formula to text
   txt=paste(f[2],f[3],sep='~')
