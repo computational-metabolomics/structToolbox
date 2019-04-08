@@ -1,5 +1,5 @@
 # test kfold_xval class
-test_that('kfold xval',{
+test_that('kfold xval venetian',{
   set.seed('57475')
   # dataset
   D=iris_dataset()
@@ -11,7 +11,10 @@ test_that('kfold xval',{
   I=run(I,D,B)
   # calculate metric
   expect_equal(I$metric$mean,0.23)
+})
 
+test_that('kfold xval blocks',{
+  set.seed('57475')
   # iterator
   I = kfold_xval(folds=5,method='blocks')*(mean_centre()+PLSDA())
   # metric
@@ -20,7 +23,9 @@ test_that('kfold xval',{
   I=run(I,D,B)
   # calculate metric
   expect_equal(I$metric$mean,0.305)
+})
 
+test_that('kfold xval random',{
   # iterator
   set.seed(57475)
   I = kfold_xval(folds=5,method='random')*(mean_centre()+PLSDA())
