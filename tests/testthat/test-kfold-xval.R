@@ -15,6 +15,8 @@ test_that('kfold xval venetian',{
 
 test_that('kfold xval blocks',{
   set.seed('57475')
+  # dataset
+  D=iris_dataset()
   # iterator
   I = kfold_xval(folds=5,method='blocks')*(mean_centre()+PLSDA())
   # metric
@@ -26,8 +28,10 @@ test_that('kfold xval blocks',{
 })
 
 test_that('kfold xval random',{
-  # iterator
   set.seed(57475)
+  # dataset
+  D=iris_dataset()
+  # iterator
   I = kfold_xval(folds=5,method='random')*(mean_centre()+PLSDA())
   # metric
   B=balanced_accuracy()
