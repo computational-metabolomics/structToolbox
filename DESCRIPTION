@@ -27,7 +27,6 @@ Collate:
     'factor_barchart_class.R'
     'filter_by_name_class.R'
     'filter_na_count.R'
-    'filter_pca_outliers_class.R'
     'filter_smeta_class.R'
     'fisher_exact_class.R'
     'forward_selection_by_rank_class.R'
