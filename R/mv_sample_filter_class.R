@@ -41,8 +41,8 @@ setMethod(f="method.apply",
             smeta=dataset.sample_meta(D)
             x=dataset.data(D)
 
-            filtered = filter_samples_by_mv(as.data.frame(t(x)), max_perc_mv=opt$mv_threshold/100)
-            dataset.data(D) = filtered$df
+            filtered = filter_samples_by_mv(x,max_perc_mv=opt$mv_threshold/100,D$sample_meta[,1])
+            dataset.data(D) = as.data.frame(t(filtered$df))
 
             flags<-data.frame(filtered$flags)
             smeta<-smeta[flags$flags==1,,drop=FALSE]

@@ -8,7 +8,7 @@ mv_feature_filter<-setClass(
   contains = c('method'),
   slots=c(params.threshold='entity',
           params.qc_label='entity',
-          params.method='entity',
+          params.method='enum',
           params.factor_name='entity',
           outputs.filtered='entity',
           outputs.flags='entity'
@@ -33,10 +33,11 @@ mv_feature_filter<-setClass(
                                         value = 'QC',
                                         type='character'),
 
-                 params.method=entity(name='Method',
+                 params.method=enum(name='Method',
                                       description='"within_all" applies filter within classes,"within_one" applies filter within any one class, "QC" applies filter within QC samples, "across" applies filter ignoring class.',
                                       value='QC',
-                                      type='character'),
+                                      type='character',
+                                      list=c('within_all','within_one','QC','across')),
 
                  outputs.filtered=entity(name = 'Filtered dataset',
                                          description = 'A dataset object containing the filtered data.',
@@ -64,7 +65,7 @@ setMethod(f="method.apply",
             s=strsplit(opt$method,'_')[[1]][1]
 
             filtered = filter_peaks_by_fraction(x, min_frac = opt$threshold/100, classes=smeta[[M$factor_name]], method=s,qc_label=opt$qc_label)
-            dataset.data(D) = filtered$df
+            dataset.data(D) = as.data.frame(t(filtered$df))
 
             flags<-data.frame(filtered$flags)
             vmeta=dataset.variable_meta(D)
