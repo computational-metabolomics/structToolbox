@@ -7,8 +7,8 @@ mean_centre<-setClass(
   contains='preprocess',
   slots=c(params.mode='enum',
     outputs.centred='dataset',
-    outputs.mean.data='numeric',
-    outputs.mean.sample_meta='numeric'
+    outputs.mean_data='numeric',
+    outputs.mean_sample_meta='numeric'
   ),
   prototype = list(name='Mean centre',
     type="preprocessing",
@@ -31,7 +31,7 @@ setMethod(f="model.train",
     ## xblock
     X=dataset.data(D)
     m=colMeans(X,na.rm = TRUE)
-    output.value(M,'mean.data')=m
+    output.value(M,'mean_data')=m
 
     ## yblock
     X=dataset.sample_meta(D)
@@ -39,7 +39,7 @@ setMethod(f="model.train",
     nu=unlist(lapply(X,is.numeric))
     m=rep(NA,length(nu)) # put NA if not numeric
     m[nu]=colMeans(X[nu],na.rm = TRUE)
-    output.value(M,'mean.sample_meta')=m
+    output.value(M,'mean_sample_meta')=m
 
     return(M)
   }
@@ -53,7 +53,7 @@ setMethod(f="model.predict",
     # xblock
     if (M$mode %in% c('data','both')) {
       X=dataset.data(D)
-      Xc=center_colmeans(X,output.value(M,'mean.data'))
+      Xc=center_colmeans(X,output.value(M,'mean_data'))
       dataset.data(D)=as.data.frame(Xc)
     }
     if (M$mode %in% c('sample_meta','both')) {
@@ -61,7 +61,7 @@ setMethod(f="model.predict",
       # can only centre numeric variables
       nu=unlist(lapply(X,is.numeric))
       Xc=X
-      Xc[nu]=center_colmeans(X[nu],output.value(M,'mean.sample_meta')[nu])
+      Xc[nu]=center_colmeans(X[nu],output.value(M,'mean_sample_meta')[nu])
       dataset.sample_meta(D)=as.data.frame(Xc)
     }
     output.value(M,'centred')=D
@@ -76,7 +76,7 @@ setMethod(f='model.reverse',
     # xblock
     if (M$mode %in% c('data','both')) {
       X=dataset.data(D)
-      Xc=uncenter_colmeans(X,output.value(M,'mean.data'))
+      Xc=uncenter_colmeans(X,output.value(M,'mean_data'))
       dataset.data(D)=as.data.frame(Xc)
     }
     if (M$mode %in% c('sample_meta','both')) {
@@ -84,7 +84,7 @@ setMethod(f='model.reverse',
       # can only centre numeric variables
       nu=unlist(lapply(X,is.numeric))
       Xc=X
-      Xc[nu]=uncenter_colmeans(X[nu],output.value(M,'mean.sample_meta')[nu])
+      Xc[nu]=uncenter_colmeans(X[nu],output.value(M,'mean_sample_meta')[nu])
       dataset.sample_meta(D)=as.data.frame(Xc)
     }
     return(D)
