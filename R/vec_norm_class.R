@@ -12,7 +12,7 @@ vec_norm<-setClass(
   prototype=list(name = 'Vector normalisation',
                  description = 'Normalises each row such that the sum of squares is equal to 1',
                  type = 'normalisation',
-
+                 predicted='normalised',
                  outputs.normalised=entity(name = 'Normalised dataset',
                                            description = 'A dataset object containing the normalised data.',
                                            type='dataset',
