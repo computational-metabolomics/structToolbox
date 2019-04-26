@@ -53,12 +53,13 @@ setMethod(f="method.apply",
             } else if (opt$dimension=='variable') {
               vmeta=dataset.variable_meta(D)
               IN=rownames(vmeta) %in% opt$names
+              INx=colnames(x) %in% opt$names
               if (opt$mode=='include') {
                 vmeta=vmeta[IN,,drop=FALSE]
-                x=x[ ,IN,drop=FALSE]
+                x=x[ ,INx,drop=FALSE]
               } else if (opt$mode=='exclude') {
                 vmeta=vmeta[!IN,,drop=FALSE]
-                x=x[,!IN,drop=FALSE]
+                x=x[,!INx,drop=FALSE]
               }
               dataset.data(D)=x
               dataset.variable_meta(D)=vmeta
