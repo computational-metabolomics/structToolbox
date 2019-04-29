@@ -53,8 +53,7 @@ setMethod(f="method.apply",
     opt=param.list(M)
     smeta=dataset.sample_meta(D)
     x=dataset.data(D)
-    # remove = NULL does not remove blanks. ANY VALUE removes blanks.
-    rsd_filtered = filter_peaks_by_rsd(x, max_rsd = opt$rsd_threshold, classes=smeta[,1], qc_label=opt$qc_label)
+    rsd_filtered = filter_peaks_by_rsd(t(x), max_rsd = opt$rsd_threshold, classes=smeta[[opt$factor_name]], qc_label=opt$qc_label)
     dataset.data(D) = as.data.frame(t(rsd_filtered$df))
 
     flags<-data.frame(rsd_filtered$flags)

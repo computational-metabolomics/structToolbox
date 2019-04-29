@@ -7,8 +7,8 @@ knn_impute<-setClass(
   "knn_impute",
   contains = c('method'),
   slots=c(params.neighbours='entity',
-    params.row_max='entity',
-    params.col_max='entity',
+    params.sample_max='entity',
+    params.feature_max='entity',
     outputs.imputed='entity'
   ),
 
@@ -22,7 +22,12 @@ knn_impute<-setClass(
       value = 5,
       type='numeric'),
 
-    params.neighbours=entity(name = 'Maximum percent per sample',
+    params.feature_max=entity(name = 'Maximum percent per feature',
+      description = 'The maximum percent missing values per sample',
+      value = 50,
+      type='numeric'),
+
+    params.sample_max=entity(name = 'Maximum percent per sample',
       description = 'The maximum percent missing values per sample',
       value = 50,
       type='numeric'),
@@ -45,8 +50,8 @@ setMethod(f="method.apply",
     smeta=dataset.sample_meta(D)
     x=dataset.data(D)
 
-    imputed = mv_imputation(t(as.matrix(x)),method='knn',k = opt$neighbours,rowmax=opt$row_max/100,colmax=opt$col_max/100,maxp = NULL,FALSE)
-    dataset.data(D) = as.data.frame(t(imputed))
+    imputed = mv_imputation((as.matrix(x)),method='knn',k = opt$neighbours,rowmax=opt$feature_max/100,colmax=opt$sample_max/100,maxp = nrow(x),FALSE)
+    dataset.data(D) = as.data.frame((imputed))
 
     output.value(M,'imputed') = D
 
