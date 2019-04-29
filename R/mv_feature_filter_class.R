@@ -64,7 +64,7 @@ setMethod(f="method.apply",
 
             s=strsplit(opt$method,'_')[[1]][1]
 
-            filtered = filter_peaks_by_fraction(x, min_frac = opt$threshold/100, classes=smeta[[M$factor_name]], method=s,qc_label=opt$qc_label)
+            filtered = filter_peaks_by_fraction(t(x), min_frac = opt$threshold/100, classes=smeta[[M$factor_name]], method=s,qc_label=opt$qc_label)
             dataset.data(D) = as.data.frame(t(filtered$df))
 
             flags<-data.frame(filtered$flags)
@@ -73,21 +73,18 @@ setMethod(f="method.apply",
             if (opt$method=='within_all') {
               L=levels(smeta[[M$factor_name]])
               IN=apply(flags[,(length(L)+1):ncol(flags)],MARGIN=1,function(x) all(x==1))
-              nmes=colnames(flags)[IN]
 
-              vmeta=vmeta[nmes,,drop=FALSE]
-              x=x[,nmes,drop=FALSE]
-              dataset.data(D) = x
             } else if (opt$method=='within_one') {
               L=levels(smeta[[M$factor_name]])
               IN=apply(flags[,(length(L)+1):ncol(flags)],MARGIN=1,function(x) any(x==1))
-              nmes=colnames(flags)[IN]
-              vmeta=vmeta[nmes,,drop=FALSE]
             } else {
               IN=flags[,2]==1
               nmes=colnames(flags)[IN]
-              vmeta=vmeta[nmes,,drop=FALSE]
             }
+            nmes=colnames(flags)[IN]
+            vmeta=vmeta[nmes,,drop=FALSE]
+            x=x[,IN,drop=FALSE]
+            dataset.data(D) = x
             dataset.variable_meta(D)=vmeta
 
             output.value(M,'filtered') = D

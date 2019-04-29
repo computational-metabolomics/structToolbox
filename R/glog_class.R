@@ -38,8 +38,8 @@ setMethod(f="method.apply",
             smeta=dataset.sample_meta(D)
             x=dataset.data(D)
 
-            out = glog_transformation(as.matrix(x),classes = smeta[,1],qc_label=opt$qc_label)
-            dataset.data(D) = as.data.frame(out)
+            out = glog_transformation(t(x),classes = smeta[,1],qc_label=opt$qc_label)
+            dataset.data(D) = as.data.frame(t(out))
 
             output.value(M,'transformed') = D
 
