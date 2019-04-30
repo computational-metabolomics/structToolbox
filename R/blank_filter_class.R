@@ -70,7 +70,7 @@ setMethod(f="method.apply",
     dataset.data(D) = as.data.frame(t(blank_filtered$df))
 
     # remove the blanks. do it this way because pmp doesnt remove from class labels.
-    RB = filter_smeta(mode='exclude',levels=opt$blank_label,factor_name=opt$qc_column)
+    RB = filter_smeta(mode='exclude',levels=opt$blank_label,factor_name=opt$factor_name)
     RB=method.apply(RB,D)
     D=predicted(RB)
 
