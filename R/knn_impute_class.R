@@ -50,7 +50,7 @@ setMethod(f="method.apply",
     smeta=dataset.sample_meta(D)
     x=dataset.data(D)
 
-    imputed = mv_imputation((as.matrix(x)),method='knn',k = opt$neighbours,rowmax=opt$feature_max/100,colmax=opt$sample_max/100,maxp = nrow(x),FALSE)
+    imputed = mv_imputation((as.matrix(x)),method='knn',k = opt$neighbours,rowmax=opt$feature_max/100,colmax=opt$sample_max/100,maxp = NULL,FALSE)
     dataset.data(D) = as.data.frame((imputed))
 
     output.value(M,'imputed') = D

@@ -64,10 +64,15 @@ setMethod(f="method.apply",
       classes=smeta[,opt$factor_name],
       blank_label=opt$blank_label,
       qc_label=opt$qc_label,
-      remove=TRUE,
+      remove=FALSE,
       fraction_in_blank=opt$fraction
     )
     dataset.data(D) = as.data.frame(t(blank_filtered$df))
+
+    # remove the blanks. do it this way because pmp doesnt remove from class labels.
+    RB = filter_smeta(mode='exclude',levels=params$blank_label,factor_name=params$qc_column)
+    RB=method.apply(RB,D)
+    D=predicted(RB)
 
     flags=data.frame(blank_filtered$flags)
     vmeta=dataset.variable_meta(D)
