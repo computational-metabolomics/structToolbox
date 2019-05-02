@@ -74,7 +74,7 @@ setMethod(f="method.apply",
   {
 
     # log transform
-    X=log2(D$data)
+    D$data=log2(D$data)
     Y=D$sample_meta
 
     # for paired data sort by sample id
