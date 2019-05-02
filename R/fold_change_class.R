@@ -183,17 +183,17 @@ setMethod(f="chart.plot",
     A$x=1:nrow(A)
 
     out=ggplot(data=A,aes(x=feature,y=fc,color=group)) +
-      geom_rect(xmin=-Inf,xmax=Inf,ymin=-Inf,ymax=-log2(M$threshold),fill='#B6B6B6',inherit.aes = FALSE,alpha=0.02) +
-      geom_rect(xmin=-Inf,xmax=Inf,ymax=Inf,ymin=log2(M$threshold),fill='#B6B6B6',inherit.aes = FALSE,alpha=0.02) +
+      geom_rect(xmin=-Inf,xmax=Inf,ymin=-Inf,ymax=-log2(dobj$threshold),fill='#9EC086',inherit.aes = FALSE,alpha=0.02) +
+      geom_rect(xmin=-Inf,xmax=Inf,ymax=Inf,ymin=log2(dobj$threshold),fill='#9EC086',inherit.aes = FALSE,alpha=0.02) +
       #geom_rect(xmin=-Inf,xmax=Inf,ymax=log2(M$threshold),ymin=-log2(M$threshold),fill='#B6B6B6',inherit.aes = FALSE,alpha=0.02) +
       geom_pointrange(aes(ymin=lci,ymax=uci),position=position_dodge(width=0.20)) +
-      geom_hline(yintercept = log2(dobj$threshold),color='red') +
-      geom_hline(yintercept = -log2(dobj$threshold),color='red') +
+      #geom_hline(yintercept = log2(dobj$threshold),color='red') +
+      #geom_hline(yintercept = -log2(dobj$threshold),color='red') +
       xlab('Feature') +
       ylab('log2(Fold change)')+
       coord_flip() +
-      structtoolbox:::scale_colour_Publication() +
-      structtoolbox:::theme_Publication(base_size = 12)
+      scale_colour_Publication() +
+      theme_Publication(base_size = 12)
 
   return(out)
   }
