@@ -134,6 +134,10 @@ setMethod(f="method.apply",
     colnames(LCI)=comp
     colnames(UCI)=comp
 
+    rownames(FC)=colnames(D$data)
+    rownames(LCI)=colnames(D$data)
+    rownames(UCI)=colnames(D$data)
+
     M$fold_change=2^FC
     M$lower_ci=2^LCI
     M$upper_ci=2^UCI
@@ -172,7 +176,13 @@ setMethod(f="chart.plot",
   definition=function(obj,dobj)
   {
 
-    S=sample.int(nrow(dobj$fold_change),size=obj$number_features)
+    # choose randomly,or use provided vector
+    if (length(obj$number_features)==1) {
+      S=sample.int(nrow(dobj$fold_change),size=obj$number_features)
+    } else {
+      S=obj$number_features
+    }
+
 
     A=data.frame('fc'=dobj$fold_change[S,1],'group'=colnames(dobj$fold_change)[1],'lci'=dobj$lower_ci[S,1],'uci'=dobj$upper_ci[S,1],'feature'=rownames(dobj$fold_change)[S])
     if (ncol(dobj$fold_change)>1) {
