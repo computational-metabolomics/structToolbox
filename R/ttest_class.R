@@ -13,14 +13,14 @@ ttest<-setClass(
     params.alpha='entity.stato',
     params.mtc='entity.stato',
     params.factor_names='entity',
+    params.paired='entity',
     # OUTPUTS
     outputs.t_statistic='entity.stato',
-    outputs.p_value='entity.stato',
+    outputs.p_value='entity',
     outputs.dof='entity.stato',
-    outputs.significant='entity'
-
-    # CHARTS
-    # none
+    outputs.significant='entity',
+    outputs.conf_int='entity',
+    outputs.estimates='data.frame'
   ),
   prototype = list(name='t-test',
     description='Applies the t-test to each feature to indicate significance, with (optional)
@@ -46,6 +46,11 @@ ttest<-setClass(
       type='numeric',
       description='The method used to adjust for multiple comparisons.'
     ),
+    params.paired=entity(name='Apply paired t-test',
+      value=FALSE,
+      type='logical',
+      description='TRUE/FALSE to apply paired t-test.'
+    ),
     outputs.t_statistic=entity.stato(name='t-statistic',
       stato.id='STATO:0000176',
       type='numeric',
@@ -65,6 +70,10 @@ ttest<-setClass(
       #stato.id='STATO:0000069',
       type='logical',
       description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
+    ),
+    outputs.conf_int=entity(name='Confidence interval',
+      type='data.frame',
+      description='confidence interval for t statistic'
     )
   )
 )
@@ -80,14 +89,17 @@ setMethod(f="method.apply",
     if (length(L)!=2) {
       stop('must have exactly two levels for this implmentation of t-statistic')
     }
-    output=apply(X,2,function(x) {a=unlist(t.test(x[y==L[1]],x[y==L[2]])[c("statistic","p.value","parameter")])})
+    output=apply(X,2,function(x) {a=unlist(t.test(x[y==L[1]],x[y==L[2]],paired = M$paired)[c("statistic","p.value","parameter",'conf.int','estimate')])})
     output=as.data.frame(t(output),stringsAsFactors = FALSE)
     output$p.value=p.adjust(output$p.value,method = param.value(M,'mtc'))
     output.value(M,'t_statistic')=output$statistic.t
     output.value(M,'p_value')=output$p.value
     output.value(M,'dof')=output$parameter.df
     output.value(M,'significant')=output$p.value<param.value(M,'alpha')
-
+    M$conf_int=output[,4:5,drop=FALSE]
+    colnames(M$conf_int)=c('lower','upper')
+    M$estimates=output[,6:7,drop=FALSE]
+    colnames(M$estimates)=as.character(interaction('estimate.mean',L))
     return(M)
   }
 )
