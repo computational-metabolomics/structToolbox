@@ -155,11 +155,13 @@ setMethod(f="method.apply",
 fold_change_plot<-setClass(
   "fold_change_plot",
   contains='chart',
-  slots=c(params.number_features='numeric'),
+  slots=c(params.number_features='numeric',
+    params.orientation='character'),
   prototype = list(name='Fold change plot',
     description='plots a boxplot of a chosen feature for each group of a dataset.',
     type="boxlot",
-    params.number_features=20
+    params.number_features=20,
+    params.orientation='portrait'
   )
 
 )
@@ -191,11 +193,13 @@ setMethod(f="chart.plot",
       #geom_hline(yintercept = -log2(dobj$threshold),color='red') +
       xlab('Feature') +
       ylab('log2(Fold change)')+
-      coord_flip() +
       scale_colour_Publication() +
       theme_Publication(base_size = 12)
 
-  return(out)
+    if (obj$orientation=='landscape') {
+      out=out+coord_flip()
+    }
+    return(out)
   }
 )
 
