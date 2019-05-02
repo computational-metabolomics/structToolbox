@@ -188,17 +188,21 @@ setMethod(f="chart.plot",
       geom_rect(xmin=-Inf,xmax=Inf,ymin=-Inf,ymax=-log2(dobj$threshold),fill='#9EC086',inherit.aes = FALSE,alpha=0.02) +
       geom_rect(xmin=-Inf,xmax=Inf,ymax=Inf,ymin=log2(dobj$threshold),fill='#9EC086',inherit.aes = FALSE,alpha=0.02) +
       #geom_rect(xmin=-Inf,xmax=Inf,ymax=log2(M$threshold),ymin=-log2(M$threshold),fill='#B6B6B6',inherit.aes = FALSE,alpha=0.02) +
-      geom_pointrange(aes(ymin=lci,ymax=uci),position=position_dodge(width=0.20)) +
+      geom_pointrange(aes(ymin=lci,ymax=uci),position=position_dodge(width=0.75)) +
       #geom_hline(yintercept = log2(dobj$threshold),color='red') +
       #geom_hline(yintercept = -log2(dobj$threshold),color='red') +
       xlab('Feature') +
       ylab('log2(Fold change)')+
-      scale_colour_Publication() +
-      theme_Publication(base_size = 12)
+      structtoolbox:::scale_colour_Publication() +
+      structtoolbox:::theme_Publication(base_size = 12)
 
     if (obj$orientation=='landscape') {
       out=out+coord_flip()
+
+    } else {
+      out=out+theme(axis.text.x = element_text(angle = 90,hjust=1,vjust=0.5))
     }
+
     return(out)
   }
 )
