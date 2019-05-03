@@ -74,7 +74,7 @@ setMethod(f="method.apply",
   {
 
     # log transform
-    D$data=log2(D$data)
+    X=log2(D$data)
     Y=D$sample_meta
 
     # for paired data sort by sample id
@@ -82,6 +82,9 @@ setMethod(f="method.apply",
       X=X[order(Y[[M$sample_name]]),drop=FALSE]
       Y=Y[order(Y[[M$sample_name]]),drop=FALSE]
     }
+
+    D$data=X
+    D$sample_meta=Y
 
     # levels for factor of interest
     L=levels(as.factor(Y[[M$factor_name]]))
