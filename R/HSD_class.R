@@ -80,7 +80,7 @@ setMethod(f="method.apply",
       var_names_ex=var_names
     }
 
-    FF=structtoolbox:::full_fact(var_names_ex)
+    FF=full_fact(var_names_ex)
     FF=apply(FF,1,function(x) var_names_ex[x==1])
     FF=FF[-1]
 
