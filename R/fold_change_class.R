@@ -91,7 +91,9 @@ setMethod(f="method.apply",
     # put control group first if provided
     if (length(M$control_group)>0) {
       w=which(L==M$control_group)
-      L=c(L[w],L[-w])
+      if (length(w)>1) {
+        L=c(L[w],L[-w])
+      }
     }
 
     # number of pairwise comparisons
