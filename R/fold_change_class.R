@@ -187,10 +187,10 @@ setMethod(f="chart.plot",
     }
 
 
-    A=data.frame('fc'=dobj$fold_change[S,1],'group'=colnames(dobj$fold_change)[S],'lci'=dobj$lower_ci[S,1],'uci'=dobj$upper_ci[S,1],'feature'=rownames(dobj$fold_change)[S])
+    A=data.frame('fc'=dobj$fold_change[S,1],'group'=colnames(dobj$fold_change)[1],'lci'=dobj$lower_ci[S,1],'uci'=dobj$upper_ci[S,1],'feature'=rownames(dobj$fold_change)[S])
     if (ncol(dobj$fold_change)>1) {
       for (k in 2:ncol(dobj$fold_change)) {
-        B=data.frame('fc'=dobj$fold_change[S,k],'group'=colnames(dobj$fold_change)[S],'lci'=dobj$lower_ci[S,k],'uci'=dobj$upper_ci[S,k],'feature'=rownames(dobj$fold_change)[S])
+        B=data.frame('fc'=dobj$fold_change[S,k],'group'=colnames(dobj$fold_change)[k],'lci'=dobj$lower_ci[S,k],'uci'=dobj$upper_ci[S,k],'feature'=rownames(dobj$fold_change)[S])
         A=rbind(A,B)
       }
     }
