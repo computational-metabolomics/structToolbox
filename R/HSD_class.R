@@ -80,7 +80,7 @@ setMethod(f="method.apply",
       var_names_ex=var_names
     }
 
-    FF=full_fact(var_names_ex)
+    FF=structtoolbox:::full_fact(var_names_ex)
     FF=apply(FF,1,function(x) var_names_ex[x==1])
     FF=FF[-1]
 
@@ -100,7 +100,9 @@ setMethod(f="method.apply",
       temp2=na.omit(temp)
       s=sapply(var_names,function(x) summary(temp2[[x]]))
       n=nrow(temp2)
-
+      if (is.list(s)){
+        s=unlist(s)
+      }
       if (any(s<=2)) { # at least one level has 1 samples
         dona=TRUE
       }
