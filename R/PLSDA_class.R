@@ -174,3 +174,17 @@ vips<-function(object)
 }
 
 
+set_scale <- function(y=NULL,name='PCA',...){
+
+  #library(scales)
+  pal=c("#386cb0","#ef3b2c","#7fc97f","#fdb462","#984ea3","#a6cee3","#778899","#fb9a99","#ffff33") #  default palette
+  if (name=='PCA') {
+    w=which(levels(y)=='QC') # NB returns length 0 if y is not a factor, so default colour palette
+    if (length(w)!=0)
+    {
+      # there are QCs so add black
+      pal=c('#000000',pal)
+    }
+  }
+  discrete_scale(c("colour","fill"),"Publication",manual_pal(values = pal), drop=FALSE, name=NULL,...) # sets both fill and colour aesthetics to chosen palette.
+}
