@@ -51,11 +51,14 @@ setMethod(f="method.apply",
   definition=function(M,D)
   {
 
+    # create interaction factor from input factors
+    IF=interaction(D$sample_meta[,M$factor_name])
+    
     # count na per class for each feature
-    L=levels(D$sample_meta[[M$factor_name]])
+    L=levels(IF)
     na_count=matrix(0,nrow=ncol(D$data),ncol=length(L))
     for (k in 1:length(L)) {
-      na_count[,k]=apply(D$data,2,function(x) sum(!is.na(x[D$sample_meta[[M$factor_name]]==L[k]])))
+      na_count[,k]=apply(D$data,2,function(x) sum(!is.na(x[IF==L[k]])))
     }
     colnames(na_count)=L
 
