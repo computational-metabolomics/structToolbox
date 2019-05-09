@@ -9,6 +9,7 @@ filter_na_count<-setClass(
     params.factor_name='entity',
     outputs.filtered='entity',
     outputs.count='entity',
+    outputs.count='entity',
     outputs.flags='entity'
   ),
   prototype=list(name = 'filters features by the number of NA per class',
@@ -32,7 +33,12 @@ filter_na_count<-setClass(
       type='dataset',
       value=dataset()
     ),
-    outputs.count=entity(name = 'NA count per class',
+    outputs.count=entity(name = 'Count per class',
+      description = 'Number of non-NA per class',
+      type='data.frame',
+      value=data.frame()
+    ),
+    outputs.na_count=entity(name = 'NA count per class',
       description = 'Number of NA per class',
       type='data.frame',
       value=data.frame()
@@ -53,12 +59,14 @@ setMethod(f="method.apply",
 
     # create interaction factor from input factors
     IF=interaction(D$sample_meta[,M$factor_name])
-    
+
     # count na per class for each feature
     L=levels(IF)
-    na_count=matrix(0,nrow=ncol(D$data),ncol=length(L))
+    count=na_count=matrix(0,nrow=ncol(D$data),ncol=length(L))
+
     for (k in 1:length(L)) {
       na_count[,k]=apply(D$data,2,function(x) sum(!is.na(x[IF==L[k]])))
+      count[,k]=apply(D$data,2,function(x) sum(is.na(x[IF==L[k]])))
     }
     colnames(na_count)=L
 
@@ -71,6 +79,7 @@ setMethod(f="method.apply",
     M$filtered=D
     M$flags=data.frame(flags=flags)
     M$count=as.data.frame(na_count)
+    M$na_count=as.data.frame(count)
 
     return(M)
   }
