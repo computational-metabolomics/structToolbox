@@ -9,7 +9,7 @@ filter_na_count<-setClass(
     params.factor_name='entity',
     outputs.filtered='entity',
     outputs.count='entity',
-    outputs.count='entity',
+    outputs.na_count='entity',
     outputs.flags='entity'
   ),
   prototype=list(name = 'filters features by the number of NA per class',
