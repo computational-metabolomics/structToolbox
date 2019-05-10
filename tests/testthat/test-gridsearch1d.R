@@ -10,7 +10,7 @@ test_that('grid_search iterator',{
       model_index=2,
       max_min='min')*
     kfold_xval(folds=5)*
-    (mean_centre()+PLSDA())
+    (mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -30,7 +30,7 @@ test_that('grid_search wf',{
     search_values=1:4,
     model_index=2,
     max_min='min')*
-    (mean_centre()+PLSDA())
+    (mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -51,7 +51,7 @@ test_that('grid_search chart',{
     model_index=2,
     max_min='min')*
     kfold_xval(folds=5)*
-    (mean_centre()+PLSDA())
+    (mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run

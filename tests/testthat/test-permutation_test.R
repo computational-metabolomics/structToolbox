@@ -4,7 +4,7 @@ test_that('permutation test',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = permutation_test(number_of_permutations=20)*(mean_centre()+PLSDA())
+  I = permutation_test(number_of_permutations=20)*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -21,7 +21,7 @@ test_that('permutation test boxplot',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = permutation_test(number_of_permutations=10)*kfold_xval(folds=3)*(mean_centre()+PLSDA())
+  I = permutation_test(number_of_permutations=10)*kfold_xval(folds=3)*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -38,7 +38,7 @@ test_that('permutation test hist plot',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = permutation_test(number_of_permutations=10)*kfold_xval(folds=3)*(mean_centre()+PLSDA())
+  I = permutation_test(number_of_permutations=10)*kfold_xval(folds=3)*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -55,7 +55,7 @@ test_that('permutation scatter hist plot',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = permutation_test(number_of_permutations=10)*kfold_xval(folds=3)*(mean_centre()+PLSDA())
+  I = permutation_test(number_of_permutations=10)*kfold_xval(folds=3)*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -72,7 +72,7 @@ test_that('permutation violin hist plot',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = permutation_test(number_of_permutations=10)*kfold_xval(folds=3)*(mean_centre()+PLSDA())
+  I = permutation_test(number_of_permutations=10)*kfold_xval(folds=3)*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run

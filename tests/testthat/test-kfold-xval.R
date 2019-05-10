@@ -4,7 +4,7 @@ test_that('kfold xval venetian',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = kfold_xval(folds=5,method='venetian')*(mean_centre()+PLSDA())
+  I = kfold_xval(folds=5,method='venetian')*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -18,7 +18,7 @@ test_that('kfold xval blocks',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = kfold_xval(folds=5,method='blocks')*(mean_centre()+PLSDA())
+  I = kfold_xval(folds=5,method='blocks')*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -32,7 +32,7 @@ test_that('kfold xval random',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = kfold_xval(folds=5,method='random')*(mean_centre()+PLSDA())
+  I = kfold_xval(folds=5,method='random')*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -46,7 +46,7 @@ test_that('kfold xval metric plot',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = kfold_xval(folds=5,method='venetian')*(mean_centre()+PLSDA())
+  I = kfold_xval(folds=5,method='venetian')*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -62,7 +62,7 @@ test_that('kfold xval grid plot',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = kfold_xval(folds=5,method='venetian')*(mean_centre()+PLSDA())
+  I = kfold_xval(folds=5,method='venetian')*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
