@@ -17,6 +17,7 @@ Collate:
     'PCA_plotfcns.R'
     'PLSDA_class.R'
     'PLSDA_charts.R'
+    'PLSFC_class.R'
     'PLSR_class.R'
     'autoscale_class.R'
     'balanced_accuracy_class.R'
