@@ -7,6 +7,7 @@ PLSDA<-setClass(
   "PLSDA",
   contains='model',
   slots=c(params.number_components='entity',
+          params.factor_name='entity',
           outputs.scores='data.frame',
           outputs.loadings='data.frame',
           outputs.yhat='data.frame',
@@ -21,19 +22,20 @@ PLSDA<-setClass(
 
   ),
   prototype = list(name='Partial least squares discriminant analysis',
-                   type="classification",
-                   predicted='pred',
-                   params.number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric')
-    )
+    type="classification",
+    predicted='pred',
+    params.number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric'),
+    params.factor_name=entity(value = 'V1',name = 'Name of sample_meta column',description = 'The name of the sample_meta column to use for the PLS models',type = 'character')
   )
+)
 
 #' @export
 setMethod(f="model.train",
           signature=c("PLSDA",'dataset'),
           definition=function(M,D)
           {
-            y=dataset.sample_meta(D)
-            y=y[,1]
+            SM=dataset.sample_meta(D)
+            y=as.matrix(SM[[M$factor_name]])
             # convert the factor to a design matrix
             z=model.matrix(~y+0)
             z[z==0]=-1 # +/-1 for PLS
@@ -48,7 +50,7 @@ setMethod(f="model.train",
               scale=FALSE)
             ny=ncol(z)
             nr=ncol(output.value(M,'reg_coeff'))
-            output.value(M,'reg_coeff')=as.data.frame(output.value(M,'reg_coeff')[,(nr-ny+1):nr]) # keep only the requested number of components
+            output.value(M,'reg_coeff')=as.data.frame(pls_model$coefficients[,,M$number_components]) # keep only the requested number of components
             output.value(M,'vip')=as.data.frame(vips(pls_model))
             yhat=predict(pls_model, ncomp = param.value(M,'number_components'), newdata = X)
             yhat=yhat[,,dim(yhat)[3]]
@@ -71,8 +73,8 @@ setMethod(f="model.predict",
             # convert X to matrix
             X=as.matrix(dataset.data(D))
             # get training set y vector
-            y=output.value(M,'y')
-            y=y[,1,drop=FALSE]
+            SM=dataset.sample_meta(D)
+            y=as.matrix(SM[[M$factor_name]])
             # get predictions
             p=predict(output.value(M,'pls_model')[[1]], ncomp = param.value(M,'number_components'), newdata = X)
             p=p[,,dim(p)[3]]
@@ -90,7 +92,7 @@ setMethod(f="model.predict",
             {
               pred[is.na(pred)]=hi[is.na(pred)] # if none above threshold, use group with highest probability
             }
-            pred=factor(pred,levels=1:length(levels(y[,1])),labels=levels(y[,1])) # make sure pred has all the levels of y
+            pred=factor(pred,levels=1:length(levels(SM[[M$factor_name]])),labels=levels(SM[[M$factor_name]])) # make sure pred has all the levels of y
             q=data.frame("pred"=pred)
             output.value(M,'pred')=q
             return(M)

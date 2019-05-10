@@ -3,7 +3,7 @@ test_that('PLSDA',{
   # dataset
   D=iris_dataset()
   # PCA model
-  M=mean_centre()+PLSDA()
+  M=mean_centre()+PLSDA(factor_name='Species')
   # train the model
   M=model.train(M,D)
   # apply the model
@@ -16,7 +16,7 @@ test_that('plsda scores chart',{
   # dataset
   D=iris_dataset()
   # PCA model
-  M=mean_centre()+PLSDA()
+  M=mean_centre()+PLSDA(factor_name='Species')
   # train the model
   M=model.train(M,D)
   # apply the model
