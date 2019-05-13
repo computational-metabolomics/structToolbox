@@ -3,14 +3,12 @@
 #' Partial least squares (PLS) fold change estimates
 #' @export PLSFC
 #' @importFrom pls plsr scores
+#' @include fold_change_class.R
 PLSFC<-setClass(
   "PLSFC",
-  contains='method',
+  contains='fold_change',
   slots=c(
-    params.factor_name='character',
-    params.number_components='entity',
-    params.control_group='character',
-    outputs.fold_change='entity'
+    params.number_components='entity'
   ),
   prototype = list(name='Partial least squares discriminant analysis',
     type="classification",
@@ -52,6 +50,7 @@ setMethod(f="method.apply",
 
     D$sample_meta[[M$factor_name]]=ordered(D$sample_meta[[M$factor_name]])
     BHAT=matrix(0,nrow=n,ncol=ncol(X))
+    SE=BHAT
     # for all pairs of groups
     for (A in 1:(length(L)-1)) {
       for (B in (A+1):(length(L))) {
@@ -76,6 +75,7 @@ setMethod(f="method.apply",
         P=model.predict(P,S)
         sy=P$design_matrix[,1]
         sx=as.matrix(MC[2]$scores)
+
         # get regression coefficients
         b=P$reg_coeff[,1]
         for (j in 1:ncol(sx)) {
@@ -92,6 +92,15 @@ setMethod(f="method.apply",
         Vx=as.matrix(MC[2]$loadings)
         bhat=t(bhat)%*%t(Vx)
 
+        # guestimate confidence intervals
+        x=MC[1]$centred$data
+        xhat=sy%*%(bhat)
+        ssx=(x-xhat)^2
+        ssx=apply(ssx,2,sum) # for each column of x
+        ssy=sum(sy^2) # y_bar is zero by design
+        SE[counter,]=(sqrt(ssx)/(sqrt(ssy)*sqrt((nrow(x)-2))))*qt(0.975,nrow(x)-2)*2
+
+
         BHAT[counter,]=bhat*2
 
         counter=counter+1
@@ -102,12 +111,16 @@ setMethod(f="method.apply",
     }
 
     FC=as.data.frame(t(BHAT))
-
+    SE=as.data.frame(t(SE))
     colnames(FC)=comp
+    colnames(SE)=comp
 
     rownames(FC)=colnames(D$data)
+    rownames(SE)=colnames(D$data)
 
     M$fold_change=2^FC
+    M$upper_ci=2^(FC+SE)
+    M$lower_ci=2^(FC-SE)
 
     return(M)
   }
