@@ -35,7 +35,7 @@ setMethod(f="model.train",
           definition=function(M,D)
           {
             SM=dataset.sample_meta(D)
-            y=as.matrix(SM[[M$factor_name]])
+            y=(SM[[M$factor_name]])
             # convert the factor to a design matrix
             z=model.matrix(~y+0)
             z[z==0]=-1 # +/-1 for PLS
@@ -55,7 +55,7 @@ setMethod(f="model.train",
             yhat=predict(pls_model, ncomp = param.value(M,'number_components'), newdata = X)
             yhat=yhat[,,dim(yhat)[3]]
             output.value(M,'yhat')=as.data.frame(yhat)
-            probs=prob(yhat,yhat,dataset.sample_meta(D))
+            probs=prob(yhat,yhat,D$sample_meta[[M$factor_name]])
             output.value(M,'probability')=as.data.frame(probs$ingroup)
             output.value(M,'threshold')=probs$threshold
             output.value(M,'pls_model')=list(pls_model)
@@ -74,7 +74,7 @@ setMethod(f="model.predict",
             X=as.matrix(dataset.data(D))
             # get training set y vector
             SM=dataset.sample_meta(D)
-            y=as.matrix(SM[[M$factor_name]])
+            y=(SM[[M$factor_name]])
             # get predictions
             p=predict(output.value(M,'pls_model')[[1]], ncomp = param.value(M,'number_components'), newdata = X)
             p=p[,,dim(p)[3]]
@@ -105,7 +105,7 @@ prob=function(x,yhat,ytrue)
   # x is predicted values
   # yhat is training model
   # ytrue are real group labels
-  ytrue=as.factor(ytrue[,1])
+  ytrue=as.factor(ytrue)
   L=levels(ytrue)
 
   din=dout=x*0
