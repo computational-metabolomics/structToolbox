@@ -18,13 +18,13 @@ test_that('kfold xval blocks',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = kfold_xval(folds=5,method='blocks')*(mean_centre()+PLSDA(factor_name='Species'))
+  I = permute_sample_order(number_of_permutations=1)*kfold_xval(folds=5,method='blocks')*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
   I=run(I,D,B)
   # calculate metric
-  expect_equal(I$metric$mean,0.305,tolerance=0.05)
+  expect_equal(I$metric$mean,0.33,tolerance=0.05)
 })
 
 test_that('kfold xval random',{

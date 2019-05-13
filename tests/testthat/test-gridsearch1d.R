@@ -16,7 +16,7 @@ test_that('grid_search iterator',{
   # run
   I=run(I,D,B)
   # calculate metric
-  expect_equal(I$metric$value,0.3)
+  expect_equal(I$metric$value,0.19)
 })
 
 # test grid search
