@@ -84,7 +84,7 @@ setMethod(f="model.predict",
 
             ## probability estimate
             # http://www.eigenvector.com/faq/index.php?id=38%7C
-            d=prob(x=p,yhat=output.value(M,'yhat'),ytrue=y)
+            d=prob(x=p,yhat=output.value(M,'yhat'),ytrue=M$y[,M$factor_name])
             pred=(p>d$threshold)*1
             pred=apply(pred,MARGIN=1,FUN=which.max)
             hi=apply(d$ingroup,MARGIN=1,FUN=which.max) # max probability

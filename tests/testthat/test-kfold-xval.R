@@ -18,7 +18,9 @@ test_that('kfold xval blocks',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = permute_sample_order(number_of_permutations=1)*kfold_xval(folds=5,method='blocks')*(mean_centre()+PLSDA(factor_name='Species'))
+  I = permute_sample_order(number_of_permutations=1)* # needs to be permuted or all groups not in training set
+    kfold_xval(folds=5,method='blocks')*
+    (mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
