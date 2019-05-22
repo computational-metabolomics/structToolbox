@@ -1,4 +1,4 @@
-Package: structtoolbox
+Package: structToolbox
 Type: Package
 Title: Some tools bult using the struct package
 Version: 0.1.0
