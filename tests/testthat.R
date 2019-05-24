@@ -1,5 +1,5 @@
 library(testthat)
 library(ggplot2)
-library(structtoolbox)
+library(structToolbox)
 
-test_check("structtoolbox")
+test_check("structToolbox")
