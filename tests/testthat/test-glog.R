@@ -4,8 +4,8 @@ test_that('glog',{
   # dataset
   D=iris_dataset()
   # method
-  M = glog_transform(qc_label='versicolor')
+  M = glog_transform(qc_label='setosa',factor_name='Species')
   # apply
   M = method.apply(M,D)
-  expect_equal(M$transformed$data[1,1],-0.326,tolerance=0.001)
+  expect_equal(M$transformed$data[1,1],2.31,tolerance=0.05)
 })

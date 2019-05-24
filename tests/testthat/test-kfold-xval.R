@@ -4,7 +4,7 @@ test_that('kfold xval venetian',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = kfold_xval(folds=5,method='venetian')*(mean_centre()+PLSDA(factor_name='Species'))
+  I = kfold_xval(folds=5,method='venetian',factor_name='Species')*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -19,14 +19,14 @@ test_that('kfold xval blocks',{
   D=iris_dataset()
   # iterator
   I = permute_sample_order(number_of_permutations=1)* # needs to be permuted or all groups not in training set
-    kfold_xval(folds=5,method='blocks')*
+    kfold_xval(folds=5,method='blocks',factor_name='Species')*
     (mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
   I=run(I,D,B)
   # calculate metric
-  expect_equal(I$metric$mean,0.33,tolerance=0.05)
+  expect_equal(I$metric$mean,0.23,tolerance=0.05)
 })
 
 test_that('kfold xval random',{
@@ -34,13 +34,13 @@ test_that('kfold xval random',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = kfold_xval(folds=5,method='random')*(mean_centre()+PLSDA(factor_name='Species'))
+  I = kfold_xval(folds=5,method='random',factor_name='Species')*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
   I=run(I,D,B)
   # calculate metric
-  expect_equal(I$metric$mean,0.2,tolerance=0.05)
+  expect_equal(I$metric$mean,0.23,tolerance=0.05)
 })
 
 test_that('kfold xval metric plot',{
@@ -48,7 +48,7 @@ test_that('kfold xval metric plot',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = kfold_xval(folds=5,method='venetian')*(mean_centre()+PLSDA(factor_name='Species'))
+  I = kfold_xval(folds=5,method='venetian',factor_name='Species')*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run
@@ -64,7 +64,7 @@ test_that('kfold xval grid plot',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = kfold_xval(folds=5,method='venetian')*(mean_centre()+PLSDA(factor_name='Species'))
+  I = kfold_xval(folds=5,method='venetian',factor_name='Species')*(mean_centre()+PLSDA(factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run

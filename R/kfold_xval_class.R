@@ -7,6 +7,7 @@ kfold_xval<-setClass(
   contains='resampler',
   slots=c(params.folds='numeric',
           params.method='character',
+      params.factor_name='entity',
           outputs.results='data.frame',
           outputs.metric='data.frame',
           outputs.metric.train='numeric',
@@ -26,7 +27,7 @@ setMethod(f="run",
           definition=function(I,D,MET=NULL)
           {
             X=dataset.data(D)
-            y=dataset.sample_meta(D)[,1,drop=FALSE]
+            y=dataset.sample_meta(D)[,I$factor_name,drop=FALSE]
             all_results=data.frame('actual'=rep(y[,1],param.value(I,'folds')),'predicted'=rep(y[,1],param.value(I,'folds')),'fold'=0,'in.test'=FALSE,'sampleid'=rep(rownames(X),param.value(I,'folds')))
             WF=models(I)
 

@@ -7,6 +7,7 @@ glog_transform<-setClass(
   "glog_transform",
   contains = c('method'),
   slots=c(params.qc_label='entity',
+      params.factor_name='entity',
           outputs.transformed='entity'
   ),
 
@@ -38,7 +39,7 @@ setMethod(f="method.apply",
             smeta=dataset.sample_meta(D)
             x=dataset.data(D)
 
-            out = glog_transformation(t(x),classes = smeta[,1],qc_label=opt$qc_label)
+            out = glog_transformation(t(x),classes = smeta[,M$factor_name],qc_label=opt$qc_label)
             dataset.data(D) = as.data.frame(t(out))
 
             output.value(M,'transformed') = D

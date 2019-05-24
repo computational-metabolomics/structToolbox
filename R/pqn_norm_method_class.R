@@ -7,6 +7,7 @@ pqn_norm<-setClass(
   "pqn_norm",
   contains = c('method'),
   slots=c(params.qc_label='entity',
+      params.factor_name='entity',
           outputs.normalised='entity',
           outputs.coeff='entity'
   ),
@@ -43,7 +44,7 @@ setMethod(f="method.apply",
             smeta=dataset.sample_meta(D)
             x=dataset.data(D)
 
-            normalised = pqn_normalisation(t(x), classes=smeta[,1],qc_label=opt$qc_label) # operates on transpose of x
+            normalised = pqn_normalisation(t(x), classes=smeta[,M$factor_name],qc_label=opt$qc_label) # operates on transpose of x
             dataset.data(D) = as.data.frame(t(normalised$df))
 
             output.value(M,'normalised') = D

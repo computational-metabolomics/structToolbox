@@ -18,7 +18,7 @@ test_that('permute sample order iterator',{
   # dataset
   D=iris_dataset()
   # iterator
-  I = permute_sample_order(number_of_permutations=5)*kfold_xval(folds=5)*(mean_centre()+PLSDA(number_components=1,factor_name='Species'))
+  I = permute_sample_order(number_of_permutations=5)*kfold_xval(folds=5,factor_name='Species')*(mean_centre()+PLSDA(number_components=1,factor_name='Species'))
   # metric
   B=balanced_accuracy()
   # run

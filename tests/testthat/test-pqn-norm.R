@@ -4,7 +4,7 @@ test_that('pqn norm',{
   # dataset
   D=iris_dataset()
   # method
-  M = pqn_norm(qc_label='versicolor')
+  M = pqn_norm(qc_label='versicolor',factor_name='Species')
   # apply
   M = method.apply(M,D)
   expect_equal(M$coeff[1,1],0.59,tolerance=0.005)
@@ -15,7 +15,7 @@ test_that('pqn norm hist',{
   # dataset
   D=iris_dataset()
   # method
-  M = pqn_norm(qc_label='versicolor')
+  M = pqn_norm(qc_label='versicolor',factor_name='Species')
   # apply
   M = method.apply(M,D)
   #chart
