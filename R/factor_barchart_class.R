@@ -123,7 +123,7 @@ setMethod(f="chart.plot",
                 g$grobs[[i]]$grobs[[1]]$children[[j]]$gp$fill <- fills[k]
                 k = k+1
             }
-            grid.draw(g)
+            #grid.draw(g)
             ##
 
             return(invisible(g))
