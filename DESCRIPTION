@@ -50,7 +50,7 @@ Collate:
     'r_squared_class.R'
     'rsd_filter.R'
     'split_data_class.R'
-    'structtoolbox.R'
+    'structToolbox.R'
     'ttest_class.R'
     'vec_norm_class.R'
 Depends: struct
