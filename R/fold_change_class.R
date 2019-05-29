@@ -208,8 +208,8 @@ setMethod(f="chart.plot",
             #geom_hline(yintercept = -log2(dobj$threshold),color='red') +
             xlab('Feature') +
             ylab('log2(Fold change)')+
-            structtoolbox:::scale_colour_Publication() +
-            structtoolbox:::theme_Publication(base_size = 12)
+            structToolbox:::scale_colour_Publication() +
+            structToolbox:::theme_Publication(base_size = 12)
 
         if (obj$orientation=='landscape') {
             out=out+coord_flip()
