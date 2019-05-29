@@ -67,12 +67,15 @@ Imports: ggplot2,
     reshape2,
     agricolae,
     emmeans,
-    lme4,
     nlme,
     ggthemes
 RoxygenNote: 6.1.1
 Suggests: 
     testthat,
-    covr
+    covr,
+    knitr,
+    rmarkdown
 Remotes: computational-metabolomics/pmp,
   computational-metabolomics/struct
+VignetteBuilder: knitr
+biocViews: WorkflowStep

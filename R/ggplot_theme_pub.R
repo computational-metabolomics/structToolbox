@@ -77,7 +77,7 @@ createClassAndColors <- function (class, QC_label="QC", Blank_label="Blank", QC_
 
     reorderNames <- reorderNames[c(hit1, hit2,remo)]
 
-    class <- factor (class, levels=reorderNames, ordered=T)
+    class <- factor (class, levels=reorderNames, ordered=TRUE)
 
     extraColors <- NULL
     if(!is.null(hit1)) extraColors[1] <- QC_color
