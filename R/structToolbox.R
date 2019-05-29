@@ -1,4 +1,4 @@
-#' struct.toolbox: Examples of tools built using the Statistics in R Using Class Templates (struct) package
+#' structToolbox: Examples of tools built using the Statistics in R Using Class Templates (struct) package
 #'
 #' This package extends the classes defined in the struct package
 #'
