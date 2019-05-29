@@ -3,7 +3,7 @@
 #' This package extends the classes defined in the struct package
 #'
 #' @docType package
-#' @name struct.toolbox
+#' @name structToolbox
 #' @import struct
 #' @import methods
 #' @import stats
