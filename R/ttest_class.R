@@ -14,6 +14,7 @@ ttest<-setClass(
         params.mtc='entity.stato',
         params.factor_names='entity',
         params.paired='entity',
+        params.paired_factor='character',
         # OUTPUTS
         outputs.t_statistic='entity.stato',
         outputs.p_value='entity',
@@ -89,6 +90,36 @@ setMethod(f="method.apply",
         if (length(L)!=2) {
             stop('must have exactly two levels for this implmentation of t-statistic')
         }
+
+        if (M$paired){
+            # check that we have a pair for each sample,
+            # if not then remove
+            u=unique(D$sample_meta[[M$paired_factor]])
+            out=character(0) # list of sample_id to remove
+            for (k in u) {
+                n=sum(D$sample_meta[[M$paired_factor]]==k)
+                if (n<2) {
+                    out=c(out,k)
+                }
+
+            }
+            X=X[!(D$sample_meta[[M$paired_factor]] %in% out),]
+            y=y[!(D$sample_meta[[M$paired_factor]] %in% out)]
+
+          # sort the data by sample id so that theyre in the right order for paired ttest
+          X=apply(X,2,function(x) {
+            a=x[y==L[1]]
+            b=x[y==L[2]]
+            ay=y[y==L[1]]
+            by=y[y==L[2]]
+            a=a[order(ay)]
+            b=b[order(by)]
+            return(c(a,b))
+          })
+          # also make sure the meta data is in the right order
+          y=y[order(D$sample_meta[[M$paired_factor]])]
+        }
+
         output=apply(X,2,function(x) {a=unlist(t.test(x[y==L[1]],x[y==L[2]],paired = M$paired)[c("statistic","p.value","parameter",'conf.int','estimate')])})
         output=as.data.frame(t(output),stringsAsFactors = FALSE)
         output$p.value=p.adjust(output$p.value,method = param.value(M,'mtc'))
@@ -98,8 +129,14 @@ setMethod(f="method.apply",
         output.value(M,'significant')=output$p.value<param.value(M,'alpha')
         M$conf_int=output[,4:5,drop=FALSE]
         colnames(M$conf_int)=c('lower','upper')
-        M$estimates=output[,6:7,drop=FALSE]
-        colnames(M$estimates)=as.character(interaction('estimate.mean',L))
+        if (M$paired) {
+            M$estimates=output[,6,drop=FALSE]
+            colnames(M$estimates)='estimated_mean_difference'
+        } else {
+            M$estimates=output[,6:7,drop=FALSE]
+            colnames(M$estimates)=as.character(interaction('estimate.mean',L))
+        }
+
         return(M)
     }
 )

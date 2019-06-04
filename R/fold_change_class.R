@@ -77,12 +77,6 @@ setMethod(f="method.apply",
         X=log2(D$data)
         Y=D$sample_meta
 
-        # for paired data sort by sample id
-        if (M$paired) {
-            X=X[order(Y[[M$sample_name]]),drop=FALSE]
-            Y=Y[order(Y[[M$sample_name]]),drop=FALSE]
-        }
-
         D$data=X
         D$sample_meta=Y
 
@@ -119,10 +113,14 @@ setMethod(f="method.apply",
                 # change to ordered factor so that we make use of control group
                 FG$filtered$sample_meta[[M$factor_name]]=ordered(FG$filtered$sample_meta[[M$factor_name]],levels=L[c(A,B)])
                 # apply t-test
-                TT=ttest(alpha=M$alpha,mtc='none',factor_names=M$factor_name,paired=M$paired)
+                TT=ttest(alpha=M$alpha,mtc='none',factor_names=M$factor_name,paired=M$paired,paired_factor=M$sample_name)
                 TT=method.apply(TT,predicted(FG))
                 # log2(fold change) is the difference in estimate.mean from ttest
-                fc=TT$estimates[,1]-TT$estimates[,2] # log2 fold change
+                if (M$paired) {
+                    fc=TT$estimates[,1]
+                } else {
+                    fc=TT$estimates[,1]-TT$estimates[,2] # log2 fold change
+                }
                 FC[,counter]=fc
                 LCI[,counter]=TT$conf_int[,1]
                 UCI[,counter]=TT$conf_int[,2]
