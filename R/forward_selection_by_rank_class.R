@@ -3,59 +3,59 @@
 #' --insert class description here--
 #' @export forward_selection_byrank
 forward_selection_byrank <- setClass(
-  # name of class
-  "forward_selection_byrank",
-  # define slots
-  slots=c(params.variable_rank="numeric",
-          params.min_no_vars="numeric",
-          params.max_no_vars="numeric",
-          params.step_size="numeric",
-          outputs.metric="data.frame",
-          outputs.results='data.frame',
-          outputs.chosen_vars='numeric',
-          outputs.smoothed='numeric',
-          outputs.searchlist='numeric'
-  ),
-  prototype = list(params.variable_rank=c(1,2,3),
-                   params.min_no_vars=1,
-                   params.max_no_vars=100,
-                   params.step_size=1,
-                   result='results'
-  ),
-  contains = 'resampler'
+    # name of class
+    "forward_selection_byrank",
+    # define slots
+    slots=c(params.variable_rank="numeric",
+        params.min_no_vars="numeric",
+        params.max_no_vars="numeric",
+        params.step_size="numeric",
+        outputs.metric="data.frame",
+        outputs.results='data.frame',
+        outputs.chosen_vars='numeric',
+        outputs.smoothed='numeric',
+        outputs.searchlist='numeric'
+    ),
+    prototype = list(params.variable_rank=c(1,2,3),
+        params.min_no_vars=1,
+        params.max_no_vars=100,
+        params.step_size=1,
+        result='results'
+    ),
+    contains = 'resampler'
 )
 
 
 #' @export
 setMethod(f="run",
-          signature=c("forward_selection_byrank",'dataset','metric'),
-          definition=function(I,D,MET)
-          {
-            X=dataset.data(D)
-            vr=param.value(I,'variable_rank')
-            # rank the variables
-            R = rank(vr)
-            O = 1:length(vr)
+    signature=c("forward_selection_byrank",'dataset','metric'),
+    definition=function(I,D,MET)
+    {
+        X=dataset.data(D)
+        vr=param.value(I,'variable_rank')
+        # rank the variables
+        R = rank(vr)
+        O = 1:length(vr)
 
-            WF=models(I)
+        WF=models(I)
 
-            min_vars=param.value(I,'min_no_vars')
-            max_vars=min(c(ncol(X),param.value(I,'max_no_vars')))
-            step_size=param.value(I,'step_size')
+        min_vars=param.value(I,'min_no_vars')
+        max_vars=min(c(ncol(X),param.value(I,'max_no_vars')))
+        step_size=param.value(I,'step_size')
 
-            searchlist=seq(min_vars,max_vars,by=step_size)
-            n=length(searchlist)
+        searchlist=seq(min_vars,max_vars,by=step_size)
+        n=length(searchlist)
 
-            all_results=data.frame('actual'=rep(dataset.sample_meta(D)[,1],n),'predicted'=rep(dataset.sample_meta(D)[,1],n),'no_features'=0)
+        all_results=data.frame('actual'=rep(dataset.sample_meta(D)[,1],n),'predicted'=rep(dataset.sample_meta(D)[,1],n),'no_features'=0)
 
-            counter=1
-            for (i in searchlist)
-            {
-              # reduce to include only the desired number of variables
-              Xi=X[,R<=i,drop=FALSE]
-              Di=D
-              dataset.data(Di)=Xi
-              if (is(WF,'model_OR_model.seq')) {
+        counter=1
+        for (i in searchlist)
+        {
+            # reduce to include only the desired number of variables
+            Xi=X[,R<=i,drop=FALSE]
+            Di=D
+            dataset.data(Di)=Xi
+            if (is(WF,'model_OR_model.seq')) {
                 perm_results=data.frame('actual'=dataset.sample_meta(D)[,1],'predicted'=dataset.sample_meta(D)[,1],'no_features'=searchlist[i])
                 # train the workflow
                 WF=model.train(WF,Di)
@@ -64,91 +64,91 @@ setMethod(f="run",
                 p=predicted(WF) # get the prediction output and collect
                 perm_results[,2]=p[,1]
                 all_results[((nrow(X)*(i-1))+1):(nrow(X)*i),]=perm_results # collate results
-              }  else
-              { # must be an iterator
+            }  else
+            { # must be an iterator
 
                 WF=run(WF,Di,MET)
                 v=output.value(WF,'metric')
                 if (counter==1)
                 {
-                  all_results=v
+                    all_results=v
                 } else
                 {
-                  all_results=rbind(all_results,v)
+                    all_results=rbind(all_results,v)
                 }
-              }
-              counter=counter+1
             }
-            output.value(I,'results')=all_results
-            output.value(I,'searchlist')=searchlist
-            # evaluate using the metric
-            I=evaluate(I,MET)
+            counter=counter+1
+        }
+        output.value(I,'results')=all_results
+        output.value(I,'searchlist')=searchlist
+        # evaluate using the metric
+        I=evaluate(I,MET)
 
-            results=output.value(I,'results')
-            searchlist=output.value(I,'searchlist')
+        results=output.value(I,'results')
+        searchlist=output.value(I,'searchlist')
 
-            if (is(models(I),'model_OR_model.seq'))
-            { # if a model or list then apply the metric
+        if (is(models(I),'model_OR_model.seq'))
+        { # if a model or list then apply the metric
 
-              k=length(unique((results$no_features)))
-              ts.metric=numeric(k)
-              for (i in 1:k)
-              {
+            k=length(unique((results$no_features)))
+            ts.metric=numeric(k)
+            for (i in 1:k)
+            {
                 ts=results[results$no_features==i,]
                 MET=calculate(MET,ts$actual,ts$predicted)
                 ts.metric[i]=value(MET)
-              }
-
-              value=ts.metric
-
-            } else
-            {
-              # if not a model or list then the metric has already been applied, we just need to choose the optimum
-              value=results$mean
             }
 
-            # locate optimum using a loess fit
-            # cross validate to estimate span parameter
-            opts=optimise(eval_loess,interval=c(0,1),X=searchlist,Y=value,k=50,p=0.9) # cross-val smoothing param
+            value=ts.metric
 
-            loessMod25 <- loess(value ~ searchlist, span=opts$minimum)
-            smoothed25=predict(loessMod25)
+        } else
+        {
+            # if not a model or list then the metric has already been applied, we just need to choose the optimum
+            value=results$mean
+        }
 
-            lo=first_min(smoothed25)
-            lo_var_ind=searchlist[lo]
-            output.value(I,'chosen_vars')=O[R<=lo_var_ind]
-            output.value(I,'smoothed')=smoothed25
+        # locate optimum using a loess fit
+        # cross validate to estimate span parameter
+        opts=optimise(eval_loess,interval=c(0,1),X=searchlist,Y=value,k=50,p=0.9) # cross-val smoothing param
 
-            return(I)
-          }
+        loessMod25 <- loess(value ~ searchlist, span=opts$minimum)
+        smoothed25=predict(loessMod25)
+
+        lo=first_min(smoothed25)
+        lo_var_ind=searchlist[lo]
+        output.value(I,'chosen_vars')=O[R<=lo_var_ind]
+        output.value(I,'smoothed')=smoothed25
+
+        return(I)
+    }
 )
 
 eval_loess=function(x,X,Y,k=10,p=0.66)
 {
-  # x = span
-  # X = measured values
-  # Y = observed values
-  # k = number of replicates
-  # p = proportion in training
+    # x = span
+    # X = measured values
+    # Y = observed values
+    # k = number of replicates
+    # p = proportion in training
 
-  residual=numeric(k)
-  for (i in 1:k)
-  {
-    # randomly choose some data to remove
-    xx=sample(X[2:length(X)-1], (length(X)-2)*p, replace = FALSE)
-    xx=sort(unique(c(X[1],xx,X[length(X)]))) # keep first and last points so that loess doesnt have to extrapolate
-    yy=Y[X %in% xx]
+    residual=numeric(k)
+    for (i in 1:k)
+    {
+        # randomly choose some data to remove
+        xx=sample(X[2:length(X)-1], (length(X)-2)*p, replace = FALSE)
+        xx=sort(unique(c(X[1],xx,X[length(X)]))) # keep first and last points so that loess doesnt have to extrapolate
+        yy=Y[X %in% xx]
 
-    xx2=X[!(X %in% xx)]
-    xx2=sort(xx2)
-    yy2=Y[X %in% xx2]
+        xx2=X[!(X %in% xx)]
+        xx2=sort(xx2)
+        yy2=Y[X %in% xx2]
 
 
-    loessMod <- loess(yy ~ xx, span=x) # 25% smoothing span
-    smoothed=stats::predict(loessMod,newdata=xx2)
-    residual[i]=sum((smoothed-yy2)^2)
-  }
-  return(sqrt(mean(residual)))
+        loessMod <- loess(yy ~ xx, span=x) # 25% smoothing span
+        smoothed=stats::predict(loessMod,newdata=xx2)
+        residual[i]=sum((smoothed-yy2)^2)
+    }
+    return(sqrt(mean(residual)))
 }
 
 #' forward_selection_plot
@@ -158,33 +158,33 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
 #' @import struct
 #' @export fs_line
 fs_line<-setClass(
-  "fs_line",
-  contains='chart',
-  prototype = list(name='Forward selection line plot',
-                   description='Plots the result of forward selection',
-                   type="line"
-  )
+    "fs_line",
+    contains='chart',
+    prototype = list(name='Forward selection line plot',
+        description='Plots the result of forward selection',
+        type="line"
+    )
 )
 
 #' @export
 setMethod(f="chart.plot",
-          signature=c("fs_line",'forward_selection_byrank'),
-          definition=function(obj,dobj)
-          {
-            A=result(dobj)
-            A$smoothed=output.value(dobj,'smoothed')
-            opt=length(output.value(dobj,'chosen_vars'))
-            A$values=output.value(dobj,'searchlist')
-            out=ggplot(data=A, aes_(x=~values,y=~mean,group=~1)) +
-              geom_errorbar(aes_(ymin=~mean-(1.96*`sd`), ymax=~mean+(1.96*`sd`)), width=.1) +
-              geom_line(color="red",aes_(x=~values,y=~smoothed))+
-              geom_point() +
-              geom_point(data=A[A$values==as.numeric(opt),],aes_(x=~values,y=~smoothed),group=1,color='blue',shape=1,size=4,stroke=2) +
-              ggtitle(NULL, subtitle=paste0('Suggested number of features: ',opt)) +
-              set_scale() + theme_Publication(base_size = 12) +
-              xlab('Number of features') +
-              ylab(A$metric[1])
+    signature=c("fs_line",'forward_selection_byrank'),
+    definition=function(obj,dobj)
+    {
+        A=result(dobj)
+        A$smoothed=output.value(dobj,'smoothed')
+        opt=length(output.value(dobj,'chosen_vars'))
+        A$values=output.value(dobj,'searchlist')
+        out=ggplot(data=A, aes_(x=~values,y=~mean,group=~1)) +
+            geom_errorbar(aes_(ymin=~mean-(1.96*`sd`), ymax=~mean+(1.96*`sd`)), width=.1) +
+            geom_line(color="red",aes_(x=~values,y=~smoothed))+
+            geom_point() +
+            geom_point(data=A[A$values==as.numeric(opt),],aes_(x=~values,y=~smoothed),group=1,color='blue',shape=1,size=4,stroke=2) +
+            ggtitle(NULL, subtitle=paste0('Suggested number of features: ',opt)) +
+            set_scale() + theme_Publication(base_size = 12) +
+            xlab('Number of features') +
+            ylab(A$metric[1])
 
-            return(out)
-          }
+        return(out)
+    }
 )

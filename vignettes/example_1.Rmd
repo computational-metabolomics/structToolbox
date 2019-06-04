@@ -1,13 +1,15 @@
 ---
 title: 'Example 1: Dataset and model objects'
-output:
-  output: rmarkdown::github_document
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
 ---
 
 The dataset object is designed to hold information relevant for a dataset, such as the raw data, sample meta data and variable metadata. We will use Fisher's Iris dataset as an example.
 
 ```{r}
-library('structtoolbox')
+library('structToolbox')
 X=iris
 summary(X)
 ```
@@ -15,9 +17,9 @@ summary(X)
 First, we create a dataset object to hold the data. This will make the data compatible with the rest of the struct package objects. Note that fields such as 'name' and 'description' can be set when the object is created.
 ```{r}
 D=dataset(data=X[,1:4],
-          sample_meta=X[,5,drop=FALSE],
-          name='Iris data',
-          description='The data used in Fisher\'s paper')
+    sample_meta=X[,5,drop=FALSE],
+    name='Iris data',
+    description='The data used in Fisher\'s paper')
 D
 ```
 
@@ -103,7 +105,6 @@ L$number_components=4
 param.list(P)=L
 param.value(P,'number_components')
 ```
-
 
 The PCA model object can be trained in the same way as the mean_centre object, but this time we will input the mean centred dataset object.
 

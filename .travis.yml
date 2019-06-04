@@ -11,3 +11,7 @@ addons:
     packages:
       - libudunits2-dev
       - libgdal1-dev
+
+script:
+  - R -e 'install.packages("BiocManager")'
+  - R -e 'BiocManager::install(version = "3.9")'

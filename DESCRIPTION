@@ -35,6 +35,7 @@ Collate:
     'ggplot_theme_pub.R'
     'glog_class.R'
     'grid_search_1d_class.R'
+    'hca_class.R'
     'kfold_xval_class.R'
     'kfold_xval_charts.R'
     'knn_impute_class.R'
@@ -50,7 +51,7 @@ Collate:
     'r_squared_class.R'
     'rsd_filter.R'
     'split_data_class.R'
-    'structtoolbox.R'
+    'structToolbox.R'
     'ttest_class.R'
     'vec_norm_class.R'
 Depends: struct
@@ -67,12 +68,15 @@ Imports: ggplot2,
     reshape2,
     agricolae,
     emmeans,
-    lme4,
     nlme,
     ggthemes
 RoxygenNote: 6.1.1
 Suggests: 
     testthat,
-    covr
+    covr,
+    knitr,
+    rmarkdown
 Remotes: computational-metabolomics/pmp,
   computational-metabolomics/struct
+VignetteBuilder: knitr
+biocViews: WorkflowStep
