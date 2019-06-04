@@ -4,7 +4,7 @@
 \name{structToolbox}
 \alias{structToolbox}
 \alias{structToolbox-package}
-\title{struct.toolbox: Examples of tools built using the Statistics in R Using Class Templates (struct) package}
+\title{structToolbox: Examples of tools built using the Statistics in R Using Class Templates (struct) package}
 \description{
 This package extends the classes defined in the struct package
 }

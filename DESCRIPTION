@@ -35,6 +35,7 @@ Collate:
     'ggplot_theme_pub.R'
     'glog_class.R'
     'grid_search_1d_class.R'
+    'hca_class.R'
     'kfold_xval_class.R'
     'kfold_xval_charts.R'
     'knn_impute_class.R'
