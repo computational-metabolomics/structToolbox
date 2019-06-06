@@ -10,6 +10,7 @@ forward_selection_byrank <- setClass(
         params.min_no_vars="numeric",
         params.max_no_vars="numeric",
         params.step_size="numeric",
+        params.factor_name='character',
         outputs.metric="data.frame",
         outputs.results='data.frame',
         outputs.chosen_vars='numeric',
@@ -46,7 +47,7 @@ setMethod(f="run",
         searchlist=seq(min_vars,max_vars,by=step_size)
         n=length(searchlist)
 
-        all_results=data.frame('actual'=rep(dataset.sample_meta(D)[,1],n),'predicted'=rep(dataset.sample_meta(D)[,1],n),'no_features'=0)
+        all_results=data.frame('actual'=rep(dataset.sample_meta(D)[,I$factor_name],n),'predicted'=rep(dataset.sample_meta(D)[,I$factor_name],n),'no_features'=0)
 
         counter=1
         for (i in searchlist)
@@ -56,7 +57,7 @@ setMethod(f="run",
             Di=D
             dataset.data(Di)=Xi
             if (is(WF,'model_OR_model.seq')) {
-                perm_results=data.frame('actual'=dataset.sample_meta(D)[,1],'predicted'=dataset.sample_meta(D)[,1],'no_features'=searchlist[i])
+                perm_results=data.frame('actual'=dataset.sample_meta(D)[,I$factor_name],'predicted'=dataset.sample_meta(D)[,I$factor_name],'no_features'=searchlist[i])
                 # train the workflow
                 WF=model.train(WF,Di)
                 # apply the workflow
