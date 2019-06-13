@@ -31,6 +31,7 @@ Collate:
     'filter_na_count.R'
     'filter_smeta_class.R'
     'fisher_exact_class.R'
+    'fold_change_int_class.R'
     'forward_selection_by_rank_class.R'
     'ggplot_theme_pub.R'
     'glog_class.R'
