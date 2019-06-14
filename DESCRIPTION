@@ -53,6 +53,7 @@ Collate:
     'rsd_filter.R'
     'split_data_class.R'
     'structToolbox.R'
+    'tSNE_class.R'
     'ttest_class.R'
     'vec_norm_class.R'
 Depends: struct
