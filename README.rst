@@ -24,7 +24,7 @@ Conda
 
 .. code-block:: command
 
-   conda create -n structtoolbox structtoolbox -c conda-forge -c bioconda -c computational-metabolomics
+   conda create -n structtoolbox bioconductor-structtoolbox -c conda-forge -c bioconda -c computational-metabolomics
    source activate structtoolbox
 
 ------------
