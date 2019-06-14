@@ -72,7 +72,8 @@ Imports: ggplot2,
     emmeans,
     nlme,
     ggthemes,
-    ggdendro
+    ggdendro,
+    Rtsne
 RoxygenNote: 6.1.1
 Suggests: 
     testthat,
