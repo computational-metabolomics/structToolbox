@@ -70,7 +70,8 @@ Imports: ggplot2,
     agricolae,
     emmeans,
     nlme,
-    ggthemes
+    ggthemes,
+    ggdendro
 RoxygenNote: 6.1.1
 Suggests: 
     testthat,
