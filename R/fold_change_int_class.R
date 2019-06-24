@@ -28,22 +28,22 @@ setMethod(f="method.apply",
         FF=FF[-w]
 
         # for each combination create an interaction factor and compute fold-change on that factor
-        for (k in 1:length(FF))  {
-
-            D$sample_meta$interaction=interaction(D$sample_meta[,FF[[k]]])
-            FC=fold_change(alpha=M$alpha,paired=FALSE,sample_name='NA',factor_name='interaction')
-            FC=method.apply(FC,D)
-            if (k==1) {
-                M$fold_change=FC$fold_change
-                M$upper_ci=FC$upper_ci
-                M$lower_ci=FC$lower_ci
-            } else {
-                # bind the results tables together
-                M$fold_change=cbind(M$fold_change,FC$fold_change)
-                M$upper_ci=cbind(M$upper_ci,FC$upper_ci)
-                M$lower_ci=cbind(M$lower_ci,FC$lower_ci)
-            }
-        }
+        #for (k in 1:length(FF))  {
+        k=length(FF) # interactions for all factors
+        D$sample_meta$interaction=interaction(D$sample_meta[,FF[[k]]])
+        FC=fold_change(alpha=M$alpha,paired=FALSE,sample_name='NA',factor_name='interaction')
+        FC=method.apply(FC,D)
+        #if (k==1) {
+            M$fold_change=FC$fold_change
+            M$upper_ci=FC$upper_ci
+            M$lower_ci=FC$lower_ci
+        #} else {
+            # bind the results tables together
+        #    M$fold_change=cbind(M$fold_change,FC$fold_change)
+        #    M$upper_ci=cbind(M$upper_ci,FC$upper_ci)
+        #    M$lower_ci=cbind(M$lower_ci,FC$lower_ci)
+        #}
+        #}
 
         return(M)
     }
