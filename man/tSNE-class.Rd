@@ -4,7 +4,7 @@
 \name{tSNE-class}
 \alias{tSNE-class}
 \alias{tSNE}
-\title{tSNE model class}
+\title{tSNE method class}
 \description{
 t-Distributed Stochastic Neighbor Embedding (tSNE) class. This object can be used to train/apply tSNE models to dataset objects.
 }
