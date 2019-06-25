@@ -1,0 +1,148 @@
+---
+title: "Model objects"
+author: "Dr Gavin Rhys Lloyd"
+date: "25/06/2019"
+output: 
+    html_document:
+        df_print: paged
+        highlight: tango
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    fig.align = 'center'
+)
+library(structToolbox)
+library(gridExtra)
+```
+
+</br></br>
+
+# Introduction
+PCA (Principal Component Analysis) is a commonly applied method for exploring multivariate datasets. We will use the iris dataset as an example, which is included in the package and already prepared as a dataset object.
+
+```{r}
+D = iris_dataset()
+D$data
+```
+ 
+</br></br>
+
+# PCA model
+Before we apply PCA we first need to create a PCA object. This object contains all the inputs, outputs and methods needed to apply PCA. We can set parameters such as the number of components when the PCA model is created, but we can also use dollar notation to change/view it later. 
+
+```{r}
+P = PCA(number_components=15)
+P$number_components=5
+P$number_components
+```
+  
+The inputs for a model can be listed using `param.ids(object)`:
+
+```{r}
+param.ids(P)
+```
+</br></br>
+
+# Model sequences
+Unless you have very good reason not to, it is usally sensible to mean centre the columns of the data before PCA. Using the `STRUCT` framework we can create a model sequence that will mean centre and then apply PCA to the mean centred data.
+
+```{r}
+M = mean_centre() + PCA(number_components = 4)
+```
+  
+In `STRUCT` mean centring and PCA are both model objects, and therefore joining them creates a model.sequence object. The objects in the sequence can be accessed by indexing, and we can combine this with dollar notation. For example, the PCA object is the second object in our sequence and we can access the number of components like this:
+
+```{r}
+M[2]$number_components
+```
+</br></br>
+
+# Training/testing models
+Model and model.sequence objects need to be trained using a training dataset.
+
+```{r}
+M = model.train(M,D)
+```
+  
+Model objects can be used to generate predictions for test datasets. For this example we will just use the training data (sometimes called autoprediction).
+
+```{r}
+M = model.predict(M,D)
+```
+
+The available outputs for an object can be listed and accessed using dollar notation:
+  
+```{r}
+output.ids(M[2])
+M[2]$scores
+```
+</br></br>
+
+# Model charts
+The struct framework includes charts. Charts associated with a model object can be listed.
+
+```{r}
+chart.names(M[2])
+```
+  
+Like model objects, chart objects need to be created before they can be used. Here we will plot the PCA scores plot for our mean centred PCA model.
+
+```{r}
+C = pca_scores_plot(groups=D$sample_meta$Species,factor_name='Species') # colour by Species
+chart.plot(C,M[2])
+```
+  
+If we makes changes to our chart object, we must call `chart.plot` again.
+
+```{r}
+C$groups = D$data$Petal.Width
+C$factor_name='Petal.Width'
+chart.plot(C,M[2])
+```
+  
+The `chart.plot` method can return e.g. a ggplot object so that you can easily combine it with other plots using the gridExtra package for example.
+
+```{r,fig.width=10}
+C1 = pca_scores_plot(groups=D$sample_meta$Species,factor_name='Species') # colour by Species
+g1 = chart.plot(C1,M[2])
+C2 = PCA.scree()
+g2 = chart.plot(C2,M[2])
+grid.arrange(grobs=list(g1,g2),nrow=1)
+```
+</br></br>
+
+# STATO Integration
+Some model objects are also STATO objects. STATO is a general purpose statistics ontology (http://stato-ontology.org/). In the `STRUCT` framework we use it to provide standarded definitions for objects. The PCA model object is also a STATO object.
+
+```{r}
+is(PCA(),'stato')
+```
+
+We can access the STATO ontology using some methods specific to stato objects.
+
+```{r}
+# this is the stato id for PCA
+stato.id(P)
+
+# this is the stato name
+stato.name(P)
+
+# this is the stato definition
+stato.definition(P)
+```
+
+This information is more succinctly displayed using `stato.summary`. This method also scans over all inputs and outputs for those with STATO definitions and displays those as well. For PCA the number of components is present, but none of the outputs are STATO objects and therefore no definition is provided.
+
+```{r}
+stato.summary(P)
+```
+
+
+

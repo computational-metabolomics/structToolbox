@@ -1,3 +1,5 @@
+Meta
+doc
 .Rproj.user
 .Rhistory
 .RData
@@ -11,6 +13,5 @@ inst/doc
 *.md
 *.log
 structtoolbox.Rproj
-*.Rproj
 *.Rproj
 *.tiff
