@@ -35,7 +35,6 @@ Collate:
     'forward_selection_by_rank_class.R'
     'ggplot_theme_pub.R'
     'glog_class.R'
-    'glog_transform_class.R'
     'grid_search_1d_class.R'
     'hca_class.R'
     'kfold_xval_class.R'
