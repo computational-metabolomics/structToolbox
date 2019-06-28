@@ -155,7 +155,7 @@ setMethod(f="method.apply",
         })
 
         temp=data.frame(row.names=CN) # make sure we get  result for all features, even if NA
-        output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE)
+        output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE,sort=FALSE)
         rownames(output)=output$Row.names
         output=output[,-1]
         output$p.value=p.adjust(output$p.value,method = param.value(M,'mtc'))
