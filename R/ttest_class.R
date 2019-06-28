@@ -85,6 +85,7 @@ setMethod(f="method.apply",
     definition=function(M,D)
     {
         X=dataset.data(D)
+        CN=colnames(X) # keep a copy of the original colnames
         y=dataset.sample_meta(D)[[M$factor_names]]
         L=levels(y)
         if (length(L)!=2) {
@@ -112,11 +113,12 @@ setMethod(f="method.apply",
                 }
 
             }
-            X=X[!(D$sample_meta[[M$paired_factor]] %in% out),]
-            y=y[!(D$sample_meta[[M$paired_factor]] %in% out)]
+            D$data=D$data[!(D$sample_meta[[M$paired_factor]] %in% out),]
+            D$sample_meta=D$sample_meta[!(D$sample_meta[[M$paired_factor]] %in% out),]
+            y=dataset.sample_meta(D)[[M$factor_names]]
 
             # sort the data by sample id so that theyre in the right order for paired ttest
-            X=apply(X,2,function(x) {
+            X=apply(D$data,2,function(x) {
                 a=x[y==L[1]]
                 b=x[y==L[2]]
                 ay=y[y==L[1]]
@@ -125,27 +127,37 @@ setMethod(f="method.apply",
                 b=b[order(by)]
                 return(c(a,b))
             })
-            # also make sure the meta data is in the right order
-            y=y[order(D$sample_meta[[M$paired_factor]])]
 
             # put back into dataset object
             D$data=as.data.frame(X)
-            D$sample_meta[[M$paired_factor]]=y
+            D$sample_meta[[M$factor_names]]=D$sample_meta[[M$factor_names]][order(D$sample_meta[[M$paired_factor]])]
+            D$sample_meta[[M$paired_factor]]=D$sample_meta[[M$paired_factor]][order(D$sample_meta[[M$paired_factor]])]
+            y=dataset.sample_meta(D)[[M$factor_names]]
+
+            # check number per class
+            # if less then 2 then remove
+            FF=filter_na_count(threshold=2,factor_name=M$factor_names)
+            FF=method.apply(FF,D)
+            D=predicted(FF)
+
+            # check equal numbers per class. if not equal then exclude.
+            out=FF$count[,1]!=FF$count[,2]
+            D$data=D$data[,!out]
         }
 
-        # check number per class
-        # if less then 2 then remove
-        FF=filter_na_count(threshold=2,factor_name=M$factor_names)
-        FF=method.apply(FF,D)
-        D=predicted(FF)
+
+
         X=D$data
-        y=D$sample_meta[[M$paired_factor]]
-        print(FF$count)
+        y=D$sample_meta[[M$factor_names]]
 
         output=apply(X,2,function(x) {
             a=unlist(t.test(x[y==L[1]],x[y==L[2]],paired = M$paired)[c("statistic","p.value","parameter",'conf.int','estimate')])
         })
-        output=as.data.frame(t(output),stringsAsFactors = FALSE)
+
+        temp=data.frame(row.names=CN) # make sure we get  result for all features, even if NA
+        output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE)
+        rownames(output)=output$Row.names
+        output=output[,-1]
         output$p.value=p.adjust(output$p.value,method = param.value(M,'mtc'))
         output.value(M,'t_statistic')=output$statistic.t
         output.value(M,'p_value')=output$p.value
