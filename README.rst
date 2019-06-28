@@ -49,3 +49,6 @@ References
 
 .. |Coverage| image:: https://codecov.io/gh/computational-metabolomics/structToolbox/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/computational-metabolomics/structToolbox
+   
+.. |AppVeyor| image:: https://ci.appveyor.com/api/projects/status/github/computational-metabolomics/structToolbox?branch=master&svg=true
+   :target: https://ci.appveyor.com/project/RJMW/structToolbox
