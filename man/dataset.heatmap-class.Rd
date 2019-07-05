@@ -8,3 +8,6 @@
 \description{
 plots a dataset as a heatmap
 }
+\examples{
+C = dataset.heatmap()
+}

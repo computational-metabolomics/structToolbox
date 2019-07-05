@@ -8,3 +8,6 @@
 \description{
 Fisher's exact test class. Applies FET for all features in a dataset
 }
+\examples{
+M = fisher_exact()
+}

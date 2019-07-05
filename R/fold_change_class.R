@@ -5,6 +5,8 @@
 #' @import struct
 #' @import stats
 #' @export fold_change
+#' @examples
+#' M = fold_change()
 fold_change<-setClass(
     "fold_change",
     contains=c('method'),
@@ -159,6 +161,8 @@ setMethod(f="method.apply",
 #' @import struct
 #' @export fold_change_plot
 #' @include PCA_class.R
+#' @examples
+#' C = fold_change_plot()
 fold_change_plot<-setClass(
     "fold_change_plot",
     contains='chart',

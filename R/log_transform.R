@@ -2,6 +2,8 @@
 #'
 #' applies a log transform to the input data
 #' @export log_transform
+#' @examples
+#' M = log_transform()
 log_transform<-setClass(
     "log_transform",
     contains = c('method'),

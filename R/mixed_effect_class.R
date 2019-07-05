@@ -6,8 +6,9 @@
 #' @import stats
 #' @import nlme
 #' @import emmeans
-#' @include anova_class.R
 #' @export mixed_effect
+#' @examples
+#' M = mixed_effect()
 mixed_effect<-setClass(
     "mixed_effect",
     contains=c('method','stato','ANOVA'), # inherits ANOVA
@@ -132,7 +133,7 @@ aov2lme = function(f) {
     # split at Error
     txt=strsplit(txt,' + Error',fixed=TRUE)[[1]]
     if (length(txt)>3) {
-        error('aov2lmr: Too many Error terms')
+        stop('aov2lmr: Too many Error terms')
     }
     # parse the Error term
     pattern="[()*/]"

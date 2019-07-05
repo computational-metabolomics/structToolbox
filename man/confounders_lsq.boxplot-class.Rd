@@ -8,3 +8,6 @@
 \description{
 plots a boxplot of the percent change when including a confounding factor in a classical least squares model
 }
+\examples{
+C = confounders_lsq.boxplot()
+}

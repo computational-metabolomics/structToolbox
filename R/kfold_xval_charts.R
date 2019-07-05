@@ -5,6 +5,8 @@
 #' @import struct
 #' @export kfoldxcv_grid
 #' @include kfold_xval_class.R
+#' @examples
+#' C = kfoldxcv_grid()
 kfoldxcv_grid<-setClass(
     "kfoldxcv_grid",
     contains='chart',
@@ -89,6 +91,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export kfoldxcv_metric
 #' @include kfold_xval_class.R
+#' @examples
+#' C = kfoldxcv_metric()
 kfoldxcv_metric<-setClass(
     "kfoldxcv_metric",
     contains='chart',

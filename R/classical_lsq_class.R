@@ -4,6 +4,8 @@
 #'
 #' @import struct
 #' @export classical_lsq
+#' @examples
+#' M = classical_lsq()
 classical_lsq<-setClass(
     "classical_lsq",
     contains='method',

@@ -1,8 +1,29 @@
-#' blank filter
+#' Blank filter
 #'
-#' filters features base on the features present in blank samples
-#' @export blank_filter
+#' Filters features based on the features present in blank samples. The median
+#' intensity of the samples is compared tothe median intensity of the blank
+#' samples. Any sample not sufficiently more intense than the blank is removed.
+#' This is a wrapper for the blank filter in the PMP package.
 #' @import pmp
+#'
+#' @param blank_label (character) the label used to identify 'blank' samples
+#' @param fold_change (numeric) the threshold for filtering samples
+#' @param qc_label (character) the label used to identify 'QC' samples. If set
+#' then the median of the QC samples is used instead of all samples.
+#' @param factor_name (character) the column name of sample_meta containing the
+#' labels
+#'
+#' @return A STRUCT method object with functions for applying a blank filter
+#'
+#' @examples
+#' D = iris_dataset()
+#' M = blank_filter(fold_change=2,
+#'                  factor_name='Species',
+#'                  blank_label='setosa',
+#'                  qc_label='versicolor')
+#' M = method.apply(M,D)
+#'
+#' @export blank_filter
 blank_filter<-setClass(
     "blank_filter",
     contains = c('method'),
@@ -93,6 +114,8 @@ setMethod(f="method.apply",
 #' plots a histogram of the calculated fold change for the blank filter (median blank / median sample)
 #' @import struct
 #' @export blank_filter.hist
+#' @examples
+#' C = blank_filter.hist()
 blank_filter.hist<-setClass(
     "blank_filter.hist",
     contains='chart',

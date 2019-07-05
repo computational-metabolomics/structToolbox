@@ -8,3 +8,6 @@
 \description{
 carries out a grid search for a single parameter
 }
+\examples{
+M = grid_search_1d()
+}

@@ -2,6 +2,8 @@
 #'
 #' Mean centres the columns a dataset object
 #' @export mean_centre
+#' @examples
+#' M = mean_centre()
 mean_centre<-setClass(
     "mean_centre",
     contains='preprocess',

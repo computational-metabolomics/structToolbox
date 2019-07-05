@@ -7,6 +7,8 @@
 #' @import agricolae
 #' @include anova_class.R
 #' @export HSD
+#' @examples
+#' M = HSD()
 HSD<-setClass(
     "HSD",
     contains=c('method','stato'),

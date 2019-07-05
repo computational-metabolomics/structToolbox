@@ -8,3 +8,6 @@
 \description{
 applies a k-nearest neighbour approach to impute missing values
 }
+\examples{
+M = knn_impute()
+}

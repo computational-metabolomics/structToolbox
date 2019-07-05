@@ -8,3 +8,6 @@
 \description{
 a combination of plots to compare two datasets
 }
+\examples{
+C = compare_dist()
+}

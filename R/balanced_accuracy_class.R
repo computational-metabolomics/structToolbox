@@ -1,8 +1,18 @@
-#' Balanced Accuracy class
+#' Balanced Accuracy
 #'
-#' Balanced Accuracy.
+#' Balanced accuracy is the average of the true positive rate and false positive
+#' rate.
+#'
+#' @return A metric object with methods for calculating balanced accuracy.
+#'
+#' @examples
+#' D = iris_dataset()
+#' XCV = kfold_xval(folds=5,factor_name='Species') *
+#'       (mean_centre() + PLSDA(number_components=2,factor_name='Species'))
+#' MET = balanced_accuracy()
+#' XCV = run(XCV,D,MET)
+#'
 #' @export balanced_accuracy
-
 balanced_accuracy<-setClass(
     "balanced_accuracy",
     contains='metric',

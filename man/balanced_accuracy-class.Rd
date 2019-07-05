@@ -4,7 +4,19 @@
 \name{balanced_accuracy-class}
 \alias{balanced_accuracy-class}
 \alias{balanced_accuracy}
-\title{Balanced Accuracy class}
+\title{Balanced Accuracy}
+\value{
+A metric object with methods for calculating balanced accuracy.
+}
 \description{
-Balanced Accuracy.
+Balanced accuracy is the average of the true positive rate and false positive
+rate.
+}
+\examples{
+D = iris_dataset()
+XCV = kfold_xval(folds=5,factor_name='Species') *
+      (mean_centre() + PLSDA(number_components=2,factor_name='Species'))
+MET = balanced_accuracy()
+XCV = run(XCV,D,MET)
+
 }

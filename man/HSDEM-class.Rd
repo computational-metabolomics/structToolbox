@@ -8,3 +8,6 @@
 \description{
 HSD model class using estimate marginal means
 }
+\examples{
+M = HSDEM()
+}

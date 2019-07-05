@@ -8,3 +8,6 @@
 \description{
 plots the result of the evaluated models for against the values of the optimisation paramter within the search range.
 }
+\examples{
+C = gs_line()
+}

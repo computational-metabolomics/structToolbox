@@ -8,3 +8,6 @@
 \description{
 2d scatter plot of princpal component scores.
 }
+\examples{
+C = pca_scores_plot()
+}

@@ -2,6 +2,8 @@
 #'
 #' Applies k-fold crossvalidation to a model or model.seq()
 #' @export kfold_xval
+#' @examples
+#' I = kfold_xval()
 kfold_xval<-setClass(
     "kfold_xval",
     contains='resampler',

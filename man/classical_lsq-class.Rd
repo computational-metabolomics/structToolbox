@@ -8,3 +8,6 @@
 \description{
 classical least squares, where y is the response and x is the design matrix, applied to each feature individually.
 }
+\examples{
+M = classical_lsq()
+}

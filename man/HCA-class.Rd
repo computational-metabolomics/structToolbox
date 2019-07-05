@@ -8,3 +8,6 @@
 \description{
 HCA method class. Calculate a hierarchical clustering for the input data
 }
+\examples{
+M = HCA()
+}

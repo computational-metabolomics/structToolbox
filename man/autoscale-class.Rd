@@ -4,7 +4,17 @@
 \name{autoscale-class}
 \alias{autoscale-class}
 \alias{autoscale}
-\title{autoscale class}
+\title{Autoscale}
+\value{
+A STRUCT model object with methods for autoscaling.
+}
 \description{
-autoscaling centres the columns of the data in a dataset object and divides by the standard deviation.
+Autoscaling centres the columns of the data in a dataset object and divides by the standard deviation.
+}
+\examples{
+D = iris_dataset()
+M = autoscale()
+M = model.train(M,D)
+M = model.predict(M,D)
+
 }

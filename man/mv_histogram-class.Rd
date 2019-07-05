@@ -8,3 +8,6 @@
 \description{
 histograms indicating the numbers of missing values per sample/feature
 }
+\examples{
+C = mv_histogram()
+}

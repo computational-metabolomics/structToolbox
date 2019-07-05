@@ -4,7 +4,8 @@
 #'
 #' @import struct
 #' @export PCA
-
+#' @examples
+#' M = PCA()
 PCA<-setClass(
     "PCA",
     contains=c('model','stato'),

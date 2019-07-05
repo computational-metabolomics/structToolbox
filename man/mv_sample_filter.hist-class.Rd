@@ -8,3 +8,6 @@
 \description{
 plots a histogram of % missing values per sample
 }
+\examples{
+C = mv_sample_filter.hist()
+}

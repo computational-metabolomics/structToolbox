@@ -5,6 +5,8 @@
 #' @import struct
 #' @export pca_correlation_plot
 #' @include PCA_class.R
+#' @examples
+#' C = pca_correlation_plot()
 pca_correlation_plot<-setClass(
     "pca_correlation_plot",
     contains='chart',
@@ -55,6 +57,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export pca_scores_plot
 #' @include PCA_class.R
+#' @examples
+#' C = pca_scores_plot()
 pca_scores_plot<-setClass(
     "pca_scores_plot",
     contains='chart',
@@ -226,6 +230,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export pca_biplot_plot
 #' @include PCA_class.R
+#' @examples
+#' C = pca_biplot_plot()
 pca_biplot_plot<-setClass(
     "pca_biplot_plot",
     contains='chart',
@@ -364,6 +370,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export pca_loadings_plot
 #' @include PCA_class.R
+#' @examples
+#' C = pca_loadings_plot()
 pca_loadings_plot<-setClass(
     "pca_loadings_plot",
     contains='chart',
@@ -449,6 +457,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export PCA.scree
 #' @include PCA_class.R
+#' @examples
+#' C = PCA.scree()
 PCA.scree<-setClass(
     "PCA.scree",
     contains=c('chart'),
@@ -493,6 +503,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export PCA.dstat
 #' @include PCA_class.R
+#' @examples
+#' C = PCA.dstat()
 PCA.dstat<-setClass(
     "PCA.dstat",
     contains=c('chart'),

@@ -8,3 +8,6 @@
 \description{
 visualise distributions of features/samples
 }
+\examples{
+C = dataset.dist()
+}

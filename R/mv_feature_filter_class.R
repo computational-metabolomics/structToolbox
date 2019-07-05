@@ -3,6 +3,8 @@
 #' filters features by the percent number of missing values
 #' @export mv_feature_filter
 #' @import pmp
+#' @examples
+#' M = mv_feature_filter()
 mv_feature_filter<-setClass(
     "mv_feature_filter",
     contains = c('method'),
@@ -65,7 +67,7 @@ setMethod(f="method.apply",
         s=strsplit(opt$method,'_')[[1]][1]
 
         filtered = filter_peaks_by_fraction(t(x), min_frac = opt$threshold/100, classes=smeta[[M$factor_name]], method=s,qc_label=opt$qc_label)
-        dataset.data(D) = as.data.frame(t(filtered$df))
+        #dataset.data(D) = as.data.frame(t(filtered$df))
 
         flags<-data.frame(filtered$flags)
         vmeta=dataset.variable_meta(D)
@@ -101,6 +103,8 @@ setMethod(f="method.apply",
 #' plots a histogram of % missing values per sample
 #' @import struct
 #' @export mv_feature_filter.hist
+#' @examples
+#' C = mv_feature_filter.hist()
 mv_feature_filter.hist<-setClass(
     "mv_feature_filter.hist",
     contains='chart',

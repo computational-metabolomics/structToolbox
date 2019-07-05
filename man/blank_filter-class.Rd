@@ -4,7 +4,33 @@
 \name{blank_filter-class}
 \alias{blank_filter-class}
 \alias{blank_filter}
-\title{blank filter}
+\title{Blank filter}
+\arguments{
+\item{blank_label}{(character) the label used to identify 'blank' samples}
+
+\item{fold_change}{(numeric) the threshold for filtering samples}
+
+\item{qc_label}{(character) the label used to identify 'QC' samples. If set
+then the median of the QC samples is used instead of all samples.}
+
+\item{factor_name}{(character) the column name of sample_meta containing the
+labels}
+}
+\value{
+A STRUCT method object with functions for applying a blank filter
+}
 \description{
-filters features base on the features present in blank samples
+Filters features based on the features present in blank samples. The median
+intensity of the samples is compared tothe median intensity of the blank
+samples. Any sample not sufficiently more intense than the blank is removed.
+This is a wrapper for the blank filter in the PMP package.
+}
+\examples{
+D = iris_dataset()
+M = blank_filter(fold_change=2,
+                 factor_name='Species',
+                 blank_label='setosa',
+                 qc_label='versicolor')
+M = method.apply(M,D)
+
 }

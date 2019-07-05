@@ -8,3 +8,6 @@
 \description{
 applies a glog transform to the input data
 }
+\examples{
+M = glog_transform()
+}

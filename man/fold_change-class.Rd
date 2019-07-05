@@ -8,3 +8,6 @@
 \description{
 calculates fold change between groups for all features in a dataset
 }
+\examples{
+M = fold_change()
+}

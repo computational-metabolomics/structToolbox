@@ -8,3 +8,6 @@
 \description{
 compares the coefficients for a model without including confounding factors to models with confounding factor included.
 }
+\examples{
+M = confounders_clsq()
+}

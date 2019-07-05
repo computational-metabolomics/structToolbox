@@ -8,3 +8,6 @@
 \description{
 line plot showing percent variance and cumulative peercent variance for the computed components.
 }
+\examples{
+C = PCA.scree()
+}

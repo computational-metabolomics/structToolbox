@@ -8,3 +8,6 @@
 \description{
 Applies k-fold crossvalidation to a model or model.seq()
 }
+\examples{
+I = kfold_xval()
+}

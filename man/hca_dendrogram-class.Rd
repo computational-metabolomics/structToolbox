@@ -8,3 +8,6 @@
 \description{
 plots a dendrogram for HCA
 }
+\examples{
+C = hca_dendrogram()
+}

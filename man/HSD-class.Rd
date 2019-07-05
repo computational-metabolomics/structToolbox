@@ -8,3 +8,6 @@
 \description{
 HSD model class. Tukey's honest significant difference for ANOVA objects
 }
+\examples{
+M = HSD()
+}

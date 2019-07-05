@@ -4,7 +4,8 @@
 #'
 #' @import struct
 #' @export linear_model
-
+#' @examples
+#' M = linear_model()
 linear_model<-setClass(
     "linear_model",
     contains='model',

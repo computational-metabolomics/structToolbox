@@ -8,3 +8,6 @@
 \description{
 plots a histogram of the calculated fold change for the blank filter (median blank / median sample)
 }
+\examples{
+C = blank_filter.hist()
+}

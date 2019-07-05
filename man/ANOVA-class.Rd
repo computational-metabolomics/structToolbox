@@ -4,7 +4,24 @@
 \name{ANOVA-class}
 \alias{ANOVA-class}
 \alias{ANOVA}
-\title{ANOVA model class}
+\title{ANOVA}
+\arguments{
+\item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
+
+\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg,
+hommel, bonferroni, BH, BY, fdr or [none]}
+
+\item{formula}{the formula to use for ANOVA in the form y~...}
+}
+\value{
+A struct method object with functions for applying ANOVA
+}
 \description{
-ANOVA model class. ANOVA for all features in a dataset
+Applies ANOVA to each feature in a dataset object.
+}
+\examples{
+D = iris_dataset()
+M = ANOVA(formula=y~Species)
+M = method.apply(M,D)
+
 }

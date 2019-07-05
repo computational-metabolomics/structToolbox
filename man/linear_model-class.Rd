@@ -8,3 +8,6 @@
 \description{
 wrapper for R lm.
 }
+\examples{
+M = linear_model()
+}

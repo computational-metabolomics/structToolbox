@@ -8,3 +8,6 @@
 \description{
 applies a log transform to the input data
 }
+\examples{
+M = log_transform()
+}

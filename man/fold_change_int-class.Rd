@@ -8,3 +8,6 @@
 \description{
 calculates fold change between groups for all factors and interactions
 }
+\examples{
+M = fold_change_int()
+}

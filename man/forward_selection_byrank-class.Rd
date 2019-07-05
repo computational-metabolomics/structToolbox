@@ -6,5 +6,10 @@
 \alias{forward_selection_byrank}
 \title{forward selection by rank}
 \description{
---insert class description here--
+Forward selection by rank is a stepwise procedures that includes features
+incrementally based on their rank. Any measure for ranking the features may
+be used e.g. PLS VIP score, ttest p-value etc.
+}
+\examples{
+M = forward_selection_byrank()
 }

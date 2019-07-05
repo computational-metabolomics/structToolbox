@@ -5,6 +5,8 @@
 #' @import struct
 #' @import stats
 #' @export fold_change_int
+#' @examples
+#' M = fold_change_int()
 fold_change_int<-setClass(
     "fold_change_int",
     contains=c('method','fold_change'),

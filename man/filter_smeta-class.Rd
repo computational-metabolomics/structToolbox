@@ -8,3 +8,6 @@
 \description{
 a Filter to reduce a dataset object based on sample meta data labels.
 }
+\examples{
+M = filter_smeta()
+}

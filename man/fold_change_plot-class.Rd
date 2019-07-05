@@ -8,3 +8,6 @@
 \description{
 plots fold change
 }
+\examples{
+C = fold_change_plot()
+}

@@ -7,6 +7,10 @@
 #' @import gridExtra
 #' @export dataset.factor_barchart
 #' @include HSD_class.R
+#' @examples
+#' D = iris_dataset()
+#' C = dataset.factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')
+#' chart.plot(C,D)
 dataset.factor_barchart<-setClass(
     "dataset.factor_barchart",
     contains='chart',

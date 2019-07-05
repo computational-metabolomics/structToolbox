@@ -8,3 +8,6 @@
 \description{
 filters features by the number of NA per class
 }
+\examples{
+M = filter_na_count()
+}

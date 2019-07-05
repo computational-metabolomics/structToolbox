@@ -2,7 +2,8 @@
 #'
 #' a Filter to reduce a dataset object based on sample meta data labels.
 #' @export filter_smeta
-
+#' @examples
+#' M = filter_smeta()
 filter_smeta<-setClass(
     "filter_smeta",
     contains = c('method'),

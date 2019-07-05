@@ -4,6 +4,10 @@
 #'
 #' @import struct
 #' @export feature_boxplot
+#' @examples
+#' D = iris_dataset()
+#' C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')
+#' chart.plot(C,D)
 feature_boxplot<-setClass(
     "feature_boxplot",
     contains=c('chart','stato'),
@@ -124,6 +128,8 @@ setMethod(f="chart.plot",
 #'
 #' @import struct
 #' @export mv_histogram
+#' @examples
+#' C = mv_histogram()
 mv_histogram<-setClass(
     "mv_histogram",
     contains='chart',
@@ -133,7 +139,7 @@ mv_histogram<-setClass(
         params.by_sample='entity'
     ),
     prototype = list(name='Missing value histogram',
-        description='Histogram ofmissing values per sample/feature.',
+        description='Histogram of missing values per sample/feature.',
         type="histogram",
         params.by_sample=entity(name='Plot by sample or by feature',
             value=TRUE,
@@ -189,6 +195,8 @@ setMethod(f="chart.plot",
 #'
 #' @import struct
 #' @export mv_boxplot
+#' @examples
+#' C = mv_boxplot()
 mv_boxplot<-setClass(
     "mv_boxplot",
     contains='chart',
@@ -327,6 +335,8 @@ setMethod(f="chart.plot",
 #'
 #' @import struct
 #' @export dataset.dist
+#' @examples
+#' C = dataset.dist()
 dataset.dist<-setClass(
     "dataset.dist",
     contains='chart',
@@ -396,6 +406,8 @@ setMethod(f="chart.plot",
 #'
 #' @import struct
 #' @export dataset.boxplot
+#' @examples
+#' C = dataset.boxplot()
 dataset.boxplot<-setClass(
     "dataset.boxplot",
     contains='chart',
@@ -493,6 +505,8 @@ setMethod(f="chart.plot",
 #'
 #' @import struct
 #' @export compare_dist
+#' @examples
+#' C = compare_dist()
 compare_dist<-setClass(
     "compare_dist",
     contains='chart',
@@ -592,6 +606,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @import reshape2
 #' @export dataset.heatmap
+#' @examples
+#' C = dataset.heatmap()
 dataset.heatmap<-setClass(
     "dataset.heatmap",
     contains=c('chart'),

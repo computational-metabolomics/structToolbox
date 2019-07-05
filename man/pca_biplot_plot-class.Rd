@@ -8,3 +8,6 @@
 \description{
 2d scatter plot of princpal component scores overlaid with principal component loadings.
 }
+\examples{
+C = pca_biplot_plot()
+}

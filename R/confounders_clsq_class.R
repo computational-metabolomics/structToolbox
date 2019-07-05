@@ -4,6 +4,8 @@
 #'
 #' @import struct
 #' @export confounders_clsq
+#' @examples
+#' M = confounders_clsq()
 confounders_clsq<-setClass(
     "confounders_clsq",
     contains='method',
@@ -143,7 +145,8 @@ setMethod(f="method.apply",
 #' plots a barchart of the percent change when including a confounding factor in a classical least squares model
 #' @import struct
 #' @export confounders_lsq.barchart
-#'
+#' @examples
+#' C = confounders_lsq.barchart()
 confounders_lsq.barchart<-setClass(
     "confounders_lsq.barchart",
     contains='chart',
@@ -202,7 +205,8 @@ setMethod(f="chart.plot",
 #' plots a boxplot of the percent change when including a confounding factor in a classical least squares model
 #' @import struct
 #' @export confounders_lsq.boxplot
-#'
+#' @examples
+#' C = confounders_lsq.boxplot()
 confounders_lsq.boxplot<-setClass(
     "confounders_lsq.boxplot",
     contains='chart',
@@ -259,7 +263,8 @@ setMethod(f="chart.plot",
 #' plots an intensity image of the percent change when including a confounding factor in a classical least squares model
 #' @import struct
 #' @export confounders_lsq.image
-#'
+#' @examples
+#' C = confounders_lsq.image()
 confounders_lsq.image<-setClass(
     "confounders_lsq.image",
     contains='chart',

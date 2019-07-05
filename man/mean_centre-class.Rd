@@ -8,3 +8,6 @@
 \description{
 Mean centres the columns a dataset object
 }
+\examples{
+M = mean_centre()
+}

@@ -8,3 +8,6 @@
 \description{
 plots the correlation between features and selected components.
 }
+\examples{
+C = pca_correlation_plot()
+}

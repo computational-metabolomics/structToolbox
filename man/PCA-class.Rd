@@ -8,3 +8,6 @@
 \description{
 Principal Component Analysis (PCA) model class. This object can be used to train/apply PCA mdoels to dataset objects.
 }
+\examples{
+M = PCA()
+}

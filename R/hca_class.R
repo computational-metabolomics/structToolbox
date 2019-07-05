@@ -3,6 +3,8 @@
 #' HCA method class. Calculate a hierarchical clustering for the input data
 #'
 #' @export HCA
+#' @examples
+#' M = HCA()
 HCA<-setClass(
     "HCA",
     contains=c('method'),
@@ -74,6 +76,8 @@ setMethod(f="method.apply",
 #' @export hca_dendrogram
 #' @import ggdendro
 #' @include hca_class.R
+#' @examples
+#' C = hca_dendrogram()
 hca_dendrogram<-setClass(
     "hca_dendrogram",
     contains='chart'

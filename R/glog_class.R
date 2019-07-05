@@ -3,6 +3,8 @@
 #' applies a glog transform to the input data
 #' @export glog_transform
 #' @import pmp
+#' @examples
+#' M = glog_transform()
 glog_transform<-setClass(
     "glog_transform",
     contains = c('method'),

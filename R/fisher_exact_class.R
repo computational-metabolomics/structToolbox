@@ -5,6 +5,8 @@
 #' @import struct
 #' @import stats
 #' @export fisher_exact
+#' @examples
+#' M = fisher_exact()
 fisher_exact<-setClass(
     "fisher_exact",
     contains=c('method','stato'),

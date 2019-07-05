@@ -8,3 +8,6 @@
 \description{
 box plot of cross validation results
 }
+\examples{
+C = kfoldxcv_metric()
+}

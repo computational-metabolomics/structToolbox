@@ -1,6 +1,15 @@
-#' autoscale class
+#' Autoscale
 #'
-#' autoscaling centres the columns of the data in a dataset object and divides by the standard deviation.
+#' Autoscaling centres the columns of the data in a dataset object and divides by the standard deviation.
+#'
+#' @return A STRUCT model object with methods for autoscaling.
+#'
+#' @examples
+#' D = iris_dataset()
+#' M = autoscale()
+#' M = model.train(M,D)
+#' M = model.predict(M,D)
+#'
 #' @export autoscale
 autoscale<-setClass(
     "autoscale",

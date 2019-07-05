@@ -8,3 +8,6 @@
 \description{
 plots the result of the evaluated models against the values the number of features within the search range.
 }
+\examples{
+C = fs_line()
+}

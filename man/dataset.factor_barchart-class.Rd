@@ -8,3 +8,8 @@
 \description{
 Bar charts based on groupings by factor.
 }
+\examples{
+D = iris_dataset()
+C = dataset.factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')
+chart.plot(C,D)
+}

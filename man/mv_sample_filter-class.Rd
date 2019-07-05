@@ -8,3 +8,6 @@
 \description{
 filters samples based on the percent number of missing values
 }
+\examples{
+C = mv_sample_filter()
+}

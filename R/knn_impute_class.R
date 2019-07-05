@@ -3,6 +3,8 @@
 #' applies a k-nearest neighbour approach to impute missing values
 #' @export knn_impute
 #' @import pmp
+#' @examples
+#' M = knn_impute()
 knn_impute<-setClass(
     "knn_impute",
     contains = c('method'),

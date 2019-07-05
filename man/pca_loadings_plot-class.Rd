@@ -8,3 +8,6 @@
 \description{
 2d scatter plot of princpal component loadings.
 }
+\examples{
+C = pca_loadings_plot()
+}

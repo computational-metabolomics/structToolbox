@@ -8,3 +8,6 @@
 \description{
 a filter to reduce a dataset object based on row or column labels.
 }
+\examples{
+M = filter_by_name()
+}

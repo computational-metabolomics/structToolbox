@@ -2,6 +2,8 @@
 #'
 #' filters features by the number of NA per class
 #' @export filter_na_count
+#' @examples
+#' M = filter_na_count()
 filter_na_count<-setClass(
     "filter_na_count",
     contains = c('method'),

@@ -3,6 +3,8 @@
 #' filters samples based on the percent number of missing values
 #' @export mv_sample_filter
 #' @import pmp
+#' @examples
+#' C = mv_sample_filter()
 mv_sample_filter<-setClass(
     "mv_sample_filter",
     contains = c('method'),
@@ -62,6 +64,8 @@ setMethod(f="method.apply",
 #' plots a histogram of % missing values per sample
 #' @import struct
 #' @export mv_sample_filter.hist
+#' @examples
+#' C = mv_sample_filter.hist()
 mv_sample_filter.hist<-setClass(
     "mv_sample_filter.hist",
     contains='chart',

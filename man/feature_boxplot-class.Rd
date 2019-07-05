@@ -8,3 +8,8 @@
 \description{
 plots a boxplot of a chosen feature for each group of a dataset
 }
+\examples{
+D = iris_dataset()
+C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')
+chart.plot(C,D)
+}

@@ -1,7 +1,11 @@
 #' forward selection by rank
 #'
-#' --insert class description here--
+#' Forward selection by rank is a stepwise procedures that includes features
+#' incrementally based on their rank. Any measure for ranking the features may
+#' be used e.g. PLS VIP score, ttest p-value etc.
 #' @export forward_selection_byrank
+#' @examples
+#' M = forward_selection_byrank()
 forward_selection_byrank <- setClass(
     # name of class
     "forward_selection_byrank",
@@ -158,6 +162,8 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
 #'
 #' @import struct
 #' @export fs_line
+#' @examples
+#' C = fs_line()
 fs_line<-setClass(
     "fs_line",
     contains='chart',

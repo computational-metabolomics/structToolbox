@@ -8,3 +8,6 @@
 \description{
 boxplots indicating the numbers of missing values per sample/feature
 }
+\examples{
+C = mv_boxplot()
+}

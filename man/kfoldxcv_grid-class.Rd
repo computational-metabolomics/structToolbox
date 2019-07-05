@@ -8,3 +8,6 @@
 \description{
 plot of cross validation results
 }
+\examples{
+C = kfoldxcv_grid()
+}

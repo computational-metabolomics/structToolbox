@@ -8,3 +8,6 @@
 \description{
 filters features by the percent number of missing values
 }
+\examples{
+M = mv_feature_filter()
+}

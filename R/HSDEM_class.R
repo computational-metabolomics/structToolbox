@@ -8,6 +8,8 @@
 #' @import nlme
 #' @include mixed_effect_class.R HSD_class.R
 #' @export HSDEM
+#' @examples
+#' M = HSDEM()
 HSDEM<-setClass(
     "HSDEM",
     contains=c('method','stato'),

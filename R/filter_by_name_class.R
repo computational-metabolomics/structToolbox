@@ -2,7 +2,8 @@
 #'
 #' a filter to reduce a dataset object based on row or column labels.
 #' @export filter_by_name
-
+#' @examples
+#' M = filter_by_name()
 filter_by_name<-setClass(
     "filter_by_name",
     contains = c('method'),

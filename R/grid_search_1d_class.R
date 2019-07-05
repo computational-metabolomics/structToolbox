@@ -2,6 +2,8 @@
 #'
 #' carries out a grid search for a single parameter
 #' @export grid_search_1d
+#' @examples
+#' M = grid_search_1d()
 grid_search_1d<-setClass(
     "grid_search_1d",
     contains='resampler',
@@ -118,6 +120,8 @@ setMethod(f="run",
 #'
 #' @import struct
 #' @export gs_line
+#' @examples
+#' C = gs_line()
 gs_line<-setClass(
     "gs_line",
     contains='chart',
@@ -128,6 +132,7 @@ gs_line<-setClass(
 )
 
 #' @export
+#' @inherit struct::chart.plot
 setMethod(f="chart.plot",
     signature=c("gs_line",'grid_search_1d'),
     definition=function(obj,dobj)
