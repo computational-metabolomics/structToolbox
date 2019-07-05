@@ -9,6 +9,7 @@ inst/doc
 *.xlsx
 *.png
 *.pdf
+*.html
 *.md
 *.log
 structtoolbox.Rproj
