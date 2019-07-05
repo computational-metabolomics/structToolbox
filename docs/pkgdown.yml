@@ -1,7 +1,0 @@
-pandoc: '2.6'
-pkgdown: 1.3.0
-pkgdown_sha: ~
-articles:
-  iterator_example: iterator_example.html
-  model_example: model_example.html
-
