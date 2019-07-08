@@ -4,7 +4,7 @@
 \name{confounders_clsq-class}
 \alias{confounders_clsq-class}
 \alias{confounders_clsq}
-\title{check for confounding factors using classical least squares univariate regression}
+\title{Check for confounding factors in ttest}
 \arguments{
 \item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
 
@@ -22,7 +22,7 @@ with the main factor if interest}
 A STRUCT method object with functions for applying classical least squares
 }
 \description{
-compares the coefficients for a ttest without including confounding factors
+Compares the coefficients for a ttest without including confounding factors
 to models with confounding factor included. Currently only ttest is supported.
 }
 \examples{

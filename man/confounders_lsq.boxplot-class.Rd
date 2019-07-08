@@ -12,7 +12,7 @@
 A STRUCT chart object
 }
 \description{
-plots a boxplot of the percent change over all features when including a
+Plots a boxplot of the percent change over all features when including a
 confounding factor in the ttest
 }
 \examples{
