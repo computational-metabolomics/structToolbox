@@ -47,19 +47,4 @@ test_that('confounders lsq boxplot',{
 
 })
 
-# test confounders lsq
-test_that('confounders lsq image',{
-  set.seed('57475')
-  # dataset
-  D=iris_dataset()
-  D$sample_meta$Rnd=sample(D$sample_meta$Species,150) # random effect
-  # method
-  ME=confounders_clsq(factor_name='Species',confounding_factors='Rnd',threshold=0.15)
-  ME=method.apply(ME,D)
-  # chart
-  C=confounders_lsq.image()
-  gg=chart.plot(C,ME)
-  # expect all true
-  expect_true(is(gg,'ggplot'))
 
-})
