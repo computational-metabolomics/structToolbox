@@ -40,6 +40,7 @@ Collate:
     'kfold_xval_class.R'
     'kfold_xval_charts.R'
     'knn_impute_class.R'
+    'kw_rank_sum_class.R'
     'linear_model_class.R'
     'log_transform.R'
     'mean_centre_class.R'
@@ -57,6 +58,7 @@ Collate:
     'tSNE_class.R'
     'ttest_class.R'
     'vec_norm_class.R'
+    'wilcox_test_class.R'
 Depends: struct
 Imports: ggplot2,
     pmp,
