@@ -51,6 +51,7 @@ Collate:
     'prop_na_class.R'
     'r_squared_class.R'
     'rsd_filter.R'
+    'sbcms_dataset_class.R'
     'split_data_class.R'
     'structToolbox.R'
     'tSNE_class.R'
