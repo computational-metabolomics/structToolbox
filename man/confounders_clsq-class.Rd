@@ -4,10 +4,32 @@
 \name{confounders_clsq-class}
 \alias{confounders_clsq-class}
 \alias{confounders_clsq}
-\title{check for confounding factors in classical least squares univariate regression}
+\title{check for confounding factors using classical least squares univariate regression}
+\arguments{
+\item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
+
+\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg,
+hommel, bonferroni, BH, BY, fdr or [none]}
+
+\item{factor_name}{the column name of sample_meta to use in regression}
+
+\item{confounding_factors}{the column names of factors potentially confounding
+with the main factor if interest}
+
+\item{threshold}{the threshold (between 0 and 1) for accepting a factor as confounding}
+}
+\value{
+A STRUCT method object with functions for applying classical least squares
+}
 \description{
-compares the coefficients for a model without including confounding factors to models with confounding factor included.
+compares the coefficients for a ttest without including confounding factors
+to models with confounding factor included. Currently only ttest is supported.
 }
 \examples{
-M = confounders_clsq()
+D = sbcms_dataset()
+M = filter_by_name(mode='include',dimension='variable',names=colnames(D$data)[1:10]) + # first 10 features
+    filter_smeta(mode='exclude',levels='QC',factor_name='class') + # reduce to two group comparison
+    confounders_clsq(factor_name = 'class',confounding_factors=c('sample_order','batch'))
+M = method.apply(M,D)
+
 }

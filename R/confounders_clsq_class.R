@@ -1,11 +1,28 @@
-#' check for confounding factors in classical least squares univariate regression
+#' Check for confounding factors in ttest
 #'
-#' compares the coefficients for a model without including confounding factors to models with confounding factor included.
+#' Compares the coefficients for a ttest without including confounding factors
+#' to models with confounding factor included. Currently only ttest is supported.
 #'
 #' @import struct
-#' @export confounders_clsq
+#'
+#' @param alpha p-value threshold for determining significance. Default alpha = 0.05.
+#' @param mtc multiple test correction method to apply. Can be: holm, hochberg,
+#' hommel, bonferroni, BH, BY, fdr or [none]
+#' @param factor_name the column name of sample_meta to use in regression
+#' @param confounding_factors the column names of factors potentially confounding
+#' with the main factor if interest
+#' @param threshold the threshold (between 0 and 1) for accepting a factor as confounding
+#'
+#' @return A STRUCT method object with functions for applying classical least squares
+#'
 #' @examples
-#' M = confounders_clsq()
+#' D = sbcms_dataset()
+#' M = filter_by_name(mode='include',dimension='variable',names=colnames(D$data)[1:10]) + # first 10 features
+#'     filter_smeta(mode='exclude',levels='QC',factor_name='class') + # reduce to two group comparison
+#'     confounders_clsq(factor_name = 'class',confounding_factors=c('sample_order','batch'))
+#' M = method.apply(M,D)
+#'
+#' @export confounders_clsq
 confounders_clsq<-setClass(
     "confounders_clsq",
     contains='method',
@@ -144,9 +161,21 @@ setMethod(f="method.apply",
 #'
 #' plots a barchart of the percent change when including a confounding factor in a classical least squares model
 #' @import struct
-#' @export confounders_lsq.barchart
+#' @param feature_to_plot the name or index of the feature to be plotted
+#' @param threshold the threshold to be plotted (in %)
+#'
+#' @return A STRUCT chart object
+#'
 #' @examples
-#' C = confounders_lsq.barchart()
+#' D = sbcms_dataset()
+#' M = filter_by_name(mode='include',dimension='variable',names=colnames(D$data)[1:10]) + # first 10 features
+#'     filter_smeta(mode='exclude',levels='QC',factor_name='class') + # reduce to two group comparison
+#'     confounders_clsq(factor_name = 'class',confounding_factors=c('sample_order','batch'))
+#' M = method.apply(M,D)
+#' C = C=confounders_lsq.barchart(feature_to_plot=1,threshold=15)
+#' chart.plot(C,M[3])
+#'
+#' @export confounders_lsq.barchart
 confounders_lsq.barchart<-setClass(
     "confounders_lsq.barchart",
     contains='chart',
@@ -202,11 +231,23 @@ setMethod(f="chart.plot",
 
 #' boxplot of percent change
 #'
-#' plots a boxplot of the percent change when including a confounding factor in a classical least squares model
+#' Plots a boxplot of the percent change over all features when including a
+#' confounding factor in the ttest
 #' @import struct
-#' @export confounders_lsq.boxplot
+#' @param threshold the threshold to be plotted (in %)
+#'
+#' @return A STRUCT chart object
+#'
 #' @examples
-#' C = confounders_lsq.boxplot()
+#' D = sbcms_dataset()
+#' M = filter_by_name(mode='include',dimension='variable',names=colnames(D$data)[1:10]) + # first 10 features
+#'     filter_smeta(mode='exclude',levels='QC',factor_name='class') + # reduce to two group comparison
+#'     confounders_clsq(factor_name = 'class',confounding_factors=c('sample_order','batch'))
+#' M = method.apply(M,D)
+#' C = C=confounders_lsq.box(threshold=15)
+#' chart.plot(C,M[3])
+#'
+#' @export confounders_lsq.boxplot
 confounders_lsq.boxplot<-setClass(
     "confounders_lsq.boxplot",
     contains='chart',
@@ -258,48 +299,6 @@ setMethod(f="chart.plot",
     }
 )
 
-#' image of percent change
-#'
-#' plots an intensity image of the percent change when including a confounding factor in a classical least squares model
-#' @import struct
-#' @export confounders_lsq.image
-#' @examples
-#' C = confounders_lsq.image()
-confounders_lsq.image<-setClass(
-    "confounders_lsq.image",
-    contains='chart',
-    prototype = list(name='Percent change',
-        description='an image of the percent change when including a confounding factor in a classical least squares model.',
-        type="barchart"
-    )
-)
 
-#' @export
-setMethod(f="chart.plot",
-    signature=c("confounders_lsq.image",'confounders_clsq'),
-    definition=function(obj,dobj)
-    {
-
-        A=data.frame('percent_change'=double(),'group'=character(),'feature'=character())
-        for (i in 2:length(dobj$confounding_factors)) {
-            q=data.frame('percent_change'=double(nrow(dobj$percent_change)),'group'=character(nrow(dobj$percent_change)))
-            q$percent_change=dobj$percent_change[,i]*100
-            q$group=colnames(dobj$percent_change)[i]
-            q$feature=rownames(dobj$percent_change)
-            colnames(q)=c('percent_change','group','feature')
-            A=rbind(A,q)
-        }
-
-        colnames(A)=c('percent_change','group','feature')
-        out=ggplot(data=A,aes_(x=~feature,y=~group,fill=~percent_change)) +
-            geom_raster() +
-            theme_Publication(base_size = 12) +
-            ylab('Factor') +
-            xlab('Feature') +
-            theme(legend.position="none") +
-            scale_fill_viridis_c()
-        return(out)
-    }
-)
 
 

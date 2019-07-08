@@ -1,11 +1,27 @@
-#' univariate classical least squares regression
+#' Classical Least Squares regression
 #'
-#' classical least squares, where y is the response and x is the design matrix, applied to each feature individually.
+#' Classical least squares, where y is the response and X is the design matrix,
+#' applied to each feature individually. Here the response is taken from the
+#' data matrix and the design matrix is the taken from the specified sample meta
+#' data column.
 #'
 #' @import struct
-#' @export classical_lsq
+#'
+#' @param alpha p-value threshold for determining significance. Default alpha = 0.05.
+#' @param mtc multiple test correction method to apply. Can be: holm, hochberg,
+#' hommel, bonferroni, BH, BY, fdr or [none]
+#' @param factor_names the column name(s) of sample_meta to use in regression
+#' @param intercept [TRUE] or FALSE to include an intercept term in the fit
+#'
+#' @return A STRUCT method object with functions for applying classical least squares
+#'
 #' @examples
-#' M = classical_lsq()
+#' D = iris_dataset()
+#' M = classical_lsq(factor_names = 'Species')
+#' M = method.apply(M,D)
+#'
+#' @export classical_lsq
+
 classical_lsq<-setClass(
     "classical_lsq",
     contains='method',
@@ -19,9 +35,6 @@ classical_lsq<-setClass(
         outputs.coefficients='entity',
         outputs.p_value='entity.stato',
         outputs.significant='entity'
-
-        # CHARTS
-        # none
     ),
     prototype = list(name='Univariate Classical Least Squares Regression',
         description='classical least squares, where y is the response and x is the design matrix, applied to each feature individually.',

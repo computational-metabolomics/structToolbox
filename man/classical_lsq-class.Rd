@@ -4,10 +4,29 @@
 \name{classical_lsq-class}
 \alias{classical_lsq-class}
 \alias{classical_lsq}
-\title{univariate classical least squares regression}
+\title{Classical Least Squares regression}
+\arguments{
+\item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
+
+\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg,
+hommel, bonferroni, BH, BY, fdr or [none]}
+
+\item{factor_names}{the column name(s) of sample_meta to use in regression}
+
+\item{intercept}{[TRUE] or FALSE to include an intercept term in the fit}
+}
+\value{
+A STRUCT method object with functions for applying classical least squares
+}
 \description{
-classical least squares, where y is the response and x is the design matrix, applied to each feature individually.
+Classical least squares, where y is the response and X is the design matrix,
+applied to each feature individually. Here the response is taken from the
+data matrix and the design matrix is the taken from the specified sample meta
+data column.
 }
 \examples{
-M = classical_lsq()
+D = iris_dataset()
+M = classical_lsq(factor_names = 'Species')
+M = method.apply(M,D)
+
 }

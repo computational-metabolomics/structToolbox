@@ -1,7 +1,7 @@
 #' Blank filter
 #'
 #' Filters features based on the features present in blank samples. The median
-#' intensity of the samples is compared tothe median intensity of the blank
+#' intensity of the samples is compared to the median intensity of the blank
 #' samples. Any sample not sufficiently more intense than the blank is removed.
 #' This is a wrapper for the blank filter in the PMP package.
 #' @import pmp

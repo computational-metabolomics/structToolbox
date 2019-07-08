@@ -5,9 +5,24 @@
 \alias{confounders_lsq.barchart-class}
 \alias{confounders_lsq.barchart}
 \title{barchart of percent change}
+\arguments{
+\item{feature_to_plot}{the name or index of the feature to be plotted}
+
+\item{threshold}{the threshold to be plotted (in %)}
+}
+\value{
+A STRUCT chart object
+}
 \description{
 plots a barchart of the percent change when including a confounding factor in a classical least squares model
 }
 \examples{
-C = confounders_lsq.barchart()
+D = sbcms_dataset()
+M = filter_by_name(mode='include',dimension='variable',names=colnames(D$data)[1:10]) + # first 10 features
+    filter_smeta(mode='exclude',levels='QC',factor_name='class') + # reduce to two group comparison
+    confounders_clsq(factor_name = 'class',confounding_factors=c('sample_order','batch'))
+M = method.apply(M,D)
+C = C=confounders_lsq.barchart(feature_to_plot=1,threshold=15)
+chart.plot(C,M[3])
+
 }
