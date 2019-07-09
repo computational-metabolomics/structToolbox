@@ -26,7 +26,7 @@ filter_by_name<-setClass(
         ),
 
         params.names=entity(name='Names',
-            description = 'The name of features/samples to be filtered. Must be an exact match.',
+            description = 'The name of features/samples to be filtered. Must be an exact match. Can also provide indexes (numeric) or logical.',
             type='character')
     )
 )
@@ -41,7 +41,17 @@ setMethod(f="method.apply",
 
         if (opt$dimension=='sample') {
             smeta=dataset.sample_meta(D)
-            IN=rownames(smeta) %in% opt$names
+
+            if (is.logical(opt$names)) {
+
+                    IN = opt$names
+
+            } else if (is.numeric(opt$names)) {
+                IN = opt$names
+            } else {
+                IN=rownames(smeta) %in% opt$names
+            }
+
             if (opt$mode=='include') {
                 smeta=smeta[IN,,drop=FALSE]
                 x=x[IN,,drop=FALSE]
@@ -53,8 +63,21 @@ setMethod(f="method.apply",
             dataset.sample_meta(D)=smeta
         } else if (opt$dimension=='variable') {
             vmeta=dataset.variable_meta(D)
-            IN=rownames(vmeta) %in% opt$names
-            INx=colnames(x) %in% opt$names
+
+            if (is.logical(opt$names)) {
+
+                IN = opt$names
+                INx = opt$names
+
+            } else if (is.numeric(opt$names)) {
+                IN = opt$names
+                INx = opt$names
+            } else {
+                IN=rownames(vmeta) %in% opt$names
+                INx=colnames(x) %in% opt$names
+            }
+
+
             if (opt$mode=='include') {
                 vmeta=vmeta[IN,,drop=FALSE]
                 x=x[ ,INx,drop=FALSE]
@@ -69,5 +92,4 @@ setMethod(f="method.apply",
         return(M)
     }
 )
-
 
