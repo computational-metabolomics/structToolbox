@@ -15,3 +15,4 @@ inst/doc
 structtoolbox.Rproj
 *.Rproj
 *.tiff
+vignettes/.build.timestamp

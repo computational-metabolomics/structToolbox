@@ -25,6 +25,7 @@ Collate:
     'blank_filter_class.R'
     'classical_lsq_class.R'
     'confounders_clsq_class.R'
+    'd_ratio_filter_class.R'
     'dataset_chart_classes.R'
     'factor_barchart_class.R'
     'filter_by_name_class.R'
