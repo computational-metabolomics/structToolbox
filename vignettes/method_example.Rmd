@@ -1,0 +1,159 @@
+---
+title: "Method objects"
+author: "Dr Gavin Rhys Lloyd"
+date: "25/06/2019"
+output: 
+    html_document:
+        df_print: paged
+        highlight: tango
+vignette: >
+  %\VignetteIndexEntry{Method objects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    fig.align = 'center'
+)
+library(structToolbox)
+library(gridExtra)
+```
+
+</br></br>
+
+# Introduction
+Method objects are similar to model objects in that they implement a statistical method with the exception that they don't follow the same training/test approach as models. Methd objects can also be used for approaches such as filtering which get applied to the whole data rather than on a training/test basis. We will use the batch-corrected datase from the SBCMS package to illustrate various features of method objects.
+</br></br>
+## Loading the data
+The batch-corrected data from the SBCMS package is included in `structToolbox`:
+
+```{r}
+D = sbcms_dataset()
+summary(D)
+```
+</br></br>
+## inputs/outputs
+Method objects use the same system for getting/setting input parameters and outputs as other struct objects. They can be assigned when the object is created, and accessed later using $ notation. We will use the filter_na_count object to count the number of missing values per feature.
+
+```{r}
+# initialise the method object
+M = filter_na_count(factor_name='batch')
+
+# apply the method
+M = method.apply(M,D)
+
+# get the counts
+head(M$na_count)
+```
+
+Note that method objects use `method.apply` instead of `model.train`/`model.predict` like model objects.
+</br></br>
+## Method workflows
+
+We can chain together methods like we do for model objects using `+`. This creates a `method.seq` that can be executed using the `method.apply` command. Here we will apply a standard metabolomics workflow to the SBCMS data:
+1. Relative standard deviation (RSD) filter. Remove features with RSD<30 (based on QC samples)
+2. Missing value filter. Remove samples with >50% missing values
+3. Missing value filter. Remove features with >50% missing values
+4. Probabilistic Quotient Normalisation (PQN). Normalise based on QC samples.
+5. Generalised logarithm transform (glog). Scale the data based on QC samples.
+
+```{r,results=FALSE,message=FALSE,echo=FALSE}
+# build a method sequence
+M = rsd_filter(rsd_threshold=30,qc_label='QC',factor_name='class') +
+    mv_sample_filter(mv_threshold=50) +
+    mv_feature_filter(threshold=50,method='across',factor_name='class') +   
+    pqn_norm(qc_label='QC',factor_name='class') + 
+    knn_impute(neighbours=5) +
+    glog_transform(qc_label='QC',factor_name='class') 
+
+# apply the method sequence
+M = method.apply(M,D)
+```
+
+The filtered, normalised and scaled data can be accessed using the `predicted` command. This will return the default output from the method that is last in the sequence.
+
+```{r}
+D_filt = predicted(M)
+summary(D)
+```
+
+The output from a method object depends on the type of method. For example, filters return a dataset object while univariate methods might output a list of p-values. In the next example we will apply the ttest method and extract the p-values.
+
+```{r}
+# ttest method sequence
+TT = filter_smeta(mode='exclude',levels='QC',factor_name='class') + # first remove the QC samples
+     ttest(factor_names='class',mtc='fdr') # then apply ttest to each feature
+
+# apply to filtered data
+TT = method.apply(TT,D_filt)
+
+# default output are p-values, not a dataset
+head(predicted(TT))
+```
+</br></br>
+## Method charts
+Method objects can have chart objects assicated with them. We can use `chart.names` to find them, then create a plot them in the usual way. For example, we can plot the PQN coefficients from our method sequence.
+
+```{r}
+# chart object
+C =pqn_norm.hist()
+
+# print he method sequence so that we can see which index corresponds to PQN
+M # PQN should be in step 4
+
+# plot the chart
+chart.plot(C,M[4])
+```
+
+</br></br>
+
+## Combining with other objects
+
+Unlike model objects, method objects cannot be combined with iterator or model objects at this time. For our example, to use the filtered data with a model sequence e.g. to apply PCA we have to extract the filtered data and then use it with a model sequence.
+
+```{r}
+
+# method sequence to filter
+M = rsd_filter(rsd_threshold=20,qc_label='QC',factor_name='class') +
+    mv_sample_filter(mv_threshold=50) +
+    mv_feature_filter(threshold=50,method='across',factor_name='class') +   
+    pqn_norm(qc_label='QC',factor_name='class') + 
+    knn_impute(neighbours=5) +
+    glog_transform(qc_label='QC',factor_name='class') 
+
+M2 = mean_centre() + PCA(number_components = 10)
+
+# apply the method sequence
+M = method.apply(M,D)
+
+# train the model sequence to the output from the method sequence
+M2 = model.train(M2,predicted(M))
+
+# use the model with some new data (we'll use the same data for brevity)
+M2 = model.predict(M2,predicted(M))
+
+# plot PCA scores
+C = pca_scores_plot(groups=predicted(M)$sample_meta$class,factor_name='Class')
+chart.plot(C,M2[2])
+```
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
