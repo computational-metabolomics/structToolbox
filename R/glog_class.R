@@ -10,7 +10,9 @@ glog_transform<-setClass(
     contains = c('method'),
     slots=c(params.qc_label='entity',
         params.factor_name='entity',
-        outputs.transformed='entity'
+        outputs.transformed='entity',
+        outputs.lambda='entity',
+        outputs.error_flag='entity'
     ),
 
     prototype=list(name = 'generalised logarithm transform',
@@ -27,6 +29,16 @@ glog_transform<-setClass(
             description = 'A dataset object containing the glog transformed data.',
             type='dataset',
             value=dataset()
+        ),
+        outputs.lambda=entity(name = 'lambda',
+            description = 'The value of lambda used, as determined by PMP package.',
+            type='numeric',
+            value=0
+        ),
+        outputs.error_flag=entity(name = 'Optimisation error',
+            description = 'A logical indicating whether the glog optimisation for lambda was successful.',
+            type='logical',
+            value=TRUE
         )
     )
 )
@@ -41,10 +53,12 @@ setMethod(f="method.apply",
         smeta=dataset.sample_meta(D)
         x=dataset.data(D)
 
-        out = glog_transformation(t(x),classes = smeta[,M$factor_name],qc_label=opt$qc_label)
-        dataset.data(D) = as.data.frame(t(out))
+        out = glog_transformation(t(x),classes = smeta[,M$factor_name],qc_label=opt$qc_label,store_lambda = TRUE)
+        dataset.data(D) = as.data.frame(t(out[[1]]))
 
         output.value(M,'transformed') = D
+        output.lambda = out[[2]]
+        output.error_flag = out[[4]]
 
         return(M)
     }
