@@ -4,7 +4,7 @@
 \alias{sbcms_dataset}
 \title{Data from sbcms}
 \usage{
-sbcms_dataset()
+sbcms_dataset(filtered = FALSE)
 }
 \value{
 dataset object

@@ -98,8 +98,49 @@ setMethod(f="method.apply",
 )
 
 
+##### plots
+#' plot histogram of p values
+#'
+#' plots a histogram of p values
+#' @import struct
+#' @export kw_p_hist
+kw_p_hist<-setClass(
+    "kw_p_hist",
+    contains='chart',
+    prototype = list(name='Histogram of p values',
+        description='Histogram of p values',
+        type="histogram"
+    )
+)
 
+#' @export
+setMethod(f="chart.plot",
+    signature=c("kw_p_hist",'kw_rank_sum'),
+    definition=function(obj,dobj)
+    {
+        t=param.value(dobj,'alpha')
+        A=log10(data.frame(p_value=dobj$'p_value'))
+        A$sig=dobj$significant
+        A$features=factor(A$sig,levels=c(FALSE,TRUE),labels=c('accepted','rejected'))
 
+        out=ggplot(data=A, aes_(x=~p_value,fill=~features)) +
+            geom_histogram(boundary=t,color='white') +
+            xlab('log10(p-values)') +
+            ylab('Count') +
+            structToolbox:::scale_fill_Publication()+
+            structToolbox:::theme_Publication(base_size = 12) +
+            ggtitle('Kruskal-Wallis rank sum')+
+            theme(panel.border = element_rect(linetype = "solid", fill = NA))
+
+        po=ggplot_build(out)
+        breaks=po$layout$panel_scales_x[[1]]$get_breaks()
+
+        # add second axis with labels
+        out=out+scale_x_continuous(breaks=breaks,sec.axis=dup_axis(labels=10^breaks,name='p-values'))
+
+        return(out)
+    }
+)
 
 
 

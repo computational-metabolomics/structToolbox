@@ -81,8 +81,11 @@ setMethod(f="method.apply",
         M$filtered=D
         M$flags=data.frame(flags=flags)
         M$count=as.data.frame(na_count)
+        rownames(count)=colnames(D$data)
+        colnames(count)=L
         M$na_count=as.data.frame(count)
-
+        rownames(na_count)=colnames(D$data)
+        colnames(na_count)=L
         return(M)
     }
 )

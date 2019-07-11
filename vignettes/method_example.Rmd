@@ -25,8 +25,11 @@ library(gridExtra)
 </br></br>
 
 # Introduction
-Method objects are similar to model objects in that they implement a statistical method with the exception that they don't follow the same training/test approach as models. Methd objects can also be used for approaches such as filtering which get applied to the whole data rather than on a training/test basis. We will use the batch-corrected datase from the SBCMS package to illustrate various features of method objects.
+Method objects are similar to model objects in that they implement a method with the exception that they don't follow the same training/test approach as models; they are applied to the full dataset. Method objects can therefore also be used for approaches such as filtering, normalisation and scaling which (usually) get applied to the whole dataset rather than on a training/test basis. 
+
+We will use the batch-corrected data available in the SBCMS package (https://www.github.com/computational-metabolomics/sbcms) as an example and use method objects available in `STRUCTToolbox` to reproduce the filtered data in the relevant publication (https://link.springer.com/article/10.1007%2Fs00216-013-6856-7).
 </br></br>
+
 ## Loading the data
 The batch-corrected data from the SBCMS package is included in `structToolbox`:
 
@@ -35,8 +38,32 @@ D = sbcms_dataset()
 summary(D)
 ```
 </br></br>
-## inputs/outputs
-Method objects use the same system for getting/setting input parameters and outputs as other struct objects. They can be assigned when the object is created, and accessed later using $ notation. We will use the filter_na_count object to count the number of missing values per feature.
+
+Before we start detailing the use of method objects we will use a PCA model to verify that the batch-corrected data resembles Fig 4d from the article. The data needs to be normalised, imputed and scaled first, which are all methods in the toolbox. We will discuss their use in more detail in the following sections.
+
+```{r}
+# peak matrix processing
+PMP = pqn_norm(qc_label = 'QC',factor_name='class') + 
+      knn_impute(neighbours=5) + 
+      glog_transform(qc_label='QC',factor_name='class')
+PMP = method.apply(PMP,D)
+
+# multivariate analysis
+MVA = mean_centre() + PCA(number_components = 10)
+MVA = model.train(MVA,predicted(PMP))
+MVA = model.predict(MVA,predicted(PMP))
+
+# charts
+C = pca_scores_plot(factor_name = 'Class',groups=D$sample_meta$class)
+chart.plot(C,MVA[2])
+```
+
+This should look very similar to Fig 4d in the paper, apart from possibly a change of sign on one or both of the components (this is due to ambiguity in PCA and is not a cause for concern), and slightly different % variance that arises due to differences in the batch correction processing of SBCMS. 
+
+Now that we have verified our the data is at least similar to the published article we will discuss in more detail the use of method objects to apply additional filtering.
+
+## Inputs/outputs
+Method objects use the same system for getting/setting input parameters and outputs as other struct objects. They can be assigned when the object is created, and get/set later using $ notation. We will use the filter_na_count object to count the number of recorded measurments per feature.
 
 ```{r}
 # initialise the method object
@@ -46,114 +73,140 @@ M = filter_na_count(factor_name='batch')
 M = method.apply(M,D)
 
 # get the counts
-head(M$na_count)
-```
+head(M$count)
 
-Note that method objects use `method.apply` instead of `model.train`/`model.predict` like model objects.
-</br></br>
-## Method workflows
+# change the factor
+M$factor_name='class'
 
-We can chain together methods like we do for model objects using `+`. This creates a `method.seq` that can be executed using the `method.apply` command. Here we will apply a standard metabolomics workflow to the SBCMS data:
-1. Relative standard deviation (RSD) filter. Remove features with RSD<30 (based on QC samples)
-2. Missing value filter. Remove samples with >50% missing values
-3. Missing value filter. Remove features with >50% missing values
-4. Probabilistic Quotient Normalisation (PQN). Normalise based on QC samples.
-5. Generalised logarithm transform (glog). Scale the data based on QC samples.
-
-```{r,results=FALSE,message=FALSE,echo=FALSE}
-# build a method sequence
-M = rsd_filter(rsd_threshold=30,qc_label='QC',factor_name='class') +
-    mv_sample_filter(mv_threshold=50) +
-    mv_feature_filter(threshold=50,method='across',factor_name='class') +   
-    pqn_norm(qc_label='QC',factor_name='class') + 
-    knn_impute(neighbours=5) +
-    glog_transform(qc_label='QC',factor_name='class') 
-
-# apply the method sequence
-M = method.apply(M,D)
-```
-
-The filtered, normalised and scaled data can be accessed using the `predicted` command. This will return the default output from the method that is last in the sequence.
-
-```{r}
-D_filt = predicted(M)
-summary(D)
-```
-
-The output from a method object depends on the type of method. For example, filters return a dataset object while univariate methods might output a list of p-values. In the next example we will apply the ttest method and extract the p-values.
-
-```{r}
-# ttest method sequence
-TT = filter_smeta(mode='exclude',levels='QC',factor_name='class') + # first remove the QC samples
-     ttest(factor_names='class',mtc='fdr') # then apply ttest to each feature
-
-# apply to filtered data
-TT = method.apply(TT,D_filt)
-
-# default output are p-values, not a dataset
-head(predicted(TT))
-```
-</br></br>
-## Method charts
-Method objects can have chart objects assicated with them. We can use `chart.names` to find them, then create a plot them in the usual way. For example, we can plot the PQN coefficients from our method sequence.
-
-```{r}
-# chart object
-C =pqn_norm.hist()
-
-# print he method sequence so that we can see which index corresponds to PQN
-M # PQN should be in step 4
-
-# plot the chart
-chart.plot(C,M[4])
-```
-
-</br></br>
-
-## Combining with other objects
-
-Unlike model objects, method objects cannot be combined with iterator or model objects at this time. For our example, to use the filtered data with a model sequence e.g. to apply PCA we have to extract the filtered data and then use it with a model sequence.
-
-```{r}
-
-# method sequence to filter
-M = rsd_filter(rsd_threshold=20,qc_label='QC',factor_name='class') +
-    mv_sample_filter(mv_threshold=50) +
-    mv_feature_filter(threshold=50,method='across',factor_name='class') +   
-    pqn_norm(qc_label='QC',factor_name='class') + 
-    knn_impute(neighbours=5) +
-    glog_transform(qc_label='QC',factor_name='class') 
-
-M2 = mean_centre() + PCA(number_components = 10)
-
-# apply the method sequence
+# apply the method again
 M = method.apply(M,D)
 
-# train the model sequence to the output from the method sequence
-M2 = model.train(M2,predicted(M))
-
-# use the model with some new data (we'll use the same data for brevity)
-M2 = model.predict(M2,predicted(M))
-
-# plot PCA scores
-C = pca_scores_plot(groups=predicted(M)$sample_meta$class,factor_name='Class')
-chart.plot(C,M2[2])
+# get the counts
+head(M$count)
 ```
 
+Note that method objects use `method.apply` instead of `model.train`/`model.predict` like model objects, and operate on the whole dataset.
+</br></br>
 
+## Method sequences
+As shown in the introduction, we can chain together methods like we do for model objects using `+`. This creates a `method.seq` that can be executed using the `method.apply` command. As per the published article, the full sequence for this data is as follows:
 
+1) Wilcoxon signed rank test to remove features where the QCs are 'significantly different' to the samples, with a p-value threshold of 1e-14 (determined empirically)
+2) Krukal-Wallis rank sum test to remove features where there is a significant difference between batches (QCs excluded), with a p-value threshold of 1e-4 (detemined empirically)
+3) Relative Standard Deviation (RSD) filter to remove features where the QC variance is less than 20x greater than the technical variance
 
+Note that since these all operate on the features, we can apply them in any order.In our case it makes sense to apply rsd and wilcox which require the QC samples before removing them for the kruskal wallis test.
 
+```{r}
+# method sequence
+     
+MS = # rsd filter
+     rsd_filter(rsd_threshold=20,qc_label='QC',factor_name='class') +
+     # wilcox test
+     wilcox_test(factor_names='sample_type',alpha = 1e-14, predicted='significant') + 
+     filter_by_name(mode='exclude',dimension='variable',seq_in = 'names') +
+     # remove QCs
+     filter_smeta(mode='exclude',levels='QC',factor_name='class') +
+     # kruskal wallis
+     kw_rank_sum(alpha=1e-4,factor_names='batch',predicted = 'significant') +
+     filter_by_name(mode='exclude',dimension='variable',seq_in = 'names')
 
+# apply the sequence
+MS = method.apply(MS,D)
+```
 
+This particular sequence makes use of the `predicted` and `seq_in` slots for method objects. The `predicted` slot indicates the name of the output that will be used as an input into the next object in the sequence. `seq_in` indicates the name of an input parameter that will be replaced by the output from the previous object. By default `seq_in = 'data'` but in this case we wanted the significant features from the Wilcoxon test (`predicted = 'significant'`) to be used to filter the data in the next step (`seq_opt = 'names'`). Likewise for the Kruskal-Wallis test.
 
+The data presented in the published article includes the QC samples, so we need to filter the data including the QCs to contain the same features as our filtered data. We can extract the feature ids from the filtered dataset and use them to filter our dataset with QCs included. We can then normalise, impute and scale the data as per the published article.
 
+```{r}
+# get the feature ids to keep
+to_filter = colnames(predicted(MS)$data)
 
-    
+# new method sequence
+MS2 = # filter by id
+     filter_by_name(mode='include',dimension='variable',names=to_filter) +
+     # pqn normalised
+     pqn_norm(qc_label = 'QC',factor_name='class') + 
+     # impute missing values
+     knn_impute(neighbours=5) + 
+     # scale
+     glog_transform(qc_label='QC',factor_name='class')
 
+# apply the method sequence
+MS2 = method.apply(MS2,D)
+```
 
+We are now ready to use this data with a PCA model. If done correctly the plot should be similar to Fig 4e in the published article (notwithstanding sign changes and small deviations in the % variance).
 
+```{r}
+# multivariate analysis
+MVA2 = mean_centre() + PCA(number_components = 10)
+MVA2 = model.train(MVA2,predicted(MS2))
+MVA2 = model.predict(MVA2,predicted(MS2))
 
+# charts
+C = pca_scores_plot(factor_name = 'Class',groups=D$sample_meta$class)
+chart.plot(C,MVA2[2])
+```
 
+We can further verify this by plotting the profile of a specific feature throughout the run, as per the Supplementary Information in the published article. A 'good' feature that survived all the filters:
 
+```{r}
+C=feature_profile(run_order='sample_order',
+                  qc_label='QC',
+                  qc_column='class',
+                  colour_by='batch',
+                  feature_to_plot='X110.07126')
+chart.plot(C,predicted(MS2))
+```
+
+A 'bad' feature that did not survive filtering because the QCs are different to the samples (failed the Wilcoxon test):
+
+```{r}
+C=feature_profile(run_order='sample_order',
+                  qc_label='QC',
+                  qc_column='class',
+                  colour_by='batch',
+                  feature_to_plot='X486.32747')
+chart.plot(C,predicted(PMP))
+```
+
+Another 'bad' feature that did not survive filtering because the samples in some batches are different to the others (failed the Kruskal-Wallis test):
+
+```{r}
+C=feature_profile(run_order='sample_order',
+                  qc_label='QC',
+                  qc_column='class',
+                  colour_by='batch',
+                  feature_to_plot='X556.37036')
+chart.plot(C,predicted(PMP))
+```
+
+## method charts
+Like other STRUCT objects method can be associated with chart objects. To see a list of charts associated with a particular method use the `chart.names` function. The charts can be plotted in the usual way using the `chart.plot` function. The outputs can be e.g. ggplot objects that you can add layers to aftwerwards if you want to. Note how we aaccess the Wilcoxon test object in our sequence using square brackets.
+
+```{r}
+# names of charts for wilcoxon method
+chart.names(wilcox_test())
+
+# create object
+C = wilcox_p_hist()
+
+# plot
+chart.plot(C,MS[2])
+```
+
+Theres one for the Kruskal wallis test too. Based on these plots you can see that the p-value thresholds in the published article were chosen to filter out small numbers of extreme outliers.
+
+```{r}
+# names of charts for wilcoxon method
+chart.names(kw_rank_sum())
+
+# create object
+C = kw_p_hist()
+
+# plot
+chart.plot(C,MS[5])
+```
 
