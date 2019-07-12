@@ -3,9 +3,9 @@ title: "Iterator objects"
 author: "Dr Gavin Rhys Lloyd"
 date: "25/06/2019"
 output: 
-    html_document:
+    github_document:
         df_print: paged
-        highlight: tango
+        html_preview: false
 vignette: >
   %\VignetteIndexEntry{Iterator objects}
   %\VignetteEngine{knitr::rmarkdown}
