@@ -3,11 +3,10 @@ title: "Iterator objects"
 author: "Dr Gavin Rhys Lloyd"
 date: "25/06/2019"
 output: 
-    html_vignette:
+    html_document:
         df_print: paged
         keep_md: true
     github_document:
-        df_print: paged
         html_preview: false
 vignette: >
   %\VignetteIndexEntry{Iterator objects}
@@ -141,7 +140,7 @@ P$metric
 
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["metric"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"balanced_accuracy","2":"0.216","3":"0.01897367","_rn_":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["metric"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"balanced_accuracy","2":"0.219","3":"0.02024846","_rn_":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 

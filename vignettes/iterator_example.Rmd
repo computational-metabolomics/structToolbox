@@ -3,11 +3,10 @@ title: "Iterator objects"
 author: "Dr Gavin Rhys Lloyd"
 date: "25/06/2019"
 output: 
-    html_vignette:
+    html_document:
         df_print: paged
         keep_md: true
     github_document:
-        df_print: paged
         html_preview: false
 vignette: >
   %\VignetteIndexEntry{Iterator objects}
