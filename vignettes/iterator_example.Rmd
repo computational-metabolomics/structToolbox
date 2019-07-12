@@ -1,10 +1,9 @@
 ---
 title: "Iterator objects"
 author: "Dr Gavin Rhys Lloyd"
-date: "25/06/2019"
+package: structToolbox
 output: 
-    html_document:
-        df_print: paged
+    BiocStyle::html_document:
         keep_md: true
     github_document:
         html_preview: false
