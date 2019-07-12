@@ -3,6 +3,8 @@ title: "Method objects"
 author: "Dr Gavin Rhys Lloyd"
 date: "25/06/2019"
 output: 
+    html_vignette:
+        df_print: paged
     github_document:
         df_print: paged
         html_preview: false
