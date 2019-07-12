@@ -6,7 +6,6 @@ inst/doc
 .httr-oauth
 .*.Rnb.cached
 *.xlsx
-*.png
 *.pdf
 *.log
 structtoolbox.Rproj
