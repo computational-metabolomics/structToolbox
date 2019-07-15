@@ -1,12 +1,12 @@
 ---
 title: "Method objects"
 author: "Dr Gavin Rhys Lloyd"
-date: "25/06/2019"
+package: structToolbox
 output: 
     html_document:
-        df_print: paged
         keep_md: true
     github_document:
+        df_print: kable
         html_preview: false
 vignette: >
   %\VignetteIndexEntry{Method objects}
@@ -81,15 +81,13 @@ M = method.apply(M,D)
 
 # get the counts
 head(M$count)
-```
-
-<div data-pagedtable="false">
-  <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["1"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["2"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["3"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["4"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["5"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["6"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["7"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["8"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["QC"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"16","2":"20","3":"20","4":"15","5":"12","6":"15","7":"9","8":"9","9":"38","_rn_":"1"},{"1":"16","2":"20","3":"20","4":"16","5":"12","6":"15","7":"14","8":"16","9":"38","_rn_":"2"},{"1":"16","2":"20","3":"20","4":"16","5":"12","6":"15","7":"17","8":"18","9":"38","_rn_":"3"},{"1":"15","2":"19","3":"18","4":"15","5":"12","6":"15","7":"15","8":"16","9":"38","_rn_":"4"},{"1":"15","2":"20","3":"20","4":"16","5":"12","6":"14","7":"13","8":"14","9":"38","_rn_":"5"},{"1":"15","2":"20","3":"20","4":"16","5":"12","6":"15","7":"16","8":"17","9":"38","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-
-```r
+#>    1  2  3  4  5  6  7  8 QC
+#> 1 16 20 20 15 12 15  9  9 38
+#> 2 16 20 20 16 12 15 14 16 38
+#> 3 16 20 20 16 12 15 17 18 38
+#> 4 15 19 18 15 12 15 15 16 38
+#> 5 15 20 20 16 12 14 13 14 38
+#> 6 15 20 20 16 12 15 16 17 38
 
 # change the factor
 M$factor_name='class'
@@ -99,13 +97,14 @@ M = method.apply(M,D)
 
 # get the counts
 head(M$count)
+#>    C QC  S
+#> 1 63 38 53
+#> 2 64 38 65
+#> 3 66 38 68
+#> 4 62 38 63
+#> 5 65 38 59
+#> 6 66 38 65
 ```
-
-<div data-pagedtable="false">
-  <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["C"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["QC"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["S"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"63","2":"38","3":"53","_rn_":"1"},{"1":"64","2":"38","3":"65","_rn_":"2"},{"1":"66","2":"38","3":"68","_rn_":"3"},{"1":"62","2":"38","3":"63","_rn_":"4"},{"1":"65","2":"38","3":"59","_rn_":"5"},{"1":"66","2":"38","3":"65","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
 
 Note that method objects use `method.apply` instead of `model.train`/`model.predict` like model objects, and operate on the whole dataset.
 </br></br>

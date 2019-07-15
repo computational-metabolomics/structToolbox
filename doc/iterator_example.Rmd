@@ -3,9 +3,10 @@ title: "Iterator objects"
 author: "Dr Gavin Rhys Lloyd"
 package: structToolbox
 output: 
-    BiocStyle::html_document:
+    html_document:
         keep_md: true
     github_document:
+        df_print: kable
         html_preview: false
 vignette: >
   %\VignetteIndexEntry{Iterator objects}

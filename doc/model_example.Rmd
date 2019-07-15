@@ -3,9 +3,11 @@ title: "Model objects"
 author: "Dr Gavin Rhys Lloyd"
 package: structToolbox
 output: 
-    BiocStyle::html_document:
+    html_document:
         keep_md: true
-    github_document:
+    md_document:
+        variant: markdown_github
+        df_print: kable
         html_preview: false
 vignette: >
   %\VignetteIndexEntry{Model objects}

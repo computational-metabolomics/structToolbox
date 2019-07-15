@@ -1,12 +1,12 @@
 ---
 title: "Iterator objects"
 author: "Dr Gavin Rhys Lloyd"
-date: "25/06/2019"
+package: structToolbox
 output: 
     html_document:
-        df_print: paged
         keep_md: true
     github_document:
+        df_print: kable
         html_preview: false
 vignette: >
   %\VignetteIndexEntry{Iterator objects}
@@ -84,13 +84,9 @@ The `run` method can be used with any iterator object. The iterator will then ru
 ```r
 XCV = run(XCV,D,balanced_accuracy())
 XCV$metric
+#>              metric mean sd
+#> 1 balanced_accuracy 0.23 NA
 ```
-
-<div data-pagedtable="false">
-  <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["metric"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"balanced_accuracy","2":"0.23","3":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
 
 </br></br>
 
@@ -136,13 +132,9 @@ P = permute_sample_order(number_of_permutations = 10) *
     (mean_centre() + PLSDA(factor_name='Species',number_components=2))
 P = run(P,D,balanced_accuracy())
 P$metric
+#>              metric  mean         sd
+#> 1 balanced_accuracy 0.218 0.01437591
 ```
-
-<div data-pagedtable="false">
-  <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["metric"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"balanced_accuracy","2":"0.219","3":"0.02024846","_rn_":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
 
 
 
