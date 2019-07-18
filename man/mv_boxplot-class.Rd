@@ -5,9 +5,22 @@
 \alias{mv_boxplot-class}
 \alias{mv_boxplot}
 \title{mv_boxplot class}
+\arguments{
+\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot
+plot}
+
+\item{by_sample}{by_sample [TRUE] to plot by sample or FALSE to plot by features}
+
+\item{factor_name}{the sample_meta column to use}
+
+\item{show_counts}{[TRUE] or FALSE to include the number of samples on the plot}
+}
 \description{
-boxplots indicating the numbers of missing values per sample/feature
+Boxplot of the numbers of missing values per sample/feature
 }
 \examples{
+D = sbcms_dataset()
 C = mv_boxplot()
+chart.plot(C,D)
+
 }

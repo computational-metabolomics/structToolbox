@@ -1,9 +1,18 @@
-#' filter by sample meta class
+#' filter_smeta class
 #'
-#' a Filter to reduce a dataset object based on sample meta data labels.
-#' @export filter_smeta
+#' A filter to subset a dataset object based on sample meta data.
+#'
+#' @param mode = ['include'] or 'exclude' to include or exclude samples based on
+#' the provided labels
+#' @param levels a list of level names to include/exclude
+#' @param factor_name the sample_meta column name to use
+#'
 #' @examples
-#' M = filter_smeta()
+#' D = sbcms_data()
+#' M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
+#' M = method.apply(M,D)
+#'
+#' @export filter_smeta
 filter_smeta<-setClass(
     "filter_smeta",
     contains = c('method'),

@@ -1,12 +1,22 @@
 #' fold change for interactions class
 #'
-#' calculates fold change between groups for all factors and interactions
+#' Calculates fold change between groups for interactions between levels of
+#' factors. Note that paired forced to FALSE for all comparisons.
+#'
+#' @examples
+#' D = sbcms_data()
+#' M = fold_change_int(factor_name=c('class','batch'))
+#' M = method.apply(M,D)
+#'
+#' @param alpha confidence level to use for intervals
+#' @param factor_name the sample_meta column to use
+#' @param threshold a threshold to define fold change as 'significant'.
+#' @param control_group a level of factor name to use as the control group for
+#' calculations.
 #'
 #' @import struct
 #' @import stats
 #' @export fold_change_int
-#' @examples
-#' M = fold_change_int()
 fold_change_int<-setClass(
     "fold_change_int",
     contains=c('method','fold_change'),

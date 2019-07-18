@@ -4,12 +4,18 @@
 \name{dataset.factor_barchart-class}
 \alias{dataset.factor_barchart-class}
 \alias{dataset.factor_barchart}
-\title{dataset.factor_barchart chart class}
+\title{dataset.factor_barchart class}
+\arguments{
+\item{feature_to_plot}{Column ID of feature to plot.}
+
+\item{factor_names}{Names(s) of factors to plot for a feature}
+}
 \description{
-Bar charts based on groupings by factor.
+Bar charts based on groupings by factor. Can plot up to three factors.
 }
 \examples{
 D = iris_dataset()
 C = dataset.factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')
 chart.plot(C,D)
+
 }

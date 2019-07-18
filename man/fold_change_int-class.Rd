@@ -5,9 +5,23 @@
 \alias{fold_change_int-class}
 \alias{fold_change_int}
 \title{fold change for interactions class}
+\arguments{
+\item{alpha}{confidence level to use for intervals}
+
+\item{factor_name}{the sample_meta column to use}
+
+\item{threshold}{a threshold to define fold change as 'significant'.}
+
+\item{control_group}{a level of factor name to use as the control group for
+calculations.}
+}
 \description{
-calculates fold change between groups for all factors and interactions
+Calculates fold change between groups for interactions between levels of
+factors. Note that paired forced to FALSE for all comparisons.
 }
 \examples{
-M = fold_change_int()
+D = sbcms_data()
+M = fold_change_int(factor_name=c('class','batch'))
+M = method.apply(M,D)
+
 }

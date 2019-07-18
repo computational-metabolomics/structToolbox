@@ -4,10 +4,17 @@
 \name{compare_dist-class}
 \alias{compare_dist-class}
 \alias{compare_dist}
-\title{plots to compare distributions}
+\title{Compare distributions}
+\arguments{
+\item{factor_name}{the sample_meta colum to use}
+}
 \description{
-a combination of plots to compare two datasets
+A combination of plots to compare distributions of samples/features in two
+datasets
 }
 \examples{
-C = compare_dist()
+D1=sbcms_dataset(filtered=FALSE)
+D2=sbcms_dataset(filtered=TRUE)
+C = compare_dist(factor_name='class')
+chart.plot(C,D1,D2)
 }
