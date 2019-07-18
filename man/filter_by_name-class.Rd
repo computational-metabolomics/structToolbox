@@ -5,9 +5,22 @@
 \alias{filter_by_name-class}
 \alias{filter_by_name}
 \title{filter by name}
+\arguments{
+\item{mode}{"include" or ["exclude"] to subsample a a dataset by including or
+excluding samples/features based on the provided labels}
+
+\item{dimension}{["sample"] or "variable" to filter by sample or feature
+labels}
+
+\item{names}{the sample/feature identifiers to filter by. Can provide column
+names, column indices or logical}
+}
 \description{
-a filter to reduce a dataset object based on row or column labels.
+a filter to subsample a dataset object based on sample or feature labels.
 }
 \examples{
-M = filter_by_name()
+D = sbcms_dataset()
+M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
+M = method.apply(M,D)
+
 }

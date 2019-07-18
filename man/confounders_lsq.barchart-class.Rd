@@ -8,7 +8,7 @@
 \arguments{
 \item{feature_to_plot}{the name or index of the feature to be plotted}
 
-\item{threshold}{the threshold to be plotted (in %)}
+\item{threshold}{the threshold to be plotted (in \%)}
 }
 \value{
 A STRUCT chart object

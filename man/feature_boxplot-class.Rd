@@ -5,11 +5,22 @@
 \alias{feature_boxplot-class}
 \alias{feature_boxplot}
 \title{feature_boxplot class}
+\arguments{
+\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot}
+
+\item{feature_to_plot}{the column id to plot.}
+
+\item{factor_name}{the sample_meta column to use}
+
+\item{show_counts}{[TRUE] or FALSE to include the number of samples on the
+plot}
+}
 \description{
 plots a boxplot of a chosen feature for each group of a dataset
 }
 \examples{
-D = iris_dataset()
+D = sbcms_dataset
 C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')
 chart.plot(C,D)
+
 }

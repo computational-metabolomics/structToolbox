@@ -5,9 +5,17 @@
 \alias{mv_histogram-class}
 \alias{mv_histogram}
 \title{mv_histogram class}
+\arguments{
+\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot}
+
+\item{by_sample}{[TRUE] to plot by sample or FALSE to plot by features}
+}
 \description{
 histograms indicating the numbers of missing values per sample/feature
 }
 \examples{
-C = mv_histogram()
+D = sbcms_dataset()
+C = mv_histogram(label_outliers=FALSE,by_sample=FALSE)
+chart.plot(C,D)
+
 }

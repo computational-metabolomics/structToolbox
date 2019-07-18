@@ -4,10 +4,18 @@
 \name{filter_na_count-class}
 \alias{filter_na_count-class}
 \alias{filter_na_count}
-\title{filter features by number of NA per class}
+\title{filter_na_count class}
+\arguments{
+\item{threshold}{the maximum number of NA allowed per level of factor_name}
+
+\item{factor_name}{the sample_meta column name to use}
+}
 \description{
-filters features by the number of NA per class
+Filters features by the number of NA per class
 }
 \examples{
-M = filter_na_count()
+D = sbcms_dataset()
+M = filter_na_count(threshold=3,factor_name='class')
+M = method.apply(M,D)
+
 }

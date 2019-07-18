@@ -1,9 +1,16 @@
-#' filter features by number of NA per class
+#' filter_na_count class
 #'
-#' filters features by the number of NA per class
-#' @export filter_na_count
+#' Filters features by the number of NA per class
+#'
+#' @param threshold the maximum number of NA allowed per level of factor_name
+#' @param factor_name the sample_meta column name to use
+#'
 #' @examples
-#' M = filter_na_count()
+#' D = sbcms_dataset()
+#' M = filter_na_count(threshold=3,factor_name='class')
+#' M = method.apply(M,D)
+#'
+#' @export filter_na_count
 filter_na_count<-setClass(
     "filter_na_count",
     contains = c('method'),

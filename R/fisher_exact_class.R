@@ -1,12 +1,30 @@
-#' Fisher's exact test model class
+#' fisher_exact class
 #'
-#' Fisher's exact test class. Applies FET for all features in a dataset
+#' Fisher's exact test (FET). Applies FET for all features in a dataset.
+#'
+#' @param alpha the p-value threshold to declare a result 'significant'
+#' @param mtc multiple test correction method
+#' @param factor_name the sample_meta column to use
+#' @param factor_pred A data.frame, with a factor of predicted group labels to
+#' compare with factor_name. Can be a data frame with a factor of predictions
+#' for each feature.'
+#'
+#' @examples
+#' # load some data
+#' D=sbcms_dataset()
+#'
+#' # prepare predictions based on NA
+#' pred=as.data.frame(is.na(D$data))
+#' pred=lapply(pred,factor,levels=c(TRUE,FALSE))
+#' pred=as.data.frame(pred)
+#'
+#' # apply method
+#' M = fisher_exact(alpha=0.05,mtc='fdr',factor_name='class',factor_pred=pred)
+#' M=method.apply(M,D)
 #'
 #' @import struct
 #' @import stats
 #' @export fisher_exact
-#' @examples
-#' M = fisher_exact()
 fisher_exact<-setClass(
     "fisher_exact",
     contains=c('method','stato'),

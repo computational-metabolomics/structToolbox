@@ -1,16 +1,20 @@
-#' dataset.factor_barchart chart class
+#' dataset.factor_barchart class
 #'
-#' Bar charts based on groupings by factor.
+#' Bar charts based on groupings by factor. Can plot up to three factors.
+#'
+#' @param feature_to_plot Column ID of feature to plot.
+#' @param factor_names Names(s) of factors to plot for a feature
+#'
+#' @examples
+#' D = iris_dataset()
+#' C = dataset.factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')
+#' chart.plot(C,D)
 #'
 #' @import struct
 #' @import grid
 #' @import gridExtra
 #' @export dataset.factor_barchart
 #' @include HSD_class.R
-#' @examples
-#' D = iris_dataset()
-#' C = dataset.factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')
-#' chart.plot(C,D)
 dataset.factor_barchart<-setClass(
     "dataset.factor_barchart",
     contains='chart',
