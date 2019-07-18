@@ -1,20 +1,9 @@
 #' filter by name
 #'
-#' a filter to subsample a dataset object based on sample or feature labels.
-#'
-#' @param mode "include" or ["exclude"] to subsample a a dataset by including or
-#' excluding samples/features based on the provided labels
-#' @param dimension ["sample"] or "variable" to filter by sample or feature
-#' labels
-#' @param names the sample/feature identifiers to filter by. Can provide column
-#' names, column indices or logical
-#'
-#' @examples
-#' D = sbcms_dataset()
-#' M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
-#' M = method.apply(M,D)
-#'
+#' a filter to reduce a dataset object based on row or column labels.
 #' @export filter_by_name
+#' @examples
+#' M = filter_by_name()
 filter_by_name<-setClass(
     "filter_by_name",
     contains = c('method'),
@@ -58,7 +47,7 @@ setMethod(f="method.apply",
                     IN = opt$names
 
             } else if (is.numeric(opt$names)) {
-                IN = (1:nrow(D$data)) %in% opt$names
+                IN = opt$names
             } else {
                 IN=rownames(smeta) %in% opt$names
             }
@@ -81,8 +70,8 @@ setMethod(f="method.apply",
                 INx = opt$names
 
             } else if (is.numeric(opt$names)) {
-                IN = (1:ncol(D$data)) %in% opt$names
-                INx = (1:ncol(D$data)) %in% opt$names
+                IN = opt$names
+                INx = opt$names
             } else {
                 IN=rownames(vmeta) %in% opt$names
                 INx=colnames(x) %in% opt$names

@@ -4,25 +4,7 @@
 \name{dratio_filter-class}
 \alias{dratio_filter-class}
 \alias{dratio_filter}
-\title{D ratio filter}
-\arguments{
-\item{threshold}{D ratio threshold. Features with a d-ratio larger than this
-value are removed.}
-
-\item{qc_label}{the label used to identify QC labels}
-
-\item{factor_name}{the the sample_meta data column containing the QC labels}
-}
-\value{
-A struct method object with functions for filtering using the d-ratio.
-}
+\title{d_ratio filter}
 \description{
-Filters features based on their D ratio, which is the ratio of technical to
-sample variance.
-}
-\examples{
-D = sbcms_dataset()
-M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
-M = method.apply(M,D)
-
+filters features based on the d_ratio of technical variance vs sample variance
 }

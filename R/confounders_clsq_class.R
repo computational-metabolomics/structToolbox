@@ -162,7 +162,7 @@ setMethod(f="method.apply",
 #' plots a barchart of the percent change when including a confounding factor in a classical least squares model
 #' @import struct
 #' @param feature_to_plot the name or index of the feature to be plotted
-#' @param threshold the threshold to be plotted (in \%)
+#' @param threshold the threshold to be plotted (in %)
 #'
 #' @return A STRUCT chart object
 #'
@@ -234,7 +234,7 @@ setMethod(f="chart.plot",
 #' Plots a boxplot of the percent change over all features when including a
 #' confounding factor in the ttest
 #' @import struct
-#' @param threshold the threshold to be plotted (in \%)
+#' @param threshold the threshold to be plotted (in %)
 #'
 #' @return A STRUCT chart object
 #'

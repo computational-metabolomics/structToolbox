@@ -1,24 +1,12 @@
 #' fold change class
 #'
-#' Calculates fold change between groups for all features in a dataset, based on
-#' a log transform and t-test.
-#'
-#' @examples
-#' D = sbcms_data()
-#' M = fold_change(factor_name='class')
-#' M = method.apply(M,D)
-#'
-#' @param alpha confidence level to use for intervals
-#' @param factor_name the sample_meta column to use
-#' @param paired TRUE or [FALSE] to account for paired samples
-#' @param sample_name the sample_meta column name to use for a paired samples
-#' @param threshold a threshold to define fold change as 'significant'.
-#' @param control_group a level of factor name to use as the control group for
-#' calculations.
+#' calculates fold change between groups for all features in a dataset
 #'
 #' @import struct
 #' @import stats
 #' @export fold_change
+#' @examples
+#' M = fold_change()
 fold_change<-setClass(
     "fold_change",
     contains=c('method'),

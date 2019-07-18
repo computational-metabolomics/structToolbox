@@ -4,22 +4,10 @@
 \name{dataset.boxplot-class}
 \alias{dataset.boxplot-class}
 \alias{dataset.boxplot}
-\title{Dataset boxplot}
-\arguments{
-\item{factor_name}{the column name of sample_meta to use}
-
-\item{by_sample}{[TRUE] or FALSE to plot by samples or features respectively}
-
-\item{per_class}{[TRUE] or FALSE to plot per level in factro_name}
-
-\item{number}{the number of samples/features to plot}
-}
+\title{distribution plot class}
 \description{
-Boxplot of values per sample/feature in a dataset
+visualise distributions of features/samples
 }
 \examples{
-D = sbcms_dataset()
-C = dataset.boxplot(factor_name='class',number=10,per_class=FALSE)
-chart.plot(C,D)
-
+C = dataset.boxplot()
 }

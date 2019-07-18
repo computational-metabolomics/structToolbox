@@ -4,32 +4,10 @@
 \name{fisher_exact-class}
 \alias{fisher_exact-class}
 \alias{fisher_exact}
-\title{fisher_exact class}
-\arguments{
-\item{alpha}{the p-value threshold to declare a result 'significant'}
-
-\item{mtc}{multiple test correction method}
-
-\item{factor_name}{the sample_meta column to use}
-
-\item{factor_pred}{A data.frame, with a factor of predicted group labels to
-compare with factor_name. Can be a data frame with a factor of predictions
-for each feature.'}
-}
+\title{Fisher's exact test model class}
 \description{
-Fisher's exact test (FET). Applies FET for all features in a dataset.
+Fisher's exact test class. Applies FET for all features in a dataset
 }
 \examples{
-# load some data
-D=sbcms_dataset()
-
-# prepare predictions based on NA
-pred=as.data.frame(is.na(D$data))
-pred=lapply(pred,factor,levels=c(TRUE,FALSE))
-pred=as.data.frame(pred)
-
-# apply method
-M = fisher_exact(alpha=0.05,mtc='fdr',factor_name='class',factor_pred=pred)
-M=method.apply(M,D)
-
+M = fisher_exact()
 }

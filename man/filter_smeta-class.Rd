@@ -4,21 +4,10 @@
 \name{filter_smeta-class}
 \alias{filter_smeta-class}
 \alias{filter_smeta}
-\title{filter_smeta class}
-\arguments{
-\item{mode}{= ['include'] or 'exclude' to include or exclude samples based on
-the provided labels}
-
-\item{levels}{a list of level names to include/exclude}
-
-\item{factor_name}{the sample_meta column name to use}
-}
+\title{filter by sample meta class}
 \description{
-A filter to subset a dataset object based on sample meta data.
+a Filter to reduce a dataset object based on sample meta data labels.
 }
 \examples{
-D = sbcms_data()
-M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
-M = method.apply(M,D)
-
+M = filter_smeta()
 }

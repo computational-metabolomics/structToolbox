@@ -4,19 +4,10 @@
 \name{dataset.dist-class}
 \alias{dataset.dist-class}
 \alias{dataset.dist}
-\title{Distribution plot}
-\arguments{
-\item{factor_name}{the sample_meta column to use}
-
-\item{per_class}{= [TRUE] or FALSE to plot distrubutions for each level in
-factor_name}
-}
+\title{distribution plot class}
 \description{
-Visualise distributions of values in features/samples.
+visualise distributions of features/samples
 }
 \examples{
-D = sbcms_dataset()
 C = dataset.dist()
-chart.plot(C,D)
-
 }

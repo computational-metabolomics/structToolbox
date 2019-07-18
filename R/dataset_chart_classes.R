@@ -3,19 +3,11 @@
 #' plots a boxplot of a chosen feature for each group of a dataset
 #'
 #' @import struct
-#'
-#' @param label_outliers [TRUE] or FALSE to label outliers on the plot
-#' @param feature_to_plot the column id to plot.
-#' @param factor_name the sample_meta column to use
-#' @param show_counts [TRUE] or FALSE to include the number of samples on the
-#' plot
-#'
+#' @export feature_boxplot
 #' @examples
-#' D = sbcms_dataset
+#' D = iris_dataset()
 #' C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')
 #' chart.plot(C,D)
-#'
-#' @export feature_boxplot
 feature_boxplot<-setClass(
     "feature_boxplot",
     contains=c('chart','stato'),
@@ -134,16 +126,10 @@ setMethod(f="chart.plot",
 #'
 #' histograms indicating the numbers of missing values per sample/feature
 #'
-#' @param label_outliers [TRUE] or FALSE to label outliers on the plot
-#' @param by_sample [TRUE] to plot by sample or FALSE to plot by features
-#'
-#' @examples
-#' D = sbcms_dataset()
-#' C = mv_histogram(label_outliers=FALSE,by_sample=FALSE)
-#' chart.plot(C,D)
-#'
 #' @import struct
 #' @export mv_histogram
+#' @examples
+#' C = mv_histogram()
 mv_histogram<-setClass(
     "mv_histogram",
     contains='chart',
@@ -202,22 +188,15 @@ setMethod(f="chart.plot",
 ######################################
 
 
+
 #' mv_boxplot class
 #'
-#' Boxplot of the numbers of missing values per sample/feature
-#'
-#' @param label_outliers [TRUE] or FALSE to label outliers on the plot
-#' plot
-#' @param by_sample by_sample [TRUE] to plot by sample or FALSE to plot by features
-#' @param factor_name the sample_meta column to use
-#' @param show_counts [TRUE] or FALSE to include the number of samples on the plot
-#' @examples
-#' D = sbcms_dataset()
-#' C = mv_boxplot()
-#' chart.plot(C,D)
+#' boxplots indicating the numbers of missing values per sample/feature
 #'
 #' @import struct
 #' @export mv_boxplot
+#' @examples
+#' C = mv_boxplot()
 mv_boxplot<-setClass(
     "mv_boxplot",
     contains='chart',
@@ -350,21 +329,14 @@ setMethod(f="chart.plot",
     }
 )
 
-#' Distribution plot
+#' distribution plot class
 #'
-#' Visualise distributions of values in features/samples.
-#'
-#' @param factor_name the sample_meta column to use
-#' @param per_class = [TRUE] or FALSE to plot distrubutions for each level in
-#' factor_name
-#'
-#' @examples
-#' D = sbcms_dataset()
-#' C = dataset.dist()
-#' chart.plot(C,D)
+#' visualise distributions of features/samples
 #'
 #' @import struct
 #' @export dataset.dist
+#' @examples
+#' C = dataset.dist()
 dataset.dist<-setClass(
     "dataset.dist",
     contains='chart',
@@ -428,22 +400,14 @@ setMethod(f="chart.plot",
     }
 )
 
-#' Dataset boxplot
+#' distribution plot class
 #'
-#' Boxplot of values per sample/feature in a dataset
-#'
-#' @param factor_name the column name of sample_meta to use
-#' @param by_sample [TRUE] or FALSE to plot by samples or features respectively
-#' @param per_class [TRUE] or FALSE to plot per level in factro_name
-#' @param number the number of samples/features to plot
-#'
-#' @examples
-#' D = sbcms_dataset()
-#' C = dataset.boxplot(factor_name='class',number=10,per_class=FALSE)
-#' chart.plot(C,D)
+#' visualise distributions of features/samples
 #'
 #' @import struct
 #' @export dataset.boxplot
+#' @examples
+#' C = dataset.boxplot()
 dataset.boxplot<-setClass(
     "dataset.boxplot",
     contains='chart',
@@ -532,20 +496,17 @@ setMethod(f="chart.plot",
 )
 
 
-#' Compare distributions
+
+
+
+#' plots to compare distributions
 #'
-#' A combination of plots to compare distributions of samples/features in two
-#' datasets
+#' a combination of plots to compare two datasets
 #'
-#' @param factor_name the sample_meta colum to use
-#'
-#' @examples
-#' D1=sbcms_dataset(filtered=FALSE)
-#' D2=sbcms_dataset(filtered=TRUE)
-#' C = compare_dist(factor_name='class')
-#' chart.plot(C,D1,D2)
 #' @import struct
 #' @export compare_dist
+#' @examples
+#' C = compare_dist()
 compare_dist<-setClass(
     "compare_dist",
     contains='chart',

@@ -5,29 +5,9 @@
 \alias{feature_profile-class}
 \alias{feature_profile}
 \title{feature_profile class}
-\arguments{
-\item{run_order}{the sample_meta column containing the measurement
-order of the samples}
-
-\item{qc_label}{the label used to identify QC samples}
-
-\item{qc_column}{the sample_meta column containing the QC labels}
-
-\item{colour_by}{the sample_meta column to use to colour the plot}
-
-\item{feature_to_plot}{the column id of the feature to plot}
-}
 \description{
-Scatter plot of a feature against measurment order with limits for samples
-and quality control samples.
+plots a feature vs run order
 }
 \examples{
-D = sbcms_dataset()
-C = feature_profile(run_order='sample_order',
-    qc_label='QC',
-    qc_column='class',
-    colour_by='class',
-    feature_to_plot=1)
-chart.plot(C,D)
-
+C = feature_profile()
 }
