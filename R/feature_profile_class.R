@@ -1,10 +1,25 @@
 #' feature_profile class
 #'
-#' plots a feature vs run order
+#' Scatter plot of a feature against measurment order with limits for samples
+#' and quality control samples.
+#'
+#' @param run_order the sample_meta column containing the measurement
+#' order of the samples
+#' @param qc_label the label used to identify QC samples
+#' @param qc_column the sample_meta column containing the QC labels
+#' @param colour_by the sample_meta column to use to colour the plot
+#' @param feature_to_plot the column id of the feature to plot
+#'
+#' @examples
+#' D = sbcms_dataset()
+#' C = feature_profile(run_order='sample_order',
+#'     qc_label='QC',
+#'     qc_column='class',
+#'     colour_by='class',
+#'     feature_to_plot=1)
+#' chart.plot(C,D)
 #'
 #' @export feature_profile
-#' @examples
-#' C = feature_profile()
 feature_profile<-setClass(
     "feature_profile",
     contains=c('chart'),

@@ -5,9 +5,27 @@
 \alias{fold_change-class}
 \alias{fold_change}
 \title{fold change class}
+\arguments{
+\item{alpha}{confidence level to use for intervals}
+
+\item{factor_name}{the sample_meta column to use}
+
+\item{paired}{TRUE or [FALSE] to account for paired samples}
+
+\item{sample_name}{the sample_meta column name to use for a paired samples}
+
+\item{threshold}{a threshold to define fold change as 'significant'.}
+
+\item{control_group}{a level of factor name to use as the control group for
+calculations.}
+}
 \description{
-calculates fold change between groups for all features in a dataset
+Calculates fold change between groups for all features in a dataset, based on
+a log transform and t-test.
 }
 \examples{
-M = fold_change()
+D = sbcms_data()
+M = fold_change(factor_name='class')
+M = method.apply(M,D)
+
 }

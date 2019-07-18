@@ -1,8 +1,22 @@
-#' d_ratio filter
+#' D ratio filter
 #'
-#' filters features based on the d_ratio of technical variance vs sample variance
+#' Filters features based on their D ratio, which is the ratio of technical to
+#' sample variance.
+#'
+#'
+#' @param threshold D ratio threshold. Features with a d-ratio larger than this
+#' value are removed.
+#' @param qc_label the label used to identify QC labels
+#' @param factor_name the the sample_meta data column containing the QC labels
+#'
+#' @return A struct method object with functions for filtering using the d-ratio.
+#'
+#' @examples
+#' D = sbcms_dataset()
+#' M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
+#' M = method.apply(M,D)
+#'
 #' @export dratio_filter
-#' @import pmp
 dratio_filter<-setClass(
     "dratio_filter",
     contains = c('method'),
@@ -64,9 +78,9 @@ setMethod(f="method.apply",
         S = predicted(S)$data
         S=apply(S,2,mad,na.rm=TRUE)
 
-        d_ratio=(QC/S)*100
+        d_ratio=(QC/(QC+S))*100
 
-        OUT=d_ratio<M$threshold
+        OUT=d_ratio>M$threshold
 
         M$d_ratio=data.frame(d_ratio=d_ratio,row.names=colnames(D$data))
         M$flags=data.frame(rejected=OUT,row.names = colnames(D$data))

@@ -6,7 +6,7 @@
 \alias{confounders_lsq.boxplot}
 \title{boxplot of percent change}
 \arguments{
-\item{threshold}{the threshold to be plotted (in %)}
+\item{threshold}{the threshold to be plotted (in \%)}
 }
 \value{
 A STRUCT chart object
