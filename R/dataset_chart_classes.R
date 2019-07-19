@@ -360,7 +360,7 @@ setMethod(f="chart.plot",
 #'
 #' @examples
 #' D = sbcms_dataset()
-#' C = dataset.dist()
+#' C = dataset.dist(factor_name='class')
 #' chart.plot(C,D)
 #'
 #' @import struct
