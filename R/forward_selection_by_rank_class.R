@@ -122,21 +122,22 @@ setMethod(f="run",
         if (is(models(I),'model_OR_model.seq'))
         { # if a model or list then apply the metric
 
-            k=length(unique((results$no_features)))
+            k=length(searchlist)
             ts.metric=numeric(k)
             for (i in 1:k)
             {
-                ts=results[results$no_features==i,]
+                ts=results[results$no_features==searchlist[i],]
                 MET=calculate(MET,ts$actual,ts$predicted)
                 ts.metric[i]=value(MET)
             }
 
             value=ts.metric
-
+            df=data.frame(metric=name(MET),mean=value,sd=NA)
         } else
         {
             # if not a model or list then the metric has already been applied, we just need to choose the optimum
             value=results$mean
+            df=results
         }
 
         # locate optimum using a loess fit
@@ -152,6 +153,7 @@ setMethod(f="run",
         lo_var_ind=searchlist[lo]
         output.value(I,'chosen_vars')=O[R<=lo_var_ind]
         output.value(I,'smoothed')=smoothed25
+        output.value(I,'metric')=df
 
         return(I)
     }
@@ -187,12 +189,36 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
 
 #' forward_selection_plot
 #'
-#' plots the result of the evaluated models against the values the number of features within the search range.
+#' Plots the result of the evaluated models against the values the number of
+#' features within the search range for forward_selection_by_rank objects.
 #'
 #' @import struct
 #' @export fs_line
 #' @examples
+#' # some data
+#' D = sbcms_dataset(filtered=TRUE)
+#'
+#' # normalise, impute and scale then remove QCs
+#' P = pqn_norm(qc_label='QC',factor_name='class') +
+#'     knn_impute(neighbours=5) +
+#'     glog_transform(qc_label='QC',factor_name='class') +
+#'     filter_smeta(mode='exclude',levels='QC',factor_name='class')
+#' P = method.apply(P,D)
+#' D = predicted(P)
+#'
+#' # forward selection using a PLSDA model
+#' M = forward_selection_byrank(factor_name='class',
+#'                              min_no_vars=2,
+#'                              max_no_vars=11,
+#'                              variable_rank=1:2063) *
+#'     (mean_centre() + PLSDA(number_components=1,
+#'                            factor_name='class'))
+#' M = run(M,D,balanced_accuracy())
+#'
+#' # chart
 #' C = fs_line()
+#' chart.plot(C,M)
+#'
 fs_line<-setClass(
     "fs_line",
     contains='chart',
@@ -207,7 +233,7 @@ setMethod(f="chart.plot",
     signature=c("fs_line",'forward_selection_byrank'),
     definition=function(obj,dobj)
     {
-        A=result(dobj)
+        A=dobj$metric
         A$smoothed=output.value(dobj,'smoothed')
         opt=length(output.value(dobj,'chosen_vars'))
         A$values=output.value(dobj,'searchlist')
