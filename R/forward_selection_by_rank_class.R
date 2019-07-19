@@ -3,9 +3,36 @@
 #' Forward selection by rank is a stepwise procedures that includes features
 #' incrementally based on their rank. Any measure for ranking the features may
 #' be used e.g. PLS VIP score, ttest p-value etc.
-#' @export forward_selection_byrank
+#'
+#' @param min_no_vars minimum number of features to test
+#' @param max_no_vars maximum numbe ro features to test
+#' @param step_size the size of the incremenent between min and max no of vars
+#' @param factor_name the sample-meta colum to use
+#' @param variable_rank a vector of values that can be used to rank the features,
+#' where the smallest value is the first rank.
+#'
 #' @examples
-#' M = forward_selection_byrank()
+#' # some data
+#' D = sbcms_dataset(filtered=TRUE)
+#'
+#' # normalise, impute and scale then remove QCs
+#' P = pqn_norm(qc_label='QC',factor_name='class') +
+#'     knn_impute(neighbours=5) +
+#'     glog_transform(qc_label='QC',factor_name='class') +
+#'     filter_smeta(mode='exclude',levels='QC',factor_name='class')
+#' P = method.apply(P,D)
+#' D = predicted(P)
+#'
+#' # forward selection using a PLSDA model
+#' M = forward_selection_byrank(factor_name='class',
+#'                              min_no_vars=2,
+#'                              max_no_vars=11,
+#'                              variable_rank=1:2063) *
+#'     (mean_centre() + PLSDA(number_components=1,
+#'                            factor_name='class'))
+#' M = run(M,D,balanced_accuracy())
+#'
+#' @export forward_selection_byrank
 forward_selection_byrank <- setClass(
     # name of class
     "forward_selection_byrank",
