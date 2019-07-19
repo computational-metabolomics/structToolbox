@@ -61,14 +61,14 @@ setMethod(f="run",
             Di=D
             dataset.data(Di)=Xi
             if (is(WF,'model_OR_model.seq')) {
-                perm_results=data.frame('actual'=dataset.sample_meta(D)[,I$factor_name],'predicted'=dataset.sample_meta(D)[,I$factor_name],'no_features'=searchlist[i])
+                perm_results=data.frame('actual'=dataset.sample_meta(D)[,I$factor_name],'predicted'=dataset.sample_meta(D)[,I$factor_name],'no_features'=i)
                 # train the workflow
                 WF=model.train(WF,Di)
                 # apply the workflow
                 WF=model.predict(WF,Di)
                 p=predicted(WF) # get the prediction output and collect
                 perm_results[,2]=p[,1]
-                all_results[((nrow(X)*(i-1))+1):(nrow(X)*i),]=perm_results # collate results
+                all_results[((nrow(X)*(counter-1))+1):(nrow(X)*counter),]=perm_results # collate results
             }  else
             { # must be an iterator
 
@@ -87,7 +87,7 @@ setMethod(f="run",
         output.value(I,'results')=all_results
         output.value(I,'searchlist')=searchlist
         # evaluate using the metric
-        I=evaluate(I,MET)
+        #I=evaluate(I,MET)
 
         results=output.value(I,'results')
         searchlist=output.value(I,'searchlist')
@@ -114,7 +114,9 @@ setMethod(f="run",
 
         # locate optimum using a loess fit
         # cross validate to estimate span parameter
-        opts=optimise(eval_loess,interval=c(0,1),X=searchlist,Y=value,k=50,p=0.9) # cross-val smoothing param
+        opts=suppressWarnings(
+            optimise(eval_loess,interval=c(0,1),X=searchlist,Y=value,k=50,p=0.9)
+            )# cross-val smoothing param
 
         loessMod25 <- loess(value ~ searchlist, span=opts$minimum)
         smoothed25=predict(loessMod25)
