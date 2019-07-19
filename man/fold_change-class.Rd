@@ -24,7 +24,7 @@ Calculates fold change between groups for all features in a dataset, based on
 a log transform and t-test.
 }
 \examples{
-D = sbcms_data()
+D = sbcms_dataset()
 M = fold_change(factor_name='class')
 M = method.apply(M,D)
 

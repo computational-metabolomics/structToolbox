@@ -14,7 +14,7 @@ ttest<-setClass(
         params.mtc='entity.stato',
         params.factor_names='entity',
         params.paired='entity',
-        params.paired_factor='character',
+        params.paired_factor='entity',
         # OUTPUTS
         outputs.t_statistic='entity.stato',
         outputs.p_value='entity',
@@ -51,6 +51,11 @@ ttest<-setClass(
             value=FALSE,
             type='logical',
             description='TRUE/FALSE to apply paired t-test.'
+        ),
+        params.paired_factor=entity(name='Paired factor',
+            value='NA',
+            type='character',
+            description='Factor name that encodes the sample id for pairing'
         ),
         outputs.t_statistic=entity.stato(name='t-statistic',
             stato.id='STATO:0000176',

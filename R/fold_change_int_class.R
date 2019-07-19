@@ -4,8 +4,10 @@
 #' factors. Note that paired forced to FALSE for all comparisons.
 #'
 #' @examples
-#' D = sbcms_data()
-#' M = fold_change_int(factor_name=c('class','batch'))
+#' D = sbcms_dataset()
+#' D$data=D$data[,1:10,drop=FALSE]
+#' M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
+#'     fold_change_int(factor_name=c('class','batch'))
 #' M = method.apply(M,D)
 #'
 #' @param alpha confidence level to use for intervals
@@ -20,6 +22,7 @@
 fold_change_int<-setClass(
     "fold_change_int",
     contains=c('method','fold_change'),
+    prototype = list(predicted='fold_change')
 )
 
 #' @export
@@ -30,7 +33,7 @@ setMethod(f="method.apply",
 
         ## apply fold change between all pairwise combinations of levels of all factors
         # combinations of factors
-        FF=structToolbox:::full_fact(M$factor_name)
+        FF=full_fact(M$factor_name)
         FF=apply(FF,1,function(x) M$factor_name[x==1])
         FF=FF[-1]
 

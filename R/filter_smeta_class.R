@@ -8,7 +8,7 @@
 #' @param factor_name the sample_meta column name to use
 #'
 #' @examples
-#' D = sbcms_data()
+#' D = sbcms_dataset()
 #' M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
 #' M = method.apply(M,D)
 #'

@@ -4,7 +4,7 @@
 #' a log transform and t-test.
 #'
 #' @examples
-#' D = sbcms_data()
+#' D = sbcms_dataset()
 #' M = fold_change(factor_name='class')
 #' M = method.apply(M,D)
 #'
