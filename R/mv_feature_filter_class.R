@@ -81,7 +81,7 @@ setMethod(f="method.apply",
             IN=apply(flags[,(length(L)+1):ncol(flags)],MARGIN=1,function(x) any(x==1))
         } else {
             IN=flags[,2]==1
-            nmes=colnames(flags)[IN]
+            nmes=rownames(flags)[IN]
         }
         nmes=colnames(flags)[IN]
         vmeta=vmeta[nmes,,drop=FALSE]
