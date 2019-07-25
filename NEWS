@@ -1,3 +1,5 @@
-# structToolbox 0.1.0
-
-* Added a `NEWS.md` file to track changes to the package.
+Changes in version 0.4.0 (2019-07-25)
++ Minor bug fixes
++ Added tsne method
++ Added sbcms dataset
++ Added methods related to signal/batch correction
