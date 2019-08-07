@@ -78,6 +78,9 @@ setMethod(f="method.apply",
             count[,k]=apply(D$data,2,function(x) sum(is.na(x[IF==L[k]])))
         }
         colnames(na_count)=L
+        colnames(count)=L
+        rownames(na_count)=colnames(D$data)
+        rownames(count)=colnames(D$data)
 
         flags=apply(na_count,1,function(x) any(x<M$threshold))
 
@@ -88,11 +91,8 @@ setMethod(f="method.apply",
         M$filtered=D
         M$flags=data.frame(flags=flags)
         M$count=as.data.frame(na_count)
-        rownames(count)=colnames(D$data)
-        colnames(count)=L
         M$na_count=as.data.frame(count)
-        rownames(na_count)=colnames(D$data)
-        colnames(na_count)=L
+
         return(M)
     }
 )
