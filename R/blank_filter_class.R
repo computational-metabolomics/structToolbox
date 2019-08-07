@@ -81,7 +81,7 @@ setMethod(f="method.apply",
         smeta=dataset.sample_meta(D)
         x=dataset.data(D)
         # remove = NULL does not remove blanks. ANY VALUE removes blanks.
-        blank_filtered = filter_peaks_by_blank(t(x), fold_change=opt$fold_change,
+        blank_filtered = pmp::filter_peaks_by_blank(t(x), fold_change=opt$fold_change,
             classes=smeta[,opt$factor_name],
             blank_label=opt$blank_label,
             qc_label=opt$qc_label,
@@ -97,8 +97,7 @@ setMethod(f="method.apply",
 
         flags=data.frame(blank_filtered$flags)
         vmeta=dataset.variable_meta(D)
-        idx=colnames(flags$blank_flags)
-        vmeta=vmeta[idx[flags$blank_flags==1],,drop=FALSE]
+        vmeta=vmeta[flags$blank_flags==1,,drop=FALSE]
         dataset.variable_meta(D)=vmeta
 
         output.value(M,'filtered') = D
