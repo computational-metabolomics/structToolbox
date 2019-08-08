@@ -12,3 +12,4 @@ structtoolbox.Rproj
 *.Rproj
 *.tiff
 vignettes/.build.timestamp
+binder/*
