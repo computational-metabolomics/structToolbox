@@ -4,4 +4,5 @@ channels:
   - bioconda
   - computational-metabolomics
 dependencies:
+  - r-irkernel
   - bioconductor-structtoolbox
