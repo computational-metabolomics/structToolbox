@@ -2,7 +2,7 @@
 STRUCT Toolbox 
 ==============================================
 
-|Git| |Bioconda| |Build Status (Travis)| |License| |Coverage| |AppVeyor| |builder|
+|Git| |Bioconda| |Build Status (Travis)| |License| |Coverage| |AppVeyor| |mybinder|
 
 
 ------------
@@ -53,5 +53,5 @@ References
 .. |AppVeyor| image:: https://ci.appveyor.com/api/projects/status/github/computational-metabolomics/structToolbox?branch=master&svg=true
    :target: https://ci.appveyor.com/project/RJMW/structToolbox
 
-.. |builder| image:: https://mybinder.org/badge_logo.svg
+.. |mybinder| image:: https://mybinder.org/badge_logo.svg
    :target: https://mybinder.org/v2/gh/computational-metabolomics/structToolbox.git/master?filepath=notebooks
