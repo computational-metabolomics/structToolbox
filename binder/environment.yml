@@ -1,0 +1,8 @@
+name: bioconductor-structtoolbox
+channels:
+  - conda-forge
+  - bioconda
+  - computational-metabolomics
+dependencies:
+  - r-irkernel
+  - bioconductor-structtoolbox

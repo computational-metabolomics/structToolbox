@@ -12,3 +12,5 @@ LICENSE
 ^\README.md
 .travis.yml
 README.rst
+^binder/
+^notebooks/
