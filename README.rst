@@ -54,4 +54,4 @@ References
    :target: https://ci.appveyor.com/project/RJMW/structToolbox
 
 .. |mybinder| image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/computational-metabolomics/structToolbox.git/master?filepath=notebooks
+   :target: https://mybinder.org/v2/gh/computational-metabolomics/structToolbox/master?filepath=notebooks
