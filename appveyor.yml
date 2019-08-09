@@ -43,3 +43,7 @@ artifacts:
 
   - path: '\*_*.zip'
     name: Bits
+
+environment:
+  USE_RTOOLS: true
+  R_REMOTES_STANDALONE: true
