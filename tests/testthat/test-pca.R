@@ -31,7 +31,7 @@ test_that('PCA scores chart returns ggplot object',{
   # apply the model
   M=model.predict(M,D)
   # chart
-  C=pca_scores_plot(groups=D$sample_meta$Species)
+  C=pca_scores_plot(factor_name='Species')
   # plot
   gg=chart.plot(C,M[2])
 
@@ -39,7 +39,7 @@ test_that('PCA scores chart returns ggplot object',{
   expect_true(is(gg,'ggplot'))
 
   # label all points
-  C=pca_scores_plot(groups=D$sample_meta$Species,points_to_label = 'all')
+  C=pca_scores_plot(factor_name='Species',points_to_label = 'all')
   # plot
   gg=chart.plot(C,M[2])
 
@@ -47,7 +47,7 @@ test_that('PCA scores chart returns ggplot object',{
   expect_true(is(gg,'ggplot'))
 
   # label outliers
-  C=pca_scores_plot(groups=D$sample_meta$Species,points_to_label = 'outliers')
+  C=pca_scores_plot(factor_name='Species',points_to_label = 'outliers')
   # plot
   gg=chart.plot(C,M[2])
 
@@ -56,7 +56,8 @@ test_that('PCA scores chart returns ggplot object',{
 
 
   # continuous factor
-  C=pca_scores_plot(groups=c(1:length(D$sample_meta$Species)))
+  M[2]$scores$sample_meta$Sample_No=1:length(D$sample_meta$Species)
+  C=pca_scores_plot(factor_name='Sample_No')
   # plot
   gg=chart.plot(C,M[2])
 
@@ -64,7 +65,7 @@ test_that('PCA scores chart returns ggplot object',{
   expect_true(is(gg,'ggplot'))
 
   # label filter
-  C=pca_scores_plot(groups=D$sample_meta$Species,label_filter='virginica',points_to_label='all')
+  C=pca_scores_plot(factor_name='Species',label_filter='virginica',points_to_label='all')
   # plot
   gg=chart.plot(C,M[2])
 
@@ -82,21 +83,21 @@ test_that('PCA biplot chart returns ggplot object',{
   # apply the model
   M=model.predict(M,D)
   # chart
-  C=pca_biplot_plot(groups=D$sample_meta$Species,style='arrows')
+  C=pca_biplot_plot(factor_name='Species',style='arrows')
   # plot
   gg=chart.plot(C,M[2])
 
   ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
   # different style
-  C=pca_biplot_plot(groups=D$sample_meta$Species,style='points')
+  C=pca_biplot_plot(factor_name='Species',style='points')
   # plot
   gg=chart.plot(C,M[2])
 
   ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
   # variable labels
-  C=pca_biplot_plot(groups=D$sample_meta$Species,style='points',label_features = TRUE)
+  C=pca_biplot_plot(factor_name='Species',style='points',label_features = TRUE)
   # plot
   gg=chart.plot(C,M[2])
 
