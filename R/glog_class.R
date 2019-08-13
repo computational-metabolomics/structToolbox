@@ -21,6 +21,11 @@ glog_transform<-setClass(
         type = 'normalisation',
         predicted = 'transformed',
 
+        params.factor_name=entity(name = 'factor_name',
+            description = 'Column name of sample_meta containing QC labels',
+            value = 'V1',
+            type='character'),
+
         params.qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
