@@ -69,7 +69,7 @@ pca_scores_plot<-setClass(
         params.factor_name='entity',
         params.ellipse='enum',
         params.label_filter='entity',
-        params.groups='factor'
+        params.groups='ANY' # will be deprecated
     ),
 
     prototype = list(name='PCA scores plot',

@@ -105,7 +105,9 @@ chart.plot(C,M[2])
 If we makes changes to our chart object, we must call `chart.plot` again.
 
 ```{r}
-C$groups = D$data$Petal.Width
+# add petal width to emta data of pca scores
+M[2]$scores$sample_meta$Petal.Width=D$data$Petal.Width
+# update plot
 C$factor_name='Petal.Width'
 chart.plot(C,M[2])
 ```

@@ -57,7 +57,7 @@ MVA = model.train(MVA,predicted(PMP))
 MVA = model.predict(MVA,predicted(PMP))
 
 # charts
-C = pca_scores_plot(factor_name = 'Class',groups=D$sample_meta$class)
+C = pca_scores_plot(factor_name = 'class',groups=D$sample_meta$class)
 chart.plot(C,MVA[2])
 ```
 
@@ -149,7 +149,7 @@ MVA2 = model.train(MVA2,predicted(MS2))
 MVA2 = model.predict(MVA2,predicted(MS2))
 
 # charts
-C = pca_scores_plot(factor_name = 'Class',groups=D$sample_meta$class)
+C = pca_scores_plot(factor_name = 'class',groups=D$sample_meta$class)
 chart.plot(C,MVA2[2])
 ```
 
