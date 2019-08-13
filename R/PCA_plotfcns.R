@@ -67,9 +67,9 @@ pca_scores_plot<-setClass(
         params.components='entity',
         params.points_to_label='enum',
         params.factor_name='entity',
-        params.groups='entity',
         params.ellipse='enum',
-        params.label_filter='entity'
+        params.label_filter='entity',
+        params.groups='factor'
     ),
 
     prototype = list(name='PCA scores plot',
@@ -91,12 +91,7 @@ pca_scores_plot<-setClass(
         params.factor_name=entity(name='Factor name',
             value='factor',
             type='character',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
-        ),
-        params.groups=entity(name='Groups',
-            value=factor(),
-            type='factor',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
+            description='The column name of sample meta to use for plotting.'
         ),
         params.ellipse=enum(name = 'Plot ellipses',description=c(
             '"all" will plot all ellipses',
@@ -127,11 +122,8 @@ setMethod(f="chart.plot",
         if (obj$points_to_label=='outliers' & !(obj$ellipse %in% c('all','sample'))) {
             warning('Outliers are only labelled when plotting the sample ellipse')
         }
-
-
         opt=param.list(obj)
-
-        scores=output.value(dobj,'scores')
+        scores=output.value(dobj,'scores')$data
         pvar=(colSums(scores*scores)/output.value(dobj,'ssx'))*100 # percent variance
         pvar=round(pvar,digits = 2) # round to 2 decimal places
         shapes <- rep(19,nrow(scores)) # filled circles for all samples
@@ -140,6 +132,9 @@ setMethod(f="chart.plot",
         y=scores[,opt$components[2]]
         xlabel=paste("PC",opt$components[[1]],' (',sprintf("%.1f",pvar[opt$components[[1]]]),'%)',sep='')
         ylabel=paste("PC",opt$components[[2]],' (',sprintf("%.1f",pvar[opt$components[[2]]]),'%)',sep='')
+
+        # get the factor from meta data
+        opt$groups=dobj$scores$sample_meta[[opt$factor_name]]
 
         # add a space to the front of the labels to offset them from the points, because nudge_x is in data units
         for (i in 1:length(slabels))
@@ -172,12 +167,10 @@ setMethod(f="chart.plot",
                 stat_ellipse(type='norm') # ellipse for individual groups
             }
 
-        if (is(opt$groups,'factor')) # if a factor then plot by group using the colours from pmp package
-        {
+        if (is(opt$groups,'factor')) { # if a factor then plot by group using the colours from pmp package
             out=out+scale_colour_manual(values=plotClass$manual_colors,name=opt$factor_name)
         }
-        else # assume continuous and use the default colour gradient
-        {
+        else {# assume continuous and use the default colour gradient
             out=out+scale_colour_viridis_c(limits=quantile(opt$groups,c(0.05,0.95),na.rm = TRUE),oob=squish,name=opt$factor_name)
         }
         out=out+theme_Publication(base_size = 12)
@@ -294,7 +287,7 @@ setMethod(f="chart.plot",
     definition=function(obj,dobj)
     {
         opt=param.list(obj)
-        Ts=output.value(dobj,'scores')
+        Ts=output.value(dobj,'scores')$data
         pvar=(colSums(Ts*Ts)/output.value(dobj,'ssx'))*100
         pvar=round(pvar,digits = 1)
         xlabel=paste("PC",opt$components[[1]],' (',sprintf("%.1f",pvar[opt$components[[1]]]),'%)',sep='')
@@ -318,7 +311,7 @@ setMethod(f="chart.plot",
         # additionaly scale the loadings
         sf=min(max(abs(Ts[,opt$components[1]]))/max(abs(P[,opt$components[1]])),
             max(abs(Ts[,opt$components[2]]))/max(abs(P[,opt$components[2]])))
-        dobj$scores=as.data.frame(Ts) # nb object not returned, so only temporary scaling
+        dobj$scores$data=as.data.frame(Ts) # nb object not returned, so only temporary scaling
 
         # plot
         A=data.frame("x"=P[,opt$components[1]]*sf*0.8,"y"=P[,opt$components[2]]*sf*0.8)
@@ -474,7 +467,7 @@ setMethod(f="chart.plot",
     definition=function(obj,dobj)
     {
         ## percent variance
-        scores=output.value(dobj,'scores')
+        scores=output.value(dobj,'scores')$data
         pvar=(colSums(scores*scores)/output.value(dobj,'ssx'))*100
         A=data.frame("x"=1:length(pvar),"y"=c(pvar,cumsum(pvar)),"Variance"=as.factor(c(rep('Single component',length(pvar)),rep('Cumulative',length(pvar)))))
         labels=round(A$y,digits = 1)
@@ -531,7 +524,7 @@ setMethod(f="chart.plot",
     {
         opt=param.list(obj)
         a=param.value(obj,'number_components')
-        scores=output.value(dobj,'scores')
+        scores=output.value(dobj,'scores')$data
         I=nrow(scores)             # number of samples
         sample_names=rownames(scores)
         scores=scores[,1:a]

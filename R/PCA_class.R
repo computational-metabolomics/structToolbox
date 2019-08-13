@@ -32,8 +32,9 @@ PCA<-setClass(
             value=2,
             type='numeric'
         ),
-        outputs.scores=entity('name'='PCA scores matrix',
-            'description'='A matrix of PCA scores where each column corresponds to a Principal Component')
+        outputs.scores=entity('name'='PCA scores dataset',
+            'description'='A matrix of PCA scores where each column corresponds to a Principal Component',
+            'type'='dataset')
     )
 )
 
@@ -60,7 +61,9 @@ setMethod(f="model.train",
             varnames[i]=paste0('PC',i)
         }
         colnames(scores)=varnames
-        output.value(M,'scores')=scores
+        S=D
+        S$data=scores
+        output.value(M,'scores')=S
 
         P=as.data.frame(model$v)
         rownames(P)=colnames(X)
