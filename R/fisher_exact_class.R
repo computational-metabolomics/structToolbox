@@ -34,6 +34,7 @@ fisher_exact<-setClass(
         params.mtc='entity.stato',
         params.factor_name='entity',
         params.factor_pred='entity',
+
         # OUTPUTS
         outputs.p_value='entity.stato',
         outputs.significant='entity'
@@ -62,7 +63,7 @@ fisher_exact<-setClass(
             description='The column name of meta data to use.'
         ),
         params.factor_pred=entity(name='Factor predictions',
-            value='factor',
+            value=data.frame(),
             type='data.frame',
             description='A data.frame, with a factor of predicted group labels to compare with factor_name. Can be a data frame with a factor of predictions for each feature.'
         ),
@@ -86,8 +87,14 @@ setMethod(f="method.apply",
     {
         X=dataset.data(D)
 
+
         FET=lapply(M$factor_pred,function(x) {
-            ft=fisher.test(x=D$sample_meta[[M$factor_name]],y=x)
+            if (all(x==TRUE) || all(x==FALSE)){
+                ft=list()
+                ft$p.value=NA
+                return(ft)
+            }
+            ft=fisher.test(x=D$sample_meta[[M$factor_name]],y=x,simulate.p.value = TRUE)
         }
         )
 
