@@ -48,6 +48,7 @@ Collate:
     'mean_centre_class.R'
     'mv_feature_filter_class.R'
     'mv_sample_filter_class.R'
+    'pairs_filter_class.R'
     'permutation_test_class.R'
     'permute_sample_order_class.R'
     'pqn_norm_method_class.R'
