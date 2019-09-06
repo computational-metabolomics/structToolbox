@@ -16,13 +16,33 @@
 filter_smeta<-setClass(
     "filter_smeta",
     contains = c('method'),
-    slots=c(params.mode='entity',
+    slots=c(params.mode='enum',
         params.levels='entity',
         params.factor_name='entity',
         outputs.filtered='dataset'
     ),
     prototype=list(type = 'filter',
-        predicted = 'filtered'
+        name='Filter by sample_meta data',
+        description='Filter data to include or exlude samples based on their meta data.',
+        predicted = 'filtered',
+
+        params.mode=enum(name='Mode of action',
+            description='"include" or "exclude" samples based on the sample_meta data',
+            type='character',
+            list=c('include','exclude'),
+            value='include'
+        ),
+
+        params.levels=entity(name='list of level names to filter by',
+            description='The levels of factor_name to filter by',
+            type='character',
+            value='NA'
+        ),
+
+        params.factor_name=entity(name='Factor name',
+            description='The sample_meta column name to filter by',
+            type='character',
+            value='NA')
     )
 )
 
