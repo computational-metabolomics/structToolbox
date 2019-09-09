@@ -47,7 +47,7 @@ confounders_clsq<-setClass(
         predicted='p_value',
 
         params.threshold=entity(name='Confounding factor threshold',
-            type='character',
+            type='numeric',
             description='threshold for accepting a factor as confounding (0 < threshold < 1)',
             value=0.15
         ),
@@ -71,7 +71,7 @@ confounders_clsq<-setClass(
         params.mtc=entity.stato(name='Multiple testing Correction method',
             stato.id='OBI:0200089',
             value='fdr',
-            type='numeric',
+            type='character',
             description='The method used to adjust for multiple comparisons.'
         )
     )
@@ -189,7 +189,7 @@ confounders_lsq.barchart<-setClass(
         type="barchart",
         params.feature_to_plot=entity(name='Feature to plot',
             value=1,
-            type='character_or_numeric',
+            type='numeric',
             description='The name of the feature to be plotted.'
         ),
         params.threshold=entity(name='Threshold',

@@ -54,7 +54,7 @@ fisher_exact<-setClass(
         params.mtc=entity.stato(name='Multiple Test Correction method',
             stato.id='OBI:0200089',
             value='fdr',
-            type='numeric',
+            type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
         params.factor_name=entity(name='Factor name',
@@ -70,7 +70,8 @@ fisher_exact<-setClass(
         outputs.p_value=entity.stato(name='p value',
             stato.id='STATO:0000175',
             type='numeric',
-            description='the probability of observing the calculated t-statistic.'
+            description='the probability of observing the calculated t-statistic.',
+            value=-1
         ),
         outputs.significant=entity(name='Significant features',
             #stato.id='STATO:0000069',

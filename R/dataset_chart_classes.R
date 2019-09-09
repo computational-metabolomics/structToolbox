@@ -474,7 +474,7 @@ dataset.boxplot<-setClass(
         ),
         params.number=entity(name='Number of features/samples',
             value=50,
-            type='logical',
+            type='numeric',
             description='The number of features/samples to plot.'
         )
     )

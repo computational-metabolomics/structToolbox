@@ -61,21 +61,24 @@ classical_lsq<-setClass(
         params.mtc=entity.stato(name='Multiple testing Correction method',
             stato.id='OBI:0200089',
             value='fdr',
-            type='numeric',
+            type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
         outputs.coefficients=entity(name='Regression coefficients',
             type='numeric',
-            description='The regression coefficients for each model.'
+            description='The regression coefficients for each model.',
+            value=numeric(0)
         ),
         outputs.p_value=entity.stato(name='p value',
             stato.id='STATO:0000175',
             type='numeric',
-            description='the probability of observing the calculated t-statistic.'
+            description='the probability of observing the calculated t-statistic.',
+            value=numeric(0)
         ),
         outputs.significant=entity(name='Significant features',
             type='logical',
-            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
+            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)',
+            value=logical(0)
         )
     )
 )

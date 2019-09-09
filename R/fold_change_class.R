@@ -67,16 +67,19 @@ fold_change<-setClass(
 
         outputs.fold_change=entity(name='fold change',
             type='data.frame',
-            description='fold change between groups'
+            description='fold change between groups',
+            value=data.frame()
         ),
 
         outputs.lower_ci=entity(name='Confidence interval',
             type='data.frame',
-            description='lower confidence interval for fold change'
+            description='lower confidence interval for fold change',
+            value=data.frame()
         ),
         outputs.upper_ci=entity(name='Fold change upper confidence interval',
             type='data.frame',
-            description='upper confidence interval for fold change.'
+            description='upper confidence interval for fold change.',
+            value=data.frame()
         )
     )
 )

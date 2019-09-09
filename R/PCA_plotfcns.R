@@ -20,7 +20,8 @@ pca_correlation_plot<-setClass(
         params.components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
-            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.'
+            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
+            max_length=2
         )
 
     )
@@ -79,7 +80,8 @@ pca_scores_plot<-setClass(
         params.components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
-            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.'
+            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
+            max_length=2
         ),
 
         params.points_to_label=enum(name='points_to_label',
@@ -244,8 +246,9 @@ pca_biplot_plot<-setClass(
         params.components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
-            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.'
-        ),
+            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
+            max_length=2
+            ),
         params.points_to_label=entity(name='points_to_label',
             value='none',
             type='character',
@@ -380,7 +383,8 @@ pca_loadings_plot<-setClass(
         params.components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
-            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.'
+            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
+            max_length=2
         ),
         params.style=enum(name='Plot style',
             value='points',

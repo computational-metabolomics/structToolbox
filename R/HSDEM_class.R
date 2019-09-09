@@ -38,7 +38,7 @@ HSDEM<-setClass(
         params.mtc=entity.stato(name='Multiple Test Correction method',
             stato.id='OBI:0200089',
             value='none',
-            type='numeric',
+            type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
 

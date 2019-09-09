@@ -31,7 +31,8 @@ linear_model<-setClass(
         params.formula=entity(name='Model Formula',
             description='Compact symbolic form of the equation to be fitted using a linear model.',
             value=y~x,
-            type='formula'
+            type='formula',
+            max_length=Inf
         ),
         params.na_action=enum(name='NA Action',
             description='The action to be taken when encoutering NA',

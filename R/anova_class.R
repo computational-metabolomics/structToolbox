@@ -48,7 +48,7 @@ ANOVA<-setClass(
         params.mtc=entity.stato(name='Multiple Test Correction method',
             stato.id='OBI:0200089',
             value='fdr',
-            type='numeric',
+            type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
         params.type=enum(name='ANOVA type',
@@ -60,17 +60,20 @@ ANOVA<-setClass(
         outputs.f_statistic=entity.stato(name='F-statistic',
             stato.id='STATO:0000176',
             type='numeric',
-            description='the value of the calculated statistic which is converted to a p-value when compared to an F-distribution.'
+            description='the value of the calculated statistic which is converted to a p-value when compared to an F-distribution.',
+            value=numeric(0)
         ),
         outputs.p_value=entity.stato(name='p value',
             stato.id='STATO:0000175',
             type='numeric',
-            description='the probability of observing the calculated t-statistic.'
+            description='the probability of observing the calculated t-statistic.',
+            value=numeric(0)
         ),
         outputs.significant=entity(name='Significant features',
             #stato.id='STATO:0000069',
             type='logical',
-            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
+            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)',
+            value=logical(0)
         )
     )
 )

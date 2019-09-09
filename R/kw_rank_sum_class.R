@@ -41,7 +41,7 @@ kw_rank_sum<-setClass(
         params.mtc=entity.stato(name='Multiple Test Correction method',
             stato.id='OBI:0200089',
             value='fdr',
-            type='numeric',
+            type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
         outputs.test_statistic=entity(name='test statistic',

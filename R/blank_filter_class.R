@@ -67,7 +67,7 @@ blank_filter<-setClass(
             value='V1'),
         params.fraction=entity(name='Fraction in blank',
             description='Remove features only if they occur in a sufficient proportion of the blanks',
-            type='character',
+            type='numeric',
             value=0)
     )
 )
