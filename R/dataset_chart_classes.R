@@ -38,7 +38,7 @@ feature_boxplot<-setClass(
         ),
         params.feature_to_plot=entity(name='Feature to plot',
             value='V1',
-            type='character',
+            type=c('character','numeric'),
             description='The column name of the feature to be plotted.'
         ),
         params.factor_name=entity(name='Factor name',
@@ -159,6 +159,11 @@ mv_histogram<-setClass(
             value=TRUE,
             type='logical',
             description='(TRUE) to plot missing values per sample or FALSE to plot by feature.'
+        ),
+        params.label_outliers=entity(name='Label outliers on the plot',
+            value=FALSE,
+            type='logical',
+            description='TRUE or FALSE to include labels for outlying samples. Default FALSE'
         )
     )
 )

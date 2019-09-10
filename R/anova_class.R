@@ -51,6 +51,11 @@ ANOVA<-setClass(
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
+        params.formula=entity(name='ANOVA formula',
+            value=y~x,
+            type='formula',
+            description='The formula to use for ANOVA'
+        ),
         params.type=enum(name='ANOVA type',
             description='I, II or [III]. The type of sums of squares to use. For balanced designs all types gives the same result.',
             value='III',
@@ -59,21 +64,19 @@ ANOVA<-setClass(
         ),
         outputs.f_statistic=entity.stato(name='F-statistic',
             stato.id='STATO:0000176',
-            type='numeric',
-            description='the value of the calculated statistic which is converted to a p-value when compared to an F-distribution.',
-            value=numeric(0)
+            type='data.frame',
+            description='the value of the calculated statistic which is converted to a p-value when compared to an F-distribution.'
         ),
         outputs.p_value=entity.stato(name='p value',
             stato.id='STATO:0000175',
-            type='numeric',
-            description='the probability of observing the calculated t-statistic.',
-            value=numeric(0)
+            type='data.frame',
+            description='the probability of observing the calculated t-statistic.'
         ),
         outputs.significant=entity(name='Significant features',
             #stato.id='STATO:0000069',
-            type='logical',
+            type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)',
-            value=logical(0)
+            value=data.frame()
         )
     )
 )
@@ -169,7 +172,7 @@ setMethod(f="method.apply",
         # populate the object
         M$f_statistic=f_statistic
         M$p_value=p_value
-        M$significant=p_value<M$alpha
+        M$significant=as.data.frame(p_value<M$alpha)
 
         # reset the contrasts
         options(O)

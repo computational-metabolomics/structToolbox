@@ -9,11 +9,6 @@
 #'
 #' @return A STRUCT method object with functions for applying a pairs filter
 #'
-#' @examples
-#' D = iris_dataset()
-#' M = pairs_filter(factor_name='Species',
-#'                  sample_id='setosa')
-#' M = method.apply(M,D)
 #'
 #' @export pairs_filter
 pairs_filter<-setClass(

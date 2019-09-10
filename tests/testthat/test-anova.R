@@ -6,7 +6,7 @@ test_that('anova 1way',{
   ME=ANOVA(formula=y~Species)
   ME=method.apply(ME,D)
   # expect all true
-  expect_true(all(ME$significant))
+  expect_true(all(ME$significant[,1]))
 
 })
 
@@ -32,7 +32,7 @@ test_that('hsd 1 factor',{
   ME=HSD(formula=y~Species)
   ME=method.apply(ME,D)
   # expect all true
-  expect_true(all(ME$significant))
+  expect_true(all(ME$significant[,1]))
 
 })
 

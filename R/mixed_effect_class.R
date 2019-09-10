@@ -117,7 +117,7 @@ setMethod(f="method.apply",
         # populate the object
         M$f_statistic=f_statistic
         M$p_value=p_value
-        M$significant=p_value<M$alpha
+        M$significant=as.data.frame(p_value<M$alpha)
 
         # reset contrasts
         options(O)

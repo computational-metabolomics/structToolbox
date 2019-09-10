@@ -51,14 +51,19 @@ HSD<-setClass(
             value=FALSE,
             type='logical'
         ),
+        params.formula=entity(name='Formula',
+            value=y~x,
+            type='formula',
+            description='The formula to use'
+        ),
         outputs.p_value=entity.stato(name='p value',
             stato.id='STATO:0000175',
-            type='numeric',
+            type='data.frame',
             description='the probability of observing the calculated t-statistic.'
         ),
         outputs.significant=entity(name='Significant features',
             #stato.id='STATO:0000069',
-            type='logical',
+            type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         )
     )
@@ -154,9 +159,9 @@ setMethod(f="method.apply",
         colnames(M$p_value)=rownames(output[[1]])
 
         # fdr correct
-        M$p_value=apply(M$p_value,2,p.adjust,method=M$mtc)
+        M$p_value=as.data.frame(apply(M$p_value,2,p.adjust,method=M$mtc))
 
-        M$significant=M$p_value<M$alpha
+        M$significant=as.data.frame(M$p_value<M$alpha)
 
         difference=lapply(output,function(x) x$difference)
         difference=do.call(rbind,difference)

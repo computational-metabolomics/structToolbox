@@ -6,7 +6,7 @@ test_that('grid_search iterator',{
   # iterator
   I = grid_search_1d(param_to_optimise='number_components',
       factor_name='Species',
-      search_values=1:4,
+      search_values=as.numeric(1:4),
       model_index=2,
       max_min='min')*
     kfold_xval(folds=5,factor_name='Species')*
@@ -27,7 +27,7 @@ test_that('grid_search wf',{
   # iterator
   I = grid_search_1d(param_to_optimise='number_components',
     factor_name='Species',
-    search_values=1:4,
+    search_values=as.numeric(1:4),
     model_index=2,
     max_min='min')*
     (mean_centre()+PLSDA(factor_name='Species'))
@@ -47,7 +47,7 @@ test_that('grid_search chart',{
   # iterator
   I = grid_search_1d(param_to_optimise='number_components',
     factor_name='Species',
-    search_values=1:4,
+    search_values=as.numeric(1:4),
     model_index=2,
     max_min='min')*
     kfold_xval(folds=5,factor_name='Species')*

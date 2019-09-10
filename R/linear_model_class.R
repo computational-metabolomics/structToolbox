@@ -41,7 +41,7 @@ linear_model<-setClass(
             list=c('na.omit','na.fail','na.exclude','na.pass')
         ),
         params.contrasts=entity(name='Contrasts',
-            description='The contrasts associated with a factor. If NULL then the default contrasts are used.',
+            description='The contrasts associated with a factor. If zero length then the default contrasts are used.',
             type='list'
         ),
 
@@ -74,7 +74,7 @@ setMethod(f="model.train",
     definition=function(M,D)
     {
         X=cbind(D$data,D$sample_meta)
-        if (is.null(M$contrasts)) {
+        if (length(M$contrasts)==0) {
             M$lm=lm(formula = M$formula, na.action = M$na_action,data=X) # default contrasts
         } else {
             M$lm=lm(formula = M$formula, na.action = M$na_action, contrasts = M$contrasts,data=X)

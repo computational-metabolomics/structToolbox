@@ -65,20 +65,17 @@ classical_lsq<-setClass(
             description='The method used to adjust for multiple comparisons.'
         ),
         outputs.coefficients=entity(name='Regression coefficients',
-            type='numeric',
-            description='The regression coefficients for each model.',
-            value=numeric(0)
+            type='data.frame',
+            description='The regression coefficients for each model.'
         ),
         outputs.p_value=entity.stato(name='p value',
             stato.id='STATO:0000175',
-            type='numeric',
-            description='the probability of observing the calculated t-statistic.',
-            value=numeric(0)
+            type='data.frame',
+            description='the probability of observing the calculated t-statistic.'
         ),
         outputs.significant=entity(name='Significant features',
-            type='logical',
-            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)',
-            value=logical(0)
+            type='data.frame',
+            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         )
     )
 )
@@ -154,9 +151,9 @@ setMethod(f="method.apply",
 
 
         # fdr correct the p-values
-        M$p_value=apply(M$p_value,2,FUN=function(x) {p.adjust(x,M$mtc)})
+        M$p_value=as.data.frame(apply(M$p_value,2,FUN=function(x) {p.adjust(x,M$mtc)}))
 
-        M$significant=M$p_value<M$alpha
+        M$significant=as.data.frame(M$p_value<M$alpha)
 
         return(M)
     }

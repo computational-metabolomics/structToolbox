@@ -38,7 +38,7 @@ filter_by_name<-setClass(
 
         params.names=entity(name='Names',
             description = 'The name of features/samples to be filtered. Must be an exact match. Can also provide indexes (numeric) or logical.',
-            type='character')
+            type=c('character','numeric','logical'))
     )
 )
 

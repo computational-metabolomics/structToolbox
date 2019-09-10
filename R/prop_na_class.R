@@ -45,17 +45,17 @@ prop_na<-setClass(
         ),
         outputs.p_value=entity.stato(name='p value',
             stato.id='STATO:0000175',
-            type='numeric',
+            type='data.frame',
             description='the probability of observing the calculated statistic.'
         ),
         outputs.significant=entity(name='Significant features',
             #stato.id='STATO:0000069',
-            type='logical',
+            type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threshold (alpha)'
         ),
         outputs.na_count=entity(name='Number of NA',
             #stato.id='STATO:0000069',
-            type='numeric',
+            type='data.frame',
             description='The number of NA values per group of the chosen factor'
         )
     )
@@ -92,12 +92,12 @@ setMethod(f="method.apply",
         rownames(output)=c('p_value',L)
         output=as.data.frame(t(output))
         # fdr correction
-        output$p_value=p.adjust(output$p_value,M$mtc)
+        output$p_value=data.frame(p_value=p.adjust(output$p_value,M$mtc))
         M$p_value=output$p_value
-        names(M$p_value)=colnames(X)
-        M$significant=M$p_value<M$alpha
-        names(M$significant)=colnames(X)
-        M$na_count=output[,2:ncol(output),drop=FALSE]
+        rownames(M$p_value)=colnames(X)
+        M$significant=as.data.frame(M$p_value<M$alpha)
+        rownames(M$significant)=colnames(X)
+        M$na_count=as.data.frame(output[,2:ncol(output),drop=FALSE])
 
         return(M)
     }

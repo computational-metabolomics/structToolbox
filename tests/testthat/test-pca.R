@@ -184,9 +184,4 @@ test_that('PCA loadings chart returns ggplot object',{
   ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 
-  # too many components
-  C=pca_loadings_plot(components=c(1,2,3))
-  # plot
-  expect_error(chart.plot(C,M[2]))
-
 })
