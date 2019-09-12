@@ -39,7 +39,7 @@ plsda_scores_plot<-setClass(
         ),
         params.groups=entity(name='Groups',
             value=factor(),
-            type='factor',
+            type=c('factor','character','numeric'),
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         )
     )
