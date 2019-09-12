@@ -50,7 +50,7 @@ blank_filter<-setClass(
         params.qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples. If not set to null then median of the QCs is used instead of all samples.',
             value = 'QC',
-            type='character'),
+            type=c('character','NULL')),
         outputs.filtered=entity(name = 'Blank filtered dataset',
             description = 'A dataset object containing the filtered data.',
             type='dataset',
