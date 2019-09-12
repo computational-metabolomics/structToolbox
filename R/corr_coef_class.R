@@ -81,11 +81,11 @@ setMethod(f="method.apply",
         }
 
         out=apply(D$data,2,fcn)
-        out=as.data.frame(t(out))
+        out=as.data.frame(t(out),stringsAsFactors = FALSE)
 
-        M$p_value=data.frame('p_value'=p.adjust(out[,2],method=M$mtc),row.names = colnames(D$data))
-        M$coeff=data.frame('coeff'=out[,3],row.names = colnames(D$data))
-        M$significant=data.frame('significant'=p.adjust(out[,2],method=M$mtc)>M$alpha,row.names = colnames(D$data))
+        M$p_value=data.frame('p_value'=p.adjust(as.numeric(out[,2]),method=M$mtc),row.names = colnames(D$data))
+        M$coeff=data.frame('coeff'=as.numeric(out[,3]),row.names = colnames(D$data))
+        M$significant=data.frame('significant'=M$p_value<M$alpha,row.names = colnames(D$data))
 
         return(M)
     }
