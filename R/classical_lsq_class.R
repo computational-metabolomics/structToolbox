@@ -34,7 +34,9 @@ classical_lsq<-setClass(
         # OUTPUTS
         outputs.coefficients='entity',
         outputs.p_value='entity.stato',
-        outputs.significant='entity'
+        outputs.significant='entity',
+        outputs.r_squared='entity',
+        outputs.adj_r_squared='entity'
     ),
     prototype = list(name='Univariate Classical Least Squares Regression',
         description='classical least squares, where y is the response and x is the design matrix, applied to each feature individually.',
@@ -76,6 +78,14 @@ classical_lsq<-setClass(
         outputs.significant=entity(name='Significant features',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
+        ),
+        outputs.r_squared=entity(name='R Squared',
+            description='The value of R Squared for the fitted model.',
+            type='data.frame'
+        ),
+        outputs.adj_r_squared=entity(name='Adjusted R Squared',
+            description='The value ofAdjusted  R Squared for the fitted model.',
+            type='data.frame'
         )
     )
 )
@@ -149,6 +159,12 @@ setMethod(f="method.apply",
 
         M$p_value=df2
 
+        df3=data.frame('r_squared'=unlist(lapply(out,function(x){return(x$r.squared)})))
+        df4=data.frame('adj_r_squared'=unlist(lapply(out,function(x){return(x$adj.r.squared)})))
+        rownames(df3)=rownames(df)
+        rownames(df4)=rownames(df)
+        M$r_squared=df3
+        M$adj_r_squared=df4
 
         # fdr correct the p-values
         M$p_value=as.data.frame(apply(M$p_value,2,FUN=function(x) {p.adjust(x,M$mtc)}))

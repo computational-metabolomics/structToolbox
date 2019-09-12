@@ -20,7 +20,9 @@ linear_model<-setClass(
         outputs.coefficients='entity',
         outputs.residuals='entity',
         outputs.fitted_values='entity',
-        outputs.predicted_values='entity'
+        outputs.predicted_values='entity',
+        outputs.r_squared='entity',
+        outputs.adj_r_squared='entity'
 
     ),
     prototype = list(name='Linear Model',
@@ -64,6 +66,14 @@ linear_model<-setClass(
         outputs.predicted_values=entity(name='Predicted values',
             description='The predicted values for new data using the fitted model.',
             type='numeric'
+        ),
+        outputs.r_squared=entity(name='R Squared',
+            description='The value of R Squared for the fitted model.',
+            type='numeric'
+        ),
+        outputs.adj_r_squared=entity(name='Adjusted R Squared',
+            description='The value ofAdjusted  R Squared for the fitted model.',
+            type='numeric'
         )
     )
 )
@@ -82,6 +92,10 @@ setMethod(f="model.train",
         M$coefficients=coefficients(M$lm)
         M$residuals=residuals(M$lm)
         M$fitted_values=fitted(M$lm)
+
+        M$r_squared=summary(M$lm)$r.squared
+        M$adj_r_squared=summary(M$lm)$adj.r.squared
+
         return(M)
     }
 )
