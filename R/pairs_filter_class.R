@@ -33,7 +33,17 @@ pairs_filter<-setClass(
         params.sample_id=entity(name='Sample id',
             description='Name of sample meta column containing the sample id',
             type='character',
-            value='V1')
+            value='V1'),
+
+        outputs.filtered=entity(name='Filtered dataset',
+            description='A dataset object after the filter has been applied',
+            type='dataset',
+            value=dataset()),
+
+        outputs.flags=entity(name='Filter flags',
+            description='A data.frame indicating whether features were filtered from the dataset.',
+            type='data.frame',
+            value=data.frame())
     )
 )
 
