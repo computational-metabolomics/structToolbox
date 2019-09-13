@@ -82,9 +82,16 @@ setMethod(f="method.apply",
 
         out=apply(D$data,2,fcn)
         out=as.data.frame(t(out),stringsAsFactors = FALSE)
+        out=as.data.frame(lapply(out,as.numeric))
 
-        M$p_value=data.frame('p_value'=p.adjust(as.numeric(out[,2]),method=M$mtc),row.names = colnames(D$data))
-        M$coeff=data.frame('coeff'=as.numeric(out[,3]),row.names = colnames(D$data))
+        p_val=as.data.frame(lapply(out[,seq(2,ncol(out),7)],p.adjust,method=M$mtc),row.names = colnames(D$data))
+        colnames(p_val)=M$factor_names
+        M$p_value=p_val
+
+        coeff=as.data.frame(out[,seq(3,ncol(out),7),drop=FALSE],row.names = colnames(D$data))
+        colnames(coeff)=M$factor_names
+        M$coeff=coeff
+
         M$significant=data.frame('significant'=M$p_value<M$alpha,row.names = colnames(D$data))
 
         return(M)
