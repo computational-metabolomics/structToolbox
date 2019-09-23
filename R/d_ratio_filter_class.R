@@ -62,6 +62,7 @@ dratio_filter<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("dratio_filter","dataset"),
     definition=function(M,D)

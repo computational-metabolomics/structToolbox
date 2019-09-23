@@ -38,6 +38,7 @@ tSNE<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("tSNE",'dataset'),
     definition=function(M,D)

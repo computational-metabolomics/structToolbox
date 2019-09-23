@@ -18,6 +18,7 @@ PLSFC<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("PLSFC",'dataset'),
     definition=function(M,D) {

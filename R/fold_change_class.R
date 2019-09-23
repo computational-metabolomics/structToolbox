@@ -85,6 +85,7 @@ fold_change<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("fold_change",'dataset'),
     definition=function(M,D)

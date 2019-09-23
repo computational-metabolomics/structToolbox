@@ -58,6 +58,7 @@ ANOVA<-setClass(
 
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("ANOVA",'dataset'),
     definition=function(M,D)

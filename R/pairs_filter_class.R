@@ -48,6 +48,7 @@ pairs_filter<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("pairs_filter","dataset"),
     definition=function(M,D)

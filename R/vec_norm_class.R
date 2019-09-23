@@ -27,6 +27,7 @@ vec_norm<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("vec_norm","dataset"),
     definition=function(M,D)

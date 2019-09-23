@@ -43,6 +43,7 @@ filter_by_name<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("filter_by_name","dataset"),
     definition=function(M,D)

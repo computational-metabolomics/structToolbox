@@ -55,6 +55,7 @@ mv_feature_filter<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("mv_feature_filter","dataset"),
     definition=function(M,D)

@@ -62,6 +62,7 @@ prop_na<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("prop_na",'dataset'),
     definition=function(M,D)

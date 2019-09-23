@@ -67,6 +67,7 @@ corr_coef<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("corr_coef",'dataset'),
     definition=function(M,D)

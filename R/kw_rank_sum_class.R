@@ -67,6 +67,7 @@ kw_rank_sum<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("kw_rank_sum",'dataset'),
     definition=function(M,D)
