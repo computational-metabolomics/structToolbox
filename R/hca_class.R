@@ -85,6 +85,7 @@ hca_dendrogram<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("hca_dendrogram",'HCA'),
     definition=function(obj,dobj)

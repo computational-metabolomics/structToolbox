@@ -130,6 +130,7 @@ permutation_test.boxplot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c('permutation_test.boxplot','permutation_test'),
     definition=function(obj,dobj)
@@ -162,6 +163,7 @@ permutation_test.violin<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c('permutation_test.violin','permutation_test'),
     definition=function(obj,dobj)
@@ -194,6 +196,7 @@ permutation_test.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c('permutation_test.hist','permutation_test'),
     definition=function(obj,dobj)
@@ -225,6 +228,7 @@ permutation_test.scatter<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c('permutation_test.scatter','permutation_test'),
     definition=function(obj,dobj)

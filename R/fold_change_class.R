@@ -194,6 +194,7 @@ fold_change_plot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("fold_change_plot",'fold_change'),
     definition=function(obj,dobj)

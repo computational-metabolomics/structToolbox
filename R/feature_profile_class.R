@@ -41,6 +41,7 @@ feature_profile<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("feature_profile",'dataset'),
     definition=function(obj,dobj) {

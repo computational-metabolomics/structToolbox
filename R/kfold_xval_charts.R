@@ -27,6 +27,7 @@ kfoldxcv_grid<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("kfoldxcv_grid",'kfold_xval'),
     definition=function(obj,dobj)
@@ -104,6 +105,7 @@ kfoldxcv_metric<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("kfoldxcv_metric",'kfold_xval'),
     definition=function(obj,dobj)

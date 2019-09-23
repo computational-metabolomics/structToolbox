@@ -47,6 +47,7 @@ plsda_scores_plot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("plsda_scores_plot",'PLSDA'),
     definition=function(obj,dobj)

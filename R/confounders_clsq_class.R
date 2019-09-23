@@ -202,6 +202,7 @@ confounders_lsq.barchart<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("confounders_lsq.barchart",'confounders_clsq'),
     definition=function(obj,dobj)
@@ -268,6 +269,7 @@ confounders_lsq.boxplot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("confounders_lsq.boxplot",'confounders_clsq'),
     definition=function(obj,dobj)

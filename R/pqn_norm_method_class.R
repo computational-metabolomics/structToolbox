@@ -72,6 +72,7 @@ pqn_norm.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("pqn_norm.hist",'pqn_norm'),
     definition=function(obj,dobj)

@@ -229,6 +229,7 @@ fs_line<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("fs_line",'forward_selection_byrank'),
     definition=function(obj,dobj)

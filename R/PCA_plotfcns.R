@@ -28,6 +28,7 @@ pca_correlation_plot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("pca_correlation_plot",'PCA'),
     definition=function(obj,dobj)
@@ -127,6 +128,7 @@ pca_scores_plot<-setClass(
 #' @import ggplot2
 #' @importFrom scales squish
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("pca_scores_plot",'PCA'),
     definition=function(obj,dobj)
@@ -318,6 +320,7 @@ pca_biplot_plot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("pca_biplot_plot",'PCA'),
     definition=function(obj,dobj)
@@ -438,6 +441,7 @@ pca_loadings_plot<-setClass(
 
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("pca_loadings_plot",'PCA'),
     definition=function(obj,dobj)
@@ -499,6 +503,7 @@ PCA.scree<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("PCA.scree",'PCA'),
     definition=function(obj,dobj)
@@ -555,6 +560,7 @@ PCA.dstat<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("PCA.dstat",'PCA'),
     definition=function(obj,dobj)

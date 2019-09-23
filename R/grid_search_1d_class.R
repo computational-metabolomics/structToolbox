@@ -133,6 +133,7 @@ gs_line<-setClass(
 
 #' @export
 #' @inherit struct::chart.plot
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("gs_line",'grid_search_1d'),
     definition=function(obj,dobj)

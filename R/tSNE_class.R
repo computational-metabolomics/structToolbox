@@ -84,6 +84,7 @@ tSNE_scatter<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("tSNE_scatter",'tSNE'),
     definition=function(obj,dobj)

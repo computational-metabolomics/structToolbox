@@ -195,6 +195,7 @@ wilcox_p_hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("wilcox_p_hist",'wilcox_test'),
     definition=function(obj,dobj)

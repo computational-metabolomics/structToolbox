@@ -85,6 +85,7 @@ rsd_filter.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("rsd_filter.hist",'rsd_filter'),
     definition=function(obj,dobj)

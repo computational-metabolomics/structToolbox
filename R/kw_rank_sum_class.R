@@ -115,6 +115,7 @@ kw_p_hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("kw_p_hist",'kw_rank_sum'),
     definition=function(obj,dobj)

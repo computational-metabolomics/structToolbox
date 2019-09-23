@@ -111,6 +111,7 @@ blank_filter.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
 
     signature=c("blank_filter.hist",'blank_filter'),

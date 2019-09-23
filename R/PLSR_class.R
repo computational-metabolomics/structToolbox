@@ -126,6 +126,7 @@ plsr_prediction_plot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("plsr_prediction_plot",'PLSR'),
     definition=function(obj,dobj)
@@ -167,6 +168,7 @@ plsr_residual_hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("plsr_residual_hist",'PLSR'),
     definition=function(obj,dobj)
@@ -210,6 +212,7 @@ plsr_qq_plot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("plsr_qq_plot",'PLSR'),
     definition=function(obj,dobj)
@@ -249,6 +252,7 @@ plsr_cook_dist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("plsr_cook_dist",'PLSR'),
     definition=function(obj,dobj)

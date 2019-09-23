@@ -77,6 +77,7 @@ mv_sample_filter.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("mv_sample_filter.hist",'mv_sample_filter'),
     definition=function(obj,dobj)

@@ -116,6 +116,7 @@ mv_feature_filter.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("mv_feature_filter.hist",'mv_feature_filter'),
     definition=function(obj,dobj)
