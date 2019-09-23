@@ -14,7 +14,8 @@
 autoscale<-setClass(
     "autoscale",
     contains='model',
-    slots=c(outputs.autoscaled='dataset',
+    slots=c(
+        outputs.autoscaled='dataset',
         outputs.mean='numeric',
         outputs.sd='numeric'
     ),

@@ -9,6 +9,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Collate:
+    'entity_objects.R'
     'anova_class.R'
     'HSD_class.R'
     'mixed_effect_class.R'

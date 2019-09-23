@@ -6,10 +6,8 @@
 #' @import stats
 #' @import car
 #'
-#' @param alpha p-value threshold for determining significance. Default alpha = 0.05.
-#' @param mtc multiple test correction method to apply. Can be: holm, hochberg,
-#' hommel, bonferroni, BH, BY, fdr or [none]
-#' @param formula the formula to use for ANOVA in the form y~...
+#' @templateVar paramNames c('alpha','mtc','formula')
+#' @template common_params
 #'
 #' @return A struct method object with functions for applying ANOVA
 #'
@@ -17,6 +15,8 @@
 #' D = iris_dataset()
 #' M = ANOVA(formula=y~Species)
 #' M = method.apply(M,D)
+#'
+#' @include entity_objects.R
 #'
 #' @export ANOVA
 ANOVA<-setClass(
@@ -39,47 +39,23 @@ ANOVA<-setClass(
         predicted='p_value',
         stato.id="OBI:0200201",
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
-        params.formula=entity(name='ANOVA formula',
-            value=y~x,
-            type='formula',
-            description='The formula to use for ANOVA'
-        ),
+        params.alpha=ents$alpha,
+        params.mtc=ents$mtc,
+        params.formula=ents$formula,
+
         params.type=enum(name='ANOVA type',
             description='I, II or [III]. The type of sums of squares to use. For balanced designs all types gives the same result.',
             value='III',
             type='character',
             list=c('I','II','III')
         ),
-        outputs.f_statistic=entity.stato(name='F-statistic',
-            stato.id='STATO:0000176',
-            type='data.frame',
-            description='the value of the calculated statistic which is converted to a p-value when compared to an F-distribution.'
-        ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
-            type='data.frame',
-            description='the probability of observing the calculated t-statistic.'
-        ),
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
-            type='data.frame',
-            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)',
-            value=data.frame()
-        )
+
+        outputs.f_statistic=ents$f_statistic,
+        outputs.p_value=ents$p_value,
+        outputs.significant=ents$significant
     )
 )
+
 
 #' @export
 setMethod(f="method.apply",

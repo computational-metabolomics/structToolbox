@@ -8,10 +8,9 @@
 \arguments{
 \item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
 
-\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg,
-hommel, bonferroni, BH, BY, fdr or [none]}
+\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg, hommel, bonferroni, BH, BY, fdr or none}
 
-\item{factor_names}{the column name(s) of sample_meta to use in regression}
+\item{factor_names}{the column name(s) of sample_meta to use}
 
 \item{intercept}{[TRUE] or FALSE to include an intercept term in the fit}
 }
