@@ -95,7 +95,6 @@ setMethod(f="run",
     }
 )
 
-#' @export
 setMethod(f="evaluate",
     signature=c("kfold_xval","metric"),
     definition=function(I,MET)
@@ -125,34 +124,3 @@ setMethod(f="evaluate",
     }
 )
 
-# setMethod(f="chart.plot",
-#           signature=c("kfold_xval"),
-#           definition = function(obj,name,opt=NULL) {
-#             # check if valid chart name
-#             is.chart(obj,name) # error if not
-#
-#             out=switch(name,
-#                        metric=metric_plot_kfold_xcv(obj,opt))
-#
-#             return(out)
-#           }
-#
-# )
-#
-#
-# # metric plot
-# metric_plot_kfold_xcv=function(obj,opt=NULL)
-# {
-#   n=length(output.value(obj,'metric.train'))
-#   A=data.frame(value=c(output.value(obj,'metric.train'),
-#                        output.value(obj,'metric.test')),
-#                dataset=c(rep('Training',n),'Test'))
-#   A$dataset=factor(A$dataset,levels = c('Training','Test'),ordered=T)
-#   plotClass= createClassAndColors(A$dataset)
-#     out=ggplot(data=A,aes_(x=~dataset,y=~value,color=~dataset)) +
-#       geom_boxplot()+
-#     theme_Publication(base_size = 12)+
-#     scale_color_manual(values=plotClass$manual_colors,name='dataset') +
-#     theme(legend.position="none")
-#   return(out)
-# }

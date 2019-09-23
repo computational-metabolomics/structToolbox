@@ -82,7 +82,6 @@ setMethod(f="run",
     }
 )
 
-#' @export
 setMethod(f="evaluate",
     signature=c("permute_sample_order","metric"),
     definition=function(I,MET)
