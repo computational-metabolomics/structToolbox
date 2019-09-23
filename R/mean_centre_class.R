@@ -26,6 +26,7 @@ mean_centre<-setClass(
 )
 
 #' @export
+#' @template model_train
 setMethod(f="model.train",
     signature=c("mean_centre",'dataset'),
     definition=function(M,D)

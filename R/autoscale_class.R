@@ -26,6 +26,7 @@ autoscale<-setClass(
 )
 
 #' @export
+#' @template model_train
 setMethod(f="model.train",
     signature=c("autoscale",'dataset'),
     definition=function(M,D)

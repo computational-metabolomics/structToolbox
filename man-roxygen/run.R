@@ -10,7 +10,6 @@
 #' @param D a dataset object
 #' @param MET a metric object
 #' @rdname iterator
-#' @export
 #' @return Modified iterator object
 #' @examples
 #' D = iris_dataset() # get some data

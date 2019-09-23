@@ -39,6 +39,7 @@ PCA<-setClass(
 )
 
 #' @export
+#' @template model_train
 setMethod(f="model.train",
     signature=c("PCA",'dataset'),
     definition=function(M,D)

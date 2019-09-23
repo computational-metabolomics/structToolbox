@@ -36,6 +36,7 @@ PLSDA<-setClass(
 )
 
 #' @export
+#' @template model_train
 setMethod(f="model.train",
     signature=c("PLSDA",'dataset'),
     definition=function(M,D)

@@ -79,6 +79,7 @@ linear_model<-setClass(
 )
 
 #' @export
+#' @template model_train
 setMethod(f="model.train",
     signature=c("linear_model",'dataset'),
     definition=function(M,D)

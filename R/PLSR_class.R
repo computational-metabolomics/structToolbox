@@ -31,6 +31,7 @@ PLSR<-setClass(
 )
 
 #' @export
+#' @template model_train
 setMethod(f="model.train",
     signature=c("PLSR",'dataset'),
     definition=function(M,D)
