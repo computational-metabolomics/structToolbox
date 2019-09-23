@@ -1,8 +1,8 @@
 #' Calculate metric
 #'
 #' @param obj a metric object
-#' @param value value
-#' @param ... additional inputs depending on object
+#' @param Y the true values/group labels
+#' @param Yhat the predicted values/group labels
 #' @examples
 #' MET = metric()
 #' calculate(MET)

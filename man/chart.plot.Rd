@@ -136,6 +136,8 @@
 \item{obj}{a chart object}
 
 \item{dobj}{a struct object}
+
+\item{eobj}{a second dataset object to compare with the first}
 }
 \value{
 a plot object

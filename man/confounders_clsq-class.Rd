@@ -27,9 +27,12 @@ to models with confounding factor included. Currently only ttest is supported.
 }
 \examples{
 D = sbcms_dataset()
-M = filter_by_name(mode='include',dimension='variable',names=colnames(D$data)[1:10]) + # first 10 features
-    filter_smeta(mode='exclude',levels='QC',factor_name='class') + # reduce to two group comparison
-    confounders_clsq(factor_name = 'class',confounding_factors=c('sample_order','batch'))
+M = filter_by_name(mode='include',dimension='variable',
+        names=colnames(D$data)[1:10]) + # first 10 features
+    filter_smeta(mode='exclude',levels='QC',
+        factor_name='class') + # reduce to two group comparison
+    confounders_clsq(factor_name = 'class',
+        confounding_factors=c('sample_order','batch'))
 M = method.apply(M,D)
 
 }

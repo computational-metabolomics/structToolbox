@@ -575,6 +575,7 @@ compare_dist<-setClass(
 #' @export
 #' @import gridExtra
 #' @template chart_plot
+#' @param eobj a second dataset object to compare with the first
 setMethod(f="chart.plot",
     signature=c("compare_dist",'dataset'),
     definition=function(obj,dobj,eobj)

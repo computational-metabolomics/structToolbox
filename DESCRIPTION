@@ -96,7 +96,8 @@ Suggests:
  covr,
  knitr,
  rmarkdown,
- BiocStyle
+ BiocStyle,
+ sbcms
 Remotes: computational-metabolomics/pmp,
   computational-metabolomics/struct
 VignetteBuilder: knitr

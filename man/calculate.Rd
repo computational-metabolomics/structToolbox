@@ -15,9 +15,9 @@
 \arguments{
 \item{obj}{a metric object}
 
-\item{value}{value}
+\item{Y}{the true values/group labels}
 
-\item{...}{additional inputs depending on object}
+\item{Yhat}{the predicted values/group labels}
 }
 \description{
 Calculate metric
