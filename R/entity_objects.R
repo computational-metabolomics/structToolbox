@@ -21,7 +21,7 @@ ents$formula=entity(name='Formula',
     description='The formula to use'
 )
 
-ents.f_statistic=entity.stato(name='F-statistic',
+ents$f_statistic=entity.stato(name='F-statistic',
     stato.id='STATO:0000176',
     type='data.frame',
     description='the value of the calculated statistic which is converted to a p-value when compared to an F-distribution.'
