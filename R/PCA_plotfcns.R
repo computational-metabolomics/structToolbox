@@ -70,7 +70,9 @@ pca_scores_plot<-setClass(
         params.factor_name='entity',
         params.ellipse='enum',
         params.label_filter='entity',
-        params.groups='ANY' # will be deprecated
+        params.groups='ANY', # will be deprecated
+        params.label_factor='entity',
+        params.label_size='entity'
     ),
 
     prototype = list(name='PCA scores plot',
@@ -93,7 +95,8 @@ pca_scores_plot<-setClass(
         params.factor_name=entity(name='Factor name',
             value='factor',
             type='character',
-            description='The column name of sample meta to use for plotting.'
+            description='The column name of sample meta to use for plotting. A second column can be included to plot using symbols.',
+            max_length=2
         ),
         params.ellipse=enum(name = 'Plot ellipses',description=c(
             '"all" will plot all ellipses',
@@ -106,7 +109,15 @@ pca_scores_plot<-setClass(
             value=character(0),
             type='character',
             description='Only include the param.group labels included in params.label_filter. If zero length then all labels will be included.'
-        )
+        ),
+        params.label_factor=entity(names='Factor for labels',
+            description='The column name of sample_meta to use as labels. "rownames" will use the row names from sample_meta.',
+            type='character',
+            value='rownames'),
+        params.label_size=entity(names='Text size of labels',
+            description='The text size of labels. Note this is not in Font Units. Default 3.88.',
+            type='numeric',
+            value=3.88)
     )
 )
 
@@ -126,10 +137,22 @@ setMethod(f="chart.plot",
         }
         opt=param.list(obj)
         scores=output.value(dobj,'scores')$data
-        pvar=(colSums(scores*scores)/output.value(dobj,'ssx'))*100 # percent variance
-        pvar=round(pvar,digits = 2) # round to 2 decimal places
-        shapes <- rep(19,nrow(scores)) # filled circles for all samples
-        slabels <- rownames(scores)
+        pvar = (colSums(scores*scores)/output.value(dobj,'ssx'))*100 # percent variance
+        pvar = round(pvar,digits = 2) # round to 2 decimal places
+
+        if (length(obj$factor_name)==1) {
+            shapes = 19 # filled circles for all samples
+        } else {
+            shapes = factor(dobj$scores$sample_meta[[obj$factor_name[2]]])
+        }
+
+        if (obj$label_factor=='rownames') {
+            slabels = rownames(dobj$scores$sample_meta)
+        } else {
+            slabels = dobj$scores$sample_meta[[obj$label_factor]]
+        }
+        opt$factor_name=opt$factor_name[[1]] # only use the first factor from now on
+
         x=scores[,opt$components[1]]
         y=scores[,opt$components[2]]
         xlabel=paste("PC",opt$components[[1]],' (',sprintf("%.1f",pvar[opt$components[[1]]]),'%)',sep='')
@@ -158,16 +181,27 @@ setMethod(f="chart.plot",
         # build the plot
         A <- data.frame (group=opt$groups,x=x, y=y)
 
-        out=ggplot (data=A, aes_(x=~x,y=~y,colour=~group,label=~slabels,shapes=~shapes)) +
+        if (length(obj$factor_name)==2) {
+            out=ggplot (data=A, aes_(x=~x,y=~y,colour=~group,label=~slabels,shape=~shapes))
+        }   else {
+            out=ggplot (data=A, aes_(x=~x,y=~y,colour=~group,label=~slabels))
+        }
+        out=out+
 
             geom_point(na.rm=TRUE) +
             xlab(xlabel) +
             ylab(ylabel) +
-            ggtitle('PCA Scores', subtitle=NULL) +
+            ggtitle('PCA Scores', subtitle=NULL)
 
-            if (obj$ellipse %in% c('all','group')) {
-                stat_ellipse(type='norm') # ellipse for individual groups
-            }
+        if (length(obj$factor_name)==2) {
+            out=out+labs(shape=obj$factor_name[[2]],colour=obj$factor_name[[1]])
+        } else {
+            out=out+labs(shape=obj$factor_name[[1]])
+        }
+
+        if (obj$ellipse %in% c('all','group')) {
+            out = out +stat_ellipse(type='norm') # ellipse for individual groups
+        }
 
         if (is(opt$groups,'factor')) { # if a factor then plot by group using the colours from pmp package
             out=out+scale_colour_manual(values=plotClass$manual_colors,name=opt$factor_name)
@@ -194,10 +228,9 @@ setMethod(f="chart.plot",
             {
                 if (!all(points$in.ell))
                 {
-
                     temp=subset(points,!points$in.ell)
                     temp$group=opt$groups[!points$in.ell]
-                    out=out+geom_text(data=temp,aes_(x=~x,y=~y,label=~label,colour=~group),vjust="inward",hjust="inward")
+                    out=out+geom_text(data=temp,aes_(x=~x,y=~y,label=~label,colour=~group),size=obj$label_size,vjust="inward",hjust="inward")
 
                 }
             }
@@ -248,7 +281,7 @@ pca_biplot_plot<-setClass(
             type='numeric',
             description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
             max_length=2
-            ),
+        ),
         params.points_to_label=entity(name='points_to_label',
             value='none',
             type='character',
