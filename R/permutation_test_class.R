@@ -18,6 +18,7 @@ permutation_test<-setClass(
 )
 
 #' @export
+#' @template run
 setMethod(f="run",
     signature=c("permutation_test",'dataset','metric'),
     definition=function(I,D,MET=NULL)

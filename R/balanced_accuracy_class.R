@@ -22,6 +22,7 @@ balanced_accuracy<-setClass(
 )
 
 #' @export
+#' @template calculate
 setMethod(f="calculate",
     signature=c('balanced_accuracy'),
     definition=function(obj,Y,Yhat)

@@ -59,6 +59,7 @@ forward_selection_byrank <- setClass(
 
 
 #' @export
+#' @template run
 setMethod(f="run",
     signature=c("forward_selection_byrank",'dataset','metric'),
     definition=function(I,D,MET)

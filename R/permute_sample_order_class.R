@@ -18,6 +18,7 @@ permute_sample_order<-setClass(
 )
 
 #' @export
+#' @template run
 setMethod(f="run",
     signature=c("permute_sample_order",'dataset','metric'),
     definition=function(I,D,MET)

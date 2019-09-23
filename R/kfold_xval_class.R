@@ -24,6 +24,7 @@ kfold_xval<-setClass(
 )
 
 #' @export
+#' @template run
 setMethod(f="run",
     signature=c("kfold_xval",'dataset','metric'),
     definition=function(I,D,MET=NULL)

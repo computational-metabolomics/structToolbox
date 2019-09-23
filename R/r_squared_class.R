@@ -12,6 +12,7 @@ r_squared<-setClass(
 )
 
 #' @export
+#' @template calculate
 setMethod(f="calculate",
     signature=c('r_squared'),
     definition=function(obj,Y,Yhat)

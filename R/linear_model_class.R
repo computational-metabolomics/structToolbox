@@ -102,6 +102,7 @@ setMethod(f="model.train",
 )
 
 #' @export
+#' @template model_predict
 setMethod(f="model.predict",
     signature=c("linear_model",'dataset'),
     definition=function(M,D)

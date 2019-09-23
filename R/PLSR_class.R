@@ -66,6 +66,7 @@ setMethod(f="model.train",
 )
 
 #' @export
+#' @template model_predict
 setMethod(f="model.predict",
     signature=c("PLSR",'dataset'),
     definition=function(M,D)

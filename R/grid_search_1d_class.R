@@ -24,6 +24,7 @@ grid_search_1d<-setClass(
 )
 
 #' @export
+#' @template run
 setMethod(f="run",
     signature=c("grid_search_1d",'dataset','metric'),
     definition=function(I,D,MET)
