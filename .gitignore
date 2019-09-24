@@ -13,3 +13,4 @@ structtoolbox.Rproj
 *.tiff
 vignettes/.build.timestamp
 *.xml
+doc
