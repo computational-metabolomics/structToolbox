@@ -7,7 +7,7 @@ output:
   BiocStyle::html_document:
     toc_float: true
   BiocStyle::pdf_document: default
-package: BiocStyle
+package: structToolbox
 abstract: Introduction to model objects
 vignette: >
   %\VignetteIndexEntry{Model objects}
