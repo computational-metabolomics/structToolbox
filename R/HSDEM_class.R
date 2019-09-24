@@ -107,7 +107,10 @@ setMethod(f="method.apply",
             for (k in 1:length(FF)) {
                 if (!is.na(testlm[[1]])) {
                     testhsd=tryCatch({
-                        output2[[k]]=as.data.frame(pairs(emmeans(LM,FF[[k]],data=temp)))
+                        output2[[k]]=as.data.frame(
+                                pairs(
+                                emmeans::emmeans(LM,FF[[k]],
+                                data=temp)))
                     }, warning  = function(w) {
                         NA
                     } , message = function(m) {

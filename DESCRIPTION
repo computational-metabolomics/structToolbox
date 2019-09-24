@@ -72,6 +72,7 @@ Collate:
     'ttest_class.R'
     'vec_norm_class.R'
     'wilcox_test_class.R'
+    'zzz.R'
 Depends: struct
 Imports: ggplot2,
  pmp,
