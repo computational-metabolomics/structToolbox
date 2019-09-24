@@ -3,6 +3,8 @@
 #' Partial least squares (PLS) Regression model class. This object can be used to train/apply PLS models.
 #' @export PLSR
 #' @importFrom pls plsr scores
+#' @examples
+#' M = PLSR()
 PLSR<-setClass(
 
     "PLSR",
@@ -118,6 +120,8 @@ vips<-function(object)
 #' @import struct
 #' @export plsr_prediction_plot
 #' @include PLSR_class.R
+#' @examples
+#' C = plsr_prediction_plot()
 plsr_prediction_plot<-setClass(
     "plsr_prediction_plot",
     contains='chart',
@@ -160,6 +164,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export plsr_residual_hist
 #' @include PLSR_class.R
+#' @examples
+#' C = plsr_residual_hist()
 plsr_residual_hist<-setClass(
     "plsr_residual_hist",
     contains='chart',
@@ -203,6 +209,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export plsr_qq_plot
 #' @include PLSR_class.R
+#' @examples
+#' C = plsr_qq_plot()
 plsr_qq_plot<-setClass(
     "plsr_qq_plot",
     contains='chart',
@@ -244,6 +252,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export plsr_cook_dist
 #' @include PLSR_class.R
+#' @examples
+#' C = plsr_cook_dist()
 plsr_cook_dist<-setClass(
     "plsr_cook_dist",
     contains='chart',

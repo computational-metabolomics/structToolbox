@@ -4,6 +4,9 @@
 #'
 #' @import struct
 #' @import stats
+#' @examples
+#' M = corr_coef()
+#'
 #' @export corr_coef
 corr_coef<-setClass(
     "corr_coef",

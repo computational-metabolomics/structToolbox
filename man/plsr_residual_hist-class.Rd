@@ -8,3 +8,6 @@
 \description{
 plots a histogram of the residuals
 }
+\examples{
+C = plsr_residual_hist()
+}

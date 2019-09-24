@@ -3,6 +3,8 @@
 #' Partial least squares (PLS) discriminant analysis (DA) model class. This object can be used to train/apply PLS models.
 #' @export PLSDA
 #' @importFrom pls plsr scores
+#' @examples
+#' M = PLSDA()
 PLSDA<-setClass(
     "PLSDA",
     contains='model',

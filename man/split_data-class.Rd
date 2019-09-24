@@ -8,3 +8,7 @@
 \description{
 Splits the data into a training and test set
 }
+\examples{
+M = split_data()
+
+}

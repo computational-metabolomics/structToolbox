@@ -4,6 +4,8 @@
 #' @export PLSFC
 #' @importFrom pls plsr scores
 #' @include fold_change_class.R
+#' @examples
+#' C = PLSFC()
 PLSFC<-setClass(
     "PLSFC",
     contains='fold_change',

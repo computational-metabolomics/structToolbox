@@ -2,6 +2,9 @@
 #'
 #' Splits the data into a training and test set
 #' @export split_data
+#' @examples
+#' M = split_data()
+#'
 split_data<-setClass(
     "split_data",
     contains = c('method'),

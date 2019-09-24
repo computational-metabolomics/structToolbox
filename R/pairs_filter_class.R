@@ -8,7 +8,8 @@
 #' sample ids
 #'
 #' @return A STRUCT method object with functions for applying a pairs filter
-#'
+#' @examples
+#' M=pairs_filter()
 #'
 #' @export pairs_filter
 pairs_filter<-setClass(

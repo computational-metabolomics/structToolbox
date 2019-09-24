@@ -8,3 +8,7 @@
 \description{
 t-Distributed Stochastic Neighbor Embedding (tSNE) class. This object can be used to train/apply tSNE models to dataset objects.
 }
+\examples{
+M = tSNE()
+
+}

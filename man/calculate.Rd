@@ -19,6 +19,9 @@
 
 \item{Yhat}{the predicted values/group labels}
 }
+\value{
+a modified metric object
+}
 \description{
 Calculate metric
 }

@@ -5,6 +5,9 @@
 #' @import struct
 #' @import stats
 #' @export prop_na
+#' @examples
+#' M = prop_na()
+#'
 prop_na<-setClass(
     "prop_na",
     contains=c('method'),

@@ -4,7 +4,9 @@
 #'
 #' @import Rtsne
 #' @export tSNE
-
+#' @examples
+#' M = tSNE()
+#'
 tSNE<-setClass(
     "tSNE",
     contains=c('method'),
@@ -69,6 +71,9 @@ setMethod(f="method.apply",
 #' @import struct
 #' @export tSNE_scatter
 #' @include PCA_class.R
+#' @examples
+#' M = tSNE_scatter()
+#'
 tSNE_scatter<-setClass(
     "tSNE_scatter",
     contains='chart',

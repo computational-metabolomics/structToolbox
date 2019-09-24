@@ -126,3 +126,7 @@ Returns a modified method object
 \description{
 Applies method to the input dataset
 }
+\examples{
+M=method()
+method.apply(M,dataset())
+}

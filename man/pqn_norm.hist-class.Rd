@@ -8,3 +8,6 @@
 \description{
 plots a histogram of the PQN coeffients
 }
+\examples{
+C = pqn_norm.hist()
+}

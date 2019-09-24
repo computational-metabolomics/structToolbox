@@ -8,3 +8,6 @@
 \description{
 2d scatter plot of plsda component scores.
 }
+\examples{
+C = plsda_scores_plot()
+}

@@ -6,6 +6,9 @@
 #' @import struct
 #' @import stats
 #' @export wilcox_test
+#' @examples
+#' M = wilcox_test()
+#'
 wilcox_test<-setClass(
     "wilcox_test",
     contains=c('method','stato'),
@@ -185,6 +188,9 @@ setMethod(f="method.apply",
 #' plots a histogram of p values
 #' @import struct
 #' @export wilcox_p_hist
+#' @examples
+#' M = wilcox_p_hist()
+#'
 wilcox_p_hist<-setClass(
     "wilcox_p_hist",
     contains='chart',

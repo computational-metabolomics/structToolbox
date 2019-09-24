@@ -1,6 +1,8 @@
 #' permute_sample_order class
 #'
 #' permutes the sample order a defined number of times, running the model each time
+#' @examples
+#' C = permute_sample_order()
 #' @export permute_sample_order
 permute_sample_order<-setClass(
     "permute_sample_order",

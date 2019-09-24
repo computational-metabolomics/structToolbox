@@ -8,3 +8,7 @@
 \description{
 Coefficient of determination (r-squared).
 }
+\examples{
+MET = r_squared()
+
+}

@@ -8,3 +8,7 @@
 \description{
 Applies a permutation test to a model or model.seq()
 }
+\examples{
+I=permutation_test()
+
+}

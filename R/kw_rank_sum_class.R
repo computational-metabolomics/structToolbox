@@ -5,6 +5,9 @@
 #'
 #' @import struct
 #' @import stats
+#' @examples
+#' M = kw_rank_sum()
+#'
 #' @export kw_rank_sum
 kw_rank_sum<-setClass(
     "kw_rank_sum",
@@ -104,6 +107,8 @@ setMethod(f="method.apply",
 #'
 #' plots a histogram of p values
 #' @import struct
+#' @examples
+#' C = kw_p_hist()
 #' @export kw_p_hist
 kw_p_hist<-setClass(
     "kw_p_hist",

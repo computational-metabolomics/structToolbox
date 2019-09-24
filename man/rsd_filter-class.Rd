@@ -8,3 +8,7 @@
 \description{
 filters features based on the relative standard deviation (RSD) for the QC samples
 }
+\examples{
+M = rsd_filter()
+
+}

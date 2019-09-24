@@ -89,7 +89,8 @@ Imports: ggplot2,
  nlme,
  ggthemes,
  ggdendro,
- Rtsne
+ Rtsne,
+ datasets
 RoxygenNote: 6.1.1
 Suggests: 
  testthat,
@@ -99,6 +100,7 @@ Suggests:
  BiocStyle,
  sbcms
 Remotes: computational-metabolomics/pmp,
-  computational-metabolomics/struct
+  computational-metabolomics/struct,
+  computational-metabolomics/sbcms
 VignetteBuilder: knitr
 biocViews: WorkflowStep

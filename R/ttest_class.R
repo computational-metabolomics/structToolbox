@@ -5,6 +5,9 @@
 #' @import struct
 #' @import stats
 #' @export ttest
+#' @examples
+#' M = ttest()
+#'
 ttest<-setClass(
     "ttest",
     contains=c('method','stato'),
