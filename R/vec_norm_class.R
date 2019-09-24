@@ -3,6 +3,9 @@
 #' applies vector normalisation
 #' @export vec_norm
 #' @import pmp
+#' @examples
+#' M = vec_norm()
+#'
 vec_norm<-setClass(
     "vec_norm",
     contains = c('method'),
@@ -27,6 +30,7 @@ vec_norm<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("vec_norm","dataset"),
     definition=function(M,D)

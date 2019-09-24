@@ -26,6 +26,7 @@ fold_change_int<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("fold_change_int",'dataset'),
     definition=function(M,D)

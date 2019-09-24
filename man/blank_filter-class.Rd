@@ -6,15 +6,15 @@
 \alias{blank_filter}
 \title{Blank filter}
 \arguments{
-\item{blank_label}{(character) the label used to identify 'blank' samples}
+\item{fold_change}{the threshold for filtering samples}
 
-\item{fold_change}{(numeric) the threshold for filtering samples}
+\item{fraction}{max proportion of blanks a feature can be present in}
 
-\item{qc_label}{(character) the label used to identify 'QC' samples. If set
-then the median of the QC samples is used instead of all samples.}
+\item{blank_label}{the label used to identify 'blank' samples}
 
-\item{factor_name}{(character) the column name of sample_meta containing the
-labels}
+\item{qc_label}{the label used to identify 'QC' samples. If set then the median of the QC samples is used instead of all samples.}
+
+\item{factor_name}{the column name of sample_meta to use}
 }
 \value{
 A STRUCT method object with functions for applying a blank filter

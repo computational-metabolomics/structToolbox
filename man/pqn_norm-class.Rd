@@ -8,3 +8,6 @@
 \description{
 applies PQN normalisation using QC samples as reference samples
 }
+\examples{
+M = pqn_norm()
+}

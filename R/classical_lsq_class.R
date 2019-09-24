@@ -7,10 +7,9 @@
 #'
 #' @import struct
 #'
-#' @param alpha p-value threshold for determining significance. Default alpha = 0.05.
-#' @param mtc multiple test correction method to apply. Can be: holm, hochberg,
-#' hommel, bonferroni, BH, BY, fdr or [none]
-#' @param factor_names the column name(s) of sample_meta to use in regression
+#' @templateVar paramNames c('alpha','mtc','factor_names')
+#' @template common_params
+#'
 #' @param intercept [TRUE] or FALSE to include an intercept term in the fit
 #'
 #' @return A STRUCT method object with functions for applying classical least squares
@@ -49,36 +48,18 @@ classical_lsq<-setClass(
             value=TRUE
         ),
 
-        params.factor_names=entity(name='Factor names',
-            type='character',
-            description='Names of sample_meta columns to use'
-        ),
+        params.factor_names=ents$factor_names,
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        params.mtc=entity.stato(name='Multiple testing Correction method',
-            stato.id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
+        params.alpha=ents$alpha,
+
+        params.mtc=ents$mtc,
+
         outputs.coefficients=entity(name='Regression coefficients',
             type='data.frame',
             description='The regression coefficients for each model.'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
-            type='data.frame',
-            description='the probability of observing the calculated t-statistic.'
-        ),
-        outputs.significant=entity(name='Significant features',
-            type='data.frame',
-            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
-        ),
+        outputs.p_value=ents$p_value,
+        outputs.significant=ents$significant,
         outputs.r_squared=entity(name='R Squared',
             description='The value of R Squared for the fitted model.',
             type='data.frame'
@@ -91,6 +72,7 @@ classical_lsq<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("classical_lsq",'dataset'),
     definition=function(M,D)

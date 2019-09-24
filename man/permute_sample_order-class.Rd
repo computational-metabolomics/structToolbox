@@ -8,3 +8,6 @@
 \description{
 permutes the sample order a defined number of times, running the model each time
 }
+\examples{
+C = permute_sample_order()
+}

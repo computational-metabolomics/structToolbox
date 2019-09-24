@@ -8,6 +8,8 @@
 #' @import struct
 #' @export plsda_scores_plot
 #' @include PLSDA_class.R
+#' @examples
+#' C = plsda_scores_plot()
 plsda_scores_plot<-setClass(
     "plsda_scores_plot",
     contains='chart',
@@ -47,6 +49,7 @@ plsda_scores_plot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("plsda_scores_plot",'PLSDA'),
     definition=function(obj,dobj)

@@ -8,3 +8,6 @@
 \description{
 plots the results of a permutation test as histograms
 }
+\examples{
+C = permutation_test.hist()
+}

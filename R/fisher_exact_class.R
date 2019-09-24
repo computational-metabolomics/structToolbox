@@ -82,6 +82,7 @@ fisher_exact<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("fisher_exact",'dataset'),
     definition=function(M,D)

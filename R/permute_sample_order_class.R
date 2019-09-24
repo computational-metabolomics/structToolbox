@@ -1,6 +1,8 @@
 #' permute_sample_order class
 #'
 #' permutes the sample order a defined number of times, running the model each time
+#' @examples
+#' C = permute_sample_order()
 #' @export permute_sample_order
 permute_sample_order<-setClass(
     "permute_sample_order",
@@ -18,6 +20,7 @@ permute_sample_order<-setClass(
 )
 
 #' @export
+#' @template run
 setMethod(f="run",
     signature=c("permute_sample_order",'dataset','metric'),
     definition=function(I,D,MET)
@@ -82,7 +85,6 @@ setMethod(f="run",
     }
 )
 
-#' @export
 setMethod(f="evaluate",
     signature=c("permute_sample_order","metric"),
     definition=function(I,MET)

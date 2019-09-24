@@ -9,3 +9,7 @@
 kruskal-wallis model class. Calculate kw-test for all features in a dataset.
 A non-parametric 1-way ANOVA.
 }
+\examples{
+M = kw_rank_sum()
+
+}

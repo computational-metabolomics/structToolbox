@@ -8,3 +8,7 @@
 \description{
 plots a histogram of p values
 }
+\examples{
+M = wilcox_p_hist()
+
+}

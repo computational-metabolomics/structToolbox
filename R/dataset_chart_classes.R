@@ -55,6 +55,7 @@ feature_boxplot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("feature_boxplot",'dataset'),
     definition=function(obj,dobj)
@@ -169,6 +170,7 @@ mv_histogram<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("mv_histogram",'dataset'),
     definition=function(obj,dobj)
@@ -260,6 +262,7 @@ mv_boxplot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("mv_boxplot",'dataset'),
     definition=function(obj,dobj)
@@ -397,6 +400,7 @@ dataset.dist<-setClass(
 
 #' @export
 #' @import pmp
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("dataset.dist",'dataset'),
     definition=function(obj,dobj)
@@ -487,6 +491,7 @@ dataset.boxplot<-setClass(
 
 #' @export
 #' @import pmp
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("dataset.boxplot",'dataset'),
     definition=function(obj,dobj)
@@ -569,6 +574,8 @@ compare_dist<-setClass(
 
 #' @export
 #' @import gridExtra
+#' @template chart_plot
+#' @param eobj a second dataset object to compare with the first
 setMethod(f="chart.plot",
     signature=c("compare_dist",'dataset'),
     definition=function(obj,dobj,eobj)
@@ -672,6 +679,7 @@ dataset.heatmap<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("dataset.heatmap",'dataset'),
     definition=function(obj,dobj)

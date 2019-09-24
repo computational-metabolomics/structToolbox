@@ -8,3 +8,6 @@
 \description{
 Partial least squares (PLS) fold change estimates
 }
+\examples{
+C = PLSFC()
+}

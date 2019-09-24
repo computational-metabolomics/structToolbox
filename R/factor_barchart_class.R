@@ -40,6 +40,7 @@ dataset.factor_barchart<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("dataset.factor_barchart",'dataset'),
     definition=function(obj,dobj)

@@ -8,3 +8,6 @@
 \description{
 plots the results of a permutation test as a boxplot
 }
+\examples{
+C = permutation_test.boxplot()
+}

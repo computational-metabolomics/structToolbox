@@ -14,7 +14,8 @@
 autoscale<-setClass(
     "autoscale",
     contains='model',
-    slots=c(outputs.autoscaled='dataset',
+    slots=c(
+        outputs.autoscaled='dataset',
         outputs.mean='numeric',
         outputs.sd='numeric'
     ),
@@ -25,6 +26,7 @@ autoscale<-setClass(
 )
 
 #' @export
+#' @template model_train
 setMethod(f="model.train",
     signature=c("autoscale",'dataset'),
     definition=function(M,D)
@@ -40,6 +42,7 @@ setMethod(f="model.train",
 )
 
 #' @export
+#' @template model_predict
 setMethod(f="model.predict",
     signature=c("autoscale",'dataset'),
     definition=function(M,D)

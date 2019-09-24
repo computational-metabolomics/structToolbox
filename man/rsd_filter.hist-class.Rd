@@ -8,3 +8,7 @@
 \description{
 plots a histogram of the calculated RSD for the RSD filter
 }
+\examples{
+C = rsd_filter.hist()
+
+}

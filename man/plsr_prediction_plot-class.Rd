@@ -8,3 +8,6 @@
 \description{
 plots the true values against the predicted values for a PLSR model.
 }
+\examples{
+C = plsr_prediction_plot()
+}

@@ -5,6 +5,9 @@
 #' @import struct
 #' @import stats
 #' @export prop_na
+#' @examples
+#' M = prop_na()
+#'
 prop_na<-setClass(
     "prop_na",
     contains=c('method'),
@@ -62,6 +65,7 @@ prop_na<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("prop_na",'dataset'),
     definition=function(M,D)

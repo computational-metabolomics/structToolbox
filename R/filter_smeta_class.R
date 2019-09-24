@@ -47,6 +47,7 @@ filter_smeta<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("filter_smeta","dataset"),
     definition=function(M,D)

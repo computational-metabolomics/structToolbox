@@ -30,6 +30,7 @@ log_transform<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("log_transform","dataset"),
     definition=function(M,D)

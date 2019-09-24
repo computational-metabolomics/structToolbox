@@ -26,6 +26,7 @@ mixed_effect<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("mixed_effect",'dataset'),
     definition=function(M,D)

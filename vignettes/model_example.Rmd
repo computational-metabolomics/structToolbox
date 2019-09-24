@@ -1,14 +1,14 @@
 ---
 title: "Model objects"
-author: "Dr Gavin Rhys Lloyd"
+author: 
+  name: Dr Gavin Rhys Lloyd
+  affiliation: Phenome Centre Birmingham, University of Birmingham, UK
+output:
+  BiocStyle::html_document:
+    toc_float: true
+  BiocStyle::pdf_document: default
 package: structToolbox
-output: 
-    html_document:
-        keep_md: true
-    md_document:
-        variant: markdown_github
-        df_print: kable
-        html_preview: false
+abstract: Introduction to model objects
 vignette: >
   %\VignetteIndexEntry{Model objects}
   %\VignetteEngine{knitr::rmarkdown}
@@ -32,7 +32,7 @@ PCA (Principal Component Analysis) is a commonly applied method for exploring mu
 
 ```{r}
 D = iris_dataset()
-D$data
+head(D$data)
 ```
  
 </br></br>

@@ -8,3 +8,7 @@
 \description{
 plots the new representation of data after applying tSNE
 }
+\examples{
+M = tSNE_scatter()
+
+}

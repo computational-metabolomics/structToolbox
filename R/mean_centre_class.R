@@ -26,6 +26,7 @@ mean_centre<-setClass(
 )
 
 #' @export
+#' @template model_train
 setMethod(f="model.train",
     signature=c("mean_centre",'dataset'),
     definition=function(M,D)
@@ -48,6 +49,7 @@ setMethod(f="model.train",
 )
 
 #' @export
+#' @template model_predict
 setMethod(f="model.predict",
     signature=c("mean_centre",'dataset'),
     definition=function(M,D)
@@ -72,6 +74,7 @@ setMethod(f="model.predict",
 )
 
 #' @export
+#' @template model_reverse
 setMethod(f='model.reverse',
     signature=c('mean_centre','dataset'),
     definition = function(M,D) {

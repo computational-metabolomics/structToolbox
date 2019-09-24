@@ -50,6 +50,7 @@ HCA<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("HCA",'dataset'),
     definition=function(M,D)
@@ -84,6 +85,7 @@ hca_dendrogram<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("hca_dendrogram",'HCA'),
     definition=function(obj,dobj)

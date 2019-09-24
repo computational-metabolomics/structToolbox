@@ -6,12 +6,11 @@
 #' This is a wrapper for the blank filter in the PMP package.
 #' @import pmp
 #'
-#' @param blank_label (character) the label used to identify 'blank' samples
-#' @param fold_change (numeric) the threshold for filtering samples
-#' @param qc_label (character) the label used to identify 'QC' samples. If set
-#' then the median of the QC samples is used instead of all samples.
-#' @param factor_name (character) the column name of sample_meta containing the
-#' labels
+#' @param fold_change the threshold for filtering samples
+#' @param fraction max proportion of blanks a feature can be present in
+#'
+#' @templateVar paramNames c('blank_label','qc_label','factor_name')
+#' @template common_params
 #'
 #' @return A STRUCT method object with functions for applying a blank filter
 #'
@@ -39,40 +38,27 @@ blank_filter<-setClass(
         description = 'Filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the intensity is not large compared to the blank are removed.',
         type = 'filter',
         predicted = 'filtered',
+
+        params.blank_label=ents$blank_label,
+        params.qc_label=ents$qc_label,
+        params.factor_name=ents$factor_name,
+
         params.fold_change=entity(name = 'Fold change threhsold',
             description = 'Features with median intensity less than FOLD_CHANGE times the median intensity of blanks are removed.',
             value = 20,
             type='numeric'),
-        params.blank_label=entity(name = 'Blank label',
-            description = 'Label used to identify blank samples.',
-            value = 'Blank',
-            type='character'),
-        params.qc_label=entity(name = 'QC label',
-            description = 'Label used to identify QC samples. If not set to null then median of the QCs is used instead of all samples.',
-            value = 'QC',
-            type=c('character','NULL')),
-        outputs.filtered=entity(name = 'Blank filtered dataset',
-            description = 'A dataset object containing the filtered data.',
-            type='dataset',
-            value=dataset()
-        ),
-        outputs.flags=entity(name = 'Flags',
-            description = 'Fold change and a flag indicating whether the feature was rejected by the filter or not.',
-            type='data.frame',
-            value=data.frame()
-        ),
-        params.factor_name=entity(name='Factor name',
-            description='Name of sample meta column to use',
-            type='character',
-            value='V1'),
         params.fraction=entity(name='Fraction in blank',
             description='Remove features only if they occur in a sufficient proportion of the blanks',
             type='numeric',
-            value=0)
+            value=0),
+
+        outputs.filtered=ents$filtered,
+        outputs.flags=ents$flags
     )
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("blank_filter","dataset"),
     definition=function(M,D)
@@ -125,6 +111,7 @@ blank_filter.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
 
     signature=c("blank_filter.hist",'blank_filter'),

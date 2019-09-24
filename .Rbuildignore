@@ -14,3 +14,4 @@ LICENSE
 README.rst
 ^binder/
 ^notebooks/
+man-roxygen

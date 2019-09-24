@@ -8,3 +8,6 @@
 \description{
 Partial least squares (PLS) Regression model class. This object can be used to train/apply PLS models.
 }
+\examples{
+M = PLSR()
+}

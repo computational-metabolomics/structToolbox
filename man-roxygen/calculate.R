@@ -1,0 +1,2 @@
+#' @rdname calculate
+

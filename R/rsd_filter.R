@@ -3,6 +3,9 @@
 #' filters features based on the relative standard deviation (RSD) for the QC samples
 #' @export rsd_filter
 #' @import pmp
+#' @examples
+#' M = rsd_filter()
+#'
 rsd_filter<-setClass(
     "rsd_filter",
     contains = c('method'),
@@ -46,6 +49,7 @@ rsd_filter<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("rsd_filter","dataset"),
     definition=function(M,D)
@@ -74,6 +78,9 @@ setMethod(f="method.apply",
 #' plots a histogram of the calculated RSD for the RSD filter
 #' @import struct
 #' @export rsd_filter.hist
+#' @examples
+#' C = rsd_filter.hist()
+#'
 rsd_filter.hist<-setClass(
     "rsd_filter.hist",
     contains='chart',
@@ -84,6 +91,7 @@ rsd_filter.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("rsd_filter.hist",'rsd_filter'),
     definition=function(obj,dobj)

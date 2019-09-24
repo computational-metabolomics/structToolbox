@@ -59,6 +59,7 @@ forward_selection_byrank <- setClass(
 
 
 #' @export
+#' @template run
 setMethod(f="run",
     signature=c("forward_selection_byrank",'dataset','metric'),
     definition=function(I,D,MET)
@@ -229,6 +230,7 @@ fs_line<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("fs_line",'forward_selection_byrank'),
     definition=function(obj,dobj)

@@ -4,6 +4,7 @@
 #' @export sbcms_dataset
 #' @return dataset object
 #' @import datasets
+#' @param filtered TRUE to load prefiltered data, or FALSE to load the unfiltered data
 #' @examples
 #' D = sbcms_dataset()
 #' summary(D)

@@ -61,6 +61,7 @@ filter_na_count<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("filter_na_count","dataset"),
     definition=function(M,D)

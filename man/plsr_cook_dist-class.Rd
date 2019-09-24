@@ -8,3 +8,6 @@
 \description{
 Plots the residuals for a PLSR model
 }
+\examples{
+C = plsr_cook_dist()
+}

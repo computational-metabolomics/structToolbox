@@ -8,3 +8,6 @@
 \description{
 plots a histogram of p values
 }
+\examples{
+C = kw_p_hist()
+}

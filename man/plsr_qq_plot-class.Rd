@@ -9,3 +9,6 @@
 plots the quantiles of PLSR residuals against the qualtiles of a normal
 distribution
 }
+\examples{
+C = plsr_qq_plot()
+}

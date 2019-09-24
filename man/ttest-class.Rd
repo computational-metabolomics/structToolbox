@@ -8,3 +8,7 @@
 \description{
 t-test model class. Calculate t-test for all features in a dataset
 }
+\examples{
+M = ttest()
+
+}

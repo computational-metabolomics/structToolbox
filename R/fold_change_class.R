@@ -85,6 +85,7 @@ fold_change<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("fold_change",'dataset'),
     definition=function(M,D)
@@ -193,6 +194,7 @@ fold_change_plot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("fold_change_plot",'fold_change'),
     definition=function(obj,dobj)

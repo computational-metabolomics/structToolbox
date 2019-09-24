@@ -8,3 +8,7 @@
 \description{
 applies vector normalisation
 }
+\examples{
+M = vec_norm()
+
+}

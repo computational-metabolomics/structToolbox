@@ -18,3 +18,7 @@ A STRUCT method object with functions for applying a pairs filter
 \description{
 Filters samples for paired analysis, ensuring each sample id is present in all groups.
 }
+\examples{
+M=pairs_filter()
+
+}

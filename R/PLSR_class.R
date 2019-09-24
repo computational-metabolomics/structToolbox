@@ -3,6 +3,8 @@
 #' Partial least squares (PLS) Regression model class. This object can be used to train/apply PLS models.
 #' @export PLSR
 #' @importFrom pls plsr scores
+#' @examples
+#' M = PLSR()
 PLSR<-setClass(
 
     "PLSR",
@@ -31,6 +33,7 @@ PLSR<-setClass(
 )
 
 #' @export
+#' @template model_train
 setMethod(f="model.train",
     signature=c("PLSR",'dataset'),
     definition=function(M,D)
@@ -65,6 +68,7 @@ setMethod(f="model.train",
 )
 
 #' @export
+#' @template model_predict
 setMethod(f="model.predict",
     signature=c("PLSR",'dataset'),
     definition=function(M,D)
@@ -116,6 +120,8 @@ vips<-function(object)
 #' @import struct
 #' @export plsr_prediction_plot
 #' @include PLSR_class.R
+#' @examples
+#' C = plsr_prediction_plot()
 plsr_prediction_plot<-setClass(
     "plsr_prediction_plot",
     contains='chart',
@@ -126,6 +132,7 @@ plsr_prediction_plot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("plsr_prediction_plot",'PLSR'),
     definition=function(obj,dobj)
@@ -157,6 +164,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export plsr_residual_hist
 #' @include PLSR_class.R
+#' @examples
+#' C = plsr_residual_hist()
 plsr_residual_hist<-setClass(
     "plsr_residual_hist",
     contains='chart',
@@ -167,6 +176,7 @@ plsr_residual_hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("plsr_residual_hist",'PLSR'),
     definition=function(obj,dobj)
@@ -199,6 +209,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export plsr_qq_plot
 #' @include PLSR_class.R
+#' @examples
+#' C = plsr_qq_plot()
 plsr_qq_plot<-setClass(
     "plsr_qq_plot",
     contains='chart',
@@ -210,6 +222,7 @@ plsr_qq_plot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("plsr_qq_plot",'PLSR'),
     definition=function(obj,dobj)
@@ -239,6 +252,8 @@ setMethod(f="chart.plot",
 #' @import struct
 #' @export plsr_cook_dist
 #' @include PLSR_class.R
+#' @examples
+#' C = plsr_cook_dist()
 plsr_cook_dist<-setClass(
     "plsr_cook_dist",
     contains='chart',
@@ -249,6 +264,7 @@ plsr_cook_dist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("plsr_cook_dist",'PLSR'),
     definition=function(obj,dobj)

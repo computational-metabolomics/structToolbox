@@ -3,6 +3,8 @@
 #' applies PQN normalisation using QC samples as reference samples
 #' @export pqn_norm
 #' @import pmp
+#' @examples
+#' M = pqn_norm()
 pqn_norm<-setClass(
     "pqn_norm",
     contains = c('method'),
@@ -35,6 +37,7 @@ pqn_norm<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("pqn_norm","dataset"),
     definition=function(M,D)
@@ -61,6 +64,8 @@ setMethod(f="method.apply",
 #' plots a histogram of the PQN coeffients
 #' @import struct
 #' @export pqn_norm.hist
+#' @examples
+#' C = pqn_norm.hist()
 pqn_norm.hist<-setClass(
     "pqn_norm.hist",
     contains='chart',
@@ -71,6 +76,7 @@ pqn_norm.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("pqn_norm.hist",'pqn_norm'),
     definition=function(obj,dobj)

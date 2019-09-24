@@ -55,6 +55,7 @@ mv_feature_filter<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("mv_feature_filter","dataset"),
     definition=function(M,D)
@@ -115,6 +116,7 @@ mv_feature_filter.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("mv_feature_filter.hist",'mv_feature_filter'),
     definition=function(obj,dobj)

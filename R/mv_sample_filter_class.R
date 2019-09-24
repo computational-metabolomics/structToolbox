@@ -34,6 +34,7 @@ mv_sample_filter<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("mv_sample_filter","dataset"),
     definition=function(M,D)
@@ -76,6 +77,7 @@ mv_sample_filter.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("mv_sample_filter.hist",'mv_sample_filter'),
     definition=function(obj,dobj)

@@ -1,14 +1,13 @@
 ---
 title: "Iterator objects"
-author: "Dr Gavin Rhys Lloyd"
+author: 
+- name: Dr Gavin Rhys Lloyd
+  affiliation: Phenome Centre Birmingham, University of Birmingham, UK
+output:
+  BiocStyle::html_document:
+    toc_float: true
+  BiocStyle::pdf_document: default
 package: structToolbox
-output: 
-    html_document:
-        keep_md: true
-    md_document:
-        variant: markdown_github
-        df_print: kable
-        html_preview: false
 vignette: >
   %\VignetteIndexEntry{Iterator objects}
   %\VignetteEngine{knitr::rmarkdown}

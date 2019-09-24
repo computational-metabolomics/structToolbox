@@ -4,7 +4,9 @@
 #'
 #' @import Rtsne
 #' @export tSNE
-
+#' @examples
+#' M = tSNE()
+#'
 tSNE<-setClass(
     "tSNE",
     contains=c('method'),
@@ -38,6 +40,7 @@ tSNE<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("tSNE",'dataset'),
     definition=function(M,D)
@@ -68,6 +71,9 @@ setMethod(f="method.apply",
 #' @import struct
 #' @export tSNE_scatter
 #' @include PCA_class.R
+#' @examples
+#' M = tSNE_scatter()
+#'
 tSNE_scatter<-setClass(
     "tSNE_scatter",
     contains='chart',
@@ -83,6 +89,7 @@ tSNE_scatter<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("tSNE_scatter",'tSNE'),
     definition=function(obj,dobj)

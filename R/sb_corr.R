@@ -70,6 +70,7 @@ sb_corr<-setClass(
 )
 
 #' @export
+#' @template method_apply
 setMethod(f="method.apply",
     signature=c("sb_corr","dataset"),
     definition=function(M,D)

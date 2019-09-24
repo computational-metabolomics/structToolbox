@@ -24,6 +24,7 @@ grid_search_1d<-setClass(
 )
 
 #' @export
+#' @template run
 setMethod(f="run",
     signature=c("grid_search_1d",'dataset','metric'),
     definition=function(I,D,MET)
@@ -133,6 +134,7 @@ gs_line<-setClass(
 
 #' @export
 #' @inherit struct::chart.plot
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c("gs_line",'grid_search_1d'),
     definition=function(obj,dobj)

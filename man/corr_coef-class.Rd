@@ -8,3 +8,7 @@
 \description{
 correlation model class. Calculate correlation between features and continuous variables
 }
+\examples{
+M = corr_coef()
+
+}

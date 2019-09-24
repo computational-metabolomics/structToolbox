@@ -1,6 +1,9 @@
 #' permutation test class
 #'
 #' Applies a permutation test to a model or model.seq()
+#' @examples
+#' I=permutation_test()
+#'
 #' @export permutation_test
 permutation_test<-setClass(
     "permutation_test",
@@ -18,6 +21,7 @@ permutation_test<-setClass(
 )
 
 #' @export
+#' @template run
 setMethod(f="run",
     signature=c("permutation_test",'dataset','metric'),
     definition=function(I,D,MET=NULL)
@@ -119,6 +123,8 @@ setMethod(f="run",
 #' permutation_test.boxplot class
 #'
 #' plots the results of a permutation test as a boxplot
+#' @examples
+#' C = permutation_test.boxplot()
 #' @export permutation_test.boxplot
 permutation_test.boxplot<-setClass(
     "permutation_test.boxplot",
@@ -130,6 +136,7 @@ permutation_test.boxplot<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c('permutation_test.boxplot','permutation_test'),
     definition=function(obj,dobj)
@@ -151,6 +158,8 @@ setMethod(f="chart.plot",
 #' permutation_test.violin class
 #'
 #' plots the results of a permutation test as a boxplot
+#' @examples
+#' C = permutation_test.violin()
 #' @export permutation_test.violin
 permutation_test.violin<-setClass(
     "permutation_test.violin",
@@ -162,6 +171,7 @@ permutation_test.violin<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c('permutation_test.violin','permutation_test'),
     definition=function(obj,dobj)
@@ -183,6 +193,8 @@ setMethod(f="chart.plot",
 #' permutation_test.hist class
 #'
 #' plots the results of a permutation test as histograms
+#' @examples
+#' C = permutation_test.hist()
 #' @export permutation_test.hist
 permutation_test.hist<-setClass(
     "permutation_test.hist",
@@ -194,6 +206,7 @@ permutation_test.hist<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c('permutation_test.hist','permutation_test'),
     definition=function(obj,dobj)
@@ -214,6 +227,8 @@ setMethod(f="chart.plot",
 #' permutation_test.scatter class
 #'
 #' plots the results of a permutation test as histograms
+#' @examples
+#' C = permutation_test.scatter()
 #' @export permutation_test.scatter
 permutation_test.scatter<-setClass(
     "permutation_test.scatter",
@@ -225,6 +240,7 @@ permutation_test.scatter<-setClass(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart.plot",
     signature=c('permutation_test.scatter','permutation_test'),
     definition=function(obj,dobj)

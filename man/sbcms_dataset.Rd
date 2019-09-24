@@ -6,6 +6,9 @@
 \usage{
 sbcms_dataset(filtered = FALSE)
 }
+\arguments{
+\item{filtered}{TRUE to load prefiltered data, or FALSE to load the unfiltered data}
+}
 \value{
 dataset object
 }

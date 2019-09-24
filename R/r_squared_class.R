@@ -2,7 +2,9 @@
 #'
 #' Coefficient of determination (r-squared).
 #' @export r_squared
-
+#' @examples
+#' MET = r_squared()
+#'
 r_squared<-setClass(
     "r_squared",
     contains='metric',
@@ -12,6 +14,7 @@ r_squared<-setClass(
 )
 
 #' @export
+#' @template calculate
 setMethod(f="calculate",
     signature=c('r_squared'),
     definition=function(obj,Y,Yhat)

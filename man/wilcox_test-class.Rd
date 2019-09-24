@@ -9,3 +9,7 @@
 wilcoxon signed rank test. Calculate signed rank test for all features in a
 dataset. Non-parametric ttest.
 }
+\examples{
+M = wilcox_test()
+
+}
