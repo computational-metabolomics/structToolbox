@@ -2,7 +2,6 @@
 #'
 #' Partial least squares (PLS) Regression model class. This object can be used to train/apply PLS models.
 #' @export PLSR
-#' @importFrom pls plsr scores
 #' @examples
 #' M = PLSR()
 PLSR<-setClass(
@@ -26,6 +25,7 @@ PLSR<-setClass(
     prototype = list(name='Partial least squares regression',
         type="regression",
         predicted='pred',
+        libraries='pls',
         params.number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric'),
         params.factor_name=entity(name='Factor name', description='A vector of sample_meta column names to use')
     )

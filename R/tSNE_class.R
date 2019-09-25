@@ -2,7 +2,6 @@
 #'
 #' t-Distributed Stochastic Neighbor Embedding (tSNE) class. This object can be used to train/apply tSNE models to dataset objects.
 #'
-#' @import Rtsne
 #' @export tSNE
 #' @examples
 #' M = tSNE()
@@ -28,7 +27,7 @@ tSNE<-setClass(
         description='t-Distributed Stochastic Neighbor Embedding.',
         type="preprocessing",
         predicted='tsne',
-
+        libraries='Rtsne',
         params.dims=2,
         params.perplexity=30,
         params.max_iter=1000,
@@ -83,7 +82,8 @@ tSNE_scatter<-setClass(
         ),
     prototype = list(name='Feature boxplot',
         description='plots the new representation of data after applying tSNE.',
-        type="scatter"
+        type="scatter",
+        libraries='Rtsne'
 
     )
 )

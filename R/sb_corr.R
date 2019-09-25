@@ -23,6 +23,7 @@ sb_corr<-setClass(
         correct for signal drift and batch differences in mass spectrometry data.',
         type = 'correction',
         predicted = 'corrected',
+        libraries='sbcms',
 
         params.order_col=entity(
             name = 'Sample run order column',

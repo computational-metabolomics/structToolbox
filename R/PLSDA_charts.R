@@ -23,6 +23,7 @@ plsda_scores_plot<-setClass(
     prototype = list(name='PLSDA scores plot',
         description='scatter plot of PLSDA component scores',
         type="scatter",
+        libraries=c('pls','ggplot2'),
         params.components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',

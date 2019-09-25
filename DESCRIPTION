@@ -77,7 +77,6 @@ Depends: struct
 Imports: ggplot2,
  pmp,
  gridExtra,
- pls,
  sp,
  scales,
  stats,
@@ -90,7 +89,6 @@ Imports: ggplot2,
  nlme,
  ggthemes,
  ggdendro,
- Rtsne,
  datasets
 RoxygenNote: 6.1.1
 Suggests: 
@@ -99,7 +97,9 @@ Suggests:
  knitr,
  rmarkdown,
  BiocStyle,
- sbcms
+ pls,
+ sbcms,
+ Rtsne
 Remotes: computational-metabolomics/pmp,
   computational-metabolomics/struct,
   computational-metabolomics/sbcms

@@ -2,7 +2,6 @@
 #'
 #' Partial least squares (PLS) discriminant analysis (DA) model class. This object can be used to train/apply PLS models.
 #' @export PLSDA
-#' @importFrom pls plsr scores
 #' @examples
 #' M = PLSDA()
 PLSDA<-setClass(
@@ -26,6 +25,7 @@ PLSDA<-setClass(
     prototype = list(name='Partial least squares discriminant analysis',
         type="classification",
         predicted='pred',
+        libraries='pls',
         params.number_components=entity(value = 2,
             name = 'Number of PLS components',
             description = 'The number of PLS components to use',

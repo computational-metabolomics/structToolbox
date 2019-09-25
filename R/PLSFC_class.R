@@ -2,7 +2,6 @@
 #'
 #' Partial least squares (PLS) fold change estimates
 #' @export PLSFC
-#' @importFrom pls plsr scores
 #' @include fold_change_class.R
 #' @examples
 #' C = PLSFC()
@@ -15,6 +14,7 @@ PLSFC<-setClass(
     prototype = list(name='Partial least squares discriminant analysis',
         type="classification",
         predicted='pred',
+        libraries=c('pls'),
         params.number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric')
     )
 )

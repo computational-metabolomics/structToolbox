@@ -1,8 +1,6 @@
 ## ----setup, include=FALSE--------------------------------------------------
 knitr::opts_chunk$set(
-    collapse = TRUE,
-    comment = "#>",
-    fig.align = 'center'
+    dpi=72
 )
 library(structToolbox)
 library(gridExtra)
