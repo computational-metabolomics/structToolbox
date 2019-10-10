@@ -272,7 +272,7 @@ setMethod(f="chart.plot",
         # get data
         Xt=dataset.data(dobj)
         # meta data
-        SM=dataset.sample_meta(dobj)[ ,1]
+        SM=dataset.sample_meta(dobj)[[obj$factor_name]]
 
         L=levels(SM)
 
