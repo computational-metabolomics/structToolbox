@@ -285,10 +285,10 @@ setMethod(f="chart.plot",
     {
 
         A=data.frame('percent_change'=double(),'group'=character())
-        for (i in 2:length(dobj$confounding_factors)) {
+        for (i in 1:length(dobj$confounding_factors)) {
             q=data.frame('percent_change'=double(nrow(dobj$percent_change)),'group'=character(nrow(dobj$percent_change)))
-            q$percent_change=dobj$percent_change[,i]*100
-            q$group=colnames(dobj$percent_change)[i]
+            q$percent_change=dobj$percent_change[,i+1]*100
+            q$group=colnames(dobj$percent_change)[i+1]
             colnames(q)=c('percent_change','group')
             A=rbind(A,q)
         }
