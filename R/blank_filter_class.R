@@ -20,12 +20,12 @@
 #'                  factor_name='Species',
 #'                  blank_label='setosa',
 #'                  qc_label='versicolor')
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @export blank_filter
 blank_filter<-setClass(
     "blank_filter",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.fold_change='entity',
         params.blank_label='entity',
         params.qc_label='entity',
@@ -59,7 +59,7 @@ blank_filter<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("blank_filter","dataset"),
     definition=function(M,D)
     {
@@ -78,7 +78,7 @@ setMethod(f="method.apply",
 
         # remove the blanks. do it this way because pmp doesnt remove from class labels.
         RB = filter_smeta(mode='exclude',levels=opt$blank_label,factor_name=opt$factor_name)
-        RB=method.apply(RB,D)
+        RB=model.apply(RB,D)
         D=predicted(RB)
 
         flags=data.frame(blank_filtered$flags)

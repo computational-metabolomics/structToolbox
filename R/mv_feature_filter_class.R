@@ -7,7 +7,7 @@
 #' M = mv_feature_filter()
 mv_feature_filter<-setClass(
     "mv_feature_filter",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.threshold='entity',
         params.qc_label='entity',
         params.method='enum',
@@ -56,7 +56,7 @@ mv_feature_filter<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("mv_feature_filter","dataset"),
     definition=function(M,D)
     {

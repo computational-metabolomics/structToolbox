@@ -14,12 +14,12 @@
 #' @examples
 #' D = sbcms_dataset()
 #' M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @export dratio_filter
 dratio_filter<-setClass(
     "dratio_filter",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.threshold='entity',
         params.qc_label='entity',
         params.factor_name='entity',
@@ -63,19 +63,19 @@ dratio_filter<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("dratio_filter","dataset"),
     definition=function(M,D)
     {
         # median QC samples
         QC=filter_smeta(mode='include',levels=M$qc_label,factor_name=M$factor_name)
-        QC = method.apply(QC,D)
+        QC = model.apply(QC,D)
         QC = predicted(QC)$data
         QC=apply(QC,2,mad,na.rm=TRUE)
 
         # median samples
         S=filter_smeta(mode='exclude',levels=M$qc_label,factor_name=M$factor_name)
-        S = method.apply(S,D)
+        S = model.apply(S,D)
         S = predicted(S)$data
         S=apply(S,2,mad,na.rm=TRUE)
 

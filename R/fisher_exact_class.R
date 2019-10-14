@@ -20,14 +20,14 @@
 #'
 #' # apply method
 #' M = fisher_exact(alpha=0.05,mtc='fdr',factor_name='class',factor_pred=pred)
-#' M=method.apply(M,D)
+#' M=model.apply(M,D)
 #'
 #' @import struct
 #' @import stats
 #' @export fisher_exact
 fisher_exact<-setClass(
     "fisher_exact",
-    contains=c('method','stato'),
+    contains=c('model','stato'),
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -83,7 +83,7 @@ fisher_exact<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("fisher_exact",'dataset'),
     definition=function(M,D)
     {

@@ -7,7 +7,7 @@ test_that('prop_na',{
   # method
   M = prop_na(factor_name='Species')
   # apply
-  M=method.apply(M,D)
+  M=model.apply(M,D)
   expect_true(all(M$significant[,1]))
   expect_true(all(M$na_count$versicolor==50))
 })

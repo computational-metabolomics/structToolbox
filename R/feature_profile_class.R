@@ -57,12 +57,12 @@ setMethod(f="chart.plot",
 
         # mean of QCs
         FT=filter_smeta(mode='include',levels=obj$qc_label,factor_name=obj$qc_column)
-        FT=method.apply(FT,dobj)
+        FT=model.apply(FT,dobj)
         MQC=mean(predicted(FT)$data[,obj$feature_to_plot],na.rm=TRUE)
         SQC=sd(predicted(FT)$data[,obj$feature_to_plot],na.rm=TRUE)
         # mean of samples
         FT=filter_smeta(mode='exclude',levels=obj$qc_label,factor_name=obj$qc_column)
-        FT=method.apply(FT,dobj)
+        FT=model.apply(FT,dobj)
         MS=mean(predicted(FT)$data[,obj$feature_to_plot],na.rm=TRUE)
         SS=sd(predicted(FT)$data[,obj$feature_to_plot],na.rm=TRUE)
 

@@ -8,12 +8,12 @@
 #' @examples
 #' D = sbcms_dataset()
 #' M = filter_na_count(threshold=3,factor_name='class')
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @export filter_na_count
 filter_na_count<-setClass(
     "filter_na_count",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.threshold='entity',
         params.factor_name='entity',
         outputs.filtered='entity',
@@ -62,7 +62,7 @@ filter_na_count<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("filter_na_count","dataset"),
     definition=function(M,D)
     {

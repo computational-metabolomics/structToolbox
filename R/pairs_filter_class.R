@@ -14,7 +14,7 @@
 #' @export pairs_filter
 pairs_filter<-setClass(
     "pairs_filter",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.factor_name='entity',
         params.fraction='entity',
         params.sample_id='entity',
@@ -50,7 +50,7 @@ pairs_filter<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("pairs_filter","dataset"),
     definition=function(M,D)
     {
@@ -88,7 +88,7 @@ setMethod(f="method.apply",
             M$flags=data.frame(flags=flags)
 
             FF=filter_by_name(mode='exclude',dimension='sample',names=as.logical(flags[,1]))
-            FF=method.apply(FF,D)
+            FF=model.apply(FF,D)
             M$filtered=predicted(FF)
 
 

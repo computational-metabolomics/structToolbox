@@ -18,7 +18,7 @@ P = pqn_norm(qc_label='QC',factor_name='class') +
     knn_impute(neighbours=5) +
     glog_transform(qc_label='QC',factor_name='class') +
     filter_smeta(mode='exclude',levels='QC',factor_name='class')
-P = method.apply(P,D)
+P = model.apply(P,D)
 D = predicted(P)
 
 # forward selection using a PLSDA model

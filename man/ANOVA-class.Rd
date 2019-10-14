@@ -21,6 +21,6 @@ Applies ANOVA to each feature in a dataset object.
 \examples{
 D = iris_dataset()
 M = ANOVA(formula=y~Species)
-M = method.apply(M,D)
+M = model.apply(M,D)
 
 }

@@ -10,12 +10,12 @@
 #' @examples
 #' D = sbcms_dataset()
 #' M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @export filter_smeta
 filter_smeta<-setClass(
     "filter_smeta",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.mode='enum',
         params.levels='entity',
         params.factor_name='entity',
@@ -48,7 +48,7 @@ filter_smeta<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("filter_smeta","dataset"),
     definition=function(M,D)
     {

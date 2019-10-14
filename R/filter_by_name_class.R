@@ -12,12 +12,12 @@
 #' @examples
 #' D = sbcms_dataset()
 #' M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @export filter_by_name
 filter_by_name<-setClass(
     "filter_by_name",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.mode='entity',
         params.dimension='enum',
         params.names='entity',
@@ -44,7 +44,7 @@ filter_by_name<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("filter_by_name","dataset"),
     definition=function(M,D)
     {

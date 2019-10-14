@@ -7,7 +7,7 @@
 #' C = mv_sample_filter()
 mv_sample_filter<-setClass(
     "mv_sample_filter",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.mv_threshold='entity',
         outputs.filtered='entity',
         outputs.flags='entity'
@@ -35,7 +35,7 @@ mv_sample_filter<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("mv_sample_filter","dataset"),
     definition=function(M,D)
     {

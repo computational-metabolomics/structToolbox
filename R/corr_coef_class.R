@@ -10,7 +10,7 @@
 #' @export corr_coef
 corr_coef<-setClass(
     "corr_coef",
-    contains=c('method'),
+    contains=c('model'),
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -71,7 +71,7 @@ corr_coef<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("corr_coef",'dataset'),
     definition=function(M,D)
     {

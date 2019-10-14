@@ -4,7 +4,7 @@ test_that('anova 1way',{
   D=iris_dataset()
   # method
   ME=ANOVA(formula=y~Species)
-  ME=method.apply(ME,D)
+  ME=model.apply(ME,D)
   # expect all true
   expect_true(all(ME$significant[,1]))
 
@@ -17,7 +17,7 @@ test_that('anova 2way',{
   D$sample_meta$fake_news=sample(D$sample_meta$Species,150,replace=FALSE)
   # method
   ME=ANOVA(formula=y~Species*fake_news)
-  ME=method.apply(ME,D)
+  ME=model.apply(ME,D)
   # expect all true
   expect_true(all(ME$significant[,1]))
 
@@ -30,7 +30,7 @@ test_that('hsd 1 factor',{
   D=iris_dataset()
   # method
   ME=HSD(formula=y~Species)
-  ME=method.apply(ME,D)
+  ME=model.apply(ME,D)
   # expect all true
   expect_true(all(ME$significant[,1]))
 
@@ -44,7 +44,7 @@ test_that('hsd 2 factors',{
   D$sample_meta$fake_news=sample(D$sample_meta$Species,150,replace=FALSE)
   # method
   ME=HSD(formula=y~Species*fake_news)
-  ME=method.apply(ME,D)
+  ME=model.apply(ME,D)
   # expect all true
   expect_true(all(ME$significant[,1]))
 })

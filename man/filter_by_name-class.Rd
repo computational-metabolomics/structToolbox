@@ -21,6 +21,6 @@ a filter to subsample a dataset object based on sample or feature labels.
 \examples{
 D = sbcms_dataset()
 M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
-M = method.apply(M,D)
+M = model.apply(M,D)
 
 }

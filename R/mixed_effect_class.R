@@ -11,7 +11,7 @@
 #' M = mixed_effect()
 mixed_effect<-setClass(
     "mixed_effect",
-    contains=c('method','stato','ANOVA'), # inherits ANOVA
+    contains=c('model','stato','ANOVA'), # inherits ANOVA
     prototype = list(name='Mixed effects model',
         description='Mixed effects model applied to each column of a dataset.',
         type="univariate",
@@ -27,7 +27,7 @@ mixed_effect<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("mixed_effect",'dataset'),
     definition=function(M,D)
     {

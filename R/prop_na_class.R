@@ -10,7 +10,7 @@
 #'
 prop_na<-setClass(
     "prop_na",
-    contains=c('method'),
+    contains=c('model'),
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -66,7 +66,7 @@ prop_na<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("prop_na",'dataset'),
     definition=function(M,D)
     {

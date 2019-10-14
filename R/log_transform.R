@@ -6,7 +6,7 @@
 #' M = log_transform()
 log_transform<-setClass(
     "log_transform",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.base='entity',
         outputs.transformed='entity'
     ),
@@ -31,7 +31,7 @@ log_transform<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("log_transform","dataset"),
     definition=function(M,D)
     {

@@ -6,7 +6,7 @@ test_that('split data',{
   # method
   M = split_data()
   # apply
-  M = method.apply(M,D)
+  M = model.apply(M,D)
   expect_equal(nrow(M$testing$data),38)
   expect_equal(nrow(M$training$data),112)
 })

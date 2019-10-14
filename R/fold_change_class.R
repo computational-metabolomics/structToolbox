@@ -6,7 +6,7 @@
 #' @examples
 #' D = sbcms_dataset()
 #' M = fold_change(factor_name='class')
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @param alpha confidence level to use for intervals
 #' @param factor_name the sample_meta column to use
@@ -21,7 +21,7 @@
 #' @export fold_change
 fold_change<-setClass(
     "fold_change",
-    contains=c('method'),
+    contains=c('model'),
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -86,7 +86,7 @@ fold_change<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("fold_change",'dataset'),
     definition=function(M,D)
     {
@@ -127,12 +127,12 @@ setMethod(f="method.apply",
             for (B in (A+1):(length(L))) {
                 # filter groups to A and B
                 FG=filter_smeta(factor_name=M$factor_name,mode='include',levels=L[c(A,B)])
-                FG=method.apply(FG,D)
+                FG=model.apply(FG,D)
                 # change to ordered factor so that we make use of control group
                 FG$filtered$sample_meta[[M$factor_name]]=ordered(FG$filtered$sample_meta[[M$factor_name]],levels=L[c(A,B)])
                 # apply t-test
                 TT=ttest(alpha=M$alpha,mtc='none',factor_names=M$factor_name,paired=M$paired,paired_factor=M$sample_name)
-                TT=method.apply(TT,predicted(FG))
+                TT=model.apply(TT,predicted(FG))
                 # log2(fold change) is the difference in estimate.mean from ttest
                 if (M$paired) {
                     fc=TT$estimates[,1]

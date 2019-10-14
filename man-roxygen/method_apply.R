@@ -1,1 +1,1 @@
-#' @rdname method.apply
+#' @rdname model.apply

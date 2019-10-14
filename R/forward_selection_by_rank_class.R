@@ -20,7 +20,7 @@
 #'     knn_impute(neighbours=5) +
 #'     glog_transform(qc_label='QC',factor_name='class') +
 #'     filter_smeta(mode='exclude',levels='QC',factor_name='class')
-#' P = method.apply(P,D)
+#' P = model.apply(P,D)
 #' D = predicted(P)
 #'
 #' # forward selection using a PLSDA model
@@ -204,7 +204,7 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
 #'     knn_impute(neighbours=5) +
 #'     glog_transform(qc_label='QC',factor_name='class') +
 #'     filter_smeta(mode='exclude',levels='QC',factor_name='class')
-#' P = method.apply(P,D)
+#' P = model.apply(P,D)
 #' D = predicted(P)
 #'
 #' # forward selection using a PLSDA model

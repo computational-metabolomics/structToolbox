@@ -7,7 +7,7 @@
 #' M = pqn_norm()
 pqn_norm<-setClass(
     "pqn_norm",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.qc_label='entity',
         params.factor_name='entity',
         outputs.normalised='entity',
@@ -38,7 +38,7 @@ pqn_norm<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("pqn_norm","dataset"),
     definition=function(M,D)
     {

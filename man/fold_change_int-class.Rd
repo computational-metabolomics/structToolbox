@@ -24,6 +24,6 @@ D = sbcms_dataset()
 D$data=D$data[,1:10,drop=FALSE]
 M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
     fold_change_int(factor_name=c('class','batch'))
-M = method.apply(M,D)
+M = model.apply(M,D)
 
 }

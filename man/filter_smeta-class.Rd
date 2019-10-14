@@ -19,6 +19,6 @@ A filter to subset a dataset object based on sample meta data.
 \examples{
 D = sbcms_dataset()
 M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
-M = method.apply(M,D)
+M = model.apply(M,D)
 
 }

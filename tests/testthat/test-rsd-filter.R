@@ -6,7 +6,7 @@ test_that('rsd filter',{
   # method
   M = rsd_filter(qc_label='virginica',factor_name='Species',rsd_threshold=100)
   # apply
-  M=method.apply(M,D)
+  M=model.apply(M,D)
   expect_true(all(M$flags$rsd_flags==1))
 })
 
@@ -17,7 +17,7 @@ test_that('blank filter histogram',{
   # method
   M = rsd_filter(qc_label='virginica',factor_name='Species',rsd_threshold=100)
   # apply
-  M=method.apply(M,D)
+  M=model.apply(M,D)
   # chart
   C = rsd_filter.hist()
   gg=chart.plot(C,M)

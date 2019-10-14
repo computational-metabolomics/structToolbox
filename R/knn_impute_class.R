@@ -7,7 +7,7 @@
 #' M = knn_impute()
 knn_impute<-setClass(
     "knn_impute",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.neighbours='entity',
         params.sample_max='entity',
         params.feature_max='entity',
@@ -44,7 +44,7 @@ knn_impute<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("knn_impute","dataset"),
     definition=function(M,D)
     {

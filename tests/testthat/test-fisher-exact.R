@@ -10,6 +10,6 @@ test_that('ttest',{
   # method
   M = fisher_exact(factor_name='Species',factor_pred=pred)
   # apply
-  M = method.apply(M,D)
+  M = model.apply(M,D)
   expect_true(all(M$significant))
 })

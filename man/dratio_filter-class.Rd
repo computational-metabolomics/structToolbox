@@ -23,6 +23,6 @@ sample variance.
 \examples{
 D = sbcms_dataset()
 M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
-M = method.apply(M,D)
+M = model.apply(M,D)
 
 }

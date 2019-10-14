@@ -8,7 +8,7 @@
 #'
 vec_norm<-setClass(
     "vec_norm",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(outputs.normalised='entity',
         outputs.coeff='entity'
     ),
@@ -31,7 +31,7 @@ vec_norm<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("vec_norm","dataset"),
     definition=function(M,D)
     {

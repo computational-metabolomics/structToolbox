@@ -6,7 +6,7 @@ test_that('filter by name, exclude samples',{
   # method
   M = filter_by_name(mode='exclude',dimension='sample',names=c('1','2','3'))
   # apply
-  M=method.apply(M,D)
+  M=model.apply(M,D)
   expect_equal(nrow(M$filtered$data),147)
 })
 
@@ -17,7 +17,7 @@ test_that('filter by name, include samples',{
   # method
   M = filter_by_name(mode='include',dimension='sample',names=c('1','2','3'))
   # apply
-  M=method.apply(M,D)
+  M=model.apply(M,D)
   expect_equal(nrow(M$filtered$data),3)
 })
 
@@ -28,7 +28,7 @@ test_that('filter by name, exclude variables',{
   # method
   M = filter_by_name(mode='exclude',dimension='variable',names=c('Petal.Width','Petal.Length'))
   # apply
-  M=method.apply(M,D)
+  M=model.apply(M,D)
   expect_equal(ncol(M$filtered$data),2)
 })
 
@@ -39,6 +39,6 @@ test_that('filter by name, include variables',{
   # method
   M = filter_by_name(mode='include',dimension='variable',names=c('Petal.Width','Petal.Length'))
   # apply
-  M=method.apply(M,D)
+  M=model.apply(M,D)
   expect_equal(ncol(M$filtered$data),2)
 })

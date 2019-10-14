@@ -30,6 +30,6 @@ pred=as.data.frame(pred)
 
 # apply method
 M = fisher_exact(alpha=0.05,mtc='fdr',factor_name='class',factor_pred=pred)
-M=method.apply(M,D)
+M=model.apply(M,D)
 
 }

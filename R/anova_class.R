@@ -14,14 +14,14 @@
 #' @examples
 #' D = iris_dataset()
 #' M = ANOVA(formula=y~Species)
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @include entity_objects.R
 #'
 #' @export ANOVA
 ANOVA<-setClass(
     "ANOVA",
-    contains=c('method','stato'),
+    contains=c('model','stato'),
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -59,7 +59,7 @@ ANOVA<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("ANOVA",'dataset'),
     definition=function(M,D)
     {

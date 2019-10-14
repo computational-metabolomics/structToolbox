@@ -11,7 +11,7 @@
 #' @export kw_rank_sum
 kw_rank_sum<-setClass(
     "kw_rank_sum",
-    contains=c('method'),
+    contains=c('model'),
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -71,7 +71,7 @@ kw_rank_sum<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("kw_rank_sum",'dataset'),
     definition=function(M,D)
     {

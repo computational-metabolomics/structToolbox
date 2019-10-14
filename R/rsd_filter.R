@@ -8,7 +8,7 @@
 #'
 rsd_filter<-setClass(
     "rsd_filter",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.rsd_threshold='entity',
         params.qc_label='entity',
         params.factor_name='entity',
@@ -50,7 +50,7 @@ rsd_filter<-setClass(
 
 #' @export
 #' @template method_apply
-setMethod(f="method.apply",
+setMethod(f="model.apply",
     signature=c("rsd_filter","dataset"),
     definition=function(M,D)
     {

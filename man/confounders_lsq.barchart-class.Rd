@@ -24,7 +24,7 @@ M = filter_by_name(mode='include',dimension='variable',
         factor_name='class') + # reduce to two group comparison
     confounders_clsq(factor_name = 'class',
         confounding_factors=c('sample_order','batch'))
-M = method.apply(M,D)
+M = model.apply(M,D)
 C = C=confounders_lsq.barchart(feature_to_plot=1,threshold=15)
 chart.plot(C,M[3])
 
