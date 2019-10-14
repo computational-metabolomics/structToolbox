@@ -101,7 +101,7 @@ Suggests:
  sbcms,
  Rtsne
 Remotes: computational-metabolomics/pmp,
-  computational-metabolomics/struct#4bc5702,
+  computational-metabolomics/struct@4bc5702,
   computational-metabolomics/sbcms
 VignetteBuilder: knitr
 biocViews: WorkflowStep
