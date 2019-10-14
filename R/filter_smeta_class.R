@@ -47,7 +47,7 @@ filter_smeta<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("filter_smeta","dataset"),
     definition=function(M,D)
@@ -72,4 +72,20 @@ setMethod(f="model.apply",
     }
 )
 
+#' @export
+#' @template model_train
+setMethod(f="model.train",
+    signature=c("filter_smeta","dataset"),
+    definition=function(M,D) {
+        M=model.apply(M,D)
+    }
+)
 
+#' @export
+#' @template model_predict
+setMethod(f="model.predict",
+    signature=c("filter_smeta","dataset"),
+    definition=function(M,D) {
+        M=model.apply(M,D)
+    }
+)

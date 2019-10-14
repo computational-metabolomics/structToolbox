@@ -72,7 +72,7 @@ classical_lsq<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("classical_lsq",'dataset'),
     definition=function(M,D)

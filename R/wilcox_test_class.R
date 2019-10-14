@@ -84,7 +84,7 @@ wilcox_test<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("wilcox_test",'dataset'),
     definition=function(M,D)

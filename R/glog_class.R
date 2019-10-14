@@ -50,7 +50,7 @@ glog_transform<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("glog_transform","dataset"),
     definition=function(M,D)

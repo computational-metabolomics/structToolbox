@@ -34,7 +34,7 @@ mv_sample_filter<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("mv_sample_filter","dataset"),
     definition=function(M,D)
@@ -58,6 +58,27 @@ setMethod(f="model.apply",
     }
 )
 
+#' @export
+#' @template model_train
+setMethod(f="model.train",
+    signature=c("mv_sample_filter","dataset"),
+    definition=function(M,D)
+    {
+        M=model.apply(M,D)
+        return(M)
+    }
+)
+
+#' @export
+#' @template model_predict
+setMethod(f="model.predict",
+    signature=c("mv_sample_filter","dataset"),
+    definition=function(M,D)
+    {
+        M=model.apply(M,D)
+        return(M)
+    }
+)
 
 ##### plots
 #' plot for missing value sample filter

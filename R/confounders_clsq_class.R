@@ -81,7 +81,7 @@ confounders_clsq<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("confounders_clsq",'dataset'),
     definition=function(M,D)

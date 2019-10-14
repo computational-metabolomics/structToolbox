@@ -62,8 +62,8 @@ dratio_filter<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="model.apply",
+#' @template model_train
+setMethod(f="model.train",
     signature=c("dratio_filter","dataset"),
     definition=function(M,D)
     {
@@ -86,9 +86,22 @@ setMethod(f="model.apply",
         M$d_ratio=data.frame(d_ratio=d_ratio,row.names=colnames(D$data))
         M$flags=data.frame(rejected=OUT,row.names = colnames(D$data))
 
+        return(M)
+    }
+)
+
+#' @export
+#' @template model_predict
+setMethod(f="model.predict",
+    signature=c("dratio_filter","dataset"),
+    definition=function(M,D)
+    {
+        # get flags
+        OUT=M$flags$rejected
+        # remove flagged
         D$data=D$data[,-OUT]
         D$variable_meta=D$variable_meta[,-OUT]
-
+        # store
         M$filtered=D
 
         return(M)

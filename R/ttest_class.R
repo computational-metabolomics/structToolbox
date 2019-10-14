@@ -88,7 +88,7 @@ ttest<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("ttest",'dataset'),
     definition=function(M,D)

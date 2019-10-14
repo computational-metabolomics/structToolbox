@@ -70,7 +70,7 @@ HSD<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("HSD",'dataset'),
     definition=function(M,D) {

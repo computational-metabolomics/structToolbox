@@ -60,7 +60,7 @@ HSDEM<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("HSDEM",'dataset'),
     definition=function(M,D) {

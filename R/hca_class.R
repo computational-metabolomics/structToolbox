@@ -50,7 +50,7 @@ HCA<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("HCA",'dataset'),
     definition=function(M,D)

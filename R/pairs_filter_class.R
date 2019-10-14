@@ -49,7 +49,25 @@ pairs_filter<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_train
+setMethod(f="model.train",
+    signature=c("pairs_filter","dataset"),
+    definition=function(M,D){
+        M=model.apply(M,D)
+        return(M)
+    })
+
+#' @export
+#' @template model_apply
+setMethod(f="model.apply",
+    signature=c("pairs_filter","dataset"),
+    definition=function(M,D){
+        M=model.apply(M,D)
+        return(M)
+    })
+
+#' @export
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("pairs_filter","dataset"),
     definition=function(M,D)

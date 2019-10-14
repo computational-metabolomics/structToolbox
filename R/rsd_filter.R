@@ -49,7 +49,7 @@ rsd_filter<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("rsd_filter","dataset"),
     definition=function(M,D)

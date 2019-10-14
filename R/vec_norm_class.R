@@ -30,7 +30,7 @@ vec_norm<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("vec_norm","dataset"),
     definition=function(M,D)
@@ -48,3 +48,21 @@ setMethod(f="model.apply",
         return(M)
     }
 )
+
+#' @export
+#' @template model_train
+setMethod(f="model.train",
+    signature=c("vec_norm","dataset"),
+    definition=function(M,D){
+        M=model.apply(M,D)
+        return(M)
+    })
+
+#' @export
+#' @template model_predict
+setMethod(f="model.predict",
+    signature=c("vec_norm","dataset"),
+    definition=function(M,D) {
+        M=model.apply(M,D)
+        return(M)
+    })

@@ -43,7 +43,7 @@ knn_impute<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("knn_impute","dataset"),
     definition=function(M,D)

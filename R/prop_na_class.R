@@ -65,7 +65,7 @@ prop_na<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("prop_na",'dataset'),
     definition=function(M,D)

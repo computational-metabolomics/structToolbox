@@ -39,7 +39,7 @@ tSNE<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("tSNE",'dataset'),
     definition=function(M,D)

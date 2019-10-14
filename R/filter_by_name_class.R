@@ -43,7 +43,7 @@ filter_by_name<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("filter_by_name","dataset"),
     definition=function(M,D)
@@ -56,7 +56,7 @@ setMethod(f="model.apply",
 
             if (is.logical(opt$names)) {
 
-                    IN = opt$names
+                IN = opt$names
 
             } else if (is.numeric(opt$names)) {
                 IN = (1:nrow(D$data)) %in% opt$names
@@ -101,6 +101,26 @@ setMethod(f="model.apply",
             dataset.variable_meta(D)=vmeta
         }
         output.value(M,'filtered')=D
+        return(M)
+    }
+)
+
+#' @export
+#' @template model_train
+setMethod(f="model.train",
+    signature=c("filter_by_name","dataset"),
+    definition=function(M,D) {
+        M=model.apply(M,D)
+        return(M)
+    }
+)
+
+#' @export
+#' @template model_predict
+setMethod(f="model.predict",
+    signature=c("filter_by_name","dataset"),
+    definition=function(M,D) {
+        M=model.apply(M,D)
         return(M)
     }
 )

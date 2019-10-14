@@ -37,7 +37,7 @@ pqn_norm<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("pqn_norm","dataset"),
     definition=function(M,D)

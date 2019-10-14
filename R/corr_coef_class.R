@@ -70,7 +70,7 @@ corr_coef<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("corr_coef",'dataset'),
     definition=function(M,D)

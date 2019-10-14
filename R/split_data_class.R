@@ -37,7 +37,7 @@ split_data<-setClass(
 )
 
 #' @export
-#' @template method_apply
+#' @template model_apply
 setMethod(f="model.apply",
     signature=c("split_data","dataset"),
     definition=function(M,D)

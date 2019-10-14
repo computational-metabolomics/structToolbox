@@ -61,8 +61,8 @@ filter_na_count<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="model.apply",
+#' @template model_train
+setMethod(f="model.train",
     signature=c("filter_na_count","dataset"),
     definition=function(M,D)
     {
@@ -85,15 +85,27 @@ setMethod(f="model.apply",
 
         flags=apply(na_count,1,function(x) any(x<M$threshold))
 
+
+        M$flags=data.frame(flags=flags)
+        M$count=as.data.frame(na_count)
+        M$na_count=as.data.frame(count)
+
+        return(M)
+    }
+)
+
+#' @export
+#' @template model_predict
+setMethod(f="model.predict",
+    signature=c("filter_na_count","dataset"),
+    definition=function(M,D)
+    {
+        flags=M$flags$flags
         # delete the columns
         D$data=D$data[,!flags,drop=FALSE]
         D$variable_meta=D$variable_meta[!flags,,drop=FALSE]
 
         M$filtered=D
-        M$flags=data.frame(flags=flags)
-        M$count=as.data.frame(na_count)
-        M$na_count=as.data.frame(count)
-
         return(M)
     }
 )
