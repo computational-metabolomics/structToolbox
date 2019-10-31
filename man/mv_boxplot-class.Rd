@@ -20,7 +20,7 @@ Boxplot of the numbers of missing values per sample/feature
 }
 \examples{
 D = sbcms_dataset()
-C = mv_boxplot()
+C = mv_boxplot(factor_name='class')
 chart.plot(C,D)
 
 }
