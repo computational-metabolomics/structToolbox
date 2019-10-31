@@ -75,7 +75,7 @@ Collate:
     'vec_norm_class.R'
     'wilcox_test_class.R'
     'zzz.R'
-Depends: struct
+Depends: struct (== 0.4.0)
 Imports: ggplot2,
  pmp,
  gridExtra,
@@ -103,7 +103,7 @@ Suggests:
  sbcms,
  Rtsne
 Remotes: computational-metabolomics/pmp,
-  computational-metabolomics/struct@4bc5702,
+  computational-metabolomics/struct@v0.4.0,
   computational-metabolomics/sbcms
 VignetteBuilder: knitr
 biocViews: WorkflowStep
