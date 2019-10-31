@@ -48,7 +48,10 @@ classical_lsq<-setClass(
             value=TRUE
         ),
 
-        params.factor_names=ents$factor_names,
+        params.factor_names=entity(name='Factor name(s)',
+            description='Name of sample meta column(s) to use',
+            type=c('character','list'),
+            value='V1'),
 
         params.alpha=ents$alpha,
 
