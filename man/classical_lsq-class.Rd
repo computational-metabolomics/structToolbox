@@ -26,6 +26,6 @@ data column.
 \examples{
 D = iris_dataset()
 M = classical_lsq(factor_names = 'Species')
-M = method.apply(M,D)
+M = model.apply(M,D)
 
 }

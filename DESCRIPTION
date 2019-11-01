@@ -24,6 +24,7 @@ Collate:
     'autoscale_class.R'
     'balanced_accuracy_class.R'
     'blank_filter_class.R'
+    'bootstrap_class.R'
     'calculate_doc.R'
     'chart_plot_doc.R'
     'classical_lsq_class.R'
@@ -57,6 +58,7 @@ Collate:
     'mv_feature_filter_class.R'
     'mv_sample_filter_class.R'
     'pairs_filter_class.R'
+    'permutation_test2_class.R'
     'permutation_test_class.R'
     'permute_sample_order_class.R'
     'pqn_norm_method_class.R'
@@ -73,7 +75,7 @@ Collate:
     'vec_norm_class.R'
     'wilcox_test_class.R'
     'zzz.R'
-Depends: struct
+Depends: struct (== 0.4.0)
 Imports: ggplot2,
  pmp,
  gridExtra,
@@ -101,7 +103,7 @@ Suggests:
  sbcms,
  Rtsne
 Remotes: computational-metabolomics/pmp,
-  computational-metabolomics/struct,
+  computational-metabolomics/struct@v0.4.0,
   computational-metabolomics/sbcms
 VignetteBuilder: knitr
 biocViews: WorkflowStep

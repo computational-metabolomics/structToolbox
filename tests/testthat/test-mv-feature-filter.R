@@ -7,7 +7,7 @@ test_that('pmp mv_feature within_all',{
 
   # filter
   FF=mv_feature_filter(qc_label='versicolor',method='within_all',factor_name='Species')
-  FF=method.apply(FF,D)
+  FF=model.apply(FF,D)
   expect_equal(ncol(FF$filtered$data),3)
 })
 
@@ -19,7 +19,7 @@ test_that('pmp mv_feature within_one',{
 
   # filter
   FF=mv_feature_filter(qc_label='versicolor',method='within_one',factor_name='Species')
-  FF=method.apply(FF,D)
+  FF=model.apply(FF,D)
   expect_equal(ncol(FF$filtered$data),3)
 })
 
@@ -31,7 +31,7 @@ test_that('pmp mv_feature across',{
 
   # filter
   FF=mv_feature_filter(qc_label='versicolor',method='across',factor_name='Species')
-  FF=method.apply(FF,D)
+  FF=model.apply(FF,D)
   expect_equal(ncol(FF$filtered$data),3)
 })
 
@@ -43,7 +43,7 @@ test_that('pmp mv_feature qc',{
 
   # filter
   FF=mv_feature_filter(qc_label='versicolor',method='QC',factor_name='Species')
-  FF=method.apply(FF,D)
+  FF=model.apply(FF,D)
   expect_equal(ncol(FF$filtered$data),3)
 })
 
@@ -59,7 +59,7 @@ test_that('pmp mv_feature_plot', {
 
   # filter
   FF=mv_feature_filter(qc_label='versicolor',method='across',factor_name='Species')
-  FF=method.apply(FF,D)
+  FF=model.apply(FF,D)
   C=mv_feature_filter.hist()
   gg=chart.plot(C,FF)
   expect_true(is(gg,'ggplot'))

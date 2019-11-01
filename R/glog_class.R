@@ -7,7 +7,7 @@
 #' M = glog_transform()
 glog_transform<-setClass(
     "glog_transform",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.qc_label='entity',
         params.factor_name='entity',
         outputs.transformed='entity',
@@ -50,8 +50,8 @@ glog_transform<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("glog_transform","dataset"),
     definition=function(M,D)
     {

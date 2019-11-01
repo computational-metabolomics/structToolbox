@@ -6,7 +6,7 @@ author:
 output:
   BiocStyle::html_document:
     toc_float: true
-  BiocStyle::pdf_document: default
+  BiocStyle::pdf_document:
 package: structToolbox
 abstract: Introduction to model objects
 vignette: >

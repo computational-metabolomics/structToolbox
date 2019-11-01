@@ -20,12 +20,12 @@
 #'                  factor_name='Species',
 #'                  blank_label='setosa',
 #'                  qc_label='versicolor')
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @export blank_filter
 blank_filter<-setClass(
     "blank_filter",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.fold_change='entity',
         params.blank_label='entity',
         params.qc_label='entity',
@@ -58,40 +58,48 @@ blank_filter<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_train
+setMethod(f="model.train",
     signature=c("blank_filter","dataset"),
     definition=function(M,D)
     {
-        opt=param.list(M)
         smeta=dataset.sample_meta(D)
         x=dataset.data(D)
         # remove = NULL does not remove blanks. ANY VALUE removes blanks.
-        blank_filtered = pmp::filter_peaks_by_blank(t(x), fold_change=opt$fold_change,
-            classes=smeta[,opt$factor_name],
-            blank_label=opt$blank_label,
-            qc_label=opt$qc_label,
+        blank_filtered = pmp::filter_peaks_by_blank(t(x), fold_change=M$fold_change,
+            classes=smeta[,M$factor_name],
+            blank_label=M$blank_label,
+            qc_label=M$qc_label,
             remove=FALSE,
-            fraction_in_blank=opt$fraction
+            fraction_in_blank=M$fraction
         )
-        dataset.data(D) = as.data.frame(t(blank_filtered$df))
 
-        # remove the blanks. do it this way because pmp doesnt remove from class labels.
-        RB = filter_smeta(mode='exclude',levels=opt$blank_label,factor_name=opt$factor_name)
-        RB=method.apply(RB,D)
-        D=predicted(RB)
-
+        # store the flags
         flags=data.frame(blank_filtered$flags)
-        vmeta=dataset.variable_meta(D)
-        vmeta=vmeta[flags$blank_flags==1,,drop=FALSE]
-        dataset.variable_meta(D)=vmeta
-
-        output.value(M,'filtered') = D
         output.value(M,'flags') = data.frame(blank_filtered$flags,stringsAsFactors = F)
         return(M)
     }
 )
 
+#' @export
+#' @template model_predict
+setMethod(f="model.predict",signature=c("blank_filter","dataset"),
+    definition=function(M,D) {
+        # remove the blanks. do it this way because pmp doesnt remove from class labels.
+        RB = filter_smeta(mode='exclude',levels=M$blank_label,factor_name=M$factor_name)
+        RB=model.apply(RB,D)
+        D=predicted(RB)
+
+        # get the flags
+        flags=M$flags
+        vmeta=dataset.variable_meta(D)
+        vmeta=vmeta[flags$blank_flags==1,,drop=FALSE]
+        dataset.variable_meta(D)=vmeta
+
+        output.value(M,'filtered') = D
+        return(M)
+    }
+)
 
 ##### plots
 #' plot for blank filter

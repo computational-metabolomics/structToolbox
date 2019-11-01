@@ -220,7 +220,7 @@ setMethod(f="chart.plot",
 #' @param show_counts [TRUE] or FALSE to include the number of samples on the plot
 #' @examples
 #' D = sbcms_dataset()
-#' C = mv_boxplot()
+#' C = mv_boxplot(factor_name='class')
 #' chart.plot(C,D)
 #'
 #' @import struct
@@ -272,7 +272,7 @@ setMethod(f="chart.plot",
         # get data
         Xt=dataset.data(dobj)
         # meta data
-        SM=dataset.sample_meta(dobj)[[obj$factor_name]]
+        SM=dataset.sample_meta(dobj)[ ,obj$factor_name]
 
         L=levels(SM)
 

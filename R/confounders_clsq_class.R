@@ -23,12 +23,12 @@
 #'         factor_name='class') + # reduce to two group comparison
 #'     confounders_clsq(factor_name = 'class',
 #'         confounding_factors=c('sample_order','batch'))
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @export confounders_clsq
 confounders_clsq<-setClass(
     "confounders_clsq",
-    contains='method',
+    contains='model',
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -81,8 +81,8 @@ confounders_clsq<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("confounders_clsq",'dataset'),
     definition=function(M,D)
     {
@@ -106,7 +106,7 @@ setMethod(f="method.apply",
             for (k in fn) {
                 if (is.factor(D$sample_meta[,k])) {
                     FF$factor_name=k
-                    FF=method.apply(FF,D)
+                    FF=model.apply(FF,D)
                     excl[,k]=FF$flags$flags
                 } else {
                     excl[,k]=FALSE
@@ -122,7 +122,7 @@ setMethod(f="method.apply",
             }
 
             clsq$factor_names=excl
-            clsq=method.apply(clsq,D)
+            clsq=model.apply(clsq,D)
 
             nm[i]=paste0(fn,collapse='_')
             temp[,i]=clsq$coefficients[,2] # first coefficient is the intercept, second is the main factor
@@ -147,7 +147,7 @@ setMethod(f="method.apply",
         factor_names=M$confounding_factors
         L=apply(conf[,2:ncol(conf),drop=FALSE],1,function(x) c(M$factor_name,factor_names[x]))
         M2=classical_lsq(intercept=TRUE,alpha=M$alpha,mtc=M$mtc,factor_names=L)
-        M2=method.apply(M2,D)
+        M2=model.apply(M2,D)
 
         M$p_value=data.frame('ttest.p'=pvals[,1],'corrected.p'=M2$p_value[,2]) # MTC already applied
         names(L)=colnames(D$data)
@@ -178,7 +178,7 @@ setMethod(f="method.apply",
 #'         factor_name='class') + # reduce to two group comparison
 #'     confounders_clsq(factor_name = 'class',
 #'         confounding_factors=c('sample_order','batch'))
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #' C = C=confounders_lsq.barchart(feature_to_plot=1,threshold=15)
 #' chart.plot(C,M[3])
 #'
@@ -254,7 +254,7 @@ setMethod(f="chart.plot",
 #'         factor_name='class') + # reduce to two group comparison
 #'     confounders_clsq(factor_name = 'class',
 #'         confounding_factors=c('sample_order','batch'))
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #' C = C=confounders_lsq.boxplot(threshold=15)
 #' chart.plot(C,M[3])
 #'

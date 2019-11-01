@@ -8,7 +8,7 @@
 #'
 tSNE<-setClass(
     "tSNE",
-    contains=c('method'),
+    contains=c('model'),
     slots=c(
         # INPUTS
         params.dims='numeric',
@@ -39,8 +39,8 @@ tSNE<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("tSNE",'dataset'),
     definition=function(M,D)
     {

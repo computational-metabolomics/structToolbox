@@ -17,13 +17,13 @@
 #' @examples
 #' D = iris_dataset()
 #' M = classical_lsq(factor_names = 'Species')
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @export classical_lsq
 
 classical_lsq<-setClass(
     "classical_lsq",
-    contains='method',
+    contains='model',
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -75,8 +75,8 @@ classical_lsq<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("classical_lsq",'dataset'),
     definition=function(M,D)
     {

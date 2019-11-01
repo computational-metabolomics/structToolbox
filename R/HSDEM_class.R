@@ -12,7 +12,7 @@
 #' M = HSDEM()
 HSDEM<-setClass(
     "HSDEM",
-    contains=c('method','stato'),
+    contains=c('model','stato'),
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -60,8 +60,8 @@ HSDEM<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("HSDEM",'dataset'),
     definition=function(M,D) {
         X=dataset.data(D)

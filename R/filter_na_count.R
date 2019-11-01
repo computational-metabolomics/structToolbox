@@ -8,12 +8,12 @@
 #' @examples
 #' D = sbcms_dataset()
 #' M = filter_na_count(threshold=3,factor_name='class')
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @export filter_na_count
 filter_na_count<-setClass(
     "filter_na_count",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.threshold='entity',
         params.factor_name='entity',
         outputs.filtered='entity',
@@ -61,8 +61,8 @@ filter_na_count<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_train
+setMethod(f="model.train",
     signature=c("filter_na_count","dataset"),
     definition=function(M,D)
     {
@@ -85,15 +85,27 @@ setMethod(f="method.apply",
 
         flags=apply(na_count,1,function(x) any(x<M$threshold))
 
+
+        M$flags=data.frame(flags=flags)
+        M$count=as.data.frame(na_count)
+        M$na_count=as.data.frame(count)
+
+        return(M)
+    }
+)
+
+#' @export
+#' @template model_predict
+setMethod(f="model.predict",
+    signature=c("filter_na_count","dataset"),
+    definition=function(M,D)
+    {
+        flags=M$flags$flags
         # delete the columns
         D$data=D$data[,!flags,drop=FALSE]
         D$variable_meta=D$variable_meta[!flags,,drop=FALSE]
 
         M$filtered=D
-        M$flags=data.frame(flags=flags)
-        M$count=as.data.frame(na_count)
-        M$na_count=as.data.frame(count)
-
         return(M)
     }
 )

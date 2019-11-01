@@ -20,8 +20,8 @@ PLSFC<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("PLSFC",'dataset'),
     definition=function(M,D) {
         # log transform
@@ -59,7 +59,7 @@ setMethod(f="method.apply",
             for (B in (A+1):(length(L))) {
                 # filter groups to A and B
                 FG=filter_smeta(factor_name=M$factor_name,mode='include',levels=L[c(A,B)])
-                FG=method.apply(FG,D)
+                FG=model.apply(FG,D)
                 # change to ordered factor so that we make use of control group
                 FG$filtered$sample_meta[[M$factor_name]]=ordered(FG$filtered$sample_meta[[M$factor_name]],levels=L[c(A,B)])
 

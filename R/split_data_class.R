@@ -7,7 +7,7 @@
 #'
 split_data<-setClass(
     "split_data",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.p='entity',
         outputs.training='entity',
         outputs.testing='entity'
@@ -37,8 +37,8 @@ split_data<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("split_data","dataset"),
     definition=function(M,D)
     {

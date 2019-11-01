@@ -6,12 +6,12 @@ author:
 output:
   BiocStyle::html_document:
     toc_float: true
-  BiocStyle::pdf_document: default
+  BiocStyle::pdf_document: 
 package: structToolbox
 vignette: >
   %\VignetteIndexEntry{Iterator objects}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include=FALSE}

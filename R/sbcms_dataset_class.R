@@ -12,7 +12,7 @@ sbcms_dataset=function(filtered=FALSE) {
 
     if (filtered) {
         M = filter_by_name(mode='include',dimension='variable',names=to_filter)
-        M = method.apply(M,sbcms_corrected)
+        M = model.apply(M,sbcms_corrected)
         return(predicted(M))
     } else {
         return(sbcms_corrected)

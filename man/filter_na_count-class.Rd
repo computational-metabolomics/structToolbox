@@ -16,6 +16,6 @@ Filters features by the number of NA per class
 \examples{
 D = sbcms_dataset()
 M = filter_na_count(threshold=3,factor_name='class')
-M = method.apply(M,D)
+M = model.apply(M,D)
 
 }

@@ -1,1 +1,0 @@
-#' @rdname method.apply

@@ -6,7 +6,7 @@
 #' M = sb_corr()
 sb_corr<-setClass(
     "sb_corr",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(
         params.order_col='entity',
         params.batch_col='entity',
@@ -71,8 +71,8 @@ sb_corr<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("sb_corr","dataset"),
     definition=function(M,D)
     {

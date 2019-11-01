@@ -8,7 +8,7 @@
 #' D$data=D$data[,1:10,drop=FALSE]
 #' M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
 #'     fold_change_int(factor_name=c('class','batch'))
-#' M = method.apply(M,D)
+#' M = model.apply(M,D)
 #'
 #' @param alpha confidence level to use for intervals
 #' @param factor_name the sample_meta column to use
@@ -21,13 +21,13 @@
 #' @export fold_change_int
 fold_change_int<-setClass(
     "fold_change_int",
-    contains=c('method','fold_change'),
+    contains=c('model','fold_change'),
     prototype = list(predicted='fold_change')
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("fold_change_int",'dataset'),
     definition=function(M,D)
     {
@@ -48,7 +48,7 @@ setMethod(f="method.apply",
         k=length(FF) # interactions for all factors
         D$sample_meta$interaction=interaction(D$sample_meta[,FF[[k]]])
         FC=fold_change(alpha=M$alpha,paired=FALSE,sample_name='NA',factor_name='interaction')
-        FC=method.apply(FC,D)
+        FC=model.apply(FC,D)
         #if (k==1) {
             M$fold_change=FC$fold_change
             M$upper_ci=FC$upper_ci

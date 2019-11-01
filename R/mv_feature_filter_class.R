@@ -7,7 +7,7 @@
 #' M = mv_feature_filter()
 mv_feature_filter<-setClass(
     "mv_feature_filter",
-    contains = c('method'),
+    contains = c('model'),
     slots=c(params.threshold='entity',
         params.qc_label='entity',
         params.method='enum',
@@ -55,8 +55,8 @@ mv_feature_filter<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_train
+setMethod(f="model.train",
     signature=c("mv_feature_filter","dataset"),
     definition=function(M,D)
     {
@@ -71,28 +71,47 @@ setMethod(f="method.apply",
         #dataset.data(D) = as.data.frame(t(filtered$df))
 
         flags<-data.frame(filtered$flags)
+
+        output.value(M,'flags') = flags
+
+        return(M)
+    }
+)
+
+#' @export
+#' @template model_predict
+setMethod(f="model.predict",
+    signature=c("mv_feature_filter","dataset"),
+    definition=function(M,D) {
+
+        x=dataset.data(D)
+        smeta=dataset.sample_meta(D)
         vmeta=dataset.variable_meta(D)
 
-        if (opt$method=='within_all') {
+        flags=M$flags
+
+        if (M$method=='within_all') {
             L=levels(smeta[[M$factor_name]])
             IN=apply(flags[,(length(L)+1):ncol(flags)],MARGIN=1,function(x) all(x==1))
 
-        } else if (opt$method=='within_one') {
+        } else if (M$method=='within_one') {
             L=levels(smeta[[M$factor_name]])
             IN=apply(flags[,(length(L)+1):ncol(flags)],MARGIN=1,function(x) any(x==1))
         } else {
             IN=flags[,2]==1
 
         }
+
         nmes=rownames(flags)[IN]
+
         vmeta=vmeta[nmes,,drop=FALSE]
+
         x=x[,IN,drop=FALSE]
+
         dataset.data(D) = x
         dataset.variable_meta(D)=vmeta
 
         output.value(M,'filtered') = D
-        output.value(M,'flags') = flags
-
         return(M)
     }
 )

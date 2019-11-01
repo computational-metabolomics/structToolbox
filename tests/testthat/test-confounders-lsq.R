@@ -6,7 +6,7 @@ test_that('confounders lsq',{
   D$sample_meta$Rnd=sample(D$sample_meta$Species,150) # random effect
   # method
   ME=confounders_clsq(factor_name='Species',confounding_factors='Rnd',threshold=0.15)
-  ME=method.apply(ME,D)
+  ME=model.apply(ME,D)
   # expect all true
   expect_true(all(as.matrix(ME$significant)))
 
@@ -21,7 +21,7 @@ test_that('confounders lsq barchart',{
   D$sample_meta$Rnd=sample(D$sample_meta$Species,150) # random effect
   # method
   ME=confounders_clsq(factor_name='Species',confounding_factors='Rnd',threshold=0.15)
-  ME=method.apply(ME,D)
+  ME=model.apply(ME,D)
   # chart
   C=confounders_lsq.barchart(feature_to_plot='Petal.Length')
   gg=chart.plot(C,ME)
@@ -38,7 +38,7 @@ test_that('confounders lsq boxplot',{
   D$sample_meta$Rnd=sample(D$sample_meta$Species,150) # random effect
   # method
   ME=confounders_clsq(factor_name='Species',confounding_factors='Rnd',threshold=0.15)
-  ME=method.apply(ME,D)
+  ME=model.apply(ME,D)
   # chart
   C=confounders_lsq.boxplot()
   gg=chart.plot(C,ME)

@@ -31,6 +31,6 @@ M = blank_filter(fold_change=2,
                  factor_name='Species',
                  blank_label='setosa',
                  qc_label='versicolor')
-M = method.apply(M,D)
+M = model.apply(M,D)
 
 }

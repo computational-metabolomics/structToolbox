@@ -7,7 +7,7 @@ test_that('mixed effects',{
   D$sample_meta$Rnd=rnorm(150) # random effect
   # method
   ME=mixed_effect(formula=y~Species+Error(Rnd/Species))
-  ME=method.apply(ME,D)
+  ME=model.apply(ME,D)
   # expect all true
   expect_true(all(ME$significant[,1]))
 
@@ -22,7 +22,7 @@ test_that('hsdem',{
   D$sample_meta$Rnd=rnorm(150) # random effect
   # method
   ME=HSDEM(formula=y~Species+Error(Rnd/Species))
-  ME=method.apply(ME,D)
+  ME=model.apply(ME,D)
   # expect all true
   expect_true(all(ME$significant[,1]))
 

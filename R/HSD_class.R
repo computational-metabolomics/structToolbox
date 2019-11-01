@@ -11,7 +11,7 @@
 #' M = HSD()
 HSD<-setClass(
     "HSD",
-    contains=c('method','stato'),
+    contains=c('model','stato'),
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -70,8 +70,8 @@ HSD<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("HSD",'dataset'),
     definition=function(M,D) {
         X=dataset.data(D)

@@ -10,7 +10,7 @@
 #'
 ttest<-setClass(
     "ttest",
-    contains=c('method','stato'),
+    contains=c('model','stato'),
     slots=c(
         # INPUTS
         params.alpha='entity.stato',
@@ -88,8 +88,8 @@ ttest<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("ttest",'dataset'),
     definition=function(M,D)
     {
@@ -146,7 +146,7 @@ setMethod(f="method.apply",
             # check number per class
             # if less then 2 then remove
             FF=filter_na_count(threshold=2,factor_name=M$factor_names)
-            FF=method.apply(FF,D)
+            FF=model.apply(FF,D)
             D=predicted(FF)
 
             # check equal numbers per class. if not equal then exclude.

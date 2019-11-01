@@ -7,7 +7,7 @@
 #' M = HCA()
 HCA<-setClass(
     "HCA",
-    contains=c('method'),
+    contains=c('model'),
     slots=c(
         # INPUTS
         params.dist_method='enum',
@@ -50,8 +50,8 @@ HCA<-setClass(
 )
 
 #' @export
-#' @template method_apply
-setMethod(f="method.apply",
+#' @template model_apply
+setMethod(f="model.apply",
     signature=c("HCA",'dataset'),
     definition=function(M,D)
     {

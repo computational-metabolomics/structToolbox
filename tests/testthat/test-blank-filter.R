@@ -6,7 +6,7 @@ test_that('blank filter',{
   # method
   M = blank_filter(blank_label='versicolor',qc_label='virginica',fold_change=1,factor_name='Species')
   # apply
-  M=method.apply(M,D)
+  M=model.apply(M,D)
   expect_true(all(M$flags$blank_flags==1))
   expect_true(all(M$flags$blank_fraction_flags==1))
 })
@@ -18,7 +18,7 @@ test_that('blank filter histogram',{
   # method
   M = blank_filter(blank_label='versicolor',qc_label='virginica',fold_change=1,factor_name='Species')
   # apply
-  M=method.apply(M,D)
+  M=model.apply(M,D)
   # chart
   C = blank_filter.hist()
   gg=chart.plot(C,M)

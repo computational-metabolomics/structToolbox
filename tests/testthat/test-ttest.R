@@ -7,7 +7,7 @@ test_that('ttest',{
   M = filter_smeta(mode='exclude',levels='versicolor',factor_name='Species')+ # need two groups for ttest
     ttest(factor_names='Species')
   # apply
-  M = method.apply(M,D)
+  M = model.apply(M,D)
   expect_equal(M[2]$t_statistic[1],-15.386,tolerance=0.0005)
 })
 
