@@ -1,7 +1,7 @@
 Package: structToolbox
 Type: Package
 Title: Some tools bult using the struct package
-Version: 0.8.0
+Version: 0.8.1
 Author: Gavin Rhys Lloyd
 Maintainer: Gavin Rhys Lloyd <g.r.lloyd@bham.ac.uk>
 Description: Extends the class templates provided by the struct package to provide methods for training PCA, PLS models with cross-validation, permutation testing etc.
@@ -75,7 +75,7 @@ Collate:
     'vec_norm_class.R'
     'wilcox_test_class.R'
     'zzz.R'
-Depends: struct (== 0.4.0)
+Depends: struct (== 0.4.1)
 Imports: ggplot2,
  pmp,
  gridExtra,
@@ -103,7 +103,7 @@ Suggests:
  sbcms,
  Rtsne
 Remotes: computational-metabolomics/pmp,
-  computational-metabolomics/struct@v0.4.0,
+  computational-metabolomics/struct@v0.4.1,
   computational-metabolomics/sbcms
 VignetteBuilder: knitr
 biocViews: WorkflowStep
