@@ -48,7 +48,7 @@ setMethod(f="chart.plot",
 
         X=dobj$data
 
-        if (is.numeric(obj$feature_to_plot) | is.integer()) {
+        if (is.numeric(obj$feature_to_plot)) {
             varn=colnames(X)[obj$feature_to_plot]
         } else {
             varn=obj$feature_to_plot
