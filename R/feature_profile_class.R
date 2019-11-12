@@ -36,7 +36,7 @@ feature_profile<-setClass(
         type="scatter",
         params.feature_to_plot=entity(name='Feature to plot',
             description='The name or column id of the feature to plot',
-            type=c('numeric','character'))
+            type=c('numeric','character','integer'))
     )
 )
 

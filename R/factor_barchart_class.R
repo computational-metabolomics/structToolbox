@@ -28,7 +28,7 @@ dataset.factor_barchart<-setClass(
 
         params.feature_to_plot=entity(name='Feature to plot',
             value='V1',
-            type='character',
+            type=c('character','numeric','integer'),
             description='The column name of the feature to be plotted.'
         ),
         params.factor_names=entity(name='Factor names',
@@ -48,7 +48,7 @@ setMethod(f="chart.plot",
 
         X=dobj$data
 
-        if (is.numeric(obj$feature_to_plot)) {
+        if (is.numeric(obj$feature_to_plot) | is.integer()) {
             varn=colnames(X)[obj$feature_to_plot]
         } else {
             varn=obj$feature_to_plot

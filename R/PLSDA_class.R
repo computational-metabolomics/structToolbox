@@ -29,7 +29,8 @@ PLSDA<-setClass(
         params.number_components=entity(value = 2,
             name = 'Number of PLS components',
             description = 'The number of PLS components to use',
-            type = 'numeric'),
+            type = c('numeric','integer')
+        ),
         params.factor_name=entity(value = 'V1',
             name = 'Name of sample_meta column',
             description = 'The name of the sample_meta column to use for the PLS models',

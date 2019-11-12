@@ -30,7 +30,7 @@ PCA<-setClass(
         params.number_components=entity.stato(name='Number of PCs',
             stato.id='STATO:0000555',
             value=2,
-            type='numeric'
+            type=c('numeric','integer')
         ),
         outputs.scores=entity('name'='PCA scores dataset',
             'description'='A matrix of PCA scores where each column corresponds to a Principal Component',

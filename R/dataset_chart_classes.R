@@ -38,7 +38,7 @@ feature_boxplot<-setClass(
         ),
         params.feature_to_plot=entity(name='Feature to plot',
             value='V1',
-            type=c('character','numeric'),
+            type=c('character','numeric','integer'),
             description='The column name of the feature to be plotted.'
         ),
         params.factor_name=entity(name='Factor name',
