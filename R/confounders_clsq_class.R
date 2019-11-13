@@ -196,7 +196,7 @@ confounders_lsq.barchart<-setClass(
         type="barchart",
         params.feature_to_plot=entity(name='Feature to plot',
             value=1,
-            type=c('numeric','character'),
+            type=c('numeric','character','integer'),
             description='The name of the feature to be plotted.'
         ),
         params.threshold=entity(name='Threshold',
