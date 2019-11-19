@@ -191,8 +191,6 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
             smoothed=stats::predict(loessMod,newdata=xx2)
             residual[i]=sum((smoothed-yy2)^2)
         }
-        smoothed=stats::predict(loessMod,newdata=xx2)
-        residual[i]=sum((smoothed-yy2)^2)
     }
     return(sqrt(mean(residual)))
 }
