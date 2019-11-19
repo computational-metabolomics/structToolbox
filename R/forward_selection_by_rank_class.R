@@ -167,6 +167,7 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
     # Y = observed values
     # k = number of replicates
     # p = proportion in training
+
     residual=numeric(k)
     for (i in 1:k)
     {
@@ -180,16 +181,9 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
         yy2=Y[X %in% xx2]
 
 
-        loessMod <- loess(yy ~ xx, span=x)
-
-        # check for NaN
-        if (any(is.nan(loessMod$fitted))){
-            residual[i]=99999
-        } else {
-
-            smoothed=stats::predict(loessMod,newdata=xx2)
-            residual[i]=sum((smoothed-yy2)^2)
-        }
+        loessMod <- loess(yy ~ xx, span=x) # 25% smoothing span
+        smoothed=stats::predict(loessMod,newdata=xx2)
+        residual[i]=sum((smoothed-yy2)^2)
     }
     return(sqrt(mean(residual)))
 }
