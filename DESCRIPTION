@@ -1,7 +1,7 @@
 Package: structToolbox
 Type: Package
 Title: Some tools bult using the struct package
-Version: 0.8.2
+Version: 0.8.3
 Author: Gavin Rhys Lloyd
 Maintainer: Gavin Rhys Lloyd <g.r.lloyd@bham.ac.uk>
 Description: Extends the class templates provided by the struct package to provide methods for training PCA, PLS models with cross-validation, permutation testing etc.
@@ -75,7 +75,7 @@ Collate:
     'vec_norm_class.R'
     'wilcox_test_class.R'
     'zzz.R'
-Depends: struct (== 0.4.1)
+Depends: struct (>= 0.4.1), struct(< 0.5.0)
 Imports: ggplot2,
  pmp,
  gridExtra,
