@@ -19,7 +19,8 @@ PCA<-setClass(
         outputs.eigenvalues='data.frame',
         outputs.ssx='numeric',
         outputs.correlation='data.frame',
-        outputs.that='dataset'
+        outputs.that='dataset',
+        outputs.xhat='dataset'
     ),
     prototype = list(name='Principal Component Analysis (PCA)',
         description='PCA is a multivariate data reduction technique. It summarises the data in a smaller number of Principal Components that describe the maximum variation present in the dataset.',
@@ -106,6 +107,12 @@ setMethod(f="model.predict",
         S=D
         dataset.data(S)=that
         output.value(M,'that')=S
+
+        xhat=as.matrix(that)%*%as.matrix(t(P))
+        xhat=as.data.frame(xhat)
+        rownames(that)=rownames(X)
+        colnames(xhat)=colnames(X)
+        M$xhat=dataset(data=xhat,sample_meta=D$sample_meta,variable_meta=D$variable_meta)
 
         return(M)
     }

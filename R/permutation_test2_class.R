@@ -11,9 +11,8 @@ permutation_test2<-setClass(
     slots=c(
         params.number_of_permutations='numeric',
         params.collect='character',
-        outputs.results.permuted='data.frame',
-        outputs.results.unpermuted='data.frame',
-        outputs.metric='data.frame',
+        outputs.metric_permuted='data.frame',
+        outputs.metric_unpermuted='data.frame',
         outputs.collected='entity'
     ),
     prototype = list(name='permutation test',
@@ -39,9 +38,6 @@ setMethod(f="run",
               # get the WF
               WF=models(I)
               n=param.value(I,'number_of_permutations')
-
-              all_results_permuted=data.frame('actual'=rep(y[,1],n),'predicted'=rep(y[,1],n),'permutation'=0)
-              all_results_unpermuted=data.frame('actual'=rep(y[,1],n),'predicted'=rep(y[,1],n),'permutation'=0)
 
               collected=list(permuted=list(),unpermuted=list())
 
@@ -142,8 +138,8 @@ setMethod(f="run",
 
               }
               # store results
-              output.value(I,'results.permuted')=all_results_permuted
-              output.value(I,'results.unpermuted')=all_results_unpermuted
+              output.value(I,'metric_permuted')=all_results_permuted
+              output.value(I,'metric_unpermuted')=all_results_unpermuted
               return(I)
           }
 )

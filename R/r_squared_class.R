@@ -19,9 +19,14 @@ setMethod(f="calculate",
     signature=c('r_squared'),
     definition=function(obj,Y,Yhat)
     {
-        SSR  = sum((Yhat-mean(Y))^2)
-        SSE  = sum((Y-Yhat)^2)
-        SSTO = sum((Y-mean(Y))^2)
+
+        M=matrix(colMeans(Y),nrow=1)
+        O=matrix(1,nrow=nrow(Y),ncol=1)
+        M=O %*% M
+
+        SSR  = sum(sum((Yhat-M)^2))
+        SSE  = sum(sum((Y-Yhat)^2))
+        SSTO = sum(sum((Y-M)^2))
 
         R2=1-(SSE/SSTO)
 
