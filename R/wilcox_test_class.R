@@ -164,14 +164,18 @@ setMethod(f="model.apply",
         rownames(output)=output$Row.names
         output=output[,-1]
         output$p.value=p.adjust(output$p.value,method = param.value(M,'mtc'))
-        output.value(M,'statistic')=output$statistic.W
+        if (M$paired) {
+            output.value(M,'statistic')=output$statistic.V
+        } else {
+            output.value(M,'statistic')=output$statistic.W
+        }
         output.value(M,'p_value')=output$p.value
         output.value(M,'significant')=output$p.value<param.value(M,'alpha')
         M$conf_int=output[,3:4,drop=FALSE]
         colnames(M$conf_int)=c('lower','upper')
         if (M$paired) {
             M$estimates=output[,5,drop=FALSE]
-            colnames(M$estimates)='estimated_mean_difference'
+            colnames(M$estimates)='estimate.(pseudo)median'
         } else {
             M$estimates=output[,5,drop=FALSE]
             colnames(M$estimates)=as.character('estimate.difference in location')
