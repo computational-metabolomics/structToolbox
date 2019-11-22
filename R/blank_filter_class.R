@@ -96,7 +96,9 @@ setMethod(f="model.predict",signature=c("blank_filter","dataset"),
         vmeta=vmeta[flags$blank_flags==1,,drop=FALSE]
         dataset.variable_meta(D)=vmeta
 
-        output.value(M,'filtered') = D
+        D$data=D$data[,flags$blank_flags==1,drop=FALSE]
+        M$filtered=D
+
         return(M)
     }
 )
