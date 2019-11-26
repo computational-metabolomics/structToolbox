@@ -4,7 +4,7 @@
 %   R/filter_by_name_class.R, R/filter_na_count.R, R/filter_smeta_class.R,
 %   R/linear_model_class.R, R/mean_centre_class.R, R/model_train_doc.R,
 %   R/mv_feature_filter_class.R, R/mv_sample_filter_class.R,
-%   R/pairs_filter_class.R, R/vec_norm_class.R
+%   R/pairs_filter_class.R, R/paretoscale_class.R, R/vec_norm_class.R
 \docType{methods}
 \name{model.train,PCA,dataset-method}
 \alias{model.train,PCA,dataset-method}
@@ -22,6 +22,7 @@
 \alias{model.train,mv_feature_filter,dataset-method}
 \alias{model.train,mv_sample_filter,dataset-method}
 \alias{model.train,pairs_filter,dataset-method}
+\alias{model.train,pareto_scale,dataset-method}
 \alias{model.train,vec_norm,dataset-method}
 \title{Train a model}
 \usage{
@@ -52,6 +53,8 @@
 \S4method{model.train}{mv_sample_filter,dataset}(M, D)
 
 \S4method{model.train}{pairs_filter,dataset}(M, D)
+
+\S4method{model.train}{pareto_scale,dataset}(M, D)
 
 \S4method{model.train}{vec_norm,dataset}(M, D)
 }

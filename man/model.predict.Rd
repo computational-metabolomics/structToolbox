@@ -3,7 +3,8 @@
 %   R/autoscale_class.R, R/blank_filter_class.R, R/d_ratio_filter_class.R,
 %   R/filter_by_name_class.R, R/filter_na_count.R, R/filter_smeta_class.R,
 %   R/linear_model_class.R, R/mean_centre_class.R, R/model_predict_doc.R,
-%   R/mv_feature_filter_class.R, R/mv_sample_filter_class.R, R/vec_norm_class.R
+%   R/mv_feature_filter_class.R, R/mv_sample_filter_class.R,
+%   R/paretoscale_class.R, R/vec_norm_class.R
 \docType{methods}
 \name{model.predict,PCA,dataset-method}
 \alias{model.predict,PCA,dataset-method}
@@ -20,6 +21,7 @@
 \alias{model.predict}
 \alias{model.predict,mv_feature_filter,dataset-method}
 \alias{model.predict,mv_sample_filter,dataset-method}
+\alias{model.predict,pareto_scale,dataset-method}
 \alias{model.predict,vec_norm,dataset-method}
 \title{Model prediction}
 \usage{
@@ -48,6 +50,8 @@
 \S4method{model.predict}{mv_feature_filter,dataset}(M, D)
 
 \S4method{model.predict}{mv_sample_filter,dataset}(M, D)
+
+\S4method{model.predict}{pareto_scale,dataset}(M, D)
 
 \S4method{model.predict}{vec_norm,dataset}(M, D)
 }
