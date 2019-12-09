@@ -101,6 +101,7 @@ setMethod(f="model.apply",
             stop('must have exactly two levels for this implmentation of t-statistic')
         }
 
+        estimate_name='estimate'
         if (M$paired){
             # check that we have a pair for each sample,
             # if not then remove
@@ -150,8 +151,11 @@ setMethod(f="model.apply",
             D=predicted(FF)
 
             # check equal numbers per class. if not equal then exclude.
-            out=FF$count[,1]!=FF$count[,2]
-            D$data=D$data[,!out]
+            IN=rownames(FF$count)[(FF$count[,1]==FF$count[,2]) & (FF$count[,1]>2) & (FF$count[,2]>2)]
+            D$data=D$data[,IN]
+            D$variable_meta=D$variable_meta[IN,]
+
+            estimate_name='estimate.mean of the differences'
         }
 
 
@@ -159,10 +163,32 @@ setMethod(f="model.apply",
         X=D$data
         y=D$sample_meta[[M$factor_names]]
 
-        output=apply(X,2,function(x) {
-            a=unlist(t.test(x[y==L[1]],x[y==L[2]],paired = M$paired)[c("statistic","p.value","parameter",'conf.int','estimate')])
+        output=lapply(X,function(x) {
+            a=tryCatch({
+                g=unlist(t.test(x[y==L[1]],x[y==L[2]],paired = M$paired)[c("statistic","p.value","parameter",'conf.int','estimate')])
+                return(g)
+            },warning=function(w) {
+                g = NA
+                return(g)
+            }, error=function(e) {
+                g = NA
+                return(g)
+            }
+            )
         })
 
+        # replace na with vector of na the correct length/names
+        na=which(is.na(output))
+
+        if (length(na)>0) {
+            notna=which(!is.na(output))
+            torep=output[[notna[1]]] # the first output that worked as expected
+            torep[1:length(torep)]=NA # populate with NA
+            output[na]=rep(list(torep),length(na))
+
+        }
+
+        output=as.data.frame(output)
         temp=data.frame(row.names=CN) # make sure we get  result for all features, even if NA
         output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE,sort=FALSE)
         rownames(output)=output$Row.names
