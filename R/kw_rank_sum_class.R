@@ -48,12 +48,12 @@ kw_rank_sum<-setClass(
             description='The method used to adjust for multiple comparisons.'
         ),
         outputs.test_statistic=entity(name='test statistic',
-            type='numeric',
+            type='data.frame',
             description='the value of the calculated statistic which is converted to a p-value when compared to a chi2-distribution.'
         ),
         outputs.p_value=entity.stato(name='p value',
             stato.id='STATO:0000175',
-            type='numeric',
+            type='data.frame',
             description='the probability of observing the calculated t-statistic.'
         ),
         outputs.dof=entity.stato(name='degrees of freedom',
@@ -63,7 +63,7 @@ kw_rank_sum<-setClass(
         ),
         outputs.significant=entity(name='Significant features',
             #stato.id='STATO:0000069',
-            type='logical',
+            type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         )
     )
@@ -91,11 +91,19 @@ setMethod(f="model.apply",
         output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE,sort=FALSE)
         rownames(output)=output$Row.names
         output=output[,-1]
+
         output$p.value=p.adjust(output$p.value,method = param.value(M,'mtc'))
-        output.value(M,'test_statistic')=output$statistic
-        output.value(M,'p_value')=output$p.value
+
+        output.value(M,'test_statistic')=data.frame(output$statistic)
+        colnames(M$test_statistic)=M$factor_names
+
+        output.value(M,'p_value')=data.frame(output$p.value)
+        colnames(M$p_value)=M$factor_names
+
         output.value(M,'dof')=output$parameter
-        output.value(M,'significant')=output$p.value<param.value(M,'alpha')
+
+        output.value(M,'significant')=data.frame(output$p.value<param.value(M,'alpha'))
+        colnames(M$significant)=M$factor_names
 
         return(M)
     }
