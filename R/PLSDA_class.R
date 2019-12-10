@@ -136,12 +136,27 @@ prob=function(x,yhat,ytrue)
 
         # threshold where distributions cross
         t=gauss_intersect(m1,m2,s1,s2)
-        t=Re(t) # only take real part
-        if (length(t)>1)
-        {
+
+        if (is.complex(t)) {
+            # get the real values but only if the imaginary part is small
+            w=which(abs(Im(t)) < 1e-6)
+            if (length(w)==0){
+                t=0 # all imaginary parts too large, so default to 0
+            }
+            t=Re(t[w])
+        }
+
+        if (length(t)>1) {
             # multiple cross over points so choose the one closest to 0
             t=t[which.min(abs(t))]
         }
+
+        if (is.na(t)) {
+            # if polyroot failed return 0
+            t=0
+        }
+
+
         threshold[i]=t
     }
     d$ingroup=din/(din+dout) # assume probabilities sum to 1
@@ -160,7 +175,19 @@ gauss_intersect=function(m1,m2,s1,s2)
     a=(1/(2*s1*s1))-(1/(2*s2*s2))
     b=(m2/(s2*s2)) - (m1/(s1*s1))
     c=((m1*m1) / (2*s1*s1)) - ((m2*m2)/(2*s2*s2)) - log(s2/s1)
-    return(polyroot(c(c,b,a))) # in reverse order vs numpy.roots
+    t=tryCatch({
+        g=polyroot(c(c,b,a))
+        return(g)
+    },warning=function(w) {
+        g = NA # polyroot unreliable so return NA
+        return(g)
+    }, error=function(e) {
+        g = NA # polyroot failed so return NA
+        return(g)
+    }
+    )
+
+    return() # in reverse order vs numpy.roots
 }
 
 vips<-function(object)
