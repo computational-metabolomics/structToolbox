@@ -148,7 +148,12 @@ prob=function(x,yhat,ytrue)
 
         if (length(t)>1) {
             # multiple cross over points so choose the one closest to 0
-            t=t[which.min(abs(t))]
+            t=t[which.min(abs(t),)]
+        }
+
+        if (length(t)==0 ) {
+            # length is zero. how does this happen? default to 0.
+            t=0
         }
 
         if (is.na(t)) {
