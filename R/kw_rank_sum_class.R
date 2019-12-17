@@ -1,6 +1,6 @@
 #' kruskal-wallis model class
 #'
-#' kruskal-wallis model class. Calculate kw-test for all features in a dataset.
+#' kruskal-wallis model class. Calculate kw-test for all features in a DatasetExperiment.
 #' A non-parametric 1-way ANOVA.
 #'
 #' @import struct
@@ -9,20 +9,27 @@
 #' M = kw_rank_sum()
 #'
 #' @export kw_rank_sum
-kw_rank_sum<-setClass(
+kw_rank_sum = function(...) {
+    out=.kw_rank_sum()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.kw_rank_sum<-setClass(
     "kw_rank_sum",
     contains=c('model'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.factor_names='entity',
+        params_alpha='entity_stato',
+        params_mtc='entity_stato',
+        params_factor_names='entity',
         # OUTPUTS
-        outputs.test_statistic='entity',
-        outputs.p_value='entity',
-        outputs.dof='entity.stato',
-        outputs.significant='entity',
-        outputs.estimates='data.frame'
+        outputs_test_statistic='entity',
+        outputs_p_value='entity',
+        outputs_dof='entity_stato',
+        outputs_significant='entity',
+        outputs_estimates='data.frame'
     ),
     prototype = list(name='kruskal-wallis rank sum test',
         description='Applies the kw rank sum test to each feature to indicate significance, with (optional)
@@ -30,39 +37,39 @@ kw_rank_sum<-setClass(
         type="univariate",
         predicted='p_value',
 
-        params.factor_names=entity(name='Factor names',
+        params_factor_names=entity(name='Factor names',
             type='character',
             description='Names of sample_meta columns to use'
         ),
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
+        params_alpha=entity_stato(name='Confidence level',
+            stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
+        params_mtc=entity_stato(name='Multiple Test Correction method',
+            stato_id='OBI:0200089',
             value='fdr',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        outputs.test_statistic=entity(name='test statistic',
+        outputs_test_statistic=entity(name='test statistic',
             type='data.frame',
             description='the value of the calculated statistic which is converted to a p-value when compared to a chi2-distribution.'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
+        outputs_p_value=entity_stato(name='p value',
+            stato_id='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated t-statistic.'
         ),
-        outputs.dof=entity.stato(name='degrees of freedom',
-            stato.id='STATO:0000069',
+        outputs_dof=entity_stato(name='degrees of freedom',
+            stato_id='STATO:0000069',
             type='numeric',
             description='the number of degrees of freedom used to calculate the test statistic'
         ),
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
+        outputs_significant=entity(name='Significant features',
+            #stato_id='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         )
@@ -71,13 +78,13 @@ kw_rank_sum<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("kw_rank_sum",'dataset'),
+setMethod(f="model_apply",
+    signature=c("kw_rank_sum",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
+        X=D$data
         CN=colnames(X) # keep a copy of the original colnames
-        y=dataset.sample_meta(D)[[M$factor_names]]
+        y=D$sample_meta[[M$factor_names]]
         L=levels(y)
 
         X=D$data
@@ -92,17 +99,17 @@ setMethod(f="model.apply",
         rownames(output)=output$Row.names
         output=output[,-1]
 
-        output$p.value=p.adjust(output$p.value,method = param.value(M,'mtc'))
+        output$p.value=p.adjust(output$p.value,method = param_value(M,'mtc'))
 
-        output.value(M,'test_statistic')=data.frame(output$statistic)
+        output_value(M,'test_statistic')=data.frame(output$statistic)
         colnames(M$test_statistic)=M$factor_names
 
-        output.value(M,'p_value')=data.frame(output$p.value)
+        output_value(M,'p_value')=data.frame(output$p.value)
         colnames(M$p_value)=M$factor_names
 
-        output.value(M,'dof')=output$parameter
+        output_value(M,'dof')=output$parameter
 
-        output.value(M,'significant')=data.frame(output$p.value<param.value(M,'alpha'))
+        output_value(M,'significant')=data.frame(output$p.value<param_value(M,'alpha'))
         colnames(M$significant)=M$factor_names
 
         return(M)
@@ -118,7 +125,14 @@ setMethod(f="model.apply",
 #' @examples
 #' C = kw_p_hist()
 #' @export kw_p_hist
-kw_p_hist<-setClass(
+kw_p_hist = function(...) {
+    out=.kw_p_hist()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.kw_p_hist<-setClass(
     "kw_p_hist",
     contains='chart',
     prototype = list(name='Histogram of p values',
@@ -129,11 +143,11 @@ kw_p_hist<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("kw_p_hist",'kw_rank_sum'),
     definition=function(obj,dobj)
     {
-        t=param.value(dobj,'alpha')
+        t=param_value(dobj,'alpha')
         A=log10(data.frame(p_value=dobj$'p_value'))
         A$sig=dobj$significant
         A$features=factor(A$sig,levels=c(FALSE,TRUE),labels=c('accepted','rejected'))

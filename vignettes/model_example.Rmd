@@ -26,10 +26,10 @@ library(gridExtra)
 </br></br>
 
 # Introduction
-PCA (Principal Component Analysis) is a commonly applied method for exploring multivariate datasets. We will use the iris dataset as an example, which is included in the package and already prepared as a dataset object.
+PCA (Principal Component Analysis) is a commonly applied method for exploring multivariate datasets. We will use the iris DatasetExperiment as an example, which is included in the package and already prepared as a DatasetExperiment object.
 
 ```{r}
-D = iris_dataset()
+D = iris_DatasetExperiment()
 head(D$data)
 ```
  
@@ -44,10 +44,10 @@ P$number_components=5
 P$number_components
 ```
   
-The inputs for a model can be listed using `param.ids(object)`:
+The inputs for a model can be listed using `param_ids(object)`:
 
 ```{r}
-param.ids(P)
+param_ids(P)
 ```
 </br></br>
 
@@ -58,7 +58,7 @@ Unless you have very good reason not to, it is usally sensible to mean centre th
 M = mean_centre() + PCA(number_components = 4)
 ```
   
-In `STRUCT` mean centring and PCA are both model objects, and therefore joining them creates a model.sequence object. The objects in the sequence can be accessed by indexing, and we can combine this with dollar notation. For example, the PCA object is the second object in our sequence and we can access the number of components like this:
+In `STRUCT` mean centring and PCA are both model objects, and therefore joining them creates a model_sequence object. The objects in the sequence can be accessed by indexing, and we can combine this with dollar notation. For example, the PCA object is the second object in our sequence and we can access the number of components like this:
 
 ```{r}
 M[2]$number_components
@@ -66,22 +66,22 @@ M[2]$number_components
 </br></br>
 
 # Training/testing models
-Model and model.sequence objects need to be trained using a training dataset.
+Model and model_sequence objects need to be trained using a training DatasetExperiment.
 
 ```{r}
-M = model.train(M,D)
+M = model_train(M,D)
 ```
   
 Model objects can be used to generate predictions for test datasets. For this example we will just use the training data (sometimes called autoprediction).
 
 ```{r}
-M = model.predict(M,D)
+M = model_predict(M,D)
 ```
 
 The available outputs for an object can be listed and accessed using dollar notation:
   
 ```{r}
-output.ids(M[2])
+output_ids(M[2])
 M[2]$scores
 ```
 </br></br>
@@ -90,33 +90,33 @@ M[2]$scores
 The struct framework includes charts. Charts associated with a model object can be listed.
 
 ```{r}
-chart.names(M[2])
+chart_names(M[2])
 ```
   
-Like model objects, chart objects need to be created before they can be used. Here we will plot the PCA scores plot for our mean centred PCA model.
+Like model objects, chart objects need to be created before they can be used. Here we will plot the PCA scores plot for our mean centred PCA model_
 
 ```{r}
 C = pca_scores_plot(groups=D$sample_meta$Species,factor_name='Species') # colour by Species
-chart.plot(C,M[2])
+chart_plot(C,M[2])
 ```
   
-If we makes changes to our chart object, we must call `chart.plot` again.
+If we makes changes to our chart object, we must call `chart_plot` again.
 
 ```{r}
 # add petal width to emta data of pca scores
 M[2]$scores$sample_meta$Petal.Width=D$data$Petal.Width
 # update plot
 C$factor_name='Petal.Width'
-chart.plot(C,M[2])
+chart_plot(C,M[2])
 ```
   
-The `chart.plot` method can return e.g. a ggplot object so that you can easily combine it with other plots using the gridExtra package for example.
+The `chart_plot` method can return e.g. a ggplot object so that you can easily combine it with other plots using the gridExtra package for example.
 
 ```{r,fig.width=10}
 C1 = pca_scores_plot(groups=D$sample_meta$Species,factor_name='Species') # colour by Species
-g1 = chart.plot(C1,M[2])
-C2 = PCA.scree()
-g2 = chart.plot(C2,M[2])
+g1 = chart_plot(C1,M[2])
+C2 = pca_scree()
+g2 = chart_plot(C2,M[2])
 grid.arrange(grobs=list(g1,g2),nrow=1)
 ```
 </br></br>
@@ -132,19 +132,19 @@ We can access the STATO ontology using some methods specific to stato objects.
 
 ```{r}
 # this is the stato id for PCA
-stato.id(P)
+stato_id(P)
 
 # this is the stato name
-stato.name(P)
+stato_name(P)
 
 # this is the stato definition
-stato.definition(P)
+stato_definition(P)
 ```
 
-This information is more succinctly displayed using `stato.summary`. This method also scans over all inputs and outputs for those with STATO definitions and displays those as well. For PCA the number of components is present, but none of the outputs are STATO objects and therefore no definition is provided.
+This information is more succinctly displayed using `stato_summary`. This method also scans over all inputs and outputs for those with STATO definitions and displays those as well. For PCA the number of components is present, but none of the outputs are STATO objects and therefore no definition is provided.
 
 ```{r}
-stato.summary(P)
+stato_summary(P)
 ```
 
 

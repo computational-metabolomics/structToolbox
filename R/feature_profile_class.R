@@ -11,30 +11,37 @@
 #' @param feature_to_plot the column id of the feature to plot
 #'
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' C = feature_profile(run_order='sample_order',
 #'     qc_label='QC',
 #'     qc_column='class',
 #'     colour_by='class',
 #'     feature_to_plot=1)
-#' chart.plot(C,D)
+#' chart_plot(C,D)
 #'
 #' @export feature_profile
-feature_profile<-setClass(
+feature_profile = function(...) {
+    out=.feature_profile()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.feature_profile<-setClass(
     "feature_profile",
     contains=c('chart'),
     slots=c(
         # INPUTS
-        params.run_order='character',
-        params.qc_label='character',
-        params.qc_column='character',
-        params.colour_by='character',
-        params.feature_to_plot='entity'
+        params_run_order='character',
+        params_qc_label='character',
+        params_qc_column='character',
+        params_colour_by='character',
+        params_feature_to_plot='entity'
     ),
     prototype = list(name='Feature profile',
         description='plots a feature vs run order',
         type="scatter",
-        params.feature_to_plot=entity(name='Feature to plot',
+        params_feature_to_plot=entity(name='Feature to plot',
             description='The name or column id of the feature to plot',
             type=c('numeric','character','integer'))
     )
@@ -42,8 +49,8 @@ feature_profile<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("feature_profile",'dataset'),
+setMethod(f="chart_plot",
+    signature=c("feature_profile",'DatasetExperiment'),
     definition=function(obj,dobj) {
 
         groups=createClassAndColors(class = dobj$sample_meta[[obj$colour_by]],
@@ -57,12 +64,12 @@ setMethod(f="chart.plot",
 
         # mean of QCs
         FT=filter_smeta(mode='include',levels=obj$qc_label,factor_name=obj$qc_column)
-        FT=model.apply(FT,dobj)
+        FT=model_apply(FT,dobj)
         MQC=mean(predicted(FT)$data[,obj$feature_to_plot],na.rm=TRUE)
         SQC=sd(predicted(FT)$data[,obj$feature_to_plot],na.rm=TRUE)
         # mean of samples
         FT=filter_smeta(mode='exclude',levels=obj$qc_label,factor_name=obj$qc_column)
-        FT=model.apply(FT,dobj)
+        FT=model_apply(FT,dobj)
         MS=mean(predicted(FT)$data[,obj$feature_to_plot],na.rm=TRUE)
         SS=sd(predicted(FT)$data[,obj$feature_to_plot],na.rm=TRUE)
 

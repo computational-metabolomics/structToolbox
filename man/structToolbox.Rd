@@ -3,7 +3,6 @@
 \docType{package}
 \name{structToolbox}
 \alias{structToolbox}
-\alias{structToolbox-package}
 \title{structToolbox: Examples of tools built using the Statistics in R Using Class Templates (struct) package}
 \description{
 This package extends the classes defined in the struct package

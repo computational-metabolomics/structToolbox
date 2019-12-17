@@ -12,37 +12,44 @@
 #' M=pairs_filter()
 #'
 #' @export pairs_filter
-pairs_filter<-setClass(
+pairs_filter = function(...) {
+    out=.pairs_filter()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.pairs_filter<-setClass(
     "pairs_filter",
     contains = c('model'),
-    slots=c(params.factor_name='entity',
-        params.fraction='entity',
-        params.sample_id='entity',
-        outputs.filtered='entity',
-        outputs.flags='entity'
+    slots=c(params_factor_name='entity',
+        params_fraction='entity',
+        params_sample_id='entity',
+        outputs_filtered='entity',
+        outputs_flags='entity'
     ),
     prototype=list(name = 'Blank filter',
         description = 'Filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the intensity is not large compared to the blank are removed.',
         type = 'filter',
         predicted = 'filtered',
 
-        params.factor_name=entity(name='Factor name',
+        params_factor_name=entity(name='Factor name',
             description='Name of sample meta column to use',
             type='character',
             value='V1'),
 
-        params.sample_id=entity(name='Sample id',
+        params_sample_id=entity(name='Sample id',
             description='Name of sample meta column containing the sample id',
             type='character',
             value='V1'),
 
-        outputs.filtered=entity(name='Filtered dataset',
-            description='A dataset object after the filter has been applied',
-            type='dataset',
-            value=dataset()),
+        outputs_filtered=entity(name='Filtered DatasetExperiment',
+            description='A DatasetExperiment object after the filter has been applied',
+            type='DatasetExperiment',
+            value=DatasetExperiment()),
 
-        outputs.flags=entity(name='Filter flags',
-            description='A data.frame indicating whether features were filtered from the dataset.',
+        outputs_flags=entity(name='Filter flags',
+            description='A data.frame indicating whether features were filtered from the DatasetExperiment.',
             type='data.frame',
             value=data.frame())
     )
@@ -50,26 +57,26 @@ pairs_filter<-setClass(
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("pairs_filter","dataset"),
+setMethod(f="model_train",
+    signature=c("pairs_filter","DatasetExperiment"),
     definition=function(M,D){
-        M=model.apply(M,D)
+        M=model_apply(M,D)
         return(M)
     })
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("pairs_filter","dataset"),
+setMethod(f="model_apply",
+    signature=c("pairs_filter","DatasetExperiment"),
     definition=function(M,D){
-        M=model.apply(M,D)
+        M=model_apply(M,D)
         return(M)
     })
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("pairs_filter","dataset"),
+setMethod(f="model_apply",
+    signature=c("pairs_filter","DatasetExperiment"),
     definition=function(M,D)
     {
         # get levels of factor
@@ -106,7 +113,7 @@ setMethod(f="model.apply",
             M$flags=data.frame(flags=flags)
 
             FF=filter_by_name(mode='exclude',dimension='sample',names=as.logical(flags[,1]))
-            FF=model.apply(FF,D)
+            FF=model_apply(FF,D)
             M$filtered=predicted(FF)
 
 

@@ -1,1 +1,1 @@
-#' @rdname chart.plot
+#' @rdname chart_plot

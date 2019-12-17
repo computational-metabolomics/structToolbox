@@ -5,44 +5,51 @@
 #' @export HCA
 #' @examples
 #' M = HCA()
-HCA<-setClass(
+HCA = function(...) {
+    out=.HCA()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.HCA<-setClass(
     "HCA",
     contains=c('model'),
     slots=c(
         # INPUTS
-        params.dist_method='enum',
-        params.cluster_method='enum',
-        params.minkowski_power='numeric',
-        params.factor_name='character',
+        params_dist_method='enum',
+        params_cluster_method='enum',
+        params_minkowski_power='numeric',
+        params_factor_name='character',
         # OUTPUTS
-        outputs.dist_matrix='entity',
-        outputs.hclust='entity',
-        outputs.factor_df='data.frame'
+        outputs_dist_matrix='entity',
+        outputs_hclust='entity',
+        outputs_factor_df='data.frame'
     ),
     prototype = list(name='Hierarchical Cluster Analysis',
-        description='Applies hierarchical clustering to a dataset.',
+        description='Applies hierarchical clustering to a DatasetExperiment.',
         type="univariate",
         predicted='dist_matrix',
 
 
-        params.dist_method=enum(name='Distance method',
+        params_dist_method=enum(name='Distance method',
             value='euclidean',
             type='character',
             description='The distance measure to be used. This must be one of "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"',
             list=c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski")
         ),
-        params.cluster_method=enum(name='Clustering method',
+        params_cluster_method=enum(name='Clustering method',
             value='complete',
             type='character',
             description='The agglomeration method to be used. This should be one of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median" or "centroid"',
             list=c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
         ),
 
-        outputs.dist_matrix=entity(name='distance structure',
+        outputs_dist_matrix=entity(name='distance structure',
             type='dist',
             description='An object containing pairwise distance information between samples'
         ),
-        outputs.hclust=entity(name='clustering object',
+        outputs_hclust=entity(name='clustering object',
             type='hclust',
             description='An object of class hclust which describes the tree produced by the clustering process'
         )
@@ -51,8 +58,8 @@ HCA<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("HCA",'dataset'),
+setMethod(f="model_apply",
+    signature=c("HCA",'DatasetExperiment'),
     definition=function(M,D)
     {
 
@@ -79,14 +86,21 @@ setMethod(f="model.apply",
 #' @include hca_class.R
 #' @examples
 #' C = hca_dendrogram()
-hca_dendrogram<-setClass(
+hca_dendrogram = function(...) {
+    out=.hca_dendrogram()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.hca_dendrogram<-setClass(
     "hca_dendrogram",
     contains='chart'
 )
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("hca_dendrogram",'HCA'),
     definition=function(obj,dobj)
     {

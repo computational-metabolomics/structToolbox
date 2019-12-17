@@ -10,49 +10,56 @@
 #' @export HSDEM
 #' @examples
 #' M = HSDEM()
-HSDEM<-setClass(
+HSDEM = function(...) {
+    out=.HSDEM()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.HSDEM<-setClass(
     "HSDEM",
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.formula='entity',
+        params_alpha='entity_stato',
+        params_mtc='entity_stato',
+        params_formula='entity',
 
         # OUTPUTS
-        outputs.p_value='entity.stato',
-        outputs.significant='entity'
+        outputs_p_value='entity_stato',
+        outputs_significant='entity'
     ),
     prototype = list(name='Tukey Honest Significant Difference using estimated marginal means',
         description='Tukey HSD post hoc tests for mixed effects models using estimated marginal means',
         type="univariate",
         predicted='p_value',
-        stato.id="STATO:0000187",
+        stato_id="STATO:0000187",
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
+        params_alpha=entity_stato(name='Confidence level',
+            stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
+        params_mtc=entity_stato(name='Multiple Test Correction method',
+            stato_id='OBI:0200089',
             value='none',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        params.formula=entity(name='Formula',
+        params_formula=entity(name='Formula',
             value=y~x,
             type='formula',
             description='The formula to use'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
+        outputs_p_value=entity_stato(name='p value',
+            stato_id='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated t-statistic.'
         ),
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
+        outputs_significant=entity(name='Significant features',
+            #stato_id='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         )
@@ -61,15 +68,15 @@ HSDEM<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("HSDEM",'dataset'),
+setMethod(f="model_apply",
+    signature=c("HSDEM",'DatasetExperiment'),
     definition=function(M,D) {
-        X=dataset.data(D)
+        X=D$data
         lmer_formula=aov2lme(M$formula)
         var_names=all.vars(M$formula)
         var_names_1=var_names[1]
         var_names=var_names[-1]
-        y=dataset.sample_meta(D)[var_names]
+        y=D$sample_meta[var_names]
 
         # set the contrasts
         O=options('contrasts') # keep the old ones

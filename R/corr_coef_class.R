@@ -8,61 +8,68 @@
 #' M = corr_coef()
 #'
 #' @export corr_coef
-corr_coef<-setClass(
+corr_coef = function(...) {
+    out=.corr_coef()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.corr_coef<-setClass(
     "corr_coef",
     contains=c('model'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.factor_names='entity',
-        params.method='enum',
+        params_alpha='entity_stato',
+        params_mtc='entity_stato',
+        params_factor_names='entity',
+        params_method='enum',
         # OUTPUTS
-        outputs.coeff='entity',
-        outputs.p_value='entity',
-        outputs.significant='entity'
+        outputs_coeff='entity',
+        outputs_p_value='entity',
+        outputs_significant='entity'
     ),
     prototype = list(name='Correlation coefficient',
         description='Calculates the correlation coefficient between features and continuous factors.',
         type="univariate",
         predicted='p_value',
 
-        params.factor_names=entity(name='Factor names',
+        params_factor_names=entity(name='Factor names',
             type='character',
             description='Names of sample_meta columns to use'
         ),
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
+        params_alpha=entity_stato(name='Confidence level',
+            stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
+        params_mtc=entity_stato(name='Multiple Test Correction method',
+            stato_id='OBI:0200089',
             value='fdr',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
 
-        params.method=enum(name='Type of correlation',
+        params_method=enum(name='Type of correlation',
             value='spearman',
             type='character',
             description='"kendall", "pearson" or "spearman" correlation coefficient. Default="spearman".',
             list=c("kendall", "pearson","spearman")
         ),
-        outputs.coeff=entity(name='Correlation coefficient',
+        outputs_coeff=entity(name='Correlation coefficient',
             type='data.frame',
             description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
+        outputs_p_value=entity_stato(name='p value',
+            stato_id='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated t-statistic.'
         ),
 
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
+        outputs_significant=entity(name='Significant features',
+            #stato_id='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         )
@@ -71,8 +78,8 @@ corr_coef<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("corr_coef",'dataset'),
+setMethod(f="model_apply",
+    signature=c("corr_coef",'DatasetExperiment'),
     definition=function(M,D)
     {
 

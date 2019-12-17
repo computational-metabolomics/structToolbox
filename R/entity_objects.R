@@ -1,15 +1,15 @@
 # entity objects used in struct, to reduce duplicity
 ents=list()
 
-ents$alpha=entity.stato(name='Confidence level',
-    stato.id='STATO:0000053',
+ents$alpha=entity_stato(name='Confidence level',
+    stato_id='STATO:0000053',
     value=0.05,
     type='numeric',
     description='the p-value cutoff for determining significance.'
 )
 
-ents$mtc=entity.stato(name='Multiple Test Correction method',
-    stato.id='OBI:0200089',
+ents$mtc=entity_stato(name='Multiple Test Correction method',
+    stato_id='OBI:0200089',
     value='fdr',
     type='character',
     description='The method used to adjust for multiple comparisons.'
@@ -21,20 +21,20 @@ ents$formula=entity(name='Formula',
     description='The formula to use'
 )
 
-ents$f_statistic=entity.stato(name='F-statistic',
-    stato.id='STATO:0000176',
+ents$f_statistic=entity_stato(name='F-statistic',
+    stato_id='STATO:0000176',
     type='data.frame',
     description='the value of the calculated statistic which is converted to a p-value when compared to an F-distribution.'
 )
 
-ents$p_value=entity.stato(name='p value',
-    stato.id='STATO:0000175',
+ents$p_value=entity_stato(name='p value',
+    stato_id='STATO:0000175',
     type='data.frame',
     description='The probability of observing the calculated statistic.'
 )
 
 ents$significant=entity(name='Significant features',
-    #stato.id='STATO:0000069',
+    #stato_id='STATO:0000069',
     type='data.frame',
     description='TRUE if a feature is considered "significant", FALSE if not.',
     value=data.frame()
@@ -50,10 +50,10 @@ ents$qc_label=entity(name = 'QC label',
     value = 'QC',
     type=c('character','NULL'))
 
-ents$filtered=entity(name = 'Filtered dataset',
-    description = 'A dataset object containing the filtered data.',
-    type='dataset',
-    value=dataset()
+ents$filtered=entity(name = 'Filtered DatasetExperiment',
+    description = 'A DatasetExperiment object containing the filtered data.',
+    type='DatasetExperiment',
+    value=DatasetExperiment()
 )
 
 ents$flags=entity(name = 'Flags',

@@ -1,6 +1,6 @@
 #' prop_na model class
 #'
-#' prop_na Compares proportion of NA for all features in a dataset
+#' prop_na Compares proportion of NA for all features in a DatasetExperiment
 #'
 #' @import struct
 #' @import stats
@@ -8,18 +8,25 @@
 #' @examples
 #' M = prop_na()
 #'
-prop_na<-setClass(
+prop_na = function(...) {
+    out=.prop_na()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.prop_na<-setClass(
     "prop_na",
     contains=c('model'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.factor_name='entity',
+        params_alpha='entity_stato',
+        params_mtc='entity_stato',
+        params_factor_name='entity',
         # OUTPUTS
-        outputs.p_value='entity.stato',
-        outputs.significant='entity',
-        outputs.na_count='entity'
+        outputs_p_value='entity_stato',
+        outputs_significant='entity',
+        outputs_na_count='entity'
         # CHARTS
         # none
     ),
@@ -29,35 +36,35 @@ prop_na<-setClass(
         type="univariate",
         predicted='p_value',
 
-        params.factor_name=entity(name='Factor names',
+        params_factor_name=entity(name='Factor names',
             type='character',
             description='Names of sample_meta columns to use'
         ),
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
+        params_alpha=entity_stato(name='Confidence level',
+            stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
+        params_mtc=entity_stato(name='Multiple Test Correction method',
+            stato_id='OBI:0200089',
             value='fdr',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
+        outputs_p_value=entity_stato(name='p value',
+            stato_id='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated statistic.'
         ),
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
+        outputs_significant=entity(name='Significant features',
+            #stato_id='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threshold (alpha)'
         ),
-        outputs.na_count=entity(name='Number of NA',
-            #stato.id='STATO:0000069',
+        outputs_na_count=entity(name='Number of NA',
+            #stato_id='STATO:0000069',
             type='data.frame',
             description='The number of NA values per group of the chosen factor'
         )
@@ -66,12 +73,12 @@ prop_na<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("prop_na",'dataset'),
+setMethod(f="model_apply",
+    signature=c("prop_na",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
-        y=dataset.sample_meta(D)[[M$factor_name]]
+        X=D$data
+        y=D$sample_meta[[M$factor_name]]
         L=levels(y)
         output=apply(X,2,function(x) {
             na_count=numeric(length(L))

@@ -10,37 +10,44 @@
 #' @include PLSDA_class.R
 #' @examples
 #' C = plsda_scores_plot()
-plsda_scores_plot<-setClass(
+plsda_scores_plot = function(...) {
+    out=.plsda_scores_plot()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.plsda_scores_plot<-setClass(
     "plsda_scores_plot",
     contains='chart',
     slots=c(
         # INPUTS
-        params.components='entity',
-        params.points_to_label='entity',
-        params.factor_name='entity',
-        params.groups='entity'
+        params_components='entity',
+        params_points_to_label='entity',
+        params_factor_name='entity',
+        params_groups='entity'
     ),
     prototype = list(name='PLSDA scores plot',
         description='scatter plot of PLSDA component scores',
         type="scatter",
         libraries=c('pls','ggplot2'),
-        params.components=entity(name='Components to plot',
+        params_components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
             description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
             max_length=2
         ),
-        params.points_to_label=entity(name='points_to_label',
+        params_points_to_label=entity(name='points_to_label',
             value='none',
             type='character',
             description='("none"), "all", or "outliers" will be labelled on the plot.'
         ),
-        params.factor_name=entity(name='Factor name',
+        params_factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        params.groups=entity(name='Groups',
+        params_groups=entity(name='Groups',
             value=factor(),
             type=c('factor','character','numeric'),
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
@@ -51,14 +58,14 @@ plsda_scores_plot<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("plsda_scores_plot",'PLSDA'),
     definition=function(obj,dobj)
     {
-        opt=param.list(obj)
+        opt=param_list(obj)
 
-        scores=output.value(dobj,'scores')
-        #pvar=(colSums(scores*scores)/output.value(dobj,'ssx'))*100 # percent variance
+        scores=output_value(dobj,'scores')
+        #pvar=(colSums(scores*scores)/output_value(dobj,'ssx'))*100 # percent variance
         #pvar=round(pvar,digits = 2) # round to 2 decimal places
         shapes <- rep(19,nrow(scores)) # filled circles for all samples
         slabels <- rownames(scores)
@@ -102,7 +109,7 @@ setMethod(f="chart.plot",
         build=ggplot_build(out)$data
         points=build[[1]]
         ell=build[[length(build)]]
-        # outlier for dataset ellipse
+        # outlier for DatasetExperiment ellipse
         points$in.ell=as.logical(point.in.polygon(points$x,points$y,ell$x,ell$y))
 
         # label outliers if

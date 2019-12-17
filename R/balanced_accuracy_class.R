@@ -6,14 +6,21 @@
 #' @return A metric object with methods for calculating balanced accuracy.
 #'
 #' @examples
-#' D = iris_dataset()
+#' D = iris_DatasetExperiment()
 #' XCV = kfold_xval(folds=5,factor_name='Species') *
 #'       (mean_centre() + PLSDA(number_components=2,factor_name='Species'))
 #' MET = balanced_accuracy()
 #' XCV = run(XCV,D,MET)
 #'
 #' @export balanced_accuracy
-balanced_accuracy<-setClass(
+balanced_accuracy = function(...) {
+    out=.balanced_accuracy()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.balanced_accuracy<-setClass(
     "balanced_accuracy",
     contains='metric',
     prototype = list(name='Balanced Accuracy',

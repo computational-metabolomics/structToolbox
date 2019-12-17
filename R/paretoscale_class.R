@@ -1,23 +1,30 @@
 #' Pareto scaling
 #'
-#' Pareto scaling centres the columns of the data in a dataset object and divides by the square root of the standard deviation.
+#' Pareto scaling centres the columns of the data in a DatasetExperiment object and divides by the square root of the standard deviation.
 #'
 #' @return A STRUCT model object with methods for pareto scaling.
 #'
 #' @examples
-#' D = iris_dataset()
+#' D = iris_DatasetExperiment()
 #' M = pareto_scale()
-#' M = model.train(M,D)
-#' M = model.predict(M,D)
+#' M = model_train(M,D)
+#' M = model_predict(M,D)
 #'
 #' @export pareto_scale
-pareto_scale<-setClass(
+pareto_scale = function(...) {
+    out=.pareto_scale()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.pareto_scale<-setClass(
     "pareto_scale",
     contains='model',
     slots=c(
-        outputs.scaled='dataset',
-        outputs.mean='numeric',
-        outputs.sd='numeric'
+        outputs_scaled='DatasetExperiment',
+        outputs_mean='numeric',
+        outputs_sd='numeric'
     ),
     prototype = list(name='Pareto scaling',
         type="preprocessing",
@@ -27,31 +34,31 @@ pareto_scale<-setClass(
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("pareto_scale",'dataset'),
+setMethod(f="model_train",
+    signature=c("pareto_scale",'DatasetExperiment'),
     definition=function(M,D)
     {
         # column means
-        X=dataset.data(D)
+        X=D$data
         m=colMeans(X)
-        output.value(M,'mean')=m
+        output_value(M,'mean')=m
         s=apply(X, 2, sd)
-        output.value(M,'sd')=s
+        output_value(M,'sd')=s
         return(M)
     }
 )
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("pareto_scale",'dataset'),
+setMethod(f="model_predict",
+    signature=c("pareto_scale",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
-        Xc=pscale(X,output.value(M,'mean'),output.value(M,'sd'))
-        dataset.data(D)=as.data.frame(Xc)
+        X=D$data
+        Xc=pscale(X,output_value(M,'mean'),output_value(M,'sd'))
+        D$data=as.data.frame(Xc)
         name(D)=c(name(D),'The data has been autoscaled')
-        output.value(M,'scaled')=D
+        output_value(M,'scaled')=D
         return(M)
     }
 )

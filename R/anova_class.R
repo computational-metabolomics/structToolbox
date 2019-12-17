@@ -1,6 +1,6 @@
 #' ANOVA
 #'
-#' Applies ANOVA to each feature in a dataset object.
+#' Applies ANOVA to each feature in a DatasetExperiment object.
 #'
 #' @import struct
 #' @import stats
@@ -12,58 +12,65 @@
 #' @return A struct method object with functions for applying ANOVA
 #'
 #' @examples
-#' D = iris_dataset()
+#' D = iris_DatasetExperiment()
 #' M = ANOVA(formula=y~Species)
-#' M = model.apply(M,D)
+#' M = model_apply(M,D)
 #'
 #' @include entity_objects.R
 #'
 #' @export ANOVA
-ANOVA<-setClass(
+ANOVA = function(...) {
+    out=.ANOVA()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.ANOVA<-setClass(
     "ANOVA",
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.formula='entity',
-        params.type='enum',
+        params_alpha='entity_stato',
+        params_mtc='entity_stato',
+        params_formula='entity',
+        params_type='enum',
         # OUTPUTS
-        outputs.f_statistic='entity.stato',
-        outputs.p_value='entity.stato',
-        outputs.significant='entity'
+        outputs_f_statistic='entity_stato',
+        outputs_p_value='entity_stato',
+        outputs_significant='entity'
     ),
     prototype = list(name='Analysis of Variance',
-        description='ANOVA applied to each column of a dataset.',
+        description='ANOVA applied to each column of a DatasetExperiment.',
         type="univariate",
         predicted='p_value',
-        stato.id="OBI:0200201",
+        stato_id="OBI:0200201",
 
-        params.alpha=ents$alpha,
-        params.mtc=ents$mtc,
-        params.formula=ents$formula,
+        params_alpha=ents$alpha,
+        params_mtc=ents$mtc,
+        params_formula=ents$formula,
 
-        params.type=enum(name='ANOVA type',
+        params_type=enum(name='ANOVA type',
             description='I, II or [III]. The type of sums of squares to use. For balanced designs all types gives the same result.',
             value='III',
             type='character',
             list=c('I','II','III')
         ),
 
-        outputs.f_statistic=ents$f_statistic,
-        outputs.p_value=ents$p_value,
-        outputs.significant=ents$significant
+        outputs_f_statistic=ents$f_statistic,
+        outputs_p_value=ents$p_value,
+        outputs_significant=ents$significant
     )
 )
 
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("ANOVA",'dataset'),
+setMethod(f="model_apply",
+    signature=c("ANOVA",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
+        X=D$data
         var_names=all.vars(M$formula)
 
         # attempt to detect within factors
@@ -75,7 +82,7 @@ setMethod(f="model.apply",
             var_names_ex=var_names
         }
 
-        y=dataset.sample_meta(D)[var_names[2:length(var_names)]]
+        y=D$sample_meta[var_names[2:length(var_names)]]
 
         # set the contrasts
         O=options('contrasts') # keep the old ones

@@ -7,17 +7,24 @@
 #' @include kfold_xval_class.R
 #' @examples
 #' C = kfoldxcv_grid()
-kfoldxcv_grid<-setClass(
+kfoldxcv_grid = function(...) {
+    out=.kfoldxcv_grid()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.kfoldxcv_grid<-setClass(
     "kfoldxcv_grid",
     contains='chart',
     slots=c(
         # INPUTS
-        params.factor_name='entity'
+        params_factor_name='entity'
     ),
     prototype = list(name='kfoldxcv grid plot',
         description='plots the predictions for each cross-validation loop',
         type="grid",
-        params.factor_name=entity(name='Factor name',
+        params_factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
@@ -28,14 +35,14 @@ kfoldxcv_grid<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("kfoldxcv_grid",'kfold_xval'),
     definition=function(obj,dobj)
     {
         # get options
-        copt=param.list(obj)
-        dopt=param.list(dobj)
-        X=output.value(dobj,'results')
+        copt=param_list(obj)
+        dopt=param_list(dobj)
+        X=output_value(dobj,'results')
         L=levels(as.factor(X$actual))
         plotClass= createClassAndColors(X$actual)
         X$actual=plotClass$class
@@ -43,7 +50,7 @@ setMethod(f="chart.plot",
         p=list()
         for (i in 1:length(L)) {
             # get data
-            X=output.value(dobj,'results')
+            X=output_value(dobj,'results')
 
             # reduce to level i for split factor
             X=X[X$actual==L[i],,drop=FALSE]
@@ -94,7 +101,14 @@ setMethod(f="chart.plot",
 #' @include kfold_xval_class.R
 #' @examples
 #' C = kfoldxcv_metric()
-kfoldxcv_metric<-setClass(
+kfoldxcv_metric = function(...) {
+    out=.kfoldxcv_metric()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.kfoldxcv_metric<-setClass(
     "kfoldxcv_metric",
     contains='chart',
     prototype = list(name='kfoldxcv metric plot',
@@ -106,16 +120,16 @@ kfoldxcv_metric<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("kfoldxcv_metric",'kfold_xval'),
     definition=function(obj,dobj)
     {
         # get options
-        dopt=param.list(dobj)
+        dopt=param_list(dobj)
 
         # get data
-        X=data.frame('Metric'=output.value(dobj,'metric.train'),'Set'='Training')
-        X2=data.frame('Metric'=output.value(dobj,'metric.test'),'Set'='Test')
+        X=data.frame('Metric'=output_value(dobj,'metric.train'),'Set'='Training')
+        X2=data.frame('Metric'=output_value(dobj,'metric.test'),'Set'='Test')
         X=rbind(X,X2)
         X$Set=as.factor(X$Set)
         plotClass= createClassAndColors(X$Set)

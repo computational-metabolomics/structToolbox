@@ -1,8 +1,8 @@
 # test grid search
 test_that('grid_search iterator',{
   set.seed('57475')
-  # dataset
-  D=iris_dataset()
+  # DatasetExperiment
+  D=iris_DatasetExperiment()
   # iterator
   I = grid_search_1d(param_to_optimise='number_components',
       factor_name='Species',
@@ -22,8 +22,8 @@ test_that('grid_search iterator',{
 # test grid search
 test_that('grid_search wf',{
   set.seed('57475')
-  # dataset
-  D=iris_dataset()
+  # DatasetExperiment
+  D=iris_DatasetExperiment()
   # iterator
   I = grid_search_1d(param_to_optimise='number_components',
     factor_name='Species',
@@ -42,8 +42,8 @@ test_that('grid_search wf',{
 # test grid search
 test_that('grid_search chart',{
   set.seed('57475')
-  # dataset
-  D=iris_dataset()
+  # DatasetExperiment
+  D=iris_DatasetExperiment()
   # iterator
   I = grid_search_1d(param_to_optimise='number_components',
     factor_name='Species',
@@ -58,6 +58,6 @@ test_that('grid_search chart',{
   I=run(I,D,B)
   # calculate metric
   C=gs_line()
-  gg=chart.plot(C,I)
+  gg=chart_plot(C,I)
   expect_true(is(gg,'ggplot'))
 })

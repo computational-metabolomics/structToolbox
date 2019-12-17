@@ -5,15 +5,22 @@
 #' @import pmp
 #' @examples
 #' M = glog_transform()
-glog_transform<-setClass(
+glog_transform = function(...) {
+    out=.glog_transform()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.glog_transform<-setClass(
     "glog_transform",
     contains = c('model'),
-    slots=c(params.qc_label='entity',
-        params.factor_name='entity',
-        outputs.transformed='entity',
-        outputs.lambda='entity',
-        outputs.error_flag='entity',
-        outputs.lambda_opt='numeric'
+    slots=c(params_qc_label='entity',
+        params_factor_name='entity',
+        outputs_transformed='entity',
+        outputs_lambda='entity',
+        outputs_error_flag='entity',
+        outputs_lambda_opt='numeric'
     ),
 
     prototype=list(name = 'generalised logarithm transform',
@@ -21,27 +28,27 @@ glog_transform<-setClass(
         type = 'normalisation',
         predicted = 'transformed',
 
-        params.factor_name=entity(name = 'factor_name',
+        params_factor_name=entity(name = 'factor_name',
             description = 'Column name of sample_meta containing QC labels',
             value = 'V1',
             type='character'),
 
-        params.qc_label=entity(name = 'QC label',
+        params_qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        outputs.transformed=entity(name = 'glog transformed dataset',
-            description = 'A dataset object containing the glog transformed data.',
-            type='dataset',
-            value=dataset()
+        outputs_transformed=entity(name = 'glog transformed DatasetExperiment',
+            description = 'A DatasetExperiment object containing the glog transformed data.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         ),
-        outputs.lambda=entity(name = 'lambda',
+        outputs_lambda=entity(name = 'lambda',
             description = 'The value of lambda used, as determined by PMP package.',
             type='numeric',
             value=0
         ),
-        outputs.error_flag=entity(name = 'Optimisation error',
+        outputs_error_flag=entity(name = 'Optimisation error',
             description = 'A logical indicating whether the glog optimisation for lambda was successful.',
             type='logical',
             value=FALSE
@@ -51,19 +58,19 @@ glog_transform<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("glog_transform","dataset"),
+setMethod(f="model_apply",
+    signature=c("glog_transform","DatasetExperiment"),
     definition=function(M,D)
     {
-        opt=param.list(M)
+        opt=param_list(M)
 
-        smeta=dataset.sample_meta(D)
-        x=dataset.data(D)
+        smeta=D$sample_meta
+        x=D$data
 
         out = pmp::glog_transformation(t(x),classes = smeta[,M$factor_name],qc_label=opt$qc_label,store_lambda = TRUE)
-        dataset.data(D) = as.data.frame(t(out[[1]]))
+        D$data = as.data.frame(t(out[[1]]))
 
-        output.value(M,'transformed') = D
+        output_value(M,'transformed') = D
         M$lambda = out[[2]]
         M$lambda_opt=out[[3]]
         M$error_flag = out[[4]]

@@ -5,27 +5,34 @@
 #' @import pmp
 #' @examples
 #' C = mv_sample_filter()
-mv_sample_filter<-setClass(
+mv_sample_filter = function(...) {
+    out=.mv_sample_filter()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.mv_sample_filter<-setClass(
     "mv_sample_filter",
     contains = c('model'),
-    slots=c(params.mv_threshold='entity',
-        outputs.filtered='entity',
-        outputs.flags='entity'
+    slots=c(params_mv_threshold='entity',
+        outputs_filtered='entity',
+        outputs_flags='entity'
     ),
     prototype=list(name = 'Missing value sample filter',
         description = 'Filters by removing samples where the percent number of missing values exceeds the threshold.',
         type = 'filter',
         predicted = 'filtered',
-        params.mv_threshold=entity(name = 'Missing value threshold (%)',
+        params_mv_threshold=entity(name = 'Missing value threshold (%)',
             description = 'Samples with greather than THRESHOLD% missing values are excluded.',
             value = 20,
             type='numeric'),
-        outputs.filtered=entity(name = 'Filtered dataset',
-            description = 'A dataset object containing the filtered data.',
-            type='dataset',
-            value=dataset()
+        outputs_filtered=entity(name = 'Filtered DatasetExperiment',
+            description = 'A DatasetExperiment object containing the filtered data.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         ),
-        outputs.flags=entity(name = 'Flags',
+        outputs_flags=entity(name = 'Flags',
             description = '% missing values and a flag indicating whether the sample was rejected.',
             type='data.frame',
             value=data.frame()
@@ -35,24 +42,24 @@ mv_sample_filter<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("mv_sample_filter","dataset"),
+setMethod(f="model_apply",
+    signature=c("mv_sample_filter","DatasetExperiment"),
     definition=function(M,D)
     {
-        opt=param.list(M)
+        opt=param_list(M)
 
-        smeta=dataset.sample_meta(D)
-        x=dataset.data(D)
+        smeta=D$sample_meta
+        x=D$data
 
         filtered = filter_samples_by_mv(x,max_perc_mv=opt$mv_threshold/100,D$sample_meta[,1])
-        dataset.data(D) = as.data.frame(t(filtered$df))
+        D$data = as.data.frame(t(filtered$df))
 
         flags<-data.frame(filtered$flags)
         smeta<-smeta[flags$flags==1,,drop=FALSE]
-        dataset.sample_meta(D)=smeta
+        D$sample_meta=smeta
 
-        output.value(M,'filtered') = D
-        output.value(M,'flags') = flags
+        output_value(M,'filtered') = D
+        output_value(M,'flags') = flags
 
         return(M)
     }
@@ -60,22 +67,22 @@ setMethod(f="model.apply",
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("mv_sample_filter","dataset"),
+setMethod(f="model_train",
+    signature=c("mv_sample_filter","DatasetExperiment"),
     definition=function(M,D)
     {
-        M=model.apply(M,D)
+        M=model_apply(M,D)
         return(M)
     }
 )
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("mv_sample_filter","dataset"),
+setMethod(f="model_predict",
+    signature=c("mv_sample_filter","DatasetExperiment"),
     definition=function(M,D)
     {
-        M=model.apply(M,D)
+        M=model_apply(M,D)
         return(M)
     }
 )
@@ -85,11 +92,18 @@ setMethod(f="model.predict",
 #'
 #' plots a histogram of % missing values per sample
 #' @import struct
-#' @export mv_sample_filter.hist
+#' @export mv_sample_filter_hist
 #' @examples
-#' C = mv_sample_filter.hist()
-mv_sample_filter.hist<-setClass(
-    "mv_sample_filter.hist",
+#' C = mv_sample_filter_hist()
+mv_sample_filter_hist = function(...) {
+    out=.mv_sample_filter_hist()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.mv_sample_filter_hist<-setClass(
+    "mv_sample_filter_hist",
     contains='chart',
     prototype = list(name='Histogram of missing values per sample',
         description='A histogram of the % missing values per sample',
@@ -99,12 +113,12 @@ mv_sample_filter.hist<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("mv_sample_filter.hist",'mv_sample_filter'),
+setMethod(f="chart_plot",
+    signature=c("mv_sample_filter_hist",'mv_sample_filter'),
     definition=function(obj,dobj)
     {
-        t=param.value(dobj,'mv_threshold')
-        A=output.value(dobj,'flags')
+        t=param_value(dobj,'mv_threshold')
+        A=output_value(dobj,'flags')
         A$perc_mv=(A$perc_mv)*100
         A$features=factor(A$flags,levels=c(1,0),labels=c('accepted','rejected'))
         out=ggplot(data=A, aes_(x=~perc_mv,fill=~features)) +

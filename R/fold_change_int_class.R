@@ -4,11 +4,11 @@
 #' factors. Note that paired forced to FALSE for all comparisons.
 #'
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' D$data=D$data[,1:10,drop=FALSE]
 #' M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
 #'     fold_change_int(factor_name=c('class','batch'))
-#' M = model.apply(M,D)
+#' M = model_apply(M,D)
 #'
 #' @param alpha confidence level to use for intervals
 #' @param factor_name the sample_meta column to use
@@ -19,7 +19,14 @@
 #' @import struct
 #' @import stats
 #' @export fold_change_int
-fold_change_int<-setClass(
+fold_change_int = function(...) {
+    out=.fold_change_int()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.fold_change_int<-setClass(
     "fold_change_int",
     contains=c('model','fold_change'),
     prototype = list(predicted='fold_change')
@@ -27,8 +34,8 @@ fold_change_int<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("fold_change_int",'dataset'),
+setMethod(f="model_apply",
+    signature=c("fold_change_int",'DatasetExperiment'),
     definition=function(M,D)
     {
 
@@ -48,7 +55,7 @@ setMethod(f="model.apply",
         k=length(FF) # interactions for all factors
         D$sample_meta$interaction=interaction(D$sample_meta[,FF[[k]]])
         FC=fold_change(alpha=M$alpha,paired=FALSE,sample_name='NA',factor_name='interaction')
-        FC=model.apply(FC,D)
+        FC=model_apply(FC,D)
         #if (k==1) {
             M$fold_change=FC$fold_change
             M$upper_ci=FC$upper_ci

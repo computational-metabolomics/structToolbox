@@ -1,6 +1,6 @@
 #' Mixed Effects model class
 #'
-#' Mixed Effects model class. Applies RE model for all features in a dataset
+#' Mixed Effects model class. Applies RE model for all features in a DatasetExperiment
 #'
 #' @import struct
 #' @import stats
@@ -9,15 +9,22 @@
 #' @export mixed_effect
 #' @examples
 #' M = mixed_effect()
-mixed_effect<-setClass(
+mixed_effect = function(...) {
+    out=.mixed_effect()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.mixed_effect<-setClass(
     "mixed_effect",
     contains=c('model','stato','ANOVA'), # inherits ANOVA
     prototype = list(name='Mixed effects model',
-        description='Mixed effects model applied to each column of a dataset.',
+        description='Mixed effects model applied to each column of a DatasetExperiment.',
         type="univariate",
         predicted='p_value',
-        stato.id="STATO:0000189",
-        params.type=enum(list=c('sequential','marginal'),
+        stato_id="STATO:0000189",
+        params_type=enum(list=c('sequential','marginal'),
             value = 'marginal',
             name ='ANOVA Sum of Squares type',
             description = '"marginal" = Type III sum of squares, and "sequential" = Type II. Default is "marginal"',
@@ -27,16 +34,16 @@ mixed_effect<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("mixed_effect",'dataset'),
+setMethod(f="model_apply",
+    signature=c("mixed_effect",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
+        X=D$data
         lmer_formula=aov2lme(M$formula)
         var_names=all.vars(M$formula)
         var_names_1=var_names[1]
         var_names=var_names[-1]
-        y=dataset.sample_meta(D)[var_names]
+        y=D$sample_meta[var_names]
 
         # set the contrasts
         O=options('contrasts') # keep the old ones

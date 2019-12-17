@@ -7,17 +7,24 @@
 #' @include PCA_class.R
 #' @examples
 #' C = pca_correlation_plot()
-pca_correlation_plot<-setClass(
+pca_correlation_plot = function(...) {
+    out=.pca_correlation_plot()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.pca_correlation_plot<-setClass(
     "pca_correlation_plot",
     contains='chart',
     slots=c(
         # INPUTS
-        params.components='entity'
+        params_components='entity'
     ),
     prototype = list(name='Feature boxplot',
-        description='plots a boxplot of a chosen feature for each group of a dataset.',
+        description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
-        params.components=entity(name='Components to plot',
+        params_components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
             description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
@@ -29,12 +36,12 @@ pca_correlation_plot<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("pca_correlation_plot",'PCA'),
     definition=function(obj,dobj)
     {
-        opt=param.list(obj)
-        A=data.frame(x=output.value(dobj,'correlation')[,opt$components[1]],y=output.value(dobj,'correlation')[,opt$components[2]])
+        opt=param_list(obj)
+        A=data.frame(x=output_value(dobj,'correlation')[,opt$components[1]],y=output_value(dobj,'correlation')[,opt$components[2]])
         dat <- circleFun(c(0,0),2,npoints = 50)
 
         out=ggplot(data=A,aes_(x=~x,y=~y)) +
@@ -61,61 +68,68 @@ setMethod(f="chart.plot",
 #' @include PCA_class.R
 #' @examples
 #' C = pca_scores_plot()
-pca_scores_plot<-setClass(
+pca_scores_plot = function(...) {
+    out=.pca_scores_plot()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.pca_scores_plot<-setClass(
     "pca_scores_plot",
     contains='chart',
     slots=c(
         # INPUTS
-        params.components='entity',
-        params.points_to_label='enum',
-        params.factor_name='entity',
-        params.ellipse='enum',
-        params.label_filter='entity',
-        params.groups='ANY', # will be deprecated
-        params.label_factor='entity',
-        params.label_size='entity'
+        params_components='entity',
+        params_points_to_label='enum',
+        params_factor_name='entity',
+        params_ellipse='enum',
+        params_label_filter='entity',
+        params_groups='ANY', # will be deprecated
+        params_label_factor='entity',
+        params_label_size='entity'
     ),
 
     prototype = list(name='PCA scores plot',
         description='Plots a 2d scatter plot of the selected components',
         type="scatter",
 
-        params.components=entity(name='Components to plot',
+        params_components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
             description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
             max_length=2
         ),
 
-        params.points_to_label=enum(name='points_to_label',
+        params_points_to_label=enum(name='points_to_label',
             value='none',
             type='character',
             description='("none"), "all", or "outliers" will be labelled on the plot.',
             list=c('none','all','outliers')
         ),
-        params.factor_name=entity(name='Factor name',
+        params_factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The column name of sample meta to use for plotting. A second column can be included to plot using symbols.',
             max_length=2
         ),
-        params.ellipse=enum(name = 'Plot ellipses',description=c(
+        params_ellipse=enum(name = 'Plot ellipses',description=c(
             '"all" will plot all ellipses',
             '"group" will only plot group ellipses',
             '"none" will not plot any ellipses',
             '"sample" will plot ellipse for all samples (ignoring group)'),
             list=c('all','group','none','sample'),
             value='all'),
-        params.label_filter=entity(name='Label filter',
+        params_label_filter=entity(name='Label filter',
             value=character(0),
             type='character',
-            description='Only include the param.group labels included in params.label_filter. If zero length then all labels will be included.'
+            description='Only include the param.group labels included in params_label_filter. If zero length then all labels will be included.'
         ),
-        params.label_factor=entity(names='Factor for labels',
+        params_label_factor=entity(names='Factor for labels',
             description='The column name of sample_meta to use as labels. "rownames" will use the row names from sample_meta.',
             type='character',
             value='rownames'),
-        params.label_size=entity(names='Text size of labels',
+        params_label_size=entity(names='Text size of labels',
             description='The text size of labels. Note this is not in Font Units. Default 3.88.',
             type='numeric',
             value=3.88)
@@ -129,7 +143,7 @@ pca_scores_plot<-setClass(
 #' @importFrom scales squish
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("pca_scores_plot",'PCA'),
     definition=function(obj,dobj)
     {
@@ -137,9 +151,9 @@ setMethod(f="chart.plot",
         if (obj$points_to_label=='outliers' & !(obj$ellipse %in% c('all','sample'))) {
             warning('Outliers are only labelled when plotting the sample ellipse')
         }
-        opt=param.list(obj)
-        scores=output.value(dobj,'scores')$data
-        pvar = (colSums(scores*scores)/output.value(dobj,'ssx'))*100 # percent variance
+        opt=param_list(obj)
+        scores=output_value(dobj,'scores')$data
+        pvar = (colSums(scores*scores)/output_value(dobj,'ssx'))*100 # percent variance
         pvar = round(pvar,digits = 2) # round to 2 decimal places
 
         if (length(obj$factor_name)==1) {
@@ -222,7 +236,7 @@ setMethod(f="chart.plot",
             build=ggplot_build(out)$data
             points=build[[1]]
             ell=build[[length(build)]]
-            # outlier for dataset ellipse
+            # outlier for DatasetExperiment ellipse
             points$in.ell=as.logical(sp::point.in.polygon(points$x,points$y,ell$x,ell$y))
 
             # label outliers if
@@ -262,55 +276,62 @@ setMethod(f="chart.plot",
 #' @include PCA_class.R
 #' @examples
 #' C = pca_biplot_plot()
-pca_biplot_plot<-setClass(
+pca_biplot_plot = function(...) {
+    out=.pca_biplot_plot()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.pca_biplot_plot<-setClass(
     "pca_biplot_plot",
     contains='chart',
     slots=c(
         # INPUTS
-        params.components='entity',
-        params.points_to_label='entity',
-        params.factor_name='entity',
-        params.groups='entity',
-        params.scale_factor='entity',
-        params.style='enum',
-        params.label_features='entity'
+        params_components='entity',
+        params_points_to_label='entity',
+        params_factor_name='entity',
+        params_groups='entity',
+        params_scale_factor='entity',
+        params_style='enum',
+        params_label_features='entity'
     ),
     prototype = list(name='Feature boxplot',
-        description='plots a boxplot of a chosen feature for each group of a dataset.',
+        description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
-        params.components=entity(name='Components to plot',
+        params_components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
             description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
             max_length=2
         ),
-        params.points_to_label=entity(name='points_to_label',
+        params_points_to_label=entity(name='points_to_label',
             value='none',
             type='character',
             description='("none"), "all", or "outliers" will be labelled on the plot.'
         ),
-        params.factor_name=entity(name='Factor name',
+        params_factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        params.groups=entity(name='Groups',
+        params_groups=entity(name='Groups',
             value=factor(),
             type='factor',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        params.scale_factor=entity(name='Loadings scale factor',
+        params_scale_factor=entity(name='Loadings scale factor',
             value=0.95,
             type='numeric',
             description='Scaling factor to apply to loadings. Default = 0.95.'
         ),
-        params.style=enum(name='Plot style',
+        params_style=enum(name='Plot style',
             value='points',
             type='character',
             description='Named plot styles for the biplot. [points], arrows',
             list=c('points','arrows')
         ),
-        params.label_features=entity(name='Add feature labels',
+        params_label_features=entity(name='Add feature labels',
             value=FALSE,
             type='logical',
             description='Include feature labels on the plot'
@@ -321,19 +342,19 @@ pca_biplot_plot<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("pca_biplot_plot",'PCA'),
     definition=function(obj,dobj)
     {
-        opt=param.list(obj)
-        Ts=output.value(dobj,'scores')$data
-        pvar=(colSums(Ts*Ts)/output.value(dobj,'ssx'))*100
+        opt=param_list(obj)
+        Ts=output_value(dobj,'scores')$data
+        pvar=(colSums(Ts*Ts)/output_value(dobj,'ssx'))*100
         pvar=round(pvar,digits = 1)
         xlabel=paste("PC",opt$components[[1]],' (',sprintf("%.1f",pvar[opt$components[[1]]]),'%)',sep='')
         ylabel=paste("PC",opt$components[[2]],' (',sprintf("%.1f",pvar[opt$components[[2]]]),'%)',sep='')
 
-        P=output.value(dobj,'loadings')
-        Ev=output.value(dobj,'eigenvalues')
+        P=output_value(dobj,'loadings')
+        Ev=output_value(dobj,'eigenvalues')
 
         # eigenvalues were square rooted when training PCA
         Ev=Ev[,1]
@@ -355,7 +376,7 @@ setMethod(f="chart.plot",
         # plot
         A=data.frame("x"=P[,opt$components[1]]*sf*0.8,"y"=P[,opt$components[2]]*sf*0.8)
         C=pca_scores_plot(groups=obj$groups,points_to_label=obj$points_to_label,components=obj$components,factor_name=obj$factor_name)
-        out=chart.plot(C,dobj)
+        out=chart_plot(C,dobj)
 
         if (opt$style=='points')
         {
@@ -404,31 +425,38 @@ setMethod(f="chart.plot",
 #' @include PCA_class.R
 #' @examples
 #' C = pca_loadings_plot()
-pca_loadings_plot<-setClass(
+pca_loadings_plot = function(...) {
+    out=.pca_loadings_plot()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.pca_loadings_plot<-setClass(
     "pca_loadings_plot",
     contains='chart',
     slots=c(
         # INPUTS
-        params.components='entity',
-        params.style='enum',
-        params.label_features='entity'
+        params_components='entity',
+        params_style='enum',
+        params_label_features='entity'
     ),
     prototype = list(name='Feature boxplot',
-        description='plots a boxplot of a chosen feature for each group of a dataset.',
+        description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
-        params.components=entity(name='Components to plot',
+        params_components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
             description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
             max_length=2
         ),
-        params.style=enum(name='Plot style',
+        params_style=enum(name='Plot style',
             value='points',
             type='character',
             description='Named plot styles for the biplot. [points], arrows',
             list=c('points','arrows')
         ),
-        params.label_features=entity(name='Add feature labels',
+        params_label_features=entity(name='Add feature labels',
             value=FALSE,
             type='logical',
             description='Include feature labels on the plot'
@@ -442,13 +470,13 @@ pca_loadings_plot<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("pca_loadings_plot",'PCA'),
     definition=function(obj,dobj)
     {
-        opt=param.list(obj)
+        opt=param_list(obj)
 
-        P=output.value(dobj,'loadings')
+        P=output_value(dobj,'loadings')
         # 1D plot
         if (length(opt$components)==1)
         {
@@ -489,12 +517,19 @@ setMethod(f="chart.plot",
 #' line plot showing percent variance and cumulative peercent variance for the computed components.
 #'
 #' @import struct
-#' @export PCA.scree
+#' @export pca_scree
 #' @include PCA_class.R
 #' @examples
-#' C = PCA.scree()
-PCA.scree<-setClass(
-    "PCA.scree",
+#' C = pca_scree()
+pca_scree = function(...) {
+    out=.pca_scree()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.pca_scree<-setClass(
+    "pca_scree",
     contains=c('chart'),
     prototype = list(name='Scree plot',
         description='plots the percent and cumulative percent variance for the calculated components',
@@ -504,13 +539,13 @@ PCA.scree<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("PCA.scree",'PCA'),
+setMethod(f="chart_plot",
+    signature=c("pca_scree",'PCA'),
     definition=function(obj,dobj)
     {
         ## percent variance
-        scores=output.value(dobj,'scores')$data
-        pvar=(colSums(scores*scores)/output.value(dobj,'ssx'))*100
+        scores=output_value(dobj,'scores')$data
+        pvar=(colSums(scores*scores)/output_value(dobj,'ssx'))*100
         A=data.frame("x"=1:length(pvar),"y"=c(pvar,cumsum(pvar)),"Variance"=as.factor(c(rep('Single component',length(pvar)),rep('Cumulative',length(pvar)))))
         labels=round(A$y,digits = 1)
         labels=format(labels,1)
@@ -536,23 +571,30 @@ setMethod(f="chart.plot",
 #' line plot showing percent variance and cumulative peercent variance for the computed components.
 #'
 #' @import struct
-#' @export PCA.dstat
+#' @export PCA_dstat
 #' @include PCA_class.R
 #' @examples
-#' C = PCA.dstat()
-PCA.dstat<-setClass(
-    "PCA.dstat",
+#' C = PCA_dstat()
+PCA_dstat = function(...) {
+    out=.PCA_dstat()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.PCA_dstat<-setClass(
+    "PCA_dstat",
     contains=c('chart'),
-    slots=c(params.number_components='entity',
-        params.alpha='entity'),
+    slots=c(params_number_components='entity',
+        params_alpha='entity'),
     prototype = list(name='d-statistic plot',
         description='a bar chart of the d-statistics for samples in the input PCA model',
         type="bar",
-        params.number_components=entity(value = 2,
+        params_number_components=entity(value = 2,
             name = 'number of principal components',
             description = 'number of principal components to use for the plot',
             type='numeric'),
-        params.alpha=entity(value=0.95,
+        params_alpha=entity(value=0.95,
             name='threshold for rejecting outliers',
             description='a confidence threshold for rejecting samples based on the d-statistic',
             type='numeric')
@@ -561,13 +603,13 @@ PCA.dstat<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("PCA.dstat",'PCA'),
+setMethod(f="chart_plot",
+    signature=c("PCA_dstat",'PCA'),
     definition=function(obj,dobj)
     {
-        opt=param.list(obj)
-        a=param.value(obj,'number_components')
-        scores=output.value(dobj,'scores')$data
+        opt=param_list(obj)
+        a=param_value(obj,'number_components')
+        scores=output_value(dobj,'scores')$data
         I=nrow(scores)             # number of samples
         sample_names=rownames(scores)
         scores=scores[,1:a]

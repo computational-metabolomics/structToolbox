@@ -1,8 +1,8 @@
 #' filter by name
 #'
-#' a filter to subsample a dataset object based on sample or feature labels.
+#' a filter to subsample a DatasetExperiment object based on sample or feature labels.
 #'
-#' @param mode "include" or ["exclude"] to subsample a a dataset by including or
+#' @param mode "include" or ["exclude"] to subsample a a DatasetExperiment by including or
 #' excluding samples/features based on the provided labels
 #' @param dimension ["sample"] or "variable" to filter by sample or feature
 #' labels
@@ -10,33 +10,40 @@
 #' names, column indices or logical
 #'
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
-#' M = model.apply(M,D)
+#' M = model_apply(M,D)
 #'
 #' @export filter_by_name
-filter_by_name<-setClass(
+filter_by_name = function(...) {
+    out=.filter_by_name()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.filter_by_name<-setClass(
     "filter_by_name",
     contains = c('model'),
-    slots=c(params.mode='entity',
-        params.dimension='enum',
-        params.names='entity',
-        outputs.filtered='dataset'
+    slots=c(params_mode='entity',
+        params_dimension='enum',
+        params_names='entity',
+        outputs_filtered='DatasetExperiment'
     ),
     prototype=list(type = 'filter',
         predicted = 'filtered',
-        params.mode=entity(value='exclude',
+        params_mode=entity(value='exclude',
             name='Filter mode',
             description = 'The filtering mode controls whether samples/features are mode="included" or mode="excluded" based on their name',
             type='character'),
-        params.dimension=enum(value='sample',
+        params_dimension=enum(value='sample',
             name='Filter dimension',
             description = 'The filtering dimensions controls whether dimension="sample" or dimension="variable" are filtered based on their name',
             type='character',
             list=c('sample','variable')
         ),
 
-        params.names=entity(name='Names',
+        params_names=entity(name='Names',
             description = 'The name of features/samples to be filtered. Must be an exact match. Can also provide indexes (numeric) or logical.',
             type=c('character','numeric','logical'))
     )
@@ -44,15 +51,15 @@ filter_by_name<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("filter_by_name","dataset"),
+setMethod(f="model_apply",
+    signature=c("filter_by_name","DatasetExperiment"),
     definition=function(M,D)
     {
-        opt=param.list(M)
-        x=dataset.data(D)
+        opt=param_list(M)
+        x=D$data
 
         if (opt$dimension=='sample') {
-            smeta=dataset.sample_meta(D)
+            smeta=D$sample_meta
 
             if (is.logical(opt$names)) {
 
@@ -71,10 +78,10 @@ setMethod(f="model.apply",
                 smeta=smeta[!IN,,drop=FALSE]
                 x=x[!IN,,drop=FALSE]
             }
-            dataset.data(D)=x
-            dataset.sample_meta(D)=smeta
+            D$data=x
+            D$sample_meta=smeta
         } else if (opt$dimension=='variable') {
-            vmeta=dataset.variable_meta(D)
+            vmeta=dobj$variable_meta
 
             if (is.logical(opt$names)) {
 
@@ -97,30 +104,30 @@ setMethod(f="model.apply",
                 vmeta=vmeta[!IN,,drop=FALSE]
                 x=x[,!INx,drop=FALSE]
             }
-            dataset.data(D)=x
-            dataset.variable_meta(D)=vmeta
+            D$data=x
+            dobj$variable_meta=vmeta
         }
-        output.value(M,'filtered')=D
+        output_value(M,'filtered')=D
         return(M)
     }
 )
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("filter_by_name","dataset"),
+setMethod(f="model_train",
+    signature=c("filter_by_name","DatasetExperiment"),
     definition=function(M,D) {
-        M=model.apply(M,D)
+        M=model_apply(M,D)
         return(M)
     }
 )
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("filter_by_name","dataset"),
+setMethod(f="model_predict",
+    signature=c("filter_by_name","DatasetExperiment"),
     definition=function(M,D) {
-        M=model.apply(M,D)
+        M=model_apply(M,D)
         return(M)
     }
 )

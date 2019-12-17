@@ -6,53 +6,60 @@
 #' @param factor_name the sample_meta column name to use
 #'
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' M = filter_na_count(threshold=3,factor_name='class')
-#' M = model.apply(M,D)
+#' M = model_apply(M,D)
 #'
 #' @export filter_na_count
-filter_na_count<-setClass(
+filter_na_count = function(...) {
+    out=.filter_na_count()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.filter_na_count<-setClass(
     "filter_na_count",
     contains = c('model'),
-    slots=c(params.threshold='entity',
-        params.factor_name='entity',
-        outputs.filtered='entity',
-        outputs.count='entity',
-        outputs.na_count='entity',
-        outputs.flags='entity'
+    slots=c(params_threshold='entity',
+        params_factor_name='entity',
+        outputs_filtered='entity',
+        outputs_count='entity',
+        outputs_na_count='entity',
+        outputs_flags='entity'
     ),
     prototype=list(name = 'filters features by the number of NA per class',
         description = 'Filters by removing features where the number of features in any class exceeds the threshold',
         type = 'filter',
         predicted = 'filtered',
 
-        params.factor_name=entity(name='Factor name',
+        params_factor_name=entity(name='Factor name',
             type='character',
             description='Name of sample_meta column to use'
         ),
 
-        params.threshold=entity(name = 'Count threshold (%)',
+        params_threshold=entity(name = 'Count threshold (%)',
             description = 'Features with less than THRESHOLD missing values in any class are excluded.',
             value = 2,
             type='numeric'),
 
 
-        outputs.filtered=entity(name = 'Filtered dataset',
-            description = 'A dataset object containing the filtered data.',
-            type='dataset',
-            value=dataset()
+        outputs_filtered=entity(name = 'Filtered DatasetExperiment',
+            description = 'A DatasetExperiment object containing the filtered data.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         ),
-        outputs.count=entity(name = 'Count per class',
+        outputs_count=entity(name = 'Count per class',
             description = 'Number of non-NA per class',
             type='data.frame',
             value=data.frame()
         ),
-        outputs.na_count=entity(name = 'NA count per class',
+        outputs_na_count=entity(name = 'NA count per class',
             description = 'Number of NA per class',
             type='data.frame',
             value=data.frame()
         ),
-        outputs.flags=entity(name = 'Flags',
+        outputs_flags=entity(name = 'Flags',
             description = 'a flag indicating whether the sample was rejected.',
             type='data.frame',
             value=data.frame()
@@ -62,8 +69,8 @@ filter_na_count<-setClass(
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("filter_na_count","dataset"),
+setMethod(f="model_train",
+    signature=c("filter_na_count","DatasetExperiment"),
     definition=function(M,D)
     {
 
@@ -96,8 +103,8 @@ setMethod(f="model.train",
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("filter_na_count","dataset"),
+setMethod(f="model_predict",
+    signature=c("filter_na_count","DatasetExperiment"),
     definition=function(M,D)
     {
         flags=M$flags$flags

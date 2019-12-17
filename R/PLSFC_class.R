@@ -5,24 +5,31 @@
 #' @include fold_change_class.R
 #' @examples
 #' C = PLSFC()
-PLSFC<-setClass(
+PLSFC = function(...) {
+    out=.PLSFC()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.PLSFC<-setClass(
     "PLSFC",
     contains='fold_change',
     slots=c(
-        params.number_components='entity'
+        params_number_components='entity'
     ),
     prototype = list(name='Partial least squares discriminant analysis',
         type="classification",
         predicted='pred',
         libraries=c('pls'),
-        params.number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric')
+        params_number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric')
     )
 )
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("PLSFC",'dataset'),
+setMethod(f="model_apply",
+    signature=c("PLSFC",'DatasetExperiment'),
     definition=function(M,D) {
         # log transform
         X=log2(D$data)
@@ -59,23 +66,23 @@ setMethod(f="model.apply",
             for (B in (A+1):(length(L))) {
                 # filter groups to A and B
                 FG=filter_smeta(factor_name=M$factor_name,mode='include',levels=L[c(A,B)])
-                FG=model.apply(FG,D)
+                FG=model_apply(FG,D)
                 # change to ordered factor so that we make use of control group
                 FG$filtered$sample_meta[[M$factor_name]]=ordered(FG$filtered$sample_meta[[M$factor_name]],levels=L[c(A,B)])
 
                 # mean_centred PCA
                 MC=mean_centre()+PCA(number_components=min(c(nrow(X)-1,ncol(X))))
-                MC=model.train(MC,FG$filtered)
-                MC=model.predict(MC,FG$filtered)
-                S=dataset(data=MC[2]$scores,sample_meta=FG$filtered$sample_meta)
+                MC=model_train(MC,FG$filtered)
+                MC=model_predict(MC,FG$filtered)
+                S=DatasetExperiment(data=MC[2]$scores,sample_meta=FG$filtered$sample_meta)
 
                 # R2 for each X and y component
                 r2=matrix(0,nrow=ncol(MC[2]$scores),ncol=1)
                 k=1
                 # pls
                 P=PLSDA(factor_name=M$factor_name,number_components=M$number_components)
-                P=model.train(P,S)
-                P=model.predict(P,S)
+                P=model_train(P,S)
+                P=model_predict(P,S)
                 sy=P$design_matrix[,1]
                 sx=as.matrix(MC[2]$scores)
 

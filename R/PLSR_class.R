@@ -4,86 +4,100 @@
 #' @export PLSR
 #' @examples
 #' M = PLSR()
-PLSR<-setClass(
+PLSR = function(...) {
+    out=.PLSR()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.PLSR = function(...) {
+    out=.PLSR()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.PLSR<-setClass(
 
     "PLSR",
     contains='model',
 
     slots=c(
-        params.number_components = 'entity',
-        params.factor_name       = 'entity',
-        outputs.scores           = 'data.frame',
-        outputs.loadings         = 'data.frame',
-        outputs.yhat             = 'data.frame',
-        outputs.y                = 'data.frame',
-        outputs.reg_coeff        = 'data.frame',
-        outputs.vip              = 'data.frame',
-        outputs.pls_model        = 'list',
-        outputs.pred             = 'data.frame'
+        params_number_components = 'entity',
+        params_factor_name       = 'entity',
+        outputs_scores           = 'data.frame',
+        outputs_loadings         = 'data.frame',
+        outputs_yhat             = 'data.frame',
+        outputs_y                = 'data.frame',
+        outputs_reg_coeff        = 'data.frame',
+        outputs_vip              = 'data.frame',
+        outputs_pls_model        = 'list',
+        outputs_pred             = 'data.frame'
     ),
 
     prototype = list(name='Partial least squares regression',
         type="regression",
         predicted='pred',
         libraries='pls',
-        params.number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric'),
-        params.factor_name=entity(name='Factor name', description='A vector of sample_meta column names to use')
+        params_number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric'),
+        params_factor_name=entity(name='Factor name', description='A vector of sample_meta column names to use')
     )
 
 )
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("PLSR",'dataset'),
+setMethod(f="model_train",
+    signature=c("PLSR",'DatasetExperiment'),
     definition=function(M,D)
     {
-        y=dataset.sample_meta(D)
+        y=D$sample_meta
         y=y[,M$factor_name] # might be multiple columns (?)
 
-        output.value(M,'y')=as.data.frame(y)
+        output_value(M,'y')=as.data.frame(y)
 
-        X=as.matrix(dataset.data(D)) # convert X to matrix
+        X=as.matrix(D$data) # convert X to matrix
         y=as.matrix(y)
-        #print(param.value(M,'number_components'))
+        #print(param_value(M,'number_components'))
         pls_model=pls::plsr(y ~ X,validation="none",
             method='oscorespls',
             model=TRUE,
-            ncomp=param.value(M,'number_components'),
+            ncomp=param_value(M,'number_components'),
             center=FALSE,
             scale=FALSE)
         ny=ncol(y)
-        nr=ncol(output.value(M,'reg_coeff'))
-        output.value(M,'reg_coeff')=as.data.frame(output.value(M,'reg_coeff')[,(nr-ny+1):nr]) # keep only the requested number of components
-        output.value(M,'vip')=as.data.frame(vips(pls_model))
-        yhat=predict(pls_model, ncomp = param.value(M,'number_components'), newdata = X)
+        nr=ncol(output_value(M,'reg_coeff'))
+        output_value(M,'reg_coeff')=as.data.frame(output_value(M,'reg_coeff')[,(nr-ny+1):nr]) # keep only the requested number of components
+        output_value(M,'vip')=as.data.frame(vips(pls_model))
+        yhat=predict(pls_model, ncomp = param_value(M,'number_components'), newdata = X)
         yhat=yhat[,,dim(yhat)[3]]
-        output.value(M,'yhat')=as.data.frame(yhat)
+        output_value(M,'yhat')=as.data.frame(yhat)
 
-        output.value(M,'pls_model')=list(pls_model)
+        output_value(M,'pls_model')=list(pls_model)
         scores=pls::scores(pls_model)
-        output.value(M,'scores')=as.data.frame(matrix(scores,nrow = nrow(scores),ncol=ncol(scores)))
+        output_value(M,'scores')=as.data.frame(matrix(scores,nrow = nrow(scores),ncol=ncol(scores)))
         return(M)
     }
 )
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("PLSR",'dataset'),
+setMethod(f="model_predict",
+    signature=c("PLSR",'DatasetExperiment'),
     definition=function(M,D)
     {
         # convert X to matrix
-        X=as.matrix(dataset.data(D))
+        X=as.matrix(D$data)
         # get training set y
-        y=output.value(M,'y')
+        y=output_value(M,'y')
 
         # get predictions
-        p=predict(output.value(M,'pls_model')[[1]], ncomp = param.value(M,'number_components'), newdata = X)
+        p=predict(output_value(M,'pls_model')[[1]], ncomp = param_value(M,'number_components'), newdata = X)
         p=p[,,dim(p)[3]]
 
         q=data.frame("pred"=p)
-        output.value(M,'pred')=q
+        output_value(M,'pred')=q
         return(M)
     }
 )
@@ -115,25 +129,32 @@ vips<-function(object)
 
 #' plsr_prediction_plot class
 #'
-#' plots the true values against the predicted values for a PLSR model.
+#' plots the true values against the predicted values for a PLSR model_
 #'
 #' @import struct
 #' @export plsr_prediction_plot
 #' @include PLSR_class.R
 #' @examples
 #' C = plsr_prediction_plot()
-plsr_prediction_plot<-setClass(
+plsr_prediction_plot = function(...) {
+    out=.plsr_prediction_plot()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.plsr_prediction_plot<-setClass(
     "plsr_prediction_plot",
     contains='chart',
     prototype = list(name='PLSR prediction plot',
-        description='plots the true values against the predicted values for a PLSR model.',
+        description='plots the true values against the predicted values for a PLSR model_',
         type="scatterplot"
     )
 )
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("plsr_prediction_plot",'PLSR'),
     definition=function(obj,dobj)
     {
@@ -166,18 +187,25 @@ setMethod(f="chart.plot",
 #' @include PLSR_class.R
 #' @examples
 #' C = plsr_residual_hist()
-plsr_residual_hist<-setClass(
+plsr_residual_hist = function(...) {
+    out=.plsr_residual_hist()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.plsr_residual_hist<-setClass(
     "plsr_residual_hist",
     contains='chart',
     prototype = list(name='PLSR residuals histogram',
-        description='Plots a histogram of the residuals for a PLSR model.',
+        description='Plots a histogram of the residuals for a PLSR model_',
         type="histogram"
     )
 )
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("plsr_residual_hist",'PLSR'),
     definition=function(obj,dobj)
     {
@@ -211,7 +239,14 @@ setMethod(f="chart.plot",
 #' @include PLSR_class.R
 #' @examples
 #' C = plsr_qq_plot()
-plsr_qq_plot<-setClass(
+plsr_qq_plot = function(...) {
+    out=.plsr_qq_plot()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.plsr_qq_plot<-setClass(
     "plsr_qq_plot",
     contains='chart',
     prototype = list(name='PLSR QQ plot',
@@ -223,7 +258,7 @@ plsr_qq_plot<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("plsr_qq_plot",'PLSR'),
     definition=function(obj,dobj)
     {
@@ -254,7 +289,14 @@ setMethod(f="chart.plot",
 #' @include PLSR_class.R
 #' @examples
 #' C = plsr_cook_dist()
-plsr_cook_dist<-setClass(
+plsr_cook_dist = function(...) {
+    out=.plsr_cook_dist()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.plsr_cook_dist<-setClass(
     "plsr_cook_dist",
     contains='chart',
     prototype = list(name='Cook distance barchart',
@@ -265,7 +307,7 @@ plsr_cook_dist<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("plsr_cook_dist",'PLSR'),
     definition=function(obj,dobj)
     {

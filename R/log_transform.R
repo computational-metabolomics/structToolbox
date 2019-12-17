@@ -4,11 +4,18 @@
 #' @export log_transform
 #' @examples
 #' M = log_transform()
-log_transform<-setClass(
+log_transform = function(...) {
+    out=.log_transform()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.log_transform<-setClass(
     "log_transform",
     contains = c('model'),
-    slots=c(params.base='entity',
-        outputs.transformed='entity'
+    slots=c(params_base='entity',
+        outputs_transformed='entity'
     ),
 
     prototype=list(name = 'logarithm transform',
@@ -16,34 +23,34 @@ log_transform<-setClass(
         type = 'transform',
         predicted = 'transformed',
 
-        params.base=entity(name = 'logarithm base',
+        params_base=entity(name = 'logarithm base',
             description = 'The base of the logarithm used for the tranform.',
             value = 10,
             type='numeric'),
 
-        outputs.transformed=entity(name = 'log transformed dataset',
-            description = 'A dataset object containing the log transformed data.',
-            type='dataset',
-            value=dataset()
+        outputs_transformed=entity(name = 'log transformed DatasetExperiment',
+            description = 'A DatasetExperiment object containing the log transformed data.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         )
     )
 )
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("log_transform","dataset"),
+setMethod(f="model_apply",
+    signature=c("log_transform","DatasetExperiment"),
     definition=function(M,D)
     {
-        opt=param.list(M)
+        opt=param_list(M)
 
-        smeta=dataset.sample_meta(D)
-        x=dataset.data(D)
+        smeta=D$sample_meta
+        x=D$data
 
         out = log(x,base = opt$base)
-        dataset.data(D) = as.data.frame(out)
+        D$data = as.data.frame(out)
 
-        output.value(M,'transformed') = D
+        output_value(M,'transformed') = D
 
         return(M)
     }

@@ -5,7 +5,14 @@
 #' @examples
 #' MET = r_squared()
 #'
-r_squared<-setClass(
+r_squared = function(...) {
+    out=.r_squared()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.r_squared<-setClass(
     "r_squared",
     contains='metric',
     prototype = list(name='r squared',

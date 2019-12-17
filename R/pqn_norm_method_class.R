@@ -5,30 +5,37 @@
 #' @import pmp
 #' @examples
 #' M = pqn_norm()
-pqn_norm<-setClass(
+pqn_norm = function(...) {
+    out=.pqn_norm()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.pqn_norm<-setClass(
     "pqn_norm",
     contains = c('model'),
-    slots=c(params.qc_label='entity',
-        params.factor_name='entity',
-        outputs.normalised='entity',
-        outputs.coeff='entity'
+    slots=c(params_qc_label='entity',
+        params_factor_name='entity',
+        outputs_normalised='entity',
+        outputs_coeff='entity'
     ),
     prototype=list(name = 'Probabilistic Quotient Normalisation (PQN)',
         description = 'PQN normalisation using QC samples as reference samples',
         type = 'normalisation',
         predicted = 'normalised',
 
-        params.qc_label=entity(name = 'QC label',
+        params_qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        outputs.normalised=entity(name = 'Normalised dataset',
-            description = 'A dataset object containing the normalised data.',
-            type='dataset',
-            value=dataset()
+        outputs_normalised=entity(name = 'Normalised DatasetExperiment',
+            description = 'A DatasetExperiment object containing the normalised data.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         ),
-        outputs.coeff=entity(name = 'PQN coefficients',
+        outputs_coeff=entity(name = 'PQN coefficients',
             description = 'The normalisation coefficients calculated by PQN',
             type='data.frame',
             value=data.frame()
@@ -38,20 +45,20 @@ pqn_norm<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("pqn_norm","dataset"),
+setMethod(f="model_apply",
+    signature=c("pqn_norm","DatasetExperiment"),
     definition=function(M,D)
     {
-        opt=param.list(M)
+        opt=param_list(M)
 
-        smeta=dataset.sample_meta(D)
-        x=dataset.data(D)
+        smeta=D$sample_meta
+        x=D$data
 
         normalised = pqn_normalisation(t(x), classes=smeta[,M$factor_name],qc_label=opt$qc_label) # operates on transpose of x
-        dataset.data(D) = as.data.frame(t(normalised$df))
+        D$data = as.data.frame(t(normalised$df))
 
-        output.value(M,'normalised') = D
-        output.value(M,'coeff') = data.frame('coeff'=normalised$coef,row.names = rownames(x))
+        output_value(M,'normalised') = D
+        output_value(M,'coeff') = data.frame('coeff'=normalised$coef,row.names = rownames(x))
 
         return(M)
     }
@@ -63,11 +70,18 @@ setMethod(f="model.apply",
 #'
 #' plots a histogram of the PQN coeffients
 #' @import struct
-#' @export pqn_norm.hist
+#' @export pqn_norm_hist
 #' @examples
-#' C = pqn_norm.hist()
-pqn_norm.hist<-setClass(
-    "pqn_norm.hist",
+#' C = pqn_norm_hist()
+pqn_norm_hist = function(...) {
+    out=.pqn_norm_hist()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.pqn_norm_hist<-setClass(
+    "pqn_norm_hist",
     contains='chart',
     prototype = list(name='Histogram of the PQN coefficients per feature',
         description='A histogram of the PQN coefficients per feature',
@@ -77,11 +91,11 @@ pqn_norm.hist<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("pqn_norm.hist",'pqn_norm'),
+setMethod(f="chart_plot",
+    signature=c("pqn_norm_hist",'pqn_norm'),
     definition=function(obj,dobj)
     {
-        A=output.value(dobj,'coeff')
+        A=output_value(dobj,'coeff')
 
         out=ggplot(data=A, aes_(x=~coeff)) +
             geom_histogram(color='white') +

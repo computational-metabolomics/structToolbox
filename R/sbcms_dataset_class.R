@@ -1,18 +1,18 @@
 #' Data from sbcms
 #'
-#' SBCMS package data after correction, as a struct dataset object
-#' @export sbcms_dataset
-#' @return dataset object
+#' SBCMS package data after correction, as a struct DatasetExperiment object
+#' @export sbcms_DatasetExperiment
+#' @return DatasetExperiment object
 #' @import datasets
 #' @param filtered TRUE to load prefiltered data, or FALSE to load the unfiltered data
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' summary(D)
-sbcms_dataset=function(filtered=FALSE) {
+sbcms_DatasetExperiment=function(filtered=FALSE) {
 
     if (filtered) {
         M = filter_by_name(mode='include',dimension='variable',names=to_filter)
-        M = model.apply(M,sbcms_corrected)
+        M = model_apply(M,sbcms_corrected)
         return(predicted(M))
     } else {
         return(sbcms_corrected)

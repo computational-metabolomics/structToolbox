@@ -1,1 +1,1 @@
-#' @rdname model.train
+#' @rdname model_train

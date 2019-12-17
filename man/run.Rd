@@ -3,36 +3,35 @@
 %   R/forward_selection_by_rank_class.R, R/grid_search_1d_class.R,
 %   R/kfold_xval_class.R, R/permutation_test2_class.R,
 %   R/permutation_test_class.R, R/permute_sample_order_class.R, R/run_doc.R
-\docType{methods}
-\name{run,bootstrap,dataset,metric-method}
-\alias{run,bootstrap,dataset,metric-method}
-\alias{run,forward_selection_byrank,dataset,metric-method}
-\alias{run,grid_search_1d,dataset,metric-method}
-\alias{run,kfold_xval,dataset,metric-method}
-\alias{run,permutation_test2,dataset,metric-method}
-\alias{run,permutation_test,dataset,metric-method}
-\alias{run,permute_sample_order,dataset,metric-method}
+\name{run,bootstrap,DatasetExperiment,metric-method}
+\alias{run,bootstrap,DatasetExperiment,metric-method}
+\alias{run,forward_selection_byrank,DatasetExperiment,metric-method}
+\alias{run,grid_search_1d,DatasetExperiment,metric-method}
+\alias{run,kfold_xval,DatasetExperiment,metric-method}
+\alias{run,permutation_test2,DatasetExperiment,metric-method}
+\alias{run,permutation_test,DatasetExperiment,metric-method}
+\alias{run,permute_sample_order,DatasetExperiment,metric-method}
 \alias{run}
 \title{Runs an iterator, applying the chosen model multiple times.}
 \usage{
-\S4method{run}{bootstrap,dataset,metric}(I, D, MET = NULL)
+\S4method{run}{bootstrap,DatasetExperiment,metric}(I, D, MET = NULL)
 
-\S4method{run}{forward_selection_byrank,dataset,metric}(I, D, MET)
+\S4method{run}{forward_selection_byrank,DatasetExperiment,metric}(I, D, MET)
 
-\S4method{run}{grid_search_1d,dataset,metric}(I, D, MET)
+\S4method{run}{grid_search_1d,DatasetExperiment,metric}(I, D, MET)
 
-\S4method{run}{kfold_xval,dataset,metric}(I, D, MET = NULL)
+\S4method{run}{kfold_xval,DatasetExperiment,metric}(I, D, MET = NULL)
 
-\S4method{run}{permutation_test2,dataset,metric}(I, D, MET = NULL)
+\S4method{run}{permutation_test2,DatasetExperiment,metric}(I, D, MET = NULL)
 
-\S4method{run}{permutation_test,dataset,metric}(I, D, MET = NULL)
+\S4method{run}{permutation_test,DatasetExperiment,metric}(I, D, MET = NULL)
 
-\S4method{run}{permute_sample_order,dataset,metric}(I, D, MET)
+\S4method{run}{permute_sample_order,DatasetExperiment,metric}(I, D, MET)
 }
 \arguments{
 \item{I}{an iterator object}
 
-\item{D}{a dataset object}
+\item{D}{a DatasetExperiment object}
 
 \item{MET}{a metric object}
 }
@@ -40,13 +39,13 @@
 Modified iterator object
 }
 \description{
-Running an iterator will apply the iterator a number of times to a dataset.
+Running an iterator will apply the iterator a number of times to a DatasetExperiment.
 For example, in cross-validation the same model is applied multiple times to
 the same data, splitting it into training and test sets. The input metric
 object can be calculated and collected for each iteration as an output.
 }
 \examples{
-D = iris_dataset() # get some data
+D = iris_DatasetExperiment() # get some data
 MET = metric()  # use a metric
 I = example_iterator() # initialise iterator
 models(I) = example_model() # set the model

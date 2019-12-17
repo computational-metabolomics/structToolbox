@@ -25,17 +25,17 @@ library(gridExtra)
 </br></br>
 
 # Introduction
-Validation is an important aspect of chemometric modelling. The `STRUCT` framework enables this kind of iterative model testing through `iterator` objects. In order to demonstrate this we will first load the iris data set, which as been pre-prepared as a dataset object as part of the `STRUCT` package.
+Validation is an important aspect of chemometric modelling. The `STRUCT` framework enables this kind of iterative model testing through `iterator` objects. In order to demonstrate this we will first load the iris data set, which as been pre-prepared as a DatasetExperiment object as part of the `STRUCT` package.
 
 ```{r}
-D = iris_dataset()
-summary(D)
+D = iris_DatasetExperiment()
+D
 ```
 
 </br></br>
 
 # Cross-validation
-Cross validation is a common technique for assessing the performance of classification models. For this example we will use a PLSDA model. Data should be mean centred prior to PLS, so we will build a model sequence first.
+Cross validation is a common technique for assessing the performance of classification models. For this example we will use a PLSDA model_ Data should be mean centred prior to PLS, so we will build a model sequence first.
 
 ```{r}
 M = mean_centre() + PLSDA(number_components=2,factor_name='Species')
@@ -73,17 +73,17 @@ XCV$metric
 
 </br></br>
 
-Like other `STRUCT` objects, iterators can have chart objects associated with them. The `chart.names` function will list them for an object.
+Like other `STRUCT` objects, iterators can have chart objects associated with them. The `chart_names` function will list them for an object.
 
 ```{r}
-chart.names(XCV)
+chart_names(XCV)
 ```
 
 Charts for iterator objects can be plotted in the same way as charts for any other object.
 
 ```{r,warning=FALSE}
 C = kfoldxcv_grid()
-chart.plot(C,XCV)
+chart_plot(C,XCV)
 ```
 
 It is possible to combine multiple iterators by multiplying them together. This is equivalent to nesting one iterator inside the other. For example, we can repeat our cross-validation multiple times by permuting the sample order.

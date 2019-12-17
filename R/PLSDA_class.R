@@ -4,34 +4,41 @@
 #' @export PLSDA
 #' @examples
 #' M = PLSDA()
-PLSDA<-setClass(
+PLSDA = function(...) {
+    out=.PLSDA()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.PLSDA<-setClass(
     "PLSDA",
     contains='model',
-    slots=c(params.number_components='entity',
-        params.factor_name='entity',
-        outputs.scores='data.frame',
-        outputs.loadings='data.frame',
-        outputs.yhat='data.frame',
-        outputs.design_matrix='data.frame',
-        outputs.y='data.frame',
-        outputs.reg_coeff='data.frame',
-        outputs.probability='data.frame',
-        outputs.vip='data.frame',
-        outputs.pls_model='list',
-        outputs.pred='data.frame',
-        outputs.threshold='numeric'
+    slots=c(params_number_components='entity',
+        params_factor_name='entity',
+        outputs_scores='data.frame',
+        outputs_loadings='data.frame',
+        outputs_yhat='data.frame',
+        outputs_design_matrix='data.frame',
+        outputs_y='data.frame',
+        outputs_reg_coeff='data.frame',
+        outputs_probability='data.frame',
+        outputs_vip='data.frame',
+        outputs_pls_model='list',
+        outputs_pred='data.frame',
+        outputs_threshold='numeric'
 
     ),
     prototype = list(name='Partial least squares discriminant analysis',
         type="classification",
         predicted='pred',
         libraries='pls',
-        params.number_components=entity(value = 2,
+        params_number_components=entity(value = 2,
             name = 'Number of PLS components',
             description = 'The number of PLS components to use',
             type = c('numeric','integer')
         ),
-        params.factor_name=entity(value = 'V1',
+        params_factor_name=entity(value = 'V1',
             name = 'Name of sample_meta column',
             description = 'The name of the sample_meta column to use for the PLS models',
             type = 'character')
@@ -40,54 +47,54 @@ PLSDA<-setClass(
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("PLSDA",'dataset'),
+setMethod(f="model_train",
+    signature=c("PLSDA",'DatasetExperiment'),
     definition=function(M,D)
     {
-        SM=dataset.sample_meta(D)
+        SM=D$sample_meta
         y=(SM[[M$factor_name]])
         # convert the factor to a design matrix
         z=model.matrix(~y+0)
         z[z==0]=-1 # +/-1 for PLS
-        X=as.matrix(dataset.data(D)) # convert X to matrix
+        X=as.matrix(D$data) # convert X to matrix
 
         Z=as.data.frame(z)
-        output.value(M,'design_matrix')=Z
-        output.value(M,'y')=dataset.sample_meta(D)
+        output_value(M,'design_matrix')=Z
+        output_value(M,'y')=D$sample_meta
 
-        pls_model=pls::plsr(z ~ X,validation="none",method='oscorespls',model=TRUE,ncomp=param.value(M,'number_components'),
+        pls_model=pls::plsr(z ~ X,validation="none",method='oscorespls',model=TRUE,ncomp=param_value(M,'number_components'),
             center=FALSE,
             scale=FALSE)
         ny=ncol(z)
-        nr=ncol(output.value(M,'reg_coeff'))
-        output.value(M,'reg_coeff')=as.data.frame(pls_model$coefficients[,,M$number_components]) # keep only the requested number of components
-        output.value(M,'vip')=as.data.frame(vips(pls_model))
-        yhat=predict(pls_model, ncomp = param.value(M,'number_components'), newdata = X)
+        nr=ncol(output_value(M,'reg_coeff'))
+        output_value(M,'reg_coeff')=as.data.frame(pls_model$coefficients[,,M$number_components]) # keep only the requested number of components
+        output_value(M,'vip')=as.data.frame(vips(pls_model))
+        yhat=predict(pls_model, ncomp = param_value(M,'number_components'), newdata = X)
         yhat=yhat[,,dim(yhat)[3]]
-        output.value(M,'yhat')=as.data.frame(yhat)
+        output_value(M,'yhat')=as.data.frame(yhat)
         probs=prob(yhat,yhat,D$sample_meta[[M$factor_name]])
-        output.value(M,'probability')=as.data.frame(probs$ingroup)
-        output.value(M,'threshold')=probs$threshold
-        output.value(M,'pls_model')=list(pls_model)
+        output_value(M,'probability')=as.data.frame(probs$ingroup)
+        output_value(M,'threshold')=probs$threshold
+        output_value(M,'pls_model')=list(pls_model)
         scores=pls::scores(pls_model)
-        output.value(M,'scores')=as.data.frame(matrix(scores,nrow = nrow(scores),ncol=ncol(scores)))
+        output_value(M,'scores')=as.data.frame(matrix(scores,nrow = nrow(scores),ncol=ncol(scores)))
         return(M)
     }
 )
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("PLSDA",'dataset'),
+setMethod(f="model_predict",
+    signature=c("PLSDA",'DatasetExperiment'),
     definition=function(M,D)
     {
         # convert X to matrix
-        X=as.matrix(dataset.data(D))
+        X=as.matrix(D$data)
         # get training set y vector
-        SM=dataset.sample_meta(D)
+        SM=D$sample_meta
         y=(SM[[M$factor_name]])
         # get predictions
-        p=predict(output.value(M,'pls_model')[[1]], ncomp = param.value(M,'number_components'), newdata = X)
+        p=predict(output_value(M,'pls_model')[[1]], ncomp = param_value(M,'number_components'), newdata = X)
         p=p[,,dim(p)[3]]
         if (!is.matrix(p)){
             p=t(as.matrix(p)) # in case of leave one out p is a numeric instead of a matrix
@@ -95,7 +102,7 @@ setMethod(f="model.predict",
 
         ## probability estimate
         # http://www.eigenvector.com/faq/index.php?id=38%7C
-        d=prob(x=p,yhat=output.value(M,'yhat'),ytrue=M$y[,M$factor_name])
+        d=prob(x=p,yhat=output_value(M,'yhat'),ytrue=M$y[,M$factor_name])
         pred=(p>d$threshold)*1
         pred=apply(pred,MARGIN=1,FUN=which.max)
         hi=apply(d$ingroup,MARGIN=1,FUN=which.max) # max probability
@@ -105,7 +112,7 @@ setMethod(f="model.predict",
         }
         pred=factor(pred,levels=1:length(levels(SM[[M$factor_name]])),labels=levels(SM[[M$factor_name]])) # make sure pred has all the levels of y
         q=data.frame("pred"=pred)
-        output.value(M,'pred')=q
+        output_value(M,'pred')=q
         return(M)
     }
 )

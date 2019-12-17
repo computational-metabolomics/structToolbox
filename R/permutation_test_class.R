@@ -1,37 +1,44 @@
 #' permutation test class
 #'
-#' Applies a permutation test to a model or model.seq()
+#' Applies a permutation test to a model or model_seq()
 #' @examples
 #' I=permutation_test()
 #'
 #' @export permutation_test
-permutation_test<-setClass(
+permutation_test = function(...) {
+    out=.permutation_test()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.permutation_test<-setClass(
     "permutation_test",
     contains='resampler',
-    slots=c(params.number_of_permutations='numeric',
-        outputs.results.permuted='data.frame',
-        outputs.results.unpermuted='data.frame',
-        outputs.metric='data.frame'
+    slots=c(params_number_of_permutations='numeric',
+        outputs_results.permuted='data.frame',
+        outputs_results.unpermuted='data.frame',
+        outputs_metric='data.frame'
     ),
     prototype = list(name='permutation test',
         type='permutation',
         result='results',
-        params.number_of_permutations=10
+        params_number_of_permutations=10
     )
 )
 
 #' @export
 #' @template run
 setMethod(f="run",
-    signature=c("permutation_test",'dataset','metric'),
+    signature=c("permutation_test",'DatasetExperiment','metric'),
     definition=function(I,D,MET=NULL)
     {
 
-        X=dataset.data(D)
-        y=dataset.sample_meta(D)
+        X=D$data
+        y=D$sample_meta
         # get the WF
         WF=models(I)
-        n=param.value(I,'number_of_permutations')
+        n=param_value(I,'number_of_permutations')
 
         all_results_permuted=data.frame('actual'=rep(y[,1],n),'predicted'=rep(y[,1],n),'permutation'=0)
         all_results_unpermuted=data.frame('actual'=rep(y[,1],n),'predicted'=rep(y[,1],n),'permutation'=0)
@@ -52,29 +59,29 @@ setMethod(f="run",
 
             # rebuild datasets
             Dp=D
-            dataset.data(D)=Xp
-            dataset.sample_meta(Dp)=Yp
+            Dp$data=Xp
+            Dp$sample_meta=Yp
 
             D2=D
-            dataset.data(D2)=Xp
-            dataset.sample_meta(D2)=Yp2
+            D2$data=Xp
+            D2$sample_meta=Yp2
 
-            if (is(WF,'model_OR_model.seq'))
+            if (is(WF,'model_OR_model_seq'))
             {
                 ## permuted labels
                 # train
-                WF=model.train(WF,Dp)
+                WF=model_train(WF,Dp)
                 # predict
-                WF=model.predict(WF,Dp)
+                WF=model_predict(WF,Dp)
                 p=predicted(WF)
                 perm_results[,2]=p[,1]
                 all_results_permuted[((nrow(X)*(i-1))+1):(nrow(X)*i),]=perm_results
 
                 ## real labels
                 # train
-                WF=model.train(WF,D2)
+                WF=model_train(WF,D2)
                 # predict
-                WF=model.predict(WF,D2)
+                WF=model_predict(WF,D2)
                 p=predicted(WF)
                 unperm_results[,2]=p[,1]
                 all_results_unpermuted[((nrow(X)*(i-1))+1):(nrow(X)*i),]=unperm_results
@@ -85,7 +92,7 @@ setMethod(f="run",
 
                 ## permuted
                 WF=run(WF,Dp,MET)
-                v=output.value(WF,'metric')
+                v=output_value(WF,'metric')
 
                 if (i==1)
                 {
@@ -99,7 +106,7 @@ setMethod(f="run",
 
                 ## real
                 WF=run(WF,D2,MET)
-                w=output.value(WF,'metric')
+                w=output_value(WF,'metric')
                 if (i==1)
                 {
                     all_results_unpermuted=w
@@ -113,8 +120,8 @@ setMethod(f="run",
 
         }
         # store results
-        output.value(I,'results.permuted')=all_results_permuted
-        output.value(I,'results.unpermuted')=all_results_unpermuted
+        output_value(I,'results.permuted')=all_results_permuted
+        output_value(I,'results.unpermuted')=all_results_unpermuted
         return(I)
     }
 )
@@ -137,19 +144,19 @@ permutation_test.boxplot<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c('permutation_test.boxplot','permutation_test'),
     definition=function(obj,dobj)
     {
-        p=output.value(dobj,'results.permuted')
-        u=output.value(dobj,'results.unpermuted')
+        p=output_value(dobj,'results.permuted')
+        u=output_value(dobj,'results.unpermuted')
 
-        A=data.frame('value'=c(p$mean,u$mean),'dataset'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
-        plotClass= createClassAndColors(A$dataset)
-        out=ggplot(data=A,aes_(x=~dataset,y=~value,color=~dataset)) +
+        A=data.frame('value'=c(p$mean,u$mean),'DatasetExperiment'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
+        plotClass= createClassAndColors(A$DatasetExperiment)
+        out=ggplot(data=A,aes_(x=~DatasetExperiment,y=~value,color=~DatasetExperiment)) +
             geom_boxplot()+
             theme_Publication(base_size = 12)+
-            scale_color_manual(values=plotClass$manual_colors,name='dataset') +
+            scale_color_manual(values=plotClass$manual_colors,name='DatasetExperiment') +
             theme(legend.position="none")
         return(out)
     }
@@ -172,32 +179,32 @@ permutation_test.violin<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c('permutation_test.violin','permutation_test'),
     definition=function(obj,dobj)
     {
-        p=output.value(dobj,'results.permuted')
-        u=output.value(dobj,'results.unpermuted')
+        p=output_value(dobj,'results.permuted')
+        u=output_value(dobj,'results.unpermuted')
 
-        A=data.frame('value'=c(p$mean,u$mean),'dataset'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
-        plotClass= createClassAndColors(A$dataset)
-        out=ggplot(data=A,aes_(x=~dataset,y=~value,color=~dataset)) +
+        A=data.frame('value'=c(p$mean,u$mean),'DatasetExperiment'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
+        plotClass= createClassAndColors(A$DatasetExperiment)
+        out=ggplot(data=A,aes_(x=~DatasetExperiment,y=~value,color=~DatasetExperiment)) +
             geom_violin(trim=F)+
             theme_Publication(base_size = 12)+
-            scale_color_manual(values=plotClass$manual_colors,name='dataset') +
+            scale_color_manual(values=plotClass$manual_colors,name='DatasetExperiment') +
             theme(legend.position="none")
         return(out)
     }
 )
 
-#' permutation_test.hist class
+#' permutation_test_hist class
 #'
 #' plots the results of a permutation test as histograms
 #' @examples
-#' C = permutation_test.hist()
-#' @export permutation_test.hist
-permutation_test.hist<-setClass(
-    "permutation_test.hist",
+#' C = permutation_test_hist()
+#' @export permutation_test_hist
+permutation_test_hist<-setClass(
+    "permutation_test_hist",
     contains='chart',
     prototype = list(name='permutation test',
         type='histogram',
@@ -207,19 +214,19 @@ permutation_test.hist<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c('permutation_test.hist','permutation_test'),
+setMethod(f="chart_plot",
+    signature=c('permutation_test_hist','permutation_test'),
     definition=function(obj,dobj)
     {
-        p=output.value(dobj,'results.permuted')
-        u=output.value(dobj,'results.unpermuted')
+        p=output_value(dobj,'results.permuted')
+        u=output_value(dobj,'results.unpermuted')
 
-        A=data.frame('value'=c(p$mean,u$mean),'dataset'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
-        plotClass= createClassAndColors(A$dataset)
-        out=ggplot(data=A,aes_(x=~value,color=~dataset)) +
+        A=data.frame('value'=c(p$mean,u$mean),'DatasetExperiment'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
+        plotClass= createClassAndColors(A$DatasetExperiment)
+        out=ggplot(data=A,aes_(x=~value,color=~DatasetExperiment)) +
             geom_freqpoly(binwidth = 0.05)+
             theme_Publication(base_size = 12)+
-            scale_color_manual(values=plotClass$manual_colors,name='dataset')
+            scale_color_manual(values=plotClass$manual_colors,name='DatasetExperiment')
         return(out)
     }
 )
@@ -241,19 +248,19 @@ permutation_test.scatter<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c('permutation_test.scatter','permutation_test'),
     definition=function(obj,dobj)
     {
-        p=output.value(dobj,'results.permuted')
-        u=output.value(dobj,'results.unpermuted')
+        p=output_value(dobj,'results.permuted')
+        u=output_value(dobj,'results.unpermuted')
 
-        A=data.frame('value'=c(p$mean,u$mean),'dataset'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
-        plotClass= createClassAndColors(A$dataset)
-        out=ggplot(data=A,aes_(x=1:nrow(A),y=~value,color=~dataset)) +
+        A=data.frame('value'=c(p$mean,u$mean),'DatasetExperiment'=c(rep('Permuted',nrow(p)),rep('Unpermuted',nrow(u))))
+        plotClass= createClassAndColors(A$DatasetExperiment)
+        out=ggplot(data=A,aes_(x=1:nrow(A),y=~value,color=~DatasetExperiment)) +
             geom_point(na.rm=T)+
             theme_Publication(base_size = 12)+
-            scale_color_manual(values=plotClass$manual_colors,name='dataset') +
+            scale_color_manual(values=plotClass$manual_colors,name='DatasetExperiment') +
             theme(axis.title.x=element_blank(),
                 axis.text.x=element_blank(),
                 axis.ticks.x=element_blank())

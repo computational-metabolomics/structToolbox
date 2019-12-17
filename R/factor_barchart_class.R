@@ -1,4 +1,4 @@
-#' dataset.factor_barchart class
+#' DatasetExperiment.factor_barchart class
 #'
 #' Bar charts based on groupings by factor. Can plot up to three factors.
 #'
@@ -6,32 +6,39 @@
 #' @param factor_names Names(s) of factors to plot for a feature
 #'
 #' @examples
-#' D = iris_dataset()
-#' C = dataset.factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')
-#' chart.plot(C,D)
+#' D = iris_DatasetExperiment()
+#' C = DatasetExperiment.factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')
+#' chart_plot(C,D)
 #'
 #' @import struct
 #' @import grid
 #' @import gridExtra
-#' @export dataset.factor_barchart
+#' @export DatasetExperiment.factor_barchart
 #' @include HSD_class.R
-dataset.factor_barchart<-setClass(
-    "dataset.factor_barchart",
+DatasetExperiment.factor_barchart = function(...) {
+    out=.DatasetExperiment.factor_barchart()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.DatasetExperiment.factor_barchart<-setClass(
+    "DatasetExperiment.factor_barchart",
     contains='chart',
     slots=c(
-        params.feature_to_plot='entity',
-        params.factor_names='entity'
+        params_feature_to_plot='entity',
+        params_factor_names='entity'
     ),
     prototype = list(name='Factor barchart',
         description='bar charts split by factors in the sample_meta data',
         type="barchart",
 
-        params.feature_to_plot=entity(name='Feature to plot',
+        params_feature_to_plot=entity(name='Feature to plot',
             value='V1',
             type=c('character','numeric','integer'),
             description='The column name of the feature to be plotted.'
         ),
-        params.factor_names=entity(name='Factor names',
+        params_factor_names=entity(name='Factor names',
             value='factor',
             type='character',
             description='The column name(s) of meta data to use.'
@@ -41,8 +48,8 @@ dataset.factor_barchart<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("dataset.factor_barchart",'dataset'),
+setMethod(f="chart_plot",
+    signature=c("DatasetExperiment.factor_barchart",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
 

@@ -1,51 +1,58 @@
 #' PCA model class
 #'
-#' Principal Component Analysis (PCA) model class. This object can be used to train/apply PCA mdoels to dataset objects.
+#' Principal Component Analysis (PCA) model class. This object can be used to train/apply PCA mdoels to DatasetExperiment objects.
 #'
 #' @import struct
 #' @export PCA
 #' @examples
 #' M = PCA()
-PCA<-setClass(
+PCA = function(...) {
+    out=.PCA()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.PCA<-setClass(
     "PCA",
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params.number_components='entity.stato',
+        params_number_components='entity_stato',
 
         # OUTPUTS
-        outputs.scores='entity',
-        outputs.loadings='data.frame',
-        outputs.eigenvalues='data.frame',
-        outputs.ssx='numeric',
-        outputs.correlation='data.frame',
-        outputs.that='dataset'
+        outputs_scores='entity',
+        outputs_loadings='data.frame',
+        outputs_eigenvalues='data.frame',
+        outputs_ssx='numeric',
+        outputs_correlation='data.frame',
+        outputs_that='DatasetExperiment'
     ),
     prototype = list(name='Principal Component Analysis (PCA)',
-        description='PCA is a multivariate data reduction technique. It summarises the data in a smaller number of Principal Components that describe the maximum variation present in the dataset.',
+        description='PCA is a multivariate data reduction technique. It summarises the data in a smaller number of Principal Components that describe the maximum variation present in the DatasetExperiment.',
         type="preprocessing",
         predicted='that',
-        stato.id="OBI:0200051",
+        stato_id="OBI:0200051",
 
-        params.number_components=entity.stato(name='Number of PCs',
-            stato.id='STATO:0000555',
+        params_number_components=entity_stato(name='Number of PCs',
+            stato_id='STATO:0000555',
             value=2,
             type=c('numeric','integer')
         ),
-        outputs.scores=entity('name'='PCA scores dataset',
+        outputs_scores=entity('name'='PCA scores DatasetExperiment',
             'description'='A matrix of PCA scores where each column corresponds to a Principal Component',
-            'type'='dataset')
+            'type'='DatasetExperiment')
     )
 )
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("PCA",'dataset'),
+setMethod(f="model_train",
+    signature=c("PCA",'DatasetExperiment'),
     definition=function(M,D)
     {
-        A=param.value(M,'number_components')
-        X=as.matrix(dataset.data(D))
+        A=param_value(M,'number_components')
+        X=as.matrix(D$data)
         model=svd(X,A,A)
         if (A==1)
         {
@@ -64,19 +71,19 @@ setMethod(f="model.train",
         colnames(scores)=varnames
         S=D
         S$data=scores
-        output.value(M,'scores')=S
+        output_value(M,'scores')=S
 
         P=as.data.frame(model$v)
         rownames(P)=colnames(X)
         colnames(P)=varnames
-        output.value(M,'loadings')=P
+        output_value(M,'loadings')=P
 
         E=data.frame('Eigenvalues'=sqrt(model$d[1:A]))
         rownames(E)=varnames
-        output.value(M,'eigenvalues')=E
+        output_value(M,'eigenvalues')=E
 
-        output.value(M,'ssx')=sum(X*X) # sum of squares of x
-        output.value(M,'correlation')=as.data.frame(cor(X,scores))
+        output_value(M,'ssx')=sum(X*X) # sum of squares of x
+        output_value(M,'correlation')=as.data.frame(cor(X,scores))
 
         return(M)
     }
@@ -84,13 +91,13 @@ setMethod(f="model.train",
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("PCA",'dataset'),
+setMethod(f="model_predict",
+    signature=c("PCA",'DatasetExperiment'),
     definition=function(M,D)
     {
-        A=param.value(M,'number_components')
-        X=as.matrix(dataset.data(D))
-        P=output.value(M,'loadings')
+        A=param_value(M,'number_components')
+        X=as.matrix(D$data)
+        P=output_value(M,'loadings')
         that=X%*%as.matrix(P)
 
         that=as.data.frame(that)
@@ -102,10 +109,10 @@ setMethod(f="model.predict",
         }
         colnames(that)=varnames
 
-        # convert to dataset for preprocessing output
+        # convert to DatasetExperiment for preprocessing output
         S=D
-        dataset.data(S)=that
-        output.value(M,'that')=S
+        S$data=that
+        output_value(M,'that')=S
 
         return(M)
     }

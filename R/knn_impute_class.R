@@ -5,13 +5,20 @@
 #' @import pmp
 #' @examples
 #' M = knn_impute()
-knn_impute<-setClass(
+knn_impute = function(...) {
+    out=.knn_impute()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.knn_impute<-setClass(
     "knn_impute",
     contains = c('model'),
-    slots=c(params.neighbours='entity',
-        params.sample_max='entity',
-        params.feature_max='entity',
-        outputs.imputed='entity'
+    slots=c(params_neighbours='entity',
+        params_sample_max='entity',
+        params_feature_max='entity',
+        outputs_imputed='entity'
     ),
 
     prototype=list(name = 'kNN missing value imputation',
@@ -19,44 +26,44 @@ knn_impute<-setClass(
         type = 'normalisation',
         predicted = 'imputed',
 
-        params.neighbours=entity(name = 'Number of neighbours',
+        params_neighbours=entity(name = 'Number of neighbours',
             description = 'The number of neighbours (k) to use ofr imputation of missing values.',
             value = 5,
             type='numeric'),
 
-        params.feature_max=entity(name = 'Maximum percent per feature',
+        params_feature_max=entity(name = 'Maximum percent per feature',
             description = 'The maximum percent missing values per sample',
             value = 50,
             type='numeric'),
 
-        params.sample_max=entity(name = 'Maximum percent per sample',
+        params_sample_max=entity(name = 'Maximum percent per sample',
             description = 'The maximum percent missing values per sample',
             value = 50,
             type='numeric'),
 
-        outputs.imputed=entity(name = 'Imputed dataset',
-            description = 'A dataset object containing the data where missing values have been imputed.',
-            type='dataset',
-            value=dataset()
+        outputs_imputed=entity(name = 'Imputed DatasetExperiment',
+            description = 'A DatasetExperiment object containing the data where missing values have been imputed.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         )
     )
 )
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("knn_impute","dataset"),
+setMethod(f="model_apply",
+    signature=c("knn_impute","DatasetExperiment"),
     definition=function(M,D)
     {
-        opt=param.list(M)
+        opt=param_list(M)
 
-        smeta=dataset.sample_meta(D)
-        x=dataset.data(D)
+        smeta=D$sample_meta
+        x=D$data
 
         imputed = mv_imputation(t(as.matrix(x)),method='knn',k = opt$neighbours,rowmax=opt$feature_max/100,colmax=opt$sample_max/100,maxp = NULL,FALSE)
-        dataset.data(D) = as.data.frame(t(imputed))
+        D$data = as.data.frame(t(imputed))
 
-        output.value(M,'imputed') = D
+        output_value(M,'imputed') = D
 
         return(M)
     }

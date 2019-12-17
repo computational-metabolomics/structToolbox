@@ -1,26 +1,33 @@
 #' permutation test class
 #'
-#' Applies a permutation test to a model or model.seq()
+#' Applies a permutation test to a model or model_seq()
 #' @examples
 #' I=bootstrap()
 #'
 #' @export bootstrap
-bootstrap<-setClass(
+bootstrap = function(...) {
+    out=.bootstrap()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.bootstrap<-setClass(
     "bootstrap",
     contains='resampler',
     slots=c(
-        params.number_of_permutations='numeric',
-        params.collect='character',
-        outputs.results='data.frame',
-        outputs.metric='data.frame',
-        outputs.collected='entity'
+        params_number_of_permutations='numeric',
+        params_collect='character',
+        outputs_results='data.frame',
+        outputs_metric='data.frame',
+        outputs_collected='entity'
     ),
     prototype = list(name='permutation test',
                      type='permutation',
                      result='results',
-                     params.number_of_permutations=10,
-                     params.collect='vip',
-                     outputs.collected=entity(name='collected output',
+                     params_number_of_permutations=10,
+                     params_collect='vip',
+                     outputs_collected=entity(name='collected output',
                                               type=c('logical','list'),
                                               value=NA,max_length=Inf)
     )
@@ -29,15 +36,15 @@ bootstrap<-setClass(
 #' @export
 #' @template run
 setMethod(f="run",
-          signature=c("bootstrap",'dataset','metric'),
+          signature=c("bootstrap",'DatasetExperiment','metric'),
           definition=function(I,D,MET=NULL)
           {
 
-              X=dataset.data(D)
-              y=dataset.sample_meta(D)
+              X=D$data
+              y=D$sample_meta
               # get the WF
               WF=models(I)
-              n=param.value(I,'number_of_permutations')
+              n=param_value(I,'number_of_permutations')
 
               all_results=data.frame('actual'=rep(y[,1],n),'predicted'=rep(y[,1],n),'permutation'=0)
 
@@ -56,26 +63,26 @@ setMethod(f="run",
 
                   # rebuild datasets
                   Dp=D
-                  dataset.data(Dp)=Xp
-                  dataset.sample_meta(Dp)=Yp
+                  Dp$data=Xp
+                  Dp$sample_meta(Dp)=Yp
 
-                  if (is(WF,'model_OR_model.seq'))
+                  if (is(WF,'model_OR_model_seq'))
                   {
                       ## permuted labels
                       # train
-                      WF=model.train(WF,Dp)
+                      WF=model_train(WF,Dp)
                       # predict
-                      WF=model.predict(WF,Dp)
+                      WF=model_predict(WF,Dp)
                       p=predicted(WF)
                       results[,2]=p[,1]
                       all_results[((nrow(X)*(i-1))+1):(nrow(X)*i),]=results
 
                       if (!is.na(I$collect)) {
                           if (is(WF,'model')) {
-                              collected=c(collected,list(output.value(WF,I$collect)))
+                              collected=c(collected,list(output_value(WF,I$collect)))
                           } else {
                               # if sequence assume collecting from last index
-                              collected=c(collected,list(output.value(WF[length(WF)],I$collect)))
+                              collected=c(collected,list(output_value(WF[length(WF)],I$collect)))
                           }
                           I$collected=collected
                       }
@@ -91,7 +98,7 @@ setMethod(f="run",
 
               }
               # store results
-              output.value(I,'results')=all_results
+              output_value(I,'results')=all_results
               return(I)
           }
 )
