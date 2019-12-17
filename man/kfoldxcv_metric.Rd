@@ -6,6 +6,9 @@
 \usage{
 kfoldxcv_metric(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 box plot of cross validation results
 }

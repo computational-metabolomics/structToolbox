@@ -12,6 +12,7 @@
 #' MET = balanced_accuracy()
 #' XCV = run(XCV,D,MET)
 #'
+#' @param ... slots and values for the new object 
 #' @export balanced_accuracy
 balanced_accuracy = function(...) {
     out=.balanced_accuracy()
@@ -28,6 +29,7 @@ balanced_accuracy = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template calculate
 setMethod(f="calculate",

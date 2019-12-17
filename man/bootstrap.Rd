@@ -6,6 +6,9 @@
 \usage{
 bootstrap(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 Applies a permutation test to a model or model_seq()
 }

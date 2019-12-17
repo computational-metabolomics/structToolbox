@@ -3,6 +3,7 @@
 #' plots the correlation between features and selected components.
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export pca_correlation_plot
 #' @include PCA_class.R
 #' @examples
@@ -34,6 +35,7 @@ pca_correlation_plot = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -64,6 +66,7 @@ setMethod(f="chart_plot",
 #' 2d scatter plot of princpal component scores.
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export pca_scores_plot
 #' @include PCA_class.R
 #' @examples
@@ -141,6 +144,7 @@ pca_scores_plot = function(...) {
 #' @importFrom sp point.in.polygon
 #' @import ggplot2
 #' @importFrom scales squish
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -272,6 +276,7 @@ setMethod(f="chart_plot",
 #' 2d scatter plot of princpal component scores overlaid with principal component loadings.
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export pca_biplot_plot
 #' @include PCA_class.R
 #' @examples
@@ -340,6 +345,7 @@ pca_biplot_plot = function(...) {
 
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -421,6 +427,7 @@ setMethod(f="chart_plot",
 #' 2d scatter plot of princpal component loadings.
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export pca_loadings_plot
 #' @include PCA_class.R
 #' @examples
@@ -468,6 +475,7 @@ pca_loadings_plot = function(...) {
 
 
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -517,6 +525,7 @@ setMethod(f="chart_plot",
 #' line plot showing percent variance and cumulative peercent variance for the computed components.
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export pca_scree
 #' @include PCA_class.R
 #' @examples
@@ -537,6 +546,7 @@ pca_scree = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -571,6 +581,7 @@ setMethod(f="chart_plot",
 #' line plot showing percent variance and cumulative peercent variance for the computed components.
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export PCA_dstat
 #' @include PCA_class.R
 #' @examples
@@ -601,6 +612,7 @@ PCA_dstat = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

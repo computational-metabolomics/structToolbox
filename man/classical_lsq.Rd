@@ -7,13 +7,7 @@
 classical_lsq(...)
 }
 \arguments{
-\item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
-
-\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg, hommel, bonferroni, BH, BY, fdr or none}
-
-\item{factor_names}{the column name(s) of sample_meta to use}
-
-\item{intercept}{[TRUE] or FALSE to include an intercept term in the fit}
+\item{...}{slots and values for the new object}
 }
 \value{
 A STRUCT method object with functions for applying classical least squares
@@ -24,6 +18,18 @@ applied to each feature individually. Here the response is taken from the
 data matrix and the design matrix is the taken from the specified sample meta
 data column.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{alpha}}{p-value threshold for determining significance. Default alpha = 0.05.}
+
+\item{\code{mtc}}{multiple test correction method to apply. Can be: holm, hochberg, hommel, bonferroni, BH, BY, fdr or none}
+
+\item{\code{factor_names}}{the column name(s) of sample_meta to use}
+
+\item{\code{intercept}}{[TRUE] or FALSE to include an intercept term in the fit}
+}}
+
 \examples{
 D = iris_DatasetExperiment()
 M = classical_lsq(factor_names = 'Species')

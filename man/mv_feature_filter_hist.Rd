@@ -6,6 +6,9 @@
 \usage{
 mv_feature_filter_hist(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots a histogram of % missing values per sample
 }

@@ -7,18 +7,24 @@
 mv_boxplot(...)
 }
 \arguments{
-\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot
-plot}
-
-\item{by_sample}{by_sample [TRUE] to plot by sample or FALSE to plot by features}
-
-\item{factor_name}{the sample_meta column to use}
-
-\item{show_counts}{[TRUE] or FALSE to include the number of samples on the plot}
+\item{...}{slots and values for the new object}
 }
 \description{
 Boxplot of the numbers of missing values per sample/feature
 }
+\section{Slots}{
+
+\describe{
+\item{\code{label_outliers}}{[TRUE] or FALSE to label outliers on the plot
+plot}
+
+\item{\code{by_sample}}{by_sample [TRUE] to plot by sample or FALSE to plot by features}
+
+\item{\code{factor_name}}{the sample_meta column to use}
+
+\item{\code{show_counts}}{[TRUE] or FALSE to include the number of samples on the plot}
+}}
+
 \examples{
 D = sbcms_DatasetExperiment()
 C = mv_boxplot(factor_name='class')

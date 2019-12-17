@@ -5,6 +5,9 @@
 \alias{permutation_test.boxplot-class}
 \alias{permutation_test.boxplot}
 \title{permutation_test.boxplot class}
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots the results of a permutation test as a boxplot
 }

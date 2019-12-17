@@ -6,6 +6,9 @@
 \usage{
 glog_transform(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 applies a glog transform to the input data
 }

@@ -7,17 +7,10 @@
 confounders_clsq(...)
 }
 \arguments{
-\item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
+\item{...}{slots and values for the new object}
 
-\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg,
+\item{Mtc}{multiple test correction method to apply. Can be: holm, hochberg,
 hommel, bonferroni, BH, BY, fdr or [none]}
-
-\item{factor_name}{the column name of sample_meta to use in regression}
-
-\item{confounding_factors}{the column names of factors potentially confounding
-with the main factor if interest}
-
-\item{threshold}{the threshold (between 0 and 1) for accepting a factor as confounding}
 }
 \value{
 A STRUCT method object with functions for applying classical least squares
@@ -26,6 +19,19 @@ A STRUCT method object with functions for applying classical least squares
 Compares the coefficients for a ttest without including confounding factors
 to models with confounding factor included. Currently only ttest is supported.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{alpha}}{p-value threshold for determining significance. Default alpha = 0.05.}
+
+\item{\code{factor_name}}{the column name of sample_meta to use in regression}
+
+\item{\code{confounding_factors}}{the column names of factors potentially confounding
+with the main factor if interest}
+
+\item{\code{threshold}}{the threshold (between 0 and 1) for accepting a factor as confounding}
+}}
+
 \examples{
 D = sbcms_DatasetExperiment()
 M = filter_by_name(mode='include',dimension='variable',

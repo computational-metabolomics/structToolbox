@@ -6,6 +6,9 @@
 \usage{
 pca_scores_plot(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 2d scatter plot of princpal component scores.
 }

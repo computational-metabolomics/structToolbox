@@ -1,6 +1,7 @@
 #' PQN nromalisation
 #'
 #' applies PQN normalisation using QC samples as reference samples
+#' @param ... slots and values for the new object 
 #' @export pqn_norm
 #' @import pmp
 #' @examples
@@ -43,6 +44,7 @@ pqn_norm = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -70,6 +72,7 @@ setMethod(f="model_apply",
 #'
 #' plots a histogram of the PQN coeffients
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export pqn_norm_hist
 #' @examples
 #' C = pqn_norm_hist()
@@ -89,6 +92,7 @@ pqn_norm_hist = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

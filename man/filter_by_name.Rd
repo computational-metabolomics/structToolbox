@@ -7,18 +7,24 @@
 filter_by_name(...)
 }
 \arguments{
-\item{mode}{"include" or ["exclude"] to subsample a a DatasetExperiment by including or
-excluding samples/features based on the provided labels}
-
-\item{dimension}{["sample"] or "variable" to filter by sample or feature
-labels}
-
-\item{names}{the sample/feature identifiers to filter by. Can provide column
-names, column indices or logical}
+\item{...}{slots and values for the new object}
 }
 \description{
 a filter to subsample a DatasetExperiment object based on sample or feature labels.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{mode}}{"include" or ["exclude"] to subsample a a DatasetExperiment by including or
+excluding samples/features based on the provided labels}
+
+\item{\code{dimension}}{["sample"] or "variable" to filter by sample or feature
+labels}
+
+\item{\code{names}}{the sample/feature identifiers to filter by. Can provide column
+names, column indices or logical}
+}}
+
 \examples{
 D = sbcms_DatasetExperiment()
 M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))

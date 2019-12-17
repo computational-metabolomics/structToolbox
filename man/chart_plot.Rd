@@ -137,6 +137,8 @@
 \item{dobj}{a struct object}
 
 \item{eobj}{a second DatasetExperiment object to compare with the first}
+
+\item{...}{slots and values for the new object}
 }
 \value{
 a plot object

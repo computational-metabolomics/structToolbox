@@ -34,6 +34,8 @@
 \item{D}{a DatasetExperiment object}
 
 \item{MET}{a metric object}
+
+\item{...}{slots and values for the new object}
 }
 \value{
 Modified iterator object

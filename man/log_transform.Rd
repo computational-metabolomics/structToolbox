@@ -6,6 +6,9 @@
 \usage{
 log_transform(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 applies a log transform to the input data
 }

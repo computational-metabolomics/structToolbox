@@ -7,6 +7,7 @@
 #' @examples
 #' M = corr_coef()
 #'
+#' @param ... slots and values for the new object 
 #' @export corr_coef
 corr_coef = function(...) {
     out=.corr_coef()
@@ -76,6 +77,7 @@ corr_coef = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

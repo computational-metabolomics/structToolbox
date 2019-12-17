@@ -1,6 +1,7 @@
 #' vector nromalisation
 #'
 #' applies vector normalisation
+#' @param ... slots and values for the new object 
 #' @export vec_norm
 #' @import pmp
 #' @examples
@@ -36,6 +37,7 @@ vec_norm = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -56,6 +58,7 @@ setMethod(f="model_apply",
     }
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -65,6 +68,7 @@ setMethod(f="model_train",
         return(M)
     })
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

@@ -4,6 +4,7 @@
 #' @examples
 #' I=bootstrap()
 #'
+#' @param ... slots and values for the new object
 #' @export bootstrap
 bootstrap = function(...) {
     out=.bootstrap()
@@ -33,6 +34,7 @@ bootstrap = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template run
 setMethod(f="run",
@@ -64,7 +66,7 @@ setMethod(f="run",
                   # rebuild datasets
                   Dp=D
                   Dp$data=Xp
-                  Dp$sample_meta(Dp)=Yp
+                  Dp$sample_meta=Yp
 
                   if (is(WF,'model_OR_model_seq'))
                   {

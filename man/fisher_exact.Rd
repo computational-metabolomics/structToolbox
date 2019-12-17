@@ -7,19 +7,25 @@
 fisher_exact(...)
 }
 \arguments{
-\item{alpha}{the p-value threshold to declare a result 'significant'}
+\item{...}{slots and values for the new object}
 
-\item{mtc}{multiple test correction method}
-
-\item{factor_name}{the sample_meta column to use}
-
-\item{factor_pred}{A data.frame, with a factor of predicted group labels to
-compare with factor_name. Can be a data frame with a factor of predictions
-for each feature.'}
+\item{Mtc}{multiple test correction method}
 }
 \description{
 Fisher's exact test (FET). Applies FET for all features in a DatasetExperiment.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{alpha}}{the p-value threshold to declare a result 'significant'}
+
+\item{\code{factor_name}}{the sample_meta column to use}
+
+\item{\code{factor_pred}}{A data.frame, with a factor of predicted group labels to
+compare with factor_name. Can be a data frame with a factor of predictions
+for each feature.'}
+}}
+
 \examples{
 # load some data
 D=sbcms_DatasetExperiment()

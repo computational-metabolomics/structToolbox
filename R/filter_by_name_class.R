@@ -2,11 +2,11 @@
 #'
 #' a filter to subsample a DatasetExperiment object based on sample or feature labels.
 #'
-#' @param mode "include" or ["exclude"] to subsample a a DatasetExperiment by including or
+#' @slot mode "include" or ["exclude"] to subsample a a DatasetExperiment by including or
 #' excluding samples/features based on the provided labels
-#' @param dimension ["sample"] or "variable" to filter by sample or feature
+#' @slot dimension ["sample"] or "variable" to filter by sample or feature
 #' labels
-#' @param names the sample/feature identifiers to filter by. Can provide column
+#' @slot names the sample/feature identifiers to filter by. Can provide column
 #' names, column indices or logical
 #'
 #' @examples
@@ -14,6 +14,7 @@
 #' M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
 #' M = model_apply(M,D)
 #'
+#' @param ... slots and values for the new object 
 #' @export filter_by_name
 filter_by_name = function(...) {
     out=.filter_by_name()
@@ -49,6 +50,7 @@ filter_by_name = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -112,6 +114,7 @@ setMethod(f="model_apply",
     }
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -122,6 +125,7 @@ setMethod(f="model_train",
     }
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

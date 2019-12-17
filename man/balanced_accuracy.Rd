@@ -6,6 +6,9 @@
 \usage{
 balanced_accuracy(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \value{
 A metric object with methods for calculating balanced accuracy.
 }

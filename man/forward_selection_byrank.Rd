@@ -7,22 +7,28 @@
 forward_selection_byrank(...)
 }
 \arguments{
-\item{min_no_vars}{minimum number of features to test}
-
-\item{max_no_vars}{maximum numbe ro features to test}
-
-\item{step_size}{the size of the incremenent between min and max no of vars}
-
-\item{factor_name}{the sample-meta colum to use}
-
-\item{variable_rank}{a vector of values that can be used to rank the features,
-where the smallest value is the first rank.}
+\item{...}{slots and values for the new object}
 }
 \description{
 Forward selection by rank is a stepwise procedures that includes features
 incrementally based on their rank. Any measure for ranking the features may
 be used e.g. PLS VIP score, ttest p-value etc.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{min_no_vars}}{minimum number of features to test}
+
+\item{\code{max_no_vars}}{maximum numbe ro features to test}
+
+\item{\code{step_size}}{the size of the incremenent between min and max no of vars}
+
+\item{\code{factor_name}}{the sample-meta colum to use}
+
+\item{\code{variable_rank}}{a vector of values that can be used to rank the features,
+where the smallest value is the first rank.}
+}}
+
 \examples{
 # some data
 D = sbcms_DatasetExperiment(filtered=TRUE)

@@ -83,7 +83,7 @@ Charts for iterator objects can be plotted in the same way as charts for any oth
 
 ```{r,warning=FALSE}
 C = kfoldxcv_grid()
-chart_plot(C,XCV)
+chart_plot(C,XCV)[[2]]
 ```
 
 It is possible to combine multiple iterators by multiplying them together. This is equivalent to nesting one iterator inside the other. For example, we can repeat our cross-validation multiple times by permuting the sample order.

@@ -11,6 +11,8 @@
 \item{M}{a model object}
 
 \item{D}{a DatasetExperiment object}
+
+\item{...}{slots and values for the new object}
 }
 \value{
 Returns a modified DatasetExperiment object

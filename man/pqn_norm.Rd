@@ -6,6 +6,9 @@
 \usage{
 pqn_norm(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 applies PQN normalisation using QC samples as reference samples
 }

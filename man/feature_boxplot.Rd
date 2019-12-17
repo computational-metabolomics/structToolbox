@@ -7,18 +7,24 @@
 feature_boxplot(...)
 }
 \arguments{
-\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot}
-
-\item{feature_to_plot}{the column id to plot.}
-
-\item{factor_name}{the sample_meta column to use}
-
-\item{show_counts}{[TRUE] or FALSE to include the number of samples on the
-plot}
+\item{...}{slots and values for the new object}
 }
 \description{
 plots a boxplot of a chosen feature for each group of a DatasetExperiment
 }
+\section{Slots}{
+
+\describe{
+\item{\code{label_outliers}}{[TRUE] or FALSE to label outliers on the plot}
+
+\item{\code{feature_to_plot}}{the column id to plot.}
+
+\item{\code{factor_name}}{the sample_meta column to use}
+
+\item{\code{show_counts}}{[TRUE] or FALSE to include the number of samples on the
+plot}
+}}
+
 \examples{
 D = sbcms_DatasetExperiment
 C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')

@@ -106,6 +106,8 @@
 \item{M}{a method object}
 
 \item{D}{another object used by the first}
+
+\item{...}{slots and values for the new object}
 }
 \value{
 Returns a modified method object

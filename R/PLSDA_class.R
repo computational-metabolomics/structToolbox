@@ -1,6 +1,7 @@
 #' PLSDA model class
 #'
 #' Partial least squares (PLS) discriminant analysis (DA) model class. This object can be used to train/apply PLS models.
+#' @param ... slots and values for the new object 
 #' @export PLSDA
 #' @examples
 #' M = PLSDA()
@@ -45,6 +46,7 @@ PLSDA = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -82,6 +84,7 @@ setMethod(f="model_train",
     }
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

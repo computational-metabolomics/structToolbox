@@ -1,6 +1,7 @@
 #' sbcms
 #'
 #' Signal/batch correction using SMCBMS package
+#' @param ... slots and values for the new object 
 #' @export sb_corr
 #' @examples
 #' M = sb_corr()
@@ -77,6 +78,7 @@ sb_corr = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

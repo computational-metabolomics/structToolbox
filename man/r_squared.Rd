@@ -6,6 +6,9 @@
 \usage{
 r_squared(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 Coefficient of determination (r-squared).
 }

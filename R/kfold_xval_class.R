@@ -1,6 +1,7 @@
 #' kfold_xval model class
 #'
 #' Applies k-fold crossvalidation to a model or model_seq()
+#' @param ... slots and values for the new object 
 #' @export kfold_xval
 #' @examples
 #' I = kfold_xval()
@@ -30,6 +31,7 @@ kfold_xval = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template run
 setMethod(f="run",

@@ -6,6 +6,9 @@
 \usage{
 PLSFC(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 Partial least squares (PLS) fold change estimates
 }

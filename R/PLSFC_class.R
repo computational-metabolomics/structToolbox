@@ -1,6 +1,7 @@
 #' PLS fold change
 #'
 #' Partial least squares (PLS) fold change estimates
+#' @param ... slots and values for the new object 
 #' @export PLSFC
 #' @include fold_change_class.R
 #' @examples
@@ -26,6 +27,7 @@ PLSFC = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

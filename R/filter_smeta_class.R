@@ -2,16 +2,17 @@
 #'
 #' A filter to subset a DatasetExperiment object based on sample meta data.
 #'
-#' @param mode = ['include'] or 'exclude' to include or exclude samples based on
+#' @slot mode = ['include'] or 'exclude' to include or exclude samples based on
 #' the provided labels
-#' @param levels a list of level names to include/exclude
-#' @param factor_name the sample_meta column name to use
+#' @slot levels a list of level names to include/exclude
+#' @slot factor_name the sample_meta column name to use
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
 #' M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
 #' M = model_apply(M,D)
 #'
+#' @param ... slots and values for the new object
 #' @export filter_smeta
 filter_smeta = function(...) {
     out=.filter_smeta()
@@ -53,6 +54,7 @@ filter_smeta = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -69,16 +71,13 @@ setMethod(f="model_apply",
         } else {
             stop('mode must be "include" or "exclude"')
         }
-        x=x[!out,,drop=FALSE]
-        smeta=smeta[!out,,drop=FALSE]
-        smeta=droplevels(smeta)
-        D$data=x
-        D$sample_meta=smeta
+        D=D[!out,,drop=FALSE]
         output_value(M,'filtered')=D
         return(M)
     }
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -88,6 +87,7 @@ setMethod(f="model_train",
     }
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

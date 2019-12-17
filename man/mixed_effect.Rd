@@ -6,6 +6,9 @@
 \usage{
 mixed_effect(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 Mixed Effects model class. Applies RE model for all features in a DatasetExperiment
 }

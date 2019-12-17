@@ -5,13 +5,13 @@
 #'
 #' @import struct
 #'
-#' @param alpha p-value threshold for determining significance. Default alpha = 0.05.
-#' @param mtc multiple test correction method to apply. Can be: holm, hochberg,
+#' @slot alpha p-value threshold for determining significance. Default alpha = 0.05.
+#' @param Mtc multiple test correction method to apply. Can be: holm, hochberg,
 #' hommel, bonferroni, BH, BY, fdr or [none]
-#' @param factor_name the column name of sample_meta to use in regression
-#' @param confounding_factors the column names of factors potentially confounding
+#' @slot factor_name the column name of sample_meta to use in regression
+#' @slot confounding_factors the column names of factors potentially confounding
 #' with the main factor if interest
-#' @param threshold the threshold (between 0 and 1) for accepting a factor as confounding
+#' @slot threshold the threshold (between 0 and 1) for accepting a factor as confounding
 #'
 #' @return A STRUCT method object with functions for applying classical least squares
 #'
@@ -25,6 +25,7 @@
 #'         confounding_factors=c('sample_order','batch'))
 #' M = model_apply(M,D)
 #'
+#' @param ... slots and values for the new object 
 #' @export confounders_clsq
 confounders_clsq = function(...) {
     out=.confounders_clsq()
@@ -87,6 +88,7 @@ confounders_clsq = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -172,8 +174,8 @@ setMethod(f="model_apply",
 #'
 #' plots a barchart of the percent change when including a confounding factor in a classical least squares model
 #' @import struct
-#' @param feature_to_plot the name or index of the feature to be plotted
-#' @param threshold the threshold to be plotted (in \%)
+#' @slot feature_to_plot the name or index of the feature to be plotted
+#' @slot threshold the threshold to be plotted (in \%)
 #'
 #' @return A STRUCT chart object
 #'
@@ -189,6 +191,7 @@ setMethod(f="model_apply",
 #' C = C=confounders_lsq.barchart(feature_to_plot=1,threshold=15)
 #' chart_plot(C,M[3])
 #'
+#' @param ... slots and values for the new object 
 #' @export confounders_lsq.barchart
 confounders_lsq.barchart = function(...) {
     out=.confounders_lsq.barchart()
@@ -221,6 +224,7 @@ confounders_lsq.barchart = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -256,7 +260,7 @@ setMethod(f="chart_plot",
 #' Plots a boxplot of the percent change over all features when including a
 #' confounding factor in the ttest
 #' @import struct
-#' @param threshold the threshold to be plotted (in \%)
+#' @slot threshold the threshold to be plotted (in \%)
 #'
 #' @return A STRUCT chart object
 #'
@@ -272,6 +276,7 @@ setMethod(f="chart_plot",
 #' C = C=confounders_lsq.boxplot(threshold=15)
 #' chart_plot(C,M[3])
 #'
+#' @param ... slots and values for the new object 
 #' @export confounders_lsq.boxplot
 confounders_lsq.boxplot = function(...) {
     out=.confounders_lsq.boxplot()
@@ -298,6 +303,7 @@ confounders_lsq.boxplot = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

@@ -1,11 +1,19 @@
 #' split data into sets
 #'
 #' Splits the data into a training and test set
+#' @param ... slots and values for the new object
 #' @export split_data
 #' @examples
 #' M = split_data()
 #'
-split_data<-setClass(
+split_data = function(...) {
+    out=.split_data()
+    out=struct::.initialize_struct_class(out,...)
+    return(out)
+}
+
+
+.split_data<-setClass(
     "split_data",
     contains = c('model'),
     slots=c(params_p='entity',
@@ -36,6 +44,7 @@ split_data<-setClass(
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -51,14 +60,14 @@ setMethod(f="model_apply",
         in_training=sample(x=1:nMax,size = n, replace=FALSE,prob=NULL)
         training=DatasetExperiment(data=D$data[in_training,,drop=FALSE],
             sample_meta=D$sample_meta[in_training,,drop=FALSE],
-            variable_meta=dobj$variable_meta,
-            name=c(name(D),'(Training set)'),
-            description=c(description(D),'A subset of the data has been selected as a training set'))
+            variable_meta=D$variable_meta,
+            name=c(D$name,'(Training set)'),
+            description=c(D$description,'A subset of the data has been selected as a training set'))
         testing=DatasetExperiment(data=D$data[-in_training,,drop=FALSE],
             sample_meta=D$sample_meta[-in_training,,drop=FALSE],
-            variable_meta=dobj$variable_meta,
-            name=c(name(D),'(Testing set)'),
-            description=c(description(D),'A subset of the data has been selected as a test set'))
+            variable_meta=D$variable_meta,
+            name=c(D$name,'(Testing set)'),
+            description=c(D$description,'A subset of the data has been selected as a test set'))
         output_value(M,'training')=training
         output_value(M,'testing')=testing
 

@@ -4,6 +4,7 @@
 #' @examples
 #' I=permutation_test2()
 #'
+#' @param ... slots and values for the new object 
 #' @export permutation_test2
 permutation_test2 = function(...) {
     out=.permutation_test2()
@@ -34,6 +35,7 @@ permutation_test2 = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template run
 setMethod(f="run",

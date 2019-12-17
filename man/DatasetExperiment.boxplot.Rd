@@ -7,17 +7,23 @@
 DatasetExperiment.boxplot(...)
 }
 \arguments{
-\item{factor_name}{the column name of sample_meta to use}
-
-\item{by_sample}{[TRUE] or FALSE to plot by samples or features respectively}
-
-\item{per_class}{[TRUE] or FALSE to plot per level in factro_name}
-
-\item{number}{the number of samples/features to plot}
+\item{...}{slots and values for the new object}
 }
 \description{
 Boxplot of values per sample/feature in a DatasetExperiment
 }
+\section{Slots}{
+
+\describe{
+\item{\code{factor_name}}{the column name of sample_meta to use}
+
+\item{\code{by_sample}}{[TRUE] or FALSE to plot by samples or features respectively}
+
+\item{\code{per_class}}{[TRUE] or FALSE to plot per level in factro_name}
+
+\item{\code{number}}{the number of samples/features to plot}
+}}
+
 \examples{
 D = sbcms_DatasetExperiment()
 C = DatasetExperiment.boxplot(factor_name='class',number=10,per_class=FALSE)

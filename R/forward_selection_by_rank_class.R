@@ -4,11 +4,11 @@
 #' incrementally based on their rank. Any measure for ranking the features may
 #' be used e.g. PLS VIP score, ttest p-value etc.
 #'
-#' @param min_no_vars minimum number of features to test
-#' @param max_no_vars maximum numbe ro features to test
-#' @param step_size the size of the incremenent between min and max no of vars
-#' @param factor_name the sample-meta colum to use
-#' @param variable_rank a vector of values that can be used to rank the features,
+#' @slot min_no_vars minimum number of features to test
+#' @slot max_no_vars maximum numbe ro features to test
+#' @slot step_size the size of the incremenent between min and max no of vars
+#' @slot factor_name the sample-meta colum to use
+#' @slot variable_rank a vector of values that can be used to rank the features,
 #' where the smallest value is the first rank.
 #'
 #' @examples
@@ -32,6 +32,7 @@
 #'                            factor_name='class'))
 #' M = run(M,D,balanced_accuracy())
 #'
+#' @param ... slots and values for the new object
 #' @export forward_selection_byrank
 forward_selection_byrank = function(...) {
     out=.forward_selection_byrank()
@@ -65,6 +66,7 @@ forward_selection_byrank = function(...) {
 )
 
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template run
 setMethod(f="run",
@@ -140,7 +142,7 @@ setMethod(f="run",
             }
 
             value=ts.metric
-            df=data.frame(metric=name(MET),mean=value,sd=NA)
+            df=data.frame(metric=MET$name,mean=value,sd=NA)
         } else
         {
             # if not a model or list then the metric has already been applied, we just need to choose the optimum
@@ -208,6 +210,7 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
 #' features within the search range for forward_selection_by_rank objects.
 #'
 #' @import struct
+#' @param ... slots and values for the new object
 #' @export fs_line
 #' @examples
 #' # some data
@@ -250,6 +253,7 @@ fs_line = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

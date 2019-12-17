@@ -7,14 +7,20 @@
 DatasetExperiment.dist(...)
 }
 \arguments{
-\item{factor_name}{the sample_meta column to use}
-
-\item{per_class}{= [TRUE] or FALSE to plot distrubutions for each level in
-factor_name}
+\item{...}{slots and values for the new object}
 }
 \description{
 Visualise distributions of values in features/samples.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{factor_name}}{the sample_meta column to use}
+
+\item{\code{per_class}}{= [TRUE] or FALSE to plot distrubutions for each level in
+factor_name}
+}}
+
 \examples{
 D = sbcms_DatasetExperiment()
 C = DatasetExperiment.dist(factor_name='class')

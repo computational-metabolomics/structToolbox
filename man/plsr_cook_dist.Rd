@@ -6,6 +6,9 @@
 \usage{
 plsr_cook_dist(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 Plots the residuals for a PLSR model
 }

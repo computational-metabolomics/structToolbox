@@ -6,6 +6,7 @@
 #' @import stats
 #' @import agricolae
 #' @include anova_class.R
+#' @param ... slots and values for the new object 
 #' @export HSD
 #' @examples
 #' M = HSD()
@@ -76,6 +77,7 @@ HSD = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

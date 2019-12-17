@@ -4,10 +4,10 @@
 #'
 #' @import struct
 #'
-#' @param label_outliers [TRUE] or FALSE to label outliers on the plot
-#' @param feature_to_plot the column id to plot.
-#' @param factor_name the sample_meta column to use
-#' @param show_counts [TRUE] or FALSE to include the number of samples on the
+#' @slot label_outliers [TRUE] or FALSE to label outliers on the plot
+#' @slot feature_to_plot the column id to plot.
+#' @slot factor_name the sample_meta column to use
+#' @slot show_counts [TRUE] or FALSE to include the number of samples on the
 #' plot
 #'
 #' @examples
@@ -15,6 +15,7 @@
 #' C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')
 #' chart_plot(C,D)
 #'
+#' @param ... slots and values for the new object
 #' @export feature_boxplot
 feature_boxplot = function(...) {
     out=.feature_boxplot()
@@ -61,6 +62,7 @@ feature_boxplot = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -142,8 +144,8 @@ setMethod(f="chart_plot",
 #'
 #' histograms indicating the numbers of missing values per sample/feature
 #'
-#' @param label_outliers [TRUE] or FALSE to label outliers on the plot
-#' @param by_sample [TRUE] to plot by sample or FALSE to plot by features
+#' @slot label_outliers [TRUE] or FALSE to label outliers on the plot
+#' @slot by_sample [TRUE] to plot by sample or FALSE to plot by features
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
@@ -151,6 +153,7 @@ setMethod(f="chart_plot",
 #' chart_plot(C,D)
 #'
 #' @import struct
+#' @param ... slots and values for the new object
 #' @export mv_histogram
 mv_histogram = function(...) {
     out=.mv_histogram()
@@ -183,6 +186,7 @@ mv_histogram = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -227,17 +231,18 @@ setMethod(f="chart_plot",
 #'
 #' Boxplot of the numbers of missing values per sample/feature
 #'
-#' @param label_outliers [TRUE] or FALSE to label outliers on the plot
+#' @slot label_outliers [TRUE] or FALSE to label outliers on the plot
 #' plot
-#' @param by_sample by_sample [TRUE] to plot by sample or FALSE to plot by features
-#' @param factor_name the sample_meta column to use
-#' @param show_counts [TRUE] or FALSE to include the number of samples on the plot
+#' @slot by_sample by_sample [TRUE] to plot by sample or FALSE to plot by features
+#' @slot factor_name the sample_meta column to use
+#' @slot show_counts [TRUE] or FALSE to include the number of samples on the plot
 #' @examples
 #' D = sbcms_DatasetExperiment()
 #' C = mv_boxplot(factor_name='class')
 #' chart_plot(C,D)
 #'
 #' @import struct
+#' @param ... slots and values for the new object
 #' @export mv_boxplot
 mv_boxplot = function(...) {
     out=.mv_boxplot()
@@ -282,6 +287,7 @@ mv_boxplot = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -383,8 +389,8 @@ setMethod(f="chart_plot",
 #'
 #' Visualise distributions of values in features/samples.
 #'
-#' @param factor_name the sample_meta column to use
-#' @param per_class = [TRUE] or FALSE to plot distrubutions for each level in
+#' @slot factor_name the sample_meta column to use
+#' @slot per_class = [TRUE] or FALSE to plot distrubutions for each level in
 #' factor_name
 #'
 #' @examples
@@ -393,6 +399,7 @@ setMethod(f="chart_plot",
 #' chart_plot(C,D)
 #'
 #' @import struct
+#' @param ... slots and values for the new object
 #' @export DatasetExperiment.dist
 DatasetExperiment.dist = function(...) {
     out=.DatasetExperiment.dist()
@@ -426,6 +433,7 @@ DatasetExperiment.dist = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @import pmp
 #' @template chart_plot
@@ -469,10 +477,10 @@ setMethod(f="chart_plot",
 #'
 #' Boxplot of values per sample/feature in a DatasetExperiment
 #'
-#' @param factor_name the column name of sample_meta to use
-#' @param by_sample [TRUE] or FALSE to plot by samples or features respectively
-#' @param per_class [TRUE] or FALSE to plot per level in factro_name
-#' @param number the number of samples/features to plot
+#' @slot factor_name the column name of sample_meta to use
+#' @slot by_sample [TRUE] or FALSE to plot by samples or features respectively
+#' @slot per_class [TRUE] or FALSE to plot per level in factro_name
+#' @slot number the number of samples/features to plot
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
@@ -480,6 +488,7 @@ setMethod(f="chart_plot",
 #' chart_plot(C,D)
 #'
 #' @import struct
+#' @param ... slots and values for the new object
 #' @export DatasetExperiment.boxplot
 DatasetExperiment.boxplot = function(...) {
     out=.DatasetExperiment.boxplot()
@@ -524,6 +533,7 @@ DatasetExperiment.boxplot = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @import pmp
 #' @template chart_plot
@@ -582,7 +592,7 @@ setMethod(f="chart_plot",
 #' A combination of plots to compare distributions of samples/features in two
 #' datasets
 #'
-#' @param factor_name the sample_meta colum to use
+#' @slot factor_name the sample_meta colum to use
 #'
 #' @examples
 #' D1=sbcms_DatasetExperiment(filtered=FALSE)
@@ -590,6 +600,7 @@ setMethod(f="chart_plot",
 #' C = compare_dist(factor_name='class')
 #' chart_plot(C,D1,D2)
 #' @import struct
+#' @param ... slots and values for the new object
 #' @export compare_dist
 compare_dist = function(...) {
     out=.compare_dist()
@@ -614,6 +625,7 @@ compare_dist = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @import gridExtra
 #' @template chart_plot
@@ -698,6 +710,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @import reshape2
+#' @param ... slots and values for the new object
 #' @export DatasetExperiment.heatmap
 #' @examples
 #' C = DatasetExperiment.heatmap()
@@ -727,6 +740,7 @@ DatasetExperiment.heatmap = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

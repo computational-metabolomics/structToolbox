@@ -1,6 +1,7 @@
 #' log transform
 #'
 #' applies a log transform to the input data
+#' @param ... slots and values for the new object 
 #' @export log_transform
 #' @examples
 #' M = log_transform()
@@ -36,6 +37,7 @@ log_transform = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

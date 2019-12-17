@@ -6,6 +6,9 @@
 \usage{
 autoscale(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \value{
 A STRUCT model object with methods for autoscaling.
 }

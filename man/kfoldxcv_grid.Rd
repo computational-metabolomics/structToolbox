@@ -6,6 +6,9 @@
 \usage{
 kfoldxcv_grid(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plot of cross validation results
 }

@@ -3,6 +3,7 @@
 #' plot of cross validation results
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export kfoldxcv_grid
 #' @include kfold_xval_class.R
 #' @examples
@@ -33,6 +34,7 @@ kfoldxcv_grid = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -97,6 +99,7 @@ setMethod(f="chart_plot",
 #' box plot of cross validation results
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export kfoldxcv_metric
 #' @include kfold_xval_class.R
 #' @examples
@@ -118,6 +121,7 @@ kfoldxcv_metric = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

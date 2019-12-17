@@ -20,7 +20,7 @@ paramNames=evalString(paramNames)
 # be sure to use `cat` since we are in a <\% and not a <\%= brew-chunk
 out=lapply(paramNames,
     function(param) {
-        cat(paste("#' @param", param, L[[param]]), fill = TRUE)
+        cat(paste("#' @slot", param, L[[param]]), fill = TRUE)
     })
 %>
     # sometimes you need to end a template with NULL

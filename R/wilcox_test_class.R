@@ -5,6 +5,7 @@
 #'
 #' @import struct
 #' @import stats
+#' @param ... slots and values for the new object 
 #' @export wilcox_test
 #' @examples
 #' M = wilcox_test()
@@ -90,6 +91,7 @@ wilcox_test = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -198,6 +200,7 @@ setMethod(f="model_apply",
 #'
 #' plots a histogram of p values
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export wilcox_p_hist
 #' @examples
 #' M = wilcox_p_hist()
@@ -218,6 +221,7 @@ wilcox_p_hist = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

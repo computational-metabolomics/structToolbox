@@ -6,6 +6,9 @@
 \usage{
 sb_corr(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 Signal/batch correction using SMCBMS package
 }

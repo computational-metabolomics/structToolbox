@@ -7,11 +7,7 @@
 ANOVA(...)
 }
 \arguments{
-\item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
-
-\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg, hommel, bonferroni, BH, BY, fdr or none}
-
-\item{formula}{the formula to use in the form y~...}
+\item{...}{slots and values for the new object}
 }
 \value{
 A struct method object with functions for applying ANOVA
@@ -19,6 +15,16 @@ A struct method object with functions for applying ANOVA
 \description{
 Applies ANOVA to each feature in a DatasetExperiment object.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{alpha}}{p-value threshold for determining significance. Default alpha = 0.05.}
+
+\item{\code{mtc}}{multiple test correction method to apply. Can be: holm, hochberg, hommel, bonferroni, BH, BY, fdr or none}
+
+\item{\code{formula}}{the formula to use in the form y~...}
+}}
+
 \examples{
 D = iris_DatasetExperiment()
 M = ANOVA(formula=y~Species)

@@ -2,14 +2,15 @@
 #'
 #' Filters features by the number of NA per class
 #'
-#' @param threshold the maximum number of NA allowed per level of factor_name
-#' @param factor_name the sample_meta column name to use
+#' @slot threshold the maximum number of NA allowed per level of factor_name
+#' @slot factor_name the sample_meta column name to use
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
 #' M = filter_na_count(threshold=3,factor_name='class')
 #' M = model_apply(M,D)
 #'
+#' @param ... slots and values for the new object
 #' @export filter_na_count
 filter_na_count = function(...) {
     out=.filter_na_count()
@@ -67,6 +68,7 @@ filter_na_count = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -101,6 +103,7 @@ setMethod(f="model_train",
     }
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -108,9 +111,9 @@ setMethod(f="model_predict",
     definition=function(M,D)
     {
         flags=M$flags$flags
+
         # delete the columns
-        D$data=D$data[,!flags,drop=FALSE]
-        D$variable_meta=D$variable_meta[!flags,,drop=FALSE]
+        D=D[,!flags,drop=FALSE]
 
         M$filtered=D
         return(M)

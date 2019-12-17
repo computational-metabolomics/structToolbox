@@ -6,6 +6,9 @@
 \usage{
 plsr_residual_hist(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots a histogram of the residuals
 }

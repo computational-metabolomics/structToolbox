@@ -5,6 +5,9 @@
 \alias{permutation_test.violin-class}
 \alias{permutation_test.violin}
 \title{permutation_test.violin class}
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots the results of a permutation test as a boxplot
 }

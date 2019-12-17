@@ -6,6 +6,7 @@
 #' @import stats
 #' @import nlme
 #' @import emmeans
+#' @param ... slots and values for the new object 
 #' @export mixed_effect
 #' @examples
 #' M = mixed_effect()
@@ -32,6 +33,7 @@ mixed_effect = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

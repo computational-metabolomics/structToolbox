@@ -1,6 +1,7 @@
 #' PLSR model class
 #'
 #' Partial least squares (PLS) Regression model class. This object can be used to train/apply PLS models.
+#' @param ... slots and values for the new object 
 #' @export PLSR
 #' @examples
 #' M = PLSR()
@@ -46,6 +47,7 @@ PLSR = function(...) {
 
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -81,6 +83,7 @@ setMethod(f="model_train",
     }
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -132,6 +135,7 @@ vips<-function(object)
 #' plots the true values against the predicted values for a PLSR model_
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export plsr_prediction_plot
 #' @include PLSR_class.R
 #' @examples
@@ -152,6 +156,7 @@ plsr_prediction_plot = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -183,6 +188,7 @@ setMethod(f="chart_plot",
 #' plots a histogram of the residuals
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export plsr_residual_hist
 #' @include PLSR_class.R
 #' @examples
@@ -203,6 +209,7 @@ plsr_residual_hist = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -235,6 +242,7 @@ setMethod(f="chart_plot",
 #' distribution
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export plsr_qq_plot
 #' @include PLSR_class.R
 #' @examples
@@ -256,6 +264,7 @@ plsr_qq_plot = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -285,6 +294,7 @@ setMethod(f="chart_plot",
 #' Plots the residuals for a PLSR model
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export plsr_cook_dist
 #' @include PLSR_class.R
 #' @examples
@@ -305,6 +315,7 @@ plsr_cook_dist = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

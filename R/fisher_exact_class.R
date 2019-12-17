@@ -2,10 +2,10 @@
 #'
 #' Fisher's exact test (FET). Applies FET for all features in a DatasetExperiment.
 #'
-#' @param alpha the p-value threshold to declare a result 'significant'
-#' @param mtc multiple test correction method
-#' @param factor_name the sample_meta column to use
-#' @param factor_pred A data.frame, with a factor of predicted group labels to
+#' @slot alpha the p-value threshold to declare a result 'significant'
+#' @param Mtc multiple test correction method
+#' @slot factor_name the sample_meta column to use
+#' @slot factor_pred A data.frame, with a factor of predicted group labels to
 #' compare with factor_name. Can be a data frame with a factor of predictions
 #' for each feature.'
 #'
@@ -24,6 +24,7 @@
 #'
 #' @import struct
 #' @import stats
+#' @param ... slots and values for the new object 
 #' @export fisher_exact
 fisher_exact = function(...) {
     out=.fisher_exact()
@@ -88,6 +89,7 @@ fisher_exact = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

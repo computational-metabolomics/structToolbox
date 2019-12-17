@@ -5,8 +5,8 @@
 #' samples. Any sample not sufficiently more intense than the blank is removed.
 #' This is a wrapper for the blank filter in the PMP package.
 #'
-#' @param fold_change the threshold for filtering samples
-#' @param fraction max proportion of blanks a feature can be present in
+#' @slot fold_change the threshold for filtering samples
+#' @slot fraction max proportion of blanks a feature can be present in
 #'
 #' @templateVar paramNames c('blank_label','qc_label','factor_name')
 #' @template common_params
@@ -21,6 +21,7 @@
 #'                  qc_label='versicolor')
 #' M = model_apply(M,D)
 #'
+#' @param ... slots and values for the new object
 #' @export blank_filter
 blank_filter = function(...) {
     out=.blank_filter()
@@ -63,6 +64,7 @@ blank_filter = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -87,6 +89,7 @@ setMethod(f="model_train",
     }
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",signature=c("blank_filter","DatasetExperiment"),
@@ -98,11 +101,11 @@ setMethod(f="model_predict",signature=c("blank_filter","DatasetExperiment"),
 
         # get the flags
         flags=M$flags
-        vmeta=dobj$variable_meta
-        vmeta=vmeta[flags$blank_flags==1,,drop=FALSE]
-        dobj$variable_meta=vmeta
 
-        D$data=D$data[,flags$blank_flags==1,drop=FALSE]
+        # filter
+        D=D[,flags$blank_flags==1,drop=FALSE]
+
+        # store
         M$filtered=D
 
         return(M)
@@ -114,6 +117,7 @@ setMethod(f="model_predict",signature=c("blank_filter","DatasetExperiment"),
 #'
 #' plots a histogram of the calculated fold change for the blank filter (median blank / median sample)
 #' @import struct
+#' @param ... slots and values for the new object
 #' @export blank_filter_hist
 #' @examples
 #' C = blank_filter_hist()
@@ -133,6 +137,7 @@ blank_filter_hist = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

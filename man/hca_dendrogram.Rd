@@ -6,6 +6,9 @@
 \usage{
 hca_dendrogram(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots a dendrogram for HCA
 }

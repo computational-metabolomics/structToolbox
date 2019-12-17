@@ -3,6 +3,7 @@
 #' Principal Component Analysis (PCA) model class. This object can be used to train/apply PCA mdoels to DatasetExperiment objects.
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export PCA
 #' @examples
 #' M = PCA()
@@ -45,6 +46,7 @@ PCA = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -89,6 +91,7 @@ setMethod(f="model_train",
     }
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

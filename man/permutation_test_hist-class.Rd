@@ -5,6 +5,9 @@
 \alias{permutation_test_hist-class}
 \alias{permutation_test_hist}
 \title{permutation_test_hist class}
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots the results of a permutation test as histograms
 }

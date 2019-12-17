@@ -6,6 +6,9 @@
 \usage{
 pareto_scale(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \value{
 A STRUCT model object with methods for pareto scaling.
 }

@@ -6,6 +6,9 @@
 \usage{
 rsd_filter(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 filters features based on the relative standard deviation (RSD) for the QC samples
 }

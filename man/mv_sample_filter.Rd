@@ -6,6 +6,9 @@
 \usage{
 mv_sample_filter(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 filters samples based on the percent number of missing values
 }

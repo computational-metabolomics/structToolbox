@@ -6,6 +6,9 @@
 \usage{
 ttest(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 t-test model class. Calculate t-test for all features in a DatasetExperiment
 }

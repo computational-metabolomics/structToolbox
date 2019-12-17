@@ -1,6 +1,7 @@
 #' glog transform
 #'
 #' applies a glog transform to the input data
+#' @param ... slots and values for the new object 
 #' @export glog_transform
 #' @import pmp
 #' @examples
@@ -56,6 +57,7 @@ glog_transform = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

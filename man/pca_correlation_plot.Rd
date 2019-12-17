@@ -6,6 +6,9 @@
 \usage{
 pca_correlation_plot(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots the correlation between features and selected components.
 }

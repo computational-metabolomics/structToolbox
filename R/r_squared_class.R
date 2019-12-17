@@ -1,6 +1,7 @@
 #' Coefficient of determination class
 #'
 #' Coefficient of determination (r-squared).
+#' @param ... slots and values for the new object 
 #' @export r_squared
 #' @examples
 #' MET = r_squared()
@@ -20,6 +21,7 @@ r_squared = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template calculate
 setMethod(f="calculate",

@@ -8,16 +8,17 @@
 #' M = fold_change(factor_name='class')
 #' M = model_apply(M,D)
 #'
-#' @param alpha confidence level to use for intervals
-#' @param factor_name the sample_meta column to use
-#' @param paired TRUE or [FALSE] to account for paired samples
-#' @param sample_name the sample_meta column name to use for a paired samples
-#' @param threshold a threshold to define fold change as 'significant'.
-#' @param control_group a level of factor name to use as the control group for
+#' @slot alpha confidence level to use for intervals
+#' @slot factor_name the sample_meta column to use
+#' @slot paired TRUE or [FALSE] to account for paired samples
+#' @slot sample_name the sample_meta column name to use for a paired samples
+#' @slot threshold a threshold to define fold change as 'significant'.
+#' @slot control_group a level of factor name to use as the control group for
 #' calculations.
 #'
 #' @import struct
 #' @import stats
+#' @param ... slots and values for the new object 
 #' @export fold_change
 fold_change = function(...) {
     out=.fold_change()
@@ -91,6 +92,7 @@ fold_change = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -182,6 +184,7 @@ setMethod(f="model_apply",
 #' plots fold change
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export fold_change_plot
 #' @include PCA_class.R
 #' @examples
@@ -207,6 +210,7 @@ fold_change_plot = function(...) {
 
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

@@ -6,6 +6,9 @@
 \usage{
 HSDEM(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 HSD model class using estimate marginal means
 }

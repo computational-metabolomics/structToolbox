@@ -2,15 +2,16 @@
 #'
 #' Filters samples for paired analysis, ensuring each sample id is present in all groups.
 #'
-#' @param factor_name (character) the column name of sample_meta containing the
+#' @slot factor_name (character) the column name of sample_meta containing the
 #' labels
-#' @param sample_id (character) the column name of sample_meta containing the
+#' @slot sample_id (character) the column name of sample_meta containing the
 #' sample ids
 #'
 #' @return A STRUCT method object with functions for applying a pairs filter
 #' @examples
 #' M=pairs_filter()
 #'
+#' @param ... slots and values for the new object 
 #' @export pairs_filter
 pairs_filter = function(...) {
     out=.pairs_filter()
@@ -55,6 +56,7 @@ pairs_filter = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -64,6 +66,7 @@ setMethod(f="model_train",
         return(M)
     })
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -73,6 +76,7 @@ setMethod(f="model_apply",
         return(M)
     })
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

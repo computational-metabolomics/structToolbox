@@ -6,6 +6,7 @@
 #' 2d scatter plot of plsda component scores.
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export plsda_scores_plot
 #' @include PLSDA_class.R
 #' @examples
@@ -56,6 +57,7 @@ plsda_scores_plot = function(...) {
 
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

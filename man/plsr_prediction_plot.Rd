@@ -6,6 +6,9 @@
 \usage{
 plsr_prediction_plot(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots the true values against the predicted values for a PLSR model_
 }

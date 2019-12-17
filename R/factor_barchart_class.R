@@ -2,8 +2,8 @@
 #'
 #' Bar charts based on groupings by factor. Can plot up to three factors.
 #'
-#' @param feature_to_plot Column ID of feature to plot.
-#' @param factor_names Names(s) of factors to plot for a feature
+#' @slot feature_to_plot Column ID of feature to plot.
+#' @slot factor_names Names(s) of factors to plot for a feature
 #'
 #' @examples
 #' D = iris_DatasetExperiment()
@@ -13,6 +13,7 @@
 #' @import struct
 #' @import grid
 #' @import gridExtra
+#' @param ... slots and values for the new object 
 #' @export DatasetExperiment.factor_barchart
 #' @include HSD_class.R
 DatasetExperiment.factor_barchart = function(...) {
@@ -46,6 +47,7 @@ DatasetExperiment.factor_barchart = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

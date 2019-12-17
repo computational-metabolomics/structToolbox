@@ -2,7 +2,7 @@
 #'
 #' Plots a chart object
 #' @param obj a chart object
-#' @param dobj a struct object
+#' @param Dobj a struct object
 #' @param ... optional inputs
 #' @return a plot object
 #' @examples

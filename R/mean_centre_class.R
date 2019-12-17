@@ -1,6 +1,7 @@
 #' mean_centre model class
 #'
 #' Mean centres the columns a DatasetExperiment object
+#' @param ... slots and values for the new object 
 #' @export mean_centre
 #' @examples
 #' M = mean_centre()
@@ -32,6 +33,7 @@ mean_centre = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -55,6 +57,7 @@ setMethod(f="model_train",
     }
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -80,6 +83,7 @@ setMethod(f="model_predict",
     }
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_reverse
 setMethod(f='model_reverse',

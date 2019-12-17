@@ -5,6 +5,9 @@
 \alias{permutation_test.scatter-class}
 \alias{permutation_test.scatter}
 \title{permutation_test.scatter class}
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots the results of a permutation test as histograms
 }

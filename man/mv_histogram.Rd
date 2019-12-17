@@ -7,13 +7,19 @@
 mv_histogram(...)
 }
 \arguments{
-\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot}
-
-\item{by_sample}{[TRUE] to plot by sample or FALSE to plot by features}
+\item{...}{slots and values for the new object}
 }
 \description{
 histograms indicating the numbers of missing values per sample/feature
 }
+\section{Slots}{
+
+\describe{
+\item{\code{label_outliers}}{[TRUE] or FALSE to label outliers on the plot}
+
+\item{\code{by_sample}}{[TRUE] to plot by sample or FALSE to plot by features}
+}}
+
 \examples{
 D = sbcms_DatasetExperiment()
 C = mv_histogram(label_outliers=FALSE,by_sample=FALSE)

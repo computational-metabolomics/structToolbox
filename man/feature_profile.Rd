@@ -7,21 +7,27 @@
 feature_profile(...)
 }
 \arguments{
-\item{run_order}{the sample_meta column containing the measurement
-order of the samples}
-
-\item{qc_label}{the label used to identify QC samples}
-
-\item{qc_column}{the sample_meta column containing the QC labels}
-
-\item{colour_by}{the sample_meta column to use to colour the plot}
-
-\item{feature_to_plot}{the column id of the feature to plot}
+\item{...}{slots and values for the new object}
 }
 \description{
 Scatter plot of a feature against measurment order with limits for samples
 and quality control samples.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{run_order}}{the sample_meta column containing the measurement
+order of the samples}
+
+\item{\code{qc_label}}{the label used to identify QC samples}
+
+\item{\code{qc_column}}{the sample_meta column containing the QC labels}
+
+\item{\code{colour_by}}{the sample_meta column to use to colour the plot}
+
+\item{\code{feature_to_plot}}{the column id of the feature to plot}
+}}
+
 \examples{
 D = sbcms_DatasetExperiment()
 C = feature_profile(run_order='sample_order',

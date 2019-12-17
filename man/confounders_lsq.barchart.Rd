@@ -7,9 +7,7 @@
 confounders_lsq.barchart(...)
 }
 \arguments{
-\item{feature_to_plot}{the name or index of the feature to be plotted}
-
-\item{threshold}{the threshold to be plotted (in \%)}
+\item{...}{slots and values for the new object}
 }
 \value{
 A STRUCT chart object
@@ -17,6 +15,14 @@ A STRUCT chart object
 \description{
 plots a barchart of the percent change when including a confounding factor in a classical least squares model
 }
+\section{Slots}{
+
+\describe{
+\item{\code{feature_to_plot}}{the name or index of the feature to be plotted}
+
+\item{\code{threshold}}{the threshold to be plotted (in \%)}
+}}
+
 \examples{
 D = sbcms_DatasetExperiment()
 M = filter_by_name(mode='include',dimension='variable',

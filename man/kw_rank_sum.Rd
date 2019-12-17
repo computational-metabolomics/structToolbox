@@ -6,6 +6,9 @@
 \usage{
 kw_rank_sum(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 kruskal-wallis model class. Calculate kw-test for all features in a DatasetExperiment.
 A non-parametric 1-way ANOVA.

@@ -10,7 +10,7 @@
 #' @templateVar paramNames c('alpha','mtc','factor_names')
 #' @template common_params
 #'
-#' @param intercept [TRUE] or FALSE to include an intercept term in the fit
+#' @slot intercept [TRUE] or FALSE to include an intercept term in the fit
 #'
 #' @return A STRUCT method object with functions for applying classical least squares
 #'
@@ -19,6 +19,7 @@
 #' M = classical_lsq(factor_names = 'Species')
 #' M = model_apply(M,D)
 #'
+#' @param ... slots and values for the new object
 #' @export classical_lsq
 
 classical_lsq = function(...) {
@@ -81,6 +82,7 @@ classical_lsq = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -116,7 +118,7 @@ setMethod(f="model_apply",
             } else { # assume list
                 X=X[,M$factor_names[[n]],drop=FALSE]
             }
-            Dlm=DatasetExperiment(data=temp_y,sample_meta=X)
+            Dlm=DatasetExperiment(data=temp_y,sample_meta=X,variable_meta=colnames(temp_y))
 
             LM=model_train(LM,Dlm)
 

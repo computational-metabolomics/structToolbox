@@ -3,12 +3,12 @@
 #' Scatter plot of a feature against measurment order with limits for samples
 #' and quality control samples.
 #'
-#' @param run_order the sample_meta column containing the measurement
+#' @slot run_order the sample_meta column containing the measurement
 #' order of the samples
-#' @param qc_label the label used to identify QC samples
-#' @param qc_column the sample_meta column containing the QC labels
-#' @param colour_by the sample_meta column to use to colour the plot
-#' @param feature_to_plot the column id of the feature to plot
+#' @slot qc_label the label used to identify QC samples
+#' @slot qc_column the sample_meta column containing the QC labels
+#' @slot colour_by the sample_meta column to use to colour the plot
+#' @slot feature_to_plot the column id of the feature to plot
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
@@ -19,6 +19,7 @@
 #'     feature_to_plot=1)
 #' chart_plot(C,D)
 #'
+#' @param ... slots and values for the new object 
 #' @export feature_profile
 feature_profile = function(...) {
     out=.feature_profile()
@@ -47,6 +48,7 @@ feature_profile = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

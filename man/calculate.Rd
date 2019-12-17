@@ -17,6 +17,8 @@
 \item{Y}{the true values/group labels}
 
 \item{Yhat}{the predicted values/group labels}
+
+\item{...}{slots and values for the new object}
 }
 \value{
 a modified metric object

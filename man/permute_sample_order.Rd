@@ -6,6 +6,9 @@
 \usage{
 permute_sample_order(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 permutes the sample order a defined number of times, running the model each time
 }

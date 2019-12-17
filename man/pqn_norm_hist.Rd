@@ -6,6 +6,9 @@
 \usage{
 pqn_norm_hist(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots a histogram of the PQN coeffients
 }

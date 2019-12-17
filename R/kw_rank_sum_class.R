@@ -8,6 +8,7 @@
 #' @examples
 #' M = kw_rank_sum()
 #'
+#' @param ... slots and values for the new object 
 #' @export kw_rank_sum
 kw_rank_sum = function(...) {
     out=.kw_rank_sum()
@@ -76,6 +77,7 @@ kw_rank_sum = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -124,6 +126,7 @@ setMethod(f="model_apply",
 #' @import struct
 #' @examples
 #' C = kw_p_hist()
+#' @param ... slots and values for the new object 
 #' @export kw_p_hist
 kw_p_hist = function(...) {
     out=.kw_p_hist()
@@ -141,6 +144,7 @@ kw_p_hist = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

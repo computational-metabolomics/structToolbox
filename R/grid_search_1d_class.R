@@ -1,6 +1,7 @@
 #' grid_search_1d class
 #'
 #' carries out a grid search for a single parameter
+#' @param ... slots and values for the new object 
 #' @export grid_search_1d
 #' @examples
 #' M = grid_search_1d()
@@ -30,6 +31,7 @@ grid_search_1d = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template run
 setMethod(f="run",
@@ -127,6 +129,7 @@ setMethod(f="run",
 #' plots the result of the evaluated models for against the values of the optimisation paramter within the search range.
 #'
 #' @import struct
+#' @param ... slots and values for the new object 
 #' @export gs_line
 #' @examples
 #' C = gs_line()
@@ -146,6 +149,7 @@ gs_line = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @inherit struct::chart_plot
 #' @template chart_plot
@@ -163,7 +167,7 @@ setMethod(f="chart_plot",
             geom_point(data=A[A$values==as.numeric(opt),],aes_(x=~values,y=~mean),group=1,color='blue',shape=1,size=4) +
             ggtitle(NULL, subtitle=paste0('Suggested optimum: ',opt)) +
             theme_Publication(base_size = 12) +
-            xlab(param.name(dobj,'param_to_optimise')) +
+            xlab(param_name(dobj,'param_to_optimise')) +
             ylab(A$metric[1])
         return(out)
     }

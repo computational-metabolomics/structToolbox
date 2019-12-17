@@ -10,6 +10,7 @@
 #' M = model_train(M,D)
 #' M = model_predict(M,D)
 #'
+#' @param ... slots and values for the new object
 #' @export autoscale
 autoscale = function(...) {
     out=.autoscale()
@@ -32,6 +33,7 @@ autoscale = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -48,6 +50,7 @@ setMethod(f="model_train",
     }
 )
 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -57,7 +60,7 @@ setMethod(f="model_predict",
         X=D$data
         Xc=ascale(X,output_value(M,'mean'),output_value(M,'sd'))
         D$data=as.data.frame(Xc)
-        name(D)=c(name(D),'The data has been autoscaled')
+        D$name=c(D$name,'The data has been autoscaled')
         output_value(M,'autoscaled')=D
         return(M)
     }

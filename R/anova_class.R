@@ -18,6 +18,7 @@
 #'
 #' @include entity_objects.R
 #'
+#' @param ... slots and values for the new object 
 #' @export ANOVA
 ANOVA = function(...) {
     out=.ANOVA()
@@ -64,6 +65,7 @@ ANOVA = function(...) {
 )
 
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

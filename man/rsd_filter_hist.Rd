@@ -6,6 +6,9 @@
 \usage{
 rsd_filter_hist(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 plots a histogram of the calculated RSD for the RSD filter
 }

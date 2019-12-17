@@ -7,15 +7,7 @@
 blank_filter(...)
 }
 \arguments{
-\item{fold_change}{the threshold for filtering samples}
-
-\item{fraction}{max proportion of blanks a feature can be present in}
-
-\item{blank_label}{the label used to identify 'blank' samples}
-
-\item{qc_label}{the label used to identify 'QC' samples. If set then the median of the QC samples is used instead of all samples.}
-
-\item{factor_name}{the column name of sample_meta to use}
+\item{...}{slots and values for the new object}
 }
 \value{
 A STRUCT method object with functions for applying a blank filter
@@ -26,6 +18,20 @@ intensity of the samples is compared to the median intensity of the blank
 samples. Any sample not sufficiently more intense than the blank is removed.
 This is a wrapper for the blank filter in the PMP package.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{fold_change}}{the threshold for filtering samples}
+
+\item{\code{fraction}}{max proportion of blanks a feature can be present in}
+
+\item{\code{blank_label}}{the label used to identify 'blank' samples}
+
+\item{\code{qc_label}}{the label used to identify 'QC' samples. If set then the median of the QC samples is used instead of all samples.}
+
+\item{\code{factor_name}}{the column name of sample_meta to use}
+}}
+
 \examples{
 D = iris_DatasetExperiment()
 M = blank_filter(fold_change=2,

@@ -6,6 +6,9 @@
 \usage{
 PCA_dstat(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 line plot showing percent variance and cumulative peercent variance for the computed components.
 }

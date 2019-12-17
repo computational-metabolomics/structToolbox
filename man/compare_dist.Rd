@@ -7,12 +7,18 @@
 compare_dist(...)
 }
 \arguments{
-\item{factor_name}{the sample_meta colum to use}
+\item{...}{slots and values for the new object}
 }
 \description{
 A combination of plots to compare distributions of samples/features in two
 datasets
 }
+\section{Slots}{
+
+\describe{
+\item{\code{factor_name}}{the sample_meta colum to use}
+}}
+
 \examples{
 D1=sbcms_DatasetExperiment(filtered=FALSE)
 D2=sbcms_DatasetExperiment(filtered=TRUE)

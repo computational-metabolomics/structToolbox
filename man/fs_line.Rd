@@ -6,6 +6,9 @@
 \usage{
 fs_line(...)
 }
+\arguments{
+\item{...}{slots and values for the new object}
+}
 \description{
 Plots the result of the evaluated models against the values the number of
 features within the search range for forward_selection_by_rank objects.

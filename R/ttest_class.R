@@ -4,6 +4,7 @@
 #'
 #' @import struct
 #' @import stats
+#' @param ... slots and values for the new object 
 #' @export ttest
 #' @examples
 #' M = ttest()
@@ -94,6 +95,7 @@ ttest = function(...) {
     )
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

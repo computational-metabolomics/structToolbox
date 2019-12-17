@@ -7,13 +7,19 @@
 DatasetExperiment.factor_barchart(...)
 }
 \arguments{
-\item{feature_to_plot}{Column ID of feature to plot.}
-
-\item{factor_names}{Names(s) of factors to plot for a feature}
+\item{...}{slots and values for the new object}
 }
 \description{
 Bar charts based on groupings by factor. Can plot up to three factors.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{feature_to_plot}}{Column ID of feature to plot.}
+
+\item{\code{factor_names}}{Names(s) of factors to plot for a feature}
+}}
+
 \examples{
 D = iris_DatasetExperiment()
 C = DatasetExperiment.factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')

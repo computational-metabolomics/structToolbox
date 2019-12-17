@@ -10,14 +10,15 @@
 #'     fold_change_int(factor_name=c('class','batch'))
 #' M = model_apply(M,D)
 #'
-#' @param alpha confidence level to use for intervals
-#' @param factor_name the sample_meta column to use
-#' @param threshold a threshold to define fold change as 'significant'.
-#' @param control_group a level of factor name to use as the control group for
+#' @slot alpha confidence level to use for intervals
+#' @slot factor_name the sample_meta column to use
+#' @slot threshold a threshold to define fold change as 'significant'.
+#' @slot control_group a level of factor name to use as the control group for
 #' calculations.
 #'
 #' @import struct
 #' @import stats
+#' @param ... slots and values for the new object 
 #' @export fold_change_int
 fold_change_int = function(...) {
     out=.fold_change_int()
@@ -32,6 +33,7 @@ fold_change_int = function(...) {
     prototype = list(predicted='fold_change')
 )
 
+#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
