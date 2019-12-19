@@ -70,3 +70,43 @@ stato_definition(P)
 ## -----------------------------------------------------------------------------
 stato_summary(P)
 
+## -----------------------------------------------------------------------------
+D = iris_DatasetExperiment()
+D
+
+## -----------------------------------------------------------------------------
+M = mean_centre() + PLSDA(number_components=2,factor_name='Species')
+M
+
+## -----------------------------------------------------------------------------
+XCV = kfold_xval(folds=5,factor_name='Species')
+# change the number of folds
+XCV$folds=10
+XCV$folds
+
+## -----------------------------------------------------------------------------
+models(XCV)=M
+models(XCV)
+
+## -----------------------------------------------------------------------------
+XCV = kfold_xval(folds=5,method='venetian',factor_name='Species') * 
+      (mean_centre()+PLSDA(number_components = 2,factor_name='Species'))
+
+## -----------------------------------------------------------------------------
+XCV = run(XCV,D,balanced_accuracy())
+XCV$metric
+
+## -----------------------------------------------------------------------------
+chart_names(XCV)
+
+## ----warning=FALSE------------------------------------------------------------
+C = kfoldxcv_grid()
+chart_plot(C,XCV)[[2]] # produces multiple figures. only plot second one.
+
+## -----------------------------------------------------------------------------
+P = permute_sample_order(number_of_permutations = 10) * 
+    kfold_xval(folds=5,factor_name='Species')*
+    (mean_centre() + PLSDA(factor_name='Species',number_components=2))
+P = run(P,D,balanced_accuracy())
+P$metric
+

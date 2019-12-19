@@ -94,9 +94,7 @@ setMethod(f="run",
         for (i in searchlist)
         {
             # reduce to include only the desired number of variables
-            Xi=X[,R<=i,drop=FALSE]
-            Di=D
-            Di$data=Xi
+            Di=D[,R<=i,drop=FALSE]
             if (is(WF,'model_OR_model_seq')) {
                 perm_results=data.frame('actual'=D$sample_meta[,I$factor_name],'predicted'=D$sample_meta[,I$factor_name],'no_features'=i)
                 # train the workflow

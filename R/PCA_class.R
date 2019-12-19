@@ -3,7 +3,7 @@
 #' Principal Component Analysis (PCA) model class. This object can be used to train/apply PCA mdoels to DatasetExperiment objects.
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export PCA
 #' @examples
 #' M = PCA()
@@ -46,7 +46,7 @@ PCA = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -71,8 +71,7 @@ setMethod(f="model_train",
             varnames[i]=paste0('PC',i)
         }
         colnames(scores)=varnames
-        S=D
-        S$data=scores
+        S=DatasetExperiment(data=scores,sample_meta=D$sample_meta,variable_meta=varnames)
         output_value(M,'scores')=S
 
         P=as.data.frame(model$v)
@@ -91,7 +90,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -113,8 +112,7 @@ setMethod(f="model_predict",
         colnames(that)=varnames
 
         # convert to DatasetExperiment for preprocessing output
-        S=D
-        S$data=that
+        S=DatasetExperiment(data=that,sample_meta=D$sample_meta,variable_meta=varnames)
         output_value(M,'that')=S
 
         return(M)

@@ -1,7 +1,7 @@
 #' missing value filter (samples)
 #'
 #' filters samples based on the percent number of missing values
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export mv_sample_filter
 #' @import pmp
 #' @examples
@@ -41,7 +41,7 @@ mv_sample_filter = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -54,11 +54,10 @@ setMethod(f="model_apply",
         x=D$data
 
         filtered = filter_samples_by_mv(x,max_perc_mv=opt$mv_threshold/100,D$sample_meta[,1])
-        D$data = as.data.frame(t(filtered$df))
 
         flags<-data.frame(filtered$flags)
-        smeta<-smeta[flags$flags==1,,drop=FALSE]
-        D$sample_meta=smeta
+
+        D=D[flags$flags==1,,drop=FALSE]
 
         output_value(M,'filtered') = D
         output_value(M,'flags') = flags
@@ -67,7 +66,7 @@ setMethod(f="model_apply",
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -79,7 +78,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -96,7 +95,7 @@ setMethod(f="model_predict",
 #'
 #' plots a histogram of % missing values per sample
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export mv_sample_filter_hist
 #' @examples
 #' C = mv_sample_filter_hist()
@@ -116,7 +115,7 @@ mv_sample_filter_hist = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

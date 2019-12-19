@@ -103,8 +103,5 @@ Suggests:
  pls,
  sbcms,
  Rtsne
-Remotes: computational-metabolomics/pmp@v0.2.4,
-  computational-metabolomics/struct@master,
-  computational-metabolomics/sbcms
 VignetteBuilder: knitr
 biocViews: WorkflowStep

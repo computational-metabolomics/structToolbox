@@ -4,7 +4,7 @@
 #'
 #' @import struct
 #' @import stats
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export ttest
 #' @examples
 #' M = ttest()
@@ -95,7 +95,7 @@ ttest = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -197,7 +197,7 @@ setMethod(f="model_apply",
 
         }
 
-        output=as.data.frame(output)
+        output=as.data.frame(output,check.names=FALSE)
         temp=data.frame(row.names=CN) # make sure we get  result for all features, even if NA
         output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE,sort=FALSE)
         rownames(output)=output$Row.names

@@ -1,7 +1,7 @@
 #' filter features by fraction missing values
 #'
 #' filters features by the percent number of missing values
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export mv_feature_filter
 #' @import pmp
 #' @examples
@@ -62,7 +62,7 @@ mv_feature_filter = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -87,7 +87,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -96,7 +96,7 @@ setMethod(f="model_predict",
 
         x=D$data
         smeta=D$sample_meta
-        vmeta=dobj$variable_meta
+        vmeta=D$variable_meta
 
         flags=M$flags
 
@@ -112,14 +112,7 @@ setMethod(f="model_predict",
 
         }
 
-        nmes=rownames(flags)[IN]
-
-        vmeta=vmeta[nmes,,drop=FALSE]
-
-        x=x[,IN,drop=FALSE]
-
-        D$data = x
-        dobj$variable_meta=vmeta
+        D=D[,IN,drop=FALSE]
 
         output_value(M,'filtered') = D
         return(M)
@@ -132,7 +125,7 @@ setMethod(f="model_predict",
 #'
 #' plots a histogram of % missing values per sample
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export mv_feature_filter_hist
 #' @examples
 #' C = mv_feature_filter_hist()
@@ -152,7 +145,7 @@ mv_feature_filter_hist = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

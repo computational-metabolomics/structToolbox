@@ -6,7 +6,6 @@ author:
 output:
   BiocStyle::html_document:
     toc_float: true
-  BiocStyle::pdf_document:
 package: structToolbox
 abstract: Introduction to model objects
 vignette: >
@@ -25,7 +24,7 @@ library(gridExtra)
 
 </br></br>
 
-# Introduction
+# Using `struct` model objects
 PCA (Principal Component Analysis) is a commonly applied method for exploring multivariate datasets. We will use the iris DatasetExperiment as an example, which is included in the package and already prepared as a DatasetExperiment object.
 
 ```{r}
@@ -35,7 +34,7 @@ head(D$data)
  
 </br></br>
 
-# PCA model
+## PCA model
 Before we apply PCA we first need to create a PCA object. This object contains all the inputs, outputs and methods needed to apply PCA. We can set parameters such as the number of components when the PCA model is created, but we can also use dollar notation to change/view it later. 
 
 ```{r}
@@ -51,7 +50,7 @@ param_ids(P)
 ```
 </br></br>
 
-# Model sequences
+## Model sequences
 Unless you have very good reason not to, it is usally sensible to mean centre the columns of the data before PCA. Using the `STRUCT` framework we can create a model sequence that will mean centre and then apply PCA to the mean centred data.
 
 ```{r}
@@ -65,7 +64,7 @@ M[2]$number_components
 ```
 </br></br>
 
-# Training/testing models
+## Training/testing models
 Model and model_sequence objects need to be trained using a training DatasetExperiment.
 
 ```{r}
@@ -86,7 +85,7 @@ M[2]$scores
 ```
 </br></br>
 
-# Model charts
+## Model charts
 The struct framework includes charts. Charts associated with a model object can be listed.
 
 ```{r}
@@ -121,7 +120,7 @@ grid.arrange(grobs=list(g1,g2),nrow=1)
 ```
 </br></br>
 
-# STATO Integration
+## STATO Integration
 Some model objects are also STATO objects. STATO is a general purpose statistics ontology (http://stato-ontology.org/). In the `STRUCT` framework we use it to provide standarded definitions for objects. The PCA model object is also a STATO object.
 
 ```{r}
@@ -145,6 +144,78 @@ This information is more succinctly displayed using `stato_summary`. This method
 
 ```{r}
 stato_summary(P)
+```
+
+# Validating models
+Validation is an important aspect of chemometric modelling. The `STRUCT` framework enables this kind of iterative model testing through `iterator` objects. In order to demonstrate this we will first load the iris data set, which as been pre-prepared as a DatasetExperiment object as part of the `STRUCT` package.
+
+```{r}
+D = iris_DatasetExperiment()
+D
+```
+
+</br></br>
+
+## Cross-validation
+Cross validation is a common technique for assessing the performance of classification models. For this example we will use a PLSDA model_ Data should be mean centred prior to PLS, so we will build a model sequence first.
+
+```{r}
+M = mean_centre() + PLSDA(number_components=2,factor_name='Species')
+M
+```
+
+Iterators objects like the k-fold cross-validation object can be created just like any other struct object. Parameters can be set at creation =, and accessed/changed later using dollar notation.
+
+```{r}
+XCV = kfold_xval(folds=5,factor_name='Species')
+# change the number of folds
+XCV$folds=10
+XCV$folds
+```
+
+The model to be cross-validated can be set/accessed used the `models` method.
+
+```{r}
+models(XCV)=M
+models(XCV)
+```
+
+Alternatively,  iterators can be combined with models using the multiplication symbol:
+```{r}
+XCV = kfold_xval(folds=5,method='venetian',factor_name='Species') * 
+      (mean_centre()+PLSDA(number_components = 2,factor_name='Species'))
+```
+
+The `run` method can be used with any iterator object. The iterator will then run the model sequence multiple times. In our case we will run cross-validation 5 times splitting the data into different training and test sets each time. The `run` method also needs a `metric` to be specified. This metric may be calculated once after all iterations, or after each iteration, depending on the iterator type (resampling, permutation etc). For cross-validation we will calculate balanced accuracy after all iterations.
+
+```{r}
+XCV = run(XCV,D,balanced_accuracy())
+XCV$metric
+```
+
+</br></br>
+
+Like other `STRUCT` objects, iterators can have chart objects associated with them. The `chart_names` function will list them for an object.
+
+```{r}
+chart_names(XCV)
+```
+
+Charts for iterator objects can be plotted in the same way as charts for any other object.
+
+```{r,warning=FALSE}
+C = kfoldxcv_grid()
+chart_plot(C,XCV)[[2]] # produces multiple figures. only plot second one.
+```
+
+It is possible to combine multiple iterators by multiplying them together. This is equivalent to nesting one iterator inside the other. For example, we can repeat our cross-validation multiple times by permuting the sample order.
+
+```{r}
+P = permute_sample_order(number_of_permutations = 10) * 
+    kfold_xval(folds=5,factor_name='Species')*
+    (mean_centre() + PLSDA(factor_name='Species',number_components=2))
+P = run(P,D,balanced_accuracy())
+P$metric
 ```
 
 

@@ -8,8 +8,6 @@ fisher_exact(...)
 }
 \arguments{
 \item{...}{slots and values for the new object}
-
-\item{Mtc}{multiple test correction method}
 }
 \description{
 Fisher's exact test (FET). Applies FET for all features in a DatasetExperiment.
@@ -18,6 +16,8 @@ Fisher's exact test (FET). Applies FET for all features in a DatasetExperiment.
 
 \describe{
 \item{\code{alpha}}{the p-value threshold to declare a result 'significant'}
+
+\item{\code{mtc}}{multiple test correction method}
 
 \item{\code{factor_name}}{the sample_meta column to use}
 

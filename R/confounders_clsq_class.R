@@ -6,7 +6,7 @@
 #' @import struct
 #'
 #' @slot alpha p-value threshold for determining significance. Default alpha = 0.05.
-#' @param Mtc multiple test correction method to apply. Can be: holm, hochberg,
+#' @slot mtc multiple test correction method to apply. Can be: holm, hochberg,
 #' hommel, bonferroni, BH, BY, fdr or [none]
 #' @slot factor_name the column name of sample_meta to use in regression
 #' @slot confounding_factors the column names of factors potentially confounding
@@ -25,7 +25,7 @@
 #'         confounding_factors=c('sample_order','batch'))
 #' M = model_apply(M,D)
 #'
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export confounders_clsq
 confounders_clsq = function(...) {
     out=.confounders_clsq()
@@ -88,7 +88,7 @@ confounders_clsq = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -191,7 +191,7 @@ setMethod(f="model_apply",
 #' C = C=confounders_lsq.barchart(feature_to_plot=1,threshold=15)
 #' chart_plot(C,M[3])
 #'
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export confounders_lsq.barchart
 confounders_lsq.barchart = function(...) {
     out=.confounders_lsq.barchart()
@@ -224,7 +224,7 @@ confounders_lsq.barchart = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -276,7 +276,7 @@ setMethod(f="chart_plot",
 #' C = C=confounders_lsq.boxplot(threshold=15)
 #' chart_plot(C,M[3])
 #'
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export confounders_lsq.boxplot
 confounders_lsq.boxplot = function(...) {
     out=.confounders_lsq.boxplot()
@@ -303,7 +303,7 @@ confounders_lsq.boxplot = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

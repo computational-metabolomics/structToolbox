@@ -28,7 +28,7 @@ calculations.}
 
 \examples{
 D = sbcms_DatasetExperiment()
-D$data=D$data[,1:10,drop=FALSE]
+D=D[,1:10,drop=FALSE]
 M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
     fold_change_int(factor_name=c('class','batch'))
 M = model_apply(M,D)

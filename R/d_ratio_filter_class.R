@@ -16,7 +16,7 @@
 #' M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
 #' M = model_apply(M,D)
 #'
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export dratio_filter
 dratio_filter = function(...) {
     out=.dratio_filter()
@@ -69,7 +69,7 @@ dratio_filter = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -99,7 +99,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -109,8 +109,7 @@ setMethod(f="model_predict",
         # get flags
         OUT=M$flags$rejected
         # remove flagged
-        D$data=D$data[,-OUT]
-        D$variable_meta=D$variable_meta[,-OUT]
+        D=D[,-OUT]
         # store
         M$filtered=D
 

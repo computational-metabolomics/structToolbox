@@ -8,9 +8,6 @@ confounders_clsq(...)
 }
 \arguments{
 \item{...}{slots and values for the new object}
-
-\item{Mtc}{multiple test correction method to apply. Can be: holm, hochberg,
-hommel, bonferroni, BH, BY, fdr or [none]}
 }
 \value{
 A STRUCT method object with functions for applying classical least squares
@@ -23,6 +20,9 @@ to models with confounding factor included. Currently only ttest is supported.
 
 \describe{
 \item{\code{alpha}}{p-value threshold for determining significance. Default alpha = 0.05.}
+
+\item{\code{mtc}}{multiple test correction method to apply. Can be: holm, hochberg,
+hommel, bonferroni, BH, BY, fdr or [none]}
 
 \item{\code{factor_name}}{the column name of sample_meta to use in regression}
 

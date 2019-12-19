@@ -1,7 +1,7 @@
 #' rsd filter
 #'
 #' filters features based on the relative standard deviation (RSD) for the QC samples
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export rsd_filter
 #' @import pmp
 #' @examples
@@ -56,7 +56,7 @@ rsd_filter = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -70,9 +70,9 @@ setMethod(f="model_apply",
         D$data = as.data.frame(t(rsd_filtered$df))
 
         flags<-data.frame(rsd_filtered$flags)
-        vmeta=dobj$variable_meta
+        vmeta=D$variable_meta
         vmeta=vmeta[flags[,2]==1,,drop=FALSE]
-        dobj$variable_meta=vmeta
+        D$variable_meta=vmeta
 
         output_value(M,'filtered') = D
         output_value(M,'flags') = data.frame(rsd_filtered$flags,stringsAsFactors = F)
@@ -86,7 +86,7 @@ setMethod(f="model_apply",
 #'
 #' plots a histogram of the calculated RSD for the RSD filter
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export rsd_filter_hist
 #' @examples
 #' C = rsd_filter_hist()
@@ -107,7 +107,7 @@ rsd_filter_hist = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

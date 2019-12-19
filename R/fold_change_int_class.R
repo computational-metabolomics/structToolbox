@@ -5,7 +5,7 @@
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
-#' D$data=D$data[,1:10,drop=FALSE]
+#' D=D[,1:10,drop=FALSE]
 #' M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
 #'     fold_change_int(factor_name=c('class','batch'))
 #' M = model_apply(M,D)
@@ -18,7 +18,7 @@
 #'
 #' @import struct
 #' @import stats
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export fold_change_int
 fold_change_int = function(...) {
     out=.fold_change_int()
@@ -33,7 +33,7 @@ fold_change_int = function(...) {
     prototype = list(predicted='fold_change')
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

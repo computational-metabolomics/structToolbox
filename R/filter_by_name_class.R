@@ -14,7 +14,7 @@
 #' M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
 #' M = model_apply(M,D)
 #'
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export filter_by_name
 filter_by_name = function(...) {
     out=.filter_by_name()
@@ -50,7 +50,7 @@ filter_by_name = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -75,46 +75,42 @@ setMethod(f="model_apply",
 
             if (opt$mode=='include') {
                 smeta=smeta[IN,,drop=FALSE]
-                x=x[IN,,drop=FALSE]
+                D=D[IN,,drop=FALSE]
             } else if (opt$mode=='exclude') {
                 smeta=smeta[!IN,,drop=FALSE]
-                x=x[!IN,,drop=FALSE]
+                D=D[!IN,,drop=FALSE]
             }
-            D$data=x
-            D$sample_meta=smeta
+
         } else if (opt$dimension=='variable') {
-            vmeta=dobj$variable_meta
+            vmeta=D$variable_meta
 
             if (is.logical(opt$names)) {
-
+                # TRUE or FALSE provided so use as is
                 IN = opt$names
-                INx = opt$names
-
             } else if (is.numeric(opt$names)) {
+                # numeric provided to assume column indices
                 IN = (1:ncol(D$data)) %in% opt$names
-                INx = (1:ncol(D$data)) %in% opt$names
             } else {
+                # character so assume column names
                 IN=rownames(vmeta) %in% opt$names
-                INx=colnames(x) %in% opt$names
             }
 
 
             if (opt$mode=='include') {
                 vmeta=vmeta[IN,,drop=FALSE]
-                x=x[ ,INx,drop=FALSE]
+                D=D[ ,IN,drop=FALSE]
             } else if (opt$mode=='exclude') {
                 vmeta=vmeta[!IN,,drop=FALSE]
-                x=x[,!INx,drop=FALSE]
+                D=D[,!IN,drop=FALSE]
             }
-            D$data=x
-            dobj$variable_meta=vmeta
+
         }
         output_value(M,'filtered')=D
         return(M)
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -125,7 +121,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
