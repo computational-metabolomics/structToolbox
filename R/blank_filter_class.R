@@ -22,6 +22,7 @@
 #' M = model_apply(M,D)
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export blank_filter
 blank_filter = function(...) {
     out=.blank_filter()
@@ -118,6 +119,7 @@ setMethod(f="model_predict",signature=c("blank_filter","DatasetExperiment"),
 #' plots a histogram of the calculated fold change for the blank filter (median blank / median sample)
 #' @import struct
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export blank_filter_hist
 #' @examples
 #' C = blank_filter_hist()

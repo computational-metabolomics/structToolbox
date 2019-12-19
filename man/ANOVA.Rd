@@ -10,7 +10,7 @@ ANOVA(...)
 \item{...}{slots and values for the new object}
 }
 \value{
-A struct method object with functions for applying ANOVA
+struct object
 }
 \description{
 Applies ANOVA to each feature in a DatasetExperiment object.

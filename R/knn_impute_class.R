@@ -2,6 +2,7 @@
 #'
 #' applies a k-nearest neighbour approach to impute missing values
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export knn_impute
 #' @import pmp
 #' @examples

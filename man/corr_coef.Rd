@@ -9,6 +9,9 @@ corr_coef(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 correlation model class. Calculate correlation between features and continuous variables
 }

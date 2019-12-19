@@ -2,6 +2,7 @@
 #'
 #' Splits the data into a training and test set
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export split_data
 #' @examples
 #' M = split_data()

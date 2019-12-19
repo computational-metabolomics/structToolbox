@@ -7,6 +7,7 @@
 #' @import agricolae
 #' @include anova_class.R
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export HSD
 #' @examples
 #' M = HSD()

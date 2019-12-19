@@ -17,6 +17,7 @@
 #' M = model_apply(M,D)
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export dratio_filter
 dratio_filter = function(...) {
     out=.dratio_filter()

@@ -7,6 +7,7 @@
 #' @import nlme
 #' @import emmeans
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export mixed_effect
 #' @examples
 #' M = mixed_effect()

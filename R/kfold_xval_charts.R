@@ -4,6 +4,7 @@
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export kfoldxcv_grid
 #' @include kfold_xval_class.R
 #' @examples
@@ -100,6 +101,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export kfoldxcv_metric
 #' @include kfold_xval_class.R
 #' @examples

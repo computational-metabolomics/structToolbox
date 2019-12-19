@@ -9,6 +9,9 @@ compare_dist(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 A combination of plots to compare distributions of samples/features in two
 datasets

@@ -2,6 +2,7 @@
 #'
 #' Partial least squares (PLS) fold change estimates
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export PLSFC
 #' @include fold_change_class.R
 #' @examples

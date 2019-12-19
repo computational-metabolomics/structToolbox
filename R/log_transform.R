@@ -2,6 +2,7 @@
 #'
 #' applies a log transform to the input data
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export log_transform
 #' @examples
 #' M = log_transform()

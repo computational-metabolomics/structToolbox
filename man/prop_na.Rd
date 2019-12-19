@@ -9,6 +9,9 @@ prop_na(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 prop_na Compares proportion of NA for all features in a DatasetExperiment
 }

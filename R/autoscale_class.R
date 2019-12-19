@@ -11,6 +11,7 @@
 #' M = model_predict(M,D)
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export autoscale
 autoscale = function(...) {
     out=.autoscale()

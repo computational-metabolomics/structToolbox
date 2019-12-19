@@ -2,6 +2,7 @@
 #'
 #' applies vector normalisation
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export vec_norm
 #' @import pmp
 #' @examples

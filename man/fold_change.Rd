@@ -9,6 +9,9 @@ fold_change(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Calculates fold change between groups for all features in a DatasetExperiment, based on
 a log transform and t-test.

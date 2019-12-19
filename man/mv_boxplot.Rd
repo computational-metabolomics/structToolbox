@@ -9,6 +9,9 @@ mv_boxplot(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Boxplot of the numbers of missing values per sample/feature
 }

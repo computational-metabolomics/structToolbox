@@ -9,6 +9,9 @@ plsda_scores_plot(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 2d scatter plot of plsda component scores.
 }

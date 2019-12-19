@@ -8,6 +8,7 @@
 #' M = corr_coef()
 #'
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export corr_coef
 corr_coef = function(...) {
     out=.corr_coef()

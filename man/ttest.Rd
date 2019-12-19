@@ -9,6 +9,9 @@ ttest(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 t-test model class. Calculate t-test for all features in a DatasetExperiment
 }

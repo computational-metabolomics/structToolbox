@@ -12,6 +12,8 @@ sbcms_DatasetExperiment(filtered = FALSE)
 \item{...}{slots and values for the new object}
 }
 \value{
+struct object
+
 DatasetExperiment object
 }
 \description{

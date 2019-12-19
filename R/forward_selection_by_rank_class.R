@@ -33,6 +33,7 @@
 #' M = run(M,D,balanced_accuracy())
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export forward_selection_byrank
 forward_selection_byrank = function(...) {
     out=.forward_selection_byrank()
@@ -209,6 +210,7 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
 #'
 #' @import struct
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export fs_line
 #' @examples
 #' # some data

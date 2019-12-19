@@ -9,6 +9,9 @@ filter_smeta(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 A filter to subset a DatasetExperiment object based on sample meta data.
 }

@@ -11,6 +11,8 @@ classical_lsq(...)
 }
 \value{
 A STRUCT method object with functions for applying classical least squares
+
+struct object
 }
 \description{
 Classical least squares, where y is the response and X is the design matrix,

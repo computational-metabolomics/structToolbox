@@ -5,6 +5,7 @@
 #' @import struct
 #' @import stats
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export ttest
 #' @examples
 #' M = ttest()

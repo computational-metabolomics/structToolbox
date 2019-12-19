@@ -9,6 +9,9 @@ mv_feature_filter(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 filters features by the percent number of missing values
 }

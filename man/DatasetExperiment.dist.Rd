@@ -9,6 +9,9 @@ DatasetExperiment.dist(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Visualise distributions of values in features/samples.
 }

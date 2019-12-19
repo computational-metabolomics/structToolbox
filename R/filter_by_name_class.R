@@ -15,6 +15,7 @@
 #' M = model_apply(M,D)
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export filter_by_name
 filter_by_name = function(...) {
     out=.filter_by_name()

@@ -20,6 +20,7 @@
 #' chart_plot(C,D)
 #'
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export feature_profile
 feature_profile = function(...) {
     out=.feature_profile()

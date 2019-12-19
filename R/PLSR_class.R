@@ -2,6 +2,7 @@
 #'
 #' Partial least squares (PLS) Regression model class. This object can be used to train/apply PLS models.
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export PLSR
 #' @examples
 #' M = PLSR()
@@ -136,6 +137,7 @@ vips<-function(object)
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export plsr_prediction_plot
 #' @include PLSR_class.R
 #' @examples
@@ -189,6 +191,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export plsr_residual_hist
 #' @include PLSR_class.R
 #' @examples
@@ -243,6 +246,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export plsr_qq_plot
 #' @include PLSR_class.R
 #' @examples
@@ -295,6 +299,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export plsr_cook_dist
 #' @include PLSR_class.R
 #' @examples

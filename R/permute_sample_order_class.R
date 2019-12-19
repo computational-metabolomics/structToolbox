@@ -4,6 +4,7 @@
 #' @examples
 #' C = permute_sample_order()
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export permute_sample_order
 permute_sample_order = function(...) {
     out=.permute_sample_order()

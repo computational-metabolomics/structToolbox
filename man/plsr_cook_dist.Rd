@@ -9,6 +9,9 @@ plsr_cook_dist(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Plots the residuals for a PLSR model
 }

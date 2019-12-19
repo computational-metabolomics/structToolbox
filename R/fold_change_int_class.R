@@ -19,6 +19,7 @@
 #' @import struct
 #' @import stats
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export fold_change_int
 fold_change_int = function(...) {
     out=.fold_change_int()

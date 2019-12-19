@@ -4,6 +4,7 @@
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export linear_model
 #' @examples
 #' M = linear_model()

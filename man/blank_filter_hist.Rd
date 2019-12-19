@@ -9,6 +9,9 @@ blank_filter_hist(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 plots a histogram of the calculated fold change for the blank filter (median blank / median sample)
 }

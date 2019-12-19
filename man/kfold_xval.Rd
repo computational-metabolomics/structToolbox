@@ -9,6 +9,9 @@ kfold_xval(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Applies k-fold crossvalidation to a model or model_seq()
 }

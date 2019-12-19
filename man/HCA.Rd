@@ -9,6 +9,9 @@ HCA(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 HCA method class. Calculate a hierarchical clustering for the input data
 }

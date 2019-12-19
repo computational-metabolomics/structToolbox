@@ -9,6 +9,9 @@ filter_by_name(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 a filter to subsample a DatasetExperiment object based on sample or feature labels.
 }

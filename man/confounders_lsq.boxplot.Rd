@@ -11,6 +11,8 @@ confounders_lsq.boxplot(...)
 }
 \value{
 A STRUCT chart object
+
+struct object
 }
 \description{
 Plots a boxplot of the percent change over all features when including a

@@ -11,6 +11,8 @@ dratio_filter(...)
 }
 \value{
 A struct method object with functions for filtering using the d-ratio.
+
+struct object
 }
 \description{
 Filters features based on their D ratio, which is the ratio of technical to

@@ -26,6 +26,7 @@
 #' M = model_apply(M,D)
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export confounders_clsq
 confounders_clsq = function(...) {
     out=.confounders_clsq()
@@ -192,6 +193,7 @@ setMethod(f="model_apply",
 #' chart_plot(C,M[3])
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export confounders_lsq.barchart
 confounders_lsq.barchart = function(...) {
     out=.confounders_lsq.barchart()
@@ -277,6 +279,7 @@ setMethod(f="chart_plot",
 #' chart_plot(C,M[3])
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export confounders_lsq.boxplot
 confounders_lsq.boxplot = function(...) {
     out=.confounders_lsq.boxplot()

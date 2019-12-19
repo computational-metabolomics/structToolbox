@@ -9,6 +9,9 @@ PLSR(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Partial least squares (PLS) Regression model class. This object can be used to train/apply PLS models.
 }

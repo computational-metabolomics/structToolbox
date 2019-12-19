@@ -14,6 +14,7 @@
 #' @import grid
 #' @import gridExtra
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export DatasetExperiment.factor_barchart
 #' @include HSD_class.R
 DatasetExperiment.factor_barchart = function(...) {

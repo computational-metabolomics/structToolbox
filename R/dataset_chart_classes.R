@@ -16,6 +16,7 @@
 #' chart_plot(C,D)
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export feature_boxplot
 feature_boxplot = function(...) {
     out=.feature_boxplot()
@@ -154,6 +155,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export mv_histogram
 mv_histogram = function(...) {
     out=.mv_histogram()
@@ -243,6 +245,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export mv_boxplot
 mv_boxplot = function(...) {
     out=.mv_boxplot()
@@ -400,6 +403,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export DatasetExperiment.dist
 DatasetExperiment.dist = function(...) {
     out=.DatasetExperiment.dist()
@@ -489,6 +493,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export DatasetExperiment.boxplot
 DatasetExperiment.boxplot = function(...) {
     out=.DatasetExperiment.boxplot()
@@ -601,6 +606,7 @@ setMethod(f="chart_plot",
 #' chart_plot(C,D1,D2)
 #' @import struct
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export compare_dist
 compare_dist = function(...) {
     out=.compare_dist()
@@ -711,6 +717,7 @@ setMethod(f="chart_plot",
 #' @import struct
 #' @import reshape2
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export DatasetExperiment.heatmap
 #' @examples
 #' C = DatasetExperiment.heatmap()

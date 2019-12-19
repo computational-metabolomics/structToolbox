@@ -7,6 +7,7 @@
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export plsda_scores_plot
 #' @include PLSDA_class.R
 #' @examples

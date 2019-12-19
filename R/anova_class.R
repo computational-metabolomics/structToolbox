@@ -9,8 +9,6 @@
 #' @templateVar paramNames c('alpha','mtc','formula')
 #' @template common_params
 #'
-#' @return A struct method object with functions for applying ANOVA
-#'
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = ANOVA(formula=y~Species)
@@ -18,7 +16,8 @@
 #'
 #' @include entity_objects.R
 #'
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
+#' @return struct object
 #' @export ANOVA
 ANOVA = function(...) {
     out=.ANOVA()
@@ -65,7 +64,7 @@ ANOVA = function(...) {
 )
 
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

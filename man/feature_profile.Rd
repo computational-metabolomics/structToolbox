@@ -9,6 +9,9 @@ feature_profile(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Scatter plot of a feature against measurment order with limits for samples
 and quality control samples.

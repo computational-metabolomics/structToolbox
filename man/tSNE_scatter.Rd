@@ -9,6 +9,9 @@ tSNE_scatter(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 plots the new representation of data after applying tSNE
 }

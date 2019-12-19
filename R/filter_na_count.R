@@ -11,6 +11,7 @@
 #' M = model_apply(M,D)
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export filter_na_count
 filter_na_count = function(...) {
     out=.filter_na_count()

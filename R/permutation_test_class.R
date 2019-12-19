@@ -5,6 +5,7 @@
 #' I=permutation_test()
 #'
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export permutation_test
 permutation_test = function(...) {
     out=.permutation_test()
@@ -135,6 +136,7 @@ setMethod(f="run",
 #' @examples
 #' C = permutation_test.boxplot()
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export permutation_test.boxplot
 permutation_test.boxplot<-setClass(
     "permutation_test.boxplot",
@@ -172,6 +174,7 @@ setMethod(f="chart_plot",
 #' @examples
 #' C = permutation_test.violin()
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export permutation_test.violin
 permutation_test.violin<-setClass(
     "permutation_test.violin",
@@ -209,6 +212,7 @@ setMethod(f="chart_plot",
 #' @examples
 #' C = permutation_test_hist()
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export permutation_test_hist
 permutation_test_hist<-setClass(
     "permutation_test_hist",
@@ -245,6 +249,7 @@ setMethod(f="chart_plot",
 #' @examples
 #' C = permutation_test.scatter()
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export permutation_test.scatter
 permutation_test.scatter<-setClass(
     "permutation_test.scatter",

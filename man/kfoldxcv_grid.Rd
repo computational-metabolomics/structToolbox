@@ -9,6 +9,9 @@ kfoldxcv_grid(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 plot of cross validation results
 }

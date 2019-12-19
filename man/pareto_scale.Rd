@@ -11,6 +11,8 @@ pareto_scale(...)
 }
 \value{
 A STRUCT model object with methods for pareto scaling.
+
+struct object
 }
 \description{
 Pareto scaling centres the columns of the data in a DatasetExperiment object and divides by the square root of the standard deviation.

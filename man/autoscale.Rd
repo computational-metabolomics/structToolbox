@@ -11,6 +11,8 @@ autoscale(...)
 }
 \value{
 A STRUCT model object with methods for autoscaling.
+
+struct object
 }
 \description{
 Autoscaling centres the columns of the data in a DatasetExperiment object and divides by the standard deviation.

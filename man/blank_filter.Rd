@@ -11,6 +11,8 @@ blank_filter(...)
 }
 \value{
 A STRUCT method object with functions for applying a blank filter
+
+struct object
 }
 \description{
 Filters features based on the features present in blank samples. The median

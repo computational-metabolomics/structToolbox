@@ -5,6 +5,7 @@
 #' I=bootstrap()
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export bootstrap
 bootstrap = function(...) {
     out=.bootstrap()

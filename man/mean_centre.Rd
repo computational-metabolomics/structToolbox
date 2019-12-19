@@ -9,6 +9,9 @@ mean_centre(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Mean centres the columns a DatasetExperiment object
 }

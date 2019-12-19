@@ -9,6 +9,9 @@ DatasetExperiment.factor_barchart(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Bar charts based on groupings by factor. Can plot up to three factors.
 }

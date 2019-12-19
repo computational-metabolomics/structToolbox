@@ -11,6 +11,8 @@ confounders_lsq.barchart(...)
 }
 \value{
 A STRUCT chart object
+
+struct object
 }
 \description{
 plots a barchart of the percent change when including a confounding factor in a classical least squares model

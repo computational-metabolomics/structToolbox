@@ -9,6 +9,9 @@ knn_impute(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 applies a k-nearest neighbour approach to impute missing values
 }

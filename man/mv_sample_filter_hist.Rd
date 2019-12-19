@@ -9,6 +9,9 @@ mv_sample_filter_hist(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 plots a histogram of % missing values per sample
 }

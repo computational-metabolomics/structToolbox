@@ -5,6 +5,7 @@
 #' @import struct
 #' @import stats
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export prop_na
 #' @examples
 #' M = prop_na()

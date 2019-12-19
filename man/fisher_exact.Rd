@@ -9,6 +9,9 @@ fisher_exact(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Fisher's exact test (FET). Applies FET for all features in a DatasetExperiment.
 }

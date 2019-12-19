@@ -2,6 +2,7 @@
 #'
 #' applies a glog transform to the input data
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export glog_transform
 #' @import pmp
 #' @examples

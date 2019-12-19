@@ -9,6 +9,9 @@ split_data(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Splits the data into a training and test set
 }

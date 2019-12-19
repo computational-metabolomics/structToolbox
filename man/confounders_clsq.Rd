@@ -11,6 +11,8 @@ confounders_clsq(...)
 }
 \value{
 A STRUCT method object with functions for applying classical least squares
+
+struct object
 }
 \description{
 Compares the coefficients for a ttest without including confounding factors

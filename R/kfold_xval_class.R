@@ -2,6 +2,7 @@
 #'
 #' Applies k-fold crossvalidation to a model or model_seq()
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export kfold_xval
 #' @examples
 #' I = kfold_xval()

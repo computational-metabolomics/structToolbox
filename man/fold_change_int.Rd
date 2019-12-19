@@ -9,6 +9,9 @@ fold_change_int(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Calculates fold change between groups for interactions between levels of
 factors. Note that paired forced to FALSE for all comparisons.

@@ -9,6 +9,9 @@ HSDEM(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 HSD model class using estimate marginal means
 }

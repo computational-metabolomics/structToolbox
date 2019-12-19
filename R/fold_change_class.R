@@ -19,6 +19,7 @@
 #' @import struct
 #' @import stats
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export fold_change
 fold_change = function(...) {
     out=.fold_change()
@@ -185,6 +186,7 @@ setMethod(f="model_apply",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export fold_change_plot
 #' @include PCA_class.R
 #' @examples

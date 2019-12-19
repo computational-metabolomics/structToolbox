@@ -8,6 +8,9 @@
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 plots the results of a permutation test as a boxplot
 }

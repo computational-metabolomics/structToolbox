@@ -9,6 +9,9 @@ hca_dendrogram(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 plots a dendrogram for HCA
 }

@@ -9,6 +9,9 @@ gs_line(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 plots the result of the evaluated models for against the values of the optimisation paramter within the search range.
 }

@@ -8,6 +8,7 @@
 #' @import nlme
 #' @include mixed_effect_class.R HSD_class.R
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export HSDEM
 #' @examples
 #' M = HSDEM()

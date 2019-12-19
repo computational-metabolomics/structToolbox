@@ -2,6 +2,7 @@
 #'
 #' Mean centres the columns a DatasetExperiment object
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export mean_centre
 #' @examples
 #' M = mean_centre()

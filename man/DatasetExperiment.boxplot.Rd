@@ -9,6 +9,9 @@ DatasetExperiment.boxplot(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Boxplot of values per sample/feature in a DatasetExperiment
 }

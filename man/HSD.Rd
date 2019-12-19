@@ -9,6 +9,9 @@ HSD(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 HSD model class. Tukey's honest significant difference for ANOVA objects
 }

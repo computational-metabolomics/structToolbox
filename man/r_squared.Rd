@@ -9,6 +9,9 @@ r_squared(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Coefficient of determination (r-squared).
 }

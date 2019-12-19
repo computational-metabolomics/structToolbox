@@ -12,6 +12,7 @@
 #' M=pairs_filter()
 #'
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export pairs_filter
 pairs_filter = function(...) {
     out=.pairs_filter()

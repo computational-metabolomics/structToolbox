@@ -9,6 +9,9 @@ pqn_norm_hist(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 plots a histogram of the PQN coeffients
 }

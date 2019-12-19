@@ -11,6 +11,8 @@ balanced_accuracy(...)
 }
 \value{
 A metric object with methods for calculating balanced accuracy.
+
+struct object
 }
 \description{
 Balanced accuracy is the average of the true positive rate and false positive

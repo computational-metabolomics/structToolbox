@@ -9,6 +9,9 @@ filter_na_count(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Filters features by the number of NA per class
 }

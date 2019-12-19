@@ -9,6 +9,9 @@ wilcox_test(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 wilcoxon signed rank test. Calculate signed rank test for all features in a
 DatasetExperiment. Non-parametric ttest.

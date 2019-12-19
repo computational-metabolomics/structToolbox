@@ -9,6 +9,9 @@ forward_selection_byrank(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 Forward selection by rank is a stepwise procedures that includes features
 incrementally based on their rank. Any measure for ranking the features may

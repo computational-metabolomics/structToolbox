@@ -4,6 +4,7 @@
 #'
 #' @import struct
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export PCA
 #' @examples
 #' M = PCA()

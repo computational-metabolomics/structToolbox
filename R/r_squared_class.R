@@ -2,6 +2,7 @@
 #'
 #' Coefficient of determination (r-squared).
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export r_squared
 #' @examples
 #' MET = r_squared()

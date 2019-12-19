@@ -13,6 +13,7 @@
 #' M = model_apply(M,D)
 #'
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export filter_smeta
 filter_smeta = function(...) {
     out=.filter_smeta()

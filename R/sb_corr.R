@@ -2,6 +2,7 @@
 #'
 #' Signal/batch correction using SMCBMS package
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export sb_corr
 #' @examples
 #' M = sb_corr()

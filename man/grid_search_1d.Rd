@@ -9,6 +9,9 @@ grid_search_1d(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 carries out a grid search for a single parameter
 }

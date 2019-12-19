@@ -25,6 +25,7 @@
 #' @import struct
 #' @import stats
 #' @param ... slots and values for the new object
+#' @return struct object
 #' @export fisher_exact
 fisher_exact = function(...) {
     out=.fisher_exact()

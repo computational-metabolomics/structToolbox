@@ -9,6 +9,9 @@ log_transform(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 applies a log transform to the input data
 }

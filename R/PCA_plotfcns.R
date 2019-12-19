@@ -4,6 +4,7 @@
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export pca_correlation_plot
 #' @include PCA_class.R
 #' @examples
@@ -67,6 +68,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export pca_scores_plot
 #' @include PCA_class.R
 #' @examples
@@ -277,6 +279,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export pca_biplot_plot
 #' @include PCA_class.R
 #' @examples
@@ -428,6 +431,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export pca_loadings_plot
 #' @include PCA_class.R
 #' @examples
@@ -526,6 +530,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export pca_scree
 #' @include PCA_class.R
 #' @examples
@@ -582,6 +587,7 @@ setMethod(f="chart_plot",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export PCA_dstat
 #' @include PCA_class.R
 #' @examples

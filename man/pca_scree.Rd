@@ -9,6 +9,9 @@ pca_scree(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 line plot showing percent variance and cumulative peercent variance for the computed components.
 }

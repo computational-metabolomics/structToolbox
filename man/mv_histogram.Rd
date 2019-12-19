@@ -9,6 +9,9 @@ mv_histogram(...)
 \arguments{
 \item{...}{slots and values for the new object}
 }
+\value{
+struct object
+}
 \description{
 histograms indicating the numbers of missing values per sample/feature
 }

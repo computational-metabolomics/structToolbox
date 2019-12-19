@@ -2,6 +2,7 @@
 #'
 #' carries out a grid search for a single parameter
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export grid_search_1d
 #' @examples
 #' M = grid_search_1d()
@@ -130,6 +131,7 @@ setMethod(f="run",
 #'
 #' @import struct
 #' @param ... slots and values for the new object 
+#' @return struct object
 #' @export gs_line
 #' @examples
 #' C = gs_line()
