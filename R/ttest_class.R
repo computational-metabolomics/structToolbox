@@ -225,7 +225,16 @@ setMethod(f="model_apply",
 
 
 
-
+#' @export
+setMethod(f="as_data_frame",
+    signature=c("ttest"),
+    definition=function(M) {
+        out=data.frame('t_statistic'=M$t_statistic,
+            't_p_value'=M$p_value,
+            't_significant'=M$significant)
+        out=cbind(out,M$estimates,M$conf_int)
+    }
+)
 
 
 

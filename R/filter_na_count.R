@@ -120,3 +120,12 @@ setMethod(f="model_predict",
         return(M)
     }
 )
+
+
+#' @export
+setMethod(f="as_data_frame",
+    signature=c("filter_na_count"),
+    definition=function(M) {
+        out=cbind(M$flags,M$na_count)
+    }
+)
