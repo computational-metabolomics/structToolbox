@@ -68,12 +68,9 @@ setMethod(f="model_apply",
         smeta=D$sample_meta
         x=D$data
         rsd_filtered = filter_peaks_by_rsd(t(x), max_rsd = opt$rsd_threshold, classes=smeta[[opt$factor_name]], qc_label=opt$qc_label)
-        D$data = as.data.frame(t(rsd_filtered$df))
 
         flags<-data.frame(rsd_filtered$flags)
-        vmeta=D$variable_meta
-        vmeta=vmeta[flags[,2]==1,,drop=FALSE]
-        D$variable_meta=vmeta
+        D=D[,flags[,2]==1,drop=FALSE]
 
         output_value(M,'filtered') = D
         output_value(M,'flags') = data.frame(rsd_filtered$flags,stringsAsFactors = F)
