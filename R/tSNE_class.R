@@ -2,7 +2,7 @@
 #'
 #' t-Distributed Stochastic Neighbor Embedding (tSNE) class. This object can be used to train/apply tSNE models to DatasetExperiment objects.
 #'
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export tSNE
 #' @examples
@@ -25,11 +25,12 @@ tSNE = function(...) {
         params_max_iter='numeric',
         params_theta='numeric',
         params_check_duplicates='logical',
-        params_pca='logical',
+        params_init='entity',
         params_factor_name='character',
+        params_eta='numeric',
 
         # OUTPUTS
-        outputs_Y='data.frame'
+        outputs_Y='DatasetExperiment'
     ),
     prototype = list(
         name='tSNE',
@@ -42,31 +43,49 @@ tSNE = function(...) {
         params_max_iter=1000,
         params_theta=0.5,
         params_check_duplicates=FALSE,
-        params_pca=TRUE
+        params_init=entity(
+            value=NULL,
+            type=c('NULL','data.frame','DatasetExperiment'),
+            name='Initial coordinates',
+            description='A set of coordinates for initialising the tSNE
+            algorithm. Setting to NULL (default) uses random initialisation.'),
+        params_eta=200
 
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
     signature=c("tSNE",'DatasetExperiment'),
     definition=function(M,D)
     {
+
+        # convert Y_init to matrix
+        Y_init=M$init
+        if (!is.null(Y_init)) {
+            if (is(Y_init,'DatasetExperiment')) {
+                Y_init=Y_init$data
+            }
+            Y_init=as.matrix(Y_init)
+        }
+
         # do tSNE
         tsne=Rtsne::Rtsne(D$data,
-            pca=M$pca,
+            Y_init=Y_init,
             dims=M$dims,
             perplexity=M$perplexity,
             theta=M$theta,
             check_duplicates=M$check_duplicates,
-            max_iter=M$max_iter)
+            max_iter=M$max_iter,
+            eta=M$eta)
 
         Y=tsne$Y
         Y=as.data.frame(Y)
         rownames(Y)=rownames(D$data)
 
+        Y=DatasetExperiment(data=Y,sample_meta=D$sample_meta,variable_meta=colnames(Y))
         M$Y=Y
 
         return(M)
@@ -78,7 +97,7 @@ setMethod(f="model_apply",
 #' plots the new representation of data after applying tSNE
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export tSNE_scatter
 #' @include PCA_class.R
@@ -96,7 +115,7 @@ tSNE_scatter = function(...) {
     "tSNE_scatter",
     contains='chart',
     slots=c(
-        params_colour_by='numeric'
+        params_factor_name='character'
 
         ),
     prototype = list(name='Feature boxplot',
@@ -107,20 +126,17 @@ tSNE_scatter = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
     signature=c("tSNE_scatter",'tSNE'),
     definition=function(obj,dobj)
     {
-        colour_by=obj$colour_by
-        colour_by=factor(colour_by)
-        if (nlevels(colour_by)>7) {
-            colour_by=as.numeric(obj$colour_by)
-        }
 
-        A=data.frame(x=dobj$Y[,1],y=dobj$Y[,2],group=colour_by)
+        colour_by=dobj$Y$sample_meta[[obj$factor_name]]
+
+        A=data.frame(x=dobj$Y$data[,1],y=dobj$Y$data[,2],group=colour_by)
 
         out=ggplot(data=A,aes_(x=~x,y=~y,colour=~group)) +
             geom_point() +
