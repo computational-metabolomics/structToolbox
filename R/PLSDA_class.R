@@ -1,7 +1,7 @@
 #' PLSDA model class
 #'
 #' Partial least squares (PLS) discriminant analysis (DA) model class. This object can be used to train/apply PLS models.
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export PLSDA
 #' @examples
@@ -47,7 +47,7 @@ PLSDA = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -59,23 +59,30 @@ setMethod(f="model_train",
         # convert the factor to a design matrix
         z=model.matrix(~y+0)
         z[z==0]=-1 # +/-1 for PLS
+
         X=as.matrix(D$data) # convert X to matrix
 
         Z=as.data.frame(z)
         output_value(M,'design_matrix')=Z
         output_value(M,'y')=D$sample_meta
 
-        pls_model=pls::plsr(z ~ X,validation="none",method='oscorespls',model=TRUE,ncomp=param_value(M,'number_components'),
-            center=FALSE,
-            scale=FALSE)
+        #pls_model=pls::plsr(y ~ X,validation="none",method='oscorespls',model=TRUE,ncomp=param_value(M,'number_components'),
+        #    center=FALSE,
+        #    scale=FALSE)
+
+
+        pls_model=pls::oscorespls.fit(X,z,ncomp=param_value(M,'number_components'),
+            center=FALSE)
+        class(pls_model)='mvr'
+
         ny=ncol(z)
         nr=ncol(output_value(M,'reg_coeff'))
         output_value(M,'reg_coeff')=as.data.frame(pls_model$coefficients[,,M$number_components]) # keep only the requested number of components
         output_value(M,'vip')=as.data.frame(vips(pls_model))
         yhat=predict(pls_model, ncomp = param_value(M,'number_components'), newdata = X)
-        yhat=yhat[,,dim(yhat)[3]]
+        yhat=as.matrix(yhat[,,dim(yhat)[3]])
         output_value(M,'yhat')=as.data.frame(yhat)
-        probs=prob(yhat,yhat,D$sample_meta[[M$factor_name]])
+        probs=structToolbox:::prob(yhat,yhat,D$sample_meta[[M$factor_name]])
         output_value(M,'probability')=as.data.frame(probs$ingroup)
         output_value(M,'threshold')=probs$threshold
         output_value(M,'pls_model')=list(pls_model)
@@ -85,7 +92,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
