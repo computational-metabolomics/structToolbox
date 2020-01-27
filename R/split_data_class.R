@@ -28,7 +28,7 @@ split_data = function(...) {
         predicted = 'testing',
 
         params_p=entity(name = 'Proportion in training set',
-            description = 'The proportion of samples selected for the training set. All other samples willbe in assigned to the test set.',
+            description = 'The proportion of samples selected for the training set. All other samples will be in assigned to the test set.',
             value = 0.75,
             type='numeric'),
 
