@@ -1,15 +1,18 @@
 #' glog transform
 #'
 #' applies a glog transform to the input data
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export glog_transform
 #' @import pmp
 #' @examples
 #' M = glog_transform()
-glog_transform = function(...) {
+glog_transform = function(qc_label='QC',factor_name,...) {
     out=.glog_transform()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::.initialize_struct_class(out,
+        qc_label=qc_label,
+        factor_name=factor_name,
+        ...)
     return(out)
 }
 
@@ -29,6 +32,7 @@ glog_transform = function(...) {
         description = 'applies a glog tranform using using QC samples as reference samples.',
         type = 'normalisation',
         predicted = 'transformed',
+        libraries = 'pmp',
 
         params_factor_name=entity(name = 'factor_name',
             description = 'Column name of sample_meta containing QC labels',
@@ -58,10 +62,9 @@ glog_transform = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
 #' @export
-#' @template model_apply
-setMethod(f="model_apply",
+#' @template model_train
+setMethod(f="model_train",
     signature=c("glog_transform","DatasetExperiment"),
     definition=function(M,D)
     {
@@ -70,13 +73,33 @@ setMethod(f="model_apply",
         smeta=D$sample_meta
         x=D$data
 
-        out = pmp::glog_transformation(t(x),classes = smeta[,M$factor_name],qc_label=opt$qc_label,store_lambda = TRUE)
-        D$data = as.data.frame(t(out[[1]]))
+        out = pmp::glog_transformation(t(x),classes = smeta[,M$factor_name],qc_label=opt$qc_label)
 
         output_value(M,'transformed') = D
-        M$lambda = out[[2]]
-        M$lambda_opt=out[[3]]
-        M$error_flag = out[[4]]
+        M$lambda = attributes(out)$processing_history$glog_transformation$lambda
+        M$lambda_opt=attributes(out)$processing_history$glog_transformation$lambda_opt
+        M$error_flag = attributes(out)$processing_history$glog_transformation$error_flag
+
+        return(M)
+    }
+)
+
+#' @export
+#' @template model_train
+setMethod(f="model_train",
+    signature=c("glog_transform","DatasetExperiment"),
+    definition=function(M,D)
+    {
+        # get data
+        x=D$data
+        # get meta data
+        smeta=D$sample_meta
+        # apply transform using provided
+        out = pmp::glog_transformation(t(x),classes = smeta[,M$factor_name],lambda = M$lambda,qc_label=M$qc_label)
+        # put tranformed data into dataset object
+        D$data = as.data.frame(t(out))
+        # assign tranofrmed data to output slot
+        output_value(M,'transformed') = D
 
         return(M)
     }
