@@ -76,17 +76,17 @@ setMethod(f="model_train",
         out = pmp::glog_transformation(t(x),classes = smeta[,M$factor_name],qc_label=opt$qc_label)
 
         output_value(M,'transformed') = D
-        M$lambda = attributes(out)$processing_history$glog_transformation$lambda
-        M$lambda_opt=attributes(out)$processing_history$glog_transformation$lambda_opt
-        M$error_flag = attributes(out)$processing_history$glog_transformation$error_flag
+        output_value(M,'lambda') = attributes(out)$processing_history$glog_transformation$lambda
+        output_value(M,'lambda_opt')=attributes(out)$processing_history$glog_transformation$lambda_opt
+        output_value(M,'error_flag') = attributes(out)$processing_history$glog_transformation$error_flag
 
         return(M)
     }
 )
 
 #' @export
-#' @template model_train
-setMethod(f="model_train",
+#' @template model_predict
+setMethod(f="model_predict",
     signature=c("glog_transform","DatasetExperiment"),
     definition=function(M,D)
     {
@@ -95,12 +95,63 @@ setMethod(f="model_train",
         # get meta data
         smeta=D$sample_meta
         # apply transform using provided
-        out = pmp::glog_transformation(t(x),classes = smeta[,M$factor_name],lambda = M$lambda,qc_label=M$qc_label)
+        out = pmp::glog_transformation(t(x),classes = smeta[,M$factor_name],lambda = M$lambda_opt,qc_label=M$qc_label)
         # put tranformed data into dataset object
         D$data = as.data.frame(t(out))
-        # assign tranofrmed data to output slot
+        # assign transformed data to output slot
         output_value(M,'transformed') = D
 
         return(M)
     }
 )
+
+
+#' glog transform optimisation plot
+#'
+#' plots the SSE error vs lambda for glog tranform
+#' @param ... slots and values for the new object
+#' @return struct object
+#' @export
+#' @examples
+#' M = glog_opt_plot()
+glog_opt_plot = function(plot_grid=100,...) {
+    out=.glog_opt_plot()
+    out=struct::.initialize_struct_class(out,
+        plot_grid=plot_grid,
+        ...)
+    return(out)
+}
+
+.glog_opt_plot<-setClass(
+    "glog_opt_plot",
+    contains='chart',
+    slots=c(
+        params_plot_grid='numeric'
+    )
+)
+
+#' @export
+#' @template chart_plot
+setMethod(f="chart_plot",
+    signature=c("glog_opt_plot",'glog_transform'),
+    definition=function(obj,dobj,gobj)
+    {
+        smeta=gobj$sample_meta
+        x=gobj$data
+
+        out = pmp::glog_plot_optimised_lambda(
+            df=t(x),
+            classes=smeta[[dobj$factor_name]],
+            qc_label=dobj$qc_label,
+            optimised_lambda=dobj$lambda_opt,
+            plot_grid=obj$plot_grid)
+
+        return(out)
+    }
+)
+
+
+
+
+
+

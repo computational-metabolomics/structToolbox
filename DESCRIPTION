@@ -93,7 +93,7 @@ Imports: ggplot2,
  ggthemes,
  ggdendro,
  datasets
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
 Suggests: 
  testthat,
  covr,
