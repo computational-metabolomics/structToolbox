@@ -24,9 +24,15 @@
 #' @param ... slots and values for the new object
 #' @return struct object
 #' @export blank_filter
-blank_filter = function(...) {
+blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_name,fraction=0,...) {
     out=.blank_filter()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::.initialize_struct_class(out,
+        fold_change=fold_change,
+        blank_label=blank_label,
+        qc_label=qc_label,
+        factor_name=factor_name,
+        fraction=fraction,
+        ...)
     return(out)
 }
 
@@ -46,6 +52,7 @@ blank_filter = function(...) {
         description = 'Filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the intensity is not large compared to the blank are removed.',
         type = 'filter',
         predicted = 'filtered',
+        libraries='pmp',
 
         params_blank_label=ents$blank_label,
         params_qc_label=ents$qc_label,
@@ -79,13 +86,14 @@ setMethod(f="model_train",
             classes=smeta[,M$factor_name],
             blank_label=M$blank_label,
             qc_label=M$qc_label,
-            remove=FALSE,
+            remove_samples=FALSE,
+            remove_peaks=FALSE,
             fraction_in_blank=M$fraction
         )
 
         # store the flags
-        flags=data.frame(blank_filtered$flags)
-        output_value(M,'flags') = data.frame(blank_filtered$flags,stringsAsFactors = F)
+        flags=data.frame(attributes(blank_filtered)$flags)
+        output_value(M,'flags') = data.frame(flags,stringsAsFactors = F)
         return(M)
     }
 )
