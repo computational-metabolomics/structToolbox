@@ -101,10 +101,7 @@ Suggests:
  rmarkdown,
  BiocStyle,
  pls,
- sbcms,
  Rtsne
-Remotes: computational-metabolomics/pmp,
-  computational-metabolomics/struct,
-  computational-metabolomics/sbcms
+Remotes: computational-metabolomics/struct
 VignetteBuilder: knitr
 biocViews: WorkflowStep
