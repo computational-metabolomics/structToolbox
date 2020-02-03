@@ -1,7 +1,7 @@
 Package: structToolbox
 Type: Package
 Title: Some tools bult using the struct package
-Version: 0.8.3
+Version: 0.8.4
 Author: Gavin Rhys Lloyd
 Maintainer: Gavin Rhys Lloyd <g.r.lloyd@bham.ac.uk>
 Description: Extends the class templates provided by the struct package to provide methods for training PCA, PLS models with cross-validation, permutation testing etc.
