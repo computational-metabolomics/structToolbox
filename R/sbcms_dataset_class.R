@@ -1,7 +1,7 @@
 #' Data from sbcms
 #'
 #' SBCMS package data after correction, as a struct DatasetExperiment object
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export sbcms_DatasetExperiment
 #' @return DatasetExperiment object

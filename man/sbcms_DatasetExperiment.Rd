@@ -9,7 +9,7 @@ sbcms_DatasetExperiment(filtered = FALSE)
 \arguments{
 \item{filtered}{TRUE to load prefiltered data, or FALSE to load the unfiltered data}
 
-\item{...}{slots and values for the new object}
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object

@@ -9,17 +9,29 @@ blank_filter(
   blank_label = "blank",
   qc_label = "QC",
   factor_name,
-  fraction = 0,
+  fraction_in_blank = 0,
   ...
 )
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{fold_change}{\code{numeric(1)}, fold_change minimum fold change 
+between analytical and blank samples.}
+
+\item{blank_label}{\code{character(1)}, class label used to identify blank
+samples.}
+
+\item{qc_label}{\code{character(1)} or \code{NULL}, class label used to
+identify QC samples.}
+
+\item{factor_name}{the column name of sample_meta to use}
+
+\item{fraction_in_blank}{\code{numeric(1)}, value between 0 to 1 to specify 
+fraction in how many blanks peaks should be present.}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
-A STRUCT method object with functions for applying a blank filter
-
-struct object
+A struct model object for applying a blank filter
 }
 \description{
 Filters features based on the features present in blank samples. The median
@@ -27,20 +39,6 @@ intensity of the samples is compared to the median intensity of the blank
 samples. Any sample not sufficiently more intense than the blank is removed.
 This is a wrapper for the blank filter in the PMP package.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{fold_change}}{the threshold for filtering samples}
-
-\item{\code{fraction}}{max proportion of blanks a feature can be present in}
-
-\item{\code{blank_label}}{the label used to identify 'blank' samples}
-
-\item{\code{qc_label}}{the label used to identify 'QC' samples. If set then the median of the QC samples is used instead of all samples.}
-
-\item{\code{factor_name}}{the column name of sample_meta to use}
-}}
-
 \examples{
 D = iris_DatasetExperiment()
 M = blank_filter(fold_change=2,
@@ -48,5 +46,4 @@ M = blank_filter(fold_change=2,
                  blank_label='setosa',
                  qc_label='versicolor')
 M = model_apply(M,D)
-
 }

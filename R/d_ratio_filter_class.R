@@ -2,29 +2,25 @@
 #'
 #' Filters features based on their D ratio, which is the ratio of technical to
 #' sample variance.
-#'
-#'
-#' @slot threshold D ratio threshold. Features with a d-ratio larger than this
+#' @param threshold D ratio threshold. Features with a d-ratio larger than this
 #' value are removed.
-#' @slot qc_label the label used to identify QC labels
-#' @slot factor_name the the sample_meta data column containing the QC labels
-#'
+#' @param qc_label the label used to identify QC labels
+#' @param factor_name the the sample_meta data column containing the QC labels
+#' @param ... additional slots and values passed to struct_class
 #' @return A struct method object with functions for filtering using the d-ratio.
-#'
 #' @examples
 #' D = sbcms_DatasetExperiment()
 #' M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
 #' M = model_apply(M,D)
-#'
-#' @param ... slots and values for the new object
-#' @return struct object
 #' @export dratio_filter
-dratio_filter = function(...) {
-    out=.dratio_filter()
-    out=struct::new_struct(out,...)
+dratio_filter = function(threshold=20, qc_label='QC', factor_name, ...) {
+    out=struct::new_struct('dratio_filter',
+        threshold=threshold,
+        qc_label=qc_label,
+        factor_name=factor_name,
+        ...)
     return(out)
 }
-
 
 .dratio_filter<-setClass(
     "dratio_filter",
@@ -40,6 +36,8 @@ dratio_filter = function(...) {
         description = 'Filters features by calculating the d_ratio and removing features below the threshold.',
         type = 'filter',
         predicted = 'filtered',
+        .params=c('threshold','qc_label','factor_name'),
+        .outputs=c('filtered','flags'),
 
         threshold=entity(name = 'd_ratio filter',
             description = 'Features with d_ratio less than the threshold are removed.',
@@ -70,7 +68,6 @@ dratio_filter = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -100,7 +97,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

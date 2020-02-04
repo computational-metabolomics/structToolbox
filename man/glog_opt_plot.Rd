@@ -7,13 +7,15 @@
 glog_opt_plot(plot_grid = 100, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{plot_grid}{the resolution of the search space for plotting}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-plots the SSE error vs lambda for glog tranform
+plots the SSE error vs lambda for glog transform
 }
 \examples{
 M = glog_opt_plot()

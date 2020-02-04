@@ -4,10 +4,12 @@
 \alias{confounders_lsq.boxplot}
 \title{boxplot of percent change}
 \usage{
-confounders_lsq.boxplot(...)
+confounders_lsq.boxplot(threshold, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{threshold}{the threshold to be plotted (in \%)}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 A STRUCT chart object
@@ -18,12 +20,6 @@ struct object
 Plots a boxplot of the percent change over all features when including a
 confounding factor in the ttest
 }
-\section{Slots}{
-
-\describe{
-\item{\code{threshold}}{the threshold to be plotted (in \%)}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 M = filter_by_name(mode='include',dimension='variable',

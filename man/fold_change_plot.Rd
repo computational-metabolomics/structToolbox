@@ -4,16 +4,20 @@
 \alias{fold_change_plot}
 \title{fold_change plot}
 \usage{
-fold_change_plot(...)
+fold_change_plot(number_of_features = 20, orientation = "portrait", ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{number_of_features}{The number of features to display on the plot}
+
+\item{orientation}{The orientation of the plot (portrait or landscape). Portrait is default.}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-plots fold change
+Plots fold change with error bars for a limited number of features.
 }
 \examples{
 C = fold_change_plot()

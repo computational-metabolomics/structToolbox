@@ -9,16 +9,13 @@
 #' M = autoscale()
 #' M = model_train(M,D)
 #' M = model_predict(M,D)
-#'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export autoscale
 autoscale = function(...) {
-    out=.autoscale()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('autoscale',...)
     return(out)
 }
-
 
 .autoscale<-setClass(
     "autoscale",
@@ -30,11 +27,12 @@ autoscale = function(...) {
     ),
     prototype = list(name='Autoscaling',
         type="preprocessing",
-        predicted='autoscaled'
+        predicted='autoscaled',
+        .outputs=c('autoscaled','mean','sd')
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -51,7 +49,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

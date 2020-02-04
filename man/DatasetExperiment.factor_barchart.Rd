@@ -4,10 +4,14 @@
 \alias{DatasetExperiment.factor_barchart}
 \title{DatasetExperiment.factor_barchart class}
 \usage{
-DatasetExperiment.factor_barchart(...)
+DatasetExperiment.factor_barchart(feature_to_plot, factor_names, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{feature_to_plot}{Column ID of feature to plot.}
+
+\item{factor_names}{Names(s) of factors to plot for a feature}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
@@ -15,14 +19,6 @@ struct object
 \description{
 Bar charts based on groupings by factor. Can plot up to three factors.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{feature_to_plot}}{Column ID of feature to plot.}
-
-\item{\code{factor_names}}{Names(s) of factors to plot for a feature}
-}}
-
 \examples{
 D = iris_DatasetExperiment()
 C = DatasetExperiment.factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')

@@ -2,23 +2,24 @@
 #'
 #' Filters features by the number of NA per class
 #'
-#' @slot threshold the maximum number of NA allowed per level of factor_name
-#' @slot factor_name the sample_meta column name to use
+#' @param threshold the maximum number of NA allowed per level of factor_name
+#' @param factor_name the sample_meta column name to use
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
 #' M = filter_na_count(threshold=3,factor_name='class')
 #' M = model_apply(M,D)
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export filter_na_count
-filter_na_count = function(...) {
-    out=.filter_na_count()
-    out=struct::new_struct(out,...)
+filter_na_count = function(threshold,factor_name,...) {
+    out=struct::new_struct('filter_na_count',
+        threshold=threshold,
+        factor_name=factor_name,
+        ...)
     return(out)
 }
-
 
 .filter_na_count<-setClass(
     "filter_na_count",
@@ -34,6 +35,8 @@ filter_na_count = function(...) {
         description = 'Filters by removing features where the number of features in any class exceeds the threshold',
         type = 'filter',
         predicted = 'filtered',
+        .params=c('threshold','factor_name'),
+        .outputs=c('filtered','count','na_count','flags'),
 
         factor_name=entity(name='Factor name',
             type='character',
@@ -69,7 +72,6 @@ filter_na_count = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -104,7 +106,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

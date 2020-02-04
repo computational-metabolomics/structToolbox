@@ -4,10 +4,25 @@
 \alias{mv_boxplot}
 \title{mv_boxplot class}
 \usage{
-mv_boxplot(...)
+mv_boxplot(
+  label_outliers = TRUE,
+  by_sample = TRUE,
+  factor_name,
+  show_counts = TRUE,
+  ...
+)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot
+plot}
+
+\item{by_sample}{by_sample [TRUE] to plot by sample or FALSE to plot by features}
+
+\item{factor_name}{the sample_meta column to use}
+
+\item{show_counts}{[TRUE] or FALSE to include the number of samples on the plot}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
@@ -15,19 +30,6 @@ struct object
 \description{
 Boxplot of the numbers of missing values per sample/feature
 }
-\section{Slots}{
-
-\describe{
-\item{\code{label_outliers}}{[TRUE] or FALSE to label outliers on the plot
-plot}
-
-\item{\code{by_sample}}{by_sample [TRUE] to plot by sample or FALSE to plot by features}
-
-\item{\code{factor_name}}{the sample_meta column to use}
-
-\item{\code{show_counts}}{[TRUE] or FALSE to include the number of samples on the plot}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 C = mv_boxplot(factor_name='class')

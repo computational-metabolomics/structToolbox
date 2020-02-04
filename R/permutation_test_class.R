@@ -4,7 +4,7 @@
 #' @examples
 #' I=permutation_test()
 #'
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test
 permutation_test = function(...) {
@@ -29,7 +29,7 @@ permutation_test = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template run
 setMethod(f="run",
@@ -135,7 +135,7 @@ setMethod(f="run",
 #' plots the results of a permutation test as a boxplot
 #' @examples
 #' C = permutation_test.boxplot()
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test.boxplot
 permutation_test.boxplot<-setClass(
@@ -147,7 +147,7 @@ permutation_test.boxplot<-setClass(
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -173,7 +173,7 @@ setMethod(f="chart_plot",
 #' plots the results of a permutation test as a boxplot
 #' @examples
 #' C = permutation_test.violin()
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test.violin
 permutation_test.violin<-setClass(
@@ -185,7 +185,7 @@ permutation_test.violin<-setClass(
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -211,7 +211,7 @@ setMethod(f="chart_plot",
 #' plots the results of a permutation test as histograms
 #' @examples
 #' C = permutation_test_hist()
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test_hist
 permutation_test_hist<-setClass(
@@ -223,7 +223,7 @@ permutation_test_hist<-setClass(
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -248,7 +248,7 @@ setMethod(f="chart_plot",
 #' plots the results of a permutation test as histograms
 #' @examples
 #' C = permutation_test.scatter()
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test.scatter
 permutation_test.scatter<-setClass(
@@ -260,7 +260,7 @@ permutation_test.scatter<-setClass(
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

@@ -1,14 +1,14 @@
-#' feature_profile class
+#' Feature profile class
 #'
-#' Scatter plot of a feature against measurment order with limits for samples
+#' Scatter plot of a feature against measurement order with limits for samples
 #' and quality control samples.
 #'
-#' @slot run_order the sample_meta column containing the measurement
+#' @param run_order the sample_meta column containing the measurement
 #' order of the samples
-#' @slot qc_label the label used to identify QC samples
-#' @slot qc_column the sample_meta column containing the QC labels
-#' @slot colour_by the sample_meta column to use to colour the plot
-#' @slot feature_to_plot the column id of the feature to plot
+#' @param qc_label the label used to identify QC samples
+#' @param qc_column the sample_meta column containing the QC labels
+#' @param colour_by the sample_meta column to use to colour the plot
+#' @param feature_to_plot the column id of the feature to plot
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
@@ -19,12 +19,17 @@
 #'     feature_to_plot=1)
 #' chart_plot(C,D)
 #'
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export feature_profile
-feature_profile = function(...) {
-    out=.feature_profile()
-    out=struct::new_struct(out,...)
+feature_profile = function(run_order,qc_label,qc_column,colour_by,feature_to_plot,...) {
+    out=struct::new_struct('feature_profile',
+        run_order=run_order,
+        qc_label=qc_label,
+        qc_column=qc_column,
+        colour_by=colour_by,
+        feature_to_plot,
+        ...)
     return(out)
 }
 
@@ -43,13 +48,14 @@ feature_profile = function(...) {
     prototype = list(name='Feature profile',
         description='plots a feature vs run order',
         type="scatter",
+        .params=c('run_order','qc_label','qc_column','colour_by','feature_plot'),
+
         feature_to_plot=entity(name='Feature to plot',
             description='The name or column id of the feature to plot',
             type=c('numeric','character','integer'))
     )
 )
 
-#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

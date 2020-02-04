@@ -2,7 +2,7 @@
 #'
 #' HCA method class. Calculate a hierarchical clustering for the input data
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export HCA
 #' @examples
@@ -58,7 +58,7 @@ HCA = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -84,7 +84,7 @@ setMethod(f="model_apply",
 #'
 #' plots a dendrogram for HCA
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export hca_dendrogram
 #' @import ggdendro
@@ -103,7 +103,7 @@ hca_dendrogram = function(...) {
     contains='chart'
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

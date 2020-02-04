@@ -2,20 +2,25 @@
 % Please edit documentation in R/bootstrap_class.R
 \name{bootstrap}
 \alias{bootstrap}
-\title{permutation test class}
+\title{Bootstrap class}
 \usage{
-bootstrap(...)
+bootstrap(number_of_iterations = 100, collect, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{number_of_iterations}{The number of bootstrap iterations to run}
+
+\item{collect}{The name of model output to collect over all iterations}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
-struct object
+A struct iterator object
 }
 \description{
-Applies a permutation test to a model or model_seq()
+Applies bootstrapping to a model or model_seq(). Any output from the model can
+be 'collected' over all bootstrap repetitions for further analysis.
 }
 \examples{
-I=bootstrap()
+I = bootstrap()
 
 }

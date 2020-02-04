@@ -7,7 +7,13 @@
 pairs_filter(...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{...}{additional slots and values passed to struct_class}
+
+\item{factor_name}{(character) the column name of sample_meta containing the
+labels}
+
+\item{sample_id}{(character) the column name of sample_meta containing the
+sample ids}
 }
 \value{
 A STRUCT method object with functions for applying a pairs filter
@@ -17,16 +23,6 @@ struct object
 \description{
 Filters samples for paired analysis, ensuring each sample id is present in all groups.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{factor_name}}{(character) the column name of sample_meta containing the
-labels}
-
-\item{\code{sample_id}}{(character) the column name of sample_meta containing the
-sample ids}
-}}
-
 \examples{
 M=pairs_filter()
 

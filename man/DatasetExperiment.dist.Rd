@@ -4,10 +4,15 @@
 \alias{DatasetExperiment.dist}
 \title{Distribution plot}
 \usage{
-DatasetExperiment.dist(...)
+DatasetExperiment.dist(factor_name, per_class = TRUE, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{factor_name}{the sample_meta column to use}
+
+\item{per_class}{= [TRUE] or FALSE to plot distrubutions for each level in
+factor_name}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
@@ -15,15 +20,6 @@ struct object
 \description{
 Visualise distributions of values in features/samples.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{factor_name}}{the sample_meta column to use}
-
-\item{\code{per_class}}{= [TRUE] or FALSE to plot distrubutions for each level in
-factor_name}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 C = DatasetExperiment.dist(factor_name='class')

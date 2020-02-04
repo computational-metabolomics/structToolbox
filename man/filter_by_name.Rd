@@ -2,32 +2,29 @@
 % Please edit documentation in R/filter_by_name_class.R
 \name{filter_by_name}
 \alias{filter_by_name}
-\title{filter by name}
+\title{Filter by name}
 \usage{
-filter_by_name(...)
+filter_by_name(mode = "exclude", dimension = "sample", names, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{mode}{"include" or ["exclude"] to subsample a DatasetExperiment by including or
+excluding samples/features based on the provided labels}
+
+\item{dimension}{["sample"] or "variable" to filter by sample or feature
+labels}
+
+\item{names}{the sample/feature identifiers to filter by. Can provide column
+names, column indices or logical.}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-a filter to subsample a DatasetExperiment object based on sample or feature labels.
+A filter to subsample a DatasetExperiment object based on sample or feature name,
+id, row/column index or using a vector of TRUE/FALSE.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{mode}}{"include" or ["exclude"] to subsample a a DatasetExperiment by including or
-excluding samples/features based on the provided labels}
-
-\item{\code{dimension}}{["sample"] or "variable" to filter by sample or feature
-labels}
-
-\item{\code{names}}{the sample/feature identifiers to filter by. Can provide column
-names, column indices or logical}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))

@@ -1,7 +1,7 @@
 #' split data into sets
 #'
 #' Splits the data into a training and test set
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export split_data
 #' @examples
@@ -45,7 +45,7 @@ split_data = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

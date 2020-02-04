@@ -3,7 +3,7 @@
 #' permutes the sample order a defined number of times, running the model each time
 #' @examples
 #' C = permute_sample_order()
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permute_sample_order
 permute_sample_order = function(...) {
@@ -28,7 +28,7 @@ permute_sample_order = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template run
 setMethod(f="run",

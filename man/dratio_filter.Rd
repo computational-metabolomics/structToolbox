@@ -4,34 +4,27 @@
 \alias{dratio_filter}
 \title{D ratio filter}
 \usage{
-dratio_filter(...)
+dratio_filter(threshold = 20, qc_label = "QC", factor_name, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{threshold}{D ratio threshold. Features with a d-ratio larger than this
+value are removed.}
+
+\item{qc_label}{the label used to identify QC labels}
+
+\item{factor_name}{the the sample_meta data column containing the QC labels}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 A struct method object with functions for filtering using the d-ratio.
-
-struct object
 }
 \description{
 Filters features based on their D ratio, which is the ratio of technical to
 sample variance.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{threshold}}{D ratio threshold. Features with a d-ratio larger than this
-value are removed.}
-
-\item{\code{qc_label}}{the label used to identify QC labels}
-
-\item{\code{factor_name}}{the the sample_meta data column containing the QC labels}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
 M = model_apply(M,D)
-
 }

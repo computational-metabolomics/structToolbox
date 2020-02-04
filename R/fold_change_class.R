@@ -8,22 +8,36 @@
 #' M = fold_change(factor_name='class')
 #' M = model_apply(M,D)
 #'
-#' @slot alpha confidence level to use for intervals
-#' @slot factor_name the sample_meta column to use
-#' @slot paired TRUE or [FALSE] to account for paired samples
-#' @slot sample_name the sample_meta column name to use for a paired samples
-#' @slot threshold a threshold to define fold change as 'significant'.
-#' @slot control_group a level of factor name to use as the control group for
+#' @param alpha confidence level to use for intervals
+#' @param factor_name the sample_meta column to use
+#' @param paired TRUE or [FALSE] to account for paired samples
+#' @param sample_name the sample_meta column name to use for a paired samples
+#' @param threshold a threshold to define fold change as 'significant'.
+#' @param control_group a level of factor name to use as the control group for
 #' calculations.
 #'
 #' @import struct
 #' @import stats
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export fold_change
-fold_change = function(...) {
-    out=.fold_change()
-    out=struct::new_struct(out,...)
+fold_change = function(
+    alpha=0.05,
+    factor_name,
+    paired=FALSE,
+    sample_name=character(0),
+    threshold=2,
+    control_group,...) {
+
+    out=struct::new_struct('fold_change',
+        alpha=alpha,
+        factor_name=factor_name,
+        paired=paired,
+        sample_name=sample_name,
+        threshold=threshold,
+        control_group=control_group,
+        ...)
+
     return(out)
 }
 
@@ -51,6 +65,8 @@ fold_change = function(...) {
         type="univariate",
         predicted='fold_change',
         #  stato_id="STATO:0000304",
+        .params=c('factor_name','sample_name','alpha','paired','threshold'),
+        .outputs=c('fold_change','lower_ci','upper_ci'),
 
         factor_name=entity(name='Factor names',
             type='character',
@@ -93,7 +109,6 @@ fold_change = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -182,18 +197,22 @@ setMethod(f="model_apply",
 
 #' fold_change plot
 #'
-#' plots fold change
+#' Plots fold change with error bars for a limited number of features.
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param number_of_features The number of features to display on the plot
+#' @param orientation The orientation of the plot (portrait or landscape). Portrait is default.
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export fold_change_plot
 #' @include PCA_class.R
 #' @examples
 #' C = fold_change_plot()
-fold_change_plot = function(...) {
-    out=.fold_change_plot()
-    out=struct::new_struct(out,...)
+fold_change_plot = function(number_of_features=20,orientation='portrait',...) {
+    out=struct::new_struct('fold_change_plot',
+        number_of_features=number_of_features,
+        orientation=orientation,
+        ...)
     return(out)
 }
 
@@ -201,18 +220,19 @@ fold_change_plot = function(...) {
 .fold_change_plot<-setClass(
     "fold_change_plot",
     contains='chart',
-    slots=c(number_features='numeric',
+    slots=c(
+        number_features='numeric',
         orientation='character'),
     prototype = list(name='Fold change plot',
         description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
         number_features=20,
-        orientation='portrait'
+        orientation='portrait',
+        .params=c('number_of_features','orientation')
     )
 
 )
 
-#' @param ... slots and values for the new object 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

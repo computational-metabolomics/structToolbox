@@ -7,7 +7,7 @@
 autoscale(...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 A STRUCT model object with methods for autoscaling.
@@ -22,5 +22,4 @@ D = iris_DatasetExperiment()
 M = autoscale()
 M = model_train(M,D)
 M = model_predict(M,D)
-
 }

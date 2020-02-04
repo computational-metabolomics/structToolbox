@@ -10,20 +10,23 @@
 #'     fold_change_int(factor_name=c('class','batch'))
 #' M = model_apply(M,D)
 #'
-#' @slot alpha confidence level to use for intervals
-#' @slot factor_name the sample_meta column to use
-#' @slot threshold a threshold to define fold change as 'significant'.
-#' @slot control_group a level of factor name to use as the control group for
+#' @param alpha confidence level to use for intervals
+#' @param factor_name the sample_meta column to use
+#' @param threshold a threshold to define fold change as 'significant'.
+#' @param control_group a level of factor name to use as the control group for
 #' calculations.
 #'
 #' @import struct
 #' @import stats
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export fold_change_int
-fold_change_int = function(...) {
-    out=.fold_change_int()
-    out=struct::new_struct(out,...)
+fold_change_int = function(alpha=0.05,factor_name,threshold=2,control_group=character(0),...) {
+    out=struct::new_struct('fold_change_int',
+        alpha=alpha,
+        threshold=threshold,
+        control_group=control_group,
+        ...)
     return(out)
 }
 
@@ -31,10 +34,13 @@ fold_change_int = function(...) {
 .fold_change_int<-setClass(
     "fold_change_int",
     contains=c('model','fold_change'),
-    prototype = list(predicted='fold_change')
+    prototype = list(
+        predicted='fold_change',
+        .params=c('factor_name','sample_name','alpha','paired','threshold'),
+        .outputs=c('fold_change','lower_ci','upper_ci')
+    )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

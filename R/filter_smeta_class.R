@@ -2,25 +2,27 @@
 #'
 #' A filter to subset a DatasetExperiment object based on sample meta data.
 #'
-#' @slot mode = ['include'] or 'exclude' to include or exclude samples based on
+#' @param mode = ['include'] or 'exclude' to include or exclude samples based on
 #' the provided labels
-#' @slot levels a list of level names to include/exclude
-#' @slot factor_name the sample_meta column name to use
+#' @param levels a list of level names to include/exclude
+#' @param factor_name the sample_meta column name to use
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
 #' M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
 #' M = model_apply(M,D)
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export filter_smeta
-filter_smeta = function(...) {
-    out=.filter_smeta()
-    out=struct::new_struct(out,...)
+filter_smeta = function(mode='include',levels,factor_name,...) {
+    out=struct::new_struct(filter_smeta,
+        mode=mode,
+        levels=levels,
+        factor_name=factor_name,
+        ...)
     return(out)
 }
-
 
 .filter_smeta<-setClass(
     "filter_smeta",
@@ -34,6 +36,8 @@ filter_smeta = function(...) {
         name='Filter by sample_meta data',
         description='Filter data to include or exlude samples based on their meta data.',
         predicted = 'filtered',
+        .params=c('mode','levels','factor_name'),
+        .outputs=c('filtered'),
 
         mode=enum(name='Mode of action',
             description='"include" or "exclude" samples based on the sample_meta data',
@@ -55,7 +59,6 @@ filter_smeta = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -80,7 +83,6 @@ setMethod(f="model_apply",
     }
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -90,7 +92,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

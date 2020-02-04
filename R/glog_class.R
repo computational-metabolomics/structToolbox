@@ -1,15 +1,14 @@
 #' glog transform
 #'
 #' applies a glog transform to the input data
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export glog_transform
 #' @import pmp
 #' @examples
 #' M = glog_transform()
 glog_transform = function(qc_label='QC',factor_name,...) {
-    out=.glog_transform()
-    out=struct::new_struct(out,
+    out=struct::new_struct('glog',
         qc_label=qc_label,
         factor_name=factor_name,
         ...)
@@ -33,6 +32,8 @@ glog_transform = function(qc_label='QC',factor_name,...) {
         type = 'normalisation',
         predicted = 'transformed',
         libraries = 'pmp',
+        .params=c('qc_label','factor_name'),
+        .outputs=c('lambda','transformed','error_flag','lambda_opt'),
 
         factor_name=entity(name = 'factor_name',
             description = 'Column name of sample_meta containing QC labels',
@@ -108,15 +109,15 @@ setMethod(f="model_predict",
 
 #' glog transform optimisation plot
 #'
-#' plots the SSE error vs lambda for glog tranform
-#' @param ... slots and values for the new object
+#' plots the SSE error vs lambda for glog transform
+#' @param plot_grid the resolution of the search space for plotting
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export
 #' @examples
 #' M = glog_opt_plot()
 glog_opt_plot = function(plot_grid=100,...) {
-    out=.glog_opt_plot()
-    out=struct::new_struct(out,
+    out=struct::new_struct('glog_opt_plot',
         plot_grid=plot_grid,
         ...)
     return(out)
@@ -125,8 +126,11 @@ glog_opt_plot = function(plot_grid=100,...) {
 .glog_opt_plot<-setClass(
     "glog_opt_plot",
     contains='chart',
-    slots=c(
-        plot_grid='numeric'
+    slots=c(plot_grid='numeric'),
+    prototype=list(
+        name='Glog optimisation',
+        description='A plot of the SSE error vs lambda for glog transform',
+        .params=c('plot_grid')
     )
 )
 

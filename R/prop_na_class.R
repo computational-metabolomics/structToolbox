@@ -4,7 +4,7 @@
 #'
 #' @import struct
 #' @import stats
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export prop_na
 #' @examples
@@ -73,7 +73,7 @@ prop_na = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

@@ -10,7 +10,7 @@
 #' @templateVar paramNames c('alpha','mtc','factor_names')
 #' @template common_params
 #'
-#' @slot intercept [TRUE] or FALSE to include an intercept term in the fit
+#' @param intercept [TRUE] or FALSE to include an intercept term in the fit
 #'
 #' @return A STRUCT method object with functions for applying classical least squares
 #'
@@ -19,13 +19,19 @@
 #' M = classical_lsq(factor_names = 'Species')
 #' M = model_apply(M,D)
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export classical_lsq
 
-classical_lsq = function(...) {
-    out=.classical_lsq()
-    out=struct::new_struct(out,...)
+classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
+
+    out=struct::new_struct(out,
+        alpha = alpha,
+        mtc = mtc,
+        factor_names = factor_names,
+        intercept = intercept,
+        ...)
+
     return(out)
 }
 
@@ -50,6 +56,8 @@ classical_lsq = function(...) {
         description='classical least squares, where y is the response and x is the design matrix, applied to each feature individually.',
         type="univariate",
         predicted='p_value',
+        .params=c('alpha','mtc','factor_names','intercept'),
+        .outputs=c('coefficients','p_value','significant','r_squared','adj_r-squared'),
 
         intercept=entity(name='Include intercept',
             type='logical',
@@ -86,7 +94,7 @@ classical_lsq = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

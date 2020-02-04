@@ -5,13 +5,10 @@
 #' samples. Any sample not sufficiently more intense than the blank is removed.
 #' This is a wrapper for the blank filter in the PMP package.
 #'
-#' @slot fold_change the threshold for filtering samples
-#' @slot fraction max proportion of blanks a feature can be present in
-#'
-#' @templateVar paramNames c('blank_label','qc_label','factor_name')
+#' @templateVar paramNames c('factor_name')
 #' @template common_params
 #'
-#' @return A STRUCT method object with functions for applying a blank filter
+#' @return A struct model object for applying a blank filter
 #'
 #' @examples
 #' D = iris_DatasetExperiment()
@@ -20,18 +17,16 @@
 #'                  blank_label='setosa',
 #'                  qc_label='versicolor')
 #' M = model_apply(M,D)
-#'
-#' @param ... slots and values for the new object
-#' @return struct object
+#' @inheritParams pmp::filter_peaks_by_blank
+#' @param ... additional slots and values passed to struct_class
 #' @export blank_filter
-blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_name,fraction=0,...) {
-    out=.blank_filter()
-    out=struct::new_struct(out,
+blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_name,fraction_in_blank=0,...) {
+   out=struct::new_struct('blank_filter',
         fold_change=fold_change,
         blank_label=blank_label,
         qc_label=qc_label,
         factor_name=factor_name,
-        fraction=fraction,
+        fraction_in_blank=fraction_in_blank,
         ...)
     return(out)
 }
@@ -44,7 +39,7 @@ blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_
         blank_label='entity',
         qc_label='entity',
         factor_name='entity',
-        fraction='entity',
+        fraction_in_blank='entity',
         filtered='entity',
         flags='entity'
     ),
@@ -53,6 +48,8 @@ blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_
         type = 'filter',
         predicted = 'filtered',
         libraries='pmp',
+        .params=c('blank_label','qc_label','factor_name','fraction_in_blank'),
+        .outputs=c('filtered','flags'),
 
         blank_label=ents$blank_label,
         qc_label=ents$qc_label,
@@ -62,7 +59,7 @@ blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_
             description = 'Features with median intensity less than FOLD_CHANGE times the median intensity of blanks are removed.',
             value = 20,
             type='numeric'),
-        fraction=entity(name='Fraction in blank',
+        fraction_in_blank=entity(name='Fraction in blank',
             description='Remove features only if they occur in a sufficient proportion of the blanks',
             type='numeric',
             value=0),
@@ -72,7 +69,7 @@ blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -88,7 +85,7 @@ setMethod(f="model_train",
             qc_label=M$qc_label,
             remove_samples=FALSE,
             remove_peaks=FALSE,
-            fraction_in_blank=M$fraction
+            fraction_in_blank=M$fraction_in_blank
         )
 
         # store the flags
@@ -98,7 +95,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",signature=c("blank_filter","DatasetExperiment"),
@@ -126,7 +123,7 @@ setMethod(f="model_predict",signature=c("blank_filter","DatasetExperiment"),
 #'
 #' plots a histogram of the calculated fold change for the blank filter (median blank / median sample)
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export blank_filter_hist
 #' @examples
@@ -147,7 +144,7 @@ blank_filter_hist = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

@@ -10,7 +10,7 @@
 #' M = model_train(M,D)
 #' M = model_predict(M,D)
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pareto_scale
 pareto_scale = function(...) {
@@ -34,7 +34,7 @@ pareto_scale = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -51,7 +51,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

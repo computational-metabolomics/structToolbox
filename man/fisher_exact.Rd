@@ -4,31 +4,27 @@
 \alias{fisher_exact}
 \title{fisher_exact class}
 \usage{
-fisher_exact(...)
+fisher_exact(alpha = 0.05, mtc = "fdr", factor_name, factor_pred, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{alpha}{the p-value threshold to declare a result 'significant'}
+
+\item{mtc}{multiple test correction method}
+
+\item{factor_name}{the sample_meta column to use}
+
+\item{factor_pred}{A data.frame, with a factor of predicted group labels to
+compare with factor_name. Can be a data frame with a factor of predictions
+for each feature.'}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
-struct object
+A struct model with functions for applying fisher exact test.
 }
 \description{
 Fisher's exact test (FET). Applies FET for all features in a DatasetExperiment.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{alpha}}{the p-value threshold to declare a result 'significant'}
-
-\item{\code{mtc}}{multiple test correction method}
-
-\item{\code{factor_name}}{the sample_meta column to use}
-
-\item{\code{factor_pred}}{A data.frame, with a factor of predicted group labels to
-compare with factor_name. Can be a data frame with a factor of predictions
-for each feature.'}
-}}
-
 \examples{
 # load some data
 D=sbcms_DatasetExperiment()

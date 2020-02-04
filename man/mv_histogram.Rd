@@ -4,10 +4,14 @@
 \alias{mv_histogram}
 \title{mv_histogram class}
 \usage{
-mv_histogram(...)
+mv_histogram(label_outliers = TRUE, by_sample = TRUE, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot}
+
+\item{by_sample}{[TRUE] to plot by sample or FALSE to plot by features}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
@@ -15,14 +19,6 @@ struct object
 \description{
 histograms indicating the numbers of missing values per sample/feature
 }
-\section{Slots}{
-
-\describe{
-\item{\code{label_outliers}}{[TRUE] or FALSE to label outliers on the plot}
-
-\item{\code{by_sample}}{[TRUE] to plot by sample or FALSE to plot by features}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 C = mv_histogram(label_outliers=FALSE,by_sample=FALSE)

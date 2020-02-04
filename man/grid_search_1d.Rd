@@ -4,16 +4,34 @@
 \alias{grid_search_1d}
 \title{grid_search_1d class}
 \usage{
-grid_search_1d(...)
+grid_search_1d(
+  param_to_optimise,
+  search_values,
+  model_index,
+  factor_name,
+  max_min = "min",
+  ...
+)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{param_to_optimise}{The name of an input parameter of the model the optimise}
+
+\item{search_values}{A vector of values to search for the optimum}
+
+\item{model_index}{A number indicating which step of a model_seq is to be optimised}
+
+\item{factor_name}{The sample_meta column name to use}
+
+\item{max_min}{'A string 'max' or 'min' to indicate whether to maximise or minimise the metric}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-carries out a grid search for a single parameter
+Carries out a grid search for a single parameter to try and identify the
+'best' value for the parameter based on the input metric.
 }
 \examples{
 M = grid_search_1d()

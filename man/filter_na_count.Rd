@@ -4,10 +4,14 @@
 \alias{filter_na_count}
 \title{filter_na_count class}
 \usage{
-filter_na_count(...)
+filter_na_count(threshold, factor_name, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{threshold}{the maximum number of NA allowed per level of factor_name}
+
+\item{factor_name}{the sample_meta column name to use}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
@@ -15,14 +19,6 @@ struct object
 \description{
 Filters features by the number of NA per class
 }
-\section{Slots}{
-
-\describe{
-\item{\code{threshold}}{the maximum number of NA allowed per level of factor_name}
-
-\item{\code{factor_name}}{the sample_meta column name to use}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 M = filter_na_count(threshold=3,factor_name='class')

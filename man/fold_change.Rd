@@ -4,10 +4,31 @@
 \alias{fold_change}
 \title{fold change class}
 \usage{
-fold_change(...)
+fold_change(
+  alpha = 0.05,
+  factor_name,
+  paired = FALSE,
+  sample_name = character(0),
+  threshold = 2,
+  control_group,
+  ...
+)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{alpha}{confidence level to use for intervals}
+
+\item{factor_name}{the sample_meta column to use}
+
+\item{paired}{TRUE or [FALSE] to account for paired samples}
+
+\item{sample_name}{the sample_meta column name to use for a paired samples}
+
+\item{threshold}{a threshold to define fold change as 'significant'.}
+
+\item{control_group}{a level of factor name to use as the control group for
+calculations.}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
@@ -16,23 +37,6 @@ struct object
 Calculates fold change between groups for all features in a DatasetExperiment, based on
 a log transform and t-test.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{alpha}}{confidence level to use for intervals}
-
-\item{\code{factor_name}}{the sample_meta column to use}
-
-\item{\code{paired}}{TRUE or [FALSE] to account for paired samples}
-
-\item{\code{sample_name}}{the sample_meta column name to use for a paired samples}
-
-\item{\code{threshold}}{a threshold to define fold change as 'significant'.}
-
-\item{\code{control_group}}{a level of factor name to use as the control group for
-calculations.}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 M = fold_change(factor_name='class')

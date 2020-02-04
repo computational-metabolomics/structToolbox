@@ -5,15 +5,15 @@
 #'
 #' @import struct
 #'
-#' @slot alpha p-value threshold for determining significance. Default alpha = 0.05.
-#' @slot mtc multiple test correction method to apply. Can be: holm, hochberg,
+#' @param alpha p-value threshold for determining significance. Default alpha = 0.05.
+#' @param mtc multiple test correction method to apply. Can be: holm, hochberg,
 #' hommel, bonferroni, BH, BY, fdr or [none]
-#' @slot factor_name the column name of sample_meta to use in regression
-#' @slot confounding_factors the column names of factors potentially confounding
+#' @param factor_name the column name of sample_meta to use in regression
+#' @param confounding_factors the column names of factors potentially confounding
 #' with the main factor if interest
-#' @slot threshold the threshold (between 0 and 1) for accepting a factor as confounding
+#' @param threshold the threshold (between 0 and 1) for accepting a factor as confounding
 #'
-#' @return A STRUCT method object with functions for applying classical least squares
+#' @return A struct model object with functions for applying classical least squares
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
@@ -25,11 +25,10 @@
 #'         confounding_factors=c('sample_order','batch'))
 #' M = model_apply(M,D)
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export confounders_clsq
-confounders_clsq = function(...) {
-    out=.confounders_clsq()
+confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,confounding_factors,threshold,...) {
     out=struct::new_struct(out,...)
     return(out)
 }
@@ -57,6 +56,8 @@ confounders_clsq = function(...) {
         description='Applies least squares regression to account for confounding factors in when applying a ttest.',
         type="univariate",
         predicted='p_value',
+        .params=c('alpha','mtc','factor_name','confounding_factors','threshold'),
+        .outputs=c('coefficients','p_value','significant','percent_change','significant'),
 
         threshold=entity(name='Confounding factor threshold',
             type='numeric',
@@ -89,7 +90,6 @@ confounders_clsq = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -175,8 +175,8 @@ setMethod(f="model_apply",
 #'
 #' plots a barchart of the percent change when including a confounding factor in a classical least squares model
 #' @import struct
-#' @slot feature_to_plot the name or index of the feature to be plotted
-#' @slot threshold the threshold to be plotted (in \%)
+#' @param feature_to_plot the name or index of the feature to be plotted
+#' @param threshold the threshold to be plotted (in \%)
 #'
 #' @return A STRUCT chart object
 #'
@@ -192,12 +192,14 @@ setMethod(f="model_apply",
 #' C = C=confounders_lsq.barchart(feature_to_plot=1,threshold=15)
 #' chart_plot(C,M[3])
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export confounders_lsq.barchart
-confounders_lsq.barchart = function(...) {
-    out=.confounders_lsq.barchart()
-    out=struct::new_struct(out,...)
+confounders_lsq.barchart = function(feature_to_plot,threshold,...) {
+    out=struct::new_struct('confounders_lsq.barchart',
+        feature_to_plot=feature_to_plot,
+        threshold=threshold,
+        ...)
     return(out)
 }
 
@@ -213,6 +215,8 @@ confounders_lsq.barchart = function(...) {
     prototype = list(name='Percent change',
         description='a barchart of the percent change when including a confounding factor in a classical least squares model_',
         type="barchart",
+        .params=c('feature_to_plot','threshold'),
+
         feature_to_plot=entity(name='Feature to plot',
             value=1,
             type=c('numeric','character','integer'),
@@ -226,7 +230,6 @@ confounders_lsq.barchart = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -262,7 +265,7 @@ setMethod(f="chart_plot",
 #' Plots a boxplot of the percent change over all features when including a
 #' confounding factor in the ttest
 #' @import struct
-#' @slot threshold the threshold to be plotted (in \%)
+#' @param threshold the threshold to be plotted (in \%)
 #'
 #' @return A STRUCT chart object
 #'
@@ -278,12 +281,13 @@ setMethod(f="chart_plot",
 #' C = C=confounders_lsq.boxplot(threshold=15)
 #' chart_plot(C,M[3])
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export confounders_lsq.boxplot
-confounders_lsq.boxplot = function(...) {
-    out=.confounders_lsq.boxplot()
-    out=struct::new_struct(out,...)
+confounders_lsq.boxplot = function(threshold,...) {
+    out=struct::new_struct('confounders_lsq.boxplot',
+        threshold=threshold,
+        ...)
     return(out)
 }
 
@@ -298,6 +302,8 @@ confounders_lsq.boxplot = function(...) {
     prototype = list(name='Percent change',
         description='a barchart of the percent change when including a confounding factor in a classical least squares model_',
         type="barchart",
+        .params=c('threshold'),
+
         threshold=entity(name='Threshold',
             value=10,
             type='numeric',
@@ -306,14 +312,12 @@ confounders_lsq.boxplot = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
     signature=c("confounders_lsq.boxplot",'confounders_clsq'),
     definition=function(obj,dobj)
     {
-
         A=data.frame('percent_change'=double(),'group'=character())
         for (i in 1:length(dobj$confounding_factors)) {
             q=data.frame('percent_change'=double(nrow(dobj$percent_change)),'group'=character(nrow(dobj$percent_change)))
@@ -333,9 +337,6 @@ setMethod(f="chart_plot",
             scale_color_manual(values=c("#386cb0", "#ef3b2c", "#7fc97f", "#fdb462", "#984ea3",
                 "#a6cee3", "#778899", "#fb9a99", "#ffff33")) +
             geom_hline(yintercept = obj$threshold,color='black',size=1,linetype= "dashed")
-
-
-
 
         return(out)
     }

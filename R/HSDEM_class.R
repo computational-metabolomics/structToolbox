@@ -7,7 +7,7 @@
 #' @import emmeans
 #' @import nlme
 #' @include mixed_effect_class.R HSD_class.R
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export HSDEM
 #' @examples
@@ -68,7 +68,7 @@ HSDEM = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

@@ -4,10 +4,25 @@
 \alias{fold_change_int}
 \title{fold change for interactions class}
 \usage{
-fold_change_int(...)
+fold_change_int(
+  alpha = 0.05,
+  factor_name,
+  threshold = 2,
+  control_group = character(0),
+  ...
+)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{alpha}{confidence level to use for intervals}
+
+\item{factor_name}{the sample_meta column to use}
+
+\item{threshold}{a threshold to define fold change as 'significant'.}
+
+\item{control_group}{a level of factor name to use as the control group for
+calculations.}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
@@ -16,19 +31,6 @@ struct object
 Calculates fold change between groups for interactions between levels of
 factors. Note that paired forced to FALSE for all comparisons.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{alpha}}{confidence level to use for intervals}
-
-\item{\code{factor_name}}{the sample_meta column to use}
-
-\item{\code{threshold}}{a threshold to define fold change as 'significant'.}
-
-\item{\code{control_group}}{a level of factor name to use as the control group for
-calculations.}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 D=D[,1:10,drop=FALSE]

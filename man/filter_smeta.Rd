@@ -4,10 +4,17 @@
 \alias{filter_smeta}
 \title{filter_smeta class}
 \usage{
-filter_smeta(...)
+filter_smeta(mode = "include", levels, factor_name, ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{mode}{= ['include'] or 'exclude' to include or exclude samples based on
+the provided labels}
+
+\item{levels}{a list of level names to include/exclude}
+
+\item{factor_name}{the sample_meta column name to use}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
@@ -15,17 +22,6 @@ struct object
 \description{
 A filter to subset a DatasetExperiment object based on sample meta data.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{mode}}{= ['include'] or 'exclude' to include or exclude samples based on
-the provided labels}
-
-\item{\code{levels}}{a list of level names to include/exclude}
-
-\item{\code{factor_name}}{the sample_meta column name to use}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')

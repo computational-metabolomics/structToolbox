@@ -2,7 +2,7 @@
 #'
 #' t-Distributed Stochastic Neighbor Embedding (tSNE) class. This object can be used to train/apply tSNE models to DatasetExperiment objects.
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export tSNE
 #' @examples
@@ -54,7 +54,7 @@ tSNE = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -97,7 +97,7 @@ setMethod(f="model_apply",
 #' plots the new representation of data after applying tSNE
 #'
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export tSNE_scatter
 #' @include PCA_class.R
@@ -126,7 +126,7 @@ tSNE_scatter = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

@@ -3,7 +3,7 @@
 #' wrapper for R lm.
 #'
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export linear_model
 #' @examples
@@ -87,7 +87,7 @@ linear_model = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -111,7 +111,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

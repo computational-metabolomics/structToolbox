@@ -1,21 +1,27 @@
-#' correlation model class
+#' Correlation Coefficient
 #'
-#' correlation model class. Calculate correlation between features and continuous variables
+#' Calculates correlation between features and continuous variables.
 #'
 #' @import struct
 #' @import stats
 #' @examples
 #' M = corr_coef()
-#'
-#' @param ... slots and values for the new object
+#' @templateVar paramNames c('alpha','mtc','factor_names')
+#' @template common_params
+#' @param factor_names Sample_meta column names to correlate features with
+#' @param method 'Calculate "kendall", "pearson" or "spearman" correlation coefficient. Default method = "spearman".'
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export corr_coef
-corr_coef = function(...) {
-    out=.corr_coef()
-    out=struct::new_struct(out,...)
+#' @export
+corr_coef = function(alpha=0.05,mtc='fdr',factor_names,method='spearman',...) {
+    out=struct::new_struct('corr_coef',
+        alpha=alpha,
+        mtc=mtc,
+        factor_names=factor_names,
+        method=method,
+        ...)
     return(out)
 }
-
 
 .corr_coef<-setClass(
     "corr_coef",
@@ -35,6 +41,8 @@ corr_coef = function(...) {
         description='Calculates the correlation coefficient between features and continuous factors.',
         type="univariate",
         predicted='p_value',
+        .params=c('alpha','mtc','factor_names','method'),
+        .outputs=c('coeff','p_value','significant'),
 
         factor_names=ents$factor_names,
         alpha=ents$alpha,
@@ -56,7 +64,6 @@ corr_coef = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

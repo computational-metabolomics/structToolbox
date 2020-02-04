@@ -1,14 +1,26 @@
 #' grid_search_1d class
 #'
-#' carries out a grid search for a single parameter
-#' @param ... slots and values for the new object 
+#' Carries out a grid search for a single parameter to try and identify the
+#' 'best' value for the parameter based on the input metric.
+#'
+#' @param param_to_optimise The name of an input parameter of the model the optimise
+#' @param search_values A vector of values to search for the optimum
+#' @param model_index A number indicating which step of a model_seq is to be optimised
+#' @param factor_name The sample_meta column name to use
+#' @param max_min 'A string 'max' or 'min' to indicate whether to maximise or minimise the metric
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export grid_search_1d
 #' @examples
 #' M = grid_search_1d()
-grid_search_1d = function(...) {
-    out=.grid_search_1d()
-    out=struct::new_struct(out,...)
+grid_search_1d = function(param_to_optimise,search_values,model_index,factor_name,max_min='min',...) {
+    out=struct::new_struct('grid_search_1d',
+        param_to_optimise=param_to_optimise,
+        search_values=search_values,
+        model_index=model_index,
+        factor_name=factor_name,
+        max_min=max_min,
+        ...)
     return(out)
 }
 
@@ -28,11 +40,12 @@ grid_search_1d = function(...) {
     ),
     prototype = list(name='1D grid search',
         type="optimisation",
-        result='results'
+        result='results',
+        .params=c('param_to_optimise','search_values','model_index','factor_name','max_min'),
+        .outputs=c('results','metric','optimum_value')
     )
 )
 
-#' @param ... slots and values for the new object 
 #' @export
 #' @template run
 setMethod(f="run",
@@ -130,14 +143,13 @@ setMethod(f="run",
 #' plots the result of the evaluated models for against the values of the optimisation paramter within the search range.
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export gs_line
 #' @examples
 #' C = gs_line()
 gs_line = function(...) {
-    out=.gs_line()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('gs_line',...)
     return(out)
 }
 
@@ -151,7 +163,6 @@ gs_line = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
 #' @export
 #' @inherit struct::chart_plot
 #' @template chart_plot

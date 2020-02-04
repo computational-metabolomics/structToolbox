@@ -1,7 +1,7 @@
 #' sbcms
 #'
 #' Signal/batch correction using SMCBMS package
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export sb_corr
 #' @examples
@@ -79,7 +79,7 @@ sb_corr = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

@@ -7,7 +7,7 @@
 permutation_test(...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object

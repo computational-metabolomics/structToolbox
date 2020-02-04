@@ -1,7 +1,7 @@
 #' knn missing value imputation
 #'
 #' applies a k-nearest neighbour approach to impute missing values
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export knn_impute
 #' @import pmp
@@ -51,7 +51,7 @@ knn_impute = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

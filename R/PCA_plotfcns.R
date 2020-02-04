@@ -3,7 +3,7 @@
 #' plots the correlation between features and selected components.
 #'
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_correlation_plot
 #' @include PCA_class.R
@@ -36,7 +36,7 @@ pca_correlation_plot = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -67,7 +67,7 @@ setMethod(f="chart_plot",
 #' 2d scatter plot of princpal component scores.
 #'
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_scores_plot
 #' @include PCA_class.R
@@ -146,7 +146,7 @@ pca_scores_plot = function(...) {
 #' @importFrom sp point.in.polygon
 #' @import ggplot2
 #' @importFrom scales squish
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -278,7 +278,7 @@ setMethod(f="chart_plot",
 #' 2d scatter plot of princpal component scores overlaid with principal component loadings.
 #'
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_biplot_plot
 #' @include PCA_class.R
@@ -349,7 +349,7 @@ pca_biplot_plot = function(...) {
 
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -431,7 +431,7 @@ setMethod(f="chart_plot",
 #' 2d scatter plot of princpal component loadings.
 #'
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_loadings_plot
 #' @include PCA_class.R
@@ -480,7 +480,7 @@ pca_loadings_plot = function(...) {
 
 
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -530,7 +530,7 @@ setMethod(f="chart_plot",
 #' line plot showing percent variance and cumulative peercent variance for the computed components.
 #'
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_scree
 #' @include PCA_class.R
@@ -552,7 +552,7 @@ pca_scree = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -587,7 +587,7 @@ setMethod(f="chart_plot",
 #' line plot showing percent variance and cumulative peercent variance for the computed components.
 #'
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export PCA_dstat
 #' @include PCA_class.R
@@ -619,7 +619,7 @@ PCA_dstat = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

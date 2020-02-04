@@ -2,35 +2,38 @@
 % Please edit documentation in R/feature_profile_class.R
 \name{feature_profile}
 \alias{feature_profile}
-\title{feature_profile class}
+\title{Feature profile class}
 \usage{
-feature_profile(...)
+feature_profile(
+  run_order,
+  qc_label,
+  qc_column,
+  colour_by,
+  feature_to_plot,
+  ...
+)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{run_order}{the sample_meta column containing the measurement
+order of the samples}
+
+\item{qc_label}{the label used to identify QC samples}
+
+\item{qc_column}{the sample_meta column containing the QC labels}
+
+\item{colour_by}{the sample_meta column to use to colour the plot}
+
+\item{feature_to_plot}{the column id of the feature to plot}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-Scatter plot of a feature against measurment order with limits for samples
+Scatter plot of a feature against measurement order with limits for samples
 and quality control samples.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{run_order}}{the sample_meta column containing the measurement
-order of the samples}
-
-\item{\code{qc_label}}{the label used to identify QC samples}
-
-\item{\code{qc_column}}{the sample_meta column containing the QC labels}
-
-\item{\code{colour_by}}{the sample_meta column to use to colour the plot}
-
-\item{\code{feature_to_plot}}{the column id of the feature to plot}
-}}
-
 \examples{
 D = sbcms_DatasetExperiment()
 C = feature_profile(run_order='sample_order',

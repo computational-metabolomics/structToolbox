@@ -1,7 +1,7 @@
 #' filter features by fraction missing values
 #'
 #' filters features by the percent number of missing values
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export mv_feature_filter
 #' @import pmp
@@ -63,7 +63,7 @@ mv_feature_filter = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -88,7 +88,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -126,7 +126,7 @@ setMethod(f="model_predict",
 #'
 #' plots a histogram of % missing values per sample
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export mv_feature_filter_hist
 #' @examples
@@ -147,7 +147,7 @@ mv_feature_filter_hist = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

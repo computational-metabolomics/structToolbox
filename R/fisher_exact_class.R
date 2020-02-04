@@ -2,10 +2,10 @@
 #'
 #' Fisher's exact test (FET). Applies FET for all features in a DatasetExperiment.
 #'
-#' @slot alpha the p-value threshold to declare a result 'significant'
-#' @slot mtc multiple test correction method
-#' @slot factor_name the sample_meta column to use
-#' @slot factor_pred A data.frame, with a factor of predicted group labels to
+#' @param alpha the p-value threshold to declare a result 'significant'
+#' @param mtc multiple test correction method
+#' @param factor_name the sample_meta column to use
+#' @param factor_pred A data.frame, with a factor of predicted group labels to
 #' compare with factor_name. Can be a data frame with a factor of predictions
 #' for each feature.'
 #'
@@ -24,12 +24,16 @@
 #'
 #' @import struct
 #' @import stats
-#' @param ... slots and values for the new object
-#' @return struct object
+#' @param ... additional slots and values passed to struct_class
+#' @return A struct model with functions for applying fisher exact test.
 #' @export fisher_exact
-fisher_exact = function(...) {
-    out=.fisher_exact()
-    out=struct::new_struct(out,...)
+fisher_exact = function(alpha=0.05,mtc='fdr',factor_name,factor_pred,...) {
+    out=struct::new_struct('fisher_exact',
+        alpha=alpha,
+        mtc=mtc,
+        factor_name=factor_name,
+        factor_pred=factor_pred,
+        ...)
     return(out)
 }
 
@@ -53,6 +57,8 @@ fisher_exact = function(...) {
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000073",
+        .params=c('alpha','mtc','factor_name','factor_pred'),
+        .outputs=c('p_value','significant'),
 
         alpha=ents$alpha,
         mtc=ents$mtc,
@@ -67,7 +73,6 @@ fisher_exact = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

@@ -2,20 +2,27 @@
 % Please edit documentation in R/corr_coef_class.R
 \name{corr_coef}
 \alias{corr_coef}
-\title{correlation model class}
+\title{Correlation Coefficient}
 \usage{
-corr_coef(...)
+corr_coef(alpha = 0.05, mtc = "fdr", factor_names, method = "spearman", ...)
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
+
+\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg, hommel, bonferroni, BH, BY, fdr or none}
+
+\item{factor_names}{Sample_meta column names to correlate features with}
+
+\item{method}{'Calculate "kendall", "pearson" or "spearman" correlation coefficient. Default method = "spearman".'}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-correlation model class. Calculate correlation between features and continuous variables
+Calculates correlation between features and continuous variables.
 }
 \examples{
 M = corr_coef()
-
 }

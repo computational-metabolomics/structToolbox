@@ -47,6 +47,8 @@ ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III') {
         type="univariate",
         predicted='p_value',
         stato_id="OBI:0200201",
+        .params=c('alpha','mtc','formula','ss_type'),
+        .outputs=c('f_statistic','p_value','significant'),
 
         alpha=ents$alpha,
         mtc=ents$mtc,
@@ -66,7 +68,7 @@ ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III') {
 )
 
 
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

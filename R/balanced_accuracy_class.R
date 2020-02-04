@@ -12,11 +12,10 @@
 #' MET = balanced_accuracy()
 #' XCV = run(XCV,D,MET)
 #'
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export balanced_accuracy
 balanced_accuracy = function(...) {
-    out=.balanced_accuracy()
     out=struct::new_struct(out,...)
     return(out)
 }
@@ -30,7 +29,7 @@ balanced_accuracy = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template calculate
 setMethod(f="calculate",

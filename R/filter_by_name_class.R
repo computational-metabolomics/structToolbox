@@ -1,25 +1,29 @@
-#' filter by name
+#' Filter by name
 #'
-#' a filter to subsample a DatasetExperiment object based on sample or feature labels.
+#' A filter to subsample a DatasetExperiment object based on sample or feature name,
+#' id, row/column index or using a vector of TRUE/FALSE.
 #'
-#' @slot mode "include" or ["exclude"] to subsample a a DatasetExperiment by including or
+#' @param mode "include" or ["exclude"] to subsample a DatasetExperiment by including or
 #' excluding samples/features based on the provided labels
-#' @slot dimension ["sample"] or "variable" to filter by sample or feature
+#' @param dimension ["sample"] or "variable" to filter by sample or feature
 #' labels
-#' @slot names the sample/feature identifiers to filter by. Can provide column
-#' names, column indices or logical
+#' @param names the sample/feature identifiers to filter by. Can provide column
+#' names, column indices or logical.
 #'
 #' @examples
 #' D = sbcms_DatasetExperiment()
 #' M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
 #' M = model_apply(M,D)
 #'
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export filter_by_name
-filter_by_name = function(...) {
-    out=.filter_by_name()
-    out=struct::new_struct(out,...)
+filter_by_name = function(mode='exclude',dimension='sample',names,...) {
+    out=struct::new_struct(filter_by_name,
+        mode=mode,
+        dimension=dimension,
+        names=names,
+        ...)
     return(out)
 }
 
@@ -34,6 +38,10 @@ filter_by_name = function(...) {
     ),
     prototype=list(type = 'filter',
         predicted = 'filtered',
+        .params=c('mode','dimension','names'),
+        .outputs=c('filtered'),
+
+        # inputs
         mode=entity(value='exclude',
             name='Filter mode',
             description = 'The filtering mode controls whether samples/features are mode="included" or mode="excluded" based on their name',
@@ -44,14 +52,12 @@ filter_by_name = function(...) {
             type='character',
             allowed=c('sample','variable')
         ),
-
         names=entity(name='Names',
             description = 'The name of features/samples to be filtered. Must be an exact match. Can also provide indexes (numeric) or logical.',
             type=c('character','numeric','logical'))
     )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -111,7 +117,6 @@ setMethod(f="model_apply",
     }
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -122,7 +127,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

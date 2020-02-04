@@ -4,11 +4,11 @@
 #' incrementally based on their rank. Any measure for ranking the features may
 #' be used e.g. PLS VIP score, ttest p-value etc.
 #'
-#' @slot min_no_vars minimum number of features to test
-#' @slot max_no_vars maximum numbe ro features to test
-#' @slot step_size the size of the incremenent between min and max no of vars
-#' @slot factor_name the sample-meta colum to use
-#' @slot variable_rank a vector of values that can be used to rank the features,
+#' @param min_no_vars minimum number of features to test
+#' @param max_no_vars maximum numbe ro features to test
+#' @param step_size the size of the incremenent between min and max no of vars
+#' @param factor_name the sample-meta colum to use
+#' @param variable_rank a vector of values that can be used to rank the features,
 #' where the smallest value is the first rank.
 #'
 #' @examples
@@ -32,12 +32,17 @@
 #'                            factor_name='class'))
 #' M = run(M,D,balanced_accuracy())
 #'
-#' @param ... slots and values for the new object
-#' @return struct object
+#' @param ... additional slots and values passed to struct_class
+#' @return A struct object
 #' @export forward_selection_byrank
-forward_selection_byrank = function(...) {
-    out=.forward_selection_byrank()
-    out=struct::new_struct(out,...)
+forward_selection_byrank = function(min_no_vars=1,max_no_vars=100,step_size=1,factor_name,variable_rank,...) {
+    out=struct::new_struct('forward_selection_byrank',
+        min_no_vars=min_no_vars,
+        max_no_vars=max_no_vars,
+        step_size=step_size,
+        factor_name=factor_name,
+        variable_rank=variable_rank,
+        ...)
     return(out)
 }
 
@@ -61,13 +66,14 @@ forward_selection_byrank = function(...) {
         min_no_vars=1,
         max_no_vars=100,
         step_size=1,
-        result='results'
+        result='results',
+        .params=c('min_no_vars','max_no_vars','step_size','factor_name'),
+        .outputs=c('metric','results','chosen_vars','smoothed','searchlist')
     ),
     contains = 'resampler'
 )
 
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template run
 setMethod(f="run",
@@ -105,9 +111,8 @@ setMethod(f="run",
                 p=predicted(WF) # get the prediction output and collect
                 perm_results[,2]=p[,1]
                 all_results[((nrow(X)*(counter-1))+1):(nrow(X)*counter),]=perm_results # collate results
-            }  else
-            { # must be an iterator
-
+            }  else {
+                # must be an iterator
                 WF=run(WF,Di,MET)
                 v=output_value(WF,'metric')
                 if (counter==1)
@@ -128,13 +133,12 @@ setMethod(f="run",
         results=output_value(I,'results')
         searchlist=output_value(I,'searchlist')
 
-        if (is(models(I),'model_OR_model_seq'))
-        { # if a model or list then apply the metric
+        if (is(models(I),'model_OR_model_seq')) {
+            # if a model or list then apply the metric
 
             k=length(searchlist)
             ts.metric=numeric(k)
-            for (i in 1:k)
-            {
+            for (i in 1:k) {
                 ts=results[results$no_features==searchlist[i],]
                 MET=calculate(MET,ts$actual,ts$predicted)
                 ts.metric[i]=value(MET)
@@ -142,8 +146,7 @@ setMethod(f="run",
 
             value=ts.metric
             df=data.frame(metric=MET$name,mean=value,sd=NA)
-        } else
-        {
+        } else {
             # if not a model or list then the metric has already been applied, we just need to choose the optimum
             value=results$mean
             df=results
@@ -177,8 +180,7 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
     # p = proportion in training
 
     residual=numeric(k)
-    for (i in 1:k)
-    {
+    for (i in 1:k) {
         # randomly choose some data to remove
         xx=sample(X[2:length(X)-1], (length(X)-2)*p, replace = FALSE)
         xx=sort(unique(c(X[1],xx,X[length(X)]))) # keep first and last points so that loess doesnt have to extrapolate
@@ -187,7 +189,6 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
         xx2=X[!(X %in% xx)]
         xx2=sort(xx2)
         yy2=Y[X %in% xx2]
-
 
         loessMod <- loess(yy ~ xx, span=x)
 
@@ -209,7 +210,7 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
 #' features within the search range for forward_selection_by_rank objects.
 #'
 #' @import struct
-#' @param ... slots and values for the new object
+#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export fs_line
 #' @examples
@@ -238,8 +239,7 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
 #' chart_plot(C,M)
 #'
 fs_line = function(...) {
-    out=.fs_line()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('fs_line',...)
     return(out)
 }
 
@@ -253,7 +253,6 @@ fs_line = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

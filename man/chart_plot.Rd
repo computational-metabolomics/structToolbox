@@ -142,7 +142,7 @@
 
 \item{eobj}{a second DatasetExperiment object to compare with the first}
 
-\item{...}{slots and values for the new object}
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 a plot object
