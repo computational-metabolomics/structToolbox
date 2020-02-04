@@ -15,7 +15,7 @@
 #' @export autoscale
 autoscale = function(...) {
     out=.autoscale()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -24,9 +24,9 @@ autoscale = function(...) {
     "autoscale",
     contains='model',
     slots=c(
-        outputs_autoscaled='DatasetExperiment',
-        outputs_mean='numeric',
-        outputs_sd='numeric'
+        autoscaled='DatasetExperiment',
+        mean='numeric',
+        sd='numeric'
     ),
     prototype = list(name='Autoscaling',
         type="preprocessing",

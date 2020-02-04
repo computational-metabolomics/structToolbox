@@ -17,7 +17,7 @@
 #' @export filter_smeta
 filter_smeta = function(...) {
     out=.filter_smeta()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -25,30 +25,30 @@ filter_smeta = function(...) {
 .filter_smeta<-setClass(
     "filter_smeta",
     contains = c('model'),
-    slots=c(params_mode='enum',
-        params_levels='entity',
-        params_factor_name='entity',
-        outputs_filtered='DatasetExperiment'
+    slots=c(mode='enum',
+        levels='entity',
+        factor_name='entity',
+        filtered='DatasetExperiment'
     ),
     prototype=list(type = 'filter',
         name='Filter by sample_meta data',
         description='Filter data to include or exlude samples based on their meta data.',
         predicted = 'filtered',
 
-        params_mode=enum(name='Mode of action',
+        mode=enum(name='Mode of action',
             description='"include" or "exclude" samples based on the sample_meta data',
             type='character',
             allowed=c('include','exclude'),
             value='include'
         ),
 
-        params_levels=entity(name='list of level names to filter by',
+        levels=entity(name='list of level names to filter by',
             description='The levels of factor_name to filter by',
             type='character',
             value='NA'
         ),
 
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             description='The sample_meta column name to filter by',
             type='character',
             value='NA')

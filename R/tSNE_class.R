@@ -10,7 +10,7 @@
 #'
 tSNE = function(...) {
     out=.tSNE()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -20,17 +20,17 @@ tSNE = function(...) {
     contains=c('model'),
     slots=c(
         # INPUTS
-        params_dims='numeric',
-        params_perplexity='numeric',
-        params_max_iter='numeric',
-        params_theta='numeric',
-        params_check_duplicates='logical',
-        params_init='entity',
-        params_factor_name='character',
-        params_eta='numeric',
+        dims='numeric',
+        perplexity='numeric',
+        max_iter='numeric',
+        theta='numeric',
+        check_duplicates='logical',
+        init='entity',
+        factor_name='character',
+        eta='numeric',
 
         # OUTPUTS
-        outputs_Y='DatasetExperiment'
+        Y='DatasetExperiment'
     ),
     prototype = list(
         name='tSNE',
@@ -38,18 +38,18 @@ tSNE = function(...) {
         type="preprocessing",
         predicted='tsne',
         libraries='Rtsne',
-        params_dims=2,
-        params_perplexity=30,
-        params_max_iter=1000,
-        params_theta=0.5,
-        params_check_duplicates=FALSE,
-        params_init=entity(
+        dims=2,
+        perplexity=30,
+        max_iter=1000,
+        theta=0.5,
+        check_duplicates=FALSE,
+        init=entity(
             value=NULL,
             type=c('NULL','data.frame','DatasetExperiment'),
             name='Initial coordinates',
             description='A set of coordinates for initialising the tSNE
             algorithm. Setting to NULL (default) uses random initialisation.'),
-        params_eta=200
+        eta=200
 
     )
 )
@@ -106,7 +106,7 @@ setMethod(f="model_apply",
 #'
 tSNE_scatter = function(...) {
     out=.tSNE_scatter()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -115,7 +115,7 @@ tSNE_scatter = function(...) {
     "tSNE_scatter",
     contains='chart',
     slots=c(
-        params_factor_name='character'
+        factor_name='character'
 
         ),
     prototype = list(name='Feature boxplot',

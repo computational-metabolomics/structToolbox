@@ -9,7 +9,7 @@
 #' @export permutation_test2
 permutation_test2 = function(...) {
     out=.permutation_test2()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -18,19 +18,19 @@ permutation_test2 = function(...) {
     "permutation_test2",
     contains='resampler',
     slots=c(
-        params_number_of_permutations='numeric',
-        params_collect='character',
-        outputs_results.permuted='data.frame',
-        outputs_results.unpermuted='data.frame',
-        outputs_metric='data.frame',
-        outputs_collected='entity'
+        number_of_permutations='numeric',
+        collect='character',
+        results.permuted='data.frame',
+        results.unpermuted='data.frame',
+        metric='data.frame',
+        collected='entity'
     ),
     prototype = list(name='permutation test',
                      type='permutation',
                      result='results',
-                     params_number_of_permutations=10,
-                     params_collect='vip',
-                     outputs_collected=entity(name='collected output',
+                     number_of_permutations=10,
+                     collect='vip',
+                     collected=entity(name='collected output',
                                               type=c('logical','list'),
                                               value=NA,max_length=Inf)
     )

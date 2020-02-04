@@ -8,7 +8,7 @@
 #' M = grid_search_1d()
 grid_search_1d = function(...) {
     out=.grid_search_1d()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -16,14 +16,14 @@ grid_search_1d = function(...) {
 .grid_search_1d<-setClass(
     "grid_search_1d",
     contains='resampler',
-    slots=c(params_param_to_optimise='character',
-        params_search_values='numeric',
-        params_model_index='numeric',
-        params_factor_name='character',
-        params_max_min='character',
-        outputs_results='data.frame',
-        outputs_metric='data.frame',
-        outputs_optimum_value='numeric'
+    slots=c(param_to_optimise='character',
+        search_values='numeric',
+        model_index='numeric',
+        factor_name='character',
+        max_min='character',
+        results='data.frame',
+        metric='data.frame',
+        optimum_value='numeric'
 
     ),
     prototype = list(name='1D grid search',
@@ -137,7 +137,7 @@ setMethod(f="run",
 #' C = gs_line()
 gs_line = function(...) {
     out=.gs_line()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

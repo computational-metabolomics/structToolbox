@@ -15,7 +15,7 @@
 #' @export pareto_scale
 pareto_scale = function(...) {
     out=.pareto_scale()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -24,9 +24,9 @@ pareto_scale = function(...) {
     "pareto_scale",
     contains='model',
     slots=c(
-        outputs_scaled='DatasetExperiment',
-        outputs_mean='numeric',
-        outputs_sd='numeric'
+        scaled='DatasetExperiment',
+        mean='numeric',
+        sd='numeric'
     ),
     prototype = list(name='Pareto scaling',
         type="preprocessing",

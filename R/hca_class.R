@@ -9,7 +9,7 @@
 #' M = HCA()
 HCA = function(...) {
     out=.HCA()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -19,14 +19,14 @@ HCA = function(...) {
     contains=c('model'),
     slots=c(
         # INPUTS
-        params_dist_method='enum',
-        params_cluster_method='enum',
-        params_minkowski_power='numeric',
-        params_factor_name='character',
+        dist_method='enum',
+        cluster_method='enum',
+        minkowski_power='numeric',
+        factor_name='character',
         # OUTPUTS
-        outputs_dist_matrix='entity',
-        outputs_hclust='entity',
-        outputs_factor_df='data.frame'
+        dist_matrix='entity',
+        hclust='entity',
+        factor_df='data.frame'
     ),
     prototype = list(name='Hierarchical Cluster Analysis',
         description='Applies hierarchical clustering to a DatasetExperiment.',
@@ -34,24 +34,24 @@ HCA = function(...) {
         predicted='dist_matrix',
 
 
-        params_dist_method=enum(name='Distance method',
+        dist_method=enum(name='Distance method',
             value='euclidean',
             type='character',
             description='The distance measure to be used. This must be one of "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"',
             allowed=c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski")
         ),
-        params_cluster_method=enum(name='Clustering method',
+        cluster_method=enum(name='Clustering method',
             value='complete',
             type='character',
             description='The agglomeration method to be used. This should be one of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median" or "centroid"',
             allowed=c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
         ),
 
-        outputs_dist_matrix=entity(name='distance structure',
+        dist_matrix=entity(name='distance structure',
             type='dist',
             description='An object containing pairwise distance information between samples'
         ),
-        outputs_hclust=entity(name='clustering object',
+        hclust=entity(name='clustering object',
             type='hclust',
             description='An object of class hclust which describes the tree produced by the clustering process'
         )
@@ -93,7 +93,7 @@ setMethod(f="model_apply",
 #' C = hca_dendrogram()
 hca_dendrogram = function(...) {
     out=.hca_dendrogram()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

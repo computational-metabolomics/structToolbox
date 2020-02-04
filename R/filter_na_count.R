@@ -15,7 +15,7 @@
 #' @export filter_na_count
 filter_na_count = function(...) {
     out=.filter_na_count()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -23,45 +23,45 @@ filter_na_count = function(...) {
 .filter_na_count<-setClass(
     "filter_na_count",
     contains = c('model'),
-    slots=c(params_threshold='entity',
-        params_factor_name='entity',
-        outputs_filtered='entity',
-        outputs_count='entity',
-        outputs_na_count='entity',
-        outputs_flags='entity'
+    slots=c(threshold='entity',
+        factor_name='entity',
+        filtered='entity',
+        count='entity',
+        na_count='entity',
+        flags='entity'
     ),
     prototype=list(name = 'filters features by the number of NA per class',
         description = 'Filters by removing features where the number of features in any class exceeds the threshold',
         type = 'filter',
         predicted = 'filtered',
 
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             type='character',
             description='Name of sample_meta column to use'
         ),
 
-        params_threshold=entity(name = 'Count threshold (%)',
+        threshold=entity(name = 'Count threshold (%)',
             description = 'Features with less than THRESHOLD missing values in any class are excluded.',
             value = 2,
             type='numeric'),
 
 
-        outputs_filtered=entity(name = 'Filtered DatasetExperiment',
+        filtered=entity(name = 'Filtered DatasetExperiment',
             description = 'A DatasetExperiment object containing the filtered data.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
-        outputs_count=entity(name = 'Count per class',
+        count=entity(name = 'Count per class',
             description = 'Number of non-NA per class',
             type='data.frame',
             value=data.frame()
         ),
-        outputs_na_count=entity(name = 'NA count per class',
+        na_count=entity(name = 'NA count per class',
             description = 'Number of NA per class',
             type='data.frame',
             value=data.frame()
         ),
-        outputs_flags=entity(name = 'Flags',
+        flags=entity(name = 'Flags',
             description = 'a flag indicating whether the sample was rejected.',
             type='data.frame',
             value=data.frame()

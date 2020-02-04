@@ -12,7 +12,7 @@
 #'
 ttest = function(...) {
     out=.ttest()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -22,18 +22,18 @@ ttest = function(...) {
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params_alpha='entity_stato',
-        params_mtc='entity_stato',
-        params_factor_names='entity',
-        params_paired='entity',
-        params_paired_factor='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_names='entity',
+        paired='entity',
+        paired_factor='entity',
         # OUTPUTS
-        outputs_t_statistic='entity_stato',
-        outputs_p_value='entity',
-        outputs_dof='entity_stato',
-        outputs_significant='entity',
-        outputs_conf_int='entity',
-        outputs_estimates='data.frame'
+        t_statistic='entity_stato',
+        p_value='entity',
+        dof='entity_stato',
+        significant='entity',
+        conf_int='entity',
+        estimates='data.frame'
     ),
     prototype = list(name='t-test',
         description='Applies the t-test to each feature to indicate significance, with (optional)
@@ -42,54 +42,54 @@ ttest = function(...) {
         predicted='p_value',
         stato_id="STATO:0000304",
 
-        params_factor_names=entity(name='Factor names',
+        factor_names=entity(name='Factor names',
             type='character',
             description='Names of sample_meta columns to use'
         ),
 
-        params_alpha=entity_stato(name='Confidence level',
+        alpha=entity_stato(name='Confidence level',
             stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params_mtc=entity_stato(name='Multiple Test Correction method',
+        mtc=entity_stato(name='Multiple Test Correction method',
             stato_id='OBI:0200089',
             value='fdr',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        params_paired=entity(name='Apply paired t-test',
+        paired=entity(name='Apply paired t-test',
             value=FALSE,
             type='logical',
             description='TRUE/FALSE to apply paired t-test.'
         ),
-        params_paired_factor=entity(name='Paired factor',
+        paired_factor=entity(name='Paired factor',
             value='NA',
             type='character',
             description='Factor name that encodes the sample id for pairing'
         ),
-        outputs_t_statistic=entity_stato(name='t-statistic',
+        t_statistic=entity_stato(name='t-statistic',
             stato_id='STATO:0000176',
             type='numeric',
             description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.'
         ),
-        outputs_p_value=entity_stato(name='p value',
+        p_value=entity_stato(name='p value',
             stato_id='STATO:0000175',
             type='numeric',
             description='the probability of observing the calculated t-statistic.'
         ),
-        outputs_dof=entity_stato(name='degrees of freedom',
+        dof=entity_stato(name='degrees of freedom',
             stato_id='STATO:0000069',
             type='numeric',
             description='the number of degrees of freedom used to calculate the test statistic'
         ),
-        outputs_significant=entity(name='Significant features',
+        significant=entity(name='Significant features',
             #stato_id='STATO:0000069',
             type='logical',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         ),
-        outputs_conf_int=entity(name='Confidence interval',
+        conf_int=entity(name='Confidence interval',
             type='data.frame',
             description='confidence interval for t statistic'
         )

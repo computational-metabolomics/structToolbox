@@ -12,7 +12,7 @@
 #'
 prop_na = function(...) {
     out=.prop_na()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -22,13 +22,13 @@ prop_na = function(...) {
     contains=c('model'),
     slots=c(
         # INPUTS
-        params_alpha='entity_stato',
-        params_mtc='entity_stato',
-        params_factor_name='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_name='entity',
         # OUTPUTS
-        outputs_p_value='entity_stato',
-        outputs_significant='entity',
-        outputs_na_count='entity'
+        p_value='entity_stato',
+        significant='entity',
+        na_count='entity'
         # CHARTS
         # none
     ),
@@ -38,34 +38,34 @@ prop_na = function(...) {
         type="univariate",
         predicted='p_value',
 
-        params_factor_name=entity(name='Factor names',
+        factor_name=entity(name='Factor names',
             type='character',
             description='Names of sample_meta columns to use'
         ),
 
-        params_alpha=entity_stato(name='Confidence level',
+        alpha=entity_stato(name='Confidence level',
             stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params_mtc=entity_stato(name='Multiple Test Correction method',
+        mtc=entity_stato(name='Multiple Test Correction method',
             stato_id='OBI:0200089',
             value='fdr',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        outputs_p_value=entity_stato(name='p value',
+        p_value=entity_stato(name='p value',
             stato_id='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated statistic.'
         ),
-        outputs_significant=entity(name='Significant features',
+        significant=entity(name='Significant features',
             #stato_id='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threshold (alpha)'
         ),
-        outputs_na_count=entity(name='Number of NA',
+        na_count=entity(name='Number of NA',
             #stato_id='STATO:0000069',
             type='data.frame',
             description='The number of NA values per group of the chosen factor'

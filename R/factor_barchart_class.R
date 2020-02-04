@@ -19,7 +19,7 @@
 #' @include HSD_class.R
 DatasetExperiment.factor_barchart = function(...) {
     out=.DatasetExperiment.factor_barchart()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -28,19 +28,19 @@ DatasetExperiment.factor_barchart = function(...) {
     "DatasetExperiment.factor_barchart",
     contains='chart',
     slots=c(
-        params_feature_to_plot='entity',
-        params_factor_names='entity'
+        feature_to_plot='entity',
+        factor_names='entity'
     ),
     prototype = list(name='Factor barchart',
         description='bar charts split by factors in the sample_meta data',
         type="barchart",
 
-        params_feature_to_plot=entity(name='Feature to plot',
+        feature_to_plot=entity(name='Feature to plot',
             value='V1',
             type=c('character','numeric','integer'),
             description='The column name of the feature to be plotted.'
         ),
-        params_factor_names=entity(name='Factor names',
+        factor_names=entity(name='Factor names',
             value='factor',
             type='character',
             description='The column name(s) of meta data to use.'

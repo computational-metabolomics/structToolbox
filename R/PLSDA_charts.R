@@ -14,7 +14,7 @@
 #' C = plsda_scores_plot()
 plsda_scores_plot = function(...) {
     out=.plsda_scores_plot()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -24,32 +24,32 @@ plsda_scores_plot = function(...) {
     contains='chart',
     slots=c(
         # INPUTS
-        params_components='entity',
-        params_points_to_label='entity',
-        params_factor_name='entity',
-        params_groups='entity'
+        components='entity',
+        points_to_label='entity',
+        factor_name='entity',
+        groups='entity'
     ),
     prototype = list(name='PLSDA scores plot',
         description='scatter plot of PLSDA component scores',
         type="scatter",
         libraries=c('pls','ggplot2'),
-        params_components=entity(name='Components to plot',
+        components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
             description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
             max_length=2
         ),
-        params_points_to_label=entity(name='points_to_label',
+        points_to_label=entity(name='points_to_label',
             value='none',
             type='character',
             description='("none"), "all", or "outliers" will be labelled on the plot.'
         ),
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        params_groups=entity(name='Groups',
+        groups=entity(name='Groups',
             value=factor(),
             type=c('factor','character','numeric'),
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'

@@ -11,7 +11,7 @@
 #' C = kfoldxcv_grid()
 kfoldxcv_grid = function(...) {
     out=.kfoldxcv_grid()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -21,12 +21,12 @@ kfoldxcv_grid = function(...) {
     contains='chart',
     slots=c(
         # INPUTS
-        params_factor_name='entity'
+        factor_name='entity'
     ),
     prototype = list(name='kfoldxcv grid plot',
         description='plots the predictions for each cross-validation loop',
         type="grid",
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
@@ -108,7 +108,7 @@ setMethod(f="chart_plot",
 #' C = kfoldxcv_metric()
 kfoldxcv_metric = function(...) {
     out=.kfoldxcv_metric()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

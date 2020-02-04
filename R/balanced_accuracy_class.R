@@ -17,7 +17,7 @@
 #' @export balanced_accuracy
 balanced_accuracy = function(...) {
     out=.balanced_accuracy()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

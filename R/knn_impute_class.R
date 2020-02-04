@@ -9,7 +9,7 @@
 #' M = knn_impute()
 knn_impute = function(...) {
     out=.knn_impute()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -17,10 +17,10 @@ knn_impute = function(...) {
 .knn_impute<-setClass(
     "knn_impute",
     contains = c('model'),
-    slots=c(params_neighbours='entity',
-        params_sample_max='entity',
-        params_feature_max='entity',
-        outputs_imputed='entity'
+    slots=c(neighbours='entity',
+        sample_max='entity',
+        feature_max='entity',
+        imputed='entity'
     ),
 
     prototype=list(name = 'kNN missing value imputation',
@@ -28,22 +28,22 @@ knn_impute = function(...) {
         type = 'normalisation',
         predicted = 'imputed',
 
-        params_neighbours=entity(name = 'Number of neighbours',
+        neighbours=entity(name = 'Number of neighbours',
             description = 'The number of neighbours (k) to use ofr imputation of missing values.',
             value = 5,
             type='numeric'),
 
-        params_feature_max=entity(name = 'Maximum percent per feature',
+        feature_max=entity(name = 'Maximum percent per feature',
             description = 'The maximum percent missing values per sample',
             value = 50,
             type='numeric'),
 
-        params_sample_max=entity(name = 'Maximum percent per sample',
+        sample_max=entity(name = 'Maximum percent per sample',
             description = 'The maximum percent missing values per sample',
             value = 50,
             type='numeric'),
 
-        outputs_imputed=entity(name = 'Imputed DatasetExperiment',
+        imputed=entity(name = 'Imputed DatasetExperiment',
             description = 'A DatasetExperiment object containing the data where missing values have been imputed.',
             type='DatasetExperiment',
             value=DatasetExperiment()

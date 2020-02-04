@@ -8,7 +8,7 @@
 #' M = PLSDA()
 PLSDA = function(...) {
     out=.PLSDA()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -16,31 +16,31 @@ PLSDA = function(...) {
 .PLSDA<-setClass(
     "PLSDA",
     contains='model',
-    slots=c(params_number_components='entity',
-        params_factor_name='entity',
-        outputs_scores='data.frame',
-        outputs_loadings='data.frame',
-        outputs_yhat='data.frame',
-        outputs_design_matrix='data.frame',
-        outputs_y='data.frame',
-        outputs_reg_coeff='data.frame',
-        outputs_probability='data.frame',
-        outputs_vip='data.frame',
-        outputs_pls_model='list',
-        outputs_pred='data.frame',
-        outputs_threshold='numeric'
+    slots=c(number_components='entity',
+        factor_name='entity',
+        scores='data.frame',
+        loadings='data.frame',
+        yhat='data.frame',
+        design_matrix='data.frame',
+        y='data.frame',
+        reg_coeff='data.frame',
+        probability='data.frame',
+        vip='data.frame',
+        pls_model='list',
+        pred='data.frame',
+        threshold='numeric'
 
     ),
     prototype = list(name='Partial least squares discriminant analysis',
         type="classification",
         predicted='pred',
         libraries='pls',
-        params_number_components=entity(value = 2,
+        number_components=entity(value = 2,
             name = 'Number of PLS components',
             description = 'The number of PLS components to use',
             type = c('numeric','integer')
         ),
-        params_factor_name=entity(value = 'V1',
+        factor_name=entity(value = 'V1',
             name = 'Name of sample_meta column',
             description = 'The name of the sample_meta column to use for the PLS models',
             type = 'character')

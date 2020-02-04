@@ -4,7 +4,14 @@
 \alias{blank_filter}
 \title{Blank filter}
 \usage{
-blank_filter(...)
+blank_filter(
+  fold_change = 20,
+  blank_label = "blank",
+  qc_label = "QC",
+  factor_name,
+  fraction = 0,
+  ...
+)
 }
 \arguments{
 \item{...}{slots and values for the new object}

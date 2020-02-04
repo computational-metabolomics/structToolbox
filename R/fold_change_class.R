@@ -23,7 +23,7 @@
 #' @export fold_change
 fold_change = function(...) {
     out=.fold_change()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -33,18 +33,18 @@ fold_change = function(...) {
     contains=c('model'),
     slots=c(
         # INPUTS
-        params_alpha='entity_stato',
-        params_factor_name='entity',
-        params_paired='entity',
-        params_sample_name='entity',
-        params_threshold='numeric',
-        params_control_group='character',
+        alpha='entity_stato',
+        factor_name='entity',
+        paired='entity',
+        sample_name='entity',
+        threshold='numeric',
+        control_group='character',
 
         # OUTPUTS
-        outputs_fold_change='entity',
-        outputs_upper_ci='entity',
-        outputs_lower_ci='entity',
-        outputs_significant='data.frame'
+        fold_change='entity',
+        upper_ci='entity',
+        lower_ci='entity',
+        significant='data.frame'
     ),
     prototype = list(name='fold change',
         description='Calculates the fold change between all pairs of groups for each feature.',
@@ -52,40 +52,40 @@ fold_change = function(...) {
         predicted='fold_change',
         #  stato_id="STATO:0000304",
 
-        params_factor_name=entity(name='Factor names',
+        factor_name=entity(name='Factor names',
             type='character',
             description='Name of sample_meta column to use for grouping samples'
         ),
-        params_sample_name=entity(name='Sample names',
+        sample_name=entity(name='Sample names',
             type='character',
             description='Name of sample_meta columns to use for extracting pairwise comparisons'
         ),
-        params_alpha=entity_stato(name='Confidence level',
+        alpha=entity_stato(name='Confidence level',
             stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for calculating confidence intervals.'
         ),
-        params_paired=entity(name='Apply paired fold change',
+        paired=entity(name='Apply paired fold change',
             value=FALSE,
             type='logical',
             description='TRUE/FALSE to apply paired fold change.'
         ),
 
-        params_threshold=2,
+        threshold=2,
 
-        outputs_fold_change=entity(name='fold change',
+        fold_change=entity(name='fold change',
             type='data.frame',
             description='fold change between groups',
             value=data.frame()
         ),
 
-        outputs_lower_ci=entity(name='Confidence interval',
+        lower_ci=entity(name='Confidence interval',
             type='data.frame',
             description='lower confidence interval for fold change',
             value=data.frame()
         ),
-        outputs_upper_ci=entity(name='Fold change upper confidence interval',
+        upper_ci=entity(name='Fold change upper confidence interval',
             type='data.frame',
             description='upper confidence interval for fold change.',
             value=data.frame()
@@ -193,7 +193,7 @@ setMethod(f="model_apply",
 #' C = fold_change_plot()
 fold_change_plot = function(...) {
     out=.fold_change_plot()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -201,13 +201,13 @@ fold_change_plot = function(...) {
 .fold_change_plot<-setClass(
     "fold_change_plot",
     contains='chart',
-    slots=c(params_number_features='numeric',
-        params_orientation='character'),
+    slots=c(number_features='numeric',
+        orientation='character'),
     prototype = list(name='Fold change plot',
         description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
-        params_number_features=20,
-        params_orientation='portrait'
+        number_features=20,
+        orientation='portrait'
     )
 
 )

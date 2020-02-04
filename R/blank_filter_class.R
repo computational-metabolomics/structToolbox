@@ -26,7 +26,7 @@
 #' @export blank_filter
 blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_name,fraction=0,...) {
     out=.blank_filter()
-    out=struct::.initialize_struct_class(out,
+    out=struct::new_struct(out,
         fold_change=fold_change,
         blank_label=blank_label,
         qc_label=qc_label,
@@ -40,13 +40,13 @@ blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_
 .blank_filter<-setClass(
     "blank_filter",
     contains = c('model'),
-    slots=c(params_fold_change='entity',
-        params_blank_label='entity',
-        params_qc_label='entity',
-        params_factor_name='entity',
-        params_fraction='entity',
-        outputs_filtered='entity',
-        outputs_flags='entity'
+    slots=c(fold_change='entity',
+        blank_label='entity',
+        qc_label='entity',
+        factor_name='entity',
+        fraction='entity',
+        filtered='entity',
+        flags='entity'
     ),
     prototype=list(name = 'Blank filter',
         description = 'Filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the intensity is not large compared to the blank are removed.',
@@ -54,21 +54,21 @@ blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_
         predicted = 'filtered',
         libraries='pmp',
 
-        params_blank_label=ents$blank_label,
-        params_qc_label=ents$qc_label,
-        params_factor_name=ents$factor_name,
+        blank_label=ents$blank_label,
+        qc_label=ents$qc_label,
+        factor_name=ents$factor_name,
 
-        params_fold_change=entity(name = 'Fold change threhsold',
+        fold_change=entity(name = 'Fold change threhsold',
             description = 'Features with median intensity less than FOLD_CHANGE times the median intensity of blanks are removed.',
             value = 20,
             type='numeric'),
-        params_fraction=entity(name='Fraction in blank',
+        fraction=entity(name='Fraction in blank',
             description='Remove features only if they occur in a sufficient proportion of the blanks',
             type='numeric',
             value=0),
 
-        outputs_filtered=ents$filtered,
-        outputs_flags=ents$flags
+        filtered=ents$filtered,
+        flags=ents$flags
     )
 )
 
@@ -133,7 +133,7 @@ setMethod(f="model_predict",signature=c("blank_filter","DatasetExperiment"),
 #' C = blank_filter_hist()
 blank_filter_hist = function(...) {
     out=.blank_filter_hist()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

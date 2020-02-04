@@ -9,7 +9,7 @@
 #' M = pqn_norm()
 pqn_norm = function(...) {
     out=.pqn_norm()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -17,27 +17,27 @@ pqn_norm = function(...) {
 .pqn_norm<-setClass(
     "pqn_norm",
     contains = c('model'),
-    slots=c(params_qc_label='entity',
-        params_factor_name='entity',
-        outputs_normalised='entity',
-        outputs_coeff='entity'
+    slots=c(qc_label='entity',
+        factor_name='entity',
+        normalised='entity',
+        coeff='entity'
     ),
     prototype=list(name = 'Probabilistic Quotient Normalisation (PQN)',
         description = 'PQN normalisation using QC samples as reference samples',
         type = 'normalisation',
         predicted = 'normalised',
 
-        params_qc_label=entity(name = 'QC label',
+        qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        outputs_normalised=entity(name = 'Normalised DatasetExperiment',
+        normalised=entity(name = 'Normalised DatasetExperiment',
             description = 'A DatasetExperiment object containing the normalised data.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
-        outputs_coeff=entity(name = 'PQN coefficients',
+        coeff=entity(name = 'PQN coefficients',
             description = 'The normalisation coefficients calculated by PQN',
             type='data.frame',
             value=data.frame()
@@ -80,7 +80,7 @@ setMethod(f="model_apply",
 #' C = pqn_norm_hist()
 pqn_norm_hist = function(...) {
     out=.pqn_norm_hist()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

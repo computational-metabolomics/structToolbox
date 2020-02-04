@@ -10,7 +10,7 @@
 #'
 rsd_filter = function(...) {
     out=.rsd_filter()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -18,38 +18,38 @@ rsd_filter = function(...) {
 .rsd_filter<-setClass(
     "rsd_filter",
     contains = c('model'),
-    slots=c(params_rsd_threshold='entity',
-        params_qc_label='entity',
-        params_factor_name='entity',
-        outputs_filtered='entity',
-        outputs_flags='entity'
+    slots=c(rsd_threshold='entity',
+        qc_label='entity',
+        factor_name='entity',
+        filtered='entity',
+        flags='entity'
     ),
     prototype=list(name = 'RSD filter',
         description = 'Filters features by calculating the relative standard deviation (RSD) for the QC samples and removing features with RSD greater than the threshold.',
         type = 'filter',
         predicted = 'filtered',
 
-        params_rsd_threshold=entity(name = 'RSD threhsold',
+        rsd_threshold=entity(name = 'RSD threhsold',
             description = 'Features with RSD greather than the threshold are removed.',
             value = 20,
             type='numeric'),
 
-        params_qc_label=entity(name = 'QC label',
+        qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             description='Name of sample meta column to use',
             type='character',
             value='V1'),
 
-        outputs_filtered=entity(name = 'RSD filtered DatasetExperiment',
+        filtered=entity(name = 'RSD filtered DatasetExperiment',
             description = 'A DatasetExperiment object containing the filtered data.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
-        outputs_flags=entity(name = 'Flags',
+        flags=entity(name = 'Flags',
             description = 'RSD and a flag indicating whether the feature was rejected by the filter or not.',
             type='data.frame',
             value=data.frame()
@@ -92,7 +92,7 @@ setMethod(f="model_apply",
 #'
 rsd_filter_hist = function(...) {
     out=.rsd_filter_hist()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

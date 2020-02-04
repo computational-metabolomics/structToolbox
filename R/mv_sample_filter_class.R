@@ -9,7 +9,7 @@
 #' C = mv_sample_filter()
 mv_sample_filter = function(...) {
     out=.mv_sample_filter()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -17,24 +17,24 @@ mv_sample_filter = function(...) {
 .mv_sample_filter<-setClass(
     "mv_sample_filter",
     contains = c('model'),
-    slots=c(params_mv_threshold='entity',
-        outputs_filtered='entity',
-        outputs_flags='entity'
+    slots=c(mv_threshold='entity',
+        filtered='entity',
+        flags='entity'
     ),
     prototype=list(name = 'Missing value sample filter',
         description = 'Filters by removing samples where the percent number of missing values exceeds the threshold.',
         type = 'filter',
         predicted = 'filtered',
-        params_mv_threshold=entity(name = 'Missing value threshold (%)',
+        mv_threshold=entity(name = 'Missing value threshold (%)',
             description = 'Samples with greather than THRESHOLD% missing values are excluded.',
             value = 20,
             type='numeric'),
-        outputs_filtered=entity(name = 'Filtered DatasetExperiment',
+        filtered=entity(name = 'Filtered DatasetExperiment',
             description = 'A DatasetExperiment object containing the filtered data.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
-        outputs_flags=entity(name = 'Flags',
+        flags=entity(name = 'Flags',
             description = '% missing values and a flag indicating whether the sample was rejected.',
             type='data.frame',
             value=data.frame()
@@ -103,7 +103,7 @@ setMethod(f="model_predict",
 #' C = mv_sample_filter_hist()
 mv_sample_filter_hist = function(...) {
     out=.mv_sample_filter_hist()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

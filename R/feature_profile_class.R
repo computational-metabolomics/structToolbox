@@ -24,7 +24,7 @@
 #' @export feature_profile
 feature_profile = function(...) {
     out=.feature_profile()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -34,16 +34,16 @@ feature_profile = function(...) {
     contains=c('chart'),
     slots=c(
         # INPUTS
-        params_run_order='character',
-        params_qc_label='character',
-        params_qc_column='character',
-        params_colour_by='character',
-        params_feature_to_plot='entity'
+        run_order='character',
+        qc_label='character',
+        qc_column='character',
+        colour_by='character',
+        feature_to_plot='entity'
     ),
     prototype = list(name='Feature profile',
         description='plots a feature vs run order',
         type="scatter",
-        params_feature_to_plot=entity(name='Feature to plot',
+        feature_to_plot=entity(name='Feature to plot',
             description='The name or column id of the feature to plot',
             type=c('numeric','character','integer'))
     )

@@ -8,14 +8,14 @@
 #' M = PLSR()
 PLSR = function(...) {
     out=.PLSR()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
 
 .PLSR = function(...) {
     out=.PLSR()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -26,24 +26,24 @@ PLSR = function(...) {
     contains='model',
 
     slots=c(
-        params_number_components = 'entity',
-        params_factor_name       = 'entity',
-        outputs_scores           = 'data.frame',
-        outputs_loadings         = 'data.frame',
-        outputs_yhat             = 'data.frame',
-        outputs_y                = 'data.frame',
-        outputs_reg_coeff        = 'data.frame',
-        outputs_vip              = 'data.frame',
-        outputs_pls_model        = 'list',
-        outputs_pred             = 'data.frame'
+        number_components = 'entity',
+        factor_name       = 'entity',
+        scores           = 'data.frame',
+        loadings         = 'data.frame',
+        yhat             = 'data.frame',
+        y                = 'data.frame',
+        reg_coeff        = 'data.frame',
+        vip              = 'data.frame',
+        pls_model        = 'list',
+        pred             = 'data.frame'
     ),
 
     prototype = list(name='Partial least squares regression',
         type="regression",
         predicted='pred',
         libraries='pls',
-        params_number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric'),
-        params_factor_name=entity(name='Factor name', description='A vector of sample_meta column names to use')
+        number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric'),
+        factor_name=entity(name='Factor name', description='A vector of sample_meta column names to use')
     )
 
 )
@@ -144,7 +144,7 @@ vips<-function(object)
 #' C = plsr_prediction_plot()
 plsr_prediction_plot = function(...) {
     out=.plsr_prediction_plot()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -198,7 +198,7 @@ setMethod(f="chart_plot",
 #' C = plsr_residual_hist()
 plsr_residual_hist = function(...) {
     out=.plsr_residual_hist()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -253,7 +253,7 @@ setMethod(f="chart_plot",
 #' C = plsr_qq_plot()
 plsr_qq_plot = function(...) {
     out=.plsr_qq_plot()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -306,7 +306,7 @@ setMethod(f="chart_plot",
 #' C = plsr_cook_dist()
 plsr_cook_dist = function(...) {
     out=.plsr_cook_dist()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

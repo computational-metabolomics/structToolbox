@@ -37,7 +37,7 @@
 #' @export forward_selection_byrank
 forward_selection_byrank = function(...) {
     out=.forward_selection_byrank()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -46,21 +46,21 @@ forward_selection_byrank = function(...) {
     # name of class
     "forward_selection_byrank",
     # define slots
-    slots=c(params_variable_rank="numeric",
-        params_min_no_vars="numeric",
-        params_max_no_vars="numeric",
-        params_step_size="numeric",
-        params_factor_name='character',
-        outputs_metric="data.frame",
-        outputs_results='data.frame',
-        outputs_chosen_vars='numeric',
-        outputs_smoothed='numeric',
-        outputs_searchlist='numeric'
+    slots=c(variable_rank="numeric",
+        min_no_vars="numeric",
+        max_no_vars="numeric",
+        step_size="numeric",
+        factor_name='character',
+        metric="data.frame",
+        results='data.frame',
+        chosen_vars='numeric',
+        smoothed='numeric',
+        searchlist='numeric'
     ),
-    prototype = list(params_variable_rank=c(1,2,3),
-        params_min_no_vars=1,
-        params_max_no_vars=100,
-        params_step_size=1,
+    prototype = list(variable_rank=c(1,2,3),
+        min_no_vars=1,
+        max_no_vars=100,
+        step_size=1,
         result='results'
     ),
     contains = 'resampler'
@@ -239,7 +239,7 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
 #'
 fs_line = function(...) {
     out=.fs_line()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

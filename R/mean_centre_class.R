@@ -8,7 +8,7 @@
 #' M = mean_centre()
 mean_centre = function(...) {
     out=.mean_centre()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -16,14 +16,14 @@ mean_centre = function(...) {
 .mean_centre<-setClass(
     "mean_centre",
     contains='preprocess',
-    slots=c(params_mode='enum',
-        outputs_centred='DatasetExperiment',
-        outputs_mean_data='numeric',
-        outputs_mean_sample_meta='numeric'
+    slots=c(mode='enum',
+        centred='DatasetExperiment',
+        mean_data='numeric',
+        mean_sample_meta='numeric'
     ),
     prototype = list(name='Mean centre',
         type="preprocessing",
-        params_mode=enum(name = 'Mode of action', description=c(
+        mode=enum(name = 'Mode of action', description=c(
             '"data" will apply centring to data block',
             '"sample_meta" will apply centring to the sample_meta block',
             '"both" will apply centring to both the data and the sample_meta blocks'),

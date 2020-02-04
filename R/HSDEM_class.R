@@ -14,7 +14,7 @@
 #' M = HSDEM()
 HSDEM = function(...) {
     out=.HSDEM()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -24,13 +24,13 @@ HSDEM = function(...) {
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params_alpha='entity_stato',
-        params_mtc='entity_stato',
-        params_formula='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        formula='entity',
 
         # OUTPUTS
-        outputs_p_value='entity_stato',
-        outputs_significant='entity'
+        p_value='entity_stato',
+        significant='entity'
     ),
     prototype = list(name='Tukey Honest Significant Difference using estimated marginal means',
         description='Tukey HSD post hoc tests for mixed effects models using estimated marginal means',
@@ -38,29 +38,29 @@ HSDEM = function(...) {
         predicted='p_value',
         stato_id="STATO:0000187",
 
-        params_alpha=entity_stato(name='Confidence level',
+        alpha=entity_stato(name='Confidence level',
             stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params_mtc=entity_stato(name='Multiple Test Correction method',
+        mtc=entity_stato(name='Multiple Test Correction method',
             stato_id='OBI:0200089',
             value='none',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        params_formula=entity(name='Formula',
+        formula=entity(name='Formula',
             value=y~x,
             type='formula',
             description='The formula to use'
         ),
-        outputs_p_value=entity_stato(name='p value',
+        p_value=entity_stato(name='p value',
             stato_id='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated t-statistic.'
         ),
-        outputs_significant=entity(name='Significant features',
+        significant=entity(name='Significant features',
             #stato_id='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'

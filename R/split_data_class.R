@@ -9,7 +9,7 @@
 #'
 split_data = function(...) {
     out=.split_data()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -17,9 +17,9 @@ split_data = function(...) {
 .split_data<-setClass(
     "split_data",
     contains = c('model'),
-    slots=c(params_p='entity',
-        outputs_training='entity',
-        outputs_testing='entity'
+    slots=c(p='entity',
+        training='entity',
+        testing='entity'
     ),
 
     prototype=list(name = 'Split data',
@@ -27,17 +27,17 @@ split_data = function(...) {
         type = 'processing',
         predicted = 'testing',
 
-        params_p=entity(name = 'Proportion in training set',
+        p=entity(name = 'Proportion in training set',
             description = 'The proportion of samples selected for the training set. All other samples will be in assigned to the test set.',
             value = 0.75,
             type='numeric'),
 
-        outputs_training=entity(name = 'A DatasetExperiment of training data',
+        training=entity(name = 'A DatasetExperiment of training data',
             description = 'A DatasetExperiment object containing samples selected for the training set.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
-        outputs_testing=entity(name = 'A DatasetExperiment of data for testing',
+        testing=entity(name = 'A DatasetExperiment of data for testing',
             description = 'A DatasetExperiment object containing samples selected for the testing set.',
             type='DatasetExperiment',
             value=DatasetExperiment()

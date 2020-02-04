@@ -9,7 +9,7 @@
 #'
 r_squared = function(...) {
     out=.r_squared()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

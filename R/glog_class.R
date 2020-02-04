@@ -9,7 +9,7 @@
 #' M = glog_transform()
 glog_transform = function(qc_label='QC',factor_name,...) {
     out=.glog_transform()
-    out=struct::.initialize_struct_class(out,
+    out=struct::new_struct(out,
         qc_label=qc_label,
         factor_name=factor_name,
         ...)
@@ -20,12 +20,12 @@ glog_transform = function(qc_label='QC',factor_name,...) {
 .glog_transform<-setClass(
     "glog_transform",
     contains = c('model'),
-    slots=c(params_qc_label='entity',
-        params_factor_name='entity',
-        outputs_transformed='entity',
-        outputs_lambda='entity',
-        outputs_error_flag='entity',
-        outputs_lambda_opt='numeric'
+    slots=c(qc_label='entity',
+        factor_name='entity',
+        transformed='entity',
+        lambda='entity',
+        error_flag='entity',
+        lambda_opt='numeric'
     ),
 
     prototype=list(name = 'generalised logarithm transform',
@@ -34,27 +34,27 @@ glog_transform = function(qc_label='QC',factor_name,...) {
         predicted = 'transformed',
         libraries = 'pmp',
 
-        params_factor_name=entity(name = 'factor_name',
+        factor_name=entity(name = 'factor_name',
             description = 'Column name of sample_meta containing QC labels',
             value = 'V1',
             type='character'),
 
-        params_qc_label=entity(name = 'QC label',
+        qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        outputs_transformed=entity(name = 'glog transformed DatasetExperiment',
+        transformed=entity(name = 'glog transformed DatasetExperiment',
             description = 'A DatasetExperiment object containing the glog transformed data.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
-        outputs_lambda=entity(name = 'lambda',
+        lambda=entity(name = 'lambda',
             description = 'The value of lambda used, as determined by PMP package.',
             type='numeric',
             value=0
         ),
-        outputs_error_flag=entity(name = 'Optimisation error',
+        error_flag=entity(name = 'Optimisation error',
             description = 'A logical indicating whether the glog optimisation for lambda was successful.',
             type='logical',
             value=FALSE
@@ -116,7 +116,7 @@ setMethod(f="model_predict",
 #' M = glog_opt_plot()
 glog_opt_plot = function(plot_grid=100,...) {
     out=.glog_opt_plot()
-    out=struct::.initialize_struct_class(out,
+    out=struct::new_struct(out,
         plot_grid=plot_grid,
         ...)
     return(out)
@@ -126,7 +126,7 @@ glog_opt_plot = function(plot_grid=100,...) {
     "glog_opt_plot",
     contains='chart',
     slots=c(
-        params_plot_grid='numeric'
+        plot_grid='numeric'
     )
 )
 

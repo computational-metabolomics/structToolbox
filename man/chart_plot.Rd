@@ -3,11 +3,12 @@
 %   R/fold_change_class.R, R/PLSR_class.R, R/blank_filter_class.R,
 %   R/confounders_clsq_class.R, R/dataset_chart_classes.R,
 %   R/factor_barchart_class.R, R/feature_profile_class.R,
-%   R/forward_selection_by_rank_class.R, R/grid_search_1d_class.R,
-%   R/hca_class.R, R/kfold_xval_charts.R, R/kw_rank_sum_class.R,
-%   R/mv_feature_filter_class.R, R/mv_sample_filter_class.R,
-%   R/permutation_test_class.R, R/pqn_norm_method_class.R, R/rsd_filter.R,
-%   R/tSNE_class.R, R/wilcox_test_class.R
+%   R/forward_selection_by_rank_class.R, R/glog_class.R,
+%   R/grid_search_1d_class.R, R/hca_class.R, R/kfold_xval_charts.R,
+%   R/kw_rank_sum_class.R, R/mv_feature_filter_class.R,
+%   R/mv_sample_filter_class.R, R/permutation_test_class.R,
+%   R/pqn_norm_method_class.R, R/rsd_filter.R, R/tSNE_class.R,
+%   R/wilcox_test_class.R
 \name{chart_plot,pca_correlation_plot,PCA-method}
 \alias{chart_plot,pca_correlation_plot,PCA-method}
 \alias{chart_plot,pca_scores_plot,PCA-method}
@@ -34,6 +35,7 @@
 \alias{chart_plot,DatasetExperiment.factor_barchart,DatasetExperiment-method}
 \alias{chart_plot,feature_profile,DatasetExperiment-method}
 \alias{chart_plot,fs_line,forward_selection_byrank-method}
+\alias{chart_plot,glog_opt_plot,glog_transform-method}
 \alias{chart_plot,gs_line,grid_search_1d-method}
 \alias{chart_plot,hca_dendrogram,HCA-method}
 \alias{chart_plot,kfoldxcv_grid,kfold_xval-method}
@@ -101,6 +103,8 @@
 
 \S4method{chart_plot}{fs_line,forward_selection_byrank}(obj, dobj)
 
+\S4method{chart_plot}{glog_opt_plot,glog_transform}(obj, dobj, gobj)
+
 \S4method{chart_plot}{gs_line,grid_search_1d}(obj, dobj)
 
 \S4method{chart_plot}{hca_dendrogram,HCA}(obj, dobj)
@@ -132,9 +136,9 @@
 \S4method{chart_plot}{wilcox_p_hist,wilcox_test}(obj, dobj)
 }
 \arguments{
-\item{obj}{a chart object}
+\item{obj}{A chart object}
 
-\item{dobj}{a struct object}
+\item{dobj}{An object derived from struct_class}
 
 \item{eobj}{a second DatasetExperiment object to compare with the first}
 
@@ -146,7 +150,18 @@ a plot object
 \description{
 Plots a chart object
 }
+\details{
+The optional optional inputs depend on the input object/chart, but might 
+include an additional dataset object or a second model object, for example.
+}
+\section{Methods (by class)}{
+
+\itemize{
+\item \code{obj = chart,dobj = ANY}: 
+}
+}
+
 \examples{
 C = example_chart()
-chart_plot(C)
+chart_plot(C,iris_DatasetExperiment())
 }

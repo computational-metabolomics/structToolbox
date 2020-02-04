@@ -13,7 +13,7 @@
 #' @export kw_rank_sum
 kw_rank_sum = function(...) {
     out=.kw_rank_sum()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -23,15 +23,15 @@ kw_rank_sum = function(...) {
     contains=c('model'),
     slots=c(
         # INPUTS
-        params_alpha='entity_stato',
-        params_mtc='entity_stato',
-        params_factor_names='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_names='entity',
         # OUTPUTS
-        outputs_test_statistic='entity',
-        outputs_p_value='entity',
-        outputs_dof='entity_stato',
-        outputs_significant='entity',
-        outputs_estimates='data.frame'
+        test_statistic='entity',
+        p_value='entity',
+        dof='entity_stato',
+        significant='entity',
+        estimates='data.frame'
     ),
     prototype = list(name='kruskal-wallis rank sum test',
         description='Applies the kw rank sum test to each feature to indicate significance, with (optional)
@@ -39,38 +39,38 @@ kw_rank_sum = function(...) {
         type="univariate",
         predicted='p_value',
 
-        params_factor_names=entity(name='Factor names',
+        factor_names=entity(name='Factor names',
             type='character',
             description='Names of sample_meta columns to use'
         ),
 
-        params_alpha=entity_stato(name='Confidence level',
+        alpha=entity_stato(name='Confidence level',
             stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params_mtc=entity_stato(name='Multiple Test Correction method',
+        mtc=entity_stato(name='Multiple Test Correction method',
             stato_id='OBI:0200089',
             value='fdr',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        outputs_test_statistic=entity(name='test statistic',
+        test_statistic=entity(name='test statistic',
             type='data.frame',
             description='the value of the calculated statistic which is converted to a p-value when compared to a chi2-distribution.'
         ),
-        outputs_p_value=entity_stato(name='p value',
+        p_value=entity_stato(name='p value',
             stato_id='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated t-statistic.'
         ),
-        outputs_dof=entity_stato(name='degrees of freedom',
+        dof=entity_stato(name='degrees of freedom',
             stato_id='STATO:0000069',
             type='numeric',
             description='the number of degrees of freedom used to calculate the test statistic'
         ),
-        outputs_significant=entity(name='Significant features',
+        significant=entity(name='Significant features',
             #stato_id='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
@@ -132,7 +132,7 @@ setMethod(f="model_apply",
 #' @export kw_p_hist
 kw_p_hist = function(...) {
     out=.kw_p_hist()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

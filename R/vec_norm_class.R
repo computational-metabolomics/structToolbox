@@ -10,7 +10,7 @@
 #'
 vec_norm = function(...) {
     out=.vec_norm()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -18,19 +18,19 @@ vec_norm = function(...) {
 .vec_norm<-setClass(
     "vec_norm",
     contains = c('model'),
-    slots=c(outputs_normalised='entity',
-        outputs_coeff='entity'
+    slots=c(normalised='entity',
+        coeff='entity'
     ),
     prototype=list(name = 'Vector normalisation',
         description = 'Normalises each row such that the sum of squares is equal to 1',
         type = 'normalisation',
         predicted='normalised',
-        outputs_normalised=entity(name = 'Normalised DatasetExperiment',
+        normalised=entity(name = 'Normalised DatasetExperiment',
             description = 'A DatasetExperiment object containing the normalised data.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
-        outputs_coeff=entity(name = 'Normalisation coefficients',
+        coeff=entity(name = 'Normalisation coefficients',
             description = 'The normalisation coefficients calculated by PQN',
             type='data.frame',
             value=data.frame()

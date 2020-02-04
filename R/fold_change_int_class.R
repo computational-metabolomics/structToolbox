@@ -23,7 +23,7 @@
 #' @export fold_change_int
 fold_change_int = function(...) {
     out=.fold_change_int()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

@@ -10,7 +10,7 @@
 #' M = PCA()
 PCA = function(...) {
     out=.PCA()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -20,15 +20,15 @@ PCA = function(...) {
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params_number_components='entity_stato',
+        number_components='entity_stato',
 
         # OUTPUTS
-        outputs_scores='entity',
-        outputs_loadings='data.frame',
-        outputs_eigenvalues='data.frame',
-        outputs_ssx='numeric',
-        outputs_correlation='data.frame',
-        outputs_that='DatasetExperiment'
+        scores='entity',
+        loadings='data.frame',
+        eigenvalues='data.frame',
+        ssx='numeric',
+        correlation='data.frame',
+        that='DatasetExperiment'
     ),
     prototype = list(name='Principal Component Analysis (PCA)',
         description='PCA is a multivariate data reduction technique. It summarises the data in a smaller number of Principal Components that describe the maximum variation present in the DatasetExperiment.',
@@ -36,12 +36,12 @@ PCA = function(...) {
         predicted='that',
         stato_id="OBI:0200051",
 
-        params_number_components=entity_stato(name='Number of PCs',
+        number_components=entity_stato(name='Number of PCs',
             stato_id='STATO:0000555',
             value=2,
             type=c('numeric','integer')
         ),
-        outputs_scores=entity('name'='PCA scores DatasetExperiment',
+        scores=entity('name'='PCA scores DatasetExperiment',
             'description'='A matrix of PCA scores where each column corresponds to a Principal Component',
             'type'='DatasetExperiment')
     )

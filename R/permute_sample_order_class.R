@@ -8,7 +8,7 @@
 #' @export permute_sample_order
 permute_sample_order = function(...) {
     out=.permute_sample_order()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -16,15 +16,15 @@ permute_sample_order = function(...) {
 .permute_sample_order<-setClass(
     "permute_sample_order",
     contains='resampler',
-    slots=c(params_number_of_permutations='numeric',
-        outputs_results='data.frame',
-        outputs_metric='data.frame',
-        outputs_metric.train='numeric'
+    slots=c(number_of_permutations='numeric',
+        results='data.frame',
+        metric='data.frame',
+        metric.train='numeric'
     ),
     prototype = list(name='Permute Sample Order',
         type="permutation",
         result='results',
-        params_number_of_permutations=10
+        number_of_permutations=10
     )
 )
 

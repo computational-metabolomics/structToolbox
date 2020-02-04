@@ -9,7 +9,7 @@
 #' @export permutation_test
 permutation_test = function(...) {
     out=.permutation_test()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -17,15 +17,15 @@ permutation_test = function(...) {
 .permutation_test<-setClass(
     "permutation_test",
     contains='resampler',
-    slots=c(params_number_of_permutations='numeric',
-        outputs_results.permuted='data.frame',
-        outputs_results.unpermuted='data.frame',
-        outputs_metric='data.frame'
+    slots=c(number_of_permutations='numeric',
+        results.permuted='data.frame',
+        results.unpermuted='data.frame',
+        metric='data.frame'
     ),
     prototype = list(name='permutation test',
         type='permutation',
         result='results',
-        params_number_of_permutations=10
+        number_of_permutations=10
     )
 )
 

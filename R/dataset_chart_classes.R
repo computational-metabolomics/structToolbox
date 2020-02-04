@@ -20,7 +20,7 @@
 #' @export feature_boxplot
 feature_boxplot = function(...) {
     out=.feature_boxplot()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -30,32 +30,32 @@ feature_boxplot = function(...) {
     contains=c('chart','stato'),
     slots=c(
         # INPUTS
-        params_label_outliers='entity',
-        params_feature_to_plot='entity',
-        params_factor_name='entity',
-        params_show_counts='entity'
+        label_outliers='entity',
+        feature_to_plot='entity',
+        factor_name='entity',
+        show_counts='entity'
     ),
     prototype = list(name='Feature boxplot',
         description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
         stato_id='STATO:0000243',
 
-        params_label_outliers=entity(name='Label outliers',
+        label_outliers=entity(name='Label outliers',
             value=TRUE,
             type='logical',
             description='(TRUE) of FALSE to print labels for outliers.'
         ),
-        params_feature_to_plot=entity(name='Feature to plot',
+        feature_to_plot=entity(name='Feature to plot',
             value='V1',
             type=c('character','numeric','integer'),
             description='The column name of the feature to be plotted.'
         ),
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The column name of meta data to use.'
         ),
-        params_show_counts=entity(name='Show counts',
+        show_counts=entity(name='Show counts',
             value=TRUE,
             type='logical',
             description='(TRUE) or FALSE to display the number of values used to create each boxplot.'
@@ -159,7 +159,7 @@ setMethod(f="chart_plot",
 #' @export mv_histogram
 mv_histogram = function(...) {
     out=.mv_histogram()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -169,18 +169,18 @@ mv_histogram = function(...) {
     contains='chart',
     slots=c(
         # INPUTS
-        params_label_outliers='entity',
-        params_by_sample='entity'
+        label_outliers='entity',
+        by_sample='entity'
     ),
     prototype = list(name='Missing value histogram',
         description='Histogram of missing values per sample/feature.',
         type="histogram",
-        params_by_sample=entity(name='Plot by sample or by feature',
+        by_sample=entity(name='Plot by sample or by feature',
             value=TRUE,
             type='logical',
             description='(TRUE) to plot missing values per sample or FALSE to plot by feature.'
         ),
-        params_label_outliers=entity(name='Label outliers on the plot',
+        label_outliers=entity(name='Label outliers on the plot',
             value=FALSE,
             type='logical',
             description='TRUE or FALSE to include labels for outlying samples. Default FALSE'
@@ -249,7 +249,7 @@ setMethod(f="chart_plot",
 #' @export mv_boxplot
 mv_boxplot = function(...) {
     out=.mv_boxplot()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -259,30 +259,30 @@ mv_boxplot = function(...) {
     contains='chart',
     slots=c(
         # INPUTS
-        params_label_outliers='entity',
-        params_by_sample='entity',
-        params_factor_name='entity',
-        params_show_counts='entity'
+        label_outliers='entity',
+        by_sample='entity',
+        factor_name='entity',
+        show_counts='entity'
     ),
     prototype = list(name='Missing value boxplots',
         description='Histogram ofmissing values per sample/feature.',
         type="histogram",
-        params_label_outliers=entity(name='Label outliers',
+        label_outliers=entity(name='Label outliers',
             value=TRUE,
             type='logical',
             description='(TRUE) of FALSE to print labels for outliers.'
         ),
-        params_by_sample=entity(name='Plot by sample or by feature',
+        by_sample=entity(name='Plot by sample or by feature',
             value=TRUE,
             type='logical',
             description='(TRUE) to plot missing values per sample or FALSE to plot by feature.'
         ),
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        params_show_counts=entity(name='Show counts',
+        show_counts=entity(name='Show counts',
             value=TRUE,
             type='logical',
             description='(TRUE) or FALSE to display the number of values used to create each boxplot.'
@@ -407,7 +407,7 @@ setMethod(f="chart_plot",
 #' @export DatasetExperiment.dist
 DatasetExperiment.dist = function(...) {
     out=.DatasetExperiment.dist()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -417,19 +417,19 @@ DatasetExperiment.dist = function(...) {
     contains='chart',
     slots=c(
         # INPUTS
-        params_factor_name='entity',
-        params_per_class='entity'
+        factor_name='entity',
+        per_class='entity'
     ),
     prototype = list(name='Distribution plot',
         description='Plot of the distribution of all values in the data matrix.',
         type="boxlot",
 
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        params_per_class=entity(name='Plot per class',
+        per_class=entity(name='Plot per class',
             value=TRUE,
             type='logical',
             description='[TRUE] or FALSE to plot distributions by class.'
@@ -497,7 +497,7 @@ setMethod(f="chart_plot",
 #' @export DatasetExperiment.boxplot
 DatasetExperiment.boxplot = function(...) {
     out=.DatasetExperiment.boxplot()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -507,30 +507,30 @@ DatasetExperiment.boxplot = function(...) {
     contains='chart',
     slots=c(
         # INPUTS
-        params_factor_name='entity',
-        params_by_sample='entity',
-        params_per_class='entity',
-        params_number='entity'
+        factor_name='entity',
+        by_sample='entity',
+        per_class='entity',
+        number='entity'
     ),
     prototype = list(name='Distribution plot',
         description='Plot of the distribution of all values in the data matrix.',
         type="boxlot",
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        params_by_sample=entity(name='Plot by sample or by feature',
+        by_sample=entity(name='Plot by sample or by feature',
             value=TRUE,
             type='logical',
             description='[TRUE] to plot by sample or FALSE to plot by feature.'
         ),
-        params_per_class=entity(name='Plot per class',
+        per_class=entity(name='Plot per class',
             value=TRUE,
             type='logical',
             description='[TRUE] or FALSE to plot distributions by class.'
         ),
-        params_number=entity(name='Number of features/samples',
+        number=entity(name='Number of features/samples',
             value=50,
             type='numeric',
             description='The number of features/samples to plot.'
@@ -610,7 +610,7 @@ setMethod(f="chart_plot",
 #' @export compare_dist
 compare_dist = function(...) {
     out=.compare_dist()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -618,11 +618,11 @@ compare_dist = function(...) {
 .compare_dist<-setClass(
     "compare_dist",
     contains='chart',
-    slots=c(params_factor_name='entity'),
+    slots=c(factor_name='entity'),
     prototype = list(name='Compare distributions',
         description='Distributions and box plots to compare two datasets',
         type="mixed",
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example.'
@@ -723,7 +723,7 @@ setMethod(f="chart_plot",
 #' C = DatasetExperiment.heatmap()
 DatasetExperiment.heatmap = function(...) {
     out=.DatasetExperiment.heatmap()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -733,13 +733,13 @@ DatasetExperiment.heatmap = function(...) {
     contains=c('chart'),
     slots=c(
         # INPUTS
-        params_na_colour='entity'
+        na_colour='entity'
     ),
     prototype = list(name='DatasetExperiment heatmap',
         description='plots a heatmap of a DatasetExperiment',
         type="scatter",
 
-        params_na_colour=entity(name='NA colour',
+        na_colour=entity(name='NA colour',
             value='#FF00E4',
             type='character',
             description='A hex colour code to use for missing values'

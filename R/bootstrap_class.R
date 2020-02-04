@@ -9,7 +9,7 @@
 #' @export bootstrap
 bootstrap = function(...) {
     out=.bootstrap()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -18,18 +18,18 @@ bootstrap = function(...) {
     "bootstrap",
     contains='resampler',
     slots=c(
-        params_number_of_permutations='numeric',
-        params_collect='character',
-        outputs_results='data.frame',
-        outputs_metric='data.frame',
-        outputs_collected='entity'
+        number_of_permutations='numeric',
+        collect='character',
+        results='data.frame',
+        metric='data.frame',
+        collected='entity'
     ),
     prototype = list(name='permutation test',
                      type='permutation',
                      result='results',
-                     params_number_of_permutations=10,
-                     params_collect='vip',
-                     outputs_collected=entity(name='collected output',
+                     number_of_permutations=10,
+                     collect='vip',
+                     collected=entity(name='collected output',
                                               type=c('logical','list'),
                                               value=NA,max_length=Inf)
     )

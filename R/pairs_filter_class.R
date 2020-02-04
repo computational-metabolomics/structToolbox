@@ -16,7 +16,7 @@
 #' @export pairs_filter
 pairs_filter = function(...) {
     out=.pairs_filter()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -24,33 +24,33 @@ pairs_filter = function(...) {
 .pairs_filter<-setClass(
     "pairs_filter",
     contains = c('model'),
-    slots=c(params_factor_name='entity',
-        params_fraction='entity',
-        params_sample_id='entity',
-        outputs_filtered='entity',
-        outputs_flags='entity'
+    slots=c(factor_name='entity',
+        fraction='entity',
+        sample_id='entity',
+        filtered='entity',
+        flags='entity'
     ),
     prototype=list(name = 'Blank filter',
         description = 'Filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the intensity is not large compared to the blank are removed.',
         type = 'filter',
         predicted = 'filtered',
 
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             description='Name of sample meta column to use',
             type='character',
             value='V1'),
 
-        params_sample_id=entity(name='Sample id',
+        sample_id=entity(name='Sample id',
             description='Name of sample meta column containing the sample id',
             type='character',
             value='V1'),
 
-        outputs_filtered=entity(name='Filtered DatasetExperiment',
+        filtered=entity(name='Filtered DatasetExperiment',
             description='A DatasetExperiment object after the filter has been applied',
             type='DatasetExperiment',
             value=DatasetExperiment()),
 
-        outputs_flags=entity(name='Filter flags',
+        flags=entity(name='Filter flags',
             description='A data.frame indicating whether features were filtered from the DatasetExperiment.',
             type='data.frame',
             value=data.frame())

@@ -25,7 +25,7 @@
 
 classical_lsq = function(...) {
     out=.classical_lsq()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -35,50 +35,50 @@ classical_lsq = function(...) {
     contains='model',
     slots=c(
         # INPUTS
-        params_alpha='entity_stato',
-        params_mtc='entity_stato',
-        params_factor_names='entity',
-        params_intercept='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_names='entity',
+        intercept='entity',
         # OUTPUTS
-        outputs_coefficients='entity',
-        outputs_p_value='entity_stato',
-        outputs_significant='entity',
-        outputs_r_squared='entity',
-        outputs_adj_r_squared='entity'
+        coefficients='entity',
+        p_value='entity_stato',
+        significant='entity',
+        r_squared='entity',
+        adj_r_squared='entity'
     ),
     prototype = list(name='Univariate Classical Least Squares Regression',
         description='classical least squares, where y is the response and x is the design matrix, applied to each feature individually.',
         type="univariate",
         predicted='p_value',
 
-        params_intercept=entity(name='Include intercept',
+        intercept=entity(name='Include intercept',
             type='logical',
             description='TRUE or FALSE to include the intercept term when fitting the model_',
             value=TRUE
         ),
 
-        params_factor_names=entity(name='Factor name(s)',
+        factor_names=entity(name='Factor name(s)',
             description='Name of sample meta column(s) to use',
             type=c('character','list'),
             value='V1'),
 
-        params_alpha=ents$alpha,
+        alpha=ents$alpha,
 
-        params_mtc=ents$mtc,
+        mtc=ents$mtc,
 
-        outputs_coefficients=entity(name='Regression coefficients',
+        coefficients=entity(name='Regression coefficients',
             type='data.frame',
             description='The regression coefficients for each model_',
             value=data.frame()
         ),
-        outputs_p_value=ents$p_value,
-        outputs_significant=ents$significant,
-        outputs_r_squared=entity(name='R Squared',
+        p_value=ents$p_value,
+        significant=ents$significant,
+        r_squared=entity(name='R Squared',
             description='The value of R Squared for the fitted model_',
             type='data.frame',
             value=data.frame()
         ),
-        outputs_adj_r_squared=entity(name='Adjusted R Squared',
+        adj_r_squared=entity(name='Adjusted R Squared',
             description='The value ofAdjusted  R Squared for the fitted model_',
             type='data.frame',
             value=data.frame()

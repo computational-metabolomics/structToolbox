@@ -4,13 +4,21 @@
 \alias{ANOVA}
 \title{ANOVA}
 \usage{
-ANOVA(...)
+ANOVA(alpha = 0.05, mtc = "fdr", formula, ss_type = "III")
 }
 \arguments{
-\item{...}{slots and values for the new object}
+\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+
+\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+
+\item{formula}{The formula to use for ANOVA. See \code{lm} for details.}
+
+\item{ss_type}{The type of sum of squares to use. Can be I, II or III. Default is ss_type = 'III'.}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
-struct object
+ANOVA object
 }
 \description{
 Applies ANOVA to each feature in a DatasetExperiment object.

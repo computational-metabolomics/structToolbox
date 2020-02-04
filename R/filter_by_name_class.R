@@ -19,7 +19,7 @@
 #' @export filter_by_name
 filter_by_name = function(...) {
     out=.filter_by_name()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -27,25 +27,25 @@ filter_by_name = function(...) {
 .filter_by_name<-setClass(
     "filter_by_name",
     contains = c('model'),
-    slots=c(params_mode='entity',
-        params_dimension='enum',
-        params_names='entity',
-        outputs_filtered='DatasetExperiment'
+    slots=c(mode='entity',
+        dimension='enum',
+        names='entity',
+        filtered='DatasetExperiment'
     ),
     prototype=list(type = 'filter',
         predicted = 'filtered',
-        params_mode=entity(value='exclude',
+        mode=entity(value='exclude',
             name='Filter mode',
             description = 'The filtering mode controls whether samples/features are mode="included" or mode="excluded" based on their name',
             type='character'),
-        params_dimension=enum(value='sample',
+        dimension=enum(value='sample',
             name='Filter dimension',
             description = 'The filtering dimensions controls whether dimension="sample" or dimension="variable" are filtered based on their name',
             type='character',
             allowed=c('sample','variable')
         ),
 
-        params_names=entity(name='Names',
+        names=entity(name='Names',
             description = 'The name of features/samples to be filtered. Must be an exact match. Can also provide indexes (numeric) or logical.',
             type=c('character','numeric','logical'))
     )

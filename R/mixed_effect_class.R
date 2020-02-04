@@ -13,7 +13,7 @@
 #' M = mixed_effect()
 mixed_effect = function(...) {
     out=.mixed_effect()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -26,7 +26,7 @@ mixed_effect = function(...) {
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000189",
-        params_type=enum(allowed=c('sequential','marginal'),
+        ss_type=enum(allowed=c('sequential','marginal'),
             value = 'marginal',
             name ='ANOVA Sum of Squares type',
             description = '"marginal" = Type III sum of squares, and "sequential" = Type II. Default is "marginal"',
@@ -81,7 +81,7 @@ setMethod(f="model_apply",
             })
 
             if (!is.na(testlm[[1]])) {
-                A=data.frame(anova(LM, type = M$type))
+                A=data.frame(anova(LM, type = M$ss_type))
             } else {
                 A=NA
             }

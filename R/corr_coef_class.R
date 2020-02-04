@@ -12,7 +12,7 @@
 #' @export corr_coef
 corr_coef = function(...) {
     out=.corr_coef()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -22,37 +22,37 @@ corr_coef = function(...) {
     contains=c('model'),
     slots=c(
         # INPUTS
-        params_alpha='entity_stato',
-        params_mtc='entity_stato',
-        params_factor_names='entity',
-        params_method='enum',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_names='entity',
+        method='enum',
         # OUTPUTS
-        outputs_coeff='entity',
-        outputs_p_value='entity',
-        outputs_significant='entity'
+        coeff='entity',
+        p_value='entity',
+        significant='entity'
     ),
     prototype = list(name='Correlation coefficient',
         description='Calculates the correlation coefficient between features and continuous factors.',
         type="univariate",
         predicted='p_value',
 
-        params_factor_names=ents$factor_names,
-        params_alpha=ents$alpha,
-        params_mtc=ents$mtc,
+        factor_names=ents$factor_names,
+        alpha=ents$alpha,
+        mtc=ents$mtc,
 
-        params_method=enum(name='Type of correlation',
+        method=enum(name='Type of correlation',
             value='spearman',
             type='character',
             description='"kendall", "pearson" or "spearman" correlation coefficient. Default="spearman".',
             allowed=c("kendall", "pearson","spearman")
         ),
-        outputs_coeff=entity(name='Correlation coefficient',
+        coeff=entity(name='Correlation coefficient',
             type='data.frame',
             description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.',
             value=data.frame()
         ),
-        outputs_p_value=ents$p_value,
-        outputs_significant=ents$significant
+        p_value=ents$p_value,
+        significant=ents$significant
     )
 )
 

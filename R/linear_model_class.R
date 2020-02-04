@@ -10,7 +10,7 @@
 #' M = linear_model()
 linear_model = function(...) {
     out=.linear_model()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -20,18 +20,18 @@ linear_model = function(...) {
     contains='model',
     slots=c(
         # INPUTS
-        params_formula='entity',
-        params_na_action='enum',
-        params_contrasts='entity',
+        formula='entity',
+        na_action='enum',
+        contrasts='entity',
 
         # OUTPUTS
-        outputs_lm='entity',
-        outputs_coefficients='entity',
-        outputs_residuals='entity',
-        outputs_fitted_values='entity',
-        outputs_predicted_values='entity',
-        outputs_r_squared='entity',
-        outputs_adj_r_squared='entity'
+        lm='entity',
+        coefficients='entity',
+        residuals='entity',
+        fitted_values='entity',
+        predicted_values='entity',
+        r_squared='entity',
+        adj_r_squared='entity'
 
     ),
     prototype = list(name='Linear Model',
@@ -39,48 +39,48 @@ linear_model = function(...) {
         type="regression",
         predicted='predicted_values',
 
-        params_formula=entity(name='Model Formula',
+        formula=entity(name='Model Formula',
             description='Compact symbolic form of the equation to be fitted using a linear model_',
             value=y~x,
             type='formula',
             max_length=Inf
         ),
-        params_na_action=enum(name='NA Action',
+        na_action=enum(name='NA Action',
             description='The action to be taken when encoutering NA',
             value='na.omit',
             type='character',
             allowed=c('na.omit','na.fail','na.exclude','na.pass')
         ),
-        params_contrasts=entity(name='Contrasts',
+        contrasts=entity(name='Contrasts',
             description='The contrasts associated with a factor. If zero length then the default contrasts are used.',
             type='list'
         ),
 
-        outputs_lm=entity(name='Linear model object',
+        lm=entity(name='Linear model object',
             description='The lm object for this model_',
             type='lm'
         ),
-        outputs_coefficients=entity(name='Model coefficients',
+        coefficients=entity(name='Model coefficients',
             description='The coefficients for the fitted model_',
             type='numeric'
         ),
-        outputs_residuals=entity(name='Residuals',
+        residuals=entity(name='Residuals',
             description='The residuals for the fitted model_',
             type='numeric'
         ),
-        outputs_fitted_values=entity(name='Fitted values',
+        fitted_values=entity(name='Fitted values',
             description='The fitted values for the data used to train the model_',
             type='numeric'
         ),
-        outputs_predicted_values=entity(name='Predicted values',
+        predicted_values=entity(name='Predicted values',
             description='The predicted values for new data using the fitted model_',
             type='numeric'
         ),
-        outputs_r_squared=entity(name='R Squared',
+        r_squared=entity(name='R Squared',
             description='The value of R Squared for the fitted model_',
             type='numeric'
         ),
-        outputs_adj_r_squared=entity(name='Adjusted R Squared',
+        adj_r_squared=entity(name='Adjusted R Squared',
             description='The value ofAdjusted  R Squared for the fitted model_',
             type='numeric'
         )

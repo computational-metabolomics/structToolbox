@@ -9,7 +9,7 @@
 #' C = PLSFC()
 PLSFC = function(...) {
     out=.PLSFC()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -18,13 +18,13 @@ PLSFC = function(...) {
     "PLSFC",
     contains='fold_change',
     slots=c(
-        params_number_components='entity'
+        number_components='entity'
     ),
     prototype = list(name='Partial least squares discriminant analysis',
         type="classification",
         predicted='pred',
         libraries=c('pls'),
-        params_number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric')
+        number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric')
     )
 )
 

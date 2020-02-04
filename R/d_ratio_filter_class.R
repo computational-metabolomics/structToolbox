@@ -21,7 +21,7 @@
 #' @export dratio_filter
 dratio_filter = function(...) {
     out=.dratio_filter()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -29,39 +29,39 @@ dratio_filter = function(...) {
 .dratio_filter<-setClass(
     "dratio_filter",
     contains = c('model'),
-    slots=c(params_threshold='entity',
-        params_qc_label='entity',
-        params_factor_name='entity',
-        outputs_filtered='entity',
-        outputs_flags='entity',
-        outputs_d_ratio='data.frame'
+    slots=c(threshold='entity',
+        qc_label='entity',
+        factor_name='entity',
+        filtered='entity',
+        flags='entity',
+        d_ratio='data.frame'
     ),
     prototype=list(name = 'd_ratio filter',
         description = 'Filters features by calculating the d_ratio and removing features below the threshold.',
         type = 'filter',
         predicted = 'filtered',
 
-        params_threshold=entity(name = 'd_ratio filter',
+        threshold=entity(name = 'd_ratio filter',
             description = 'Features with d_ratio less than the threshold are removed.',
             value = 20,
             type='numeric'),
 
-        params_qc_label=entity(name = 'QC label',
+        qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             description='Name of sample meta column to use',
             type='character',
             value='V1'),
 
-        outputs_filtered=entity(name = 'd_ratio filtered DatasetExperiment',
+        filtered=entity(name = 'd_ratio filtered DatasetExperiment',
             description = 'A DatasetExperiment object containing the filtered data.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
-        outputs_flags=entity(name = 'Flags',
+        flags=entity(name = 'Flags',
             description = 'flag indicating whether the feature was rejected by the filter or not.',
             type='data.frame',
             value=data.frame()

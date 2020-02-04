@@ -29,7 +29,7 @@
 #' @export fisher_exact
 fisher_exact = function(...) {
     out=.fisher_exact()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -39,14 +39,14 @@ fisher_exact = function(...) {
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params_alpha='entity_stato',
-        params_mtc='entity_stato',
-        params_factor_name='entity',
-        params_factor_pred='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_name='entity',
+        factor_pred='entity',
 
         # OUTPUTS
-        outputs_p_value='entity_stato',
-        outputs_significant='entity'
+        p_value='entity_stato',
+        significant='entity'
     ),
     prototype = list(name='Fisher Exact Test',
         description='Fisher Exact Test applied to each column of a DatasetExperiment.',
@@ -54,16 +54,16 @@ fisher_exact = function(...) {
         predicted='p_value',
         stato_id="STATO:0000073",
 
-        params_alpha=ents$alpha,
-        params_mtc=ents$mtc,
-        params_factor_name=ents$factor_name,
-        params_factor_pred=entity(name='Factor predictions',
+        alpha=ents$alpha,
+        mtc=ents$mtc,
+        factor_name=ents$factor_name,
+        factor_pred=entity(name='Factor predictions',
             value=data.frame(),
             type='data.frame',
             description='A data.frame, with a factor of predicted group labels to compare with factor_name. Can be a data frame with a factor of predictions for each feature.'
         ),
-        outputs_p_value=ents$p_value,
-        outputs_significant=ents$significant
+        p_value=ents$p_value,
+        significant=ents$significant
     )
 )
 

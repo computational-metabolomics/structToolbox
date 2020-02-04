@@ -8,7 +8,7 @@
 #' M = log_transform()
 log_transform = function(...) {
     out=.log_transform()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -16,8 +16,8 @@ log_transform = function(...) {
 .log_transform<-setClass(
     "log_transform",
     contains = c('model'),
-    slots=c(params_base='entity',
-        outputs_transformed='entity'
+    slots=c(base='entity',
+        transformed='entity'
     ),
 
     prototype=list(name = 'logarithm transform',
@@ -25,12 +25,12 @@ log_transform = function(...) {
         type = 'transform',
         predicted = 'transformed',
 
-        params_base=entity(name = 'logarithm base',
+        base=entity(name = 'logarithm base',
             description = 'The base of the logarithm used for the tranform.',
             value = 10,
             type='numeric'),
 
-        outputs_transformed=entity(name = 'log transformed DatasetExperiment',
+        transformed=entity(name = 'log transformed DatasetExperiment',
             description = 'A DatasetExperiment object containing the log transformed data.',
             type='DatasetExperiment',
             value=DatasetExperiment()

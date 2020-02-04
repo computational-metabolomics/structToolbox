@@ -9,7 +9,7 @@
 #' M = mv_feature_filter()
 mv_feature_filter = function(...) {
     out=.mv_feature_filter()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -17,45 +17,45 @@ mv_feature_filter = function(...) {
 .mv_feature_filter<-setClass(
     "mv_feature_filter",
     contains = c('model'),
-    slots=c(params_threshold='entity',
-        params_qc_label='entity',
-        params_method='enum',
-        params_factor_name='entity',
-        outputs_filtered='entity',
-        outputs_flags='entity'
+    slots=c(threshold='entity',
+        qc_label='entity',
+        method='enum',
+        factor_name='entity',
+        filtered='entity',
+        flags='entity'
     ),
     prototype=list(name = 'Filter by fraction missing values',
         description = 'Filters by removing features where the percent number of missing values exceeds the threshold',
         type = 'filter',
         predicted = 'filtered',
 
-        params_factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             type='character',
             description='Name of sample_meta column to use'
         ),
 
-        params_threshold=entity(name = 'Missing value threshold (%)',
+        threshold=entity(name = 'Missing value threshold (%)',
             description = 'Features with greather than THRESHOLD% missing values are excluded.',
             value = 20,
             type='numeric'),
 
-        params_qc_label=entity(name = 'QC label',
+        qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        params_method=enum(name='Method',
+        method=enum(name='Method',
             description='"within_all" applies filter within classes,"within_one" applies filter within any one class, "QC" applies filter within QC samples, "across" applies filter ignoring class.',
             value='QC',
             type='character',
             allowed=c('within_all','within_one','QC','across')),
 
-        outputs_filtered=entity(name = 'Filtered DatasetExperiment',
+        filtered=entity(name = 'Filtered DatasetExperiment',
             description = 'A DatasetExperiment object containing the filtered data.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
-        outputs_flags=entity(name = 'Flags',
+        flags=entity(name = 'Flags',
             description = '% missing values and a flag indicating whether the sample was rejected.',
             type='data.frame',
             value=data.frame()
@@ -133,7 +133,7 @@ setMethod(f="model_predict",
 #' C = mv_feature_filter_hist()
 mv_feature_filter_hist = function(...) {
     out=.mv_feature_filter_hist()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 

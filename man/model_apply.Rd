@@ -3,12 +3,12 @@
 %   R/mixed_effect_class.R, R/HSDEM_class.R, R/fold_change_class.R,
 %   R/PLSFC_class.R, R/classical_lsq_class.R, R/confounders_clsq_class.R,
 %   R/corr_coef_class.R, R/filter_by_name_class.R, R/filter_smeta_class.R,
-%   R/fisher_exact_class.R, R/fold_change_int_class.R, R/glog_class.R,
-%   R/hca_class.R, R/knn_impute_class.R, R/kw_rank_sum_class.R,
-%   R/log_transform.R, R/model_apply_doc.R, R/mv_sample_filter_class.R,
-%   R/pairs_filter_class.R, R/pqn_norm_method_class.R, R/prop_na_class.R,
-%   R/rsd_filter.R, R/sb_corr.R, R/split_data_class.R, R/tSNE_class.R,
-%   R/ttest_class.R, R/vec_norm_class.R, R/wilcox_test_class.R
+%   R/fisher_exact_class.R, R/fold_change_int_class.R, R/hca_class.R,
+%   R/knn_impute_class.R, R/kw_rank_sum_class.R, R/log_transform.R,
+%   R/model_apply_doc.R, R/mv_sample_filter_class.R, R/pairs_filter_class.R,
+%   R/pqn_norm_method_class.R, R/prop_na_class.R, R/rsd_filter.R, R/sb_corr.R,
+%   R/split_data_class.R, R/tSNE_class.R, R/ttest_class.R, R/vec_norm_class.R,
+%   R/wilcox_test_class.R
 \name{model_apply,ANOVA,DatasetExperiment-method}
 \alias{model_apply,ANOVA,DatasetExperiment-method}
 \alias{model_apply,HSD,DatasetExperiment-method}
@@ -23,7 +23,6 @@
 \alias{model_apply,filter_smeta,DatasetExperiment-method}
 \alias{model_apply,fisher_exact,DatasetExperiment-method}
 \alias{model_apply,fold_change_int,DatasetExperiment-method}
-\alias{model_apply,glog_transform,DatasetExperiment-method}
 \alias{model_apply,HCA,DatasetExperiment-method}
 \alias{model_apply,knn_impute,DatasetExperiment-method}
 \alias{model_apply,kw_rank_sum,DatasetExperiment-method}
@@ -67,8 +66,6 @@
 \S4method{model_apply}{fisher_exact,DatasetExperiment}(M, D)
 
 \S4method{model_apply}{fold_change_int,DatasetExperiment}(M, D)
-
-\S4method{model_apply}{glog_transform,DatasetExperiment}(M, D)
 
 \S4method{model_apply}{HCA,DatasetExperiment}(M, D)
 

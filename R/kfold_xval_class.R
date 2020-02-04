@@ -8,7 +8,7 @@
 #' I = kfold_xval()
 kfold_xval = function(...) {
     out=.kfold_xval()
-    out=struct::.initialize_struct_class(out,...)
+    out=struct::new_struct(out,...)
     return(out)
 }
 
@@ -16,19 +16,19 @@ kfold_xval = function(...) {
 .kfold_xval<-setClass(
     "kfold_xval",
     contains='resampler',
-    slots=c(params_folds='numeric',
-        params_method='character',
-        params_factor_name='entity',
-        outputs_results='data.frame',
-        outputs_metric='data.frame',
-        outputs_metric.train='numeric',
-        outputs_metric.test='numeric'
+    slots=c(folds='numeric',
+        method='character',
+        factor_name='entity',
+        results='data.frame',
+        metric='data.frame',
+        metric.train='numeric',
+        metric.test='numeric'
     ),
     prototype = list(name='k-fold cross-validation',
         type="resampling",
         result='results',
-        params_folds=10,
-        params_method='venetian'
+        folds=10,
+        method='venetian'
     )
 )
 
