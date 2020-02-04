@@ -1,7 +1,7 @@
 #' sbcms
 #'
 #' Signal/batch correction using SMCBMS package
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export sb_corr
 #' @examples
@@ -32,7 +32,7 @@ sb_corr = function(...) {
         correct for signal drift and batch differences in mass spectrometry data.',
         type = 'correction',
         predicted = 'corrected',
-        libraries='sbcms',
+        libraries='pmp',
 
         params_order_col=entity(
             name = 'Sample run order column',
@@ -79,7 +79,7 @@ sb_corr = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -92,7 +92,7 @@ setMethod(f="model_apply",
         X=as.data.frame(t(D$data))
 
         # apply correction
-        corrected_data <- sbcms::QCRSC(
+        corrected_data <- pmp::QCRSC(
             df=X,
             order=D$sample_meta[[M$order_col]],
             batch=D$sample_meta[[M$batch_col]],

@@ -68,17 +68,20 @@ classical_lsq = function(...) {
 
         outputs_coefficients=entity(name='Regression coefficients',
             type='data.frame',
-            description='The regression coefficients for each model_'
+            description='The regression coefficients for each model_',
+            value=data.frame()
         ),
         outputs_p_value=ents$p_value,
         outputs_significant=ents$significant,
         outputs_r_squared=entity(name='R Squared',
             description='The value of R Squared for the fitted model_',
-            type='data.frame'
+            type='data.frame',
+            value=data.frame()
         ),
         outputs_adj_r_squared=entity(name='Adjusted R Squared',
             description='The value ofAdjusted  R Squared for the fitted model_',
-            type='data.frame'
+            type='data.frame',
+            value=data.frame()
         )
     )
 )

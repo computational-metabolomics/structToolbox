@@ -24,13 +24,15 @@ ents$formula=entity(name='Formula',
 ents$f_statistic=entity_stato(name='F-statistic',
     stato_id='STATO:0000176',
     type='data.frame',
-    description='the value of the calculated statistic which is converted to a p-value when compared to an F-distribution.'
+    description='the value of the calculated statistic which is converted to a p-value when compared to an F-distribution.',
+    value=data.frame()
 )
 
 ents$p_value=entity_stato(name='p value',
     stato_id='STATO:0000175',
     type='data.frame',
-    description='The probability of observing the calculated statistic.'
+    description='The probability of observing the calculated statistic.',
+    value=data.frame()
 )
 
 ents$significant=entity(name='Significant features',

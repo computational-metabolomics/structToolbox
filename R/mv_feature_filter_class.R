@@ -48,7 +48,7 @@ mv_feature_filter = function(...) {
             description='"within_all" applies filter within classes,"within_one" applies filter within any one class, "QC" applies filter within QC samples, "across" applies filter ignoring class.',
             value='QC',
             type='character',
-            list=c('within_all','within_one','QC','across')),
+            allowed=c('within_all','within_one','QC','across')),
 
         outputs_filtered=entity(name = 'Filtered DatasetExperiment',
             description = 'A DatasetExperiment object containing the filtered data.',

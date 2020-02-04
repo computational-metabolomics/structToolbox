@@ -54,39 +54,16 @@ fisher_exact = function(...) {
         predicted='p_value',
         stato_id="STATO:0000073",
 
-        params_alpha=entity_stato(name='Confidence level',
-            stato_id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        params_mtc=entity_stato(name='Multiple Test Correction method',
-            stato_id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
-        params_factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The column name of meta data to use.'
-        ),
+        params_alpha=ents$alpha,
+        params_mtc=ents$mtc,
+        params_factor_name=ents$factor_name,
         params_factor_pred=entity(name='Factor predictions',
             value=data.frame(),
             type='data.frame',
             description='A data.frame, with a factor of predicted group labels to compare with factor_name. Can be a data frame with a factor of predictions for each feature.'
         ),
-        outputs_p_value=entity_stato(name='p value',
-            stato_id='STATO:0000175',
-            type='numeric',
-            description='the probability of observing the calculated t-statistic.',
-            value=-1
-        ),
-        outputs_significant=entity(name='Significant features',
-            #stato_id='STATO:0000069',
-            type='logical',
-            description='TRUE if the calculated p-value is less than the supplied threshold (alpha)'
-        )
+        outputs_p_value=ents$p_value,
+        outputs_significant=ents$significant
     )
 )
 

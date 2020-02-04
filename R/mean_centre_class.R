@@ -1,7 +1,7 @@
 #' mean_centre model class
 #'
 #' Mean centres the columns a DatasetExperiment object
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export mean_centre
 #' @examples
@@ -28,13 +28,13 @@ mean_centre = function(...) {
             '"sample_meta" will apply centring to the sample_meta block',
             '"both" will apply centring to both the data and the sample_meta blocks'),
             value='data',
-            list=c('data','sample_meta','both')
+            allowed=c('data','sample_meta','both')
         ),
         predicted='centred'
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -58,7 +58,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -84,7 +84,7 @@ setMethod(f="model_predict",
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_reverse
 setMethod(f='model_reverse',

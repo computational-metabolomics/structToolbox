@@ -42,7 +42,7 @@ filter_by_name = function(...) {
             name='Filter dimension',
             description = 'The filtering dimensions controls whether dimension="sample" or dimension="variable" are filtered based on their name',
             type='character',
-            list=c('sample','variable')
+            allowed=c('sample','variable')
         ),
 
         params_names=entity(name='Names',

@@ -6,7 +6,7 @@
 #' @import stats
 #' @import nlme
 #' @import emmeans
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export mixed_effect
 #' @examples
@@ -26,7 +26,7 @@ mixed_effect = function(...) {
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000189",
-        params_type=enum(list=c('sequential','marginal'),
+        params_type=enum(allowed=c('sequential','marginal'),
             value = 'marginal',
             name ='ANOVA Sum of Squares type',
             description = '"marginal" = Type III sum of squares, and "sequential" = Type II. Default is "marginal"',
@@ -34,7 +34,7 @@ mixed_effect = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

@@ -3,7 +3,7 @@
 #' plots the correlation between features and selected components.
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export pca_correlation_plot
 #' @include PCA_class.R
@@ -36,7 +36,7 @@ pca_correlation_plot = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -67,7 +67,7 @@ setMethod(f="chart_plot",
 #' 2d scatter plot of princpal component scores.
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export pca_scores_plot
 #' @include PCA_class.R
@@ -110,7 +110,7 @@ pca_scores_plot = function(...) {
             value='none',
             type='character',
             description='("none"), "all", or "outliers" will be labelled on the plot.',
-            list=c('none','all','outliers')
+            allowed=c('none','all','outliers')
         ),
         params_factor_name=entity(name='Factor name',
             value='factor',
@@ -123,18 +123,18 @@ pca_scores_plot = function(...) {
             '"group" will only plot group ellipses',
             '"none" will not plot any ellipses',
             '"sample" will plot ellipse for all samples (ignoring group)'),
-            list=c('all','group','none','sample'),
+            allowed=c('all','group','none','sample'),
             value='all'),
         params_label_filter=entity(name='Label filter',
             value=character(0),
             type='character',
             description='Only include the param.group labels included in params_label_filter. If zero length then all labels will be included.'
         ),
-        params_label_factor=entity(names='Factor for labels',
+        params_label_factor=entity(name='Factor for labels',
             description='The column name of sample_meta to use as labels. "rownames" will use the row names from sample_meta.',
             type='character',
             value='rownames'),
-        params_label_size=entity(names='Text size of labels',
+        params_label_size=entity(name='Text size of labels',
             description='The text size of labels. Note this is not in Font Units. Default 3.88.',
             type='numeric',
             value=3.88)
@@ -146,7 +146,7 @@ pca_scores_plot = function(...) {
 #' @importFrom sp point.in.polygon
 #' @import ggplot2
 #' @importFrom scales squish
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -278,7 +278,7 @@ setMethod(f="chart_plot",
 #' 2d scatter plot of princpal component scores overlaid with principal component loadings.
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export pca_biplot_plot
 #' @include PCA_class.R
@@ -313,10 +313,11 @@ pca_biplot_plot = function(...) {
             description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
             max_length=2
         ),
-        params_points_to_label=entity(name='points_to_label',
+        params_points_to_label=enum(name='points_to_label',
             value='none',
             type='character',
-            description='("none"), "all", or "outliers" will be labelled on the plot.'
+            description='("none"), "all", or "outliers" will be labelled on the plot.',
+            allowed=c('none','all','outliers')
         ),
         params_factor_name=entity(name='Factor name',
             value='factor',
@@ -337,7 +338,7 @@ pca_biplot_plot = function(...) {
             value='points',
             type='character',
             description='Named plot styles for the biplot. [points], arrows',
-            list=c('points','arrows')
+            allowed=c('points','arrows')
         ),
         params_label_features=entity(name='Add feature labels',
             value=FALSE,
@@ -348,7 +349,7 @@ pca_biplot_plot = function(...) {
 
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -430,7 +431,7 @@ setMethod(f="chart_plot",
 #' 2d scatter plot of princpal component loadings.
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export pca_loadings_plot
 #' @include PCA_class.R
@@ -465,7 +466,7 @@ pca_loadings_plot = function(...) {
             value='points',
             type='character',
             description='Named plot styles for the biplot. [points], arrows',
-            list=c('points','arrows')
+            allowed=c('points','arrows')
         ),
         params_label_features=entity(name='Add feature labels',
             value=FALSE,
@@ -479,7 +480,7 @@ pca_loadings_plot = function(...) {
 
 
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -529,7 +530,7 @@ setMethod(f="chart_plot",
 #' line plot showing percent variance and cumulative peercent variance for the computed components.
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export pca_scree
 #' @include PCA_class.R
@@ -551,7 +552,7 @@ pca_scree = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -586,7 +587,7 @@ setMethod(f="chart_plot",
 #' line plot showing percent variance and cumulative peercent variance for the computed components.
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export PCA_dstat
 #' @include PCA_class.R
@@ -618,7 +619,7 @@ PCA_dstat = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

@@ -2,7 +2,7 @@
 #'
 #' HCA method class. Calculate a hierarchical clustering for the input data
 #'
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export HCA
 #' @examples
@@ -38,13 +38,13 @@ HCA = function(...) {
             value='euclidean',
             type='character',
             description='The distance measure to be used. This must be one of "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"',
-            list=c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski")
+            allowed=c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski")
         ),
         params_cluster_method=enum(name='Clustering method',
             value='complete',
             type='character',
             description='The agglomeration method to be used. This should be one of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median" or "centroid"',
-            list=c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
+            allowed=c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
         ),
 
         outputs_dist_matrix=entity(name='distance structure',
@@ -58,7 +58,7 @@ HCA = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -84,7 +84,7 @@ setMethod(f="model_apply",
 #'
 #' plots a dendrogram for HCA
 #'
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export hca_dendrogram
 #' @import ggdendro
@@ -103,7 +103,7 @@ hca_dendrogram = function(...) {
     contains='chart'
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

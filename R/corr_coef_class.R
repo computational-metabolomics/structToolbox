@@ -7,7 +7,7 @@
 #' @examples
 #' M = corr_coef()
 #'
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export corr_coef
 corr_coef = function(...) {
@@ -36,49 +36,27 @@ corr_coef = function(...) {
         type="univariate",
         predicted='p_value',
 
-        params_factor_names=entity(name='Factor names',
-            type='character',
-            description='Names of sample_meta columns to use'
-        ),
-
-        params_alpha=entity_stato(name='Confidence level',
-            stato_id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        params_mtc=entity_stato(name='Multiple Test Correction method',
-            stato_id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
+        params_factor_names=ents$factor_names,
+        params_alpha=ents$alpha,
+        params_mtc=ents$mtc,
 
         params_method=enum(name='Type of correlation',
             value='spearman',
             type='character',
             description='"kendall", "pearson" or "spearman" correlation coefficient. Default="spearman".',
-            list=c("kendall", "pearson","spearman")
+            allowed=c("kendall", "pearson","spearman")
         ),
         outputs_coeff=entity(name='Correlation coefficient',
             type='data.frame',
-            description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.'
+            description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.',
+            value=data.frame()
         ),
-        outputs_p_value=entity_stato(name='p value',
-            stato_id='STATO:0000175',
-            type='data.frame',
-            description='the probability of observing the calculated t-statistic.'
-        ),
-
-        outputs_significant=entity(name='Significant features',
-            #stato_id='STATO:0000069',
-            type='data.frame',
-            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
-        )
+        outputs_p_value=ents$p_value,
+        outputs_significant=ents$significant
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

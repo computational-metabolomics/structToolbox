@@ -15,13 +15,15 @@
 #' M = model_apply(M,D)
 #'
 #' @include entity_objects.R
-#'
-#' @param ... slots and values for the new object
-#' @return struct object
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param formula The formula to use for ANOVA. See \code{lm} for details.
+#' @param ss_type The type of sum of squares to use. Can be I, II or III. Default is ss_type = 'III'.
+#' @param ... additional slots and values passed to struct_class
+#' @return ANOVA object
 #' @export ANOVA
-ANOVA = function(...) {
-    out=.ANOVA()
-    out=struct::.initialize_struct_class(out,...)
+ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III') {
+    out=struct::new_struct('ANOVA',...)
     return(out)
 }
 
@@ -31,14 +33,14 @@ ANOVA = function(...) {
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params_alpha='entity_stato',
-        params_mtc='entity_stato',
-        params_formula='entity',
-        params_type='enum',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        formula='entity',
+        ss_type='enum',
         # OUTPUTS
-        outputs_f_statistic='entity_stato',
-        outputs_p_value='entity_stato',
-        outputs_significant='entity'
+        f_statistic='entity_stato',
+        p_value='entity_stato',
+        significant='entity'
     ),
     prototype = list(name='Analysis of Variance',
         description='ANOVA applied to each column of a DatasetExperiment.',
@@ -46,20 +48,20 @@ ANOVA = function(...) {
         predicted='p_value',
         stato_id="OBI:0200201",
 
-        params_alpha=ents$alpha,
-        params_mtc=ents$mtc,
-        params_formula=ents$formula,
+        alpha=ents$alpha,
+        mtc=ents$mtc,
+        formula=ents$formula,
 
-        params_type=enum(name='ANOVA type',
+        ss_type=enum(name='ANOVA type',
             description='I, II or [III]. The type of sums of squares to use. For balanced designs all types gives the same result.',
             value='III',
             type='character',
-            list=c('I','II','III')
+            allowed=c('I','II','III')
         ),
 
-        outputs_f_statistic=ents$f_statistic,
-        outputs_p_value=ents$p_value,
-        outputs_significant=ents$significant
+        f_statistic=ents$f_statistic,
+        p_value=ents$p_value,
+        significant=ents$significant
     )
 )
 
@@ -124,13 +126,13 @@ setMethod(f="model_apply",
                 # use some fake data to generate the output table then replace all the values with NA
                 temp[[var_names[1]]]=rnorm(nrow(y))
                 LM=lm(formula=M$formula,data=temp)
-                A=Anova(LM,type=M$type)
+                A=Anova(LM,type=M$ss_type)
                 A[!is.na(A)]=NA
                 return(A)
             }
 
             LM=lm(formula=M$formula,data=temp)
-            A=Anova(LM,type=M$type)
+            A=Anova(LM,type=M$ss_type)
             return(A)
         })
 

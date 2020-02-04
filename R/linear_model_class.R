@@ -3,7 +3,7 @@
 #' wrapper for R lm.
 #'
 #' @import struct
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @return struct object
 #' @export linear_model
 #' @examples
@@ -49,7 +49,7 @@ linear_model = function(...) {
             description='The action to be taken when encoutering NA',
             value='na.omit',
             type='character',
-            list=c('na.omit','na.fail','na.exclude','na.pass')
+            allowed=c('na.omit','na.fail','na.exclude','na.pass')
         ),
         params_contrasts=entity(name='Contrasts',
             description='The contrasts associated with a factor. If zero length then the default contrasts are used.',
@@ -87,7 +87,7 @@ linear_model = function(...) {
     )
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -111,7 +111,7 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... slots and values for the new object 
+#' @param ... slots and values for the new object
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

@@ -38,7 +38,7 @@ filter_smeta = function(...) {
         params_mode=enum(name='Mode of action',
             description='"include" or "exclude" samples based on the sample_meta data',
             type='character',
-            list=c('include','exclude'),
+            allowed=c('include','exclude'),
             value='include'
         ),
 
