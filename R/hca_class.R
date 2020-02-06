@@ -1,15 +1,28 @@
 #' HCA method class
 #'
-#' HCA method class. Calculate a hierarchical clustering for the input data
+#' HCA method class. Calculate a hierarchical clustering for the input data.
 #'
+#' @param dist_method The distance method to use for clustering. Can be any one of
+#' "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski". Default
+#' is "euclidean".
+#' @param cluster_method The clustering method to use. Can be any one of "ward.D",
+#' "ward.D2", "single", "complete", "average", "mcquitty", "median" or "centroid".
+#' Default is 'complete'.
+#' @param minkowski_power This parameter is only used when \code{dist_method = 'minkowski'}.
+#' @param factor_name The sample_meta column to use.
 #' @param ... additional slots and values passed to struct_class
+#'
 #' @return struct object
 #' @export HCA
 #' @examples
 #' M = HCA()
-HCA = function(...) {
-    out=.HCA()
-    out=struct::new_struct(out,...)
+HCA = function(dist_method='euclidean',cluster_method='complete',minkowski_power=2,factor_name,...) {
+    out=struct::new_struct('HCA',
+        dist_method=dist_method,
+        cluster_method=cluster_method,
+        minkowski_power=minkowski_power,
+        factor_name=factor_name,
+        ...)
     return(out)
 }
 
@@ -32,6 +45,8 @@ HCA = function(...) {
         description='Applies hierarchical clustering to a DatasetExperiment.',
         type="univariate",
         predicted='dist_matrix',
+        .params=c('dist_method','cluster_method','minkowski_power','factor_name'),
+        .outputs=c('dist_matrix','hclust','factor_df'),
 
 
         dist_method=enum(name='Distance method',
@@ -58,7 +73,6 @@ HCA = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -92,8 +106,7 @@ setMethod(f="model_apply",
 #' @examples
 #' C = hca_dendrogram()
 hca_dendrogram = function(...) {
-    out=.hca_dendrogram()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('hca_dendrogram',...)
     return(out)
 }
 
@@ -103,7 +116,6 @@ hca_dendrogram = function(...) {
     contains='chart'
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

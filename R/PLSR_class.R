@@ -1,24 +1,20 @@
 #' PLSR model class
 #'
-#' Partial least squares (PLS) Regression model class. This object can be used to train/apply PLS models.
+#' Calculates a PLS regression model using the input data.
+#' @param number_components The number of PLS components to calculate.
+#' @param factor_name The sample_meta column name to use.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export PLSR
 #' @examples
 #' M = PLSR()
-PLSR = function(...) {
-    out=.PLSR()
-    out=struct::new_struct(out,...)
+PLSR = function(number_components=c(1,2),factor_name,...) {
+    out=struct::new_struct('PLSR',
+        number_components=number_components,
+        factor_name=factor_name,
+        ...)
     return(out)
 }
-
-
-.PLSR = function(...) {
-    out=.PLSR()
-    out=struct::new_struct(out,...)
-    return(out)
-}
-
 
 .PLSR<-setClass(
 
@@ -42,13 +38,23 @@ PLSR = function(...) {
         type="regression",
         predicted='pred',
         libraries='pls',
+        .params=c('number_components','factor_name'),
+        .outputs=c(
+            'scores',
+            'loadings',
+            'y',
+            'yhat',
+            'reg_coeff',
+            'vip',
+            'pls_model',
+            'pred'),
+
         number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric'),
         factor_name=entity(name='Factor name', description='A vector of sample_meta column names to use')
     )
 
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -84,7 +90,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -133,9 +138,8 @@ vips<-function(object)
 
 #' plsr_prediction_plot class
 #'
-#' plots the true values against the predicted values for a PLSR model_
+#' Plots the true values against the predicted values for a PLSR model.
 #'
-#' @import struct
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export plsr_prediction_plot
@@ -143,11 +147,9 @@ vips<-function(object)
 #' @examples
 #' C = plsr_prediction_plot()
 plsr_prediction_plot = function(...) {
-    out=.plsr_prediction_plot()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('plsr_prediction_plot',...)
     return(out)
 }
-
 
 .plsr_prediction_plot<-setClass(
     "plsr_prediction_plot",
@@ -158,7 +160,6 @@ plsr_prediction_plot = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -187,7 +188,7 @@ setMethod(f="chart_plot",
 
 #' plsr_residual_hist class
 #'
-#' plots a histogram of the residuals
+#' A histogram of the model residuals
 #'
 #' @import struct
 #' @param ... additional slots and values passed to struct_class
@@ -197,22 +198,19 @@ setMethod(f="chart_plot",
 #' @examples
 #' C = plsr_residual_hist()
 plsr_residual_hist = function(...) {
-    out=.plsr_residual_hist()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('plsr_residual_hist',...)
     return(out)
 }
-
 
 .plsr_residual_hist<-setClass(
     "plsr_residual_hist",
     contains='chart',
     prototype = list(name='PLSR residuals histogram',
-        description='Plots a histogram of the residuals for a PLSR model_',
+        description='A histogram of the residuals for a PLSR model.',
         type="histogram"
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -241,7 +239,7 @@ setMethod(f="chart_plot",
 
 #' plsr_qq_plot class
 #'
-#' plots the quantiles of PLSR residuals against the qualtiles of a normal
+#' Quantiles of PLSR residuals against the qualtiles of a normal
 #' distribution
 #'
 #' @import struct
@@ -252,8 +250,7 @@ setMethod(f="chart_plot",
 #' @examples
 #' C = plsr_qq_plot()
 plsr_qq_plot = function(...) {
-    out=.plsr_qq_plot()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('plsr_qq_plot',...)
     return(out)
 }
 
@@ -268,7 +265,6 @@ plsr_qq_plot = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -293,9 +289,11 @@ setMethod(f="chart_plot",
     }
 )
 
-#' plsr_residual_plot class
+#' plsr_cook_dist class
 #'
-#' Plots the residuals for a PLSR model
+#' Cook's distance for a PLSR model. Cook's distance measures the effect of deleting
+#' each observation. Samples with a larger Cook's distance might be considered outlying
+#' as they have strong influence on the regression.
 #'
 #' @import struct
 #' @param ... additional slots and values passed to struct_class
@@ -305,11 +303,9 @@ setMethod(f="chart_plot",
 #' @examples
 #' C = plsr_cook_dist()
 plsr_cook_dist = function(...) {
-    out=.plsr_cook_dist()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('plsr_cook_dist',...)
     return(out)
 }
-
 
 .plsr_cook_dist<-setClass(
     "plsr_cook_dist",
@@ -320,14 +316,11 @@ plsr_cook_dist = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
     signature=c("plsr_cook_dist",'PLSR'),
-    definition=function(obj,dobj)
-    {
-
+    definition=function(obj,dobj) {
         # residual
         e=as.matrix(dobj$y-dobj$yhat)^2 # e^2
 

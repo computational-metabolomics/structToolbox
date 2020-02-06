@@ -1,16 +1,23 @@
 #'linear model class
 #'
-#' wrapper for R lm.
+#' Wrapper for R lm. See \code{lm} for details.
 #'
 #' @import struct
+#' @param formula The formula to use.
+#' @param na_action The action to take when missing values are present. Can any
+#' one of 'na.omit','na.fail','na.exclude' or 'na.pass'. Default is 'na.omit'.
+#' @param contrasts The contrasts for this model. If zero length then the default contrasts are used.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export linear_model
 #' @examples
 #' M = linear_model()
-linear_model = function(...) {
-    out=.linear_model()
-    out=struct::new_struct(out,...)
+linear_model = function(formula,na_action='na_omit',contrasts=list(),...) {
+    out=struct::new_struct('linear_model',
+        formula=formula,
+        na_action=nna_action,
+        contrasts=contrasts,
+        ...)
     return(out)
 }
 
@@ -38,6 +45,8 @@ linear_model = function(...) {
         description='Used to fit linear models. It can be used to carry out regression, single stratum analysis of variance and analysis of covariance.',
         type="regression",
         predicted='predicted_values',
+        .params=c('formula','na_action','contrasts'),
+        .outputs=c('lm','coefficients','residuals','fitted_values','predicted_values','r_squared','adj_r_squared'),
 
         formula=entity(name='Model Formula',
             description='Compact symbolic form of the equation to be fitted using a linear model_',
@@ -87,7 +96,6 @@ linear_model = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -111,7 +119,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

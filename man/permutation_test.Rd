@@ -2,20 +2,23 @@
 % Please edit documentation in R/permutation_test_class.R
 \name{permutation_test}
 \alias{permutation_test}
-\title{permutation test class}
+\title{Permutation test class}
 \usage{
-permutation_test(...)
+permutation_test(number_of_permutations, ...)
 }
 \arguments{
+\item{number_of_permutations}{The number of permutations to run}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-Applies a permutation test to a model or model_seq()
+Applies a permutation test to a model or model_seq(). The input metric is calculated for
+all permutations, and can be compared to the results from the unpermuted model to
+assess model validity.
 }
 \examples{
 I=permutation_test()
-
 }

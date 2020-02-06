@@ -4,9 +4,18 @@
 \alias{mixed_effect}
 \title{Mixed Effects model class}
 \usage{
-mixed_effect(...)
+mixed_effect(alpha = 0.05, mtc = "fdr", formula, ss_type = "marginal", ...)
 }
 \arguments{
+\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+
+\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+
+\item{formula}{The formula to use. See \code{aov} for details.}
+
+\item{ss_type}{Type of sum of squares to use. "marginal" = Type III sum of squares,
+and "sequential" = Type II. Default is "marginal".}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{

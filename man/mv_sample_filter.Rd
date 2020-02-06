@@ -2,18 +2,20 @@
 % Please edit documentation in R/mv_sample_filter_class.R
 \name{mv_sample_filter}
 \alias{mv_sample_filter}
-\title{missing value filter (samples)}
+\title{Missing value filter (samples)}
 \usage{
-mv_sample_filter(...)
+mv_sample_filter(mv_threshold = 20, ...)
 }
 \arguments{
+\item{mv_threshold}{The max percentage of missing values, above which the sample is removed.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-filters samples based on the percent number of missing values
+Filters samples based on the percent number of missing values.
 }
 \examples{
 C = mv_sample_filter()

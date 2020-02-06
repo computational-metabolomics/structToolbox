@@ -1,17 +1,18 @@
 #' permute_sample_order class
 #'
-#' permutes the sample order a defined number of times, running the model each time
+#' Permutes the sample order a defined number of times, running the model each time
 #' @examples
 #' C = permute_sample_order()
+#' @param number_of_permutations The number of times to permute the sample order
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permute_sample_order
-permute_sample_order = function(...) {
-    out=.permute_sample_order()
-    out=struct::new_struct(out,...)
+permute_sample_order = function(number_of_permutations,...) {
+    out=struct::new_struct('permute_sample_order',
+        number_of_permutations=number_of_permutations,
+        ...)
     return(out)
 }
-
 
 .permute_sample_order<-setClass(
     "permute_sample_order",
@@ -24,17 +25,17 @@ permute_sample_order = function(...) {
     prototype = list(name='Permute Sample Order',
         type="permutation",
         result='results',
-        number_of_permutations=10
+        number_of_permutations=10,
+        .params=c('number_of_permutations'),
+        .outputs=c('results','metric','metric.train')
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template run
 setMethod(f="run",
     signature=c("permute_sample_order",'DatasetExperiment','metric'),
-    definition=function(I,D,MET)
-    {
+    definition=function(I,D,MET) {
 
         # get the data
         X=D$data

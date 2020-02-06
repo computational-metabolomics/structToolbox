@@ -1,16 +1,15 @@
-#' vector nromalisation
+#' Vector normalisation
 #'
-#' applies vector normalisation
+#' Applies vector normalisation, such the sum of squared values for each sample
+#' after normalisation are equal to 1.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export vec_norm
-#' @import pmp
 #' @examples
 #' M = vec_norm()
 #'
 vec_norm = function(...) {
-    out=.vec_norm()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('vec_norm',...)
     return(out)
 }
 
@@ -25,6 +24,7 @@ vec_norm = function(...) {
         description = 'Normalises each row such that the sum of squares is equal to 1',
         type = 'normalisation',
         predicted='normalised',
+        .outputs=c('normalised','coeff'),
         normalised=entity(name = 'Normalised DatasetExperiment',
             description = 'A DatasetExperiment object containing the normalised data.',
             type='DatasetExperiment',
@@ -38,7 +38,6 @@ vec_norm = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -59,7 +58,6 @@ setMethod(f="model_apply",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -69,7 +67,6 @@ setMethod(f="model_train",
         return(M)
     })
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

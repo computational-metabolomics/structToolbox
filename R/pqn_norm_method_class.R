@@ -1,15 +1,15 @@
-#' PQN nromalisation
+#' Probabilistic Quotient Nomalisation
 #'
-#' applies PQN normalisation using QC samples as reference samples
+#' Applies PQN using QC samples as reference samples
+#' @param qc_label = The label for qc samples in the chosen sample_meta column.
+#' @param factor_name The sample_meta column name containing QC labels.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pqn_norm
-#' @import pmp
 #' @examples
 #' M = pqn_norm()
 pqn_norm = function(...) {
-    out=.pqn_norm()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('pqn_norm',qc_label='QC',factor_name,...)
     return(out)
 }
 
@@ -26,6 +26,9 @@ pqn_norm = function(...) {
         description = 'PQN normalisation using QC samples as reference samples',
         type = 'normalisation',
         predicted = 'normalised',
+        libraries='pmp',
+        .params=c('qc_label','factor_name'),
+        .outputs=c('normlised','coeff'),
 
         qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
@@ -45,7 +48,6 @@ pqn_norm = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -79,11 +81,9 @@ setMethod(f="model_apply",
 #' @examples
 #' C = pqn_norm_hist()
 pqn_norm_hist = function(...) {
-    out=.pqn_norm_hist()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('pqn_norm_hist',...)
     return(out)
 }
-
 
 .pqn_norm_hist<-setClass(
     "pqn_norm_hist",
@@ -94,7 +94,6 @@ pqn_norm_hist = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

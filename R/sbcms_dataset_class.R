@@ -1,12 +1,10 @@
 #' Data from sbcms
 #'
 #' SBCMS package data after correction, as a struct DatasetExperiment object
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @param filtered TRUE to load prefiltered data, or FALSE to load the unfiltered data
+#' Default is FALSE.
 #' @export sbcms_DatasetExperiment
 #' @return DatasetExperiment object
-#' @import datasets
-#' @param filtered TRUE to load prefiltered data, or FALSE to load the unfiltered data
 #' @examples
 #' D = sbcms_DatasetExperiment()
 #' summary(D)

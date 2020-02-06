@@ -4,16 +4,22 @@
 \alias{rsd_filter}
 \title{rsd filter}
 \usage{
-rsd_filter(...)
+rsd_filter(rsd_threshold = 20, qc_label = "QC", factor_name, ...)
 }
 \arguments{
+\item{rsd_threshold}{Features with RSD greater than the threshold are removed.}
+
+\item{qc_label}{The label used to identify QC samples in the chosen sample_meta column.}
+
+\item{factor_name}{The name of the sample_meta column containing QC labels.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-filters features based on the relative standard deviation (RSD) for the QC samples
+Filters features based on the relative standard deviation (RSD) for the QC samples.
 }
 \examples{
 M = rsd_filter()

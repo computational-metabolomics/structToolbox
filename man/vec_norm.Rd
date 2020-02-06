@@ -2,7 +2,7 @@
 % Please edit documentation in R/vec_norm_class.R
 \name{vec_norm}
 \alias{vec_norm}
-\title{vector nromalisation}
+\title{Vector normalisation}
 \usage{
 vec_norm(...)
 }
@@ -13,7 +13,8 @@ vec_norm(...)
 struct object
 }
 \description{
-applies vector normalisation
+Applies vector normalisation, such the sum of squared values for each sample
+after normalisation are equal to 1.
 }
 \examples{
 M = vec_norm()

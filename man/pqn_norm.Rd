@@ -2,18 +2,22 @@
 % Please edit documentation in R/pqn_norm_method_class.R
 \name{pqn_norm}
 \alias{pqn_norm}
-\title{PQN nromalisation}
+\title{Probabilistic Quotient Nomalisation}
 \usage{
 pqn_norm(...)
 }
 \arguments{
 \item{...}{additional slots and values passed to struct_class}
+
+\item{qc_label}{= The label for qc samples in the chosen sample_meta column.}
+
+\item{factor_name}{The sample_meta column name containing QC labels.}
 }
 \value{
 struct object
 }
 \description{
-applies PQN normalisation using QC samples as reference samples
+Applies PQN using QC samples as reference samples
 }
 \examples{
 M = pqn_norm()

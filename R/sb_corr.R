@@ -1,17 +1,24 @@
 #' sbcms
 #'
 #' Signal/batch correction using SMCBMS package
+#' @param order_col The sample-meta column containing the order of measurement.
+#' @param batch_col The sample_meta column containing the batch labels.
+#' @param qc_col The sample_meta column containing QC labels.
+#' @param qc_label The label used in \code{qc_col} to identify QC samples.
+#' @param smooth Spline smoothing parameter. Should be in the range 0 to 1.
+#' If set to 0 it will be estimated using leave-one-out cross-validation.
+#' @param use_log Perform the signal correction fit on the log scaled data. Default is TRUE.
+#' @param min_qc Minimum number of measured quality control (QC) samples required
+#' for signal correction within feature per batch. Default 4.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export sb_corr
 #' @examples
 #' M = sb_corr()
-sb_corr = function(...) {
-    out=.sb_corr()
-    out=struct::new_struct(out,...)
+sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_label,...) {
+    out=struct::new_struct(sb_corr,...)
     return(out)
 }
-
 
 .sb_corr<-setClass(
     "sb_corr",
@@ -23,6 +30,7 @@ sb_corr = function(...) {
         smooth='entity',
         use_log='entity',
         min_qc='entity',
+        qc_label='entity',
         corrected='entity'
     ),
 
@@ -33,6 +41,8 @@ sb_corr = function(...) {
         type = 'correction',
         predicted = 'corrected',
         libraries='pmp',
+        .params=c('order_col','batch_col','qc_col','smooth','use_log','min_qc','qc_label'),
+        .outputs=c('corrected'),
 
         order_col=entity(
             name = 'Sample run order column',
@@ -62,14 +72,20 @@ sb_corr = function(...) {
         use_log=entity(
             name = 'Use log transformed data',
             description = 'TRUE or FALSE to perform the signal correction fit on the log scaled data. Default is TRUE.',
-            value = 0,
-            type='numeric'),
+            value = TRUE,
+            type='logical'),
 
         min_qc=entity(
             name = 'Minimum number of QCs',
             description = 'Minimum number of QC samples required for signal correction.',
             value = 4,
             type='numeric'),
+
+        qc_label=entity(
+            name = 'QC label',
+            description = 'The label used to identify QC samples.',
+            value = 'QC',
+            type='character'),
 
         corrected=entity(name = 'Signal/batch corrected DatasetExperiment',
             description = 'THe DatasetExperiment after signal/batch correction has been applied.',
@@ -79,7 +95,6 @@ sb_corr = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -99,7 +114,8 @@ setMethod(f="model_apply",
             classes=D$sample_meta[[M$qc_col]],
             spar=M$smooth,
             minQC=M$min_qc,
-            log=M$use_log
+            log=M$use_log,
+            qc_label=M$qc_label
         )
 
         D$data=as.data.frame(t(corrected_data))

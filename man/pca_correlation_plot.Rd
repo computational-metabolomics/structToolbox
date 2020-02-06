@@ -4,16 +4,18 @@
 \alias{pca_correlation_plot}
 \title{pca_correlation_plot class}
 \usage{
-pca_correlation_plot(...)
+pca_correlation_plot(components = c(1, 2), ...)
 }
 \arguments{
+\item{components}{The principal components to plot (\code{numeric(2)})}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-plots the correlation between features and selected components.
+Plots the correlation between features and selected components.
 }
 \examples{
 C = pca_correlation_plot()

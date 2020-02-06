@@ -4,7 +4,6 @@
 #'
 #' @import struct
 #' @import stats
-#' @import car
 #'
 #' @templateVar paramNames c('alpha','mtc','formula')
 #' @template common_params
@@ -22,8 +21,13 @@
 #' @param ... additional slots and values passed to struct_class
 #' @return ANOVA object
 #' @export ANOVA
-ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III') {
-    out=struct::new_struct('ANOVA',...)
+ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III',...) {
+    out=struct::new_struct('ANOVA',
+        alpha=alpha,
+        mtc=mtc,
+        formula=formula,
+        ss_type=ss_type,
+        ...)
     return(out)
 }
 
@@ -47,6 +51,7 @@ ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III') {
         type="univariate",
         predicted='p_value',
         stato_id="OBI:0200201",
+        libraries='car',
         .params=c('alpha','mtc','formula','ss_type'),
         .outputs=c('f_statistic','p_value','significant'),
 
@@ -128,13 +133,13 @@ setMethod(f="model_apply",
                 # use some fake data to generate the output table then replace all the values with NA
                 temp[[var_names[1]]]=rnorm(nrow(y))
                 LM=lm(formula=M$formula,data=temp)
-                A=Anova(LM,type=M$ss_type)
+                A=car::Anova(LM,type=M$ss_type)
                 A[!is.na(A)]=NA
                 return(A)
             }
 
             LM=lm(formula=M$formula,data=temp)
-            A=Anova(LM,type=M$ss_type)
+            A=car::Anova(LM,type=M$ss_type)
             return(A)
         })
 

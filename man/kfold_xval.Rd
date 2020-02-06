@@ -4,9 +4,16 @@
 \alias{kfold_xval}
 \title{kfold_xval model class}
 \usage{
-kfold_xval(...)
+kfold_xval(folds = 10, method = "venetian", factor_name, ...)
 }
 \arguments{
+\item{folds}{The number of cross-validation folds}
+
+\item{method}{The method for selecting samples in each fold. Can be one of
+"venetian", "blocks" or "random". Default is "venetian".}
+
+\item{factor_name}{The sample_meta column name to use.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{

@@ -1,14 +1,16 @@
 #' log transform
 #'
-#' applies a log transform to the input data
+#' Applies a log transform to the input data
+#' @param base The base of the logarithm. Default is 10, resulting in a log10 transformation of the data.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export log_transform
 #' @examples
 #' M = log_transform()
-log_transform = function(...) {
-    out=.log_transform()
-    out=struct::new_struct(out,...)
+log_transform = function(base=10,...) {
+    out=struct::new_struct('log_transform',
+        base=10,
+        ...)
     return(out)
 }
 
@@ -24,6 +26,8 @@ log_transform = function(...) {
         description = 'applies a log tranform to the data.',
         type = 'transform',
         predicted = 'transformed',
+        .params=c('base'),
+        .outputs=c('transformed'),
 
         base=entity(name = 'logarithm base',
             description = 'The base of the logarithm used for the tranform.',
@@ -38,7 +42,6 @@ log_transform = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

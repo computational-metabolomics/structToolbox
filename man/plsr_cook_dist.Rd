@@ -2,7 +2,7 @@
 % Please edit documentation in R/PLSR_class.R
 \name{plsr_cook_dist}
 \alias{plsr_cook_dist}
-\title{plsr_residual_plot class}
+\title{plsr_cook_dist class}
 \usage{
 plsr_cook_dist(...)
 }
@@ -13,7 +13,9 @@ plsr_cook_dist(...)
 struct object
 }
 \description{
-Plots the residuals for a PLSR model
+Cook's distance for a PLSR model. Cook's distance measures the effect of deleting
+each observation. Samples with a larger Cook's distance might be considered outlying
+as they have strong influence on the regression.
 }
 \examples{
 C = plsr_cook_dist()

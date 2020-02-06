@@ -1,18 +1,26 @@
-#' filter features by fraction missing values
+#' filter features by fraction of missing values
 #'
-#' filters features by the percent number of missing values
+#' Filters features by the percent number of missing values, based on class labels if required.
+#' @param threshold The max percentage missing values in a feature, above which the feature is removed. Default  is 20.
+#' @param qc_label The label of the QC samples in the named sample_meta column.
+#' @param factor_name The name of the sample_meta column to use.
+#' @param method "within_all" applies filter within classes,"within_one" applies
+#' filter within any one class, "QC" applies filter within QC samples, "across" applies filter
+#' ignoring class.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export mv_feature_filter
-#' @import pmp
 #' @examples
 #' M = mv_feature_filter()
-mv_feature_filter = function(...) {
-    out=.mv_feature_filter()
-    out=struct::new_struct(out,...)
+mv_feature_filter = function(threshold=20,qc_label='QC',method='QC',factor_name,...) {
+    out=struct::new_struct('mv_feature_filter',
+        threshold=threshold,
+        qc_label=qc_label,
+        method=method,
+        factor_name,
+        ...)
     return(out)
 }
-
 
 .mv_feature_filter<-setClass(
     "mv_feature_filter",
@@ -28,6 +36,9 @@ mv_feature_filter = function(...) {
         description = 'Filters by removing features where the percent number of missing values exceeds the threshold',
         type = 'filter',
         predicted = 'filtered',
+        libraries='pmp',
+        .params=c('threshold','qc_label','method','factor_name'),
+        .outputs=c('filtered','flags'),
 
         factor_name=entity(name='Factor name',
             type='character',
@@ -63,7 +74,6 @@ mv_feature_filter = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -88,7 +98,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -132,8 +141,7 @@ setMethod(f="model_predict",
 #' @examples
 #' C = mv_feature_filter_hist()
 mv_feature_filter_hist = function(...) {
-    out=.mv_feature_filter_hist()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('mv_feature_filter_hist',...)
     return(out)
 }
 
@@ -147,7 +155,6 @@ mv_feature_filter_hist = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

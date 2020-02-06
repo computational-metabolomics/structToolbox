@@ -4,16 +4,20 @@
 \alias{mean_centre}
 \title{mean_centre model class}
 \usage{
-mean_centre(...)
+mean_centre(mode = "data", ...)
 }
 \arguments{
+\item{mode}{Used to control whether centring is apply to the data, the meta data or both.
+Can be any one of "data","sample_meta" or "both". default is "data".}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-Mean centres the columns a DatasetExperiment object
+Mean centres the columns of a DatasetExperiment object. Can also centre the meta
+data for e.g regression models, if required.
 }
 \examples{
 M = mean_centre()

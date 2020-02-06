@@ -1,19 +1,27 @@
-#' wilcoxon signed rank test method class
+#' Wilcoxon signed rank test method class
 #'
-#' wilcoxon signed rank test. Calculate signed rank test for all features in a
-#' DatasetExperiment. Non-parametric ttest.
-#'
-#' @import struct
-#' @import stats
+#' Calculates a signed rank test for all features in a DatasetExperiment.
+#' Used as a non-parametric ttest.
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param factor_names The sample_meta column name to use.
+#' @param paired TRUE or FALSE to use a paired test.
+#' @param paired_factor The name of the sample_meta column used to indicate which samples are from the same
+#' subject. Must be provided if \code{paired = TRUE}
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export wilcox_test
 #' @examples
 #' M = wilcox_test()
 #'
-wilcox_test = function(...) {
-    out=.wilcox_test()
-    out=struct::new_struct(out,...)
+wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=character(0),...) {
+    out=struct::new_struct('wilcox_test',
+        alpha=alpha,
+        mtc=mtc,
+        factor_names=factor_names,
+        paired=paired,
+        paired_factor=paired_factor,
+        ...)
     return(out)
 }
 
@@ -42,6 +50,8 @@ wilcox_test = function(...) {
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000304",
+        .params=c('alpha','mtc','factor_name','paired','paired_factor'),
+        .outputs=c('statistic','p_value','dof','significant','conf_int','estimates'),
 
         factor_names=entity(name='Factor names',
             type='character',

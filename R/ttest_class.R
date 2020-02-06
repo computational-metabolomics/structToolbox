@@ -1,18 +1,26 @@
 #' t-test model class
 #'
-#' t-test model class. Calculate t-test for all features in a DatasetExperiment
-#'
-#' @import struct
-#' @import stats
+#' t-test model class. Calculate t-test for all features in a DatasetExperiment.
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param factor_names The sample_meta column name to use.
+#' @param paired TRUE or FALSE to use a paired t-test.
+#' @param paired_factor The name of the sample_meta column used to indicate which samples are from the same
+#' subject. Must be provided if \code{paired = TRUE}
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export ttest
 #' @examples
 #' M = ttest()
 #'
-ttest = function(...) {
-    out=.ttest()
-    out=struct::new_struct(out,...)
+ttest = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=character(0),...) {
+    out=struct::new_struct('ttest',
+        alpha=alpha,
+        mtc=mtc,
+        factor_names=factor_names,
+        paired=paired,
+        paired_factor=paired_factor,
+        ...)
     return(out)
 }
 
@@ -41,6 +49,8 @@ ttest = function(...) {
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000304",
+        .params=c('alpha','mtc','factor_name','paired','paired_factor'),
+        .outputs=c('t_statistic','p_value','dof','significant','conf_int','estimates'),
 
         factor_names=entity(name='Factor names',
             type='character',
@@ -96,7 +106,6 @@ ttest = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

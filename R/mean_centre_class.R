@@ -1,14 +1,19 @@
 #' mean_centre model class
 #'
-#' Mean centres the columns a DatasetExperiment object
+#' Mean centres the columns of a DatasetExperiment object. Can also centre the meta
+#' data for e.g regression models, if required.
+#'
+#' @param mode Used to control whether centring is apply to the data, the meta data or both.
+#'  Can be any one of "data","sample_meta" or "both". default is "data".
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export mean_centre
 #' @examples
 #' M = mean_centre()
-mean_centre = function(...) {
-    out=.mean_centre()
-    out=struct::new_struct(out,...)
+mean_centre = function(mode='data',...) {
+    out=struct::new_struct('mean_centre',
+        mode=mode,
+        ...)
     return(out)
 }
 
@@ -30,11 +35,12 @@ mean_centre = function(...) {
             value='data',
             allowed=c('data','sample_meta','both')
         ),
-        predicted='centred'
+        predicted='centred',
+        .params=c('mode'),
+        .outputs=c('centred','mean_data','mean_sample_meta')
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -58,7 +64,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -84,7 +89,6 @@ setMethod(f="model_predict",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_reverse
 setMethod(f='model_reverse',

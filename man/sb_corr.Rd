@@ -4,9 +4,34 @@
 \alias{sb_corr}
 \title{sbcms}
 \usage{
-sb_corr(...)
+sb_corr(
+  order_col,
+  batch_col,
+  qc_col,
+  smooth = 0,
+  use_log = TRUE,
+  min_qc = 4,
+  qc_label,
+  ...
+)
 }
 \arguments{
+\item{order_col}{The sample-meta column containing the order of measurement.}
+
+\item{batch_col}{The sample_meta column containing the batch labels.}
+
+\item{qc_col}{The sample_meta column containing QC labels.}
+
+\item{smooth}{Spline smoothing parameter. Should be in the range 0 to 1.
+If set to 0 it will be estimated using leave-one-out cross-validation.}
+
+\item{use_log}{Perform the signal correction fit on the log scaled data. Default is TRUE.}
+
+\item{min_qc}{Minimum number of measured quality control (QC) samples required
+for signal correction within feature per batch. Default 4.}
+
+\item{qc_label}{The label used in \code{qc_col} to identify QC samples.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{

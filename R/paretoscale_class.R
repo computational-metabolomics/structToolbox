@@ -1,6 +1,7 @@
 #' Pareto scaling
 #'
-#' Pareto scaling centres the columns of the data in a DatasetExperiment object and divides by the square root of the standard deviation.
+#' Pareto scaling centres the columns of the data in a DatasetExperiment object
+#' and divides by the square root of the standard deviation.
 #'
 #' @return A STRUCT model object with methods for pareto scaling.
 #'
@@ -14,11 +15,9 @@
 #' @return struct object
 #' @export pareto_scale
 pareto_scale = function(...) {
-    out=.pareto_scale()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('pareto_scale',...)
     return(out)
 }
-
 
 .pareto_scale<-setClass(
     "pareto_scale",
@@ -30,17 +29,16 @@ pareto_scale = function(...) {
     ),
     prototype = list(name='Pareto scaling',
         type="preprocessing",
-        predicted='scaled'
+        predicted='scaled',
+        .outputs=c('scaled','mean','sd')
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
     signature=c("pareto_scale",'DatasetExperiment'),
-    definition=function(M,D)
-    {
+    definition=function(M,D) {
         # column means
         X=D$data
         m=colMeans(X)
@@ -51,13 +49,11 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
     signature=c("pareto_scale",'DatasetExperiment'),
-    definition=function(M,D)
-    {
+    definition=function(M,D) {
         X=D$data
         Xc=pscale(X,output_value(M,'mean'),output_value(M,'sd'))
         D$data=as.data.frame(Xc)

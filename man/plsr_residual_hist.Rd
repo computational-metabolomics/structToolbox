@@ -13,7 +13,7 @@ plsr_residual_hist(...)
 struct object
 }
 \description{
-plots a histogram of the residuals
+A histogram of the model residuals
 }
 \examples{
 C = plsr_residual_hist()

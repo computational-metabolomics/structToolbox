@@ -3,14 +3,16 @@
 #' Principal Component Analysis (PCA) model class. This object can be used to train/apply PCA mdoels to DatasetExperiment objects.
 #'
 #' @import struct
+#' @param number_components The number of principal components to retain
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export PCA
 #' @examples
 #' M = PCA()
-PCA = function(...) {
-    out=.PCA()
-    out=struct::new_struct(out,...)
+PCA = function(umber_components=2,...) {
+    out=struct::new_struct('PCA',
+        number_components=number_components,
+        ...)
     return(out)
 }
 
@@ -29,12 +31,15 @@ PCA = function(...) {
         ssx='numeric',
         correlation='data.frame',
         that='DatasetExperiment'
+
     ),
     prototype = list(name='Principal Component Analysis (PCA)',
         description='PCA is a multivariate data reduction technique. It summarises the data in a smaller number of Principal Components that describe the maximum variation present in the DatasetExperiment.',
         type="preprocessing",
         predicted='that',
         stato_id="OBI:0200051",
+        .params=c('number_components'),
+        .outputs=c('scores','loadings','eigenvalues','ssx','correlation','that'),
 
         number_components=entity_stato(name='Number of PCs',
             stato_id='STATO:0000555',
@@ -47,7 +52,6 @@ PCA = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -91,7 +95,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

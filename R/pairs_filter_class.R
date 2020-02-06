@@ -14,9 +14,11 @@
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pairs_filter
-pairs_filter = function(...) {
-    out=.pairs_filter()
-    out=struct::new_struct(out,...)
+pairs_filter = function(factor_name,sample_id,...) {
+    out=struct::new_struct('pairs_filter',
+        factor_name=factor_name,
+        sample_id=sample_id,
+        ...)
     return(out)
 }
 
@@ -25,7 +27,6 @@ pairs_filter = function(...) {
     "pairs_filter",
     contains = c('model'),
     slots=c(factor_name='entity',
-        fraction='entity',
         sample_id='entity',
         filtered='entity',
         flags='entity'
@@ -57,27 +58,6 @@ pairs_filter = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
-#' @export
-#' @template model_train
-setMethod(f="model_train",
-    signature=c("pairs_filter","DatasetExperiment"),
-    definition=function(M,D){
-        M=model_apply(M,D)
-        return(M)
-    })
-
-#' @param ... additional slots and values passed to struct_class
-#' @export
-#' @template model_apply
-setMethod(f="model_apply",
-    signature=c("pairs_filter","DatasetExperiment"),
-    definition=function(M,D){
-        M=model_apply(M,D)
-        return(M)
-    })
-
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

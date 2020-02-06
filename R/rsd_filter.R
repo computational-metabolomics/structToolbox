@@ -1,6 +1,9 @@
 #' rsd filter
 #'
-#' filters features based on the relative standard deviation (RSD) for the QC samples
+#' Filters features based on the relative standard deviation (RSD) for the QC samples.
+#' @param rsd_threshold Features with RSD greater than the threshold are removed.
+#' @param qc_label The label used to identify QC samples in the chosen sample_meta column.
+#' @param factor_name The name of the sample_meta column containing QC labels.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export rsd_filter
@@ -8,12 +11,10 @@
 #' @examples
 #' M = rsd_filter()
 #'
-rsd_filter = function(...) {
-    out=.rsd_filter()
-    out=struct::new_struct(out,...)
+rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
+    out=struct::new_struct('rsd_filter',...)
     return(out)
 }
-
 
 .rsd_filter<-setClass(
     "rsd_filter",
@@ -28,9 +29,11 @@ rsd_filter = function(...) {
         description = 'Filters features by calculating the relative standard deviation (RSD) for the QC samples and removing features with RSD greater than the threshold.',
         type = 'filter',
         predicted = 'filtered',
+        .params=c('rsd_threshold','qc_label','factor_name'),
+        .outputs=c('filtered','flags'),
 
         rsd_threshold=entity(name = 'RSD threhsold',
-            description = 'Features with RSD greather than the threshold are removed.',
+            description = 'Features with RSD greater than the threshold are removed.',
             value = 20,
             type='numeric'),
 
@@ -57,7 +60,6 @@ rsd_filter = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -91,8 +93,7 @@ setMethod(f="model_apply",
 #' C = rsd_filter_hist()
 #'
 rsd_filter_hist = function(...) {
-    out=.rsd_filter_hist()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('rsd_filter_hist',...)
     return(out)
 }
 
@@ -106,7 +107,6 @@ rsd_filter_hist = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

@@ -1,17 +1,19 @@
 #' pca_correlation_plot class
 #'
-#' plots the correlation between features and selected components.
+#' Plots the correlation between features and selected components.
 #'
 #' @import struct
+#' @param components The principal components to plot (\code{numeric(2)})
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_correlation_plot
 #' @include PCA_class.R
 #' @examples
 #' C = pca_correlation_plot()
-pca_correlation_plot = function(...) {
-    out=.pca_correlation_plot()
-    out=struct::new_struct(out,...)
+pca_correlation_plot = function(components=c(1,2),...) {
+    out=struct::new_struct('pca_correlation_plot',
+        components=components,
+        ...)
     return(out)
 }
 
@@ -26,6 +28,8 @@ pca_correlation_plot = function(...) {
     prototype = list(name='Feature boxplot',
         description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
+        .params=c('components'),
+
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
@@ -36,7 +40,6 @@ pca_correlation_plot = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -64,18 +67,45 @@ setMethod(f="chart_plot",
 
 #' pca_scores_plot class
 #'
-#' 2d scatter plot of princpal component scores.
+#' 2d scatter plot of principal component scores.
 #'
 #' @import struct
+#' @param components The principal components to plot (\code{numeric(2)})
+#' @param points_to_label "none", "all", or "outliers" will be labelled on the plot.
+#' @param factor_name The sample_meta column name to use for colouring the points.
+#' You can provide up to two factors for this plot.
+#' @param ellipse "all" will plot all ellipses, "group" will only plot group ellipses,
+#' "none" will not plot any ellipses and "sample" will plot ellipse for all samples (ignoring group).
+#' @param label_filter Only include labels for samples in the group specified by label_filter.
+#' If zero length then all labels will be included.
+#' @param label_factor The sample_meta column to use for labelling the samples.
+#' If zero length then the rownames will be used.
+#' @param label_size The text size of the labels.NB ggplot units, not font size units.
+#' Default 3.88.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_scores_plot
 #' @include PCA_class.R
 #' @examples
 #' C = pca_scores_plot()
-pca_scores_plot = function(...) {
-    out=.pca_scores_plot()
-    out=struct::new_struct(out,...)
+pca_scores_plot = function(
+    components=c(1,2),
+    points_to_label='none',
+    factor_name,
+    ellipse='all',
+    label_filter=character(0),
+    label_factor=character(0),
+    label_size=3.88,
+    ...) {
+    out=struct::new_struct(pca_scores_plot,
+        components=components,
+        points_to_label=points_to_label,
+        factor_name=factor_name,
+        ellipse=ellipse,
+        label_filter=label_filter,
+        label_factor=label_factor,
+        label_size=label_size,
+        ...)
     return(out)
 }
 
@@ -90,7 +120,6 @@ pca_scores_plot = function(...) {
         factor_name='entity',
         ellipse='enum',
         label_filter='entity',
-        groups='ANY', # will be deprecated
         label_factor='entity',
         label_size='entity'
     ),
@@ -98,6 +127,7 @@ pca_scores_plot = function(...) {
     prototype = list(name='PCA scores plot',
         description='Plots a 2d scatter plot of the selected components',
         type="scatter",
+        .params=c('components','points_to_label','factor_name','ellipse','label_filter','label_factor','label_size'),
 
         components=entity(name='Components to plot',
             value=c(1,2),
@@ -191,11 +221,11 @@ setMethod(f="chart_plot",
 
         # filter by label_filter list if provided
         if (length(obj$label_filter)>0) {
-            out=!(opt$groups %in% obj$label_filter)
+            out=!(as.character(opt$groups) %in% obj$label_filter)
             slabels[out]=''
         }
 
-        if (is(opt$groups,'factor')) {
+        if (is(opt$groups,'factor') | is(opt$groups,'character')) {
             plotClass= createClassAndColors(opt$groups)
             opt$groups=plotClass$class
         }
@@ -275,18 +305,38 @@ setMethod(f="chart_plot",
 
 #' pca_biplot_plot class
 #'
-#' 2d scatter plot of princpal component scores overlaid with principal component loadings.
+#' 2d scatter plot of principal component scores overlaid with principal component loadings.
 #'
 #' @import struct
+#' @param components The principal components to plot (\code{numeric(2)})
+#' @param points_to_label "none", "all", or "outliers" will be labelled on the plot.
+#' @param factor_name The sample_meta column name to use for colouring the points.
+#' You can provide up to two factors for this plot.
+#' @param scale_factor Scaling factor to apply to loadings. Default = 0.95.
+#' @param style Plot style for loadings. Can be 'points' (default) or 'arrows'.
+#' @param label_features TRUE or FALSE to label features on the plot. Default is FALSE.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_biplot_plot
 #' @include PCA_class.R
 #' @examples
 #' C = pca_biplot_plot()
-pca_biplot_plot = function(...) {
-    out=.pca_biplot_plot()
-    out=struct::new_struct(out,...)
+pca_biplot_plot = function(
+    components=c(1,2),
+    points_to_label='none',
+    factor_name,
+    scale_factor=0.95,
+    style='points',
+    label_features=FALSE,
+    ...) {
+    out=struct::new_struct('pca_biplot_plot',
+        components=components,
+        points_to_label=points_to_label,
+        factor_name=factor_name,
+        scale_factor=scale_factor,
+        style=style,
+        label_features=label_features,
+        ...)
     return(out)
 }
 
@@ -299,7 +349,6 @@ pca_biplot_plot = function(...) {
         components='entity',
         points_to_label='entity',
         factor_name='entity',
-        groups='entity',
         scale_factor='entity',
         style='enum',
         label_features='entity'
@@ -324,11 +373,6 @@ pca_biplot_plot = function(...) {
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        groups=entity(name='Groups',
-            value=factor(),
-            type='factor',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
-        ),
         scale_factor=entity(name='Loadings scale factor',
             value=0.95,
             type='numeric',
@@ -349,7 +393,6 @@ pca_biplot_plot = function(...) {
 
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -385,7 +428,7 @@ setMethod(f="chart_plot",
 
         # plot
         A=data.frame("x"=P[,opt$components[1]]*sf*0.8,"y"=P[,opt$components[2]]*sf*0.8)
-        C=pca_scores_plot(groups=obj$groups,points_to_label=obj$points_to_label,components=obj$components,factor_name=obj$factor_name)
+        C=pca_scores_plot(points_to_label=obj$points_to_label,components=obj$components,factor_name=obj$factor_name)
         out=chart_plot(C,dobj)
 
         if (opt$style=='points')
@@ -431,15 +474,21 @@ setMethod(f="chart_plot",
 #' 2d scatter plot of princpal component loadings.
 #'
 #' @import struct
+#' @param components The principal components to plot (\code{numeric(2)})
+#' @param style Plot style for loadings. Can be 'points' (default) or 'arrows'.
+#' @param label_features TRUE or FALSE to label features on the plot. Default is FALSE.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_loadings_plot
 #' @include PCA_class.R
 #' @examples
 #' C = pca_loadings_plot()
-pca_loadings_plot = function(...) {
-    out=.pca_loadings_plot()
-    out=struct::new_struct(out,...)
+pca_loadings_plot = function(components=c(1,2),style='points',label_featurs=FALSE,...) {
+    out=struct::new_struct('pca_loadings_plot',
+        components=components,
+        style=style,
+        label_features=label_features,
+        ...)
     return(out)
 }
 
@@ -456,6 +505,8 @@ pca_loadings_plot = function(...) {
     prototype = list(name='Feature boxplot',
         description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
+        .params=c('components','style','label_features'),
+
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
@@ -477,10 +528,6 @@ pca_loadings_plot = function(...) {
 
 )
 
-
-
-
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -527,7 +574,7 @@ setMethod(f="chart_plot",
 
 #' pca_scree_plot class
 #'
-#' line plot showing percent variance and cumulative peercent variance for the computed components.
+#' Line plot showing percent variance and cumulative percent variance for the computed components.
 #'
 #' @import struct
 #' @param ... additional slots and values passed to struct_class
@@ -537,8 +584,7 @@ setMethod(f="chart_plot",
 #' @examples
 #' C = pca_scree()
 pca_scree = function(...) {
-    out=.pca_scree()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('pca_scree',...)
     return(out)
 }
 
@@ -552,7 +598,6 @@ pca_scree = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -584,7 +629,7 @@ setMethod(f="chart_plot",
 
 #' pca_dstat_plot class
 #'
-#' line plot showing percent variance and cumulative peercent variance for the computed components.
+#' Line plot showing percent variance and cumulative percent variance for the computed components.
 #'
 #' @import struct
 #' @param ... additional slots and values passed to struct_class
@@ -594,8 +639,7 @@ setMethod(f="chart_plot",
 #' @examples
 #' C = PCA_dstat()
 PCA_dstat = function(...) {
-    out=.PCA_dstat()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('PCA_dstat',...)
     return(out)
 }
 
@@ -619,7 +663,6 @@ PCA_dstat = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

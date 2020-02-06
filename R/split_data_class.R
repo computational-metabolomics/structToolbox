@@ -1,15 +1,17 @@
-#' split data into sets
+#' Split data into subsets
 #'
-#' Splits the data into a training and test set
+#' Splits the data into a training and test set.
+#' @param p The proportion of samples in the training set.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export split_data
 #' @examples
 #' M = split_data()
 #'
-split_data = function(...) {
-    out=.split_data()
-    out=struct::new_struct(out,...)
+split_data = function(p,...) {
+    out=struct::new_struct('split_data',
+        p=p,
+        ...)
     return(out)
 }
 
@@ -26,6 +28,8 @@ split_data = function(...) {
         description = 'Splits the data into a training and test set',
         type = 'processing',
         predicted = 'testing',
+        .params=c('p'),
+        .outputs=c('training','testing'),
 
         p=entity(name = 'Proportion in training set',
             description = 'The proportion of samples selected for the training set. All other samples will be in assigned to the test set.',
@@ -45,13 +49,11 @@ split_data = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
     signature=c("split_data","DatasetExperiment"),
-    definition=function(M,D)
-    {
+    definition=function(M,D) {
         opt=param_list(M)
         # number of samples
         nMax=nrow(D$data)

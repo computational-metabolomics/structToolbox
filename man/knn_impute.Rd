@@ -4,16 +4,22 @@
 \alias{knn_impute}
 \title{knn missing value imputation}
 \usage{
-knn_impute(...)
+knn_impute(neighbours = 5, sample_max = 0.5, feature_max = 0.5, ...)
 }
 \arguments{
+\item{neighbours}{The number of neighbours to use for imputation.}
+
+\item{sample_max}{Maximum proportion of missing values in any sample.}
+
+\item{feature_max}{Maximum proportion of missing values in any feature.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-applies a k-nearest neighbour approach to impute missing values
+Applies a k-nearest neighbour approach to impute missing values.
 }
 \examples{
 M = knn_impute()

@@ -4,9 +4,23 @@
 \alias{plsda_scores_plot}
 \title{plsda_scores_plot class}
 \usage{
-plsda_scores_plot(...)
+plsda_scores_plot(
+  components = c(1, 2),
+  points_to_label = "none",
+  factor_name,
+  groups,
+  ...
+)
 }
 \arguments{
+\item{components}{The PLS components to plot (\code{numeric(2)})}
+
+\item{points_to_label}{"none", "all", or "outliers" will be labelled on the plot.}
+
+\item{factor_name}{The sample_meta column name for labelling the legend}
+
+\item{groups}{A vector for colouring the points (factor, character or numeric).}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{

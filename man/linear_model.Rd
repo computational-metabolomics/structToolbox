@@ -4,16 +4,23 @@
 \alias{linear_model}
 \title{linear model class}
 \usage{
-linear_model(...)
+linear_model(formula, na_action = "na_omit", contrasts = list(), ...)
 }
 \arguments{
+\item{formula}{The formula to use.}
+
+\item{na_action}{The action to take when missing values are present. Can any
+one of 'na.omit','na.fail','na.exclude' or 'na.pass'. Default is 'na.omit'.}
+
+\item{contrasts}{The contrasts for this model. If zero length then the default contrasts are used.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-wrapper for R lm.
+Wrapper for R lm. See \code{lm} for details.
 }
 \examples{
 M = linear_model()

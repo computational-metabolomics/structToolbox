@@ -1,18 +1,23 @@
 #' prop_na model class
 #'
-#' prop_na Compares proportion of NA for all features in a DatasetExperiment
+#' Compares proportion of NA for all features in a DatasetExperiment using a
+#' Fisher's Exact test
 #'
-#' @import struct
-#' @import stats
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param factor_name The sample_meta column name to use.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export prop_na
 #' @examples
 #' M = prop_na()
 #'
-prop_na = function(...) {
-    out=.prop_na()
-    out=struct::new_struct(out,...)
+prop_na = function(alpha=0.05,mtc='fdr',factor_name,...) {
+    out=struct::new_struct('prop_na',
+        alpha=alpha,
+        mtc=mtc,
+        factor_name=factor_name,
+        ...)
     return(out)
 }
 
@@ -33,10 +38,12 @@ prop_na = function(...) {
         # none
     ),
     prototype = list(name='Fisher\'s exact test to compare number of NA',
-        description='Applies Fisher\'s exact test to each feature to indicate whether teh proportion of NA per group is greater than expected, with (optional)
+        description='Applies Fisher\'s exact test to each feature to indicate whether the proportion of NA per group is greater than expected, with (optional)
     multiple-testing correction.',
         type="univariate",
         predicted='p_value',
+        .params=c('alpha','mtc','factor_name'),
+        .outputs=c('p_value','significant','na_count'),
 
         factor_name=entity(name='Factor names',
             type='character',
@@ -73,7 +80,6 @@ prop_na = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

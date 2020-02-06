@@ -13,7 +13,7 @@ plsr_qq_plot(...)
 struct object
 }
 \description{
-plots the quantiles of PLSR residuals against the qualtiles of a normal
+Quantiles of PLSR residuals against the qualtiles of a normal
 distribution
 }
 \examples{

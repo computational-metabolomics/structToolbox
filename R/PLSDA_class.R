@@ -1,17 +1,20 @@
 #' PLSDA model class
 #'
 #' Partial least squares (PLS) discriminant analysis (DA) model class. This object can be used to train/apply PLS models.
+#' @param number_components The number of PLS components to calculate.
+#' @param factor_name The sample-meta column name to use.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export PLSDA
 #' @examples
-#' M = PLSDA()
-PLSDA = function(...) {
-    out=.PLSDA()
-    out=struct::new_struct(out,...)
+#' M = PLSDA('number_components'=2,factor_name='Species')
+PLSDA = function(number_components=2,factor_name,...) {
+    out=struct::new_struct('PLSDA',
+        number_components=number_components,
+        factor_name=factor_name,
+        ...)
     return(out)
 }
-
 
 .PLSDA<-setClass(
     "PLSDA",
@@ -35,6 +38,20 @@ PLSDA = function(...) {
         type="classification",
         predicted='pred',
         libraries='pls',
+        .params=c('number_components','factor_name'),
+        .outputs=c(
+            'scores',
+            'loadings',
+            'yhat',
+            'design_matrix',
+            'y',
+            'reg_coeff',
+            'probability',
+            'vip',
+            'pls_model',
+            'pred',
+            'threshold'),
+
         number_components=entity(value = 2,
             name = 'Number of PLS components',
             description = 'The number of PLS components to use',
@@ -47,7 +64,6 @@ PLSDA = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -92,7 +108,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",

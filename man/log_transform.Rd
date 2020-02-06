@@ -4,16 +4,18 @@
 \alias{log_transform}
 \title{log transform}
 \usage{
-log_transform(...)
+log_transform(base = 10, ...)
 }
 \arguments{
+\item{base}{The base of the logarithm. Default is 10, resulting in a log10 transformation of the data.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-applies a log transform to the input data
+Applies a log transform to the input data
 }
 \examples{
 M = log_transform()

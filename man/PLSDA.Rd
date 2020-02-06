@@ -4,9 +4,13 @@
 \alias{PLSDA}
 \title{PLSDA model class}
 \usage{
-PLSDA(...)
+PLSDA(number_components = 2, factor_name, ...)
 }
 \arguments{
+\item{number_components}{The number of PLS components to calculate.}
+
+\item{factor_name}{The sample-meta column name to use.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
@@ -16,5 +20,5 @@ struct object
 Partial least squares (PLS) discriminant analysis (DA) model class. This object can be used to train/apply PLS models.
 }
 \examples{
-M = PLSDA()
+M = PLSDA('number_components'=2,factor_name='Species')
 }

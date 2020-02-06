@@ -1,14 +1,21 @@
 #' kfold_xval model class
 #'
 #' Applies k-fold crossvalidation to a model or model_seq()
+#' @param folds The number of cross-validation folds
+#' @param method The method for selecting samples in each fold. Can be one of
+#' "venetian", "blocks" or "random". Default is "venetian".
+#' @param factor_name The sample_meta column name to use.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export kfold_xval
 #' @examples
 #' I = kfold_xval()
-kfold_xval = function(...) {
-    out=.kfold_xval()
-    out=struct::new_struct(out,...)
+kfold_xval = function(folds=10,method='venetian',factor_name,...) {
+    out=struct::new_struct('kfold_xval',
+        folds=folds,
+        method=method,
+        factor_name=factor_name,
+        ...)
     return(out)
 }
 
@@ -27,12 +34,14 @@ kfold_xval = function(...) {
     prototype = list(name='k-fold cross-validation',
         type="resampling",
         result='results',
+        .params=c('folds','method','factor_name'),
+        .outputs=c('results','metric','metric.train','metric.test'),
+
         folds=10,
         method='venetian'
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template run
 setMethod(f="run",

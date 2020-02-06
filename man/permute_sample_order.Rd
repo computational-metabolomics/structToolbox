@@ -4,16 +4,18 @@
 \alias{permute_sample_order}
 \title{permute_sample_order class}
 \usage{
-permute_sample_order(...)
+permute_sample_order(number_of_permutations, ...)
 }
 \arguments{
+\item{number_of_permutations}{The number of times to permute the sample order}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-permutes the sample order a defined number of times, running the model each time
+Permutes the sample order a defined number of times, running the model each time
 }
 \examples{
 C = permute_sample_order()

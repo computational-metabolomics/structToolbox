@@ -4,16 +4,23 @@
 \alias{prop_na}
 \title{prop_na model class}
 \usage{
-prop_na(...)
+prop_na(alpha = 0.05, mtc = "fdr", factor_name, ...)
 }
 \arguments{
+\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+
+\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+
+\item{factor_name}{The sample_meta column name to use.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-prop_na Compares proportion of NA for all features in a DatasetExperiment
+Compares proportion of NA for all features in a DatasetExperiment using a
+Fisher's Exact test
 }
 \examples{
 M = prop_na()

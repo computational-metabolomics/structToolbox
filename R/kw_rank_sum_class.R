@@ -1,19 +1,22 @@
 #' kruskal-wallis model class
 #'
-#' kruskal-wallis model class. Calculate kw-test for all features in a DatasetExperiment.
-#' A non-parametric 1-way ANOVA.
+#'  Calculate kw-test for all features in a DatasetExperiment.
+#'  A non-parametric 1-way ANOVA.
 #'
-#' @import struct
-#' @import stats
 #' @examples
 #' M = kw_rank_sum()
-#'
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param formula The formula to use. See \code{lm} for details.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export kw_rank_sum
-kw_rank_sum = function(...) {
-    out=.kw_rank_sum()
-    out=struct::new_struct(out,...)
+kw_rank_sum = function(alpha=0.05,mtc='fdr',factor_names,...) {
+    out=struct::new_struct('kw_rank_sum',
+        alpha=alpha,
+        mtc=mtc,
+        factor_names=factor_names,
+        ...)
     return(out)
 }
 
@@ -38,6 +41,8 @@ kw_rank_sum = function(...) {
                                 multiple-testing correction.',
         type="univariate",
         predicted='p_value',
+        .params=c('alpha','mtc','factor-names'),
+        .outputs=c('test_statistic','p_value','dof','significant','estimates'),
 
         factor_names=entity(name='Factor names',
             type='character',
@@ -78,7 +83,6 @@ kw_rank_sum = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -131,8 +135,7 @@ setMethod(f="model_apply",
 #' @return struct object
 #' @export kw_p_hist
 kw_p_hist = function(...) {
-    out=.kw_p_hist()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('kw_p_hist',...)
     return(out)
 }
 
@@ -146,7 +149,6 @@ kw_p_hist = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

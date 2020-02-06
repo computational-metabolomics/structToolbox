@@ -1,19 +1,26 @@
 #' HSD model class
 #'
-#' HSD model class. Tukey's honest significant difference for ANOVA objects
+#' Tukey's honest significant difference. Usually used in conjunction with ANOVA,
+#' this model compares classes in a pairwise fashion to try to identify which groups
+#' are different to the others (if any).
 #'
-#' @import struct
-#' @import stats
-#' @import agricolae
 #' @include anova_class.R
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param formula The formula to use. See \code{lm} for details.
+#' @param unbalanced TRUE or FALSE to apply correction for unbalanced designs. Default is FALSE.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export HSD
 #' @examples
 #' M = HSD()
-HSD = function(...) {
-    out=.HSD()
-    out=struct::new_struct(out,...)
+HSD = function(alpha=0.05,mtc='fdr',formula,unblanaced=FALSE,...) {
+    out=struct::new_struct('HSD',
+        alpha=alpha,
+        mtc=mtc,
+        formula=formula,
+        unbalanced=unbalanced,
+        ...)
     return(out)
 }
 
@@ -42,6 +49,9 @@ HSD = function(...) {
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000187",
+        libraries='agricolae',
+        .params=c('alpha','mtc','formula','unbalanced'),
+        .outputs=c('difference','UCL','LCL','p_value','significant'),
 
         alpha=entity_stato(name='Confidence level',
             stato_id='STATO:0000053',

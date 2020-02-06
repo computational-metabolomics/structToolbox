@@ -1,20 +1,23 @@
 #' HSD model class using estimated marginal means
 #'
-#' HSD model class using estimate marginal means
+#' HSD model class using estimate marginal means, for use with mixed effects designs.
 #'
-#' @import struct
-#' @import stats
-#' @import emmeans
-#' @import nlme
-#' @include mixed_effect_class.R HSD_class.R
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param formula The formula to use. See \code{lm} for details.
 #' @param ... additional slots and values passed to struct_class
+#'
+#' @include mixed_effect_class.R HSD_class.R
 #' @return struct object
 #' @export HSDEM
 #' @examples
 #' M = HSDEM()
-HSDEM = function(...) {
-    out=.HSDEM()
-    out=struct::new_struct(out,...)
+HSDEM = function(alpha=0.05,mtc='fdr',formula,...) {
+    out=struct::new_struct('HSDEM',
+        alpha=alpha,
+        mtc=mtc,
+        formula=formula,
+        ...)
     return(out)
 }
 
@@ -37,6 +40,9 @@ HSDEM = function(...) {
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000187",
+        libraries=c('emmeans','nlme'),
+        .params=c('alpha','mtc','formula'),
+        .outputs=c('p_value','significant'),
 
         alpha=entity_stato(name='Confidence level',
             stato_id='STATO:0000053',
@@ -68,7 +74,6 @@ HSDEM = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

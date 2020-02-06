@@ -4,16 +4,44 @@
 \alias{pca_scores_plot}
 \title{pca_scores_plot class}
 \usage{
-pca_scores_plot(...)
+pca_scores_plot(
+  components = c(1, 2),
+  points_to_label = "none",
+  factor_name,
+  ellipse = "all",
+  label_filter = character(0),
+  label_factor = character(0),
+  label_size = 3.88,
+  ...
+)
 }
 \arguments{
+\item{components}{The principal components to plot (\code{numeric(2)})}
+
+\item{points_to_label}{"none", "all", or "outliers" will be labelled on the plot.}
+
+\item{factor_name}{The sample_meta column name to use for colouring the points.
+You can provide up to two factors for this plot.}
+
+\item{ellipse}{"all" will plot all ellipses, "group" will only plot group ellipses,
+"none" will not plot any ellipses and "sample" will plot ellipse for all samples (ignoring group).}
+
+\item{label_filter}{Only include labels for samples in the group specified by label_filter.
+If zero length then all labels will be included.}
+
+\item{label_factor}{The sample_meta column to use for labelling the samples.
+If zero length then the rownames will be used.}
+
+\item{label_size}{The text size of the labels.NB ggplot units, not font size units.
+Default 3.88.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-2d scatter plot of princpal component scores.
+2d scatter plot of principal component scores.
 }
 \examples{
 C = pca_scores_plot()

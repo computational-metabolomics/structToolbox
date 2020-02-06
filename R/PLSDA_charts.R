@@ -5,19 +5,25 @@
 #'
 #' 2d scatter plot of plsda component scores.
 #'
-#' @import struct
+#' @param components The PLS components to plot (\code{numeric(2)})
+#' @param points_to_label "none", "all", or "outliers" will be labelled on the plot.
+#' @param factor_name The sample_meta column name for labelling the legend
+#' @param groups A vector for colouring the points (factor, character or numeric).
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export plsda_scores_plot
 #' @include PLSDA_class.R
 #' @examples
 #' C = plsda_scores_plot()
-plsda_scores_plot = function(...) {
-    out=.plsda_scores_plot()
-    out=struct::new_struct(out,...)
+plsda_scores_plot = function(components=c(1,2),points_to_label='none',factor_name,groups,...) {
+    out=struct::new_struct('plsda_scores_plot',
+        components=components,
+        points_to_label=points_to_label,
+        factor_name=factor_name,
+        groups=groups,
+        ...)
     return(out)
 }
-
 
 .plsda_scores_plot<-setClass(
     "plsda_scores_plot",
@@ -28,11 +34,13 @@ plsda_scores_plot = function(...) {
         points_to_label='entity',
         factor_name='entity',
         groups='entity'
-    ),
+        ),
     prototype = list(name='PLSDA scores plot',
         description='scatter plot of PLSDA component scores',
         type="scatter",
         libraries=c('pls','ggplot2'),
+        .params=c('components','points_to_label,factor_name'),
+
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
@@ -52,13 +60,12 @@ plsda_scores_plot = function(...) {
         groups=entity(name='Groups',
             value=factor(),
             type=c('factor','character','numeric'),
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
+            description='A vector for colouring the points'
         )
     )
 
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -97,12 +104,10 @@ setMethod(f="chart_plot",
             ggtitle('PLSDA Scores', subtitle=NULL) +
             stat_ellipse(type='norm') # ellipse for individual groups
 
-        if (is(opt$groups,'factor')) # if a factor then plot by group using the colours from pmp package
-        {
+        if (is(opt$groups,'factor')) {# if a factor then plot by group using the colours from pmp package
             out=out+scale_colour_manual(values=plotClass$manual_colors,name=opt$factor_name)
         }
-        else # assume continuous and use the default colour gradient
-        {
+        else {# assume continuous and use the default colour gradient
             out=out+scale_colour_viridis_c(limits=quantile(opt$groups,c(0.05,0.95),na.rm = TRUE),oob=squish,name=opt$factor_name)
         }
         out=out+theme_Publication(base_size = 12)
@@ -116,10 +121,8 @@ setMethod(f="chart_plot",
         points$in.ell=as.logical(point.in.polygon(points$x,points$y,ell$x,ell$y))
 
         # label outliers if
-        if (opt$points_to_label=='outliers')
-        {
-            if (!all(points$in.ell))
-            {
+        if (opt$points_to_label=='outliers') {
+            if (!all(points$in.ell)) {
                 temp=subset(points,!points$in.ell)
                 temp$group=opt$groups[!points$in.ell]
                 out=out+geom_text(data=temp,aes_(x=~x,y=~y,label=~label,colour=~group),vjust="inward",hjust="inward")
@@ -127,8 +130,7 @@ setMethod(f="chart_plot",
         }
 
         # label all points if requested
-        if (opt$points_to_label=='all')
-        {
+        if (opt$points_to_label=='all') {
             out=out+geom_text(vjust="inward",hjust="inward")
         }
 

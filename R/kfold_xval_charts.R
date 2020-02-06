@@ -1,17 +1,18 @@
 #' kfoldxcv_grid class
 #'
-#' plot of cross validation results
+#' Plot of cross validation predictions vs the true values.
 #'
-#' @import struct
+#' @param factor_name The sample_meta column name to use.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export kfoldxcv_grid
 #' @include kfold_xval_class.R
 #' @examples
 #' C = kfoldxcv_grid()
-kfoldxcv_grid = function(...) {
-    out=.kfoldxcv_grid()
-    out=struct::new_struct(out,...)
+kfoldxcv_grid = function(factor_name,...) {
+    out=struct::new_struct('kfoldxcv_grid',
+        factor_name=factor_name,
+        ...)
     return(out)
 }
 
@@ -24,8 +25,10 @@ kfoldxcv_grid = function(...) {
         factor_name='entity'
     ),
     prototype = list(name='kfoldxcv grid plot',
-        description='plots the predictions for each cross-validation loop',
+        description='Plots the predictions for each cross-validation loop',
         type="grid",
+        .params=c('factor_name'),
+
         factor_name=entity(name='Factor name',
             value='factor',
             type='character',
@@ -35,7 +38,6 @@ kfoldxcv_grid = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -97,7 +99,7 @@ setMethod(f="chart_plot",
 
 #' kfoldxcv_metric class
 #'
-#' box plot of cross validation results
+#' A box plot of the calculated cross validation metric over all iterations.
 #'
 #' @import struct
 #' @param ... additional slots and values passed to struct_class
@@ -107,8 +109,7 @@ setMethod(f="chart_plot",
 #' @examples
 #' C = kfoldxcv_metric()
 kfoldxcv_metric = function(...) {
-    out=.kfoldxcv_metric()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('kfoldxcv_metric',...)
     return(out)
 }
 
@@ -123,7 +124,6 @@ kfoldxcv_metric = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

@@ -1,15 +1,20 @@
 #' knn missing value imputation
 #'
-#' applies a k-nearest neighbour approach to impute missing values
+#' Applies a k-nearest neighbour approach to impute missing values.
+#' @param neighbours The number of neighbours to use for imputation.
+#' @param sample_max Maximum proportion of missing values in any sample.
+#' @param feature_max Maximum proportion of missing values in any feature.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export knn_impute
-#' @import pmp
 #' @examples
 #' M = knn_impute()
-knn_impute = function(...) {
-    out=.knn_impute()
-    out=struct::new_struct(out,...)
+knn_impute = function(neighbours=5,sample_max=0.5,feature_max=0.5,...) {
+    out=struct::new_struct('knn_impute',
+        neighbours=neighbours,
+        sample_max=sample_max,
+        feature_max=feature_max,
+        ...)
     return(out)
 }
 
@@ -27,6 +32,9 @@ knn_impute = function(...) {
         description = 'k-nearest neighbour missing value imputation.',
         type = 'normalisation',
         predicted = 'imputed',
+        libraries='pmp',
+        .params=c('neighbours','feature_max','sample_max'),
+        .outputs=c('imputed'),
 
         neighbours=entity(name = 'Number of neighbours',
             description = 'The number of neighbours (k) to use ofr imputation of missing values.',
@@ -51,7 +59,7 @@ knn_impute = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
+
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

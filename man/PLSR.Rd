@@ -4,16 +4,20 @@
 \alias{PLSR}
 \title{PLSR model class}
 \usage{
-PLSR(...)
+PLSR(number_components = c(1, 2), factor_name, ...)
 }
 \arguments{
+\item{number_components}{The number of PLS components to calculate.}
+
+\item{factor_name}{The sample_meta column name to use.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-Partial least squares (PLS) Regression model class. This object can be used to train/apply PLS models.
+Calculates a PLS regression model using the input data.
 }
 \examples{
 M = PLSR()

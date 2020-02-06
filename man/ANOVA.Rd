@@ -4,7 +4,7 @@
 \alias{ANOVA}
 \title{ANOVA}
 \usage{
-ANOVA(alpha = 0.05, mtc = "fdr", formula, ss_type = "III")
+ANOVA(alpha = 0.05, mtc = "fdr", formula, ss_type = "III", ...)
 }
 \arguments{
 \item{alpha}{The p-value threshold. Default alpha = 0.05.}

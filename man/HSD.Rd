@@ -4,16 +4,26 @@
 \alias{HSD}
 \title{HSD model class}
 \usage{
-HSD(...)
+HSD(alpha = 0.05, mtc = "fdr", formula, unblanaced = FALSE, ...)
 }
 \arguments{
+\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+
+\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+
+\item{formula}{The formula to use. See \code{lm} for details.}
+
 \item{...}{additional slots and values passed to struct_class}
+
+\item{unbalanced}{TRUE or FALSE to apply correction for unbalanced designs. Default is FALSE.}
 }
 \value{
 struct object
 }
 \description{
-HSD model class. Tukey's honest significant difference for ANOVA objects
+Tukey's honest significant difference. Usually used in conjunction with ANOVA,
+this model compares classes in a pairwise fashion to try to identify which groups
+are different to the others (if any).
 }
 \examples{
 M = HSD()

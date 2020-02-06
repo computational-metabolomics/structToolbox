@@ -1,15 +1,16 @@
-#' missing value filter (samples)
+#' Missing value filter (samples)
 #'
-#' filters samples based on the percent number of missing values
+#' Filters samples based on the percent number of missing values.
+#' @param mv_threshold The max percentage of missing values, above which the sample is removed.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export mv_sample_filter
-#' @import pmp
 #' @examples
 #' C = mv_sample_filter()
-mv_sample_filter = function(...) {
-    out=.mv_sample_filter()
-    out=struct::new_struct(out,...)
+mv_sample_filter = function(mv_threshold=20,...) {
+    out=struct::new_struct('mv_sample_filter',
+        mv_threshold=mv_threshold,
+        ...)
     return(out)
 }
 
@@ -25,6 +26,10 @@ mv_sample_filter = function(...) {
         description = 'Filters by removing samples where the percent number of missing values exceeds the threshold.',
         type = 'filter',
         predicted = 'filtered',
+        libraries='pmp',
+        .params=c('mv_threshold'),
+        .outputs=c('filtered','flags'),
+
         mv_threshold=entity(name = 'Missing value threshold (%)',
             description = 'Samples with greather than THRESHOLD% missing values are excluded.',
             value = 20,
@@ -42,7 +47,6 @@ mv_sample_filter = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -67,7 +71,6 @@ setMethod(f="model_apply",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -79,7 +82,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",
@@ -102,8 +104,7 @@ setMethod(f="model_predict",
 #' @examples
 #' C = mv_sample_filter_hist()
 mv_sample_filter_hist = function(...) {
-    out=.mv_sample_filter_hist()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('mv_sample_filter_hist',...)
     return(out)
 }
 
@@ -117,7 +118,6 @@ mv_sample_filter_hist = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

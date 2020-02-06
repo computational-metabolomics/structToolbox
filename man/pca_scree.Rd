@@ -13,7 +13,7 @@ pca_scree(...)
 struct object
 }
 \description{
-line plot showing percent variance and cumulative peercent variance for the computed components.
+Line plot showing percent variance and cumulative percent variance for the computed components.
 }
 \examples{
 C = pca_scree()

@@ -8,8 +8,7 @@
 #' MET = r_squared()
 #'
 r_squared = function(...) {
-    out=.r_squared()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('r_squared',...)
     return(out)
 }
 
@@ -17,18 +16,17 @@ r_squared = function(...) {
 .r_squared<-setClass(
     "r_squared",
     contains='metric',
-    prototype = list(name='r squared',
+    prototype = list(
+        name='r squared',
         type="regression"
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template calculate
 setMethod(f="calculate",
     signature=c('r_squared'),
-    definition=function(obj,Y,Yhat)
-    {
+    definition=function(obj,Y,Yhat) {
         SSR  = sum((Yhat-mean(Y))^2)
         SSE  = sum((Y-Yhat)^2)
         SSTO = sum((Y-mean(Y))^2)

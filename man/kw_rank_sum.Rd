@@ -4,19 +4,24 @@
 \alias{kw_rank_sum}
 \title{kruskal-wallis model class}
 \usage{
-kw_rank_sum(...)
+kw_rank_sum(alpha = 0.05, mtc = "fdr", factor_names, ...)
 }
 \arguments{
+\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+
+\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+
 \item{...}{additional slots and values passed to struct_class}
+
+\item{formula}{The formula to use. See \code{lm} for details.}
 }
 \value{
 struct object
 }
 \description{
-kruskal-wallis model class. Calculate kw-test for all features in a DatasetExperiment.
-A non-parametric 1-way ANOVA.
+Calculate kw-test for all features in a DatasetExperiment.
+ A non-parametric 1-way ANOVA.
 }
 \examples{
 M = kw_rank_sum()
-
 }

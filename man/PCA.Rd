@@ -4,10 +4,12 @@
 \alias{PCA}
 \title{PCA model class}
 \usage{
-PCA(...)
+PCA(umber_components = 2, ...)
 }
 \arguments{
 \item{...}{additional slots and values passed to struct_class}
+
+\item{number_components}{The number of principal components to retain}
 }
 \value{
 struct object

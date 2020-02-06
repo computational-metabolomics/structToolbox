@@ -13,7 +13,7 @@ kfoldxcv_metric(...)
 struct object
 }
 \description{
-box plot of cross validation results
+A box plot of the calculated cross validation metric over all iterations.
 }
 \examples{
 C = kfoldxcv_metric()

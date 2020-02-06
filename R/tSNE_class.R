@@ -1,16 +1,29 @@
 #' tSNE method class
 #'
-#' t-Distributed Stochastic Neighbor Embedding (tSNE) class. This object can be used to train/apply tSNE models to DatasetExperiment objects.
+#' t-Distributed Stochastic Neighbor Embedding (tSNE) class. This object can be
+#' used to train/apply tSNE models to DatasetExperiment objects.
 #'
+#' This object is a wrapper for Rtsne::Rtsne.
+#'
+#' @inheritParams Rtsne::Rtsne
+#' @param init Initial locations of the objects. If NULL, random initialization will be used.
+#' If NULL then
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export tSNE
 #' @examples
 #' M = tSNE()
 #'
-tSNE = function(...) {
-    out=.tSNE()
-    out=struct::new_struct(out,...)
+tSNE = function(dims=2,perplexity=30,max_iter=100,theta=0.5,check_duplicates=FALSE,init=NULL,eta=200,...) {
+    out=struct::new_struct('tSNE',
+        dims=dims,
+        perplexity=perplexity,
+        max_iter=max_iter,
+        theta=theta,
+        check_duplicates=check_duplicates,
+        init=init,
+        eta=eta,
+        ...)
     return(out)
 }
 
@@ -126,14 +139,11 @@ tSNE_scatter = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
     signature=c("tSNE_scatter",'tSNE'),
-    definition=function(obj,dobj)
-    {
-
+    definition=function(obj,dobj) {
         colour_by=dobj$Y$sample_meta[[obj$factor_name]]
 
         A=data.frame(x=dobj$Y$data[,1],y=dobj$Y$data[,2],group=colour_by)

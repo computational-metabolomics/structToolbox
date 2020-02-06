@@ -4,16 +4,18 @@
 \alias{kfoldxcv_grid}
 \title{kfoldxcv_grid class}
 \usage{
-kfoldxcv_grid(...)
+kfoldxcv_grid(factor_name, ...)
 }
 \arguments{
+\item{factor_name}{The sample_meta column name to use.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-plot of cross validation results
+Plot of cross validation predictions vs the true values.
 }
 \examples{
 C = kfoldxcv_grid()

@@ -4,16 +4,37 @@
 \alias{pca_biplot_plot}
 \title{pca_biplot_plot class}
 \usage{
-pca_biplot_plot(...)
+pca_biplot_plot(
+  components = c(1, 2),
+  points_to_label = "none",
+  factor_name,
+  scale_factor = 0.95,
+  style = "points",
+  label_features = FALSE,
+  ...
+)
 }
 \arguments{
+\item{components}{The principal components to plot (\code{numeric(2)})}
+
+\item{points_to_label}{"none", "all", or "outliers" will be labelled on the plot.}
+
+\item{factor_name}{The sample_meta column name to use for colouring the points.
+You can provide up to two factors for this plot.}
+
+\item{scale_factor}{Scaling factor to apply to loadings. Default = 0.95.}
+
+\item{style}{Plot style for loadings. Can be 'points' (default) or 'arrows'.}
+
+\item{label_features}{TRUE or FALSE to label features on the plot. Default is FALSE.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-2d scatter plot of princpal component scores overlaid with principal component loadings.
+2d scatter plot of principal component scores overlaid with principal component loadings.
 }
 \examples{
 C = pca_biplot_plot()

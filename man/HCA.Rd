@@ -4,16 +4,34 @@
 \alias{HCA}
 \title{HCA method class}
 \usage{
-HCA(...)
+HCA(
+  dist_method = "euclidean",
+  cluster_method = "complete",
+  minkowski_power = 2,
+  factor_name,
+  ...
+)
 }
 \arguments{
+\item{dist_method}{The distance method to use for clustering. Can be any one of
+"euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski". Default
+is "euclidean".}
+
+\item{cluster_method}{The clustering method to use. Can be any one of "ward.D",
+"ward.D2", "single", "complete", "average", "mcquitty", "median" or "centroid".
+Default is 'complete'.}
+
+\item{minkowski_power}{This parameter is only used when \code{dist_method = 'minkowski'}.}
+
+\item{factor_name}{The sample_meta column to use.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-HCA method class. Calculate a hierarchical clustering for the input data
+HCA method class. Calculate a hierarchical clustering for the input data.
 }
 \examples{
 M = HCA()

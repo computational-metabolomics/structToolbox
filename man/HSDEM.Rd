@@ -4,16 +4,22 @@
 \alias{HSDEM}
 \title{HSD model class using estimated marginal means}
 \usage{
-HSDEM(...)
+HSDEM(alpha = 0.05, mtc = "fdr", formula, ...)
 }
 \arguments{
+\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+
+\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+
+\item{formula}{The formula to use. See \code{lm} for details.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-HSD model class using estimate marginal means
+HSD model class using estimate marginal means, for use with mixed effects designs.
 }
 \examples{
 M = HSDEM()

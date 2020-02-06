@@ -4,16 +4,16 @@
 \alias{pairs_filter}
 \title{Pairs filter}
 \usage{
-pairs_filter(...)
+pairs_filter(factor_name, sample_id, ...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
-
 \item{factor_name}{(character) the column name of sample_meta containing the
 labels}
 
 \item{sample_id}{(character) the column name of sample_meta containing the
 sample ids}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 A STRUCT method object with functions for applying a pairs filter

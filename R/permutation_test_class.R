@@ -1,15 +1,18 @@
-#' permutation test class
+#' Permutation test class
 #'
-#' Applies a permutation test to a model or model_seq()
+#' Applies a permutation test to a model or model_seq(). The input metric is calculated for
+#' all permutations, and can be compared to the results from the unpermuted model to
+#' assess model validity.
 #' @examples
 #' I=permutation_test()
-#'
+#' @param number_of_permutations The number of permutations to run
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test
-permutation_test = function(...) {
-    out=.permutation_test()
-    out=struct::new_struct(out,...)
+permutation_test = function(number_of_permutations,...) {
+    out=struct::new_struct('permutation_test',
+        number_of_permutations=number_of_permutations,
+        ...)
     return(out)
 }
 
@@ -24,12 +27,13 @@ permutation_test = function(...) {
     ),
     prototype = list(name='permutation test',
         type='permutation',
-        result='results',
-        number_of_permutations=10
+        result='results.permuted',
+        number_of_permutations=10,
+        .params=c('number_of_permutations'),
+        .outputs=c('results.permuted','results.unpermuted','metric')
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template run
 setMethod(f="run",
@@ -138,7 +142,13 @@ setMethod(f="run",
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test.boxplot
-permutation_test.boxplot<-setClass(
+permutation_test.boxplot = function(...) {
+    out=struct::new_struct('permutation_test.boxplot',...)
+    return(out)
+}
+
+
+.permutation_test.boxplot<-setClass(
     "permutation_test.boxplot",
     contains='chart',
     prototype = list(name='permutation test',
@@ -147,7 +157,6 @@ permutation_test.boxplot<-setClass(
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
@@ -176,7 +185,13 @@ setMethod(f="chart_plot",
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test.violin
-permutation_test.violin<-setClass(
+permutation_test.violin = function(...) {
+    out=struct::new_struct('permutation_test.violin',...)
+    return(out)
+}
+
+
+.permutation_test.violin<-setClass(
     "permutation_test.violin",
     contains='chart',
     prototype = list(name='permutation test',
@@ -214,7 +229,13 @@ setMethod(f="chart_plot",
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test_hist
-permutation_test_hist<-setClass(
+permutation_test_hist = function(...) {
+    out=struct::new_struct('permutation_test_hist',...)
+    return(out)
+}
+
+
+.permutation_test_hist<-setClass(
     "permutation_test_hist",
     contains='chart',
     prototype = list(name='permutation test',
@@ -251,7 +272,13 @@ setMethod(f="chart_plot",
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test.scatter
-permutation_test.scatter<-setClass(
+permutation_test.scatter = function(...) {
+    out=struct::new_struct('permutation_test.scatter',...)
+    return(out)
+}
+
+
+.permutation_test.scatter<-setClass(
     "permutation_test.scatter",
     contains='chart',
     prototype = list(name='permutation test',
@@ -260,7 +287,6 @@ permutation_test.scatter<-setClass(
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

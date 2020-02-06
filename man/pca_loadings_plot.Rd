@@ -4,10 +4,21 @@
 \alias{pca_loadings_plot}
 \title{pca_loadings_plot class}
 \usage{
-pca_loadings_plot(...)
+pca_loadings_plot(
+  components = c(1, 2),
+  style = "points",
+  label_featurs = FALSE,
+  ...
+)
 }
 \arguments{
+\item{components}{The principal components to plot (\code{numeric(2)})}
+
+\item{style}{Plot style for loadings. Can be 'points' (default) or 'arrows'.}
+
 \item{...}{additional slots and values passed to struct_class}
+
+\item{label_features}{TRUE or FALSE to label features on the plot. Default is FALSE.}
 }
 \value{
 struct object

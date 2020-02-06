@@ -4,16 +4,34 @@
 \alias{ttest}
 \title{t-test model class}
 \usage{
-ttest(...)
+ttest(
+  alpha = 0.05,
+  mtc = "fdr",
+  factor_names,
+  paired = FALSE,
+  paired_factor = character(0),
+  ...
+)
 }
 \arguments{
+\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+
+\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+
+\item{factor_names}{The sample_meta column name to use.}
+
+\item{paired}{TRUE or FALSE to use a paired t-test.}
+
+\item{paired_factor}{The name of the sample_meta column used to indicate which samples are from the same
+subject. Must be provided if \code{paired = TRUE}}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-t-test model class. Calculate t-test for all features in a DatasetExperiment
+t-test model class. Calculate t-test for all features in a DatasetExperiment.
 }
 \examples{
 M = ttest()
