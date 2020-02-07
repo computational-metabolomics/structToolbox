@@ -35,6 +35,6 @@ Calculates a signed rank test for all features in a DatasetExperiment.
 Used as a non-parametric ttest.
 }
 \examples{
-M = wilcox_test()
+M = wilcox_test(factor_name='class')
 
 }

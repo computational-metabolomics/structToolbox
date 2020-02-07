@@ -130,7 +130,7 @@ setMethod(f="model_predict",signature=c("blank_filter","DatasetExperiment"),
 #' C = blank_filter_hist()
 blank_filter_hist = function(...) {
     out=.blank_filter_hist()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('blank_filter_hist',...)
     return(out)
 }
 

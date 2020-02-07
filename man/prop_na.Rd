@@ -23,6 +23,6 @@ Compares proportion of NA for all features in a DatasetExperiment using a
 Fisher's Exact test
 }
 \examples{
-M = prop_na()
+M = prop_na(factor_name='Species')
 
 }

@@ -142,6 +142,8 @@
 
 \item{eobj}{a second DatasetExperiment object to compare with the first}
 
+\item{gobj}{The DatasetExperiment object used with glog_transform}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{

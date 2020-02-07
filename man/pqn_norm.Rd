@@ -4,7 +4,7 @@
 \alias{pqn_norm}
 \title{Probabilistic Quotient Normalisation}
 \usage{
-pqn_norm(qc_label = "QC", factor_name = factor_name, ...)
+pqn_norm(qc_label = "QC", factor_name, ...)
 }
 \arguments{
 \item{qc_label}{= The label for qc samples in the chosen sample_meta column.}
@@ -20,5 +20,8 @@ struct object
 Applies PQN using QC samples as reference samples
 }
 \examples{
-M = pqn_norm()
+D = iris_DatasetExperiment()
+M = pqn_norm(factor_name='Species',qc_label='all')
+M = model_apply(M,D)
+
 }

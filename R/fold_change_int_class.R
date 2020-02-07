@@ -26,6 +26,7 @@ fold_change_int = function(alpha=0.05,factor_name,threshold=2,control_group=char
         alpha=alpha,
         threshold=threshold,
         control_group=control_group,
+        factor_name=factor_name,
         ...)
     return(out)
 }

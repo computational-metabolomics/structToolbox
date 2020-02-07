@@ -1,10 +1,13 @@
 Package: structToolbox
 Type: Package
 Title: Some tools bult using the struct package
-Version: 0.8.3
+Version: 0.99.0
 Author: Gavin Rhys Lloyd
 Maintainer: Gavin Rhys Lloyd <g.r.lloyd@bham.ac.uk>
-Description: Extends the class templates provided by the struct package to provide methods for training PCA, PLS models with cross-validation, permutation testing etc.
+Description: Extends the class templates provided by the struct package to 
+    provide PCA, PLS models with cross-validation, permutation testing etc. Also 
+    includes a suite of univariate tests and data processing models for building
+    complete workflows.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -19,6 +22,7 @@ Collate:
     'PLSDA_class.R'
     'PLSDA_charts.R'
     'PLSR_class.R'
+    'as_data_frame_doc.R'
     'autoscale_class.R'
     'balanced_accuracy_class.R'
     'blank_filter_class.R'
@@ -74,9 +78,8 @@ Collate:
     'vec_norm_class.R'
     'wilcox_test_class.R'
     'zzz.R'
-Depends: struct (>= 0.99.3)
-Imports: datasets,
-    ggplot2,
+Depends: struct (>= 0.99.4)
+Imports: ggplot2,
     ggthemes,
     grid,
     gridExtra,
@@ -90,11 +93,12 @@ Suggests: agricolae,
  car,
  covr,
  emmeans,
- pmp,
  ggdendro,
  knitr,
+ magick,
  nlme,
  pls,
+ pmp,
  reshape2,
  rmarkdown,
  Rtsne,

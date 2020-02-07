@@ -1,3 +1,9 @@
+Changes 0.99.0
++ use new struct v0.99.4 class constructor functions
+
+Release 0.8.4
++ Final working version befor bioconductor updates
+
 Changes in version 0.4.0 (2019-07-25)
 + Minor bug fixes
 + Added tsne method

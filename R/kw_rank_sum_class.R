@@ -4,10 +4,13 @@
 #'  A non-parametric 1-way ANOVA.
 #'
 #' @examples
-#' M = kw_rank_sum()
+#' D = iris_DatasetExperiment()
+#' M = kw_rank_sum(factor_names='Species')
+#' M = model_apply(M,D)
+#'
 #' @param alpha The p-value threshold. Default alpha = 0.05.
 #' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
-#' @param formula The formula to use. See \code{lm} for details.
+#' @param factor_names The sample_meta column name to use
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export kw_rank_sum
@@ -41,7 +44,7 @@ kw_rank_sum = function(alpha=0.05,mtc='fdr',factor_names,...) {
                                 multiple-testing correction.',
         type="univariate",
         predicted='p_value',
-        .params=c('alpha','mtc','factor-names'),
+        .params=c('alpha','mtc','factor_names'),
         .outputs=c('test_statistic','p_value','dof','significant','estimates'),
 
         factor_names=entity(name='Factor names',
@@ -164,8 +167,8 @@ setMethod(f="chart_plot",
             geom_histogram(boundary=t,color='white') +
             xlab('log10(p-values)') +
             ylab('Count') +
-            structToolbox:::scale_fill_Publication()+
-            structToolbox:::theme_Publication(base_size = 12) +
+            scale_fill_Publication()+
+            theme_Publication(base_size = 12) +
             ggtitle('Kruskal-Wallis rank sum')+
             theme(panel.border = element_rect(linetype = "solid", fill = NA))
 

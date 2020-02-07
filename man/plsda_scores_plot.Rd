@@ -30,5 +30,10 @@ struct object
 2d scatter plot of plsda component scores.
 }
 \examples{
-C = plsda_scores_plot()
+D = iris_DatasetExperiment()
+M = mean_centre()+PLSDA(factor_name='Species')
+M = model_apply(M,D)
+
+C = plsda_scores_plot(factor_name='Species',groups=D$sample_meta$Species)
+chart_plot(C,M[2])
 }

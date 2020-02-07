@@ -4,7 +4,7 @@
 \alias{permute_sample_order}
 \title{permute_sample_order class}
 \usage{
-permute_sample_order(number_of_permutations, ...)
+permute_sample_order(number_of_permutations = 10, ...)
 }
 \arguments{
 \item{number_of_permutations}{The number of times to permute the sample order}

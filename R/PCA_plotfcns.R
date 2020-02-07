@@ -87,7 +87,12 @@ setMethod(f="chart_plot",
 #' @export pca_scores_plot
 #' @include PCA_class.R
 #' @examples
-#' C = pca_scores_plot()
+#' D = iris_DatasetExperiment()
+#' M = mean_centre() + PCA()
+#' M = model_apply(M,D)
+#' C = pca_scores_plot(factor_name = 'Species')
+#' chart_plot(C,M[2])
+#'
 pca_scores_plot = function(
     components=c(1,2),
     points_to_label='none',
@@ -320,7 +325,7 @@ setMethod(f="chart_plot",
 #' @export pca_biplot_plot
 #' @include PCA_class.R
 #' @examples
-#' C = pca_biplot_plot()
+#' C = pca_biplot_plot(factor_name='Species')
 pca_biplot_plot = function(
     components=c(1,2),
     points_to_label='none',

@@ -34,5 +34,8 @@ struct object
 HCA method class. Calculate a hierarchical clustering for the input data.
 }
 \examples{
-M = HCA()
+D = iris_DatasetExperiment()
+M = HCA(factor_name='Species')
+M = model_apply(M,D)
+
 }

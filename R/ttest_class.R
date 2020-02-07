@@ -11,7 +11,7 @@
 #' @return struct object
 #' @export ttest
 #' @examples
-#' M = ttest()
+#' M = ttest(factor_name='class')
 #'
 ttest = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=character(0),...) {
     out=struct::new_struct('ttest',
@@ -235,6 +235,7 @@ setMethod(f="model_apply",
 
 
 #' @export
+#' @template as_data_frame
 setMethod(f="as_data_frame",
     signature=c("ttest"),
     definition=function(M) {

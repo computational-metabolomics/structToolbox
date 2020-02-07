@@ -10,7 +10,7 @@ fold_change(
   paired = FALSE,
   sample_name = character(0),
   threshold = 2,
-  control_group,
+  control_group = character(0),
   ...
 )
 }

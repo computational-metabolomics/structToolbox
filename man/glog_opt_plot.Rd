@@ -18,5 +18,9 @@ struct object
 plots the SSE error vs lambda for glog transform
 }
 \examples{
-M = glog_opt_plot()
+D = iris_DatasetExperiment()
+M = glog_transform(qc_label='versicolor',factor_name='Species')
+M = model_apply(M,D)
+C = glog_opt_plot()
+chart_plot(C,M,D)
 }

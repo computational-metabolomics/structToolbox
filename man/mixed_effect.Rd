@@ -25,5 +25,8 @@ struct object
 Mixed Effects model class. Applies RE model for all features in a DatasetExperiment
 }
 \examples{
-M = mixed_effect()
+D = iris_DatasetExperiment()
+D$sample_meta$id=rownames(D) # dummy id column
+M = mixed_effect(formula = y~Species+ Error(id/Species))
+M = model_apply(M,D)
 }

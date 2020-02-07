@@ -7,9 +7,8 @@
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export rsd_filter
-#' @import pmp
 #' @examples
-#' M = rsd_filter()
+#' M = rsd_filter(factor_name='class')
 #'
 rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
     out=struct::new_struct('rsd_filter',
@@ -34,6 +33,7 @@ rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
         description = 'Filters features by calculating the relative standard deviation (RSD) for the QC samples and removing features with RSD greater than the threshold.',
         type = 'filter',
         predicted = 'filtered',
+        libraries='pmp',
         .params=c('rsd_threshold','qc_label','factor_name'),
         .outputs=c('filtered','flags','rsd_qc'),
 

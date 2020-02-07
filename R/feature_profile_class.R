@@ -28,7 +28,7 @@ feature_profile = function(run_order,qc_label,qc_column,colour_by,feature_to_plo
         qc_label=qc_label,
         qc_column=qc_column,
         colour_by=colour_by,
-        feature_to_plot,
+        feature_to_plot=feature_to_plot,
         ...)
     return(out)
 }
@@ -48,7 +48,7 @@ feature_profile = function(run_order,qc_label,qc_column,colour_by,feature_to_plo
     prototype = list(name='Feature profile',
         description='plots a feature vs run order',
         type="scatter",
-        .params=c('run_order','qc_label','qc_column','colour_by','feature_plot'),
+        .params=c('run_order','qc_label','qc_column','colour_by','feature_to_plot'),
 
         feature_to_plot=entity(name='Feature to plot',
             description='The name or column id of the feature to plot',

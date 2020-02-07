@@ -27,7 +27,8 @@ fold_change = function(
     paired=FALSE,
     sample_name=character(0),
     threshold=2,
-    control_group,...) {
+    control_group=character(0),
+    ...) {
 
     out=struct::new_struct('fold_change',
         alpha=alpha,
@@ -65,8 +66,8 @@ fold_change = function(
         type="univariate",
         predicted='fold_change',
         #  stato_id="STATO:0000304",
-        .params=c('factor_name','sample_name','alpha','paired','threshold'),
-        .outputs=c('fold_change','lower_ci','upper_ci'),
+        .params=c('factor_name','sample_name','alpha','paired','threshold','control_group'),
+        .outputs=c('fold_change','lower_ci','upper_ci','significant'),
 
         factor_name=entity(name='Factor names',
             type='character',
@@ -200,7 +201,7 @@ setMethod(f="model_apply",
 #' Plots fold change with error bars for a limited number of features.
 #'
 #' @import struct
-#' @param number_of_features The number of features to display on the plot
+#' @param number_features The number of features to display on the plot
 #' @param orientation The orientation of the plot (portrait or landscape). Portrait is default.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
@@ -208,9 +209,9 @@ setMethod(f="model_apply",
 #' @include PCA_class.R
 #' @examples
 #' C = fold_change_plot()
-fold_change_plot = function(number_of_features=20,orientation='portrait',...) {
+fold_change_plot = function(number_features=20,orientation='portrait',...) {
     out=struct::new_struct('fold_change_plot',
-        number_of_features=number_of_features,
+        number_features=number_features,
         orientation=orientation,
         ...)
     return(out)
@@ -228,7 +229,7 @@ fold_change_plot = function(number_of_features=20,orientation='portrait',...) {
         type="boxlot",
         number_features=20,
         orientation='portrait',
-        .params=c('number_of_features','orientation')
+        .params=c('number_features','orientation')
     )
 
 )
@@ -267,8 +268,8 @@ setMethod(f="chart_plot",
             #geom_hline(yintercept = -log2(dobj$threshold),color='red') +
             xlab('Feature') +
             ylab('log2(Fold change)')+
-            structToolbox:::scale_colour_Publication() +
-            structToolbox:::theme_Publication(base_size = 12)
+            scale_colour_Publication() +
+            theme_Publication(base_size = 12)
 
         if (obj$orientation=='landscape') {
             out=out+coord_flip()

@@ -10,7 +10,10 @@
 #' @return struct object
 #' @export mixed_effect
 #' @examples
-#' M = mixed_effect()
+#' D = iris_DatasetExperiment()
+#' D$sample_meta$id=rownames(D) # dummy id column
+#' M = mixed_effect(formula = y~Species+ Error(id/Species))
+#' M = model_apply(M,D)
 mixed_effect = function(alpha=0.05,mtc='fdr',formula,ss_type='marginal',...) {
     out=struct::new_struct('mixed_effect',
         alpha=alpha,
@@ -67,7 +70,7 @@ setMethod(f="model_apply",
             var_names_ex=var_names
         }
 
-        FF=structToolbox:::full_fact(var_names_ex)
+        FF=full_fact(var_names_ex)
         FF=apply(FF,1,function(x) var_names_ex[x==1])
         FF=FF[-1]
 

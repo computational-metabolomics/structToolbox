@@ -24,6 +24,6 @@ struct object
 Filters samples for paired analysis, ensuring each sample id is present in all groups.
 }
 \examples{
-M=pairs_filter()
+M=pairs_filter(factor_name='Class',sample_id='ids')
 
 }

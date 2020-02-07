@@ -7,7 +7,7 @@
 #' @return struct object
 #' @export PLSR
 #' @examples
-#' M = PLSR()
+#' M = PLSR(factor_name='run_order')
 PLSR = function(number_components=2,factor_name,...) {
     out=struct::new_struct('PLSR',
         number_components=number_components,

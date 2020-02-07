@@ -34,6 +34,6 @@ struct object
 t-test model class. Calculate t-test for all features in a DatasetExperiment.
 }
 \examples{
-M = ttest()
+M = ttest(factor_name='class')
 
 }

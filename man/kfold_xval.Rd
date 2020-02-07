@@ -23,5 +23,9 @@ struct object
 Applies k-fold crossvalidation to a model or model_seq()
 }
 \examples{
-I = kfold_xval()
+D = iris_DatasetExperiment()
+I = kfold_xval(factor_name='Species') *
+    (mean_centre() + PLSDA(factor_name='Species'))
+I = run(I,D,balanced_accuracy())
+
 }

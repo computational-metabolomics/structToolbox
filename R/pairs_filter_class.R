@@ -9,7 +9,7 @@
 #'
 #' @return A STRUCT method object with functions for applying a pairs filter
 #' @examples
-#' M=pairs_filter()
+#' M=pairs_filter(factor_name='Class',sample_id='ids')
 #'
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object

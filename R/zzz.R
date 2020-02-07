@@ -5,5 +5,5 @@
 if(getRversion() >= "2.15.1"){
     utils::globalVariables(c('x','y','z','Feature','Sample','Peak area',
         'run_order','feature','group','fc','uci','xend','yend','group',
-        'lci','pairs'))
+        'lci','pairs','segment'))
 }

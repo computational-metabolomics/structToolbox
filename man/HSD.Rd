@@ -26,5 +26,8 @@ this model compares classes in a pairwise fashion to try to identify which group
 are different to the others (if any).
 }
 \examples{
-M = HSD()
+D = iris_DatasetExperiment()
+M = HSD(formula=y~Species)
+M = model_apply(M,D)
+
 }

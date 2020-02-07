@@ -18,5 +18,12 @@ struct object
 Plot of cross validation predictions vs the true values.
 }
 \examples{
-C = kfoldxcv_grid()
+D = iris_DatasetExperiment()
+I = kfold_xval(factor_name='Species') *
+    (mean_centre() + PLSDA(factor_name='Species'))
+I = run(I,D,balanced_accuracy())
+
+C = kfoldxcv_grid(factor_name='Species')
+chart_plot(C,I)
+
 }

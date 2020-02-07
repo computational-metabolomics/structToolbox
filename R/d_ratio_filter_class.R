@@ -37,7 +37,7 @@ dratio_filter = function(threshold=20, qc_label='QC', factor_name, ...) {
         type = 'filter',
         predicted = 'filtered',
         .params=c('threshold','qc_label','factor_name'),
-        .outputs=c('filtered','flags'),
+        .outputs=c('filtered','flags','d_ratio'),
 
         threshold=entity(name = 'd_ratio filter',
             description = 'Features with d_ratio less than the threshold are removed.',

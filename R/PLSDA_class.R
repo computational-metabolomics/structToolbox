@@ -98,7 +98,7 @@ setMethod(f="model_train",
         yhat=predict(pls_model, ncomp = param_value(M,'number_components'), newdata = X)
         yhat=as.matrix(yhat[,,dim(yhat)[3]])
         output_value(M,'yhat')=as.data.frame(yhat)
-        probs=structToolbox:::prob(yhat,yhat,D$sample_meta[[M$factor_name]])
+        probs=prob(yhat,yhat,D$sample_meta[[M$factor_name]])
         output_value(M,'probability')=as.data.frame(probs$ingroup)
         output_value(M,'threshold')=probs$threshold
         output_value(M,'pls_model')=list(pls_model)

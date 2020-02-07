@@ -15,7 +15,10 @@
 #' @return struct object
 #' @export HCA
 #' @examples
-#' M = HCA()
+#' D = iris_DatasetExperiment()
+#' M = HCA(factor_name='Species')
+#' M = model_apply(M,D)
+#'
 HCA = function(dist_method='euclidean',cluster_method='complete',minkowski_power=2,factor_name,...) {
     out=struct::new_struct('HCA',
         dist_method=dist_method,
@@ -122,9 +125,9 @@ setMethod(f="chart_plot",
     signature=c("hca_dendrogram",'HCA'),
     definition=function(obj,dobj)
     {
-        hcdata=dendro_data(dobj$hclust)
+        hcdata=ggdendro::dendro_data(dobj$hclust)
 
-        A=label(hcdata)
+        A=ggdendro::label(hcdata)
 
         A=A[order(dobj$factor_df$label),,drop=FALSE]
         dobj$factor_df[order(dobj$factor_df$label),,drop=FALSE]
@@ -133,8 +136,8 @@ setMethod(f="chart_plot",
         g= ggplot() +
             geom_segment(data=segment(hcdata), aes(x=x, y=y, xend=xend, yend=yend)) +
             geom_point(data=A, aes(x=x, y=y,color=group))+
-            structToolbox:::scale_colour_Publication() +
-            structToolbox:::theme_Publication(base_size = 12) +
+            scale_colour_Publication() +
+            theme_Publication(base_size = 12) +
             labs(color = colnames(dobj$factor_df)[1]) +
             theme(axis.title.x=element_blank(),
                 axis.text.x=element_blank(),

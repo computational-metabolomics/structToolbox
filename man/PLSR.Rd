@@ -20,5 +20,5 @@ struct object
 Calculates a PLS regression model using the input data.
 }
 \examples{
-M = PLSR()
+M = PLSR(factor_name='run_order')
 }

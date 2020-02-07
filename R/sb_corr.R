@@ -14,9 +14,17 @@
 #' @return struct object
 #' @export sb_corr
 #' @examples
-#' M = sb_corr()
-sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_label,...) {
-    out=struct::new_struct(sb_corr,...)
+#' M = sb_corr(order_col='run_order',batch_col='batch_no',qc_col='class')
+sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_label='QC',...) {
+    out=struct::new_struct('sb_corr',
+        order_col=order_col,
+        batch_col=batch_col,
+        qc_col=qc_col,
+        smooth=smooth,
+        use_log=use_log,
+        min_qc=min_qc,
+        qc_label='QC',
+        ...)
     return(out)
 }
 

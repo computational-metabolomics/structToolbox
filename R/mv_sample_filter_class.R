@@ -20,7 +20,8 @@ mv_sample_filter = function(mv_threshold=20,...) {
     contains = c('model'),
     slots=c(mv_threshold='entity',
         filtered='entity',
-        flags='entity'
+        flags='entity',
+        percent_missing='entity'
     ),
     prototype=list(name = 'Missing value sample filter',
         description = 'Filters by removing samples where the percent number of missing values exceeds the threshold.',
@@ -28,7 +29,7 @@ mv_sample_filter = function(mv_threshold=20,...) {
         predicted = 'filtered',
         libraries='pmp',
         .params=c('mv_threshold'),
-        .outputs=c('filtered','flags'),
+        .outputs=c('filtered','flags','percent_missing'),
 
         mv_threshold=entity(name = 'Missing value threshold (%)',
             description = 'Samples with greather than THRESHOLD% missing values are excluded.',
@@ -40,7 +41,12 @@ mv_sample_filter = function(mv_threshold=20,...) {
             value=DatasetExperiment()
         ),
         flags=entity(name = 'Flags',
-            description = '% missing values and a flag indicating whether the sample was rejected.',
+            description = 'A flag indicating whether the sample was rejected. 0 = rejected.',
+            type='data.frame',
+            value=data.frame()
+        ),
+        percent_missing=entity(name = 'Percent missing',
+            description = '% missing values for each sample.',
             type='data.frame',
             value=data.frame()
         )
@@ -53,19 +59,21 @@ setMethod(f="model_apply",
     signature=c("mv_sample_filter","DatasetExperiment"),
     definition=function(M,D)
     {
+        # inputs
         opt=param_list(M)
-
+        # meta data
         smeta=D$sample_meta
+        # data
         x=D$data
-
+        # apply filter
         filtered = pmp::filter_samples_by_mv(x,max_perc_mv=opt$mv_threshold/100,D$sample_meta[,1],remove_samples = FALSE)
-
         flags<-data.frame(attributes(filtered)$flags)
-
+        # remove samples
         D=D[flags$filter_samples_by_mv_flags==1,,drop=FALSE]
-
+        # fill output slots
         output_value(M,'filtered') = D
-        output_value(M,'flags') = flags
+        output_value(M,'flags') = data.frame('flags'=flags[,2],row.names = rownames(x))
+        output_value(M,'percent_missing')=data.frame('precent_missing'=flags[,1],row.names = rownames(x))
 
         return(M)
     }
@@ -126,7 +134,7 @@ setMethod(f="chart_plot",
     {
         t=param_value(dobj,'mv_threshold')
         A=output_value(dobj,'flags')
-        A$perc_mv=(A$perc_mv)*100
+        A$perc_mv=(dobj$percent_missing[,1])*100
         A$features=factor(A$flags,levels=c(1,0),labels=c('accepted','rejected'))
         out=ggplot(data=A, aes_(x=~perc_mv,fill=~features)) +
             geom_histogram(boundary=(t),color='white') +

@@ -95,7 +95,7 @@ chart_names(M[2])
 Like model objects, chart objects need to be created before they can be used. Here we will plot the PCA scores plot for our mean centred PCA model_
 
 ```{r}
-C = pca_scores_plot(groups=D$sample_meta$Species,factor_name='Species') # colour by Species
+C = pca_scores_plot(factor_name='Species') # colour by Species
 chart_plot(C,M[2])
 ```
   
@@ -112,7 +112,7 @@ chart_plot(C,M[2])
 The `chart_plot` method can return e.g. a ggplot object so that you can easily combine it with other plots using the gridExtra package for example.
 
 ```{r,fig.width=10}
-C1 = pca_scores_plot(groups=D$sample_meta$Species,factor_name='Species') # colour by Species
+C1 = pca_scores_plot(factor_name='Species') # colour by Species
 g1 = chart_plot(C1,M[2])
 C2 = pca_scree()
 g2 = chart_plot(C2,M[2])
@@ -204,11 +204,12 @@ chart_names(XCV)
 Charts for iterator objects can be plotted in the same way as charts for any other object.
 
 ```{r,warning=FALSE}
-C = kfoldxcv_grid()
+C = kfoldxcv_grid(factor_name='Species')
 chart_plot(C,XCV)[[2]] # produces multiple figures. only plot second one.
 ```
 
 It is possible to combine multiple iterators by multiplying them together. This is equivalent to nesting one iterator inside the other. For example, we can repeat our cross-validation multiple times by permuting the sample order.
+
 
 ```{r}
 P = permute_sample_order(number_of_permutations = 10) * 
@@ -219,4 +220,7 @@ P$metric
 ```
 
 
-
+# Session Info
+```{r}
+sessionInfo()
+```

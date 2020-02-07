@@ -44,5 +44,10 @@ struct object
 2d scatter plot of principal component scores.
 }
 \examples{
-C = pca_scores_plot()
+D = iris_DatasetExperiment()
+M = mean_centre() + PCA()
+M = model_apply(M,D)
+C = pca_scores_plot(factor_name = 'Species')
+chart_plot(C,M[2])
+
 }

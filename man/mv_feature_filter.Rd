@@ -32,5 +32,7 @@ struct object
 Filters features by the percent number of missing values, based on class labels if required.
 }
 \examples{
-M = mv_feature_filter()
+D = iris_DatasetExperiment()
+M = mv_feature_filter(factor_name='Species',qc_label='versicolor')
+M = model_apply(M,D)
 }

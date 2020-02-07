@@ -9,7 +9,7 @@
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test
-permutation_test = function(number_of_permutations,...) {
+permutation_test = function(number_of_permutations=50,...) {
     out=struct::new_struct('permutation_test',
         number_of_permutations=number_of_permutations,
         ...)

@@ -124,6 +124,7 @@ setMethod(f="model_predict",
 
 
 #' @export
+#' @template as_data_frame
 setMethod(f="as_data_frame",
     signature=c("filter_na_count"),
     definition=function(M) {

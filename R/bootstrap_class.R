@@ -4,7 +4,10 @@
 #' be 'collected' over all bootstrap repetitions for further analysis.
 #'
 #' @examples
-#' I = bootstrap()
+#' D = iris_DatasetExperiment()
+#' I = bootstrap(number_of_iterations = 5, collect='vip') *
+#'     (mean_centre() + PLSDA(factor_name = 'Species'))
+#' I = run(I,D,balanced_accuracy())
 #'
 #' @param number_of_iterations The number of bootstrap iterations to run
 #' @param collect The name of model output to collect over all iterations

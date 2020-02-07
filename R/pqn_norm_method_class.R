@@ -7,8 +7,11 @@
 #' @return struct object
 #' @export pqn_norm
 #' @examples
-#' M = pqn_norm()
-pqn_norm = function(qc_label='QC',factor_name=factor_name,...) {
+#' D = iris_DatasetExperiment()
+#' M = pqn_norm(factor_name='Species',qc_label='all')
+#' M = model_apply(M,D)
+#'
+pqn_norm = function(qc_label='QC',factor_name,...) {
     out=struct::new_struct('pqn_norm',
         qc_label=qc_label,
         factor_name=factor_name,

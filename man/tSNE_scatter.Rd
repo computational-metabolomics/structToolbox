@@ -4,9 +4,11 @@
 \alias{tSNE_scatter}
 \title{tSNE_scatter class}
 \usage{
-tSNE_scatter(...)
+tSNE_scatter(factor_name, ...)
 }
 \arguments{
+\item{factor_name}{Sample_meta column named used for colouring the points.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
@@ -16,6 +18,6 @@ struct object
 plots the new representation of data after applying tSNE
 }
 \examples{
-M = tSNE_scatter()
+M = tSNE_scatter(factor_name='Species')
 
 }

@@ -10,7 +10,7 @@
 #' @return struct object
 #' @export prop_na
 #' @examples
-#' M = prop_na()
+#' M = prop_na(factor_name='Species')
 #'
 prop_na = function(alpha=0.05,mtc='fdr',factor_name,...) {
     out=struct::new_struct('prop_na',

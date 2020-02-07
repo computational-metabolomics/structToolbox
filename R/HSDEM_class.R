@@ -11,7 +11,11 @@
 #' @return struct object
 #' @export HSDEM
 #' @examples
-#' M = HSDEM()
+#' D = iris_DatasetExperiment()
+#' D$sample_meta$id=rownames(D) # dummy id column
+#' M = HSDEM(formula = y~Species+ Error(id/Species))
+#' M = model_apply(M,D)
+#'
 HSDEM = function(alpha=0.05,mtc='fdr',formula,...) {
     out=struct::new_struct('HSDEM',
         alpha=alpha,
@@ -109,7 +113,7 @@ setMethod(f="model_apply",
             dona=FALSE
 
             testlm=tryCatch({ # if any warnings/messages set p-values to NA as unreliable
-                LM=lme(lmer_formula$f,random=lmer_formula$random,method='ML',data=temp,na.action=na.omit)
+                LM=nlme::lme(lmer_formula$f,random=lmer_formula$random,method='ML',data=temp,na.action=na.omit)
             }, warning = function(w) {
                 NA
             }, message = function(m) {

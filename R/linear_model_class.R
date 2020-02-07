@@ -11,7 +11,9 @@
 #' @return struct object
 #' @export linear_model
 #' @examples
-#' M = linear_model()
+#' D = iris_DatasetExperiment()
+#' M = linear_model(formula = y~Species)
+#'
 linear_model = function(formula,na_action='na.omit',contrasts=list(),...) {
     out=struct::new_struct('linear_model',
         formula=formula,

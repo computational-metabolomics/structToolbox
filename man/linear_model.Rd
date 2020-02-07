@@ -23,5 +23,7 @@ struct object
 Wrapper for R lm. See \code{lm} for details.
 }
 \examples{
-M = linear_model()
+D = iris_DatasetExperiment()
+M = linear_model(formula = y~Species)
+
 }

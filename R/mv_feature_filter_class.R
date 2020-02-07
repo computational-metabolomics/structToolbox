@@ -11,7 +11,9 @@
 #' @return struct object
 #' @export mv_feature_filter
 #' @examples
-#' M = mv_feature_filter()
+#' D = iris_DatasetExperiment()
+#' M = mv_feature_filter(factor_name='Species',qc_label='versicolor')
+#' M = model_apply(M,D)
 mv_feature_filter = function(threshold=20,qc_label='QC',method='QC',factor_name,...) {
     out=struct::new_struct('mv_feature_filter',
         threshold=threshold,

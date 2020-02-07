@@ -62,7 +62,9 @@ tSNE = function(dims=2,perplexity=30,max_iter=100,theta=0.5,check_duplicates=FAL
             name='Initial coordinates',
             description='A set of coordinates for initialising the tSNE
             algorithm. Setting to NULL (default) uses random initialisation.'),
-        eta=200
+        eta=200,
+        .params=c('dims','perplexity','max_iter','theta','check_duplicates','init','eta'),
+        .outputs='Y'
 
     )
 )
@@ -110,16 +112,18 @@ setMethod(f="model_apply",
 #' plots the new representation of data after applying tSNE
 #'
 #' @import struct
+#' @param factor_name Sample_meta column named used for colouring the points.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export tSNE_scatter
 #' @include PCA_class.R
 #' @examples
-#' M = tSNE_scatter()
+#' M = tSNE_scatter(factor_name='Species')
 #'
-tSNE_scatter = function(...) {
-    out=.tSNE_scatter()
-    out=struct::new_struct(out,...)
+tSNE_scatter = function(factor_name,...) {
+    out=struct::new_struct('tSNE_scatter',
+        factor_name=factor_name,
+        ...)
     return(out)
 }
 
@@ -134,7 +138,8 @@ tSNE_scatter = function(...) {
     prototype = list(name='Feature boxplot',
         description='plots the new representation of data after applying tSNE.',
         type="scatter",
-        libraries='Rtsne'
+        libraries='Rtsne',
+        .params=c('factor_name')
 
     )
 )

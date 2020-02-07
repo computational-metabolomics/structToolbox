@@ -37,5 +37,5 @@ struct object
 2d scatter plot of principal component scores overlaid with principal component loadings.
 }
 \examples{
-C = pca_biplot_plot()
+C = pca_biplot_plot(factor_name='Species')
 }

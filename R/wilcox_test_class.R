@@ -12,7 +12,7 @@
 #' @return struct object
 #' @export wilcox_test
 #' @examples
-#' M = wilcox_test()
+#' M = wilcox_test(factor_name='class')
 #'
 wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=character(0),...) {
     out=struct::new_struct('wilcox_test',
@@ -218,8 +218,7 @@ setMethod(f="model_apply",
 #' M = wilcox_p_hist()
 #'
 wilcox_p_hist = function(...) {
-    out=.wilcox_p_hist()
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('wilcox_p_hist',...)
     return(out)
 }
 
@@ -249,8 +248,8 @@ setMethod(f="chart_plot",
             geom_histogram(boundary=t,color='white') +
             xlab('log10(p-values)') +
             ylab('Count') +
-            structToolbox:::scale_fill_Publication()+
-            structToolbox:::theme_Publication(base_size = 12) +
+            scale_fill_Publication()+
+            theme_Publication(base_size = 12) +
             ggtitle('Wilcoxon signed rank test')+
             theme(panel.border = element_rect(linetype = "solid", fill = NA))
 
@@ -267,6 +266,7 @@ setMethod(f="chart_plot",
 
 
 #' @export
+#' @template as_data_frame
 setMethod(f="as_data_frame",
     signature=c("wilcox_test"),
     definition=function(M) {

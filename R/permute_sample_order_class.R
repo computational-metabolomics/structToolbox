@@ -7,7 +7,7 @@
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permute_sample_order
-permute_sample_order = function(number_of_permutations,...) {
+permute_sample_order = function(number_of_permutations=10,...) {
     out=struct::new_struct('permute_sample_order',
         number_of_permutations=number_of_permutations,
         ...)

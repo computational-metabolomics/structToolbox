@@ -7,6 +7,10 @@
 glog_transform(qc_label = "QC", factor_name, ...)
 }
 \arguments{
+\item{qc_label}{The label used to identify QC samples}
+
+\item{factor_name}{The sample_meta column name containing QC labels}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
@@ -16,5 +20,7 @@ struct object
 applies a glog transform to the input data
 }
 \examples{
-M = glog_transform()
+D = iris_DatasetExperiment()
+M = glog_transform(qc_label='versicolor',factor_name='Species')
+M = model_apply(M,D)
 }

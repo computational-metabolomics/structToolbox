@@ -451,7 +451,6 @@ DatasetExperiment.dist = function(factor_name,per_class=TRUE,...) {
 )
 
 #' @export
-#' @import pmp
 #' @template chart_plot
 setMethod(f="chart_plot",
     signature=c("DatasetExperiment.dist",'DatasetExperiment'),
@@ -557,7 +556,6 @@ DatasetExperiment.boxplot = function(factor_name,by_sample=TRUE,per_class=TRUE,n
 )
 
 #' @export
-#' @import pmp
 #' @template chart_plot
 setMethod(f="chart_plot",
     signature=c("DatasetExperiment.boxplot",'DatasetExperiment'),

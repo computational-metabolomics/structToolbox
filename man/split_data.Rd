@@ -18,6 +18,6 @@ struct object
 Splits the data into a training and test set.
 }
 \examples{
-M = split_data()
+M = split_data(p=0.75)
 
 }

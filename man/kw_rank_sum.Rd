@@ -11,9 +11,9 @@ kw_rank_sum(alpha = 0.05, mtc = "fdr", factor_names, ...)
 
 \item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{factor_names}{The sample_meta column name to use}
 
-\item{formula}{The formula to use. See \code{lm} for details.}
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
@@ -23,5 +23,8 @@ Calculate kw-test for all features in a DatasetExperiment.
  A non-parametric 1-way ANOVA.
 }
 \examples{
-M = kw_rank_sum()
+D = iris_DatasetExperiment()
+M = kw_rank_sum(factor_names='Species')
+M = model_apply(M,D)
+
 }

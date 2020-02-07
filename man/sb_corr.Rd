@@ -11,7 +11,7 @@ sb_corr(
   smooth = 0,
   use_log = TRUE,
   min_qc = 4,
-  qc_label,
+  qc_label = "QC",
   ...
 )
 }
@@ -41,5 +41,5 @@ struct object
 Signal/batch correction using SMCBMS package
 }
 \examples{
-M = sb_corr()
+M = sb_corr(order_col='run_order',batch_col='batch_no',qc_col='class')
 }

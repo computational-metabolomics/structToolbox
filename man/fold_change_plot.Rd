@@ -4,10 +4,10 @@
 \alias{fold_change_plot}
 \title{fold_change plot}
 \usage{
-fold_change_plot(number_of_features = 20, orientation = "portrait", ...)
+fold_change_plot(number_features = 20, orientation = "portrait", ...)
 }
 \arguments{
-\item{number_of_features}{The number of features to display on the plot}
+\item{number_features}{The number of features to display on the plot}
 
 \item{orientation}{The orientation of the plot (portrait or landscape). Portrait is default.}
 

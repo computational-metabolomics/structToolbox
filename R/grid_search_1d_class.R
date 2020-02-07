@@ -12,7 +12,24 @@
 #' @return struct object
 #' @export grid_search_1d
 #' @examples
-#' M = grid_search_1d()
+#' D = sbcms_DatasetExperiment()
+#' # some preprocessing
+#' M = pqn_norm(qc_label='QC',factor_name='class') +
+#'     knn_impute() +
+#'     glog_transform(qc_label='QC',factor_name='class') +
+#'     filter_smeta(factor_name='class',levels='QC',mode='exclude')
+#' M=model_apply(M,D)
+#' D=predicted(M)
+#'
+#' # reduce number of features for this example
+#' D=D[,1:10]
+#'
+#' # optmise number of components for PLS model
+#' I = grid_search_1d(param_to_optimise='number_components',search_values=1:5,
+#'         model_index=2,factor_name='class') *
+#'         (mean_centre()+PLSDA(factor_name='class'))
+#' I = run(I,D,balanced_accuracy())
+#'
 grid_search_1d = function(param_to_optimise,search_values,model_index,factor_name,max_min='min',...) {
     out=struct::new_struct('grid_search_1d',
         param_to_optimise=param_to_optimise,

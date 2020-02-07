@@ -9,7 +9,11 @@
 #' @return struct object
 #' @export kfold_xval
 #' @examples
-#' I = kfold_xval()
+#' D = iris_DatasetExperiment()
+#' I = kfold_xval(factor_name='Species') *
+#'     (mean_centre() + PLSDA(factor_name='Species'))
+#' I = run(I,D,balanced_accuracy())
+#'
 kfold_xval = function(folds=10,method='venetian',factor_name,...) {
     out=struct::new_struct('kfold_xval',
         folds=folds,

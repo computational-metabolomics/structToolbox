@@ -22,5 +22,9 @@ struct object
 HSD model class using estimate marginal means, for use with mixed effects designs.
 }
 \examples{
-M = HSDEM()
+D = iris_DatasetExperiment()
+D$sample_meta$id=rownames(D) # dummy id column
+M = HSDEM(formula = y~Species+ Error(id/Species))
+M = model_apply(M,D)
+
 }

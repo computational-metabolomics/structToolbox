@@ -24,5 +24,16 @@ struct object
 Calculates correlation between features and continuous variables.
 }
 \examples{
-M = corr_coef()
+D = sbcms_DatasetExperiment(filtered=TRUE)
+
+# subset for this example
+D = D[,1:10]
+
+# convert to numeric for this example
+D$sample_meta$sample_order=as.numeric(D$sample_meta$sample_order)
+D$sample_meta$sample_rep=as.numeric(D$sample_meta$sample_rep)
+
+M = corr_coef(factor_names=c('sample_order','sample_rep'))
+M = model_apply(M,D)
+
 }

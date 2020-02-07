@@ -13,7 +13,10 @@
 #' @return struct object
 #' @export HSD
 #' @examples
-#' M = HSD()
+#' D = iris_DatasetExperiment()
+#' M = HSD(formula=y~Species)
+#' M = model_apply(M,D)
+#'
 HSD = function(alpha=0.05,mtc='fdr',formula,unbalanced=FALSE,...) {
     out=struct::new_struct('HSD',
         alpha=alpha,

@@ -14,7 +14,12 @@
 #' @export plsda_scores_plot
 #' @include PLSDA_class.R
 #' @examples
-#' C = plsda_scores_plot()
+#' D = iris_DatasetExperiment()
+#' M = mean_centre()+PLSDA(factor_name='Species')
+#' M = model_apply(M,D)
+#'
+#' C = plsda_scores_plot(factor_name='Species',groups=D$sample_meta$Species)
+#' chart_plot(C,M[2])
 plsda_scores_plot = function(components=c(1,2),points_to_label='none',factor_name,groups,...) {
     out=struct::new_struct('plsda_scores_plot',
         components=components,

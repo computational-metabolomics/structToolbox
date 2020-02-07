@@ -1,12 +1,15 @@
 #' glog transform
 #'
 #' applies a glog transform to the input data
+#' @param qc_label The label used to identify QC samples
+#' @param factor_name The sample_meta column name containing QC labels
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export glog_transform
-#' @import pmp
 #' @examples
-#' M = glog_transform()
+#' D = iris_DatasetExperiment()
+#' M = glog_transform(qc_label='versicolor',factor_name='Species')
+#' M = model_apply(M,D)
 glog_transform = function(qc_label='QC',factor_name,...) {
     out=struct::new_struct('glog_transform',
         qc_label=qc_label,
@@ -115,7 +118,11 @@ setMethod(f="model_predict",
 #' @return struct object
 #' @export
 #' @examples
-#' M = glog_opt_plot()
+#' D = iris_DatasetExperiment()
+#' M = glog_transform(qc_label='versicolor',factor_name='Species')
+#' M = model_apply(M,D)
+#' C = glog_opt_plot()
+#' chart_plot(C,M,D)
 glog_opt_plot = function(plot_grid=100,...) {
     out=struct::new_struct('glog_opt_plot',
         plot_grid=plot_grid,
@@ -136,6 +143,7 @@ glog_opt_plot = function(plot_grid=100,...) {
 
 #' @export
 #' @template chart_plot
+#' @param gobj The DatasetExperiment object used with glog_transform
 setMethod(f="chart_plot",
     signature=c("glog_opt_plot",'glog_transform'),
     definition=function(obj,dobj,gobj)

@@ -6,7 +6,7 @@
 #' @return struct object
 #' @export split_data
 #' @examples
-#' M = split_data()
+#' M = split_data(p=0.75)
 #'
 split_data = function(p,...) {
     out=struct::new_struct('split_data',
