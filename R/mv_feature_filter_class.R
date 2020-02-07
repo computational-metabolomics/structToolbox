@@ -17,7 +17,7 @@ mv_feature_filter = function(threshold=20,qc_label='QC',method='QC',factor_name,
         threshold=threshold,
         qc_label=qc_label,
         method=method,
-        factor_name,
+        factor_name=factor_name,
         ...)
     return(out)
 }
@@ -87,10 +87,10 @@ setMethod(f="model_train",
 
         s=strsplit(opt$method,'_')[[1]][1]
 
-        filtered = filter_peaks_by_fraction(t(x), min_frac = opt$threshold/100, classes=smeta[[M$factor_name]], method=s,qc_label=opt$qc_label)
+        filtered = pmp::filter_peaks_by_fraction(t(x), min_frac = opt$threshold/100, classes=smeta[[M$factor_name]], method=s,qc_label=opt$qc_label,remove_peaks = FALSE)
         #D$data = as.data.frame(t(filtered$df))
 
-        flags<-data.frame(filtered$flags)
+        flags<-data.frame(attributes(filtered)$flags)
 
         output_value(M,'flags') = flags
 

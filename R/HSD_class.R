@@ -14,7 +14,7 @@
 #' @export HSD
 #' @examples
 #' M = HSD()
-HSD = function(alpha=0.05,mtc='fdr',formula,unblanaced=FALSE,...) {
+HSD = function(alpha=0.05,mtc='fdr',formula,unbalanced=FALSE,...) {
     out=struct::new_struct('HSD',
         alpha=alpha,
         mtc=mtc,
@@ -162,7 +162,7 @@ setMethod(f="model_apply",
 
             # for each combination of factors...
             out2=lapply(FF,function(x) {
-                A=HSD.test(LM,x,group = FALSE)$comparison
+                A=agricolae::HSD.test(LM,x,group = FALSE)$comparison
                 if (ALIAS) {
                     A[!is.na(A)]=NA # replace with NA if alias are present
                 }

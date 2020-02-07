@@ -6,8 +6,7 @@ test_that('rsd filter',{
   # method
   M = rsd_filter(qc_label='virginica',factor_name='Species',rsd_threshold=100)
   # apply
-  M=model_apply(M,D)
-  expect_true(all(M$flags$rsd_flags==1))
+ expect_true(all(M$flags==1))
 })
 
 test_that('blank filter histogram',{

@@ -16,7 +16,7 @@
 #' @return struct object
 #' @export filter_smeta
 filter_smeta = function(mode='include',levels,factor_name,...) {
-    out=struct::new_struct(filter_smeta,
+    out=struct::new_struct('filter_smeta',
         mode=mode,
         levels=levels,
         factor_name=factor_name,
@@ -75,7 +75,7 @@ setMethod(f="model_apply",
         } else {
             stop('mode must be "include" or "exclude"')
         }
-        D=D[!out,,drop=FALSE]
+        D=D[!out,]
         # drop excluded levels from factors
         D$sample_meta=droplevels(D$sample_meta)
         output_value(M,'filtered')=D

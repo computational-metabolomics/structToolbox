@@ -25,7 +25,7 @@
 
 classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
 
-    out=struct::new_struct(out,
+    out=struct::new_struct('classical_lsq',
         alpha = alpha,
         mtc = mtc,
         factor_names = factor_names,
@@ -57,11 +57,11 @@ classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
         type="univariate",
         predicted='p_value',
         .params=c('alpha','mtc','factor_names','intercept'),
-        .outputs=c('coefficients','p_value','significant','r_squared','adj_r-squared'),
+        .outputs=c('coefficients','p_value','significant','r_squared','adj_r_squared'),
 
         intercept=entity(name='Include intercept',
             type='logical',
-            description='TRUE or FALSE to include the intercept term when fitting the model_',
+            description='TRUE or FALSE to include the intercept term when fitting the model',
             value=TRUE
         ),
 

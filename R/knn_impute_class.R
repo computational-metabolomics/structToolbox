@@ -2,14 +2,14 @@
 #'
 #' Applies a k-nearest neighbour approach to impute missing values.
 #' @param neighbours The number of neighbours to use for imputation.
-#' @param sample_max Maximum proportion of missing values in any sample.
-#' @param feature_max Maximum proportion of missing values in any feature.
+#' @param sample_max Maximum percentage of missing values in any sample. Default = 50.
+#' @param feature_max Maximum percentage of missing values in any feature. Default = 50.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export knn_impute
 #' @examples
 #' M = knn_impute()
-knn_impute = function(neighbours=5,sample_max=0.5,feature_max=0.5,...) {
+knn_impute = function(neighbours=5,sample_max=50,feature_max=50,...) {
     out=struct::new_struct('knn_impute',
         neighbours=neighbours,
         sample_max=sample_max,
@@ -71,7 +71,7 @@ setMethod(f="model_apply",
         smeta=D$sample_meta
         x=D$data
 
-        imputed = mv_imputation(t(as.matrix(x)),method='knn',k = opt$neighbours,rowmax=opt$feature_max/100,colmax=opt$sample_max/100,maxp = NULL,FALSE)
+        imputed = pmp::mv_imputation(t(as.matrix(x)),method='knn',k = opt$neighbours,rowmax=opt$feature_max/100,colmax=opt$sample_max/100,maxp = NULL,FALSE)
         D$data = as.data.frame(t(imputed))
 
         output_value(M,'imputed') = D

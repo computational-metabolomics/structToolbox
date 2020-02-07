@@ -75,30 +75,29 @@ Collate:
     'wilcox_test_class.R'
     'zzz.R'
 Depends: struct (>= 0.99.3)
-Imports: ggplot2,
- pmp,
- gridExtra,
- sp,
- scales,
- stats,
- methods,
- car,
- grid,
- reshape2,
- agricolae,
- emmeans,
- nlme,
- ggthemes,
- ggdendro,
- datasets
+Imports: datasets,
+    ggplot2,
+    ggthemes,
+    grid,
+    gridExtra,
+    methods,
+    scales,
+    sp,
+    stats
 RoxygenNote: 7.0.2
-Suggests: 
- testthat,
- covr,
- knitr,
- rmarkdown,
+Suggests: agricolae,
  BiocStyle,
+ car,
+ covr,
+ emmeans,
+ pmp,
+ ggdendro,
+ knitr,
+ nlme,
  pls,
- Rtsne
+ reshape2,
+ rmarkdown,
+ Rtsne,
+ testthat
 VignetteBuilder: knitr
 biocViews: WorkflowStep

@@ -79,7 +79,7 @@ setMethod(f="chart_plot",
 #' @param label_filter Only include labels for samples in the group specified by label_filter.
 #' If zero length then all labels will be included.
 #' @param label_factor The sample_meta column to use for labelling the samples.
-#' If zero length then the rownames will be used.
+#' If 'rownames' then the rownames will be used.
 #' @param label_size The text size of the labels.NB ggplot units, not font size units.
 #' Default 3.88.
 #' @param ... additional slots and values passed to struct_class
@@ -94,10 +94,10 @@ pca_scores_plot = function(
     factor_name,
     ellipse='all',
     label_filter=character(0),
-    label_factor=character(0),
+    label_factor='rownames',
     label_size=3.88,
     ...) {
-    out=struct::new_struct(pca_scores_plot,
+    out=struct::new_struct('pca_scores_plot',
         components=components,
         points_to_label=points_to_label,
         factor_name=factor_name,
@@ -356,6 +356,8 @@ pca_biplot_plot = function(
     prototype = list(name='Feature boxplot',
         description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
+        .params=c('components','points_to_label','factor_name','scale_factor','style','label_features'),
+
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
@@ -483,7 +485,7 @@ setMethod(f="chart_plot",
 #' @include PCA_class.R
 #' @examples
 #' C = pca_loadings_plot()
-pca_loadings_plot = function(components=c(1,2),style='points',label_featurs=FALSE,...) {
+pca_loadings_plot = function(components=c(1,2),style='points',label_features=FALSE,...) {
     out=struct::new_struct('pca_loadings_plot',
         components=components,
         style=style,
@@ -629,17 +631,23 @@ setMethod(f="chart_plot",
 
 #' pca_dstat_plot class
 #'
-#' Line plot showing percent variance and cumulative percent variance for the computed components.
+#' Bar chart showing mahalanobis distance from the mean in PCA scores space. A threshold is
+#' plotted at a chosen confidence as an indicator for rejecting outliers.
 #'
 #' @import struct
+#' @param number_components The number of components to use.
+#' @param alpha The confidence level to plot.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export PCA_dstat
 #' @include PCA_class.R
 #' @examples
 #' C = PCA_dstat()
-PCA_dstat = function(...) {
-    out=struct::new_struct('PCA_dstat',...)
+PCA_dstat = function(number_components=2,alpha=0.05,...) {
+    out=struct::new_struct('PCA_dstat',
+        number_components=number_components,
+        alpha=alpha,
+        ...)
     return(out)
 }
 
@@ -652,6 +660,8 @@ PCA_dstat = function(...) {
     prototype = list(name='d-statistic plot',
         description='a bar chart of the d-statistics for samples in the input PCA model',
         type="bar",
+        .params=c('number_components','alpha'),
+
         number_components=entity(value = 2,
             name = 'number of principal components',
             description = 'number of principal components to use for the plot',

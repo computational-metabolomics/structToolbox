@@ -1,4 +1,4 @@
-#' Probabilistic Quotient Nomalisation
+#' Probabilistic Quotient Normalisation
 #'
 #' Applies PQN using QC samples as reference samples
 #' @param qc_label = The label for qc samples in the chosen sample_meta column.
@@ -8,8 +8,11 @@
 #' @export pqn_norm
 #' @examples
 #' M = pqn_norm()
-pqn_norm = function(...) {
-    out=struct::new_struct('pqn_norm',qc_label='QC',factor_name,...)
+pqn_norm = function(qc_label='QC',factor_name=factor_name,...) {
+    out=struct::new_struct('pqn_norm',
+        qc_label=qc_label,
+        factor_name=factor_name,
+        ...)
     return(out)
 }
 
@@ -59,11 +62,11 @@ setMethod(f="model_apply",
         smeta=D$sample_meta
         x=D$data
 
-        normalised = pqn_normalisation(t(x), classes=smeta[,M$factor_name],qc_label=opt$qc_label) # operates on transpose of x
-        D$data = as.data.frame(t(normalised$df))
+        normalised = pmp::pqn_normalisation(t(x), classes=smeta[,M$factor_name],qc_label=opt$qc_label) # operates on transpose of x
+        D$data = as.data.frame(t(normalised))
 
         output_value(M,'normalised') = D
-        output_value(M,'coeff') = data.frame('coeff'=normalised$coef,row.names = rownames(x))
+        output_value(M,'coeff') = data.frame('coeff'=attributes(normalised)$flags,row.names = rownames(x))
 
         return(M)
     }

@@ -67,7 +67,7 @@ setMethod(f="model_apply",
             var_names_ex=var_names
         }
 
-        FF=full_fact(var_names_ex)
+        FF=structToolbox:::full_fact(var_names_ex)
         FF=apply(FF,1,function(x) var_names_ex[x==1])
         FF=FF[-1]
 
@@ -78,7 +78,7 @@ setMethod(f="model_apply",
             dona=FALSE
 
             testlm=tryCatch({ # if any warnings/messages set p-values to NA as unreliable
-                LM=lme(lmer_formula$f,random=lmer_formula$random,method='ML',data=temp,na.action=na.omit)
+                LM=nlme::lme(lmer_formula$f,random=lmer_formula$random,method='ML',data=temp,na.action=na.omit)
             }, warning=function(w) {
                 NA
             }, message=function(m) {

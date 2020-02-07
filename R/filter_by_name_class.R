@@ -19,7 +19,7 @@
 #' @return struct object
 #' @export filter_by_name
 filter_by_name = function(mode='exclude',dimension='sample',names,...) {
-    out=struct::new_struct(filter_by_name,
+    out=struct::new_struct('filter_by_name',
         mode=mode,
         dimension=dimension,
         names=names,

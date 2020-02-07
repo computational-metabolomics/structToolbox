@@ -8,7 +8,7 @@
 #' @examples
 #' M = glog_transform()
 glog_transform = function(qc_label='QC',factor_name,...) {
-    out=struct::new_struct('glog',
+    out=struct::new_struct('glog_transform',
         qc_label=qc_label,
         factor_name=factor_name,
         ...)
@@ -27,8 +27,8 @@ glog_transform = function(qc_label='QC',factor_name,...) {
         lambda_opt='numeric'
     ),
 
-    prototype=list(name = 'generalised logarithm transform',
-        description = 'applies a glog tranform using using QC samples as reference samples.',
+    prototype=list(name = 'Generalised logarithm transform',
+        description = 'Applies a glog transform using using QC samples as reference samples.',
         type = 'normalisation',
         predicted = 'transformed',
         libraries = 'pmp',

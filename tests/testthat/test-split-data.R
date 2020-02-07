@@ -4,7 +4,7 @@ test_that('split data',{
   # DatasetExperiment
   D=iris_DatasetExperiment()
   # method
-  M = split_data()
+  M = split_data(p=0.75)
   # apply
   M = model_apply(M,D)
   expect_equal(nrow(M$testing$data),38)

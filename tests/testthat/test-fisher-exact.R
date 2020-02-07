@@ -11,5 +11,5 @@ test_that('ttest',{
   M = fisher_exact(factor_name='Species',factor_pred=pred)
   # apply
   M = model_apply(M,D)
-  expect_true(all(M$significant))
+  expect_true(all(M$significant[,1]))
 })

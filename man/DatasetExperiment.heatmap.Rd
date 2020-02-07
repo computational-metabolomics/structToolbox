@@ -4,9 +4,11 @@
 \alias{DatasetExperiment.heatmap}
 \title{DatasetExperiment.heatmap class}
 \usage{
-DatasetExperiment.heatmap(...)
+DatasetExperiment.heatmap(na_colour = "#FF00E4", ...)
 }
 \arguments{
+\item{na_colour}{A hex colour code to use for missing values}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{

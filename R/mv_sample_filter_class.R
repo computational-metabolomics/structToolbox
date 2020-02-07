@@ -58,11 +58,11 @@ setMethod(f="model_apply",
         smeta=D$sample_meta
         x=D$data
 
-        filtered = filter_samples_by_mv(x,max_perc_mv=opt$mv_threshold/100,D$sample_meta[,1])
+        filtered = pmp::filter_samples_by_mv(x,max_perc_mv=opt$mv_threshold/100,D$sample_meta[,1],remove_samples = FALSE)
 
-        flags<-data.frame(filtered$flags)
+        flags<-data.frame(attributes(filtered)$flags)
 
-        D=D[flags$flags==1,,drop=FALSE]
+        D=D[flags$filter_samples_by_mv_flags==1,,drop=FALSE]
 
         output_value(M,'filtered') = D
         output_value(M,'flags') = flags

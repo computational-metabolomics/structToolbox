@@ -16,7 +16,7 @@
 #' @return struct object
 #' @export balanced_accuracy
 balanced_accuracy = function(...) {
-    out=struct::new_struct(out,...)
+    out=struct::new_struct('balanced_accuracy',...)
     return(out)
 }
 

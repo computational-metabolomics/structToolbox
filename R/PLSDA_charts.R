@@ -39,7 +39,7 @@ plsda_scores_plot = function(components=c(1,2),points_to_label='none',factor_nam
         description='scatter plot of PLSDA component scores',
         type="scatter",
         libraries=c('pls','ggplot2'),
-        .params=c('components','points_to_label,factor_name'),
+        .params=c('components','points_to_label','factor_name','groups'),
 
         components=entity(name='Components to plot',
             value=c(1,2),

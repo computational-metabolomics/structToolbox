@@ -4,7 +4,7 @@
 \alias{HSD}
 \title{HSD model class}
 \usage{
-HSD(alpha = 0.05, mtc = "fdr", formula, unblanaced = FALSE, ...)
+HSD(alpha = 0.05, mtc = "fdr", formula, unbalanced = FALSE, ...)
 }
 \arguments{
 \item{alpha}{The p-value threshold. Default alpha = 0.05.}
@@ -13,9 +13,9 @@ HSD(alpha = 0.05, mtc = "fdr", formula, unblanaced = FALSE, ...)
 
 \item{formula}{The formula to use. See \code{lm} for details.}
 
-\item{...}{additional slots and values passed to struct_class}
-
 \item{unbalanced}{TRUE or FALSE to apply correction for unbalanced designs. Default is FALSE.}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object

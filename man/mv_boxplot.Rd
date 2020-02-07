@@ -13,14 +13,13 @@ mv_boxplot(
 )
 }
 \arguments{
-\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot
-plot}
+\item{label_outliers}{TRUE or FALSE to label outliers on the plot.}
 
-\item{by_sample}{by_sample [TRUE] to plot by sample or FALSE to plot by features}
+\item{by_sample}{TRUE to plot missing values by sample, or FALSE to plot for features.}
 
-\item{factor_name}{the sample_meta column to use}
+\item{factor_name}{The sample_meta column to use.}
 
-\item{show_counts}{[TRUE] or FALSE to include the number of samples on the plot}
+\item{show_counts}{TRUE to show a count of the number of items used to create the boxplot on the chart.}
 
 \item{...}{additional slots and values passed to struct_class}
 }

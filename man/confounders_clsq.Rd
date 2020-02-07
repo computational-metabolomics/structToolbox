@@ -9,7 +9,7 @@ confounders_clsq(
   mtc = "fdr",
   factor_name,
   confounding_factors,
-  threshold,
+  threshold = 0.15,
   ...
 )
 }

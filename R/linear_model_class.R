@@ -12,10 +12,10 @@
 #' @export linear_model
 #' @examples
 #' M = linear_model()
-linear_model = function(formula,na_action='na_omit',contrasts=list(),...) {
+linear_model = function(formula,na_action='na.omit',contrasts=list(),...) {
     out=struct::new_struct('linear_model',
         formula=formula,
-        na_action=nna_action,
+        na_action=na_action,
         contrasts=contrasts,
         ...)
     return(out)

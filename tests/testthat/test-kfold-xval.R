@@ -70,7 +70,7 @@ test_that('kfold xval grid plot',{
   # run
   I=run(I,D,B)
   # chart
-  C = kfoldxcv_grid()
+  C = kfoldxcv_grid(factor_name='Species')
   gg=chart_plot(C,I)
   expect_true(is(gg[[1]],'ggplot'))
 })

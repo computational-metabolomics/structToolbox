@@ -101,7 +101,6 @@ setMethod(f="model_apply",
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export hca_dendrogram
-#' @import ggdendro
 #' @include hca_class.R
 #' @examples
 #' C = hca_dendrogram()
@@ -113,7 +112,8 @@ hca_dendrogram = function(...) {
 
 .hca_dendrogram<-setClass(
     "hca_dendrogram",
-    contains='chart'
+    contains='chart',
+    prototype = list(libraries='ggdendro')
 )
 
 #' @export

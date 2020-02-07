@@ -7,7 +7,7 @@
 pca_loadings_plot(
   components = c(1, 2),
   style = "points",
-  label_featurs = FALSE,
+  label_features = FALSE,
   ...
 )
 }
@@ -16,9 +16,9 @@ pca_loadings_plot(
 
 \item{style}{Plot style for loadings. Can be 'points' (default) or 'arrows'.}
 
-\item{...}{additional slots and values passed to struct_class}
-
 \item{label_features}{TRUE or FALSE to label features on the plot. Default is FALSE.}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object

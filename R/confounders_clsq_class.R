@@ -28,8 +28,14 @@
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export confounders_clsq
-confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,confounding_factors,threshold,...) {
-    out=struct::new_struct(out,...)
+confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,confounding_factors,threshold=0.15,...) {
+    out=struct::new_struct('confounders_clsq',
+        alpha=alpha,
+        mtc=mtc,
+        factor_name=factor_name,
+        confounding_factors=confounding_factors,
+        threshold=threshold,
+        ...)
     return(out)
 }
 
@@ -57,7 +63,7 @@ confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,confounding_factors
         type="univariate",
         predicted='p_value',
         .params=c('alpha','mtc','factor_name','confounding_factors','threshold'),
-        .outputs=c('coefficients','p_value','significant','percent_change','significant'),
+        .outputs=c('coefficients','p_value','significant','percent_change','potential_confounders'),
 
         threshold=entity(name='Confounding factor threshold',
             type='numeric',
@@ -97,12 +103,12 @@ setMethod(f="model_apply",
     definition=function(M,D)
     {
         # classical least squares model
-        clsq=classical_lsq(intercept=TRUE,alpha=M$alpha,mtc=M$mtc)
+        clsq=classical_lsq(intercept=TRUE,alpha=M$alpha,mtc=M$mtc,factor_names='dummy')
 
         # make list of all factors
         factor_names=c(M$factor_name,M$confounding_factors)
 
-        # do a regression including the main factor and the counfounders one at a time
+        # do a regression including the main factor and the confounders one at a time
         temp=matrix(NA,nrow=ncol(D$data),ncol=length(factor_names)) # coefficients
         pvals=temp # p-values
         nm=character(length(factor_names))
@@ -110,12 +116,12 @@ setMethod(f="model_apply",
             fn=unique(c(factor_names[1],factor_names[i]))
 
             # for each factor name check the na count
-            FF=filter_na_count(threshold=2)
+            FF=filter_na_count(threshold=2,factor_name='dummy')
             excl=matrix(NA,nrow=ncol(D$data),ncol=length(fn))
             colnames(excl)=fn
             for (k in fn) {
                 if (is.factor(D$sample_meta[,k])) {
-                    FF$factor_name=k
+                    FF$factor_name=k # replace dummy factor name
                     FF=model_apply(FF,D)
                     excl[,k]=FF$flags$flags
                 } else {
@@ -131,7 +137,7 @@ setMethod(f="model_apply",
                 excl=fn #
             }
 
-            clsq$factor_names=excl
+            clsq$factor_names=excl # put real factor names instead of dummy
             clsq=model_apply(clsq,D)
 
             nm[i]=paste0(fn,collapse='_')
@@ -195,7 +201,7 @@ setMethod(f="model_apply",
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export confounders_lsq.barchart
-confounders_lsq.barchart = function(feature_to_plot,threshold,...) {
+confounders_lsq.barchart = function(feature_to_plot,threshold=10,...) {
     out=struct::new_struct('confounders_lsq.barchart',
         feature_to_plot=feature_to_plot,
         threshold=threshold,
@@ -284,7 +290,7 @@ setMethod(f="chart_plot",
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export confounders_lsq.boxplot
-confounders_lsq.boxplot = function(threshold,...) {
+confounders_lsq.boxplot = function(threshold=10,...) {
     out=struct::new_struct('confounders_lsq.boxplot',
         threshold=threshold,
         ...)

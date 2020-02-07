@@ -8,7 +8,7 @@ DatasetExperiment.boxplot(
   factor_name,
   by_sample = TRUE,
   per_class = TRUE,
-  number,
+  number = 50,
   ...
 )
 }

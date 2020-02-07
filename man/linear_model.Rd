@@ -4,7 +4,7 @@
 \alias{linear_model}
 \title{linear model class}
 \usage{
-linear_model(formula, na_action = "na_omit", contrasts = list(), ...)
+linear_model(formula, na_action = "na.omit", contrasts = list(), ...)
 }
 \arguments{
 \item{formula}{The formula to use.}

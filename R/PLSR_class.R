@@ -8,7 +8,7 @@
 #' @export PLSR
 #' @examples
 #' M = PLSR()
-PLSR = function(number_components=c(1,2),factor_name,...) {
+PLSR = function(number_components=2,factor_name,...) {
     out=struct::new_struct('PLSR',
         number_components=number_components,
         factor_name=factor_name,

@@ -10,7 +10,7 @@ pca_scores_plot(
   factor_name,
   ellipse = "all",
   label_filter = character(0),
-  label_factor = character(0),
+  label_factor = "rownames",
   label_size = 3.88,
   ...
 )
@@ -30,7 +30,7 @@ You can provide up to two factors for this plot.}
 If zero length then all labels will be included.}
 
 \item{label_factor}{The sample_meta column to use for labelling the samples.
-If zero length then the rownames will be used.}
+If 'rownames' then the rownames will be used.}
 
 \item{label_size}{The text size of the labels.NB ggplot units, not font size units.
 Default 3.88.}

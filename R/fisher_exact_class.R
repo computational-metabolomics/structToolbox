@@ -99,8 +99,8 @@ setMethod(f="model_apply",
         s=p<M$alpha
         names(s)=colnames(X)
 
-        M$p_value=p
-        M$significant=s
+        M$p_value=as.data.frame(p)
+        M$significant=as.data.frame(s)
 
         return(M)
     }

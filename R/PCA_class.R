@@ -9,7 +9,7 @@
 #' @export PCA
 #' @examples
 #' M = PCA()
-PCA = function(umber_components=2,...) {
+PCA = function(number_components=2,...) {
     out=struct::new_struct('PCA',
         number_components=number_components,
         ...)

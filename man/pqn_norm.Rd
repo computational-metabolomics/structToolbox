@@ -2,16 +2,16 @@
 % Please edit documentation in R/pqn_norm_method_class.R
 \name{pqn_norm}
 \alias{pqn_norm}
-\title{Probabilistic Quotient Nomalisation}
+\title{Probabilistic Quotient Normalisation}
 \usage{
-pqn_norm(...)
+pqn_norm(qc_label = "QC", factor_name = factor_name, ...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
-
 \item{qc_label}{= The label for qc samples in the chosen sample_meta column.}
 
 \item{factor_name}{The sample_meta column name containing QC labels.}
+
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object

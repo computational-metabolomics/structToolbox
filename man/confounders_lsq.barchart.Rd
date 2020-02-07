@@ -4,7 +4,7 @@
 \alias{confounders_lsq.barchart}
 \title{barchart of percent change}
 \usage{
-confounders_lsq.barchart(feature_to_plot, threshold, ...)
+confounders_lsq.barchart(feature_to_plot, threshold = 10, ...)
 }
 \arguments{
 \item{feature_to_plot}{the name or index of the feature to be plotted}

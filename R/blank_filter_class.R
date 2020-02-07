@@ -48,7 +48,7 @@ blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_
         type = 'filter',
         predicted = 'filtered',
         libraries='pmp',
-        .params=c('blank_label','qc_label','factor_name','fraction_in_blank'),
+        .params=c('fold_change','blank_label','qc_label','factor_name','fraction_in_blank'),
         .outputs=c('filtered','flags'),
 
         blank_label=ents$blank_label,

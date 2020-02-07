@@ -4,7 +4,7 @@
 \alias{confounders_lsq.boxplot}
 \title{boxplot of percent change}
 \usage{
-confounders_lsq.boxplot(threshold, ...)
+confounders_lsq.boxplot(threshold = 10, ...)
 }
 \arguments{
 \item{threshold}{the threshold to be plotted (in \%)}

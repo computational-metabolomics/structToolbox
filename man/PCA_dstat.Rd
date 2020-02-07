@@ -4,16 +4,21 @@
 \alias{PCA_dstat}
 \title{pca_dstat_plot class}
 \usage{
-PCA_dstat(...)
+PCA_dstat(number_components = 2, alpha = 0.05, ...)
 }
 \arguments{
+\item{number_components}{The number of components to use.}
+
+\item{alpha}{The confidence level to plot.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-Line plot showing percent variance and cumulative percent variance for the computed components.
+Bar chart showing mahalanobis distance from the mean in PCA scores space. A threshold is
+plotted at a chosen confidence as an indicator for rejecting outliers.
 }
 \examples{
 C = PCA_dstat()

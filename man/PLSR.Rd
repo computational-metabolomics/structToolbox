@@ -4,7 +4,7 @@
 \alias{PLSR}
 \title{PLSR model class}
 \usage{
-PLSR(number_components = c(1, 2), factor_name, ...)
+PLSR(number_components = 2, factor_name, ...)
 }
 \arguments{
 \item{number_components}{The number of PLS components to calculate.}

@@ -17,7 +17,7 @@
 #' @return A struct chart object
 #' @export feature_boxplot
 feature_boxplot = function(label_outliers=TRUE,feature_to_plot,factor_name,show_counts=TRUE,...) {
-    out=struct::new_struct('feature_box_plot',
+    out=struct::new_struct('feature_boxplot',
         label_outliers=label_outliers,
         feature_to_plot=feature_to_plot,
         factor_name=factor_name,
@@ -248,6 +248,10 @@ setMethod(f="chart_plot",
 #' chart_plot(C,D)
 #'
 #' @import struct
+#' @param label_outliers TRUE or FALSE to label outliers on the plot.
+#' @param by_sample TRUE to plot missing values by sample, or FALSE to plot for features.
+#' @param factor_name The sample_meta column to use.
+#' @param show_counts TRUE to show a count of the number of items used to create the boxplot on the chart.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export mv_boxplot
@@ -275,6 +279,8 @@ mv_boxplot = function(label_outliers=TRUE,by_sample=TRUE,factor_name,show_counts
     prototype = list(name='Missing value boxplots',
         description='Histogram ofmissing values per sample/feature.',
         type="histogram",
+        .params=c('label_outliers','by_sample','factor_name','show_counts'),
+
         label_outliers=entity(name='Label outliers',
             value=TRUE,
             type='logical',
@@ -501,10 +507,10 @@ setMethod(f="chart_plot",
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export DatasetExperiment.boxplot
-DatasetExperiment.boxplot = function(factor_name,by_sample=TRUE,per_class=TRUE,number,...) {
+DatasetExperiment.boxplot = function(factor_name,by_sample=TRUE,per_class=TRUE,number=50,...) {
     out=struct::new_struct('DatasetExperiment.boxplot',
         factor_name=factor_name,
-        by_sample-by_sample,
+        by_sample=by_sample,
         per_class=per_class,
         number=number,
         ...)
@@ -633,6 +639,7 @@ compare_dist = function(factor_name,...) {
     prototype = list(name='Compare distributions',
         description='Distributions and box plots to compare two datasets',
         type="mixed",
+        .params=c('factor_name'),
         factor_name=entity(name='Factor name',
             value='factor',
             type='character',
@@ -725,16 +732,15 @@ setMethod(f="chart_plot",
 #'
 #' plots a DatasetExperiment as a heatmap
 #'
-#' @import struct
-#' @import reshape2
 #' @param ... additional slots and values passed to struct_class
+#' @param na_colour A hex colour code to use for missing values
 #' @return struct object
 #' @export DatasetExperiment.heatmap
 #' @examples
 #' C = DatasetExperiment.heatmap()
-DatasetExperiment.heatmap = function(...) {
-    out=.DatasetExperiment.heatmap()
-    out=struct::new_struct(out,...)
+DatasetExperiment.heatmap = function(na_colour='#FF00E4',...) {
+    out=struct::new_struct('DatasetExperiment.heatmap',
+        na_colour=na_colour,...)
     return(out)
 }
 
@@ -749,6 +755,8 @@ DatasetExperiment.heatmap = function(...) {
     prototype = list(name='DatasetExperiment heatmap',
         description='plots a heatmap of a DatasetExperiment',
         type="scatter",
+        libraries='reshape2',
+        .params=c('na_colour'),
 
         na_colour=entity(name='NA colour',
             value='#FF00E4',
@@ -758,14 +766,13 @@ DatasetExperiment.heatmap = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
     signature=c("DatasetExperiment.heatmap",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
-        X=melt(as.matrix(dobj$data))
+        X=reshape2::melt(as.matrix(dobj$data))
         colnames(X)=c('Sample','Feature','Peak area')
         p=ggplot(data=X,aes(x=`Feature`,y=`Sample`,fill=`Peak area`)) + geom_raster() +
             scale_colour_Publication()+

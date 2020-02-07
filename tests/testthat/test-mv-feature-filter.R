@@ -6,7 +6,7 @@ test_that('pmp mv_feature within_all',{
   D$data[,1]=NA
 
   # filter
-  FF=mv_feature_filter(qc_label='versicolor',method='within_all',factor_name='Species')
+  FF=mv_feature_filter(qc_label='versicolor',method='within_all',factor_name='Species',threshold = 20)
   FF=model_apply(FF,D)
   expect_equal(ncol(FF$filtered$data),3)
 })
