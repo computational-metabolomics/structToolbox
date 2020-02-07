@@ -78,7 +78,7 @@ Collate:
     'vec_norm_class.R'
     'wilcox_test_class.R'
     'zzz.R'
-Depends: struct (>= 0.99.4)
+Depends: R (>= 4.0), struct (>= 0.99.4)
 Imports: ggplot2,
     ggthemes,
     grid,
