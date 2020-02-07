@@ -1,23 +1,43 @@
 #' Mixed Effects model class
 #'
-#' Mixed Effects model class. Applies RE model for all features in a dataset
-#'
-#' @import struct
-#' @import stats
-#' @import nlme
-#' @import emmeans
+#' Mixed Effects model class. Applies RE model for all features in a DatasetExperiment
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param formula The formula to use. See \code{aov} for details.
+#' @param ss_type Type of sum of squares to use. "marginal" = Type III sum of squares,
+#' and "sequential" = Type II. Default is "marginal".
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export mixed_effect
 #' @examples
-#' M = mixed_effect()
-mixed_effect<-setClass(
+#' D = iris_DatasetExperiment()
+#' D$sample_meta$id=rownames(D) # dummy id column
+#' M = mixed_effect(formula = y~Species+ Error(id/Species))
+#' M = model_apply(M,D)
+mixed_effect = function(alpha=0.05,mtc='fdr',formula,ss_type='marginal',...) {
+    out=struct::new_struct('mixed_effect',
+        alpha=alpha,
+        mtc=mtc,
+        formula=formula,
+        ss_type=ss_type,
+        ...)
+    return(out)
+}
+
+
+.mixed_effect<-setClass(
     "mixed_effect",
-    contains=c('model','stato','ANOVA'), # inherits ANOVA
+    contains=c('model','stato','ANOVA'), # inherits from ANOVA
     prototype = list(name='Mixed effects model',
-        description='Mixed effects model applied to each column of a dataset.',
+        description='Mixed effects model applied to each column of a DatasetExperiment.',
         type="univariate",
         predicted='p_value',
-        stato.id="STATO:0000189",
-        params.type=enum(list=c('sequential','marginal'),
+        stato_id="STATO:0000189",
+        libraries=c('nlme','emmeans'),
+        .params=c('alpha','mtc','formula','ss_type'),
+        .outputs=c('f_statistic','p_value','significant'),
+
+        ss_type=enum(allowed=c('sequential','marginal'),
             value = 'marginal',
             name ='ANOVA Sum of Squares type',
             description = '"marginal" = Type III sum of squares, and "sequential" = Type II. Default is "marginal"',
@@ -27,16 +47,16 @@ mixed_effect<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("mixed_effect",'dataset'),
+setMethod(f="model_apply",
+    signature=c("mixed_effect",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
+        X=D$data
         lmer_formula=aov2lme(M$formula)
         var_names=all.vars(M$formula)
         var_names_1=var_names[1]
         var_names=var_names[-1]
-        y=dataset.sample_meta(D)[var_names]
+        y=D$sample_meta[var_names]
 
         # set the contrasts
         O=options('contrasts') # keep the old ones
@@ -61,7 +81,7 @@ setMethod(f="model.apply",
             dona=FALSE
 
             testlm=tryCatch({ # if any warnings/messages set p-values to NA as unreliable
-                LM=lme(lmer_formula$f,random=lmer_formula$random,method='ML',data=temp,na.action=na.omit)
+                LM=nlme::lme(lmer_formula$f,random=lmer_formula$random,method='ML',data=temp,na.action=na.omit)
             }, warning=function(w) {
                 NA
             }, message=function(m) {
@@ -71,7 +91,7 @@ setMethod(f="model.apply",
             })
 
             if (!is.na(testlm[[1]])) {
-                A=data.frame(anova(LM, type = M$type))
+                A=data.frame(anova(LM, type = M$ss_type))
             } else {
                 A=NA
             }

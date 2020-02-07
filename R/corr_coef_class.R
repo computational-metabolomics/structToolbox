@@ -1,78 +1,84 @@
-#' correlation model class
+#' Correlation Coefficient
 #'
-#' correlation model class. Calculate correlation between features and continuous variables
+#' Calculates correlation between features and continuous variables.
 #'
 #' @import struct
 #' @import stats
 #' @examples
-#' M = corr_coef()
+#' D = sbcms_DatasetExperiment(filtered=TRUE)
 #'
-#' @export corr_coef
-corr_coef<-setClass(
+#' # subset for this example
+#' D = D[,1:10]
+#'
+#' # convert to numeric for this example
+#' D$sample_meta$sample_order=as.numeric(D$sample_meta$sample_order)
+#' D$sample_meta$sample_rep=as.numeric(D$sample_meta$sample_rep)
+#'
+#' M = corr_coef(factor_names=c('sample_order','sample_rep'))
+#' M = model_apply(M,D)
+#'
+#' @templateVar paramNames c('alpha','mtc','factor_names')
+#' @template common_params
+#' @param factor_names Sample_meta column names to correlate features with
+#' @param method 'Calculate "kendall", "pearson" or "spearman" correlation coefficient. Default method = "spearman".'
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
+#' @export
+corr_coef = function(alpha=0.05,mtc='fdr',factor_names,method='spearman',...) {
+    out=struct::new_struct('corr_coef',
+        alpha=alpha,
+        mtc=mtc,
+        factor_names=factor_names,
+        method=method,
+        ...)
+    return(out)
+}
+
+.corr_coef<-setClass(
     "corr_coef",
     contains=c('model'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.factor_names='entity',
-        params.method='enum',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_names='entity',
+        method='enum',
         # OUTPUTS
-        outputs.coeff='entity',
-        outputs.p_value='entity',
-        outputs.significant='entity'
+        coeff='entity',
+        p_value='entity',
+        significant='entity'
     ),
     prototype = list(name='Correlation coefficient',
         description='Calculates the correlation coefficient between features and continuous factors.',
         type="univariate",
         predicted='p_value',
+        .params=c('alpha','mtc','factor_names','method'),
+        .outputs=c('coeff','p_value','significant'),
 
-        params.factor_names=entity(name='Factor names',
-            type='character',
-            description='Names of sample_meta columns to use'
-        ),
+        factor_names=ents$factor_names,
+        alpha=ents$alpha,
+        mtc=ents$mtc,
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
-
-        params.method=enum(name='Type of correlation',
+        method=enum(name='Type of correlation',
             value='spearman',
             type='character',
             description='"kendall", "pearson" or "spearman" correlation coefficient. Default="spearman".',
-            list=c("kendall", "pearson","spearman")
+            allowed=c("kendall", "pearson","spearman")
         ),
-        outputs.coeff=entity(name='Correlation coefficient',
+        coeff=entity(name='Correlation coefficient',
             type='data.frame',
-            description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.'
+            description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.',
+            value=data.frame()
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
-            type='data.frame',
-            description='the probability of observing the calculated t-statistic.'
-        ),
-
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
-            type='data.frame',
-            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
-        )
+        p_value=ents$p_value,
+        significant=ents$significant
     )
 )
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("corr_coef",'dataset'),
+setMethod(f="model_apply",
+    signature=c("corr_coef",'DatasetExperiment'),
     definition=function(M,D)
     {
 

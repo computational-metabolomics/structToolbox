@@ -1,57 +1,64 @@
 #' Pareto scaling
 #'
-#' Pareto scaling centres the columns of the data in a dataset object and divides by the square root of the standard deviation.
+#' Pareto scaling centres the columns of the data in a DatasetExperiment object
+#' and divides by the square root of the standard deviation.
 #'
 #' @return A STRUCT model object with methods for pareto scaling.
 #'
 #' @examples
-#' D = iris_dataset()
+#' D = iris_DatasetExperiment()
 #' M = pareto_scale()
-#' M = model.train(M,D)
-#' M = model.predict(M,D)
+#' M = model_train(M,D)
+#' M = model_predict(M,D)
 #'
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export pareto_scale
-pareto_scale<-setClass(
+pareto_scale = function(...) {
+    out=struct::new_struct('pareto_scale',...)
+    return(out)
+}
+
+.pareto_scale<-setClass(
     "pareto_scale",
     contains='model',
     slots=c(
-        outputs.scaled='dataset',
-        outputs.mean='numeric',
-        outputs.sd='numeric'
+        scaled='DatasetExperiment',
+        mean='numeric',
+        sd='numeric'
     ),
     prototype = list(name='Pareto scaling',
         type="preprocessing",
-        predicted='scaled'
+        predicted='scaled',
+        .outputs=c('scaled','mean','sd')
     )
 )
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("pareto_scale",'dataset'),
-    definition=function(M,D)
-    {
+setMethod(f="model_train",
+    signature=c("pareto_scale",'DatasetExperiment'),
+    definition=function(M,D) {
         # column means
-        X=dataset.data(D)
+        X=D$data
         m=colMeans(X)
-        output.value(M,'mean')=m
+        output_value(M,'mean')=m
         s=apply(X, 2, sd)
-        output.value(M,'sd')=s
+        output_value(M,'sd')=s
         return(M)
     }
 )
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("pareto_scale",'dataset'),
-    definition=function(M,D)
-    {
-        X=dataset.data(D)
-        Xc=pscale(X,output.value(M,'mean'),output.value(M,'sd'))
-        dataset.data(D)=as.data.frame(Xc)
-        name(D)=c(name(D),'The data has been autoscaled')
-        output.value(M,'scaled')=D
+setMethod(f="model_predict",
+    signature=c("pareto_scale",'DatasetExperiment'),
+    definition=function(M,D) {
+        X=D$data
+        Xc=pscale(X,output_value(M,'mean'),output_value(M,'sd'))
+        D$data=as.data.frame(Xc)
+        D$name=c(D$name,'The data has been autoscaled')
+        output_value(M,'scaled')=D
         return(M)
     }
 )

@@ -1,10 +1,13 @@
 Package: structToolbox
 Type: Package
 Title: Some tools bult using the struct package
-Version: 0.8.4
+Version: 0.99.0
 Author: Gavin Rhys Lloyd
 Maintainer: Gavin Rhys Lloyd <g.r.lloyd@bham.ac.uk>
-Description: Extends the class templates provided by the struct package to provide methods for training PCA, PLS models with cross-validation, permutation testing etc.
+Description: Extends the class templates provided by the struct package to 
+    provide PCA, PLS models with cross-validation, permutation testing etc. Also 
+    includes a suite of univariate tests and data processing models for building
+    complete workflows.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -18,9 +21,8 @@ Collate:
     'PCA_plotfcns.R'
     'PLSDA_class.R'
     'PLSDA_charts.R'
-    'fold_change_class.R'
-    'PLSFC_class.R'
     'PLSR_class.R'
+    'as_data_frame_doc.R'
     'autoscale_class.R'
     'balanced_accuracy_class.R'
     'blank_filter_class.R'
@@ -38,6 +40,7 @@ Collate:
     'filter_na_count.R'
     'filter_smeta_class.R'
     'fisher_exact_class.R'
+    'fold_change_class.R'
     'fold_change_int_class.R'
     'forward_selection_by_rank_class.R'
     'ggplot_theme_pub.R'
@@ -59,7 +62,6 @@ Collate:
     'mv_sample_filter_class.R'
     'pairs_filter_class.R'
     'paretoscale_class.R'
-    'permutation_test2_class.R'
     'permutation_test_class.R'
     'permute_sample_order_class.R'
     'pqn_norm_method_class.R'
@@ -76,35 +78,30 @@ Collate:
     'vec_norm_class.R'
     'wilcox_test_class.R'
     'zzz.R'
-Depends: struct (>= 0.4.1), struct(< 0.5.0)
+Depends: struct (>= 0.99.4)
 Imports: ggplot2,
- pmp,
- gridExtra,
- sp,
- scales,
- stats,
- methods,
- car,
- grid,
- reshape2,
- agricolae,
- emmeans,
- nlme,
- ggthemes,
- ggdendro,
- datasets
-RoxygenNote: 7.0.1
-Suggests: 
- testthat,
- covr,
- knitr,
- rmarkdown,
+    ggthemes,
+    grid,
+    gridExtra,
+    methods,
+    scales,
+    sp,
+    stats
+RoxygenNote: 7.0.2
+Suggests: agricolae,
  BiocStyle,
+ car,
+ covr,
+ emmeans,
+ ggdendro,
+ knitr,
+ magick,
+ nlme,
  pls,
- sbcms,
- Rtsne
-Remotes: computational-metabolomics/pmp,
-  computational-metabolomics/struct@v0.4.1,
-  computational-metabolomics/sbcms
+ pmp,
+ reshape2,
+ rmarkdown,
+ Rtsne,
+ testthat
 VignetteBuilder: knitr
 biocViews: WorkflowStep

@@ -6,53 +6,65 @@
 #' @param factor_name the sample_meta column name to use
 #'
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' M = filter_na_count(threshold=3,factor_name='class')
-#' M = model.apply(M,D)
+#' M = model_apply(M,D)
 #'
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export filter_na_count
-filter_na_count<-setClass(
+filter_na_count = function(threshold,factor_name,...) {
+    out=struct::new_struct('filter_na_count',
+        threshold=threshold,
+        factor_name=factor_name,
+        ...)
+    return(out)
+}
+
+.filter_na_count<-setClass(
     "filter_na_count",
     contains = c('model'),
-    slots=c(params.threshold='entity',
-        params.factor_name='entity',
-        outputs.filtered='entity',
-        outputs.count='entity',
-        outputs.na_count='entity',
-        outputs.flags='entity'
+    slots=c(threshold='entity',
+        factor_name='entity',
+        filtered='entity',
+        count='entity',
+        na_count='entity',
+        flags='entity'
     ),
     prototype=list(name = 'filters features by the number of NA per class',
         description = 'Filters by removing features where the number of features in any class exceeds the threshold',
         type = 'filter',
         predicted = 'filtered',
+        .params=c('threshold','factor_name'),
+        .outputs=c('filtered','count','na_count','flags'),
 
-        params.factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             type='character',
             description='Name of sample_meta column to use'
         ),
 
-        params.threshold=entity(name = 'Count threshold (%)',
+        threshold=entity(name = 'Count threshold (%)',
             description = 'Features with less than THRESHOLD missing values in any class are excluded.',
             value = 2,
             type='numeric'),
 
 
-        outputs.filtered=entity(name = 'Filtered dataset',
-            description = 'A dataset object containing the filtered data.',
-            type='dataset',
-            value=dataset()
+        filtered=entity(name = 'Filtered DatasetExperiment',
+            description = 'A DatasetExperiment object containing the filtered data.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         ),
-        outputs.count=entity(name = 'Count per class',
+        count=entity(name = 'Count per class',
             description = 'Number of non-NA per class',
             type='data.frame',
             value=data.frame()
         ),
-        outputs.na_count=entity(name = 'NA count per class',
+        na_count=entity(name = 'NA count per class',
             description = 'Number of NA per class',
             type='data.frame',
             value=data.frame()
         ),
-        outputs.flags=entity(name = 'Flags',
+        flags=entity(name = 'Flags',
             description = 'a flag indicating whether the sample was rejected.',
             type='data.frame',
             value=data.frame()
@@ -62,8 +74,8 @@ filter_na_count<-setClass(
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("filter_na_count","dataset"),
+setMethod(f="model_train",
+    signature=c("filter_na_count","DatasetExperiment"),
     definition=function(M,D)
     {
 
@@ -96,16 +108,26 @@ setMethod(f="model.train",
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("filter_na_count","dataset"),
+setMethod(f="model_predict",
+    signature=c("filter_na_count","DatasetExperiment"),
     definition=function(M,D)
     {
         flags=M$flags$flags
+
         # delete the columns
-        D$data=D$data[,!flags,drop=FALSE]
-        D$variable_meta=D$variable_meta[!flags,,drop=FALSE]
+        D=D[,!flags,drop=FALSE]
 
         M$filtered=D
         return(M)
+    }
+)
+
+
+#' @export
+#' @template as_data_frame
+setMethod(f="as_data_frame",
+    signature=c("filter_na_count"),
+    definition=function(M) {
+        out=cbind(M$flags,M$na_count)
     }
 )

@@ -1,78 +1,98 @@
 #'linear model class
 #'
-#' wrapper for R lm.
+#' Wrapper for R lm. See \code{lm} for details.
 #'
 #' @import struct
+#' @param formula The formula to use.
+#' @param na_action The action to take when missing values are present. Can any
+#' one of 'na.omit','na.fail','na.exclude' or 'na.pass'. Default is 'na.omit'.
+#' @param contrasts The contrasts for this model. If zero length then the default contrasts are used.
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export linear_model
 #' @examples
-#' M = linear_model()
-linear_model<-setClass(
+#' D = iris_DatasetExperiment()
+#' M = linear_model(formula = y~Species)
+#'
+linear_model = function(formula,na_action='na.omit',contrasts=list(),...) {
+    out=struct::new_struct('linear_model',
+        formula=formula,
+        na_action=na_action,
+        contrasts=contrasts,
+        ...)
+    return(out)
+}
+
+
+.linear_model<-setClass(
     "linear_model",
     contains='model',
     slots=c(
         # INPUTS
-        params.formula='entity',
-        params.na_action='enum',
-        params.contrasts='entity',
+        formula='entity',
+        na_action='enum',
+        contrasts='entity',
 
         # OUTPUTS
-        outputs.lm='entity',
-        outputs.coefficients='entity',
-        outputs.residuals='entity',
-        outputs.fitted_values='entity',
-        outputs.predicted_values='entity',
-        outputs.r_squared='entity',
-        outputs.adj_r_squared='entity'
+        lm='entity',
+        coefficients='entity',
+        residuals='entity',
+        fitted_values='entity',
+        predicted_values='entity',
+        r_squared='entity',
+        adj_r_squared='entity'
 
     ),
     prototype = list(name='Linear Model',
         description='Used to fit linear models. It can be used to carry out regression, single stratum analysis of variance and analysis of covariance.',
         type="regression",
         predicted='predicted_values',
+        .params=c('formula','na_action','contrasts'),
+        .outputs=c('lm','coefficients','residuals','fitted_values','predicted_values','r_squared','adj_r_squared'),
 
-        params.formula=entity(name='Model Formula',
-            description='Compact symbolic form of the equation to be fitted using a linear model.',
+        formula=entity(name='Model Formula',
+            description='Compact symbolic form of the equation to be fitted using a linear model_',
             value=y~x,
             type='formula',
             max_length=Inf
         ),
-        params.na_action=enum(name='NA Action',
+        na_action=enum(name='NA Action',
             description='The action to be taken when encoutering NA',
             value='na.omit',
             type='character',
-            list=c('na.omit','na.fail','na.exclude','na.pass')
+            allowed=c('na.omit','na.fail','na.exclude','na.pass')
         ),
-        params.contrasts=entity(name='Contrasts',
+        contrasts=entity(name='Contrasts',
             description='The contrasts associated with a factor. If zero length then the default contrasts are used.',
             type='list'
         ),
 
-        outputs.lm=entity(name='Linear model object',
-            description='The lm object for this model.',
+        lm=entity(name='Linear model object',
+            description='The lm object for this model_',
             type='lm'
         ),
-        outputs.coefficients=entity(name='Model coefficients',
-            description='The coefficients for the fitted model.',
+        coefficients=entity(name='Model coefficients',
+            description='The coefficients for the fitted model_',
             type='numeric'
         ),
-        outputs.residuals=entity(name='Residuals',
-            description='The residuals for the fitted model.',
+        residuals=entity(name='Residuals',
+            description='The residuals for the fitted model_',
             type='numeric'
         ),
-        outputs.fitted_values=entity(name='Fitted values',
-            description='The fitted values for the data used to train the model.',
+        fitted_values=entity(name='Fitted values',
+            description='The fitted values for the data used to train the model_',
             type='numeric'
         ),
-        outputs.predicted_values=entity(name='Predicted values',
-            description='The predicted values for new data using the fitted model.',
+        predicted_values=entity(name='Predicted values',
+            description='The predicted values for new data using the fitted model_',
             type='numeric'
         ),
-        outputs.r_squared=entity(name='R Squared',
-            description='The value of R Squared for the fitted model.',
+        r_squared=entity(name='R Squared',
+            description='The value of R Squared for the fitted model_',
             type='numeric'
         ),
-        outputs.adj_r_squared=entity(name='Adjusted R Squared',
-            description='The value ofAdjusted  R Squared for the fitted model.',
+        adj_r_squared=entity(name='Adjusted R Squared',
+            description='The value ofAdjusted  R Squared for the fitted model_',
             type='numeric'
         )
     )
@@ -80,8 +100,8 @@ linear_model<-setClass(
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("linear_model",'dataset'),
+setMethod(f="model_train",
+    signature=c("linear_model",'DatasetExperiment'),
     definition=function(M,D)
     {
         X=cbind(D$data,D$sample_meta)
@@ -103,8 +123,8 @@ setMethod(f="model.train",
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("linear_model",'dataset'),
+setMethod(f="model_predict",
+    signature=c("linear_model",'DatasetExperiment'),
     definition=function(M,D)
     {
         X=cbind(D$data,D$sample_meta)

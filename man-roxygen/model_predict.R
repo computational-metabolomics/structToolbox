@@ -1,1 +1,1 @@
-#' @rdname model.predict
+#' @rdname model_predict

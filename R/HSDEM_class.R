@@ -1,58 +1,77 @@
 #' HSD model class using estimated marginal means
 #'
-#' HSD model class using estimate marginal means
+#' HSD model class using estimate marginal means, for use with mixed effects designs.
 #'
-#' @import struct
-#' @import stats
-#' @import emmeans
-#' @import nlme
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param formula The formula to use. See \code{lm} for details.
+#' @param ... additional slots and values passed to struct_class
+#'
 #' @include mixed_effect_class.R HSD_class.R
+#' @return struct object
 #' @export HSDEM
 #' @examples
-#' M = HSDEM()
-HSDEM<-setClass(
+#' D = iris_DatasetExperiment()
+#' D$sample_meta$id=rownames(D) # dummy id column
+#' M = HSDEM(formula = y~Species+ Error(id/Species))
+#' M = model_apply(M,D)
+#'
+HSDEM = function(alpha=0.05,mtc='fdr',formula,...) {
+    out=struct::new_struct('HSDEM',
+        alpha=alpha,
+        mtc=mtc,
+        formula=formula,
+        ...)
+    return(out)
+}
+
+
+.HSDEM<-setClass(
     "HSDEM",
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.formula='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        formula='entity',
 
         # OUTPUTS
-        outputs.p_value='entity.stato',
-        outputs.significant='entity'
+        p_value='entity_stato',
+        significant='entity'
     ),
     prototype = list(name='Tukey Honest Significant Difference using estimated marginal means',
         description='Tukey HSD post hoc tests for mixed effects models using estimated marginal means',
         type="univariate",
         predicted='p_value',
-        stato.id="STATO:0000187",
+        stato_id="STATO:0000187",
+        libraries=c('emmeans','nlme'),
+        .params=c('alpha','mtc','formula'),
+        .outputs=c('p_value','significant'),
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
+        alpha=entity_stato(name='Confidence level',
+            stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
+        mtc=entity_stato(name='Multiple Test Correction method',
+            stato_id='OBI:0200089',
             value='none',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        params.formula=entity(name='Formula',
+        formula=entity(name='Formula',
             value=y~x,
             type='formula',
             description='The formula to use'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
+        p_value=entity_stato(name='p value',
+            stato_id='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated t-statistic.'
         ),
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
+        significant=entity(name='Significant features',
+            #stato_id='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         )
@@ -61,15 +80,15 @@ HSDEM<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("HSDEM",'dataset'),
+setMethod(f="model_apply",
+    signature=c("HSDEM",'DatasetExperiment'),
     definition=function(M,D) {
-        X=dataset.data(D)
+        X=D$data
         lmer_formula=aov2lme(M$formula)
         var_names=all.vars(M$formula)
         var_names_1=var_names[1]
         var_names=var_names[-1]
-        y=dataset.sample_meta(D)[var_names]
+        y=D$sample_meta[var_names]
 
         # set the contrasts
         O=options('contrasts') # keep the old ones
@@ -94,7 +113,7 @@ setMethod(f="model.apply",
             dona=FALSE
 
             testlm=tryCatch({ # if any warnings/messages set p-values to NA as unreliable
-                LM=lme(lmer_formula$f,random=lmer_formula$random,method='ML',data=temp,na.action=na.omit)
+                LM=nlme::lme(lmer_formula$f,random=lmer_formula$random,method='ML',data=temp,na.action=na.omit)
             }, warning = function(w) {
                 NA
             }, message = function(m) {

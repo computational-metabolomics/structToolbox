@@ -1,1 +1,1 @@
-#' @rdname model.reverse
+#' @rdname model_reverse

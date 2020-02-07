@@ -1,47 +1,69 @@
 #' rsd filter
 #'
-#' filters features based on the relative standard deviation (RSD) for the QC samples
+#' Filters features based on the relative standard deviation (RSD) for the QC samples.
+#' @param rsd_threshold Features with RSD greater than the threshold are removed.
+#' @param qc_label The label used to identify QC samples in the chosen sample_meta column.
+#' @param factor_name The name of the sample_meta column containing QC labels.
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export rsd_filter
-#' @import pmp
 #' @examples
-#' M = rsd_filter()
+#' M = rsd_filter(factor_name='class')
 #'
-rsd_filter<-setClass(
+rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
+    out=struct::new_struct('rsd_filter',
+        rsd_threshold=rsd_threshold,
+        qc_label=qc_label,
+        factor_name=factor_name,
+        ...)
+    return(out)
+}
+
+.rsd_filter<-setClass(
     "rsd_filter",
     contains = c('model'),
-    slots=c(params.rsd_threshold='entity',
-        params.qc_label='entity',
-        params.factor_name='entity',
-        outputs.filtered='entity',
-        outputs.flags='entity'
+    slots=c(rsd_threshold='entity',
+        qc_label='entity',
+        factor_name='entity',
+        filtered='entity',
+        flags='entity',
+        rsd_qc='entity'
     ),
     prototype=list(name = 'RSD filter',
         description = 'Filters features by calculating the relative standard deviation (RSD) for the QC samples and removing features with RSD greater than the threshold.',
         type = 'filter',
         predicted = 'filtered',
+        libraries='pmp',
+        .params=c('rsd_threshold','qc_label','factor_name'),
+        .outputs=c('filtered','flags','rsd_qc'),
 
-        params.rsd_threshold=entity(name = 'RSD threhsold',
-            description = 'Features with RSD greather than the threshold are removed.',
+        rsd_threshold=entity(name = 'RSD threhsold',
+            description = 'Features with RSD greater than the threshold are removed.',
             value = 20,
             type='numeric'),
 
-        params.qc_label=entity(name = 'QC label',
+        qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        params.factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             description='Name of sample meta column to use',
             type='character',
             value='V1'),
 
-        outputs.filtered=entity(name = 'RSD filtered dataset',
-            description = 'A dataset object containing the filtered data.',
-            type='dataset',
-            value=dataset()
+        filtered=entity(name = 'RSD filtered DatasetExperiment',
+            description = 'A DatasetExperiment object containing the filtered data.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         ),
-        outputs.flags=entity(name = 'Flags',
+        flags=entity(name = 'Flags',
             description = 'RSD and a flag indicating whether the feature was rejected by the filter or not.',
+            type='data.frame',
+            value=data.frame()
+        ),
+        rsd_qc=entity(name = 'RSD',
+            description = 'The calculated RSD of the QC class',
             type='data.frame',
             value=data.frame()
         )
@@ -50,23 +72,21 @@ rsd_filter<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("rsd_filter","dataset"),
+setMethod(f="model_apply",
+    signature=c("rsd_filter","DatasetExperiment"),
     definition=function(M,D)
     {
-        opt=param.list(M)
-        smeta=dataset.sample_meta(D)
-        x=dataset.data(D)
-        rsd_filtered = filter_peaks_by_rsd(t(x), max_rsd = opt$rsd_threshold, classes=smeta[[opt$factor_name]], qc_label=opt$qc_label)
-        dataset.data(D) = as.data.frame(t(rsd_filtered$df))
+        opt=param_list(M)
+        smeta=D$sample_meta
+        x=D$data
+        rsd_filtered = pmp::filter_peaks_by_rsd(t(x), max_rsd = opt$rsd_threshold, classes=smeta[[opt$factor_name]], qc_label=opt$qc_label,remove_peaks=FALSE)
 
-        flags<-data.frame(rsd_filtered$flags)
-        vmeta=dataset.variable_meta(D)
-        vmeta=vmeta[flags[,2]==1,,drop=FALSE]
-        dataset.variable_meta(D)=vmeta
+        flags<-attributes(rsd_filtered)$flags
+        D=D[,flags[,2]==1]
 
-        output.value(M,'filtered') = D
-        output.value(M,'flags') = data.frame(rsd_filtered$flags,stringsAsFactors = F)
+        output_value(M,'filtered') = D
+        output_value(M,'flags') = data.frame('rsd_flags'=flags[,2])
+        output_value(M,'rsd_qc') = data.frame('rsd_qc'=flags[,1])
         return(M)
     }
 )
@@ -77,12 +97,20 @@ setMethod(f="model.apply",
 #'
 #' plots a histogram of the calculated RSD for the RSD filter
 #' @import struct
-#' @export rsd_filter.hist
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
+#' @export rsd_filter_hist
 #' @examples
-#' C = rsd_filter.hist()
+#' C = rsd_filter_hist()
 #'
-rsd_filter.hist<-setClass(
-    "rsd_filter.hist",
+rsd_filter_hist = function(...) {
+    out=struct::new_struct('rsd_filter_hist',...)
+    return(out)
+}
+
+
+.rsd_filter_hist<-setClass(
+    "rsd_filter_hist",
     contains='chart',
     prototype = list(name='Histogram of RSD for the QC samples',
         description='A histogram of the calculated RSD for QC samples.',
@@ -92,16 +120,16 @@ rsd_filter.hist<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("rsd_filter.hist",'rsd_filter'),
+setMethod(f="chart_plot",
+    signature=c("rsd_filter_hist",'rsd_filter'),
     definition=function(obj,dobj)
     {
-        t=param.value(dobj,'rsd_threshold')
-        A=output.value(dobj,'flags')
-        A$rsd_QC=log2(A$rsd_QC)
+        t=param_value(dobj,'rsd_threshold')
+        A=output_value(dobj,'flags')
+        A$rsd_qc=log2(dobj$rsd_qc[,1])
         A$features=factor(A$rsd_flags,levels=c(1,0),labels=c('accepted','rejected'))
 
-        out=ggplot(data=A, aes_(x=~rsd_QC,fill=~features)) +
+        out=ggplot(data=A, aes_(x=~rsd_qc,fill=~features)) +
             geom_histogram(boundary=log2(t),color='white') +
             xlab('log2(RSD), QC samples') +
             ylab('Count') +

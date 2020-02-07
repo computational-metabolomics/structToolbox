@@ -1,47 +1,64 @@
 #' glog transform
 #'
 #' applies a glog transform to the input data
+#' @param qc_label The label used to identify QC samples
+#' @param factor_name The sample_meta column name containing QC labels
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export glog_transform
-#' @import pmp
 #' @examples
-#' M = glog_transform()
-glog_transform<-setClass(
+#' D = iris_DatasetExperiment()
+#' M = glog_transform(qc_label='versicolor',factor_name='Species')
+#' M = model_apply(M,D)
+glog_transform = function(qc_label='QC',factor_name,...) {
+    out=struct::new_struct('glog_transform',
+        qc_label=qc_label,
+        factor_name=factor_name,
+        ...)
+    return(out)
+}
+
+
+.glog_transform<-setClass(
     "glog_transform",
     contains = c('model'),
-    slots=c(params.qc_label='entity',
-        params.factor_name='entity',
-        outputs.transformed='entity',
-        outputs.lambda='entity',
-        outputs.error_flag='entity',
-        outputs.lambda_opt='numeric'
+    slots=c(qc_label='entity',
+        factor_name='entity',
+        transformed='entity',
+        lambda='entity',
+        error_flag='entity',
+        lambda_opt='numeric'
     ),
 
-    prototype=list(name = 'generalised logarithm transform',
-        description = 'applies a glog tranform using using QC samples as reference samples.',
+    prototype=list(name = 'Generalised logarithm transform',
+        description = 'Applies a glog transform using using QC samples as reference samples.',
         type = 'normalisation',
         predicted = 'transformed',
+        libraries = 'pmp',
+        .params=c('qc_label','factor_name'),
+        .outputs=c('lambda','transformed','error_flag','lambda_opt'),
 
-        params.factor_name=entity(name = 'factor_name',
+        factor_name=entity(name = 'factor_name',
             description = 'Column name of sample_meta containing QC labels',
             value = 'V1',
             type='character'),
 
-        params.qc_label=entity(name = 'QC label',
+        qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        outputs.transformed=entity(name = 'glog transformed dataset',
-            description = 'A dataset object containing the glog transformed data.',
-            type='dataset',
-            value=dataset()
+        transformed=entity(name = 'glog transformed DatasetExperiment',
+            description = 'A DatasetExperiment object containing the glog transformed data.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         ),
-        outputs.lambda=entity(name = 'lambda',
+        lambda=entity(name = 'lambda',
             description = 'The value of lambda used, as determined by PMP package.',
             type='numeric',
             value=0
         ),
-        outputs.error_flag=entity(name = 'Optimisation error',
+        error_flag=entity(name = 'Optimisation error',
             description = 'A logical indicating whether the glog optimisation for lambda was successful.',
             type='logical',
             value=FALSE
@@ -50,24 +67,103 @@ glog_transform<-setClass(
 )
 
 #' @export
-#' @template model_apply
-setMethod(f="model.apply",
-    signature=c("glog_transform","dataset"),
+#' @template model_train
+setMethod(f="model_train",
+    signature=c("glog_transform","DatasetExperiment"),
     definition=function(M,D)
     {
-        opt=param.list(M)
+        opt=param_list(M)
 
-        smeta=dataset.sample_meta(D)
-        x=dataset.data(D)
+        smeta=D$sample_meta
+        x=D$data
 
-        out = pmp::glog_transformation(t(x),classes = smeta[,M$factor_name],qc_label=opt$qc_label,store_lambda = TRUE)
-        dataset.data(D) = as.data.frame(t(out[[1]]))
+        out = pmp::glog_transformation(t(x),classes = smeta[,M$factor_name],qc_label=opt$qc_label)
 
-        output.value(M,'transformed') = D
-        M$lambda = out[[2]]
-        M$lambda_opt=out[[3]]
-        M$error_flag = out[[4]]
+        output_value(M,'transformed') = D
+        output_value(M,'lambda') = attributes(out)$processing_history$glog_transformation$lambda
+        output_value(M,'lambda_opt')=attributes(out)$processing_history$glog_transformation$lambda_opt
+        output_value(M,'error_flag') = attributes(out)$processing_history$glog_transformation$error_flag
 
         return(M)
     }
 )
+
+#' @export
+#' @template model_predict
+setMethod(f="model_predict",
+    signature=c("glog_transform","DatasetExperiment"),
+    definition=function(M,D)
+    {
+        # get data
+        x=D$data
+        # get meta data
+        smeta=D$sample_meta
+        # apply transform using provided
+        out = pmp::glog_transformation(t(x),classes = smeta[,M$factor_name],lambda = M$lambda_opt,qc_label=M$qc_label)
+        # put tranformed data into dataset object
+        D$data = as.data.frame(t(out))
+        # assign transformed data to output slot
+        output_value(M,'transformed') = D
+
+        return(M)
+    }
+)
+
+
+#' glog transform optimisation plot
+#'
+#' plots the SSE error vs lambda for glog transform
+#' @param plot_grid the resolution of the search space for plotting
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
+#' @export
+#' @examples
+#' D = iris_DatasetExperiment()
+#' M = glog_transform(qc_label='versicolor',factor_name='Species')
+#' M = model_apply(M,D)
+#' C = glog_opt_plot()
+#' chart_plot(C,M,D)
+glog_opt_plot = function(plot_grid=100,...) {
+    out=struct::new_struct('glog_opt_plot',
+        plot_grid=plot_grid,
+        ...)
+    return(out)
+}
+
+.glog_opt_plot<-setClass(
+    "glog_opt_plot",
+    contains='chart',
+    slots=c(plot_grid='numeric'),
+    prototype=list(
+        name='Glog optimisation',
+        description='A plot of the SSE error vs lambda for glog transform',
+        .params=c('plot_grid')
+    )
+)
+
+#' @export
+#' @template chart_plot
+#' @param gobj The DatasetExperiment object used with glog_transform
+setMethod(f="chart_plot",
+    signature=c("glog_opt_plot",'glog_transform'),
+    definition=function(obj,dobj,gobj)
+    {
+        smeta=gobj$sample_meta
+        x=gobj$data
+
+        out = pmp::glog_plot_optimised_lambda(
+            df=t(x),
+            classes=smeta[[dobj$factor_name]],
+            qc_label=dobj$qc_label,
+            optimised_lambda=dobj$lambda_opt,
+            plot_grid=obj$plot_grid)
+
+        return(out)
+    }
+)
+
+
+
+
+
+

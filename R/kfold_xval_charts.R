@@ -1,23 +1,42 @@
 #' kfoldxcv_grid class
 #'
-#' plot of cross validation results
+#' Plot of cross validation predictions vs the true values.
 #'
-#' @import struct
+#' @param factor_name The sample_meta column name to use.
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export kfoldxcv_grid
 #' @include kfold_xval_class.R
 #' @examples
-#' C = kfoldxcv_grid()
-kfoldxcv_grid<-setClass(
+#' D = iris_DatasetExperiment()
+#' I = kfold_xval(factor_name='Species') *
+#'     (mean_centre() + PLSDA(factor_name='Species'))
+#' I = run(I,D,balanced_accuracy())
+#'
+#' C = kfoldxcv_grid(factor_name='Species')
+#' chart_plot(C,I)
+#'
+kfoldxcv_grid = function(factor_name,...) {
+    out=struct::new_struct('kfoldxcv_grid',
+        factor_name=factor_name,
+        ...)
+    return(out)
+}
+
+
+.kfoldxcv_grid<-setClass(
     "kfoldxcv_grid",
     contains='chart',
     slots=c(
         # INPUTS
-        params.factor_name='entity'
+        factor_name='entity'
     ),
     prototype = list(name='kfoldxcv grid plot',
-        description='plots the predictions for each cross-validation loop',
+        description='Plots the predictions for each cross-validation loop',
         type="grid",
-        params.factor_name=entity(name='Factor name',
+        .params=c('factor_name'),
+
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
@@ -28,14 +47,14 @@ kfoldxcv_grid<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("kfoldxcv_grid",'kfold_xval'),
     definition=function(obj,dobj)
     {
         # get options
-        copt=param.list(obj)
-        dopt=param.list(dobj)
-        X=output.value(dobj,'results')
+        copt=param_list(obj)
+        dopt=param_list(dobj)
+        X=output_value(dobj,'results')
         L=levels(as.factor(X$actual))
         plotClass= createClassAndColors(X$actual)
         X$actual=plotClass$class
@@ -43,7 +62,7 @@ setMethod(f="chart.plot",
         p=list()
         for (i in 1:length(L)) {
             # get data
-            X=output.value(dobj,'results')
+            X=output_value(dobj,'results')
 
             # reduce to level i for split factor
             X=X[X$actual==L[i],,drop=FALSE]
@@ -87,14 +106,22 @@ setMethod(f="chart.plot",
 
 #' kfoldxcv_metric class
 #'
-#' box plot of cross validation results
+#' A box plot of the calculated cross validation metric over all iterations.
 #'
 #' @import struct
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export kfoldxcv_metric
 #' @include kfold_xval_class.R
 #' @examples
 #' C = kfoldxcv_metric()
-kfoldxcv_metric<-setClass(
+kfoldxcv_metric = function(...) {
+    out=struct::new_struct('kfoldxcv_metric',...)
+    return(out)
+}
+
+
+.kfoldxcv_metric<-setClass(
     "kfoldxcv_metric",
     contains='chart',
     prototype = list(name='kfoldxcv metric plot',
@@ -106,16 +133,16 @@ kfoldxcv_metric<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("kfoldxcv_metric",'kfold_xval'),
     definition=function(obj,dobj)
     {
         # get options
-        dopt=param.list(dobj)
+        dopt=param_list(dobj)
 
         # get data
-        X=data.frame('Metric'=output.value(dobj,'metric.train'),'Set'='Training')
-        X2=data.frame('Metric'=output.value(dobj,'metric.test'),'Set'='Test')
+        X=data.frame('Metric'=output_value(dobj,'metric.train'),'Set'='Training')
+        X2=data.frame('Metric'=output_value(dobj,'metric.test'),'Set'='Test')
         X=rbind(X,X2)
         X$Set=as.factor(X$Set)
         plotClass= createClassAndColors(X$Set)

@@ -1,69 +1,86 @@
 #' ANOVA
 #'
-#' Applies ANOVA to each feature in a dataset object.
+#' Applies ANOVA to each feature in a DatasetExperiment object.
 #'
 #' @import struct
 #' @import stats
-#' @import car
 #'
 #' @templateVar paramNames c('alpha','mtc','formula')
 #' @template common_params
 #'
-#' @return A struct method object with functions for applying ANOVA
-#'
 #' @examples
-#' D = iris_dataset()
+#' D = iris_DatasetExperiment()
 #' M = ANOVA(formula=y~Species)
-#' M = model.apply(M,D)
+#' M = model_apply(M,D)
 #'
 #' @include entity_objects.R
-#'
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param formula The formula to use for ANOVA. See \code{lm} for details.
+#' @param ss_type The type of sum of squares to use. Can be I, II or III. Default is ss_type = 'III'.
+#' @param ... additional slots and values passed to struct_class
+#' @return ANOVA object
 #' @export ANOVA
-ANOVA<-setClass(
+ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III',...) {
+    out=struct::new_struct('ANOVA',
+        alpha=alpha,
+        mtc=mtc,
+        formula=formula,
+        ss_type=ss_type,
+        ...)
+    return(out)
+}
+
+
+.ANOVA<-setClass(
     "ANOVA",
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.formula='entity',
-        params.type='enum',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        formula='entity',
+        ss_type='enum',
         # OUTPUTS
-        outputs.f_statistic='entity.stato',
-        outputs.p_value='entity.stato',
-        outputs.significant='entity'
+        f_statistic='entity_stato',
+        p_value='entity_stato',
+        significant='entity'
     ),
     prototype = list(name='Analysis of Variance',
-        description='ANOVA applied to each column of a dataset.',
+        description='ANOVA applied to each column of a DatasetExperiment.',
         type="univariate",
         predicted='p_value',
-        stato.id="OBI:0200201",
+        stato_id="OBI:0200201",
+        libraries='car',
+        .params=c('alpha','mtc','formula','ss_type'),
+        .outputs=c('f_statistic','p_value','significant'),
 
-        params.alpha=ents$alpha,
-        params.mtc=ents$mtc,
-        params.formula=ents$formula,
+        alpha=ents$alpha,
+        mtc=ents$mtc,
+        formula=ents$formula,
 
-        params.type=enum(name='ANOVA type',
+        ss_type=enum(name='ANOVA type',
             description='I, II or [III]. The type of sums of squares to use. For balanced designs all types gives the same result.',
             value='III',
             type='character',
-            list=c('I','II','III')
+            allowed=c('I','II','III')
         ),
 
-        outputs.f_statistic=ents$f_statistic,
-        outputs.p_value=ents$p_value,
-        outputs.significant=ents$significant
+        f_statistic=ents$f_statistic,
+        p_value=ents$p_value,
+        significant=ents$significant
     )
 )
 
 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("ANOVA",'dataset'),
+setMethod(f="model_apply",
+    signature=c("ANOVA",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
+        X=D$data
         var_names=all.vars(M$formula)
 
         # attempt to detect within factors
@@ -75,7 +92,7 @@ setMethod(f="model.apply",
             var_names_ex=var_names
         }
 
-        y=dataset.sample_meta(D)[var_names[2:length(var_names)]]
+        y=D$sample_meta[var_names[2:length(var_names)]]
 
         # set the contrasts
         O=options('contrasts') # keep the old ones
@@ -116,13 +133,13 @@ setMethod(f="model.apply",
                 # use some fake data to generate the output table then replace all the values with NA
                 temp[[var_names[1]]]=rnorm(nrow(y))
                 LM=lm(formula=M$formula,data=temp)
-                A=Anova(LM,type=M$type)
+                A=car::Anova(LM,type=M$ss_type)
                 A[!is.na(A)]=NA
                 return(A)
             }
 
             LM=lm(formula=M$formula,data=temp)
-            A=Anova(LM,type=M$type)
+            A=car::Anova(LM,type=M$ss_type)
             return(A)
         })
 

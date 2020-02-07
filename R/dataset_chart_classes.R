@@ -1,6 +1,6 @@
-#' feature_boxplot class
+#' Feature boxplots
 #'
-#' plots a boxplot of a chosen feature for each group of a dataset
+#' Plots a boxplot of a chosen feature for each group of a input factor.
 #'
 #' @import struct
 #'
@@ -9,44 +9,56 @@
 #' @param factor_name the sample_meta column to use
 #' @param show_counts [TRUE] or FALSE to include the number of samples on the
 #' plot
-#'
+#' @param ... additional slots and values passed to struct_class
 #' @examples
-#' D = sbcms_dataset
+#' D = sbcms_DatasetExperiment
 #' C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')
-#' chart.plot(C,D)
-#'
+#' chart_plot(C,D)
+#' @return A struct chart object
 #' @export feature_boxplot
-feature_boxplot<-setClass(
+feature_boxplot = function(label_outliers=TRUE,feature_to_plot,factor_name,show_counts=TRUE,...) {
+    out=struct::new_struct('feature_boxplot',
+        label_outliers=label_outliers,
+        feature_to_plot=feature_to_plot,
+        factor_name=factor_name,
+        show_counts=show_counts,
+        ...)
+    return(out)
+}
+
+
+.feature_boxplot<-setClass(
     "feature_boxplot",
     contains=c('chart','stato'),
     slots=c(
         # INPUTS
-        params.label_outliers='entity',
-        params.feature_to_plot='entity',
-        params.factor_name='entity',
-        params.show_counts='entity'
+        label_outliers='entity',
+        feature_to_plot='entity',
+        factor_name='entity',
+        show_counts='entity'
     ),
     prototype = list(name='Feature boxplot',
-        description='plots a boxplot of a chosen feature for each group of a dataset.',
+        description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
-        stato.id='STATO:0000243',
+        stato_id='STATO:0000243',
+        .params=c('label_outliers','feature_to_plot','factor_name','show_counts'),
 
-        params.label_outliers=entity(name='Label outliers',
+        label_outliers=entity(name='Label outliers',
             value=TRUE,
             type='logical',
             description='(TRUE) of FALSE to print labels for outliers.'
         ),
-        params.feature_to_plot=entity(name='Feature to plot',
+        feature_to_plot=entity(name='Feature to plot',
             value='V1',
             type=c('character','numeric','integer'),
             description='The column name of the feature to be plotted.'
         ),
-        params.factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The column name of meta data to use.'
         ),
-        params.show_counts=entity(name='Show counts',
+        show_counts=entity(name='Show counts',
             value=TRUE,
             type='logical',
             description='(TRUE) or FALSE to display the number of values used to create each boxplot.'
@@ -56,14 +68,14 @@ feature_boxplot<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("feature_boxplot",'dataset'),
+setMethod(f="chart_plot",
+    signature=c("feature_boxplot",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
         # get options
-        opt=param.list(obj)
+        opt=param_list(obj)
         # get data
-        Xt=dataset.data(dobj)
+        Xt=dobj$data
         # column name
         if (is.numeric(opt$feature_to_plot)) {
             varn=colnames(Xt)[opt$feature_to_plot]
@@ -73,7 +85,7 @@ setMethod(f="chart.plot",
         # get requested column
         Xt=Xt[[opt$feature_to_plot]]
         # meta data
-        SM=dataset.sample_meta(dobj)
+        SM=dobj$sample_meta
         SM=SM[[obj$factor_name]]
 
         # remove NA
@@ -116,7 +128,7 @@ setMethod(f="chart.plot",
                 outliers=c(outliers,IN[which( Xt[IN]<(quantile(Xt[IN], 0.25) - 1.5*IQR(Xt[IN]))) ] )
             }
             outlier_df=temp[outliers,]
-            outlier_df$out_label=paste0('  ',rownames(dataset.data(dobj)))[outliers]
+            outlier_df$out_label=paste0('  ',rownames(dobj$data))[outliers]
             p=p+geom_text(data=outlier_df,aes_(group=~x,color=~x,label=~out_label),hjust='left')
         }
 
@@ -139,29 +151,42 @@ setMethod(f="chart.plot",
 #' @param by_sample [TRUE] to plot by sample or FALSE to plot by features
 #'
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' C = mv_histogram(label_outliers=FALSE,by_sample=FALSE)
-#' chart.plot(C,D)
+#' chart_plot(C,D)
 #'
 #' @import struct
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export mv_histogram
-mv_histogram<-setClass(
+mv_histogram = function(label_outliers=TRUE,by_sample=TRUE,...) {
+    out=struct::new_struct('mv_histogram',
+        label_outliers=label_outliers,
+        by_sample=by_sample,
+        ...)
+    return(out)
+}
+
+
+.mv_histogram<-setClass(
     "mv_histogram",
     contains='chart',
     slots=c(
         # INPUTS
-        params.label_outliers='entity',
-        params.by_sample='entity'
+        label_outliers='entity',
+        by_sample='entity'
     ),
     prototype = list(name='Missing value histogram',
         description='Histogram of missing values per sample/feature.',
         type="histogram",
-        params.by_sample=entity(name='Plot by sample or by feature',
+        .params=c('label_outliers','by_sample'),
+
+        by_sample=entity(name='Plot by sample or by feature',
             value=TRUE,
             type='logical',
             description='(TRUE) to plot missing values per sample or FALSE to plot by feature.'
         ),
-        params.label_outliers=entity(name='Label outliers on the plot',
+        label_outliers=entity(name='Label outliers on the plot',
             value=FALSE,
             type='logical',
             description='TRUE or FALSE to include labels for outlying samples. Default FALSE'
@@ -171,19 +196,18 @@ mv_histogram<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("mv_histogram",'dataset'),
+setMethod(f="chart_plot",
+    signature=c("mv_histogram",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
         # get options
-        opt=param.list(obj)
+        opt=param_list(obj)
         # get data
-        Xt=dataset.data(dobj)
+        Xt=dobj$data
         # meta data
-        SM=dataset.sample_meta(dobj)[ ,1]
+        SM=dobj$sample_meta[ ,1]
 
-        if (opt$by_sample)
-        {
+        if (opt$by_sample) {
             # count NS per sample
             count=apply(Xt,1,function(x) {sum(is.na(x))/length(x)*100})
             txt='Missing values per sample'
@@ -219,41 +243,60 @@ setMethod(f="chart.plot",
 #' @param factor_name the sample_meta column to use
 #' @param show_counts [TRUE] or FALSE to include the number of samples on the plot
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' C = mv_boxplot(factor_name='class')
-#' chart.plot(C,D)
+#' chart_plot(C,D)
 #'
 #' @import struct
+#' @param label_outliers TRUE or FALSE to label outliers on the plot.
+#' @param by_sample TRUE to plot missing values by sample, or FALSE to plot for features.
+#' @param factor_name The sample_meta column to use.
+#' @param show_counts TRUE to show a count of the number of items used to create the boxplot on the chart.
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export mv_boxplot
-mv_boxplot<-setClass(
+mv_boxplot = function(label_outliers=TRUE,by_sample=TRUE,factor_name,show_counts=TRUE,...) {
+    out=struct::new_struct('mv_boxplot',
+        label_outliers=label_outliers,
+        by_sample=by_sample,
+        factor_name=factor_name,
+        show_counts=show_counts,
+        ...)
+    return(out)
+}
+
+
+.mv_boxplot<-setClass(
     "mv_boxplot",
     contains='chart',
     slots=c(
         # INPUTS
-        params.label_outliers='entity',
-        params.by_sample='entity',
-        params.factor_name='entity',
-        params.show_counts='entity'
+        label_outliers='entity',
+        by_sample='entity',
+        factor_name='entity',
+        show_counts='entity'
     ),
     prototype = list(name='Missing value boxplots',
         description='Histogram ofmissing values per sample/feature.',
         type="histogram",
-        params.label_outliers=entity(name='Label outliers',
+        .params=c('label_outliers','by_sample','factor_name','show_counts'),
+
+        label_outliers=entity(name='Label outliers',
             value=TRUE,
             type='logical',
             description='(TRUE) of FALSE to print labels for outliers.'
         ),
-        params.by_sample=entity(name='Plot by sample or by feature',
+        by_sample=entity(name='Plot by sample or by feature',
             value=TRUE,
             type='logical',
             description='(TRUE) to plot missing values per sample or FALSE to plot by feature.'
         ),
-        params.factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        params.show_counts=entity(name='Show counts',
+        show_counts=entity(name='Show counts',
             value=TRUE,
             type='logical',
             description='(TRUE) or FALSE to display the number of values used to create each boxplot.'
@@ -263,21 +306,19 @@ mv_boxplot<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("mv_boxplot",'dataset'),
-    definition=function(obj,dobj)
-    {
+setMethod(f="chart_plot",
+    signature=c("mv_boxplot",'DatasetExperiment'),
+    definition=function(obj,dobj) {
         # get options
-        opt=param.list(obj)
+        opt=param_list(obj)
         # get data
-        Xt=dataset.data(dobj)
+        Xt=dobj$data
         # meta data
-        SM=dataset.sample_meta(dobj)[ ,obj$factor_name]
+        SM=dobj$sample_meta[ ,obj$factor_name]
 
         L=levels(SM)
 
-        if (opt$by_sample)
-        {
+        if (opt$by_sample) {
             # count NS per sample
             count=apply(Xt,1,function(x) {sum(is.na(x))/length(x)*100})
             result=matrix(0,nrow=nrow(Xt),ncol=2)
@@ -344,10 +385,10 @@ setMethod(f="chart.plot",
 
             if (length(outliers)>0){
                 if (opt$by_sample) {
-                    outlier_df$out_label=paste0('  ',rownames(dataset.data(dobj)))[outliers]
+                    outlier_df$out_label=paste0('  ',rownames(dobj$data))[outliers]
                 } else
                 {
-                    outlier_df$out_label=paste0('  ',rep(colnames(dataset.data(dobj)),length(L))[outliers])
+                    outlier_df$out_label=paste0('  ',rep(colnames(dobj$data),length(L))[outliers])
                 }
                 p=p+geom_text(data=outlier_df,aes_(group=~x,color=~x,label=~out_label,angle =~ 90),hjust='left')
             }
@@ -367,30 +408,41 @@ setMethod(f="chart.plot",
 #' factor_name
 #'
 #' @examples
-#' D = sbcms_dataset()
-#' C = dataset.dist(factor_name='class')
-#' chart.plot(C,D)
+#' D = sbcms_DatasetExperiment()
+#' C = DatasetExperiment.dist(factor_name='class')
+#' chart_plot(C,D)
 #'
 #' @import struct
-#' @export dataset.dist
-dataset.dist<-setClass(
-    "dataset.dist",
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
+#' @export DatasetExperiment.dist
+DatasetExperiment.dist = function(factor_name,per_class=TRUE,...) {
+    out=struct::new_struct('DatasetExperiment.dist',
+        factor_name=factor_name,
+        per_class=per_class,
+        ...)
+    return(out)
+}
+
+.DatasetExperiment.dist<-setClass(
+    "DatasetExperiment.dist",
     contains='chart',
     slots=c(
         # INPUTS
-        params.factor_name='entity',
-        params.per_class='entity'
+        factor_name='entity',
+        per_class='entity'
     ),
     prototype = list(name='Distribution plot',
         description='Plot of the distribution of all values in the data matrix.',
         type="boxlot",
+        .params=c('factor_name','per_class'),
 
-        params.factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        params.per_class=entity(name='Plot per class',
+        per_class=entity(name='Plot per class',
             value=TRUE,
             type='logical',
             description='[TRUE] or FALSE to plot distributions by class.'
@@ -399,15 +451,14 @@ dataset.dist<-setClass(
 )
 
 #' @export
-#' @import pmp
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("dataset.dist",'dataset'),
+setMethod(f="chart_plot",
+    signature=c("DatasetExperiment.dist",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
-        opt=param.list(obj)
-        X=as.matrix(dataset.data(dobj))
-        S=dataset.sample_meta(dobj)[[opt$factor_name]]
+        opt=param_list(obj)
+        X=as.matrix(dobj$data)
+        S=dobj$sample_meta[[opt$factor_name]]
 
         if (opt$per_class) {
             L=levels(S)
@@ -437,9 +488,9 @@ setMethod(f="chart.plot",
     }
 )
 
-#' Dataset boxplot
+#' DatasetExperiment boxplot
 #'
-#' Boxplot of values per sample/feature in a dataset
+#' Boxplot of values per sample/feature in a DatasetExperiment
 #'
 #' @param factor_name the column name of sample_meta to use
 #' @param by_sample [TRUE] or FALSE to plot by samples or features respectively
@@ -447,41 +498,56 @@ setMethod(f="chart.plot",
 #' @param number the number of samples/features to plot
 #'
 #' @examples
-#' D = sbcms_dataset()
-#' C = dataset.boxplot(factor_name='class',number=10,per_class=FALSE)
-#' chart.plot(C,D)
+#' D = sbcms_DatasetExperiment()
+#' C = DatasetExperiment.boxplot(factor_name='class',number=10,per_class=FALSE)
+#' chart_plot(C,D)
 #'
 #' @import struct
-#' @export dataset.boxplot
-dataset.boxplot<-setClass(
-    "dataset.boxplot",
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
+#' @export DatasetExperiment.boxplot
+DatasetExperiment.boxplot = function(factor_name,by_sample=TRUE,per_class=TRUE,number=50,...) {
+    out=struct::new_struct('DatasetExperiment.boxplot',
+        factor_name=factor_name,
+        by_sample=by_sample,
+        per_class=per_class,
+        number=number,
+        ...)
+    return(out)
+}
+
+
+.DatasetExperiment.boxplot<-setClass(
+    "DatasetExperiment.boxplot",
     contains='chart',
     slots=c(
         # INPUTS
-        params.factor_name='entity',
-        params.by_sample='entity',
-        params.per_class='entity',
-        params.number='entity'
+        factor_name='entity',
+        by_sample='entity',
+        per_class='entity',
+        number='entity'
     ),
     prototype = list(name='Distribution plot',
         description='Plot of the distribution of all values in the data matrix.',
         type="boxlot",
-        params.factor_name=entity(name='Factor name',
+        .params=c('factor_name','by_sample','per_class','number'),
+
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
         ),
-        params.by_sample=entity(name='Plot by sample or by feature',
+        by_sample=entity(name='Plot by sample or by feature',
             value=TRUE,
             type='logical',
             description='[TRUE] to plot by sample or FALSE to plot by feature.'
         ),
-        params.per_class=entity(name='Plot per class',
+        per_class=entity(name='Plot per class',
             value=TRUE,
             type='logical',
             description='[TRUE] or FALSE to plot distributions by class.'
         ),
-        params.number=entity(name='Number of features/samples',
+        number=entity(name='Number of features/samples',
             value=50,
             type='numeric',
             description='The number of features/samples to plot.'
@@ -490,15 +556,14 @@ dataset.boxplot<-setClass(
 )
 
 #' @export
-#' @import pmp
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("dataset.boxplot",'dataset'),
+setMethod(f="chart_plot",
+    signature=c("DatasetExperiment.boxplot",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
-        opt=param.list(obj)
-        X=dataset.data(dobj)
-        SM=dataset.sample_meta(dobj)
+        opt=param_list(obj)
+        X=dobj$data
+        SM=dobj$sample_meta
         if (!opt$by_sample) {
             s=sample(ncol(X),min(c(ncol(X),opt$number)),replace=FALSE)
             ylabel='Features'
@@ -550,20 +615,30 @@ setMethod(f="chart.plot",
 #' @param factor_name the sample_meta colum to use
 #'
 #' @examples
-#' D1=sbcms_dataset(filtered=FALSE)
-#' D2=sbcms_dataset(filtered=TRUE)
+#' D1=sbcms_DatasetExperiment(filtered=FALSE)
+#' D2=sbcms_DatasetExperiment(filtered=TRUE)
 #' C = compare_dist(factor_name='class')
-#' chart.plot(C,D1,D2)
+#' chart_plot(C,D1,D2)
 #' @import struct
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export compare_dist
-compare_dist<-setClass(
+compare_dist = function(factor_name,...) {
+    out=struct::new_struct('compare_dist',
+        factor_name=factor_name,
+        ...)
+    return(out)
+}
+
+.compare_dist<-setClass(
     "compare_dist",
     contains='chart',
-    slots=c(params.factor_name='entity'),
+    slots=c(factor_name='entity'),
     prototype = list(name='Compare distributions',
         description='Distributions and box plots to compare two datasets',
         type="mixed",
-        params.factor_name=entity(name='Factor name',
+        .params=c('factor_name'),
+        factor_name=entity(name='Factor name',
             value='factor',
             type='character',
             description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example.'
@@ -572,31 +647,32 @@ compare_dist<-setClass(
     )
 )
 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @import gridExtra
 #' @template chart_plot
-#' @param eobj a second dataset object to compare with the first
-setMethod(f="chart.plot",
-    signature=c("compare_dist",'dataset'),
+#' @param eobj a second DatasetExperiment object to compare with the first
+setMethod(f="chart_plot",
+    signature=c("compare_dist",'DatasetExperiment'),
     definition=function(obj,dobj,eobj)
     {
-        C=dataset.boxplot(by_sample=FALSE,per_class=FALSE,number=30,factor_name=obj$factor_name)
+        C=DatasetExperiment.boxplot(by_sample=FALSE,per_class=FALSE,number=30,factor_name=obj$factor_name)
 
-        C1=chart.plot(C,dobj)+
+        C1=chart_plot(C,dobj)+
             labs(tag='c)')+
             theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle(NULL,'Before processing')
 
-        C2=chart.plot(C,eobj)+
+        C2=chart_plot(C,eobj)+
             labs(tag='d)')+
             theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle(NULL,'After processing')
 
-        C=dataset.dist(factor_name=obj$factor_name,per_class=TRUE)
+        C=DatasetExperiment.dist(factor_name=obj$factor_name,per_class=TRUE)
 
-        C3=chart.plot(C,dobj)+
+        C3=chart_plot(C,dobj)+
             labs(tag='a)')+
             theme(legend.position="none",axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle(NULL,'Before processing')
 
-        C4=chart.plot(C,eobj)+
+        C4=chart_plot(C,eobj)+
             labs(tag='b)')+
             theme(legend.position="none",axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle(NULL,'After processing')
 
@@ -650,27 +726,37 @@ setMethod(f="chart.plot",
 #############################################################
 #############################################################
 
-#' dataset.heatmap class
+#' DatasetExperiment.heatmap class
 #'
-#' plots a dataset as a heatmap
+#' plots a DatasetExperiment as a heatmap
 #'
-#' @import struct
-#' @import reshape2
-#' @export dataset.heatmap
+#' @param ... additional slots and values passed to struct_class
+#' @param na_colour A hex colour code to use for missing values
+#' @return struct object
+#' @export DatasetExperiment.heatmap
 #' @examples
-#' C = dataset.heatmap()
-dataset.heatmap<-setClass(
-    "dataset.heatmap",
+#' C = DatasetExperiment.heatmap()
+DatasetExperiment.heatmap = function(na_colour='#FF00E4',...) {
+    out=struct::new_struct('DatasetExperiment.heatmap',
+        na_colour=na_colour,...)
+    return(out)
+}
+
+
+.DatasetExperiment.heatmap<-setClass(
+    "DatasetExperiment.heatmap",
     contains=c('chart'),
     slots=c(
         # INPUTS
-        params.na_colour='entity'
+        na_colour='entity'
     ),
-    prototype = list(name='Dataset heatmap',
-        description='plots a heatmap of a dataset',
+    prototype = list(name='DatasetExperiment heatmap',
+        description='plots a heatmap of a DatasetExperiment',
         type="scatter",
+        libraries='reshape2',
+        .params=c('na_colour'),
 
-        params.na_colour=entity(name='NA colour',
+        na_colour=entity(name='NA colour',
             value='#FF00E4',
             type='character',
             description='A hex colour code to use for missing values'
@@ -680,11 +766,11 @@ dataset.heatmap<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
-    signature=c("dataset.heatmap",'dataset'),
+setMethod(f="chart_plot",
+    signature=c("DatasetExperiment.heatmap",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
-        X=melt(as.matrix(dobj$data))
+        X=reshape2::melt(as.matrix(dobj$data))
         colnames(X)=c('Sample','Feature','Peak area')
         p=ggplot(data=X,aes(x=`Feature`,y=`Sample`,fill=`Peak area`)) + geom_raster() +
             scale_colour_Publication()+

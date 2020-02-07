@@ -2,57 +2,64 @@
 #'
 #' Filters features based on their D ratio, which is the ratio of technical to
 #' sample variance.
-#'
-#'
 #' @param threshold D ratio threshold. Features with a d-ratio larger than this
 #' value are removed.
 #' @param qc_label the label used to identify QC labels
 #' @param factor_name the the sample_meta data column containing the QC labels
-#'
+#' @param ... additional slots and values passed to struct_class
 #' @return A struct method object with functions for filtering using the d-ratio.
-#'
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
-#' M = model.apply(M,D)
-#'
+#' M = model_apply(M,D)
 #' @export dratio_filter
-dratio_filter<-setClass(
+dratio_filter = function(threshold=20, qc_label='QC', factor_name, ...) {
+    out=struct::new_struct('dratio_filter',
+        threshold=threshold,
+        qc_label=qc_label,
+        factor_name=factor_name,
+        ...)
+    return(out)
+}
+
+.dratio_filter<-setClass(
     "dratio_filter",
     contains = c('model'),
-    slots=c(params.threshold='entity',
-        params.qc_label='entity',
-        params.factor_name='entity',
-        outputs.filtered='entity',
-        outputs.flags='entity',
-        outputs.d_ratio='data.frame'
+    slots=c(threshold='entity',
+        qc_label='entity',
+        factor_name='entity',
+        filtered='entity',
+        flags='entity',
+        d_ratio='data.frame'
     ),
     prototype=list(name = 'd_ratio filter',
         description = 'Filters features by calculating the d_ratio and removing features below the threshold.',
         type = 'filter',
         predicted = 'filtered',
+        .params=c('threshold','qc_label','factor_name'),
+        .outputs=c('filtered','flags','d_ratio'),
 
-        params.threshold=entity(name = 'd_ratio filter',
+        threshold=entity(name = 'd_ratio filter',
             description = 'Features with d_ratio less than the threshold are removed.',
             value = 20,
             type='numeric'),
 
-        params.qc_label=entity(name = 'QC label',
+        qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        params.factor_name=entity(name='Factor name',
+        factor_name=entity(name='Factor name',
             description='Name of sample meta column to use',
             type='character',
             value='V1'),
 
-        outputs.filtered=entity(name = 'd_ratio filtered dataset',
-            description = 'A dataset object containing the filtered data.',
-            type='dataset',
-            value=dataset()
+        filtered=entity(name = 'd_ratio filtered DatasetExperiment',
+            description = 'A DatasetExperiment object containing the filtered data.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         ),
-        outputs.flags=entity(name = 'Flags',
+        flags=entity(name = 'Flags',
             description = 'flag indicating whether the feature was rejected by the filter or not.',
             type='data.frame',
             value=data.frame()
@@ -63,19 +70,19 @@ dratio_filter<-setClass(
 
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("dratio_filter","dataset"),
+setMethod(f="model_train",
+    signature=c("dratio_filter","DatasetExperiment"),
     definition=function(M,D)
     {
         # median QC samples
         QC=filter_smeta(mode='include',levels=M$qc_label,factor_name=M$factor_name)
-        QC = model.apply(QC,D)
+        QC = model_apply(QC,D)
         QC = predicted(QC)$data
         QC=apply(QC,2,mad,na.rm=TRUE)
 
         # median samples
         S=filter_smeta(mode='exclude',levels=M$qc_label,factor_name=M$factor_name)
-        S = model.apply(S,D)
+        S = model_apply(S,D)
         S = predicted(S)$data
         S=apply(S,2,mad,na.rm=TRUE)
 
@@ -92,15 +99,14 @@ setMethod(f="model.train",
 
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("dratio_filter","dataset"),
+setMethod(f="model_predict",
+    signature=c("dratio_filter","DatasetExperiment"),
     definition=function(M,D)
     {
         # get flags
         OUT=M$flags$rejected
         # remove flagged
-        D$data=D$data[,-OUT]
-        D$variable_meta=D$variable_meta[,-OUT]
+        D=D[,-OUT]
         # store
         M$filtered=D
 

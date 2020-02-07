@@ -1,6 +1,6 @@
 #' fisher_exact class
 #'
-#' Fisher's exact test (FET). Applies FET for all features in a dataset.
+#' Fisher's exact test (FET). Applies FET for all features in a DatasetExperiment.
 #'
 #' @param alpha the p-value threshold to declare a result 'significant'
 #' @param mtc multiple test correction method
@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' # load some data
-#' D=sbcms_dataset()
+#' D=sbcms_DatasetExperiment()
 #'
 #' # prepare predictions based on NA
 #' pred=as.data.frame(is.na(D$data))
@@ -20,74 +20,66 @@
 #'
 #' # apply method
 #' M = fisher_exact(alpha=0.05,mtc='fdr',factor_name='class',factor_pred=pred)
-#' M=model.apply(M,D)
+#' M=model_apply(M,D)
 #'
 #' @import struct
 #' @import stats
+#' @param ... additional slots and values passed to struct_class
+#' @return A struct model with functions for applying fisher exact test.
 #' @export fisher_exact
-fisher_exact<-setClass(
+fisher_exact = function(alpha=0.05,mtc='fdr',factor_name,factor_pred,...) {
+    out=struct::new_struct('fisher_exact',
+        alpha=alpha,
+        mtc=mtc,
+        factor_name=factor_name,
+        factor_pred=factor_pred,
+        ...)
+    return(out)
+}
+
+
+.fisher_exact<-setClass(
     "fisher_exact",
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.factor_name='entity',
-        params.factor_pred='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_name='entity',
+        factor_pred='entity',
 
         # OUTPUTS
-        outputs.p_value='entity.stato',
-        outputs.significant='entity'
+        p_value='entity_stato',
+        significant='entity'
     ),
     prototype = list(name='Fisher Exact Test',
-        description='Fisher Exact Test applied to each column of a dataset.',
+        description='Fisher Exact Test applied to each column of a DatasetExperiment.',
         type="univariate",
         predicted='p_value',
-        stato.id="STATO:0000073",
+        stato_id="STATO:0000073",
+        .params=c('alpha','mtc','factor_name','factor_pred'),
+        .outputs=c('p_value','significant'),
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
-        params.factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The column name of meta data to use.'
-        ),
-        params.factor_pred=entity(name='Factor predictions',
+        alpha=ents$alpha,
+        mtc=ents$mtc,
+        factor_name=ents$factor_name,
+        factor_pred=entity(name='Factor predictions',
             value=data.frame(),
             type='data.frame',
             description='A data.frame, with a factor of predicted group labels to compare with factor_name. Can be a data frame with a factor of predictions for each feature.'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
-            type='numeric',
-            description='the probability of observing the calculated t-statistic.',
-            value=-1
-        ),
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
-            type='logical',
-            description='TRUE if the calculated p-value is less than the supplied threshold (alpha)'
-        )
+        p_value=ents$p_value,
+        significant=ents$significant
     )
 )
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("fisher_exact",'dataset'),
+setMethod(f="model_apply",
+    signature=c("fisher_exact",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
+        X=D$data
 
 
         FET=lapply(M$factor_pred,function(x) {
@@ -107,8 +99,8 @@ setMethod(f="model.apply",
         s=p<M$alpha
         names(s)=colnames(X)
 
-        M$p_value=p
-        M$significant=s
+        M$p_value=as.data.frame(p)
+        M$significant=as.data.frame(s)
 
         return(M)
     }

@@ -1,57 +1,66 @@
 #' Autoscale
 #'
-#' Autoscaling centres the columns of the data in a dataset object and divides by the standard deviation.
+#' Autoscaling centres the columns of the data in a DatasetExperiment object and divides by the standard deviation.
 #'
 #' @return A STRUCT model object with methods for autoscaling.
 #'
 #' @examples
-#' D = iris_dataset()
+#' D = iris_DatasetExperiment()
 #' M = autoscale()
-#' M = model.train(M,D)
-#' M = model.predict(M,D)
-#'
+#' M = model_train(M,D)
+#' M = model_predict(M,D)
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export autoscale
-autoscale<-setClass(
+autoscale = function(...) {
+    out=struct::new_struct('autoscale',...)
+    return(out)
+}
+
+.autoscale<-setClass(
     "autoscale",
     contains='model',
     slots=c(
-        outputs.autoscaled='dataset',
-        outputs.mean='numeric',
-        outputs.sd='numeric'
+        autoscaled='DatasetExperiment',
+        mean='numeric',
+        sd='numeric'
     ),
     prototype = list(name='Autoscaling',
         type="preprocessing",
-        predicted='autoscaled'
+        predicted='autoscaled',
+        .outputs=c('autoscaled','mean','sd')
     )
 )
 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
-setMethod(f="model.train",
-    signature=c("autoscale",'dataset'),
+setMethod(f="model_train",
+    signature=c("autoscale",'DatasetExperiment'),
     definition=function(M,D)
     {
         # column means
-        X=dataset.data(D)
+        X=D$data
         m=colMeans(X)
-        output.value(M,'mean')=m
+        output_value(M,'mean')=m
         s=apply(X, 2, sd)
-        output.value(M,'sd')=s
+        output_value(M,'sd')=s
         return(M)
     }
 )
 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
-setMethod(f="model.predict",
-    signature=c("autoscale",'dataset'),
+setMethod(f="model_predict",
+    signature=c("autoscale",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
-        Xc=ascale(X,output.value(M,'mean'),output.value(M,'sd'))
-        dataset.data(D)=as.data.frame(Xc)
-        name(D)=c(name(D),'The data has been autoscaled')
-        output.value(M,'autoscaled')=D
+        X=D$data
+        Xc=ascale(X,output_value(M,'mean'),output_value(M,'sd'))
+        D$data=as.data.frame(Xc)
+        D$name=c(D$name,'The data has been autoscaled')
+        output_value(M,'autoscaled')=D
         return(M)
     }
 )

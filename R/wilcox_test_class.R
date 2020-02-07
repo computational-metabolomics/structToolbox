@@ -1,97 +1,117 @@
-#' wilcoxon signed rank test method class
+#' Wilcoxon signed rank test method class
 #'
-#' wilcoxon signed rank test. Calculate signed rank test for all features in a
-#' dataset. Non-parametric ttest.
-#'
-#' @import struct
-#' @import stats
+#' Calculates a signed rank test for all features in a DatasetExperiment.
+#' Used as a non-parametric ttest.
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param factor_names The sample_meta column name to use.
+#' @param paired TRUE or FALSE to use a paired test.
+#' @param paired_factor The name of the sample_meta column used to indicate which samples are from the same
+#' subject. Must be provided if \code{paired = TRUE}
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export wilcox_test
 #' @examples
-#' M = wilcox_test()
+#' M = wilcox_test(factor_name='class')
 #'
-wilcox_test<-setClass(
+wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=character(0),...) {
+    out=struct::new_struct('wilcox_test',
+        alpha=alpha,
+        mtc=mtc,
+        factor_names=factor_names,
+        paired=paired,
+        paired_factor=paired_factor,
+        ...)
+    return(out)
+}
+
+
+.wilcox_test<-setClass(
     "wilcox_test",
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.factor_names='entity',
-        params.paired='entity',
-        params.paired_factor='character',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_names='entity',
+        paired='entity',
+        paired_factor='character',
         # OUTPUTS
-        outputs.statistic='entity.stato',
-        outputs.p_value='entity',
-        outputs.dof='entity.stato',
-        outputs.significant='entity',
-        outputs.conf_int='entity',
-        outputs.estimates='data.frame'
+        statistic='entity_stato',
+        p_value='entity',
+        dof='entity_stato',
+        significant='entity',
+        conf_int='entity',
+        estimates='data.frame'
     ),
     prototype = list(name='wilcoxon signed rank test',
         description='Applies the signed rank test to each feature to indicate significance, with (optional)
                                 multiple-testing correction.',
         type="univariate",
         predicted='p_value',
-        stato.id="STATO:0000304",
+        stato_id="STATO:0000304",
+        .params=c('alpha','mtc','factor_name','paired','paired_factor'),
+        .outputs=c('statistic','p_value','dof','significant','conf_int','estimates'),
 
-        params.factor_names=entity(name='Factor names',
+        factor_names=entity(name='Factor names',
             type='character',
             description='Names of sample_meta columns to use'
         ),
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
+        alpha=entity_stato(name='Confidence level',
+            stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
+        mtc=entity_stato(name='Multiple Test Correction method',
+            stato_id='OBI:0200089',
             value='fdr',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        params.paired=entity(name='Apply paired test',
+        paired=entity(name='Apply paired test',
             value=FALSE,
             type='logical',
             description='TRUE/FALSE to apply paired test.'
         ),
-        outputs.statistic=entity.stato(name='statistic',
-            stato.id='STATO:0000176',
+        statistic=entity_stato(name='statistic',
+            stato_id='STATO:0000176',
             type='numeric',
             description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
+        p_value=entity_stato(name='p value',
+            stato_id='STATO:0000175',
             type='numeric',
             description='the probability of observing the calculated t-statistic.'
         ),
-        outputs.dof=entity.stato(name='degrees of freedom',
-            stato.id='STATO:0000069',
+        dof=entity_stato(name='degrees of freedom',
+            stato_id='STATO:0000069',
             type='numeric',
             description='the number of degrees of freedom used to calculate the test statistic'
         ),
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
+        significant=entity(name='Significant features',
+            #stato_id='STATO:0000069',
             type='logical',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         ),
-        outputs.conf_int=entity(name='Confidence interval',
+        conf_int=entity(name='Confidence interval',
             type='data.frame',
             description='confidence interval for t statistic'
         )
     )
 )
 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("wilcox_test",'dataset'),
+setMethod(f="model_apply",
+    signature=c("wilcox_test",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
+        X=D$data
         CN=colnames(X) # keep a copy of the original colnames
-        y=dataset.sample_meta(D)[[M$factor_names]]
+        y=D$sample_meta[[M$factor_names]]
         L=levels(y)
         if (length(L)!=2) {
             stop('must have exactly two levels for this implmentation of t-statistic')
@@ -120,7 +140,7 @@ setMethod(f="model.apply",
             }
             D$data=D$data[!(D$sample_meta[[M$paired_factor]] %in% out),]
             D$sample_meta=D$sample_meta[!(D$sample_meta[[M$paired_factor]] %in% out),]
-            y=dataset.sample_meta(D)[[M$factor_names]]
+            y=D$sample_meta[[M$factor_names]]
 
             # sort the data by sample id so that theyre in the right order for paired ttest
             X=apply(D$data,2,function(x) {
@@ -133,16 +153,16 @@ setMethod(f="model.apply",
                 return(c(a,b))
             })
 
-            # put back into dataset object
+            # put back into DatasetExperiment object
             D$data=as.data.frame(X)
             D$sample_meta[[M$factor_names]]=D$sample_meta[[M$factor_names]][order(D$sample_meta[[M$paired_factor]])]
             D$sample_meta[[M$paired_factor]]=D$sample_meta[[M$paired_factor]][order(D$sample_meta[[M$paired_factor]])]
-            y=dataset.sample_meta(D)[[M$factor_names]]
+            y=D$sample_meta[[M$factor_names]]
 
             # check number per class
             # if less then 2 then remove
             FF=filter_na_count(threshold=2,factor_name=M$factor_names)
-            FF=model.apply(FF,D)
+            FF=model_apply(FF,D)
             D=predicted(FF)
 
             # check equal numbers per class. if not equal then exclude.
@@ -163,14 +183,14 @@ setMethod(f="model.apply",
         output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE,sort=FALSE)
         rownames(output)=output$Row.names
         output=output[,-1]
-        output$p.value=p.adjust(output$p.value,method = param.value(M,'mtc'))
+        output$p.value=p.adjust(output$p.value,method = param_value(M,'mtc'))
         if (M$paired) {
-            output.value(M,'statistic')=output$statistic.V
+            output_value(M,'statistic')=output$statistic.V
         } else {
-            output.value(M,'statistic')=output$statistic.W
+            output_value(M,'statistic')=output$statistic.W
         }
-        output.value(M,'p_value')=output$p.value
-        output.value(M,'significant')=output$p.value<param.value(M,'alpha')
+        output_value(M,'p_value')=output$p.value
+        output_value(M,'significant')=output$p.value<param_value(M,'alpha')
         M$conf_int=output[,3:4,drop=FALSE]
         colnames(M$conf_int)=c('lower','upper')
         if (M$paired) {
@@ -191,11 +211,19 @@ setMethod(f="model.apply",
 #'
 #' plots a histogram of p values
 #' @import struct
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export wilcox_p_hist
 #' @examples
 #' M = wilcox_p_hist()
 #'
-wilcox_p_hist<-setClass(
+wilcox_p_hist = function(...) {
+    out=struct::new_struct('wilcox_p_hist',...)
+    return(out)
+}
+
+
+.wilcox_p_hist<-setClass(
     "wilcox_p_hist",
     contains='chart',
     prototype = list(name='Histogram of p values',
@@ -204,13 +232,14 @@ wilcox_p_hist<-setClass(
     )
 )
 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("wilcox_p_hist",'wilcox_test'),
     definition=function(obj,dobj)
     {
-        t=param.value(dobj,'alpha')
+        t=param_value(dobj,'alpha')
         A=log10(data.frame(p_value=dobj$'p_value'))
         A$sig=dobj$significant
         A$features=factor(A$sig,levels=c(FALSE,TRUE),labels=c('accepted','rejected'))
@@ -219,8 +248,8 @@ setMethod(f="chart.plot",
             geom_histogram(boundary=t,color='white') +
             xlab('log10(p-values)') +
             ylab('Count') +
-            structToolbox:::scale_fill_Publication()+
-            structToolbox:::theme_Publication(base_size = 12) +
+            scale_fill_Publication()+
+            theme_Publication(base_size = 12) +
             ggtitle('Wilcoxon signed rank test')+
             theme(panel.border = element_rect(linetype = "solid", fill = NA))
 
@@ -236,6 +265,17 @@ setMethod(f="chart.plot",
 
 
 
+#' @export
+#' @template as_data_frame
+setMethod(f="as_data_frame",
+    signature=c("wilcox_test"),
+    definition=function(M) {
+        out=data.frame('w_statistic'=M$statistic,
+            'w_p_value'=M$p_value,
+            'w_significant'=M$significant)
+        out=cbind(out,M$estimates,M$conf_int)
+    }
+)
 
 
 

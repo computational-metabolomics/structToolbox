@@ -1,86 +1,105 @@
 #' t-test model class
 #'
-#' t-test model class. Calculate t-test for all features in a dataset
-#'
-#' @import struct
-#' @import stats
+#' t-test model class. Calculate t-test for all features in a DatasetExperiment.
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param factor_names The sample_meta column name to use.
+#' @param paired TRUE or FALSE to use a paired t-test.
+#' @param paired_factor The name of the sample_meta column used to indicate which samples are from the same
+#' subject. Must be provided if \code{paired = TRUE}
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export ttest
 #' @examples
-#' M = ttest()
+#' M = ttest(factor_name='class')
 #'
-ttest<-setClass(
+ttest = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=character(0),...) {
+    out=struct::new_struct('ttest',
+        alpha=alpha,
+        mtc=mtc,
+        factor_names=factor_names,
+        paired=paired,
+        paired_factor=paired_factor,
+        ...)
+    return(out)
+}
+
+
+.ttest<-setClass(
     "ttest",
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.factor_names='entity',
-        params.paired='entity',
-        params.paired_factor='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_names='entity',
+        paired='entity',
+        paired_factor='entity',
         # OUTPUTS
-        outputs.t_statistic='entity.stato',
-        outputs.p_value='entity',
-        outputs.dof='entity.stato',
-        outputs.significant='entity',
-        outputs.conf_int='entity',
-        outputs.estimates='data.frame'
+        t_statistic='entity_stato',
+        p_value='entity',
+        dof='entity_stato',
+        significant='entity',
+        conf_int='entity',
+        estimates='data.frame'
     ),
     prototype = list(name='t-test',
         description='Applies the t-test to each feature to indicate significance, with (optional)
                                 multiple-testing correction.',
         type="univariate",
         predicted='p_value',
-        stato.id="STATO:0000304",
+        stato_id="STATO:0000304",
+        .params=c('alpha','mtc','factor_names','paired','paired_factor'),
+        .outputs=c('t_statistic','p_value','dof','significant','conf_int','estimates'),
 
-        params.factor_names=entity(name='Factor names',
+        factor_names=entity(name='Factor names',
             type='character',
             description='Names of sample_meta columns to use'
         ),
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
+        alpha=entity_stato(name='Confidence level',
+            stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
+        mtc=entity_stato(name='Multiple Test Correction method',
+            stato_id='OBI:0200089',
             value='fdr',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        params.paired=entity(name='Apply paired t-test',
+        paired=entity(name='Apply paired t-test',
             value=FALSE,
             type='logical',
             description='TRUE/FALSE to apply paired t-test.'
         ),
-        params.paired_factor=entity(name='Paired factor',
+        paired_factor=entity(name='Paired factor',
             value='NA',
             type='character',
             description='Factor name that encodes the sample id for pairing'
         ),
-        outputs.t_statistic=entity.stato(name='t-statistic',
-            stato.id='STATO:0000176',
+        t_statistic=entity_stato(name='t-statistic',
+            stato_id='STATO:0000176',
             type='numeric',
             description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
+        p_value=entity_stato(name='p value',
+            stato_id='STATO:0000175',
             type='numeric',
             description='the probability of observing the calculated t-statistic.'
         ),
-        outputs.dof=entity.stato(name='degrees of freedom',
-            stato.id='STATO:0000069',
+        dof=entity_stato(name='degrees of freedom',
+            stato_id='STATO:0000069',
             type='numeric',
             description='the number of degrees of freedom used to calculate the test statistic'
         ),
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
+        significant=entity(name='Significant features',
+            #stato_id='STATO:0000069',
             type='logical',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         ),
-        outputs.conf_int=entity(name='Confidence interval',
+        conf_int=entity(name='Confidence interval',
             type='data.frame',
             description='confidence interval for t statistic'
         )
@@ -89,13 +108,13 @@ ttest<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("ttest",'dataset'),
+setMethod(f="model_apply",
+    signature=c("ttest",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
+        X=D$data
         CN=colnames(X) # keep a copy of the original colnames
-        y=dataset.sample_meta(D)[[M$factor_names]]
+        y=D$sample_meta[[M$factor_names]]
         L=levels(y)
         if (length(L)!=2) {
             stop('must have exactly two levels for this implmentation of t-statistic')
@@ -125,7 +144,7 @@ setMethod(f="model.apply",
             }
             D$data=D$data[!(D$sample_meta[[M$paired_factor]] %in% out),]
             D$sample_meta=D$sample_meta[!(D$sample_meta[[M$paired_factor]] %in% out),]
-            y=dataset.sample_meta(D)[[M$factor_names]]
+            y=D$sample_meta[[M$factor_names]]
 
             # sort the data by sample id so that theyre in the right order for paired ttest
             X=apply(D$data,2,function(x) {
@@ -138,16 +157,16 @@ setMethod(f="model.apply",
                 return(c(a,b))
             })
 
-            # put back into dataset object
+            # put back into DatasetExperiment object
             D$data=as.data.frame(X)
             D$sample_meta[[M$factor_names]]=D$sample_meta[[M$factor_names]][order(D$sample_meta[[M$paired_factor]])]
             D$sample_meta[[M$paired_factor]]=D$sample_meta[[M$paired_factor]][order(D$sample_meta[[M$paired_factor]])]
-            y=dataset.sample_meta(D)[[M$factor_names]]
+            y=D$sample_meta[[M$factor_names]]
 
             # check number per class
             # if less then 2 then remove
             FF=filter_na_count(threshold=2,factor_name=M$factor_names)
-            FF=model.apply(FF,D)
+            FF=model_apply(FF,D)
             D=predicted(FF)
 
             # check equal numbers per class. if not equal then exclude.
@@ -188,16 +207,16 @@ setMethod(f="model.apply",
 
         }
 
-        output=as.data.frame(output)
+        output=as.data.frame(output,check.names=FALSE)
         temp=data.frame(row.names=CN) # make sure we get  result for all features, even if NA
         output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE,sort=FALSE)
         rownames(output)=output$Row.names
         output=output[,-1]
-        output$p.value=p.adjust(output$p.value,method = param.value(M,'mtc'))
-        output.value(M,'t_statistic')=output$statistic.t
-        output.value(M,'p_value')=output$p.value
-        output.value(M,'dof')=output$parameter.df
-        output.value(M,'significant')=output$p.value<param.value(M,'alpha')
+        output$p.value=p.adjust(output$p.value,method = param_value(M,'mtc'))
+        output_value(M,'t_statistic')=output$statistic.t
+        output_value(M,'p_value')=output$p.value
+        output_value(M,'dof')=output$parameter.df
+        output_value(M,'significant')=output$p.value<param_value(M,'alpha')
         M$conf_int=output[,4:5,drop=FALSE]
         colnames(M$conf_int)=c('lower','upper')
         if (M$paired) {
@@ -215,7 +234,17 @@ setMethod(f="model.apply",
 
 
 
-
+#' @export
+#' @template as_data_frame
+setMethod(f="as_data_frame",
+    signature=c("ttest"),
+    definition=function(M) {
+        out=data.frame('t_statistic'=M$t_statistic,
+            't_p_value'=M$p_value,
+            't_significant'=M$significant)
+        out=cbind(out,M$estimates,M$conf_int)
+    }
+)
 
 
 

@@ -1,84 +1,107 @@
 #' HSD model class
 #'
-#' HSD model class. Tukey's honest significant difference for ANOVA objects
+#' Tukey's honest significant difference. Usually used in conjunction with ANOVA,
+#' this model compares classes in a pairwise fashion to try to identify which groups
+#' are different to the others (if any).
 #'
-#' @import struct
-#' @import stats
-#' @import agricolae
 #' @include anova_class.R
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param formula The formula to use. See \code{lm} for details.
+#' @param unbalanced TRUE or FALSE to apply correction for unbalanced designs. Default is FALSE.
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export HSD
 #' @examples
-#' M = HSD()
-HSD<-setClass(
+#' D = iris_DatasetExperiment()
+#' M = HSD(formula=y~Species)
+#' M = model_apply(M,D)
+#'
+HSD = function(alpha=0.05,mtc='fdr',formula,unbalanced=FALSE,...) {
+    out=struct::new_struct('HSD',
+        alpha=alpha,
+        mtc=mtc,
+        formula=formula,
+        unbalanced=unbalanced,
+        ...)
+    return(out)
+}
+
+
+.HSD<-setClass(
     "HSD",
     contains=c('model','stato'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.formula='entity',
-        params.unbalanced='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        formula='entity',
+        unbalanced='entity',
         # OUTPUTS
-        outputs.difference='data.frame',
-        outputs.UCL='data.frame',
-        outputs.LCL='data.frame',
-        # outputs.means='data.frame',
-        # outputs.sd='data.frame',
-        # outputs.counts='data.frame',
-        outputs.p_value='entity.stato',
-        outputs.significant='entity'
+        difference='data.frame',
+        UCL='data.frame',
+        LCL='data.frame',
+        # means='data.frame',
+        # sd='data.frame',
+        # counts='data.frame',
+        p_value='entity_stato',
+        significant='entity'
     ),
     prototype = list(name='Tukey Honest Significant Difference',
         description='Tukey HSD post hoc test abblied to ANOVA object.',
         type="univariate",
         predicted='p_value',
-        stato.id="STATO:0000187",
+        stato_id="STATO:0000187",
+        libraries='agricolae',
+        .params=c('alpha','mtc','formula','unbalanced'),
+        .outputs=c('difference','UCL','LCL','p_value','significant'),
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
+        alpha=entity_stato(name='Confidence level',
+            stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
+        mtc=entity_stato(name='Multiple Test Correction method',
+            stato_id='OBI:0200089',
             value='none',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        params.unbalanced=entity(name='Unbalanced model',
+        unbalanced=entity(name='Unbalanced model',
             description='TRUE or [FALSE]. Apply correction for unbalanced designs.',
             value=FALSE,
             type='logical'
         ),
-        params.formula=entity(name='Formula',
+        formula=entity(name='Formula',
             value=y~x,
             type='formula',
             description='The formula to use'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
+        p_value=entity_stato(name='p value',
+            stato_id='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated t-statistic.'
         ),
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
+        significant=entity(name='Significant features',
+            #stato_id='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         )
     )
 )
 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("HSD",'dataset'),
+setMethod(f="model_apply",
+    signature=c("HSD",'DatasetExperiment'),
     definition=function(M,D) {
-        X=dataset.data(D)
+        X=D$data
         var_names=all.vars(M$formula)
         var_names_1=var_names[1]
         var_names=var_names[-1]
-        y=dataset.sample_meta(D)[var_names]
+        y=D$sample_meta[var_names]
 
         # attempt to detect within factors
         within=which(all.names(M$formula) %in% all.names(M$formula)[which('Error'== all.names(M$formula))+2])
@@ -142,7 +165,7 @@ setMethod(f="model.apply",
 
             # for each combination of factors...
             out2=lapply(FF,function(x) {
-                A=HSD.test(LM,x,group = FALSE)$comparison
+                A=agricolae::HSD.test(LM,x,group = FALSE)$comparison
                 if (ALIAS) {
                     A[!is.na(A)]=NA # replace with NA if alias are present
                 }

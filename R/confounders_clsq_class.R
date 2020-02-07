@@ -13,66 +13,82 @@
 #' with the main factor if interest
 #' @param threshold the threshold (between 0 and 1) for accepting a factor as confounding
 #'
-#' @return A STRUCT method object with functions for applying classical least squares
+#' @return A struct model object with functions for applying classical least squares
 #'
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' M = filter_by_name(mode='include',dimension='variable',
 #'         names=colnames(D$data)[1:10]) + # first 10 features
 #'     filter_smeta(mode='exclude',levels='QC',
 #'         factor_name='class') + # reduce to two group comparison
 #'     confounders_clsq(factor_name = 'class',
 #'         confounding_factors=c('sample_order','batch'))
-#' M = model.apply(M,D)
+#' M = model_apply(M,D)
 #'
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export confounders_clsq
-confounders_clsq<-setClass(
+confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,confounding_factors,threshold=0.15,...) {
+    out=struct::new_struct('confounders_clsq',
+        alpha=alpha,
+        mtc=mtc,
+        factor_name=factor_name,
+        confounding_factors=confounding_factors,
+        threshold=threshold,
+        ...)
+    return(out)
+}
+
+
+.confounders_clsq<-setClass(
     "confounders_clsq",
     contains='model',
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.factor_name='entity',
-        params.confounding_factors='entity',
-        params.threshold='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_name='entity',
+        confounding_factors='entity',
+        threshold='entity',
 
         # OUTPUTS
-        outputs.coefficients='data.frame',
-        outputs.percent_change='data.frame',
-        outputs.p_value='data.frame',
-        outputs.potential_confounders='list',
-        outputs.significant='data.frame'
+        coefficients='data.frame',
+        percent_change='data.frame',
+        p_value='data.frame',
+        potential_confounders='list',
+        significant='data.frame'
     ),
     prototype = list(name='ttest with confounding factors',
         description='Applies least squares regression to account for confounding factors in when applying a ttest.',
         type="univariate",
         predicted='p_value',
+        .params=c('alpha','mtc','factor_name','confounding_factors','threshold'),
+        .outputs=c('coefficients','p_value','significant','percent_change','potential_confounders'),
 
-        params.threshold=entity(name='Confounding factor threshold',
+        threshold=entity(name='Confounding factor threshold',
             type='numeric',
             description='threshold for accepting a factor as confounding (0 < threshold < 1)',
             value=0.15
         ),
 
-        params.confounding_factors=entity(name='Confounding factors',
+        confounding_factors=entity(name='Confounding factors',
             type='character',
             description='Names of sample_meta columns to use as confounding factors'
         ),
 
-        params.factor_name=entity(name='Name of factor to use for ttest',
+        factor_name=entity(name='Name of factor to use for ttest',
             type='character',
             description='Names of sample_meta column to use for the ttest'
         ),
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
+        alpha=entity_stato(name='Confidence level',
+            stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params.mtc=entity.stato(name='Multiple testing Correction method',
-            stato.id='OBI:0200089',
+        mtc=entity_stato(name='Multiple testing Correction method',
+            stato_id='OBI:0200089',
             value='fdr',
             type='character',
             description='The method used to adjust for multiple comparisons.'
@@ -82,17 +98,17 @@ confounders_clsq<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("confounders_clsq",'dataset'),
+setMethod(f="model_apply",
+    signature=c("confounders_clsq",'DatasetExperiment'),
     definition=function(M,D)
     {
         # classical least squares model
-        clsq=classical_lsq(intercept=TRUE,alpha=M$alpha,mtc=M$mtc)
+        clsq=classical_lsq(intercept=TRUE,alpha=M$alpha,mtc=M$mtc,factor_names='dummy')
 
         # make list of all factors
         factor_names=c(M$factor_name,M$confounding_factors)
 
-        # do a regression including the main factor and the counfounders one at a time
+        # do a regression including the main factor and the confounders one at a time
         temp=matrix(NA,nrow=ncol(D$data),ncol=length(factor_names)) # coefficients
         pvals=temp # p-values
         nm=character(length(factor_names))
@@ -100,13 +116,13 @@ setMethod(f="model.apply",
             fn=unique(c(factor_names[1],factor_names[i]))
 
             # for each factor name check the na count
-            FF=filter_na_count(threshold=2)
+            FF=filter_na_count(threshold=2,factor_name='dummy')
             excl=matrix(NA,nrow=ncol(D$data),ncol=length(fn))
             colnames(excl)=fn
             for (k in fn) {
                 if (is.factor(D$sample_meta[,k])) {
-                    FF$factor_name=k
-                    FF=model.apply(FF,D)
+                    FF$factor_name=k # replace dummy factor name
+                    FF=model_apply(FF,D)
                     excl[,k]=FF$flags$flags
                 } else {
                     excl[,k]=FALSE
@@ -121,8 +137,8 @@ setMethod(f="model.apply",
                 excl=fn #
             }
 
-            clsq$factor_names=excl
-            clsq=model.apply(clsq,D)
+            clsq$factor_names=excl # put real factor names instead of dummy
+            clsq=model_apply(clsq,D)
 
             nm[i]=paste0(fn,collapse='_')
             temp[,i]=clsq$coefficients[,2] # first coefficient is the intercept, second is the main factor
@@ -147,7 +163,7 @@ setMethod(f="model.apply",
         factor_names=M$confounding_factors
         L=apply(conf[,2:ncol(conf),drop=FALSE],1,function(x) c(M$factor_name,factor_names[x]))
         M2=classical_lsq(intercept=TRUE,alpha=M$alpha,mtc=M$mtc,factor_names=L)
-        M2=model.apply(M2,D)
+        M2=model_apply(M2,D)
 
         M$p_value=data.frame('ttest.p'=pvals[,1],'corrected.p'=M2$p_value[,2]) # MTC already applied
         names(L)=colnames(D$data)
@@ -171,35 +187,48 @@ setMethod(f="model.apply",
 #' @return A STRUCT chart object
 #'
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' M = filter_by_name(mode='include',dimension='variable',
 #'         names=colnames(D$data)[1:10]) + # first 10 features
 #'     filter_smeta(mode='exclude',levels='QC',
 #'         factor_name='class') + # reduce to two group comparison
 #'     confounders_clsq(factor_name = 'class',
 #'         confounding_factors=c('sample_order','batch'))
-#' M = model.apply(M,D)
+#' M = model_apply(M,D)
 #' C = C=confounders_lsq.barchart(feature_to_plot=1,threshold=15)
-#' chart.plot(C,M[3])
+#' chart_plot(C,M[3])
 #'
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export confounders_lsq.barchart
-confounders_lsq.barchart<-setClass(
+confounders_lsq.barchart = function(feature_to_plot,threshold=10,...) {
+    out=struct::new_struct('confounders_lsq.barchart',
+        feature_to_plot=feature_to_plot,
+        threshold=threshold,
+        ...)
+    return(out)
+}
+
+
+.confounders_lsq.barchart<-setClass(
     "confounders_lsq.barchart",
     contains='chart',
     slots=c(
         # INPUTS
-        params.feature_to_plot='entity',
-        params.threshold='entity'
+        feature_to_plot='entity',
+        threshold='entity'
     ),
     prototype = list(name='Percent change',
-        description='a barchart of the percent change when including a confounding factor in a classical least squares model.',
+        description='a barchart of the percent change when including a confounding factor in a classical least squares model_',
         type="barchart",
-        params.feature_to_plot=entity(name='Feature to plot',
+        .params=c('feature_to_plot','threshold'),
+
+        feature_to_plot=entity(name='Feature to plot',
             value=1,
             type=c('numeric','character','integer'),
             description='The name of the feature to be plotted.'
         ),
-        params.threshold=entity(name='Threshold',
+        threshold=entity(name='Threshold',
             value=10,
             type='numeric',
             description='A horizontal line plotted to indicate the threshold'
@@ -209,7 +238,7 @@ confounders_lsq.barchart<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("confounders_lsq.barchart",'confounders_clsq'),
     definition=function(obj,dobj)
     {
@@ -247,29 +276,41 @@ setMethod(f="chart.plot",
 #' @return A STRUCT chart object
 #'
 #' @examples
-#' D = sbcms_dataset()
+#' D = sbcms_DatasetExperiment()
 #' M = filter_by_name(mode='include',dimension='variable',
 #'         names=colnames(D$data)[1:10]) + # first 10 features
 #'     filter_smeta(mode='exclude',levels='QC',
 #'         factor_name='class') + # reduce to two group comparison
 #'     confounders_clsq(factor_name = 'class',
 #'         confounding_factors=c('sample_order','batch'))
-#' M = model.apply(M,D)
+#' M = model_apply(M,D)
 #' C = C=confounders_lsq.boxplot(threshold=15)
-#' chart.plot(C,M[3])
+#' chart_plot(C,M[3])
 #'
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export confounders_lsq.boxplot
-confounders_lsq.boxplot<-setClass(
+confounders_lsq.boxplot = function(threshold=10,...) {
+    out=struct::new_struct('confounders_lsq.boxplot',
+        threshold=threshold,
+        ...)
+    return(out)
+}
+
+
+.confounders_lsq.boxplot<-setClass(
     "confounders_lsq.boxplot",
     contains='chart',
     slots=c(
         # INPUTS
-        params.threshold='entity'
+        threshold='entity'
     ),
     prototype = list(name='Percent change',
-        description='a barchart of the percent change when including a confounding factor in a classical least squares model.',
+        description='a barchart of the percent change when including a confounding factor in a classical least squares model_',
         type="barchart",
-        params.threshold=entity(name='Threshold',
+        .params=c('threshold'),
+
+        threshold=entity(name='Threshold',
             value=10,
             type='numeric',
             description='A horizontal line plotted to indicate the threshold'
@@ -279,11 +320,10 @@ confounders_lsq.boxplot<-setClass(
 
 #' @export
 #' @template chart_plot
-setMethod(f="chart.plot",
+setMethod(f="chart_plot",
     signature=c("confounders_lsq.boxplot",'confounders_clsq'),
     definition=function(obj,dobj)
     {
-
         A=data.frame('percent_change'=double(),'group'=character())
         for (i in 1:length(dobj$confounding_factors)) {
             q=data.frame('percent_change'=double(nrow(dobj$percent_change)),'group'=character(nrow(dobj$percent_change)))
@@ -303,9 +343,6 @@ setMethod(f="chart.plot",
             scale_color_manual(values=c("#386cb0", "#ef3b2c", "#7fc97f", "#fdb462", "#984ea3",
                 "#a6cee3", "#778899", "#fb9a99", "#ffff33")) +
             geom_hline(yintercept = obj$threshold,color='black',size=1,linetype= "dashed")
-
-
-
 
         return(out)
     }

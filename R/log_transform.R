@@ -1,49 +1,62 @@
 #' log transform
 #'
-#' applies a log transform to the input data
+#' Applies a log transform to the input data
+#' @param base The base of the logarithm. Default is 10, resulting in a log10 transformation of the data.
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export log_transform
 #' @examples
 #' M = log_transform()
-log_transform<-setClass(
+log_transform = function(base=10,...) {
+    out=struct::new_struct('log_transform',
+        base=10,
+        ...)
+    return(out)
+}
+
+
+.log_transform<-setClass(
     "log_transform",
     contains = c('model'),
-    slots=c(params.base='entity',
-        outputs.transformed='entity'
+    slots=c(base='entity',
+        transformed='entity'
     ),
 
     prototype=list(name = 'logarithm transform',
         description = 'applies a log tranform to the data.',
         type = 'transform',
         predicted = 'transformed',
+        .params=c('base'),
+        .outputs=c('transformed'),
 
-        params.base=entity(name = 'logarithm base',
+        base=entity(name = 'logarithm base',
             description = 'The base of the logarithm used for the tranform.',
             value = 10,
             type='numeric'),
 
-        outputs.transformed=entity(name = 'log transformed dataset',
-            description = 'A dataset object containing the log transformed data.',
-            type='dataset',
-            value=dataset()
+        transformed=entity(name = 'log transformed DatasetExperiment',
+            description = 'A DatasetExperiment object containing the log transformed data.',
+            type='DatasetExperiment',
+            value=DatasetExperiment()
         )
     )
 )
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("log_transform","dataset"),
+setMethod(f="model_apply",
+    signature=c("log_transform","DatasetExperiment"),
     definition=function(M,D)
     {
-        opt=param.list(M)
+        opt=param_list(M)
 
-        smeta=dataset.sample_meta(D)
-        x=dataset.data(D)
+        smeta=D$sample_meta
+        x=D$data
 
         out = log(x,base = opt$base)
-        dataset.data(D) = as.data.frame(out)
+        D$data = as.data.frame(out)
 
-        output.value(M,'transformed') = D
+        output_value(M,'transformed') = D
 
         return(M)
     }

@@ -1,63 +1,79 @@
 #' prop_na model class
 #'
-#' prop_na Compares proportion of NA for all features in a dataset
+#' Compares proportion of NA for all features in a DatasetExperiment using a
+#' Fisher's Exact test
 #'
-#' @import struct
-#' @import stats
+#' @param alpha The p-value threshold. Default alpha = 0.05.
+#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
+#' @param factor_name The sample_meta column name to use.
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export prop_na
 #' @examples
-#' M = prop_na()
+#' M = prop_na(factor_name='Species')
 #'
-prop_na<-setClass(
+prop_na = function(alpha=0.05,mtc='fdr',factor_name,...) {
+    out=struct::new_struct('prop_na',
+        alpha=alpha,
+        mtc=mtc,
+        factor_name=factor_name,
+        ...)
+    return(out)
+}
+
+
+.prop_na<-setClass(
     "prop_na",
     contains=c('model'),
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.factor_name='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_name='entity',
         # OUTPUTS
-        outputs.p_value='entity.stato',
-        outputs.significant='entity',
-        outputs.na_count='entity'
+        p_value='entity_stato',
+        significant='entity',
+        na_count='entity'
         # CHARTS
         # none
     ),
     prototype = list(name='Fisher\'s exact test to compare number of NA',
-        description='Applies Fisher\'s exact test to each feature to indicate whether teh proportion of NA per group is greater than expected, with (optional)
+        description='Applies Fisher\'s exact test to each feature to indicate whether the proportion of NA per group is greater than expected, with (optional)
     multiple-testing correction.',
         type="univariate",
         predicted='p_value',
+        .params=c('alpha','mtc','factor_name'),
+        .outputs=c('p_value','significant','na_count'),
 
-        params.factor_name=entity(name='Factor names',
+        factor_name=entity(name='Factor names',
             type='character',
             description='Names of sample_meta columns to use'
         ),
 
-        params.alpha=entity.stato(name='Confidence level',
-            stato.id='STATO:0000053',
+        alpha=entity_stato(name='Confidence level',
+            stato_id='STATO:0000053',
             value=0.05,
             type='numeric',
             description='the p-value cutoff for determining significance.'
         ),
-        params.mtc=entity.stato(name='Multiple Test Correction method',
-            stato.id='OBI:0200089',
+        mtc=entity_stato(name='Multiple Test Correction method',
+            stato_id='OBI:0200089',
             value='fdr',
             type='character',
             description='The method used to adjust for multiple comparisons.'
         ),
-        outputs.p_value=entity.stato(name='p value',
-            stato.id='STATO:0000175',
+        p_value=entity_stato(name='p value',
+            stato_id='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated statistic.'
         ),
-        outputs.significant=entity(name='Significant features',
-            #stato.id='STATO:0000069',
+        significant=entity(name='Significant features',
+            #stato_id='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threshold (alpha)'
         ),
-        outputs.na_count=entity(name='Number of NA',
-            #stato.id='STATO:0000069',
+        na_count=entity(name='Number of NA',
+            #stato_id='STATO:0000069',
             type='data.frame',
             description='The number of NA values per group of the chosen factor'
         )
@@ -66,12 +82,12 @@ prop_na<-setClass(
 
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("prop_na",'dataset'),
+setMethod(f="model_apply",
+    signature=c("prop_na",'DatasetExperiment'),
     definition=function(M,D)
     {
-        X=dataset.data(D)
-        y=dataset.sample_meta(D)[[M$factor_name]]
+        X=D$data
+        y=D$sample_meta[[M$factor_name]]
         L=levels(y)
         output=apply(X,2,function(x) {
             na_count=numeric(length(L))

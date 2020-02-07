@@ -6,14 +6,22 @@
 #' @return A metric object with methods for calculating balanced accuracy.
 #'
 #' @examples
-#' D = iris_dataset()
+#' D = iris_DatasetExperiment()
 #' XCV = kfold_xval(folds=5,factor_name='Species') *
 #'       (mean_centre() + PLSDA(number_components=2,factor_name='Species'))
 #' MET = balanced_accuracy()
 #' XCV = run(XCV,D,MET)
 #'
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export balanced_accuracy
-balanced_accuracy<-setClass(
+balanced_accuracy = function(...) {
+    out=struct::new_struct('balanced_accuracy',...)
+    return(out)
+}
+
+
+.balanced_accuracy<-setClass(
     "balanced_accuracy",
     contains='metric',
     prototype = list(name='Balanced Accuracy',
@@ -21,6 +29,7 @@ balanced_accuracy<-setClass(
     )
 )
 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template calculate
 setMethod(f="calculate",

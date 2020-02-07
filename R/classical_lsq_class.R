@@ -15,69 +15,90 @@
 #' @return A STRUCT method object with functions for applying classical least squares
 #'
 #' @examples
-#' D = iris_dataset()
+#' D = iris_DatasetExperiment()
 #' M = classical_lsq(factor_names = 'Species')
-#' M = model.apply(M,D)
+#' M = model_apply(M,D)
 #'
+#' @param ... additional slots and values passed to struct_class
+#' @return struct object
 #' @export classical_lsq
 
-classical_lsq<-setClass(
+classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
+
+    out=struct::new_struct('classical_lsq',
+        alpha = alpha,
+        mtc = mtc,
+        factor_names = factor_names,
+        intercept = intercept,
+        ...)
+
+    return(out)
+}
+
+
+.classical_lsq<-setClass(
     "classical_lsq",
     contains='model',
     slots=c(
         # INPUTS
-        params.alpha='entity.stato',
-        params.mtc='entity.stato',
-        params.factor_names='entity',
-        params.intercept='entity',
+        alpha='entity_stato',
+        mtc='entity_stato',
+        factor_names='entity',
+        intercept='entity',
         # OUTPUTS
-        outputs.coefficients='entity',
-        outputs.p_value='entity.stato',
-        outputs.significant='entity',
-        outputs.r_squared='entity',
-        outputs.adj_r_squared='entity'
+        coefficients='entity',
+        p_value='entity_stato',
+        significant='entity',
+        r_squared='entity',
+        adj_r_squared='entity'
     ),
     prototype = list(name='Univariate Classical Least Squares Regression',
         description='classical least squares, where y is the response and x is the design matrix, applied to each feature individually.',
         type="univariate",
         predicted='p_value',
+        .params=c('alpha','mtc','factor_names','intercept'),
+        .outputs=c('coefficients','p_value','significant','r_squared','adj_r_squared'),
 
-        params.intercept=entity(name='Include intercept',
+        intercept=entity(name='Include intercept',
             type='logical',
-            description='TRUE or FALSE to include the intercept term when fitting the model.',
+            description='TRUE or FALSE to include the intercept term when fitting the model',
             value=TRUE
         ),
 
-        params.factor_names=entity(name='Factor name(s)',
+        factor_names=entity(name='Factor name(s)',
             description='Name of sample meta column(s) to use',
             type=c('character','list'),
             value='V1'),
 
-        params.alpha=ents$alpha,
+        alpha=ents$alpha,
 
-        params.mtc=ents$mtc,
+        mtc=ents$mtc,
 
-        outputs.coefficients=entity(name='Regression coefficients',
+        coefficients=entity(name='Regression coefficients',
             type='data.frame',
-            description='The regression coefficients for each model.'
+            description='The regression coefficients for each model_',
+            value=data.frame()
         ),
-        outputs.p_value=ents$p_value,
-        outputs.significant=ents$significant,
-        outputs.r_squared=entity(name='R Squared',
-            description='The value of R Squared for the fitted model.',
-            type='data.frame'
+        p_value=ents$p_value,
+        significant=ents$significant,
+        r_squared=entity(name='R Squared',
+            description='The value of R Squared for the fitted model_',
+            type='data.frame',
+            value=data.frame()
         ),
-        outputs.adj_r_squared=entity(name='Adjusted R Squared',
-            description='The value ofAdjusted  R Squared for the fitted model.',
-            type='data.frame'
+        adj_r_squared=entity(name='Adjusted R Squared',
+            description='The value ofAdjusted  R Squared for the fitted model_',
+            type='data.frame',
+            value=data.frame()
         )
     )
 )
 
+#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
-setMethod(f="model.apply",
-    signature=c("classical_lsq",'dataset'),
+setMethod(f="model_apply",
+    signature=c("classical_lsq",'DatasetExperiment'),
     definition=function(M,D)
     {
         # for classical least squares X is the design matrix, or sample_meta in our case
@@ -101,7 +122,7 @@ setMethod(f="model.apply",
                 LM=linear_model(formula=y~0+.)
             }
 
-            # create a dataset object we can use with the linear model class
+            # create a DatasetExperiment object we can use with the linear model class
             temp_y=data.frame(y=y[,n])
             if (is(M$factor_names,'character')) {
                 X=X[,M$factor_names,drop=FALSE]
@@ -109,9 +130,9 @@ setMethod(f="model.apply",
             } else { # assume list
                 X=X[,M$factor_names[[n]],drop=FALSE]
             }
-            Dlm=dataset(data=temp_y,sample_meta=X)
+            Dlm=DatasetExperiment(data=temp_y,sample_meta=X,variable_meta=colnames(temp_y))
 
-            LM=model.train(LM,Dlm)
+            LM=model_train(LM,Dlm)
 
             S=summary(LM$lm)
 
