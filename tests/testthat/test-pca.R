@@ -133,7 +133,7 @@ test_that('PCA scree chart returns ggplot object',{
   # apply the model
   M=model_predict(M,D)
   # chart
-  C=pca_scree()
+  C=pca_scree_plot()
   # plot
   gg=chart_plot(C,M[2])
 
@@ -151,7 +151,7 @@ test_that('PCA dstat chart returns ggplot object',{
   # apply the model
   M=model_predict(M,D)
   # chart
-  C=PCA_dstat()
+  C=pca_dstat_plot()
   # plot
   gg=chart_plot(C,M[2])
 

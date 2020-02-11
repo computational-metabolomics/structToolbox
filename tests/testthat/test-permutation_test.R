@@ -27,7 +27,7 @@ test_that('permutation test boxplot',{
   # run
   I=run(I,D,B)
   # chart
-  C=permutation_test.boxplot()
+  C=permutation_test_boxplot()
   gg=chart_plot(C,I)
   expect_true(is(gg,'ggplot'))
 })
@@ -61,7 +61,7 @@ test_that('permutation scatter hist plot',{
   # run
   I=run(I,D,B)
   # chart
-  C=permutation_test.scatter()
+  C=permutation_test_scatter()
   gg=chart_plot(C,I)
   expect_true(is(gg,'ggplot'))
 })
@@ -78,7 +78,7 @@ test_that('permutation violin hist plot',{
   # run
   I=run(I,D,B)
   # chart
-  C=permutation_test.violin()
+  C=permutation_test_violin()
   gg=chart_plot(C,I)
   expect_true(is(gg,'ggplot'))
 })

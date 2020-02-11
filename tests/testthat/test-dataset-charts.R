@@ -65,12 +65,12 @@ test_that('mv_boxplot creates ggplot object',{
   expect_true(is(gg,'ggplot'))
 })
 
-test_that('DatasetExperiment.dist creates ggplot object',{
+test_that('DatasetExperiment_dist creates ggplot object',{
   # DatasetExperiment
   D=iris_DatasetExperiment()
 
   # chart
-  C = DatasetExperiment.dist(factor_name='Species',per_class=TRUE)
+  C = DatasetExperiment_dist(factor_name='Species',per_class=TRUE)
   # plot
   gg=chart_plot(C,D)
 
@@ -78,7 +78,7 @@ test_that('DatasetExperiment.dist creates ggplot object',{
   expect_true(is(gg,'ggplot'))
 
   # chart
-  C = DatasetExperiment.dist(factor_name='Species',per_class=FALSE)
+  C = DatasetExperiment_dist(factor_name='Species',per_class=FALSE)
   # plot
   gg=chart_plot(C,D)
 
@@ -86,12 +86,12 @@ test_that('DatasetExperiment.dist creates ggplot object',{
   expect_true(is(gg,'ggplot'))
 })
 
-test_that('DatasetExperiment.boxplot creates ggplot object',{
+test_that('DatasetExperiment_boxplot creates ggplot object',{
   # DatasetExperiment
   D=iris_DatasetExperiment()
   colnames(D$data)=rownames(D$variable_meta)[1:4]
     # chart
-  C = DatasetExperiment.boxplot(factor_name='Species',per_class=FALSE,by_sample=FALSE)
+  C = DatasetExperiment_boxplot(factor_name='Species',per_class=FALSE,by_sample=FALSE)
   # plot
   gg=chart_plot(C,D)
 
@@ -99,7 +99,7 @@ test_that('DatasetExperiment.boxplot creates ggplot object',{
   expect_true(is(gg,'ggplot'))
 
   # chart
-  C = DatasetExperiment.boxplot(factor_name='Species',per_class=FALSE,by_sample=TRUE)
+  C = DatasetExperiment_boxplot(factor_name='Species',per_class=FALSE,by_sample=TRUE)
   # plot
   gg=chart_plot(C,D)
 
@@ -107,7 +107,7 @@ test_that('DatasetExperiment.boxplot creates ggplot object',{
   expect_true(is(gg,'ggplot'))
 
   # chart
-  C = DatasetExperiment.boxplot(factor_name='Species',per_class=TRUE,by_sample=FALSE)
+  C = DatasetExperiment_boxplot(factor_name='Species',per_class=TRUE,by_sample=FALSE)
   # plot
   gg=chart_plot(C,D)
 
@@ -115,7 +115,7 @@ test_that('DatasetExperiment.boxplot creates ggplot object',{
   expect_true(is(gg,'ggplot'))
 
   # chart
-  C = DatasetExperiment.boxplot(factor_name='Species',per_class=TRUE,by_sample=TRUE)
+  C = DatasetExperiment_boxplot(factor_name='Species',per_class=TRUE,by_sample=TRUE)
   # plot
   gg=chart_plot(C,D)
 
@@ -136,11 +136,11 @@ test_that('compare_dist creates ggplot object',{
 }
 )
 
-test_that('DatasetExperiment.heatmap creates ggplot object',{
+test_that('DatasetExperiment_heatmap creates ggplot object',{
   # DatasetExperiment
   D=iris_DatasetExperiment()
   # chart
-  C = DatasetExperiment.heatmap()
+  C = DatasetExperiment_heatmap()
   # plot
   gg=chart_plot(C,D)
   expect_true(is(gg,'ggplot'))

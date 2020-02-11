@@ -23,7 +23,7 @@ test_that('confounders lsq barchart',{
   ME=confounders_clsq(factor_name='Species',confounding_factors='Rnd',threshold=0.15)
   ME=model_apply(ME,D)
   # chart
-  C=confounders_lsq.barchart(feature_to_plot='Petal.Length')
+  C=confounders_lsq_barchart(feature_to_plot='Petal.Length')
   gg=chart_plot(C,ME)
   # expect all true
   expect_true(is(gg,'ggplot'))
@@ -40,7 +40,7 @@ test_that('confounders lsq boxplot',{
   ME=confounders_clsq(factor_name='Species',confounding_factors='Rnd',threshold=0.15)
   ME=model_apply(ME,D)
   # chart
-  C=confounders_lsq.boxplot()
+  C=confounders_lsq_boxplot()
   gg=chart_plot(C,ME)
   # expect all true
   expect_true(is(gg,'ggplot'))

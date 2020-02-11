@@ -50,7 +50,7 @@ chart_plot(C,M[2])
 ## ----fig.width=10-------------------------------------------------------------
 C1 = pca_scores_plot(groups=D$sample_meta$Species,factor_name='Species') # colour by Species
 g1 = chart_plot(C1,M[2])
-C2 = pca_scree()
+C2 = pca_scree_plot()
 g2 = chart_plot(C2,M[2])
 grid.arrange(grobs=list(g1,g2),nrow=1)
 
