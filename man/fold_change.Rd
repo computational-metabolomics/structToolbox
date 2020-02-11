@@ -38,7 +38,7 @@ Calculates fold change between groups for all features in a DatasetExperiment, b
 a log transform and t-test.
 }
 \examples{
-D = sbcms_DatasetExperiment()
+D = MTBLS79_DatasetExperiment()
 M = fold_change(factor_name='class')
 M = model_apply(M,D)
 

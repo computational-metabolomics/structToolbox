@@ -38,7 +38,7 @@ Compares the coefficients for a ttest without including confounding factors
 to models with confounding factor included. Currently only ttest is supported.
 }
 \examples{
-D = sbcms_DatasetExperiment()
+D = MTBLS79_DatasetExperiment()
 M = filter_by_name(mode='include',dimension='variable',
         names=colnames(D$data)[1:10]) + # first 10 features
     filter_smeta(mode='exclude',levels='QC',

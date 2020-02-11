@@ -20,7 +20,7 @@ struct object
 histograms indicating the numbers of missing values per sample/feature
 }
 \examples{
-D = sbcms_DatasetExperiment()
+D = MTBLS79_DatasetExperiment()
 C = mv_histogram(label_outliers=FALSE,by_sample=FALSE)
 chart_plot(C,D)
 

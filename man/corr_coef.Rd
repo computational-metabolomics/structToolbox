@@ -24,7 +24,7 @@ struct object
 Calculates correlation between features and continuous variables.
 }
 \examples{
-D = sbcms_DatasetExperiment(filtered=TRUE)
+D = MTBLS79_DatasetExperiment(filtered=TRUE)
 
 # subset for this example
 D = D[,1:10]

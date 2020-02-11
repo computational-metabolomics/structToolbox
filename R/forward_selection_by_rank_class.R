@@ -13,7 +13,7 @@
 #'
 #' @examples
 #' # some data
-#' D = sbcms_DatasetExperiment(filtered=TRUE)
+#' D = MTBLS79_DatasetExperiment(filtered=TRUE)
 #'
 #' # normalise, impute and scale then remove QCs
 #' P = pqn_norm(qc_label='QC',factor_name='class') +
@@ -215,7 +215,7 @@ eval_loess=function(x,X,Y,k=10,p=0.66)
 #' @export fs_line
 #' @examples
 #' # some data
-#' D = sbcms_DatasetExperiment(filtered=TRUE)
+#' D = MTBLS79_DatasetExperiment(filtered=TRUE)
 #'
 #' # normalise, impute and scale then remove QCs
 #' P = pqn_norm(qc_label='QC',factor_name='class') +

@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' # load some data
-#' D=sbcms_DatasetExperiment()
+#' D=MTBLS79_DatasetExperiment()
 #'
 #' # prepare predictions based on NA
 #' pred=as.data.frame(is.na(D$data))

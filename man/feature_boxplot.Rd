@@ -31,7 +31,7 @@ A struct chart object
 Plots a boxplot of a chosen feature for each group of a input factor.
 }
 \examples{
-D = sbcms_DatasetExperiment
+D = MTBLS79_DatasetExperiment
 C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')
 chart_plot(C,D)
 }

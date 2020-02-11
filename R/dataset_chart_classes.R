@@ -11,7 +11,7 @@
 #' plot
 #' @param ... additional slots and values passed to struct_class
 #' @examples
-#' D = sbcms_DatasetExperiment
+#' D = MTBLS79_DatasetExperiment
 #' C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')
 #' chart_plot(C,D)
 #' @return A struct chart object
@@ -151,7 +151,7 @@ setMethod(f="chart_plot",
 #' @param by_sample [TRUE] to plot by sample or FALSE to plot by features
 #'
 #' @examples
-#' D = sbcms_DatasetExperiment()
+#' D = MTBLS79_DatasetExperiment()
 #' C = mv_histogram(label_outliers=FALSE,by_sample=FALSE)
 #' chart_plot(C,D)
 #'
@@ -243,7 +243,7 @@ setMethod(f="chart_plot",
 #' @param factor_name the sample_meta column to use
 #' @param show_counts [TRUE] or FALSE to include the number of samples on the plot
 #' @examples
-#' D = sbcms_DatasetExperiment()
+#' D = MTBLS79_DatasetExperiment()
 #' C = mv_boxplot(factor_name='class')
 #' chart_plot(C,D)
 #'
@@ -408,24 +408,24 @@ setMethod(f="chart_plot",
 #' factor_name
 #'
 #' @examples
-#' D = sbcms_DatasetExperiment()
-#' C = DatasetExperiment.dist(factor_name='class')
+#' D = MTBLS79_DatasetExperiment()
+#' C = DatasetExperiment_dist(factor_name='class')
 #' chart_plot(C,D)
 #'
 #' @import struct
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export DatasetExperiment.dist
-DatasetExperiment.dist = function(factor_name,per_class=TRUE,...) {
-    out=struct::new_struct('DatasetExperiment.dist',
+#' @export DatasetExperiment_dist
+DatasetExperiment_dist = function(factor_name,per_class=TRUE,...) {
+    out=struct::new_struct('DatasetExperiment_dist',
         factor_name=factor_name,
         per_class=per_class,
         ...)
     return(out)
 }
 
-.DatasetExperiment.dist<-setClass(
-    "DatasetExperiment.dist",
+.DatasetExperiment_dist<-setClass(
+    "DatasetExperiment_dist",
     contains='chart',
     slots=c(
         # INPUTS
@@ -453,7 +453,7 @@ DatasetExperiment.dist = function(factor_name,per_class=TRUE,...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("DatasetExperiment.dist",'DatasetExperiment'),
+    signature=c("DatasetExperiment_dist",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
         opt=param_list(obj)
@@ -498,16 +498,16 @@ setMethod(f="chart_plot",
 #' @param number the number of samples/features to plot
 #'
 #' @examples
-#' D = sbcms_DatasetExperiment()
-#' C = DatasetExperiment.boxplot(factor_name='class',number=10,per_class=FALSE)
+#' D = MTBLS79_DatasetExperiment()
+#' C = DatasetExperiment_boxplot(factor_name='class',number=10,per_class=FALSE)
 #' chart_plot(C,D)
 #'
 #' @import struct
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export DatasetExperiment.boxplot
-DatasetExperiment.boxplot = function(factor_name,by_sample=TRUE,per_class=TRUE,number=50,...) {
-    out=struct::new_struct('DatasetExperiment.boxplot',
+#' @export DatasetExperiment_boxplot
+DatasetExperiment_boxplot = function(factor_name,by_sample=TRUE,per_class=TRUE,number=50,...) {
+    out=struct::new_struct('DatasetExperiment_boxplot',
         factor_name=factor_name,
         by_sample=by_sample,
         per_class=per_class,
@@ -517,8 +517,8 @@ DatasetExperiment.boxplot = function(factor_name,by_sample=TRUE,per_class=TRUE,n
 }
 
 
-.DatasetExperiment.boxplot<-setClass(
-    "DatasetExperiment.boxplot",
+.DatasetExperiment_boxplot<-setClass(
+    "DatasetExperiment_boxplot",
     contains='chart',
     slots=c(
         # INPUTS
@@ -558,7 +558,7 @@ DatasetExperiment.boxplot = function(factor_name,by_sample=TRUE,per_class=TRUE,n
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("DatasetExperiment.boxplot",'DatasetExperiment'),
+    signature=c("DatasetExperiment_boxplot",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
         opt=param_list(obj)
@@ -615,8 +615,8 @@ setMethod(f="chart_plot",
 #' @param factor_name the sample_meta colum to use
 #'
 #' @examples
-#' D1=sbcms_DatasetExperiment(filtered=FALSE)
-#' D2=sbcms_DatasetExperiment(filtered=TRUE)
+#' D1=MTBLS79_DatasetExperiment(filtered=FALSE)
+#' D2=MTBLS79_DatasetExperiment(filtered=TRUE)
 #' C = compare_dist(factor_name='class')
 #' chart_plot(C,D1,D2)
 #' @import struct
@@ -656,7 +656,7 @@ setMethod(f="chart_plot",
     signature=c("compare_dist",'DatasetExperiment'),
     definition=function(obj,dobj,eobj)
     {
-        C=DatasetExperiment.boxplot(by_sample=FALSE,per_class=FALSE,number=30,factor_name=obj$factor_name)
+        C=DatasetExperiment_boxplot(by_sample=FALSE,per_class=FALSE,number=30,factor_name=obj$factor_name)
 
         C1=chart_plot(C,dobj)+
             labs(tag='c)')+
@@ -666,7 +666,7 @@ setMethod(f="chart_plot",
             labs(tag='d)')+
             theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle(NULL,'After processing')
 
-        C=DatasetExperiment.dist(factor_name=obj$factor_name,per_class=TRUE)
+        C=DatasetExperiment_dist(factor_name=obj$factor_name,per_class=TRUE)
 
         C3=chart_plot(C,dobj)+
             labs(tag='a)')+
@@ -726,25 +726,25 @@ setMethod(f="chart_plot",
 #############################################################
 #############################################################
 
-#' DatasetExperiment.heatmap class
+#' DatasetExperiment_heatmap class
 #'
 #' plots a DatasetExperiment as a heatmap
 #'
 #' @param ... additional slots and values passed to struct_class
 #' @param na_colour A hex colour code to use for missing values
 #' @return struct object
-#' @export DatasetExperiment.heatmap
+#' @export DatasetExperiment_heatmap
 #' @examples
-#' C = DatasetExperiment.heatmap()
-DatasetExperiment.heatmap = function(na_colour='#FF00E4',...) {
-    out=struct::new_struct('DatasetExperiment.heatmap',
+#' C = DatasetExperiment_heatmap()
+DatasetExperiment_heatmap = function(na_colour='#FF00E4',...) {
+    out=struct::new_struct('DatasetExperiment_heatmap',
         na_colour=na_colour,...)
     return(out)
 }
 
 
-.DatasetExperiment.heatmap<-setClass(
-    "DatasetExperiment.heatmap",
+.DatasetExperiment_heatmap<-setClass(
+    "DatasetExperiment_heatmap",
     contains=c('chart'),
     slots=c(
         # INPUTS
@@ -767,7 +767,7 @@ DatasetExperiment.heatmap = function(na_colour='#FF00E4',...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("DatasetExperiment.heatmap",'DatasetExperiment'),
+    signature=c("DatasetExperiment_heatmap",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
         X=reshape2::melt(as.matrix(dobj$data))

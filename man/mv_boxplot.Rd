@@ -30,7 +30,7 @@ struct object
 Boxplot of the numbers of missing values per sample/feature
 }
 \examples{
-D = sbcms_DatasetExperiment()
+D = MTBLS79_DatasetExperiment()
 C = mv_boxplot(factor_name='class')
 chart_plot(C,D)
 

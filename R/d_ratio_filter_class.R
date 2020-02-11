@@ -9,7 +9,7 @@
 #' @param ... additional slots and values passed to struct_class
 #' @return A struct method object with functions for filtering using the d-ratio.
 #' @examples
-#' D = sbcms_DatasetExperiment()
+#' D = MTBLS79_DatasetExperiment()
 #' M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
 #' M = model_apply(M,D)
 #' @export dratio_filter

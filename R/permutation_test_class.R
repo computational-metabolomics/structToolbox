@@ -134,22 +134,22 @@ setMethod(f="run",
 )
 
 
-#' permutation_test.boxplot class
+#' permutation_test_boxplot class
 #'
 #' plots the results of a permutation test as a boxplot
 #' @examples
-#' C = permutation_test.boxplot()
+#' C = permutation_test_boxplot()
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export permutation_test.boxplot
-permutation_test.boxplot = function(...) {
-    out=struct::new_struct('permutation_test.boxplot',...)
+#' @export permutation_test_boxplot
+permutation_test_boxplot = function(...) {
+    out=struct::new_struct('permutation_test_boxplot',...)
     return(out)
 }
 
 
-.permutation_test.boxplot<-setClass(
-    "permutation_test.boxplot",
+.permutation_test_boxplot<-setClass(
+    "permutation_test_boxplot",
     contains='chart',
     prototype = list(name='permutation test',
         type='boxplot',
@@ -160,7 +160,7 @@ permutation_test.boxplot = function(...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c('permutation_test.boxplot','permutation_test'),
+    signature=c('permutation_test_boxplot','permutation_test'),
     definition=function(obj,dobj)
     {
         p=output_value(dobj,'results.permuted')
@@ -177,22 +177,22 @@ setMethod(f="chart_plot",
     }
 )
 
-#' permutation_test.violin class
+#' permutation_test_violin class
 #'
 #' plots the results of a permutation test as a boxplot
 #' @examples
-#' C = permutation_test.violin()
+#' C = permutation_test_violin()
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export permutation_test.violin
-permutation_test.violin = function(...) {
-    out=struct::new_struct('permutation_test.violin',...)
+#' @export permutation_test_violin
+permutation_test_violin = function(...) {
+    out=struct::new_struct('permutation_test_violin',...)
     return(out)
 }
 
 
-.permutation_test.violin<-setClass(
-    "permutation_test.violin",
+.permutation_test_violin<-setClass(
+    "permutation_test_violin",
     contains='chart',
     prototype = list(name='permutation test',
         type='violin',
@@ -204,7 +204,7 @@ permutation_test.violin = function(...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c('permutation_test.violin','permutation_test'),
+    signature=c('permutation_test_violin','permutation_test'),
     definition=function(obj,dobj)
     {
         p=output_value(dobj,'results.permuted')
@@ -264,22 +264,22 @@ setMethod(f="chart_plot",
     }
 )
 
-#' permutation_test.scatter class
+#' permutation_test_scatter class
 #'
 #' plots the results of a permutation test as histograms
 #' @examples
-#' C = permutation_test.scatter()
+#' C = permutation_test_scatter()
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export permutation_test.scatter
-permutation_test.scatter = function(...) {
-    out=struct::new_struct('permutation_test.scatter',...)
+#' @export permutation_test_scatter
+permutation_test_scatter = function(...) {
+    out=struct::new_struct('permutation_test_scatter',...)
     return(out)
 }
 
 
-.permutation_test.scatter<-setClass(
-    "permutation_test.scatter",
+.permutation_test_scatter<-setClass(
+    "permutation_test_scatter",
     contains='chart',
     prototype = list(name='permutation test',
         type='scatter',
@@ -290,7 +290,7 @@ permutation_test.scatter = function(...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c('permutation_test.scatter','permutation_test'),
+    signature=c('permutation_test_scatter','permutation_test'),
     definition=function(obj,dobj)
     {
         p=output_value(dobj,'results.permuted')

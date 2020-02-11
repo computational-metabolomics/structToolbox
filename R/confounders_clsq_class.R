@@ -16,7 +16,7 @@
 #' @return A struct model object with functions for applying classical least squares
 #'
 #' @examples
-#' D = sbcms_DatasetExperiment()
+#' D = MTBLS79_DatasetExperiment()
 #' M = filter_by_name(mode='include',dimension='variable',
 #'         names=colnames(D$data)[1:10]) + # first 10 features
 #'     filter_smeta(mode='exclude',levels='QC',
@@ -187,7 +187,7 @@ setMethod(f="model_apply",
 #' @return A STRUCT chart object
 #'
 #' @examples
-#' D = sbcms_DatasetExperiment()
+#' D = MTBLS79_DatasetExperiment()
 #' M = filter_by_name(mode='include',dimension='variable',
 #'         names=colnames(D$data)[1:10]) + # first 10 features
 #'     filter_smeta(mode='exclude',levels='QC',
@@ -195,14 +195,14 @@ setMethod(f="model_apply",
 #'     confounders_clsq(factor_name = 'class',
 #'         confounding_factors=c('sample_order','batch'))
 #' M = model_apply(M,D)
-#' C = C=confounders_lsq.barchart(feature_to_plot=1,threshold=15)
+#' C = C=confounders_lsq_barchart(feature_to_plot=1,threshold=15)
 #' chart_plot(C,M[3])
 #'
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export confounders_lsq.barchart
-confounders_lsq.barchart = function(feature_to_plot,threshold=10,...) {
-    out=struct::new_struct('confounders_lsq.barchart',
+#' @export confounders_lsq_barchart
+confounders_lsq_barchart = function(feature_to_plot,threshold=10,...) {
+    out=struct::new_struct('confounders_lsq_barchart',
         feature_to_plot=feature_to_plot,
         threshold=threshold,
         ...)
@@ -210,8 +210,8 @@ confounders_lsq.barchart = function(feature_to_plot,threshold=10,...) {
 }
 
 
-.confounders_lsq.barchart<-setClass(
-    "confounders_lsq.barchart",
+.confounders_lsq_barchart<-setClass(
+    "confounders_lsq_barchart",
     contains='chart',
     slots=c(
         # INPUTS
@@ -239,7 +239,7 @@ confounders_lsq.barchart = function(feature_to_plot,threshold=10,...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("confounders_lsq.barchart",'confounders_clsq'),
+    signature=c("confounders_lsq_barchart",'confounders_clsq'),
     definition=function(obj,dobj)
     {
         # if numeric then use it as an index, else use the row name
@@ -276,7 +276,7 @@ setMethod(f="chart_plot",
 #' @return A STRUCT chart object
 #'
 #' @examples
-#' D = sbcms_DatasetExperiment()
+#' D = MTBLS79_DatasetExperiment()
 #' M = filter_by_name(mode='include',dimension='variable',
 #'         names=colnames(D$data)[1:10]) + # first 10 features
 #'     filter_smeta(mode='exclude',levels='QC',
@@ -284,22 +284,22 @@ setMethod(f="chart_plot",
 #'     confounders_clsq(factor_name = 'class',
 #'         confounding_factors=c('sample_order','batch'))
 #' M = model_apply(M,D)
-#' C = C=confounders_lsq.boxplot(threshold=15)
+#' C = C=confounders_lsq_boxplot(threshold=15)
 #' chart_plot(C,M[3])
 #'
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export confounders_lsq.boxplot
-confounders_lsq.boxplot = function(threshold=10,...) {
-    out=struct::new_struct('confounders_lsq.boxplot',
+#' @export confounders_lsq_boxplot
+confounders_lsq_boxplot = function(threshold=10,...) {
+    out=struct::new_struct('confounders_lsq_boxplot',
         threshold=threshold,
         ...)
     return(out)
 }
 
 
-.confounders_lsq.boxplot<-setClass(
-    "confounders_lsq.boxplot",
+.confounders_lsq_boxplot<-setClass(
+    "confounders_lsq_boxplot",
     contains='chart',
     slots=c(
         # INPUTS
@@ -321,7 +321,7 @@ confounders_lsq.boxplot = function(threshold=10,...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("confounders_lsq.boxplot",'confounders_clsq'),
+    signature=c("confounders_lsq_boxplot",'confounders_clsq'),
     definition=function(obj,dobj)
     {
         A=data.frame('percent_change'=double(),'group'=character())

@@ -35,7 +35,7 @@ Scatter plot of a feature against measurement order with limits for samples
 and quality control samples.
 }
 \examples{
-D = sbcms_DatasetExperiment()
+D = MTBLS79_DatasetExperiment()
 C = feature_profile(run_order='sample_order',
     qc_label='QC',
     qc_column='class',

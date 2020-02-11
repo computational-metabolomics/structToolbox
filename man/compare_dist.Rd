@@ -19,8 +19,8 @@ A combination of plots to compare distributions of samples/features in two
 datasets
 }
 \examples{
-D1=sbcms_DatasetExperiment(filtered=FALSE)
-D2=sbcms_DatasetExperiment(filtered=TRUE)
+D1=MTBLS79_DatasetExperiment(filtered=FALSE)
+D2=MTBLS79_DatasetExperiment(filtered=TRUE)
 C = compare_dist(factor_name='class')
 chart_plot(C,D1,D2)
 }

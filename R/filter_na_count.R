@@ -6,7 +6,7 @@
 #' @param factor_name the sample_meta column name to use
 #'
 #' @examples
-#' D = sbcms_DatasetExperiment()
+#' D = MTBLS79_DatasetExperiment()
 #' M = filter_na_count(threshold=3,factor_name='class')
 #' M = model_apply(M,D)
 #'

@@ -1,4 +1,4 @@
-#' DatasetExperiment.factor_barchart class
+#' DatasetExperiment_factor_barchart class
 #'
 #' Bar charts based on groupings by factor. Can plot up to three factors.
 #'
@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' D = iris_DatasetExperiment()
-#' C = DatasetExperiment.factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')
+#' C = DatasetExperiment_factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')
 #' chart_plot(C,D)
 #'
 #' @import struct
@@ -15,10 +15,10 @@
 #' @import gridExtra
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export DatasetExperiment.factor_barchart
+#' @export DatasetExperiment_factor_barchart
 #' @include HSD_class.R
-DatasetExperiment.factor_barchart = function(feature_to_plot,factor_names,...) {
-    out=struct::new_struct('DatasetExperiment.factor_barchart',
+DatasetExperiment_factor_barchart = function(feature_to_plot,factor_names,...) {
+    out=struct::new_struct('DatasetExperiment_factor_barchart',
         feature_to_plot=feature_to_plot,
         factor_names=factor_names,
         ...)
@@ -26,8 +26,8 @@ DatasetExperiment.factor_barchart = function(feature_to_plot,factor_names,...) {
 }
 
 
-.DatasetExperiment.factor_barchart<-setClass(
-    "DatasetExperiment.factor_barchart",
+.DatasetExperiment_factor_barchart<-setClass(
+    "DatasetExperiment_factor_barchart",
     contains='chart',
     slots=c(
         feature_to_plot='entity',
@@ -54,7 +54,7 @@ DatasetExperiment.factor_barchart = function(feature_to_plot,factor_names,...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("DatasetExperiment.factor_barchart",'DatasetExperiment'),
+    signature=c("DatasetExperiment_factor_barchart",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
         X=dobj$data

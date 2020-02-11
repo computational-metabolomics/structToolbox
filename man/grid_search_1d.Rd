@@ -34,7 +34,7 @@ Carries out a grid search for a single parameter to try and identify the
 'best' value for the parameter based on the input metric.
 }
 \examples{
-D = sbcms_DatasetExperiment()
+D = MTBLS79_DatasetExperiment()
 # some preprocessing
 M = pqn_norm(qc_label='QC',factor_name='class') +
     knn_impute() +

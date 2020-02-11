@@ -11,7 +11,7 @@
 #' names, column indices or logical.
 #'
 #' @examples
-#' D = sbcms_DatasetExperiment()
+#' D = MTBLS79_DatasetExperiment()
 #' M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
 #' M = model_apply(M,D)
 #'

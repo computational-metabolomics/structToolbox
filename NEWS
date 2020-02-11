@@ -1,3 +1,10 @@
+Changes 0.99.2
++ renamed some charts containing .'s to use underscores
++ renamed sbcms dataset to MTBLS79
+
+Changes 0.99.1
++ minor updates to pass Bioconductor checks
+
 Changes 0.99.0
 + use new struct v0.99.4 class constructor functions
 

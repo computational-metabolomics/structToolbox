@@ -23,7 +23,7 @@ struct object
 A filter to subset a DatasetExperiment object based on sample meta data.
 }
 \examples{
-D = sbcms_DatasetExperiment()
+D = MTBLS79_DatasetExperiment()
 M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
 M = model_apply(M,D)
 

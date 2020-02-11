@@ -12,7 +12,7 @@
 #' @return struct object
 #' @export grid_search_1d
 #' @examples
-#' D = sbcms_DatasetExperiment()
+#' D = MTBLS79_DatasetExperiment()
 #' # some preprocessing
 #' M = pqn_norm(qc_label='QC',factor_name='class') +
 #'     knn_impute() +

@@ -14,24 +14,24 @@
 \alias{chart_plot,pca_scores_plot,PCA-method}
 \alias{chart_plot,pca_biplot_plot,PCA-method}
 \alias{chart_plot,pca_loadings_plot,PCA-method}
-\alias{chart_plot,pca_scree,PCA-method}
-\alias{chart_plot,PCA_dstat,PCA-method}
+\alias{chart_plot,pca_scree_plot,PCA-method}
+\alias{chart_plot,pca_dstat_plot,PCA-method}
 \alias{chart_plot,plsda_scores_plot,PLSDA-method}
 \alias{chart_plot,plsr_prediction_plot,PLSR-method}
 \alias{chart_plot,plsr_residual_hist,PLSR-method}
 \alias{chart_plot,plsr_qq_plot,PLSR-method}
 \alias{chart_plot,plsr_cook_dist,PLSR-method}
 \alias{chart_plot,blank_filter_hist,blank_filter-method}
-\alias{chart_plot,confounders_lsq.barchart,confounders_clsq-method}
-\alias{chart_plot,confounders_lsq.boxplot,confounders_clsq-method}
+\alias{chart_plot,confounders_lsq_barchart,confounders_clsq-method}
+\alias{chart_plot,confounders_lsq_boxplot,confounders_clsq-method}
 \alias{chart_plot,feature_boxplot,DatasetExperiment-method}
 \alias{chart_plot,mv_histogram,DatasetExperiment-method}
 \alias{chart_plot,mv_boxplot,DatasetExperiment-method}
-\alias{chart_plot,DatasetExperiment.dist,DatasetExperiment-method}
-\alias{chart_plot,DatasetExperiment.boxplot,DatasetExperiment-method}
+\alias{chart_plot,DatasetExperiment_dist,DatasetExperiment-method}
+\alias{chart_plot,DatasetExperiment_boxplot,DatasetExperiment-method}
 \alias{chart_plot,compare_dist,DatasetExperiment-method}
-\alias{chart_plot,DatasetExperiment.heatmap,DatasetExperiment-method}
-\alias{chart_plot,DatasetExperiment.factor_barchart,DatasetExperiment-method}
+\alias{chart_plot,DatasetExperiment_heatmap,DatasetExperiment-method}
+\alias{chart_plot,DatasetExperiment_factor_barchart,DatasetExperiment-method}
 \alias{chart_plot,feature_profile,DatasetExperiment-method}
 \alias{chart_plot,fold_change_plot,fold_change-method}
 \alias{chart_plot,fs_line,forward_selection_byrank-method}
@@ -43,10 +43,10 @@
 \alias{chart_plot,kw_p_hist,kw_rank_sum-method}
 \alias{chart_plot,mv_feature_filter_hist,mv_feature_filter-method}
 \alias{chart_plot,mv_sample_filter_hist,mv_sample_filter-method}
-\alias{chart_plot,permutation_test.boxplot,permutation_test-method}
-\alias{chart_plot,permutation_test.violin,permutation_test-method}
+\alias{chart_plot,permutation_test_boxplot,permutation_test-method}
+\alias{chart_plot,permutation_test_violin,permutation_test-method}
 \alias{chart_plot,permutation_test_hist,permutation_test-method}
-\alias{chart_plot,permutation_test.scatter,permutation_test-method}
+\alias{chart_plot,permutation_test_scatter,permutation_test-method}
 \alias{chart_plot,pqn_norm_hist,pqn_norm-method}
 \alias{chart_plot,rsd_filter_hist,rsd_filter-method}
 \alias{chart_plot,tSNE_scatter,tSNE-method}
@@ -61,9 +61,9 @@
 
 \S4method{chart_plot}{pca_loadings_plot,PCA}(obj, dobj)
 
-\S4method{chart_plot}{pca_scree,PCA}(obj, dobj)
+\S4method{chart_plot}{pca_scree_plot,PCA}(obj, dobj)
 
-\S4method{chart_plot}{PCA_dstat,PCA}(obj, dobj)
+\S4method{chart_plot}{pca_dstat_plot,PCA}(obj, dobj)
 
 \S4method{chart_plot}{plsda_scores_plot,PLSDA}(obj, dobj)
 
@@ -77,9 +77,9 @@
 
 \S4method{chart_plot}{blank_filter_hist,blank_filter}(obj, dobj)
 
-\S4method{chart_plot}{confounders_lsq.barchart,confounders_clsq}(obj, dobj)
+\S4method{chart_plot}{confounders_lsq_barchart,confounders_clsq}(obj, dobj)
 
-\S4method{chart_plot}{confounders_lsq.boxplot,confounders_clsq}(obj, dobj)
+\S4method{chart_plot}{confounders_lsq_boxplot,confounders_clsq}(obj, dobj)
 
 \S4method{chart_plot}{feature_boxplot,DatasetExperiment}(obj, dobj)
 
@@ -87,15 +87,15 @@
 
 \S4method{chart_plot}{mv_boxplot,DatasetExperiment}(obj, dobj)
 
-\S4method{chart_plot}{DatasetExperiment.dist,DatasetExperiment}(obj, dobj)
+\S4method{chart_plot}{DatasetExperiment_dist,DatasetExperiment}(obj, dobj)
 
-\S4method{chart_plot}{DatasetExperiment.boxplot,DatasetExperiment}(obj, dobj)
+\S4method{chart_plot}{DatasetExperiment_boxplot,DatasetExperiment}(obj, dobj)
 
 \S4method{chart_plot}{compare_dist,DatasetExperiment}(obj, dobj, eobj)
 
-\S4method{chart_plot}{DatasetExperiment.heatmap,DatasetExperiment}(obj, dobj)
+\S4method{chart_plot}{DatasetExperiment_heatmap,DatasetExperiment}(obj, dobj)
 
-\S4method{chart_plot}{DatasetExperiment.factor_barchart,DatasetExperiment}(obj, dobj)
+\S4method{chart_plot}{DatasetExperiment_factor_barchart,DatasetExperiment}(obj, dobj)
 
 \S4method{chart_plot}{feature_profile,DatasetExperiment}(obj, dobj)
 
@@ -119,13 +119,13 @@
 
 \S4method{chart_plot}{mv_sample_filter_hist,mv_sample_filter}(obj, dobj)
 
-\S4method{chart_plot}{permutation_test.boxplot,permutation_test}(obj, dobj)
+\S4method{chart_plot}{permutation_test_boxplot,permutation_test}(obj, dobj)
 
-\S4method{chart_plot}{permutation_test.violin,permutation_test}(obj, dobj)
+\S4method{chart_plot}{permutation_test_violin,permutation_test}(obj, dobj)
 
 \S4method{chart_plot}{permutation_test_hist,permutation_test}(obj, dobj)
 
-\S4method{chart_plot}{permutation_test.scatter,permutation_test}(obj, dobj)
+\S4method{chart_plot}{permutation_test_scatter,permutation_test}(obj, dobj)
 
 \S4method{chart_plot}{pqn_norm_hist,pqn_norm}(obj, dobj)
 

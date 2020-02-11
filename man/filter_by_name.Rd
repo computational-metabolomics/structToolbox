@@ -26,7 +26,7 @@ A filter to subsample a DatasetExperiment object based on sample or feature name
 id, row/column index or using a vector of TRUE/FALSE.
 }
 \examples{
-D = sbcms_DatasetExperiment()
+D = MTBLS79_DatasetExperiment()
 M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
 M = model_apply(M,D)
 

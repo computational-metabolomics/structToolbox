@@ -579,25 +579,25 @@ setMethod(f="chart_plot",
 )
 
 
-#' pca_scree_plot class
+#' pca_scree_plot_plot class
 #'
 #' Line plot showing percent variance and cumulative percent variance for the computed components.
 #'
 #' @import struct
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export pca_scree
+#' @export pca_scree_plot
 #' @include PCA_class.R
 #' @examples
-#' C = pca_scree()
-pca_scree = function(...) {
-    out=struct::new_struct('pca_scree',...)
+#' C = pca_scree_plot()
+pca_scree_plot = function(...) {
+    out=struct::new_struct('pca_scree_plot',...)
     return(out)
 }
 
 
-.pca_scree<-setClass(
-    "pca_scree",
+.pca_scree_plot<-setClass(
+    "pca_scree_plot",
     contains=c('chart'),
     prototype = list(name='Scree plot',
         description='plots the percent and cumulative percent variance for the calculated components',
@@ -608,7 +608,7 @@ pca_scree = function(...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("pca_scree",'PCA'),
+    signature=c("pca_scree_plot",'PCA'),
     definition=function(obj,dobj)
     {
         ## percent variance
@@ -634,7 +634,7 @@ setMethod(f="chart_plot",
     }
 )
 
-#' pca_dstat_plot class
+#' pca_dstat_plot_plot class
 #'
 #' Bar chart showing mahalanobis distance from the mean in PCA scores space. A threshold is
 #' plotted at a chosen confidence as an indicator for rejecting outliers.
@@ -644,12 +644,12 @@ setMethod(f="chart_plot",
 #' @param alpha The confidence level to plot.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export PCA_dstat
+#' @export pca_dstat_plot
 #' @include PCA_class.R
 #' @examples
-#' C = PCA_dstat()
-PCA_dstat = function(number_components=2,alpha=0.05,...) {
-    out=struct::new_struct('PCA_dstat',
+#' C = pca_dstat_plot()
+pca_dstat_plot = function(number_components=2,alpha=0.05,...) {
+    out=struct::new_struct('pca_dstat_plot',
         number_components=number_components,
         alpha=alpha,
         ...)
@@ -657,8 +657,8 @@ PCA_dstat = function(number_components=2,alpha=0.05,...) {
 }
 
 
-.PCA_dstat<-setClass(
-    "PCA_dstat",
+.pca_dstat_plot<-setClass(
+    "pca_dstat_plot",
     contains=c('chart'),
     slots=c(number_components='entity',
         alpha='entity'),
@@ -681,7 +681,7 @@ PCA_dstat = function(number_components=2,alpha=0.05,...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("PCA_dstat",'PCA'),
+    signature=c("pca_dstat_plot",'PCA'),
     definition=function(obj,dobj)
     {
         opt=param_list(obj)

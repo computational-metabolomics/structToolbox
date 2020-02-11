@@ -24,7 +24,7 @@ Filters features based on their D ratio, which is the ratio of technical to
 sample variance.
 }
 \examples{
-D = sbcms_DatasetExperiment()
+D = MTBLS79_DatasetExperiment()
 M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
 M = model_apply(M,D)
 }

@@ -32,7 +32,7 @@ Calculates fold change between groups for interactions between levels of
 factors. Note that paired forced to FALSE for all comparisons.
 }
 \examples{
-D = sbcms_DatasetExperiment()
+D = MTBLS79_DatasetExperiment()
 D=D[,1:10,drop=FALSE]
 M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
     fold_change_int(factor_name=c('class','batch'))

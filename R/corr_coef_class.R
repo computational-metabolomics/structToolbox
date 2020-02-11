@@ -5,7 +5,7 @@
 #' @import struct
 #' @import stats
 #' @examples
-#' D = sbcms_DatasetExperiment(filtered=TRUE)
+#' D = MTBLS79_DatasetExperiment(filtered=TRUE)
 #'
 #' # subset for this example
 #' D = D[,1:10]

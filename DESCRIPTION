@@ -1,7 +1,7 @@
 Package: structToolbox
 Type: Package
 Title: Some tools bult using the struct package
-Version: 0.99.1
+Version: 0.99.2
 Author: Gavin Rhys Lloyd
 Maintainer: Gavin Rhys Lloyd <g.r.lloyd@bham.ac.uk>
 Description: Extends the class templates provided by the struct package to 
@@ -17,6 +17,7 @@ Collate:
     'HSD_class.R'
     'mixed_effect_class.R'
     'HSDEM_class.R'
+    'MTBLS79_dataset_class.R'
     'PCA_class.R'
     'PCA_plotfcns.R'
     'PLSDA_class.R'
@@ -70,7 +71,6 @@ Collate:
     'rsd_filter.R'
     'run_doc.R'
     'sb_corr.R'
-    'sbcms_dataset_class.R'
     'split_data_class.R'
     'structToolbox.R'
     'tSNE_class.R'

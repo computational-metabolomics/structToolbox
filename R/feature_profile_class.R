@@ -11,7 +11,7 @@
 #' @param feature_to_plot the column id of the feature to plot
 #'
 #' @examples
-#' D = sbcms_DatasetExperiment()
+#' D = MTBLS79_DatasetExperiment()
 #' C = feature_profile(run_order='sample_order',
 #'     qc_label='QC',
 #'     qc_column='class',

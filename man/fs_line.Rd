@@ -18,7 +18,7 @@ features within the search range for forward_selection_by_rank objects.
 }
 \examples{
 # some data
-D = sbcms_DatasetExperiment(filtered=TRUE)
+D = MTBLS79_DatasetExperiment(filtered=TRUE)
 
 # normalise, impute and scale then remove QCs
 P = pqn_norm(qc_label='QC',factor_name='class') +
