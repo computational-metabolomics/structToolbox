@@ -1,0 +1,179 @@
+---
+title: "MTBLS79 Peak Matrix Processing"
+author:
+- name: Gavin Rhys Lloyd
+  affiliation: First Author's Affiliation
+  email: g.r.lloyd@bham.ac.uk
+package: structToolbox
+output:
+  BiocStyle::html_document
+abstract: |
+  Describes the structToolbox workflow used to generate the included MTBLS79 dataset from the raw data provided by the pmp package.
+vignette: |
+  %\VignetteIndexEntry{MTBLMS Peak Matrix Processing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+> MTBLS79: Direct infusion mass spectrometry metabolomics dataset: a benchmark for data processing and quality control
+
+> Direct-infusion mass spectrometry (DIMS) metabolomics is an important approach for characterising molecular responses of organisms to disease, drugs and the environment. Increasingly large-scale metabolomics studies are being conducted, necessitating improvements in both bioanalytical and computational workflows to maintain data quality. This dataset represents a systematic evaluation of the reproducibility of a multi-batch DIMS metabolomics study of cardiac tissue extracts. It comprises of twenty biological samples (cow vs. sheep) that were analysed repeatedly, in 8 batches across 7 days, together with a concurrent set of quality control (QC) samples. Data are presented from each step of the workflow and are available in MetaboLights (https://www.ebi.ac.uk/metabolights/MTBLS79).
+
+The `MTBLS79_DatasetExperiment()` object provided by the `r Biocpkg("structToolbox")` package is a partially processed version of the raw data available in the `r Biocpkg("pmp")` package. In this vignette we show how the `structToolbox` version was created from the `pmp` version.
+
+The filters applied are an implementation of the filters described by the authors of the data in Kirwan et al (https://europepmc.org/article/MED/25977770). The `pmp` package uses 'Dataset 7:SFPM' from the article.
+
+# Converting to DatasetExperiment
+The `r Biocpkg("struct")` package extends `SummarisedExperiment` objects to provide some additional functionality and, unlike `SummarisedExperiment` stores the data with samples in rows and features in columns.
+
+To work with `structToolbox` object we need to convert from `SummarisedExperiment` to `DatasetExperiment`.
+
+```{r,warning=FALSE}
+# load the pmp package
+library(pmp)
+# load structToolbox package
+library(structToolbox)
+
+# the pmp SE object
+SE = MTBLS79
+
+# convert to DE
+DE = as.DatasetExperiment(SE)
+DE$name = 'MTBLS79'
+DE$description = 'Converted from SE provided by the pmp package'
+
+# add a column indicating the order the samples were measured in
+DE$sample_meta$run_order=1:nrow(DE)
+
+# add a column indicating if the sample is biological or a QC
+Type=as.character(DE$sample_meta$Class)
+Type[Type != 'QC']='Sample'
+DE$sample_meta$Type=factor(Type)
+
+# convert to factors
+DE$sample_meta$Batch=factor(DE$sample_meta$Batch)
+DE$sample_meta$Class=factor(DE$sample_meta$Class)
+
+
+# print summary
+DE
+```
+# Batch correction and cleaning
+A batch correction algorithm is applied to reduce intra- and inter- batch variations in the dataset.
+Quality Control-Robust Spline Correction (QC-RSC) is provided in the `pmp` package, and it has been
+wrapped into a `structToolbox` object.
+
+We add an additional step the the published workflow to remove any feature not corrected by QCRCMS e.g. because there were insufficient QC measurements. 
+
+Three spectral cleaning algorithms are also applied:
+- A Kruskal-Wallis test is used to identify features not reliably detected in the QC samples (p < 0.0001) of all batches
+- A Wilcoxon Signed-Rank test is used to identify features that are not representative of the average of the biological samples (p < 1e-14)
+- An RSD filter is used to remove with high analytical variation (QC RSD > 20 removed)
+
+To make use of univariate tests as a filter we can use the `predicted` and `seq_in` slots to chain the relevant inputs and outputs together into a single model sequence.
+
+# Peak Matrix processing
+
+
+```{r}
+# build a model sequence with the required steps
+    # batch correction
+M = sb_corr(order_col='run_order', batch_col='Batch', qc_col='Type', qc_label='QC') +
+    # extra filter
+    filter_na_count(threshold=3,factor_name='Batch') + 
+    # filter 1
+    kw_rank_sum(alpha=0.0001,mtc='none',factor_names='Batch',predicted='significant') +
+    filter_by_name(mode='exclude',dimension = 'variable',seq_in = 'names', names=character(0),
+                   seq_fcn=function(x){return(x[,1])}) +
+    # filter 2
+    wilcox_test(alpha=1e-14,factor_names='Type', mtc='none', predicted = 'significant') +
+    filter_by_name(mode='exclude',dimension = 'variable',seq_in = 'names', names=character(0)) +
+    #filter 3
+    rsd_filter(rsd_threshold=20,factor_name='Type') +
+    # peak matrix processsing
+    pqn_norm(qc_label='QC',factor_name='Type') + 
+    knn_impute(neighbours=5) +
+    glog_transform(qc_label='QC',factor_name='Type') +
+    # PCA
+    mean_centre() + 
+    PCA(number_components=2)
+
+# apply model sequence to data
+M = model_apply(M,DE)
+
+# plot pca scores
+C=pca_scores_plot(factor_name='Class')
+chart_plot(C,M[length(M)])
+
+
+```
+
+
+# Style macros
+
+_BiocStyle_ introduces the following macros for referring to _R_ packages:
+
+* `r Biocpkg("IRanges")`, for _Bioconductor_ software, annotation and experiment data packages,
+* `r CRANpkg("data.table")`, for _R_ packages available on CRAN,
+* `r Githubpkg("rstudio/rmarkdown")`, for _R_ packages available on GitHub,
+* `r Rpackage("MyPkg")`, for _R_ packages that are _not_ available on _Bioconductor_, CRAN or GitHub.
+
+
+# Figures
+
+Assign captions to figures in the code chunk option `fig.cap` to automatically number them, and to be able to reference them, see Figure \@ref(fig:plot). The figure label is generated from the code chunk label by prefixing it with `fig:`.
+
+```{r plot, fig.cap="Regular figure. The first sentence of the figure caption is automatically emphasized to serve as figure title.", echo=FALSE}
+plot(cars)
+```
+
+Small and wide figures can be specified by `fig.small` and `fig.wide` code chunk options.
+
+```{r small, fig.cap="Small figure. A plot produced by a code chunk with option `fig.small = TRUE`.", fig.small=TRUE, echo=FALSE}
+plot(cars)
+```
+
+```{r wide, fig.cap="Wide figure. A plot produced by a code chunk with option `fig.wide = TRUE`.", fig.wide=TRUE, echo=FALSE}
+plot(cars)
+```
+
+
+# Equations
+
+To number and reference equations, put them in equation environments and assign labels to them, see Equation \@ref(eq:binom).
+
+\begin{equation}
+  f\left(k\right) = \binom{n}{k} p^k\left(1-p\right)^{n-k}
+  (\#eq:binom)
+\end{equation}
+
+
+# Tables
+
+Like figures, tables with captions will also be numbered and can be referenced, see Table \@ref(tab:table).
+
+Fruit   | Price
+------- | -----
+bananas | 1.2
+apples  | 1.0
+oranges | 2.5
+
+: (\#tab:table) A simple table. With caption.
+
+
+# Cross-references
+
+Apart from referencing figures (Section \@ref(figures)), tables (Section \@ref(tables)), and equations (Section \@ref(equations)), you can also use the same syntax to refer to sections by their default labels generated by pandoc.
+
+
+# Side notes
+
+Footnotes are displayed as side notes on the right margin^[this is a side note entered as a footnote], which has the advantage that they appear close to the place where they are defined.
+
+
+# Session info {.unnumbered}
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
