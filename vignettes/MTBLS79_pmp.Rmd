@@ -36,7 +36,7 @@ The filters applied are an implementation of the filters described by the author
 # Data Format
 The `r Biocpkg("struct")` package extends `SummarisedExperiment` objects to provide some additional functionality and, contrary to `SummarisedExperiment` stores the data with samples in rows and features in columns.
 
-To work with `structToolbox` object the data must be converted from `SummarisedExperiment` to `DatasetExperiment`. Some additional meta-data columns are also needed to carry out certain filters.
+To work with `structToolbox` object the data must be converted from `SummarisedExperiment` to `DatasetExperiment`. Some additional meta-data columns are also needed to carry out some of the processing.
 
 ```{r,warning=FALSE,message=FALSE}
 # load the pmp package
@@ -168,7 +168,7 @@ M4 = model_apply(M4, predicted(M3))
 nc = ncol(predicted(M3)) - ncol(predicted(M4))
 cat(paste0('Number of features removed: ', nc))
 ```
-Finally an RSD filter is used to remove with high analytical variation (QC RSD > 20 removed)
+Finally an RSD filter is used to remove features with high analytical variation (QC RSD > 20 removed)
 
 ```{r}
 M5 = rsd_filter(
