@@ -428,9 +428,13 @@ setMethod(f="chart_plot",
         Ts=Ts %*% diag(Ev^(1-opt$scale_factor))
         P=as.matrix(P) %*% diag(Ev^(opt$scale_factor))
 
-        # additionaly scale the loadings
+        # additionally scale the loadings
         sf=min(max(abs(Ts[,opt$components[1]]))/max(abs(P[,opt$components[1]])),
             max(abs(Ts[,opt$components[2]]))/max(abs(P[,opt$components[2]])))
+        Ts=as.data.frame(Ts)
+        
+        rownames(Ts)=rownames(dobj$scores) # fix dimnames for SE object
+        colnames(Ts)=colnames(dobj$scores)
         dobj$scores$data=as.data.frame(Ts) # nb object not returned, so only temporary scaling
 
         # plot
