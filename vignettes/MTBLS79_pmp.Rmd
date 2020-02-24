@@ -45,7 +45,6 @@ library(pmp)
 library(structToolbox)
 # some graphics packages
 library(ggplot2)
-library(cowplot)
 
 # the pmp SE object
 SE = MTBLS79
