@@ -46,7 +46,7 @@ setMethod(f="run",
         n=param_value(I,'number_of_permutations')
         result=data.frame(nrow=nrow(X),ncol=n)
         all_results=data.frame('actual'=rep(y[,1],n),'predicted'=rep(y[,1],n),'permutation'=0)
-        actual=result # for storing tru y values over all permutations
+        actual=result # for storing true y values over all permutations
         value=numeric()
         Dperm=D
         for (i in 1:n)
@@ -57,11 +57,10 @@ setMethod(f="run",
 
             # permute
             Xp=X[order_x,,drop=FALSE]
-            Yp=as.data.frame(y[order_y,,drop=FALSE])
+            Yp=y[order_y,,drop=FALSE]
 
             # rebuild DatasetExperiment object
-            Dperm$data=Xp
-            Dperm$sample_meta=Yp
+            Dperm=DatasetExperiment(data=Xp,sample_meta=Yp,variable_meta=D$variable_meta)
 
             # WF can be a model/model list
             if (is(WF,'model_OR_model_seq'))
