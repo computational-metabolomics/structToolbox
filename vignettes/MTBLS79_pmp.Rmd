@@ -219,7 +219,7 @@ C = pca_scores_plot(factor_name=c('Sample_Rep','Class'),ellipse='none')
 chart_plot(C,M7[2]) + coord_fixed() +guides(colour=FALSE)
 ```
 
-This plot is similar to Figure 3b. of the original publication. Sample replicates are represented by colours and samples groups by different shapes.
+This plot is similar to Figure 3b of the original publication. Sample replicates are represented by colours and samples groups by different shapes.
 
 
 # Session Information
