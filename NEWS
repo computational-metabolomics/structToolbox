@@ -1,3 +1,7 @@
+Changes 0.99.3
++ Fix dimnames mismatch errors
++ Updated struct depency to 0.99.5
+
 Changes 0.99.2
 + renamed some charts containing .'s to use underscores
 + renamed sbcms dataset to MTBLS79

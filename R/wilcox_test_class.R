@@ -50,7 +50,7 @@ wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_fac
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000304",
-        .params=c('alpha','mtc','factor_name','paired','paired_factor'),
+        .params=c('alpha','mtc','factor_names','paired','paired_factor'),
         .outputs=c('statistic','p_value','dof','significant','conf_int','estimates'),
 
         factor_names=entity(name='Factor names',

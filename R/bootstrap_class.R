@@ -76,9 +76,7 @@ setMethod(f="run",
             Yp=as.data.frame(y[order,,drop=FALSE])
 
             # rebuild datasets
-            Dp=D
-            Dp$data=Xp
-            Dp$sample_meta=Yp
+            Dp=DatasetExperiment(data=Xp,sample_meta=Yp,variable_meta=D$variable_meta)
 
             if (is(WF,'model_OR_model_seq'))
             {

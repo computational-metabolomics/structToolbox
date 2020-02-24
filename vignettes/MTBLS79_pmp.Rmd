@@ -1,0 +1,228 @@
+---
+title: "MTBLS79 Peak Matrix Processing"
+author:
+- name: Gavin Rhys Lloyd
+  affiliation: Phenome Centre Birmingham, University of Birmingham, UK
+  email: g.r.lloyd@bham.ac.uk
+package: structToolbox
+output:
+  BiocStyle::pdf_document:
+    toc: true
+    toc_depth: 2
+    toc_newpage: false
+    relative_path: true
+  BiocStyle::html_document:
+    toc: true
+    toc_depth: 2  
+    number_sections: true  
+    toc_float: true
+abstract: |
+  Describes the structToolbox workflow used to generate the included MTBLS79 dataset from the raw data provided by the pmp package.
+vignette: |
+  %\VignetteIndexEntry{MTBLMS Peak Matrix Processing}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+# Introduction
+> MTBLS79: Direct infusion mass spectrometry metabolomics dataset: a benchmark for data processing and quality control.
+
+> Direct-infusion mass spectrometry (DIMS) metabolomics is an important approach for characterising molecular responses of organisms to disease, drugs and the environment. Increasingly large-scale metabolomics studies are being conducted, necessitating improvements in both bioanalytical and computational workflows to maintain data quality. This dataset represents a systematic evaluation of the reproducibility of a multi-batch DIMS metabolomics study of cardiac tissue extracts. It comprises of twenty biological samples (cow vs. sheep) that were analysed repeatedly, in 8 batches across 7 days, together with a concurrent set of quality control (QC) samples. Data are presented from each step of the workflow and are available in MetaboLights (https://www.ebi.ac.uk/metabolights/MTBLS79).
+
+The `MTBLS79_DatasetExperiment()` object provided by the `r Biocpkg("structToolbox")` package is a partially processed version of the raw data available in the `r Biocpkg("pmp")` package. This vignette describes how the `structToolbox` version was created from the `pmp` version.
+
+The filters applied are an implementation of the filters described by the authors of the data in Kirwan et al (https://europepmc.org/article/MED/25977770). The `pmp` package uses 'Dataset 7:SFPM' from the article.
+
+# Data Format
+The `r Biocpkg("struct")` package extends `SummarisedExperiment` objects to provide some additional functionality and, contrary to `SummarisedExperiment` stores the data with samples in rows and features in columns.
+
+To work with `structToolbox` object the data must be converted from `SummarisedExperiment` to `DatasetExperiment`. Some additional meta-data columns are also needed to carry out some of the processing.
+
+```{r,warning=FALSE,message=FALSE}
+# load the pmp package
+library(pmp)
+# load structToolbox package
+library(structToolbox)
+# some graphics packages
+library(ggplot2)
+
+# the pmp SE object
+SE = MTBLS79
+
+# convert to DE
+DE = as.DatasetExperiment(SE)
+DE$name = 'MTBLS79'
+DE$description = 'Converted from SE provided by the pmp package'
+
+# add a column indicating the order the samples were measured in
+DE$sample_meta$run_order = 1:nrow(DE)
+
+# add a column indicating if the sample is biological or a QC
+Type=as.character(DE$sample_meta$Class)
+Type[Type != 'QC'] = 'Sample'
+DE$sample_meta$Type = factor(Type)
+
+# convert to factors
+DE$sample_meta$Batch = factor(DE$sample_meta$Batch)
+DE$sample_meta$Class = factor(DE$sample_meta$Class)
+
+
+# print summary
+DE
+```
+
+Full processing of the data set requires a number of steps. These will be applied using a single `struct` model sequence (`model.seq`).
+
+# Batch Correction
+A batch correction algorithm is applied to reduce intra- and inter- batch variations in the dataset.
+Quality Control-Robust Spline Correction (QC-RSC) is provided in the `pmp` package, and it has been
+wrapped into a `structToolbox` object called `sb_corr`.
+
+```{r}
+
+M = # batch correction
+    sb_corr(
+      order_col='run_order',
+      batch_col='Batch', 
+      qc_col='Type', 
+      qc_label='QC'
+    )
+
+M = model_apply(M,DE)
+```
+
+The figure below shows a plot of a feature vs run order, before and after the correction. It can be seen that the correction has removed instrument drift within and between batches.
+
+```{r,fig.wide = TRUE,warning=FALSE}
+C = feature_profile(
+      run_order='run_order',
+      qc_label='QC',
+      qc_column='Type',
+      colour_by='Batch',
+      feature_to_plot='200.03196'
+  )
+
+# plot and modify using ggplot2 
+chart_plot(C,DE)+ylab('Peak area')+ggtitle('Before')
+chart_plot(C,predicted(M))+ylab('Peak area')+ggtitle('After')
+```
+
+An additional step is added to the published workflow to remove any feature not corrected by QCRCMS. This can occur if there are not enough measured QC values within a batch. `QCRMS` in the `pmp` package currently returns NA for all samples in the feature where this occurs. Features where this occurs will be excluded.
+
+```{r}
+M2 = filter_na_count(
+      threshold=3,
+      factor_name='Batch'
+    )
+M2 = model_apply(M2,predicted(M))
+
+# calculate number of features removed
+nc = ncol(DE) - ncol(predicted(M2))
+
+cat(paste0('Number of features removed: ', nc))
+```
+The output of this step is the output of `MTBLS79_DatasetExperiment(filtered=FALSE)`.
+
+# Filtering
+
+In the journal article three spectral cleaning algorithms are applied. In the first filter a Kruskal-Wallis test is used to identify features not reliably detected in the QC samples (p < 0.0001) of all batches. 
+
+```{r}
+M3 = kw_rank_sum(
+      alpha=0.0001,
+      mtc='none',
+      factor_names='Batch',
+      predicted='significant'
+    ) +
+    filter_by_name(
+      mode='exclude',
+      dimension = 'variable',
+      seq_in = 'names', 
+      names=character(0),
+      seq_fcn=function(x){return(x[,1])}
+    )
+M3 = model_apply(M3, predicted(M2))
+
+nc = ncol(predicted(M2)) - ncol(predicted(M3))
+cat(paste0('Number of features removed: ', nc))
+```
+To make use of univariate tests such as `kw_rank_sum` as a filter some advanced features of `struct` are needed. Slots `predicted`, and `seq_in` are used to ensure the correct output of the univariate test is connected to the correct input of a feature filter using `filter_by_name`. Another slot `seq_fcn` is used to extract the relevant column of the `predicted` output so that it is compatible with the `seq_in` input.
+
+The second filter is a Wilcoxon Signed-Rank test. It is used to identify features that are not representative of the average of the biological samples (p < 1e-14).
+
+```{r}
+M4 = wilcox_test(
+      alpha=1e-14,
+      factor_names='Type', 
+      mtc='none', 
+      predicted = 'significant'
+    ) +
+    filter_by_name(
+      mode='exclude',
+      dimension='variable',
+      seq_in='names', 
+      names=character(0)
+    )
+M4 = model_apply(M4, predicted(M3))
+
+nc = ncol(predicted(M3)) - ncol(predicted(M4))
+cat(paste0('Number of features removed: ', nc))
+```
+Finally an RSD filter is used to remove features with high analytical variation (QC RSD > 20 removed)
+
+```{r}
+M5 = rsd_filter(
+     rsd_threshold=20,
+     factor_name='Type'
+)
+M5 = model_apply(M5,predicted(M4))
+
+nc = ncol(predicted(M4)) - ncol(predicted(M5))
+cat(paste0('Number of features removed: ', nc))
+
+```
+
+The output of this filter is the output of `MTBLS79_DatasetExperiment(filtered=TRUE)`.
+
+# Peak Matrix Processing
+For completeness a similar analysis of the filtered matrix is applied for comparison with the published outputs.
+
+The filtering steps are followed by some peak matrix processing steps that are frequently applied in metabolomics:
+
+- Probabilistic Quotient Normalisation (PQN)
+- k-nearest neighbours imputation (k = 5)
+- Generalised log transform (glog)
+
+These steps prepare the data for multivariate analysis by accounting for sample concentration differences, imputing missing values and scaling the data.
+
+```{r}
+# peak matrix processing
+M6 = pqn_norm(qc_label='QC',factor_name='Type') + 
+     knn_impute(neighbours=5) +
+     glog_transform(qc_label='QC',factor_name='Type')
+M6 = model_apply(M6,predicted(M5))
+```
+
+# Exploratory Analysis
+Principal Component Analysis (PCA) can be used to visualise high-dimensional data. It is an unsupervised method that maximises variance in a reduced number of latent variables, or principal components.
+
+```{r}
+# PCA
+M7  = mean_centre() + PCA(number_components = 2)
+
+# apply model sequence to data
+M7 = model_apply(M7,predicted(M6))
+
+# plot pca scores
+C = pca_scores_plot(factor_name=c('Sample_Rep','Class'),ellipse='none')
+chart_plot(C,M7[2]) + coord_fixed() +guides(colour=FALSE)
+```
+
+This plot is similar to Figure 3b of the original publication. Sample replicates are represented by colours and samples groups by different shapes.
+
+
+# Session Information
+
+```{r}
+sessionInfo()
+```

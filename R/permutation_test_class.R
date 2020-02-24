@@ -63,15 +63,11 @@ setMethod(f="run",
             Xp=X[order_x,,drop=FALSE]
             Yp=as.data.frame(y[order_y,,drop=FALSE])
             Yp2=as.data.frame(y[order_y2,,drop=FALSE])
+            rownames(Yp)=rownames(Xp) # force same rownames even though no longer a genuine match
 
             # rebuild datasets
-            Dp=D
-            Dp$data=Xp
-            Dp$sample_meta=Yp
-
-            D2=D
-            D2$data=Xp
-            D2$sample_meta=Yp2
+            Dp=DatasetExperiment(data=Xp,sample_meta=Yp,variable_meta=D$variable_meta)
+            D2=DatasetExperiment(data=Xp,sample_meta=Yp,variable_meta=D$variable_meta)
 
             if (is(WF,'model_OR_model_seq'))
             {

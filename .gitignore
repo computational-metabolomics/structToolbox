@@ -14,3 +14,5 @@ structtoolbox.Rproj
 vignettes/.build.timestamp
 *.xml
 doc
+vignettes/Bioconductor.sty
+vignettes/unsrturl.bst
