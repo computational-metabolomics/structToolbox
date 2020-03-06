@@ -29,14 +29,14 @@ pca_correlation_plot = function(components=c(1,2),...) {
         description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
         .params=c('components'),
-
+        
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
             description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
             max_length=2
         )
-
+        
     )
 )
 
@@ -49,15 +49,15 @@ setMethod(f="chart_plot",
         opt=param_list(obj)
         A=data.frame(x=output_value(dobj,'correlation')[,opt$components[1]],y=output_value(dobj,'correlation')[,opt$components[2]])
         dat <- circleFun(c(0,0),2,npoints = 50)
-
+        
         out=ggplot(data=A,aes_(x=~x,y=~y)) +
             geom_point() +
             scale_colour_Publication() +
             theme_Publication(base_size = 12)+
             coord_fixed(xlim = c(-1,1),ylim=c(-1,1)) +
-
+            
             geom_path(data=dat,aes_(x=~x,y=~y),inherit.aes = FALSE)
-
+        
         return(out)
     }
 )
@@ -128,19 +128,19 @@ pca_scores_plot = function(
         label_factor='entity',
         label_size='entity'
     ),
-
+    
     prototype = list(name='PCA scores plot',
         description='Plots a 2d scatter plot of the selected components',
         type="scatter",
         .params=c('components','points_to_label','factor_name','ellipse','label_filter','label_factor','label_size'),
-
+        
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
             description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
             max_length=2
         ),
-
+        
         points_to_label=enum(name='points_to_label',
             value='none',
             type='character',
@@ -188,7 +188,7 @@ setMethod(f="chart_plot",
     signature=c("pca_scores_plot",'PCA'),
     definition=function(obj,dobj)
     {
-
+        
         if (obj$points_to_label=='outliers' & !(obj$ellipse %in% c('all','sample'))) {
             warning('Outliers are only labelled when plotting the sample ellipse')
         }
@@ -196,70 +196,70 @@ setMethod(f="chart_plot",
         scores=output_value(dobj,'scores')$data
         pvar = (colSums(scores*scores)/output_value(dobj,'ssx'))*100 # percent variance
         pvar = round(pvar,digits = 2) # round to 2 decimal places
-
+        
         if (length(obj$factor_name)==1) {
             shapes = 19 # filled circles for all samples
         } else {
             shapes = factor(dobj$scores$sample_meta[[obj$factor_name[2]]])
         }
-
+        
         if (obj$label_factor=='rownames') {
             slabels = rownames(dobj$scores$sample_meta)
         } else {
             slabels = dobj$scores$sample_meta[[obj$label_factor]]
         }
         opt$factor_name=opt$factor_name[[1]] # only use the first factor from now on
-
+        
         x=scores[,opt$components[1]]
         y=scores[,opt$components[2]]
         xlabel=paste("PC",opt$components[[1]],' (',sprintf("%.1f",pvar[opt$components[[1]]]),'%)',sep='')
         ylabel=paste("PC",opt$components[[2]],' (',sprintf("%.1f",pvar[opt$components[[2]]]),'%)',sep='')
-
+        
         # get the factor from meta data
         opt$groups=dobj$scores$sample_meta[[opt$factor_name]]
-
+        
         # add a space to the front of the labels to offset them from the points, because nudge_x is in data units
         for (i in 1:length(slabels))
         {
             slabels[i]=paste0('  ',slabels[i], '  ')
         }
-
+        
         # filter by label_filter list if provided
         if (length(obj$label_filter)>0) {
             out=!(as.character(opt$groups) %in% obj$label_filter)
             slabels[out]=''
         }
-
+        
         if (is(opt$groups,'factor') | is(opt$groups,'character')) {
             plotClass= createClassAndColors(opt$groups)
             opt$groups=plotClass$class
         }
-
+        
         # build the plot
         A <- data.frame (group=opt$groups,x=x, y=y)
-
+        
         if (length(obj$factor_name)==2) {
             out=ggplot (data=A, aes_(x=~x,y=~y,colour=~group,label=~slabels,shape=~shapes))
         }   else {
             out=ggplot (data=A, aes_(x=~x,y=~y,colour=~group,label=~slabels))
         }
         out=out+
-
+            
             geom_point(na.rm=TRUE) +
             xlab(xlabel) +
             ylab(ylabel) +
             ggtitle('PCA Scores', subtitle=NULL)
-
+        
         if (length(obj$factor_name)==2) {
             out=out+labs(shape=obj$factor_name[[2]],colour=obj$factor_name[[1]])
         } else {
             out=out+labs(shape=obj$factor_name[[1]])
         }
-
+        
         if (obj$ellipse %in% c('all','group')) {
             out = out +stat_ellipse(type='norm') # ellipse for individual groups
         }
-
+        
         if (is(opt$groups,'factor')) { # if a factor then plot by group using the colours from pmp package
             out=out+scale_colour_manual(values=plotClass$manual_colors,name=opt$factor_name)
         }
@@ -271,7 +271,7 @@ setMethod(f="chart_plot",
         if (obj$ellipse %in% c('all','sample')) {
             out=out+stat_ellipse(type='norm',mapping=aes(x=x,y=y),colour="#C0C0C0",linetype='dashed',data=A)
         }
-
+        
         if (obj$ellipse %in% c('all','sample')) { # only do this if we plotted the sample ellipse
             # identify samples outside the ellipse
             build=ggplot_build(out)$data
@@ -279,7 +279,7 @@ setMethod(f="chart_plot",
             ell=build[[length(build)]]
             # outlier for DatasetExperiment ellipse
             points$in.ell=as.logical(sp::point.in.polygon(points$x,points$y,ell$x,ell$y))
-
+            
             # label outliers if
             if (opt$points_to_label=='outliers')
             {
@@ -288,19 +288,19 @@ setMethod(f="chart_plot",
                     temp=subset(points,!points$in.ell)
                     temp$group=opt$groups[!points$in.ell]
                     out=out+geom_text(data=temp,aes_(x=~x,y=~y,label=~label,colour=~group),size=obj$label_size,vjust="inward",hjust="inward")
-
+                    
                 }
             }
             # add a list of outliers to the plot object
             out$outliers=trimws(slabels[!points$in.ell])
         }
-
+        
         # label all points if requested
         if (opt$points_to_label=='all')
         {
             out=out+geom_text(vjust="inward",hjust="inward")
         }
-
+        
         return(out)
     }
 )
@@ -362,7 +362,7 @@ pca_biplot_plot = function(
         description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
         .params=c('components','points_to_label','factor_name','scale_factor','style','label_features'),
-
+        
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
@@ -397,7 +397,7 @@ pca_biplot_plot = function(
             description='Include feature labels on the plot'
         )
     )
-
+    
 )
 
 #' @export
@@ -412,22 +412,22 @@ setMethod(f="chart_plot",
         pvar=round(pvar,digits = 1)
         xlabel=paste("PC",opt$components[[1]],' (',sprintf("%.1f",pvar[opt$components[[1]]]),'%)',sep='')
         ylabel=paste("PC",opt$components[[2]],' (',sprintf("%.1f",pvar[opt$components[[2]]]),'%)',sep='')
-
+        
         P=output_value(dobj,'loadings')
         Ev=output_value(dobj,'eigenvalues')
-
+        
         # eigenvalues were square rooted when training PCA
         Ev=Ev[,1]
         Ev=Ev^2
-
+        
         ## unscale the scores
         #ev are the norms of scores
         Ts=as.matrix(Ts) %*% diag(1/Ev) # these are normalised scores
-
+        
         # scale scores and loadings by alpha
         Ts=Ts %*% diag(Ev^(1-opt$scale_factor))
         P=as.matrix(P) %*% diag(Ev^(opt$scale_factor))
-
+        
         # additionally scale the loadings
         sf=min(max(abs(Ts[,opt$components[1]]))/max(abs(P[,opt$components[1]])),
             max(abs(Ts[,opt$components[2]]))/max(abs(P[,opt$components[2]])))
@@ -436,12 +436,12 @@ setMethod(f="chart_plot",
         rownames(Ts)=rownames(dobj$scores) # fix dimnames for SE object
         colnames(Ts)=colnames(dobj$scores)
         dobj$scores$data=as.data.frame(Ts) # nb object not returned, so only temporary scaling
-
+        
         # plot
         A=data.frame("x"=P[,opt$components[1]]*sf*0.8,"y"=P[,opt$components[2]]*sf*0.8)
         C=pca_scores_plot(points_to_label=obj$points_to_label,components=obj$components,factor_name=obj$factor_name)
         out=chart_plot(C,dobj)
-
+        
         if (opt$style=='points')
         {
             out=out+
@@ -450,13 +450,13 @@ setMethod(f="chart_plot",
         if (opt$style=='arrows')
         {
             out=out+
-
+                
                 geom_segment(data=A,inherit.aes = FALSE,color='black',mapping = aes_(x=~0,y=~0,xend=~x,yend=~y),arrow=arrow(length=unit(8,'points')))
-
+            
         }
         out=out+ggtitle('PCA biplot', subtitle=NULL) +
             xlab(xlabel) + ylab(ylabel)
-
+        
         #label features if requested
         if (opt$label_features)
         {
@@ -467,9 +467,9 @@ setMethod(f="chart_plot",
             }
             A$vlabels=vlabels
             out=out+
-
+                
                 geom_text(data=A,aes_(x=~x,y=~y,label=~vlabels),vjust="inward",hjust="inward",inherit.aes = FALSE)
-
+            
         }
         return(out)
     }
@@ -494,7 +494,7 @@ setMethod(f="chart_plot",
 #' @include PCA_class.R
 #' @examples
 #' C = pca_loadings_plot()
-pca_loadings_plot = function(components=c(1,2),style='points',label_features=FALSE,...) {
+pca_loadings_plot = function(components=c(1,2),style='points',label_features=NULL,...) {
     out=struct::new_struct('pca_loadings_plot',
         components=components,
         style=style,
@@ -517,7 +517,7 @@ pca_loadings_plot = function(components=c(1,2),style='points',label_features=FAL
         description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
         type="boxlot",
         .params=c('components','style','label_features'),
-
+        
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
@@ -530,13 +530,13 @@ pca_loadings_plot = function(components=c(1,2),style='points',label_features=FAL
             description='Named plot styles for the biplot. [points], arrows',
             allowed=c('points','arrows')
         ),
-        label_features=entity(name='Add feature labels',
-            value=FALSE,
-            type='logical',
-            description='Include feature labels on the plot'
+        label_features=entity(name='Label features',
+            value=NULL,
+            type=c('NULL','character'),
+            description='Include feature labels from this variable meta column. Special keyword "rownames" will use the rownames of the variable_meta data.frame'
         )
     )
-
+    
 )
 
 #' @export
@@ -546,11 +546,10 @@ setMethod(f="chart_plot",
     definition=function(obj,dobj)
     {
         opt=param_list(obj)
-
+        
         P=output_value(dobj,'loadings')
         # 1D plot
-        if (length(opt$components)==1)
-        {
+        if (length(opt$components)==1) {
             A=data.frame("x"=1:nrow(P),"y"=P[,opt$components[1]])
             out=ggplot(data=A,aes_(x=~x,y=~y)) +
                 geom_line() +
@@ -559,11 +558,9 @@ setMethod(f="chart_plot",
                 ylab('Loading') +
                 scale_colour_Publication() +
                 theme_Publication(base_size = 12)
-            return(out)
         }
         # 2D plot
-        if (length(opt$components)==2)
-        {
+        if (length(opt$components)==2) {
             A=data.frame("x"=P[,opt$components[1]],"y"=P[,opt$components[2]])
             out=ggplot(data=A,aes_(x=~x,y=~y)) +
                 geom_point() +
@@ -572,13 +569,29 @@ setMethod(f="chart_plot",
                 ylab(paste0('Component ',opt$components[2])) +
                 scale_colour_Publication() +
                 theme_Publication(base_size = 12)
-            return(out)
+            
+            if (!is.null(obj$label_features)) {
+                
+                if (obj$label_features=='rownames') {
+                    vlabels=rownames(dobj$loadings)
+                } else {
+                    vlabels=obj$label_features
+                }
+                
+                for (i in 1:length(vlabels)) {
+                    vlabels[i]=paste0('  ',vlabels[i], '  ')
+                }
+                A$vlabels=vlabels
+                out=out+geom_text(data=A,aes_(x=~x,y=~y,label=~vlabels),
+                    vjust="inward",hjust="inward",inherit.aes = FALSE)
+            }
         }
-        if (length(opt$components)>2)
-        {
+        if (length(opt$components)>2) {
             stop('can only plot loadings for 1 or 2 components at a time')
         }
-
+        
+        return(out)
+        
     }
 )
 
@@ -621,12 +634,12 @@ setMethod(f="chart_plot",
         A=data.frame("x"=1:length(pvar),"y"=c(pvar,cumsum(pvar)),"Variance"=as.factor(c(rep('Single component',length(pvar)),rep('Cumulative',length(pvar)))))
         labels=round(A$y,digits = 1)
         labels=format(labels,1)
-
+        
         out=ggplot(data=A, aes_(x=~x,y=~y,color=~Variance)) +
             geom_line() +
             geom_point() +
             geom_text(aes_(label=~labels),color='black',vjust=0,nudge_y = 5) +
-
+            
             ggtitle('Scree Plot', subtitle=NULL) +
             xlab('Component') +
             ylab('Variance (%)') +
@@ -670,7 +683,7 @@ pca_dstat_plot = function(number_components=2,alpha=0.05,...) {
         description='a bar chart of the d-statistics for samples in the input PCA model',
         type="bar",
         .params=c('number_components','alpha'),
-
+        
         number_components=entity(value = 2,
             name = 'number of principal components',
             description = 'number of principal components to use for the plot',
@@ -702,16 +715,16 @@ setMethod(f="chart_plot",
         {
             H[i]=scores[i,,drop=FALSE]%*%covT%*%t(scores[i,,drop=FALSE])
         } #leverage value
-
+        
         # threshold at alpha
         F=qf(p = opt$alpha,df1 = a,df2=I-a)
         sf=(a*(I-1)*(I+1))/(I*(I-a))
         threshold=sf*F
         # ggplot
         df=data.frame(x=sample_names,y=H)
-
+        
         out=ggplot(data=df, aes_(x=~x,y=~y)) +
-
+            
             geom_bar(stat="identity") +
             geom_hline(yintercept=threshold, linetype='dashed', color='grey') +
             ggtitle('d-statistic', subtitle=paste0('Number of components = ',a)) +
