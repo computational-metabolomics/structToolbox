@@ -4,9 +4,12 @@
 \alias{autoscale}
 \title{Autoscale}
 \usage{
-autoscale(...)
+autoscale(mode = "data", ...)
 }
 \arguments{
+\item{mode}{Used to control whether centring is apply to the data, the meta data or both.
+Can be any one of "data","sample_meta" or "both". default is "data".}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
