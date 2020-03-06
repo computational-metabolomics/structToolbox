@@ -89,42 +89,37 @@ setMethod(f="run",
                 unperm_results[,2]=p[,1]
                 all_results_unpermuted[((nrow(X)*(i-1))+1):(nrow(X)*i),]=unperm_results
             }
-
-            if (is(WF,'iterator'))
-            {
-
+            
+            if (is(WF,'iterator')) {
+                
                 ## permuted
                 WF=run(WF,Dp,MET)
                 v=output_value(WF,'metric')
-
-                if (i==1)
-                {
+                
+                if (i==1) {
                     all_results_permuted=v
                 }
-                else
-                {
+                else {
                     all_results_permuted=rbind(all_results_permuted,v)
                 }
-
-
+                
                 ## real
                 WF=run(WF,D2,MET)
                 w=output_value(WF,'metric')
-                if (i==1)
-                {
+                if (i==1) {
                     all_results_unpermuted=w
                 }
-                else
-                {
+                else {
                     all_results_unpermuted=rbind(all_results_unpermuted,w)
                 }
-
+                
             }
-
+            
         }
         # store results
         output_value(I,'results.permuted')=all_results_permuted
         output_value(I,'results.unpermuted')=all_results_unpermuted
+        I$metric=data.frame('metric'=class(MET),'permuted'=pe.metric,'unpermuted'=un.metric)
         return(I)
     }
 )
