@@ -1,0 +1,184 @@
+---
+title: "Analysis of the ropls::Sacurine dataset"
+author:
+- name: Gavin Rhys Lloyd
+  affiliation: Phenome Centre Birmingham, University of Birmingham, UK
+  email: g.r.lloyd@bham.ac.uk
+package: structToolbox
+output:
+  BiocStyle::pdf_document:
+    toc: true
+    toc_depth: 2
+    toc_newpage: false
+    relative_path: true
+  BiocStyle::html_document:
+    toc: true
+    toc_depth: 2  
+    number_sections: true  
+    toc_float: true
+abstract: |
+  Example showing the use of strucToolbox objects to apply PLS to the Sacurine 
+  dataset from the ropls package.
+vignette: |
+  %\VignetteIndexEntry{Sacurine dataset}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,fig.align='center')
+library(structToolbox)
+library(cowplot)
+library(ggplot2)
+```
+
+
+# Introduction
+In this dataset exploratry analysis of the Saccurine dataset from the `ropls` package 
+will used to demonstrate use of `structToolbox`.
+
+# Data preparation
+For `struct` the data needs to be comverted to a DatasetExperiment object. The `ropls` package
+provides the data as a list containing a dataMatrix, sampleMetadata and variableMetadata.
+
+```{r}
+data('sacurine',package = 'ropls')
+# the 'sacurine' list should now be available
+
+# move the annotations to a new column and rename the features by index to avoid issues
+# later when data.frames if get transposed and names get checked/changed
+
+sacurine$variableMetadata$annotation=rownames(sacurine$variableMetadata)
+rownames(sacurine$variableMetadata)=1:nrow(sacurine$variableMetadata)
+colnames(sacurine$dataMatrix)=1:ncol(sacurine$dataMatrix)
+
+
+DE = DatasetExperiment(data = data.frame(sacurine$dataMatrix),
+                       sample_meta = sacurine$sampleMetadata,
+                       variable_meta = sacurine$variableMetadata,
+                       name = 'Sacurine data',
+                       description = 'See ropls package documentation for details')
+DE
+```
+
+# Exploratory analysis
+The Sacurine dataset has already been processed:
+
+> After signal drift and batch effect correction of intensities, each urine profile was normalized to the osmolality of the sample. Finally, the data were log10 transformed.
+
+The data can therefore be visualised using PCA without further processing. The `ropls` package automatically applies unit variance scaling (autoscaling) by default, so the same approach is employed here.
+
+```{r,fig.height=5,fig.width=14,fig.wide = TRUE}
+# prepare model sequence
+M = autoscale() + PCA(number_components = 5)
+# apply model sequence to dataset
+M = model_apply(M,DE)
+
+# pca scores plots
+g=list()
+for (k in colnames(DE$sample_meta)) {
+    C = pca_scores_plot(factor_name = k)
+    g[[k]] = chart_plot(C,M[2])
+}
+# plot using cowplot
+plot_grid(plotlist=g, nrow=1, align='vh')
+```
+
+The final plot coloured by gender is identical to fig.2 of the ropls package vignette. `structToolbox` also provides some other PCA diagnostic plots, such as D-statistic, scree, and loadings plots.
+
+```{r,fig.height=10,fig.width=9,fig.wide=TRUE}
+C = pca_scree_plot()
+g1 = chart_plot(C,M[2])
+
+C = pca_loadings_plot()
+g2 = chart_plot(C,M[2])
+
+C = pca_dstat_plot(alpha=0.95)
+g3 = chart_plot(C,M[2])
+
+p1=plot_grid(plotlist = list(g1,g2),align='h',nrow=1,axis='b')
+p2=plot_grid(plotlist = list(g3),nrow=1)
+plot_grid(p1,p2,nrow=2)
+```
+
+# Supervised analysis
+The `ropls` packgage uses its own implementation of the (o)pls algorithms. `structToolbox` uses the `pls`
+package, so it is interesting to compare the outputs from both approaches. For simplicity only the scores
+plots are compared.
+
+```{r, fig.width=5, fig.height=5}
+# prepare model sequence
+M = autoscale() + PLSDA(factor_name='gender')
+M = model_apply(M,DE)
+
+C = plsda_scores_plot(factor_name = 'gender', groups=DE$sample_meta$gender)
+chart_plot(C,M[2])
+```
+
+The plot is similar to fig.3 of the `ropls` vignette. Differences are due to inverted LV axes, a common occurrence with the NIPALS algorithm (used by both `structToolbox` and `ropls`) which depends on how the algorithm is initialised.
+
+To compare the R2 values for the model in structToolbox we have to use a regression model, instead of a discriminant model. For this we convert the gender factor to a numeric variable before applying the model.
+
+```{r,fig.width=10,fig.height=9,fig.wide=TRUE}
+# convert gender to numeric
+DE$sample_meta$gender=as.numeric(DE$sample_meta$gender)
+
+# models sequence
+M = autoscale(mode='both') + PLSR(factor_name='gender',number_components=3)
+M = model_apply(M,DE)
+
+# some diagnostic charts
+C = plsr_cook_dist()
+g1 = chart_plot(C,M[2])
+
+C = plsr_prediction_plot()
+g2 = chart_plot(C,M[2])
+
+C = plsr_qq_plot()
+g3 = chart_plot(C,M[2])
+
+C = plsr_residual_hist()
+g4 = chart_plot(C,M[2])
+
+plot_grid(plotlist = list(g1,g2,g3,g4), nrow=2,align='vh')
+```
+
+The `ropls` package automatically applies cross-validation to asses the performance of the PLSDA model. In `structToolbox` this is applied separately to give more control over the approach used. The default cross-validation used by the `ropls` package is 7-fold cross-validation. 
+
+```{r,results='asis'}
+# model sequence
+M = kfold_xval(folds=7, factor_name='gender') * 
+    (autoscale(mode='both') + PLSR(factor_name='gender'))
+M = run(M,DE,r_squared())
+
+```
+```{r,results='asis',echo=FALSE}
+# training set performance
+cat('Training set R2:\n')
+cat(M$metric.train)
+cat('\n\n')
+# test set performance
+cat('Test set Q2:\n')
+cat(M$metric.test)
+```
+
+The validity of the model can further be assessed using permutation testing. For this we will return to a discriminant model.
+
+```{r,fig.width=5,fig.height=5}
+# reset gender to original factor
+DE$sample_meta$gender=sacurine$sampleMetadata$gender
+# model sequence
+M = permutation_test(number_of_permutations = 10, factor_name='gender') *
+    kfold_xval(folds=7,factor_name='gender') *
+    (autoscale() + PLSDA(factor_name='gender',number_components = 3))
+M = run(M,DE,balanced_accuracy())
+
+C = permutation_test_plot(style='boxplot')
+chart_plot(C,M)+ylab('1 - balanced accuracy')
+```
+
+The permuted models have a balanced accuracy of around 50%, which is to be expected for a dataset with two groups. The unpermuted models have a balanced accuracy of around 90% and is therefore much better than might be expected to occur by chance.
+
+
+
