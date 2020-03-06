@@ -7,7 +7,7 @@
 pca_loadings_plot(
   components = c(1, 2),
   style = "points",
-  label_features = FALSE,
+  label_features = NULL,
   ...
 )
 }

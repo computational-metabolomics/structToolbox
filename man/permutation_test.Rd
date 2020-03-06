@@ -4,7 +4,7 @@
 \alias{permutation_test}
 \title{Permutation test class}
 \usage{
-permutation_test(number_of_permutations = 50, ...)
+permutation_test(number_of_permutations = 50, factor_name, ...)
 }
 \arguments{
 \item{number_of_permutations}{The number of permutations to run}

@@ -7,8 +7,8 @@
 %   R/grid_search_1d_class.R, R/hca_class.R, R/kfold_xval_charts.R,
 %   R/kw_rank_sum_class.R, R/mv_feature_filter_class.R,
 %   R/mv_sample_filter_class.R, R/permutation_test_class.R,
-%   R/pqn_norm_method_class.R, R/rsd_filter.R, R/tSNE_class.R,
-%   R/wilcox_test_class.R
+%   R/pqn_norm_method_class.R, R/rsd_filter.R, R/svm_classifier_class.R,
+%   R/tSNE_class.R, R/wilcox_test_class.R
 \name{chart_plot,pca_correlation_plot,PCA-method}
 \alias{chart_plot,pca_correlation_plot,PCA-method}
 \alias{chart_plot,pca_scores_plot,PCA-method}
@@ -43,12 +43,10 @@
 \alias{chart_plot,kw_p_hist,kw_rank_sum-method}
 \alias{chart_plot,mv_feature_filter_hist,mv_feature_filter-method}
 \alias{chart_plot,mv_sample_filter_hist,mv_sample_filter-method}
-\alias{chart_plot,permutation_test_boxplot,permutation_test-method}
-\alias{chart_plot,permutation_test_violin,permutation_test-method}
-\alias{chart_plot,permutation_test_hist,permutation_test-method}
-\alias{chart_plot,permutation_test_scatter,permutation_test-method}
+\alias{chart_plot,permutation_test_plot,permutation_test-method}
 \alias{chart_plot,pqn_norm_hist,pqn_norm-method}
 \alias{chart_plot,rsd_filter_hist,rsd_filter-method}
+\alias{chart_plot,svm_plot_2d,SVM-method}
 \alias{chart_plot,tSNE_scatter,tSNE-method}
 \alias{chart_plot,wilcox_p_hist,wilcox_test-method}
 \title{chart_plot}
@@ -119,17 +117,13 @@
 
 \S4method{chart_plot}{mv_sample_filter_hist,mv_sample_filter}(obj, dobj)
 
-\S4method{chart_plot}{permutation_test_boxplot,permutation_test}(obj, dobj)
-
-\S4method{chart_plot}{permutation_test_violin,permutation_test}(obj, dobj)
-
-\S4method{chart_plot}{permutation_test_hist,permutation_test}(obj, dobj)
-
-\S4method{chart_plot}{permutation_test_scatter,permutation_test}(obj, dobj)
+\S4method{chart_plot}{permutation_test_plot,permutation_test}(obj, dobj)
 
 \S4method{chart_plot}{pqn_norm_hist,pqn_norm}(obj, dobj)
 
 \S4method{chart_plot}{rsd_filter_hist,rsd_filter}(obj, dobj)
+
+\S4method{chart_plot}{svm_plot_2d,SVM}(obj, dobj, gobj)
 
 \S4method{chart_plot}{tSNE_scatter,tSNE}(obj, dobj)
 
