@@ -4,16 +4,18 @@
 #' @param neighbours The number of neighbours to use for imputation.
 #' @param sample_max Maximum percentage of missing values in any sample. Default = 50.
 #' @param feature_max Maximum percentage of missing values in any feature. Default = 50.
+#' @param by Impute by similar "samples" or "features". Default = "features". 
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export knn_impute
 #' @examples
 #' M = knn_impute()
-knn_impute = function(neighbours=5,sample_max=50,feature_max=50,...) {
+knn_impute = function(neighbours=5,sample_max=50,feature_max=50,by='features',...) {
     out=struct::new_struct('knn_impute',
         neighbours=neighbours,
         sample_max=sample_max,
         feature_max=feature_max,
+        by=by,
         ...)
     return(out)
 }
@@ -25,7 +27,8 @@ knn_impute = function(neighbours=5,sample_max=50,feature_max=50,...) {
     slots=c(neighbours='entity',
         sample_max='entity',
         feature_max='entity',
-        imputed='entity'
+        imputed='entity',
+        by='enum'
     ),
 
     prototype=list(name = 'kNN missing value imputation',
@@ -33,7 +36,7 @@ knn_impute = function(neighbours=5,sample_max=50,feature_max=50,...) {
         type = 'normalisation',
         predicted = 'imputed',
         libraries='pmp',
-        .params=c('neighbours','feature_max','sample_max'),
+        .params=c('neighbours','feature_max','sample_max','by'),
         .outputs=c('imputed'),
 
         neighbours=entity(name = 'Number of neighbours',
@@ -55,6 +58,13 @@ knn_impute = function(neighbours=5,sample_max=50,feature_max=50,...) {
             description = 'A DatasetExperiment object containing the data where missing values have been imputed.',
             type='DatasetExperiment',
             value=DatasetExperiment()
+        ),
+        
+        by=enum(name = 'By sample or by feature',
+            description = 'Impute using similar "samples" or "features". Default features.',
+            type='character',
+            value="features",
+            allowed=c('samples','features')
         )
     )
 )
@@ -69,11 +79,20 @@ setMethod(f="model_apply",
         opt=param_list(M)
 
         smeta=D$sample_meta
-        x=D$data
+        x=as.matrix(D$data)
+        
+        if (M$by == 'feature') {
+            x=t(x)
+        }
+        
 
-        imputed = pmp::mv_imputation(t(as.matrix(x)),method='knn',k = opt$neighbours,rowmax=opt$feature_max/100,colmax=opt$sample_max/100,maxp = NULL,FALSE)
-        D$data = as.data.frame(t(imputed))
+        imputed = pmp::mv_imputation(x,method='knn',k = opt$neighbours,rowmax=opt$feature_max/100,colmax=opt$sample_max/100,maxp = NULL,FALSE)
+        
+        if (M$by =='feature') {
+            imputed=t(imputed)   
+        }
 
+        D$data = as.data.frame((imputed))
         output_value(M,'imputed') = D
 
         return(M)

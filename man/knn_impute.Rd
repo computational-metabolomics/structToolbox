@@ -4,7 +4,13 @@
 \alias{knn_impute}
 \title{knn missing value imputation}
 \usage{
-knn_impute(neighbours = 5, sample_max = 50, feature_max = 50, ...)
+knn_impute(
+  neighbours = 5,
+  sample_max = 50,
+  feature_max = 50,
+  by = "features",
+  ...
+)
 }
 \arguments{
 \item{neighbours}{The number of neighbours to use for imputation.}
@@ -12,6 +18,8 @@ knn_impute(neighbours = 5, sample_max = 50, feature_max = 50, ...)
 \item{sample_max}{Maximum percentage of missing values in any sample. Default = 50.}
 
 \item{feature_max}{Maximum percentage of missing values in any feature. Default = 50.}
+
+\item{by}{Impute by similar "samples" or "features". Default = "features".}
 
 \item{...}{additional slots and values passed to struct_class}
 }
