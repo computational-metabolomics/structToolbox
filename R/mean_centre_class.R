@@ -74,7 +74,7 @@ setMethod(f="model_predict",
         if (M$mode %in% c('data','both')) {
             X=D$data
             Xc=center_colmeans(X,output_value(M,'mean_data'))
-            D$data=as.data.frame(Xc)
+            D = DatasetExperiment(data=Xc,sample_meta=D$sample_meta,variable_meta=D$variable_meta)
         }
         if (M$mode %in% c('sample_meta','both')) {
             X=D$sample_meta
@@ -82,7 +82,7 @@ setMethod(f="model_predict",
             nu=unlist(lapply(X,is.numeric))
             Xc=X
             Xc[nu]=center_colmeans(X[nu],output_value(M,'mean_sample_meta')[nu])
-            D$sample_meta=as.data.frame(Xc)
+            D = DatasetExperiment(data=D$data,sample_meta=Xc,variable_meta=D$variable_meta)
         }
         output_value(M,'centred')=D
         return(M)
