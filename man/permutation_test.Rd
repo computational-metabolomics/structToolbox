@@ -9,6 +9,8 @@ permutation_test(number_of_permutations = 50, factor_name, ...)
 \arguments{
 \item{number_of_permutations}{The number of permutations to run}
 
+\item{factor_name}{The same of the sample_meta column to use}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
@@ -20,5 +22,5 @@ all permutations, and can be compared to the results from the unpermuted model t
 assess model validity.
 }
 \examples{
-I=permutation_test()
+I=permutation_test(factor_name='Species')
 }

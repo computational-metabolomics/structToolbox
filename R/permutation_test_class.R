@@ -4,8 +4,9 @@
 #' all permutations, and can be compared to the results from the unpermuted model to
 #' assess model validity.
 #' @examples
-#' I=permutation_test()
+#' I=permutation_test(factor_name='Species')
 #' @param number_of_permutations The number of permutations to run
+#' @param factor_name The same of the sample_meta column to use
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export permutation_test
@@ -45,7 +46,7 @@ setMethod(f="run",
     {
         
         X=D$data
-        y=D$sample_meta[,M$factor_name,drop=FALSE]
+        y=D$sample_meta[,I$factor_name,drop=FALSE]
         # get the WF
         WF=models(I)
         n=param_value(I,'number_of_permutations')

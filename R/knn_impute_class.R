@@ -81,14 +81,20 @@ setMethod(f="model_apply",
         smeta=D$sample_meta
         x=as.matrix(D$data)
         
-        if (M$by == 'feature') {
+        if (M$by == 'features') {
             x=t(x)
         }
         
 
-        imputed = pmp::mv_imputation(x,method='knn',k = opt$neighbours,rowmax=opt$feature_max/100,colmax=opt$sample_max/100,maxp = NULL,FALSE)
+        imputed = pmp::mv_imputation(x,
+            method='knn',
+            k = opt$neighbours,
+            rowmax=opt$feature_max/100,
+            colmax=opt$sample_max/100,
+            maxp = NULL,
+            check_df = FALSE)
         
-        if (M$by =='feature') {
+        if (M$by =='features') {
             imputed=t(imputed)   
         }
 

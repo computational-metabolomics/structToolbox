@@ -5,7 +5,7 @@ test_that('knn impute',{
   D=iris_DatasetExperiment()
   D$data[5,1]=NA
   # method
-  M = knn_impute(neighbours=5)
+  M = knn_impute(neighbours=5,by = 'features')
   # apply
   M = model_apply(M,D)
   # expect_equal(M$imputed$data[5,1],5.2,tolerance=0.001) # an imputed value

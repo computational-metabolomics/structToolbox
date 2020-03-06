@@ -6,7 +6,7 @@
 \usage{
 SVM(
   factor_name,
-  kernel,
+  kernel = "linear",
   degree = 3,
   gamma = 1,
   coef0 = 0,

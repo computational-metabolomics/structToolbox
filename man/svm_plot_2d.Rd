@@ -7,6 +7,10 @@
 svm_plot_2d(factor_name, npoints = 100, ...)
 }
 \arguments{
+\item{factor_name}{The column of sample_meta to use}
+
+\item{npoints}{Used to control the resolution of the grid used to plot the boundary. Default 100.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
@@ -17,9 +21,12 @@ Plots the training data and the SVM boundary. 2d data only (ncol(D$data)==2).
 }
 \examples{
 D = iris_DatasetExperiment()
-M = SVM(factor_name='Species',kernel='linear')
+M = filter_smeta(mode='exclude',levels='setosa',factor_name='Species') +
+    mean_centre()+PCA(number_components=2)+
+    SVM(factor_name='Species',kernel='linear')
+M = model_apply(M,D)
 
 C = svm_plot_2d(factor_name='Species')
-chart_plot(C,M)
+chart_plot(C,M[4],predicted(M[3]))
 
 }

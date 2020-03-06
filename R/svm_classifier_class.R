@@ -13,7 +13,7 @@
 #' @export SVM
 #' @examples
 #' M = SVM(factor_name='Species',gamma=1)
-SVM = function(factor_name,kernel,degree=3,gamma=1,coef0=0,cost=1,class_weights=NULL,...) {
+SVM = function(factor_name,kernel='linear',degree=3,gamma=1,coef0=0,cost=1,class_weights=NULL,...) {
     
     out=struct::new_struct('SVM',
         factor_name=factor_name,
@@ -160,15 +160,20 @@ setMethod(f="model_predict",
 #' SVM boundary plot (2d)
 #'
 #' Plots the training data and the SVM boundary. 2d data only (ncol(D$data)==2). 
+#' @param factor_name The column of sample_meta to use
+#' @param npoints Used to control the resolution of the grid used to plot the boundary. Default 100.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export svm_plot_2d
 #' @examples
 #' D = iris_DatasetExperiment()
-#' M = SVM(factor_name='Species',kernel='linear')
+#' M = filter_smeta(mode='exclude',levels='setosa',factor_name='Species') +
+#'     mean_centre()+PCA(number_components=2)+
+#'     SVM(factor_name='Species',kernel='linear')
+#' M = model_apply(M,D)
 #' 
 #' C = svm_plot_2d(factor_name='Species')
-#' chart_plot(C,M)
+#' chart_plot(C,M[4],predicted(M[3]))
 #' 
 svm_plot_2d = function(factor_name,npoints=100,...) {
     out=struct::new_struct('svm_plot_2d',
