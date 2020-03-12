@@ -6,16 +6,16 @@ author:
   email: g.r.lloyd@bham.ac.uk
 package: structToolbox
 output:
-  BiocStyle::pdf_document:
-    toc: true
-    toc_depth: 2
-    toc_newpage: false
-    relative_path: true
   BiocStyle::html_document:
     toc: true
     toc_depth: 2  
     number_sections: true  
     toc_float: true
+  BiocStyle::pdf_document:
+    toc: true
+    toc_depth: 2
+    toc_newpage: false
+    relative_path: true
 abstract: |
   Describes the structToolbox workflow used to generate the included MTBLS79 dataset from the raw data provided by the pmp package.
 vignette: |
