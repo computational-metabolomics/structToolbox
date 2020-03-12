@@ -98,7 +98,10 @@ setMethod(f="model_apply",
             imputed=t(imputed)   
         }
 
-        D$data = as.data.frame((imputed))
+        rownames(imputed)=rownames(D$data)
+        colnames(imputed)=colnames(D$data)
+        
+        D = DatasetExperiment(data=imputed,sample_meta=D$sample_meta,variable_meta=D$variable_meta)
         output_value(M,'imputed') = D
 
         return(M)
