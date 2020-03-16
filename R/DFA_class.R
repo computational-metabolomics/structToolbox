@@ -11,9 +11,10 @@
 #' D = iris_DatasetExperiment()
 #' M = DFA(factor_name='Species')
 #' M = model_apply(M,D)
-DFA = function(factor_name,...) {
+DFA = function(factor_name,number_components=2,...) {
     out=struct::new_struct('DFA',
         factor_name=factor_name,
+        number_components=number_components,
         ...)
     return(out)
 }
@@ -23,6 +24,7 @@ DFA = function(factor_name,...) {
     "DFA",
     contains = c('model'),
     slots=c(
+        number_components='numeric',
         factor_name='entity',
         scores='DatasetExperiment',
         loadings='data.frame',
@@ -34,7 +36,7 @@ DFA = function(factor_name,...) {
         description = 'Applies DFA to a data matrix.',
         type = 'classification',
         predicted = 'that',
-        .params=c('factor_name'),
+        .params=c('factor_name','number_components'),
         .outputs=c('scores','loadings','eigenvalues','that'),
 
         factor_name=ents$factor_name
@@ -82,6 +84,15 @@ setMethod(f="model_train",
         
         # projection
         ev = eigen(P)
+
+        # handle imaginary values (should be vv small)
+        ev$values=Re(ev$values)
+        ev$vectors=Re(ev$vectors)
+
+        # reduce to number of desired components
+        ev$values=ev$values[1:M$number_components]
+        ev$vectors=ev$vectors[,1:M$number_components]
+        
         scores = as.matrix(D$data) %*% ev$vectors
         
         ## store outputs
@@ -275,8 +286,8 @@ setMethod(f="chart_plot",
         
         x=scores[,opt$components[1]]
         y=scores[,opt$components[2]]
-        xlabel=paste("DF",opt$components[[1]],')',sep='')
-        ylabel=paste("DF",opt$components[[2]],')',sep='')
+        xlabel=paste("DF",opt$components[[1]],sep='')
+        ylabel=paste("DF",opt$components[[2]],sep='')
         
         # get the factor from meta data
         opt$groups=dobj$scores$sample_meta[[opt$factor_name]]
@@ -310,7 +321,7 @@ setMethod(f="chart_plot",
             geom_point(na.rm=TRUE) +
             xlab(xlabel) +
             ylab(ylabel) +
-            ggtitle('PCA Scores', subtitle=NULL)
+            ggtitle('DFA Scores', subtitle=NULL)
         
         if (length(obj$factor_name)==2) {
             out=out+labs(shape=obj$factor_name[[2]],colour=obj$factor_name[[1]])

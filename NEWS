@@ -1,3 +1,7 @@
+Changes 0.99.5
++ fix dimnames mismatch for knn-impute
++ add additional vignettes
+
 Changes 0.99.4
 + Add SVM, nroot transform, constant sum norm
 + Add funtionality to autoscaling

@@ -1,0 +1,175 @@
+---
+title: "MTBLS598 Discriminant Factor Analysis"
+author:
+- name: Gavin Rhys Lloyd
+  affiliation: Phenome Centre Birmingham, University of Birmingham, UK
+  email: g.r.lloyd@bham.ac.uk
+package: structToolbox
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_depth: 2  
+    number_sections: true  
+    toc_float: true
+  BiocStyle::pdf_document:
+    toc: true
+    toc_depth: 2
+    toc_newpage: false
+    relative_path: true
+abstract: |
+  Describes a structToolbox workflow used to replicate the PCA-DFA in the publication for this dataset.
+vignette: |
+  %\VignetteIndexEntry{MTBLS598 Peak Matrix Processing}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r,echo=FALSE,include=FALSE}
+library(structToolbox)
+```
+
+# Introduction
+> MTBLS598: Metabolic dysregulation in vitamin E and carnitine shuttle energy mechanisms associate with human frailty
+
+> Global ageing poses a substantial economic burden on health and social care costs. Enabling a greater proportion of older people to stay healthy for longer is key to the future sustainability of health, social and economic policy. Frailty and associated decrease in resilience plays a central role in poor health in later life. In this study, we present a population level assessment of the metabolic phenotype associated with frailty. Analysis of serum from 1191 older individuals (aged between 56 and 84 years old) and subsequent longitudinal validation (on 786 subjects) was carried out using liquid and gas chromatography-mass spectrometry metabolomics and stratified across a frailty index designed to quantitatively summarize vulnerability. Through multivariate regression and network modelling and mROC modeling we identified 12 significant metabolites (including three tocotrienols and six carnitines) that differentiate frail and non-frail phenotypes. Our study provides evidence that the dysregulation of carnitine shuttle and vitamin E pathways play a role in the risk of frailty.
+
+In this document a struct workflow will be used to replicate Fig. 2 of the paper for this dataset (https://europepmc.org/abstract/MED/31690722)
+
+# Dataset preparation
+The raw data for this study can be found in the Metabolights database (https://www.ebi.ac.uk/metabolights/MTBLS598). However, the the data matrix suitable for statistics needs to be downloaded from the publication website, supplementary information (https://www.ebi.ac.uk/biostudies/files/S-EPMC6831565/41467_2019_12716_MOESM4_ESM.xlsx). The provided excel sheet contains lots of information. The relevant sheet is called "Figure 2 + 3", and will be loaded using the `openxlsx` package. 
+
+```{r}
+# load library
+library(openxlsx)
+# path to file
+p2f = 'https://www.ebi.ac.uk/biostudies/files/S-EPMC6831565/41467_2019_12716_MOESM4_ESM.xlsx'
+# read the sheet
+Xorig = read.xlsx(xlsxFile = p2f,rowNames = FALSE, colNames=FALSE,sheet = 'Figure 2 + 3')
+```
+
+The meta data and sample data are in the same sheet, so it needs to be separated into a `DatasetExperiment` object for use with `structToolbox`.
+
+
+```{r}
+X = Xorig
+
+# sample_meta
+SM = X[4:nrow(X),1:3]
+colnames(SM)=X[3,1:3]
+rownames(SM)=SM[,3]
+
+# variable_meta
+VM = as.data.frame(t(X[1:3,5:ncol(X)]))
+colnames(VM)=X[1:3,4]
+rownames(VM)=VM[,3]
+
+# data
+X=X[4:nrow(X),5:ncol(X)]
+# make sure numeric
+X=apply(X,2,as.numeric)
+colnames(X)=rownames(VM)
+rownames(X)=rownames(SM)
+
+# dataset experiment object
+DE = DatasetExperiment(
+    name = 'MTBLS598',
+    description = 'Metabolic dysregulation in vitamin E and carnitine shuttle energy mechanisms associate with human frailty',
+    sample_meta = SM,
+    variable_meta = VM,
+    data = X
+)
+
+DE
+
+```
+
+# Matrix processing
+In the publication the authors stratify the Rockwood Frailty Index value to generate 4 groups of samples. A new struct object is created to do this making use of the `cut` function in base R. The new object is created 'ion the fly' in order to demonstrate the use of 'struct' functions to quickly generate new models.
+
+In the first step a new class is defined, with parameters and outputs.
+```{r}
+# create a new struct model
+stratify=set_struct_obj(class_name = 'stratify',
+                        struct_obj = 'model',
+                        stato = FALSE,
+                        params = c(factor_name = 'character',levels='numeric',labels='character'),
+                        outputs = c(stratified = 'DatasetExperiment'),
+                        prototype = list(predicted='stratified')
+)
+```
+
+The next step is to add an apply method for the new object, so that it can be used with other struct objects.
+
+```{r}
+# create an apply method for the new object
+set_obj_method(
+    class_name = 'stratify',
+    method_name = 'model_apply',
+    definition=function(M,D) {
+        x = cut(as.numeric(D$sample_meta[[M$factor_name]]),breaks = M$levels,labels=M$labels)
+        x=as.character(x)
+        x[is.na(x)]='NA'
+        D$sample_meta[[M$factor_name]]=factor(x)
+        M$stratified=D
+        return(M)
+    }
+)
+
+```
+
+The `stratify` model class is can now be used with other struct objects. In the publication the raw data was log2 transformed, and the QC samples are excluded.
+
+
+```{r, warning=FALSE,message=FALSE}
+# model sequence
+M = stratify(
+        factor_name = "Frailty.Index",
+        levels=c(-Inf,0.1,0.2,0.3,Inf), 
+        labels=c('FI-1','FI-2','FI-3','FI-4')) +
+     filter_smeta(mode = 'exclude',levels='NA',factor_name='Frailty.Index') +
+     log_transform(base = 10)
+
+# apply model
+M = model_apply(M,DE)
+```
+
+# Exploratory Analysis
+There are several approaches for visualising multivariate datasets. PCA is a commonly used unsupervised method, and is can be combined with DFA, which is a supervised method. Here the scores plots for both are compared.
+
+```{r, fig.width=9,fig.height=15}
+# PCA model sequence
+U = mean_centre() + PCA(number_components=2)
+# apply model
+U = model_apply(U,predicted(M))
+
+# DFA model sequence
+S = mean_centre() + PCA(number_components=150) + DFA(factor_name = 'Frailty.Index',number_components = 2)
+# apply model
+S = model_apply(S,predicted(M))
+
+# PLS model sequence
+S2 = mean_centre() + PLSDA(number_components=2,factor_name='Frailty.Index')
+# apply model
+S2 = model_apply(S2,predicted(M))
+
+# pca scores plot
+C = pca_scores_plot(factor_name = 'Frailty.Index')
+g1 = chart_plot(C,U[2])
+
+# dfa scores plot
+C = dfa_scores_plot(factor_name = 'Frailty.Index')
+g2 = chart_plot(C,S[3])
+
+# dfa scores plot
+C = plsda_scores_plot(factor_name = 'Frailty.Index',groups=predicted(M)$sample_meta$Frailty.Index)
+g3 = chart_plot(C,S2[2])
+
+# use cowplot to align in a grid
+cowplot::plot_grid(plotlist = list(g1,g2,g3),align='vh',nrow=3)
+```
+
+
+
+
+
+

@@ -4,7 +4,7 @@
 \alias{DFA}
 \title{Discriminant Factor Analysis (DFA)}
 \usage{
-DFA(factor_name, ...)
+DFA(factor_name, number_components = 2, ...)
 }
 \arguments{
 \item{factor_name}{The sample_meta column name containing group labels}
