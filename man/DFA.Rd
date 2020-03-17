@@ -9,9 +9,9 @@ DFA(factor_name, number_components = 2, ...)
 \arguments{
 \item{factor_name}{The sample_meta column name containing group labels}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{number_components}{The number of discriminant factors to calculate}
 
-\item{number_factors}{The number of discriminant factors to calculate}
+\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
