@@ -2,7 +2,7 @@
 #'
 #' Applies Dicriminant Factor Analysis to a dataset.
 #' @param factor_name The sample_meta column name containing group labels
-#' @param number_factors The number of discriminant factors to calculate
+#' @param number_components The number of discriminant factors to calculate
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export DFA
