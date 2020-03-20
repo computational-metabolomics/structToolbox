@@ -1,7 +1,7 @@
 Package: structToolbox
 Type: Package
 Title: Some tools bult using the struct package
-Version: 0.99.5
+Version: 0.99.6
 Author: Gavin Rhys Lloyd
 Maintainer: Gavin Rhys Lloyd <g.r.lloyd@bham.ac.uk>
 Description: Extends the class templates provided by the struct package to 
@@ -91,7 +91,7 @@ Imports: ggplot2,
     scales,
     sp,
     stats
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Suggests: agricolae,
  BiocStyle,
  car,
