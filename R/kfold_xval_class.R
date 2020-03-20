@@ -139,7 +139,7 @@ setMethod(f="evaluate",
         te=results[results$in.test,]
         MET=calculate(MET,te$actual,te$predicted)
         te.metric=value(MET)
-        out=data.frame('metric'=class(MET),'mean'=mean(te.metric),'sd'=sd(te.metric))
+        out=data.frame('metric'=class(MET)[1],'mean'=mean(te.metric),'sd'=sd(te.metric))
 
         output_value(I,'metric')=out
         output_value(I,'metric.train')=ts.metric

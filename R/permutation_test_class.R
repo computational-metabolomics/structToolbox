@@ -134,7 +134,7 @@ setMethod(f="run",
         # store results
         output_value(I,'results.permuted')=all_results_permuted
         output_value(I,'results.unpermuted')=all_results_unpermuted
-        I$metric=data.frame('metric'=class(MET),'permuted'=pe.metric,'unpermuted'=un.metric)
+        I$metric=data.frame('metric'=class(MET)[1],'permuted'=pe.metric,'unpermuted'=un.metric)
         return(I)
     }
 )

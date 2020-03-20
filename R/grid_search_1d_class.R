@@ -132,7 +132,7 @@ setMethod(f="run",
                 stop('not a valid max_min choice')
             }
 
-            out=data.frame('metric'=class(MET),'value'=ts.metric,'search.value'=param_value(I,'search_values'))
+            out=data.frame('metric'=class(MET)[1],'value'=ts.metric,'search.value'=param_value(I,'search_values'))
             output_value(I,'metric')=out
             output_value(I,'optimum_value')=out$search.value[idx]
 
@@ -145,7 +145,7 @@ setMethod(f="run",
             } else {
                 stop('not a valid max_min choice')
             }
-            out=data.frame('metric'=class(MET),'value'=results$mean[idx],'search.value'=param_value(I,'search_values')[idx])
+            out=data.frame('metric'=class(MET)[1],'value'=results$mean[idx],'search.value'=param_value(I,'search_values')[idx])
             output_value(I,'metric')=out
             output_value(I,'optimum_value')=out$search.value
 

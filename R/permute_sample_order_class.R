@@ -112,7 +112,7 @@ setMethod(f="evaluate",
                 MET=calculate(MET,ts$actual,ts$predicted)
                 ts.metric[i]=value(MET)
             }
-            out=data.frame('metric'=class(MET),'mean'=mean(ts.metric),'sd'=sd(ts.metric))
+            out=data.frame('metric'=class(MET)[1],'mean'=mean(ts.metric),'sd'=sd(ts.metric))
 
 
             output_value(I,'metric')=out
