@@ -11,7 +11,7 @@ install:
   ps: Bootstrap
 
 cache:
-  - C:\RLibrary
+  #- C:\RLibrary
 
 # Adapt as necessary starting from here
 
@@ -45,5 +45,9 @@ artifacts:
     name: Bits
 
 environment:
+  NOT_CRAN: true
+  # R_REMOTES_STANDALONE: true
+  R_VERSION: devel
+  BIOC_USE_DEVEL: TRUE
   USE_RTOOLS: true
-  R_REMOTES_STANDALONE: true
+  PKGTYPE: both

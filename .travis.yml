@@ -1,12 +1,25 @@
 language: r
-r: bioc-release
-sudo: false
-cache: packages
+r: bioc-devel
+bioc_check: true
+
+cache: 
+  packages: true
+
+sudo: required
+
 warnings_are_errors: false
-after_success:
-    - Rscript -e 'covr::codecov()'
+
+dist: xenial
+
 addons:
   apt:
+    update: true
+    sources:
+      - sourceline: 'ppa:cran/imagemagick'
     packages:
+      - libmagick++-dev
       - libudunits2-dev
       - libgdal1-dev
+
+after_success:
+    - Rscript -e 'covr::codecov()'
