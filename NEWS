@@ -1,3 +1,6 @@
+Changes 0.99.7
++ minor documentation updates
+
 Changes 0.99.6
 + fix issues using class() due to changes in R 4.0.0
 
