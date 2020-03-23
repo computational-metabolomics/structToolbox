@@ -181,7 +181,6 @@ gs_line = function(...) {
 )
 
 #' @export
-#' @inherit struct::chart_plot
 #' @template chart_plot
 setMethod(f="chart_plot",
     signature=c("gs_line",'grid_search_1d'),

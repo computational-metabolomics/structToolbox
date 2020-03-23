@@ -17,7 +17,7 @@ DFA(factor_name, number_components = 2, ...)
 struct object
 }
 \description{
-Applies Dicriminant Factor Analysis to a dataset.
+Applies Discriminant Factor Analysis to a dataset.
 }
 \examples{
 D = iris_DatasetExperiment()

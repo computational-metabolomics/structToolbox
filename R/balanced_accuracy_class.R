@@ -29,7 +29,6 @@ balanced_accuracy = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template calculate
 setMethod(f="calculate",

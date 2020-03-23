@@ -181,7 +181,6 @@ pca_scores_plot = function(
 #' @importFrom sp point.in.polygon
 #' @import ggplot2
 #' @importFrom scales squish
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

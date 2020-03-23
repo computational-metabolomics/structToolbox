@@ -69,7 +69,6 @@ blank_filter = function(fold_change=20,blank_label='blank',qc_label='QC',factor_
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_train
 setMethod(f="model_train",
@@ -95,7 +94,6 @@ setMethod(f="model_train",
     }
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_predict
 setMethod(f="model_predict",signature=c("blank_filter","DatasetExperiment"),
@@ -144,7 +142,7 @@ blank_filter_hist = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
+
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

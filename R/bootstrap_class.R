@@ -46,7 +46,6 @@ bootstrap = function(number_of_iterations = 100, collect, ...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template run
 setMethod(f="run",

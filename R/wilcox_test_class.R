@@ -102,7 +102,6 @@ wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_fac
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",
@@ -232,7 +231,7 @@ wilcox_p_hist = function(...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
+
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",

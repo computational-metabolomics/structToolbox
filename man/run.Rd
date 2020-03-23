@@ -31,8 +31,6 @@
 \item{D}{a DatasetExperiment object}
 
 \item{MET}{a metric object}
-
-\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 Modified iterator object

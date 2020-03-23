@@ -69,7 +69,7 @@ tSNE = function(dims=2,perplexity=30,max_iter=100,theta=0.5,check_duplicates=FAL
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
+
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

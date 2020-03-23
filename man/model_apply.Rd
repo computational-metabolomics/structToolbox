@@ -105,8 +105,6 @@
 \item{M}{a method object}
 
 \item{D}{another object used by the first}
-
-\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 Returns a modified method object

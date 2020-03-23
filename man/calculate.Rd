@@ -17,8 +17,6 @@
 \item{Y}{the true values/group labels}
 
 \item{Yhat}{the predicted values/group labels}
-
-\item{...}{additional slots and values passed to struct_class}
 }
 \value{
 a modified metric object

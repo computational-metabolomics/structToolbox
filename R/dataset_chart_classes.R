@@ -647,7 +647,6 @@ compare_dist = function(factor_name,...) {
     )
 )
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @import gridExtra
 #' @template chart_plot

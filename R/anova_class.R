@@ -73,7 +73,6 @@ ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III',...) {
 )
 
 
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template model_apply
 setMethod(f="model_apply",

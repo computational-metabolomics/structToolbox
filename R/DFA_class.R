@@ -1,6 +1,6 @@
 #' Discriminant Factor Analysis (DFA)
 #'
-#' Applies Dicriminant Factor Analysis to a dataset.
+#' Applies Discriminant Factor Analysis to a dataset.
 #' @param factor_name The sample_meta column name containing group labels
 #' @param number_components The number of discriminant factors to calculate
 #' @param ... additional slots and values passed to struct_class
@@ -257,7 +257,6 @@ dfa_scores_plot = function(
 #' @importFrom sp point.in.polygon
 #' @import ggplot2
 #' @importFrom scales squish
-#' @param ... additional slots and values passed to struct_class
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
