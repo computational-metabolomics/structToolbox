@@ -108,7 +108,7 @@ setMethod(f="chart_plot",
     {
         A=output_value(dobj,'coeff')
 
-        out=ggplot(data=A, aes_(x=~coeff)) +
+        out=ggplot(data=A, aes_(x=~pqn_coef)) +
             geom_histogram(color='white') +
             xlab('PQN coefficient') +
             ylab('Count') +
