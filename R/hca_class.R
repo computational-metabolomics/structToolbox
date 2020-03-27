@@ -134,7 +134,7 @@ setMethod(f="chart_plot",
         A$group=dobj$factor_df[,1]
 
         g= ggplot() +
-            geom_segment(data=segment(hcdata), aes(x=x, y=y, xend=xend, yend=yend)) +
+            geom_segment(data=ggdendro::segment(hcdata), aes(x=x, y=y, xend=xend, yend=yend)) +
             geom_point(data=A, aes(x=x, y=y,color=group))+
             scale_colour_Publication() +
             theme_Publication(base_size = 12) +
