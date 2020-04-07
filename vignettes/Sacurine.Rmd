@@ -113,7 +113,7 @@ plots are compared.
 M = autoscale() + PLSDA(factor_name='gender')
 M = model_apply(M,DE)
 
-C = plsda_scores_plot(factor_name = 'gender', groups=DE$sample_meta$gender)
+C = plsda_scores_plot(factor_name = 'gender')
 chart_plot(C,M[2])
 ```
 

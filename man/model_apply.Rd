@@ -8,8 +8,8 @@
 %   R/log_transform.R, R/model_apply_doc.R, R/mv_sample_filter_class.R,
 %   R/nroot_transform_class.R, R/pairs_filter_class.R,
 %   R/pqn_norm_method_class.R, R/prop_na_class.R, R/rsd_filter.R, R/sb_corr.R,
-%   R/split_data_class.R, R/tSNE_class.R, R/ttest_class.R, R/vec_norm_class.R,
-%   R/wilcox_test_class.R
+%   R/split_data_class.R, R/stratified_split_class.R, R/tSNE_class.R,
+%   R/ttest_class.R, R/vec_norm_class.R, R/wilcox_test_class.R
 \name{model_apply,ANOVA,DatasetExperiment-method}
 \alias{model_apply,ANOVA,DatasetExperiment-method}
 \alias{model_apply,HSD,DatasetExperiment-method}
@@ -37,6 +37,7 @@
 \alias{model_apply,rsd_filter,DatasetExperiment-method}
 \alias{model_apply,sb_corr,DatasetExperiment-method}
 \alias{model_apply,split_data,DatasetExperiment-method}
+\alias{model_apply,stratified_split,DatasetExperiment-method}
 \alias{model_apply,tSNE,DatasetExperiment-method}
 \alias{model_apply,ttest,DatasetExperiment-method}
 \alias{model_apply,vec_norm,DatasetExperiment-method}
@@ -92,6 +93,8 @@
 \S4method{model_apply}{sb_corr,DatasetExperiment}(M, D)
 
 \S4method{model_apply}{split_data,DatasetExperiment}(M, D)
+
+\S4method{model_apply}{stratified_split,DatasetExperiment}(M, D)
 
 \S4method{model_apply}{tSNE,DatasetExperiment}(M, D)
 

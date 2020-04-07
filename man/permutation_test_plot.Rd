@@ -7,7 +7,7 @@
 permutation_test_plot(style = "boxplot", binwidth = 0.05, ...)
 }
 \arguments{
-\item{style}{The plot style. One of 'boxplot', 'violin', 'histogram' or 'scatter'.}
+\item{style}{The plot style. One of 'boxplot', 'violin', 'histogram', 'density' or 'scatter'.}
 
 \item{binwidth}{Binwidth for the "histogram" style. Ignored for all other styles.}
 

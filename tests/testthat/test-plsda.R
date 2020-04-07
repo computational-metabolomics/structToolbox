@@ -23,19 +23,19 @@ test_that('plsda scores chart',{
   M=model_predict(M,D)
 
   # scores plot
-  C=plsda_scores_plot(factor_name='Species',groups=D$sample_meta$Species)
+  C=plsda_scores_plot(factor_name='Species')
   gg=chart_plot(C,M[2])
   g=ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 
   # scores plot
-  C=plsda_scores_plot(factor_name='Species',groups=D$sample_meta$Species,points_to_label='outliers')
+  C=plsda_scores_plot(factor_name='Species',points_to_label='outliers')
   gg=chart_plot(C,M[2])
   g=ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
 
   # scores plot
-  C=plsda_scores_plot(factor_name='Species',groups=D$sample_meta$Species,points_to_label='all')
+  C=plsda_scores_plot(factor_name='Species',points_to_label='all')
   gg=chart_plot(C,M[2])
   g=ggplot_build(gg)
   expect_true(is(gg,'ggplot'))

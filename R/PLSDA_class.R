@@ -95,6 +95,7 @@ setMethod(f="model_train",
         nr=ncol(output_value(M,'reg_coeff'))
         output_value(M,'reg_coeff')=as.data.frame(pls_model$coefficients[,,M$number_components]) # keep only the requested number of components
         output_value(M,'vip')=as.data.frame(vips(pls_model))
+        colnames(M$vip)=levels(y)
         yhat=predict(pls_model, ncomp = param_value(M,'number_components'), newdata = X)
         yhat=as.matrix(yhat[,,dim(yhat)[3]])
         output_value(M,'yhat')=as.data.frame(yhat)
@@ -104,6 +105,16 @@ setMethod(f="model_train",
         output_value(M,'pls_model')=list(pls_model)
         scores=pls::scores(pls_model)
         output_value(M,'scores')=as.data.frame(matrix(scores,nrow = nrow(scores),ncol=ncol(scores)))
+        colnames(M$scores)=as.character(interaction('LV',1:ncol(M$scores)))
+        rownames(M$scores)=rownames(D$data)
+        loadings=pls::loadings(pls_model)
+        M$loadings=as.data.frame(matrix(pls_model$loadings,nrow=nrow(loadings),ncol=ncol(loadings)))
+        colnames(M$loadings)=as.character(interaction('LV',1:ncol(M$loadings)))
+        rownames(M$loadings)=colnames(D$data)
+        rownames(M$vip)=rownames(M$loadings)
+        rownames(M$reg_coeff)=rownames(M$loadings)
+        colnames(M$reg_coeff)=colnames(M$vip)
+        
         return(M)
     }
 )

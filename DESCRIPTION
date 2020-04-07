@@ -1,7 +1,7 @@
 Package: structToolbox
 Type: Package
 Title: Some tools bult using the struct package
-Version: 0.99.7
+Version: 0.99.8
 Author: Gavin Rhys Lloyd
 Maintainer: Gavin Rhys Lloyd <g.r.lloyd@bham.ac.uk>
 Description: Extends the class templates provided by the struct package to 
@@ -12,6 +12,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Collate:
+    'AUC_metric_class.R'
     'entity_objects.R'
     'DFA_class.R'
     'anova_class.R'
@@ -75,6 +76,7 @@ Collate:
     'run_doc.R'
     'sb_corr.R'
     'split_data_class.R'
+    'stratified_split_class.R'
     'structToolbox.R'
     'svm_classifier_class.R'
     'tSNE_class.R'
@@ -103,6 +105,7 @@ Suggests: agricolae,
  knitr,
  magick,
  nlme,
+ openxlsx,
  pls,
  pmp,
  reshape2,

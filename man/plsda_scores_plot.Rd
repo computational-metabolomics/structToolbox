@@ -8,7 +8,6 @@ plsda_scores_plot(
   components = c(1, 2),
   points_to_label = "none",
   factor_name,
-  groups,
   ...
 )
 }
@@ -18,8 +17,6 @@ plsda_scores_plot(
 \item{points_to_label}{"none", "all", or "outliers" will be labelled on the plot.}
 
 \item{factor_name}{The sample_meta column name for labelling the legend}
-
-\item{groups}{A vector for colouring the points (factor, character or numeric).}
 
 \item{...}{additional slots and values passed to struct_class}
 }
@@ -34,6 +31,6 @@ D = iris_DatasetExperiment()
 M = mean_centre()+PLSDA(factor_name='Species')
 M = model_apply(M,D)
 
-C = plsda_scores_plot(factor_name='Species',groups=D$sample_meta$Species)
+C = plsda_scores_plot(factor_name='Species')
 chart_plot(C,M[2])
 }

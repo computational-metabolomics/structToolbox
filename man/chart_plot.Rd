@@ -18,6 +18,10 @@
 \alias{chart_plot,pca_scree_plot,PCA-method}
 \alias{chart_plot,pca_dstat_plot,PCA-method}
 \alias{chart_plot,plsda_scores_plot,PLSDA-method}
+\alias{chart_plot,plsda_predicted_plot,PLSDA-method}
+\alias{chart_plot,plsda_roc_plot,PLSDA-method}
+\alias{chart_plot,plsda_vip_plot,PLSDA-method}
+\alias{chart_plot,plsda_regcoeff_plot,PLSDA-method}
 \alias{chart_plot,plsr_prediction_plot,PLSR-method}
 \alias{chart_plot,plsr_residual_hist,PLSR-method}
 \alias{chart_plot,plsr_qq_plot,PLSR-method}
@@ -68,6 +72,14 @@
 \S4method{chart_plot}{pca_dstat_plot,PCA}(obj, dobj)
 
 \S4method{chart_plot}{plsda_scores_plot,PLSDA}(obj, dobj)
+
+\S4method{chart_plot}{plsda_predicted_plot,PLSDA}(obj, dobj)
+
+\S4method{chart_plot}{plsda_roc_plot,PLSDA}(obj, dobj)
+
+\S4method{chart_plot}{plsda_vip_plot,PLSDA}(obj, dobj)
+
+\S4method{chart_plot}{plsda_regcoeff_plot,PLSDA}(obj, dobj)
 
 \S4method{chart_plot}{plsr_prediction_plot,PLSR}(obj, dobj)
 

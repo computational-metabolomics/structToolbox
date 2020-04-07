@@ -1,3 +1,9 @@
+Changes 0.99.8
++ added stratified splitting (stratified_split)
++ added Gastric Cancer vignette
++ add AUC metric
++ add predicted and ROC plots for PLSDA
+
 Changes 0.99.7
 + minor documentation updates
 

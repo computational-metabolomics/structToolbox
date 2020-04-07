@@ -27,6 +27,8 @@ r_squared = function(...) {
 setMethod(f="calculate",
     signature=c('r_squared'),
     definition=function(obj,Y,Yhat) {
+
+        # calculate R2
         SSR  = sum((Yhat-mean(Y))^2)
         SSE  = sum((Y-Yhat)^2)
         SSTO = sum((Y-mean(Y))^2)

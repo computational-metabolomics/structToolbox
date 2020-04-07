@@ -49,7 +49,7 @@ PLSR = function(number_components=2,factor_name,...) {
             'pls_model',
             'pred'),
 
-        number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = 'numeric'),
+        number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = c('numeric','integer')),
         factor_name=entity(name='Factor name', description='A vector of sample_meta column names to use')
     )
 

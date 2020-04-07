@@ -145,7 +145,7 @@ setMethod(f="run",
 #' Plots the results of a permutation test.
 #' @examples
 #' C = permutation_test_plot(style='boxplot')
-#' @param style The plot style. One of 'boxplot', 'violin', 'histogram' or 'scatter'.
+#' @param style The plot style. One of 'boxplot', 'violin', 'histogram', 'density' or 'scatter'.
 #' @param binwidth Binwidth for the "histogram" style. Ignored for all other styles.
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
@@ -170,10 +170,10 @@ permutation_test_plot = function(style = 'boxplot',binwidth=0.05,...) {
         description='A plot of the calculated metric for the model with permuted and unpermuted data',
         .params=c('style','binwidth'),
         style=enum(name='Plot style',
-            description="The plot style. One of 'boxplot', 'violin', 'histogram' or 'scatter'.",
+            description="The plot style. One of 'boxplot', 'violin', 'histogram', 'density' or 'scatter'.",
             type='character',
             value='boxplot',
-            allowed=c('boxplot','violin','histogram','scatter')
+            allowed=c('boxplot','violin','histogram','scatter','density')
         ),
         binwidth = 0.05
     )
@@ -226,6 +226,11 @@ setMethod(f="chart_plot",
             theme(axis.title.x=element_blank(),
                 axis.text.x=element_blank(),
                 axis.ticks.x=element_blank())
+        } else if (obj$style=='density') {
+            out=ggplot(data=A,aes_(x=~value,color=~dataset,fill=~dataset)) +
+                scale_color_manual(values=plotClass$manual_colors,name='Dataset') +
+                scale_fill_manual(values=plotClass$manual_colors,name='Dataset') +
+                geom_density(alpha = 0.3)
         }
         
         out = out + theme_Publication(base_size = 12) 

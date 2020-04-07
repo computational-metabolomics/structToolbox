@@ -81,6 +81,10 @@ setMethod(f="run",
         {
             if (is(WF,'model_OR_model_seq'))
             {
+                if (is(WF,'model')) {
+                    # convert to model sequence
+                    WF = model_seq()+WF
+                }
                 # for each value, set it as the chosen parameter, then train the workflow
                 #results for this  parameter value
                 perm_results=data.frame('actual'=D$sample_meta[,fn],'predicted'=D$sample_meta[,fn],'search_value'=sv[i])

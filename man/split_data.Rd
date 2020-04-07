@@ -4,10 +4,10 @@
 \alias{split_data}
 \title{Split data into subsets}
 \usage{
-split_data(p, ...)
+split_data(p_train, ...)
 }
 \arguments{
-\item{p}{The proportion of samples in the training set.}
+\item{p_train}{The proportion of samples in the training set.}
 
 \item{...}{additional slots and values passed to struct_class}
 }
@@ -18,6 +18,6 @@ struct object
 Splits the data into a training and test set.
 }
 \examples{
-M = split_data(p=0.75)
+M = split_data(p_train=0.75)
 
 }
