@@ -1,3 +1,7 @@
+Changes 0.99.9
++ add proteomics vignette
++ add mean_of_medians
+
 Changes 0.99.8
 + added stratified splitting (stratified_split)
 + added Gastric Cancer vignette
