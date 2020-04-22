@@ -318,7 +318,8 @@ setMethod(f="chart_plot",
 #' You can provide up to two factors for this plot.
 #' @param scale_factor Scaling factor to apply to loadings. Default = 0.95.
 #' @param style Plot style for loadings. Can be 'points' (default) or 'arrows'.
-#' @param label_features TRUE or FALSE to label features on the plot. Default is FALSE.
+#' @param label_features 'Include feature labels from this variable meta column. 
+#' Special keyword "rownames" will use the rownames of the variable_meta data.frame'
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_biplot_plot
@@ -486,7 +487,8 @@ setMethod(f="chart_plot",
 #' @import struct
 #' @param components The principal components to plot (\code{numeric(2)})
 #' @param style Plot style for loadings. Can be 'points' (default) or 'arrows'.
-#' @param label_features TRUE or FALSE to label features on the plot. Default is FALSE.
+#' @param label_features 'A list of labels to use, one for each feature. Special 
+#' keyword "rownames" will use the rownames of the variable_meta data.frame'
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_loadings_plot
