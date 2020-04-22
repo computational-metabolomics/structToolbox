@@ -34,7 +34,7 @@ pqn_norm = function(qc_label='QC',factor_name,...) {
         predicted = 'normalised',
         libraries='pmp',
         .params=c('qc_label','factor_name'),
-        .outputs=c('normlised','coeff'),
+        .outputs=c('normalised','coeff'),
 
         qc_label=entity(name = 'QC label',
             description = 'Label used to identify QC samples.',
