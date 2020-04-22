@@ -4,10 +4,12 @@
 \alias{kfoldxcv_grid}
 \title{kfoldxcv_grid class}
 \usage{
-kfoldxcv_grid(factor_name, ...)
+kfoldxcv_grid(factor_name, level, ...)
 }
 \arguments{
 \item{factor_name}{The sample_meta column name to use.}
+
+\item{level}{The level of the factor to plot}
 
 \item{...}{additional slots and values passed to struct_class}
 }
@@ -23,7 +25,7 @@ I = kfold_xval(factor_name='Species') *
     (mean_centre() + PLSDA(factor_name='Species'))
 I = run(I,D,balanced_accuracy())
 
-C = kfoldxcv_grid(factor_name='Species')
+C = kfoldxcv_grid(factor_name='Species',level='setosa')
 chart_plot(C,I)
 
 }

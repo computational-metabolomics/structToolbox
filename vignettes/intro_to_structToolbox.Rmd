@@ -1,0 +1,1647 @@
+---
+title: "Data analysis of metabolomics and other omics datasets using the structToolbox"
+author: 
+- name: Gavin R Lloyd
+  affiliation: Phenome Centre Birmingham, University of Birmingham, UK
+  email: g.r.lloyd@bham.ac.uk
+- name: Andris Jankevics
+  affiliation: Phenome Centre Birmingham, University of Birmingham, UK
+  email: a.jankevics@bham.ac.uk
+- name: Ralf J Weber
+  affiliation: Phenome Centre Birmingham, University of Birmingham, UK
+  email: r.j.weber@bham.ac.uk
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_depth: 2  
+    number_sections: true  
+    toc_float: true
+package: structToolbox
+abstract: |
+    Data (pre-)processing and data analysis of Metabolomics and other omics datasets using struct and structToolbox, including univariate/multivariate statistics and machine learning approaches.
+vignette: >
+  %\VignetteIndexEntry{Data analysis of metabolomics and other omics datasets using the structToolbox}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+    dpi=72,fig.width=5,fig.height=5.5
+)
+set.seed(57475)
+
+```
+
+# Introduction
+The 'structToolbox' includes an extensive set of data (pre-)processing and analysis tools for metabolomics and other omics, with a strong emphasis on statistics and machine learning. The methods and tools have been implemented using class-based templates available via the `struct` (Statistics in R Using Class-based Templates) package. The aim of this vignette is to introduce the reader to basic and more advanced structToolbox-based operations and implementations, such as the use of `struct` objects, getting/setting methods/parameters, and building workflows for the analysis of mass spectrometry (MS) and nuclear magnetic resonance (NMR)-based Metabolomics and proteomics datasets. The workflows demonstrated here include a wide range of methods and tools including pre-processing such as filtering, normalisation and scaling, followed by univariate and/or multivariate statistics, and machine learning approaches. 
+
+# Getting started
+The latest version of `structToolbox` compatible with your current R version can be installed using `BiocManager`.
+
+```{r, eval=FALSE, include=TRUE}
+# install BiocManager if not present
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+# install structToolbox
+BiocManager::install("structToolbox")
+```
+
+A number of additional packages are needed for this vignette.
+
+```{r, message=FALSE, warning=FALSE}
+suppressPackageStartupMessages({
+    # Bioconductor packages (use BiocManager::install())
+    library(structToolbox)
+    library(pmp)
+    library(ropls)
+    library(BiocFileCache)
+    
+    # cran libraries (use install.packages())
+    library(ggplot2)
+    library(gridExtra)
+    library(cowplot)
+    library(openxlsx)
+})
+
+# use the BiocFileCache
+bfc <- BiocFileCache(ask = FALSE)
+```
+
+# Introduction to `struct` objects, including models, model sequences, model charts and ontology.
+
+## Introduction
+PCA (Principal Component Analysis) and PLS (Partial Least Squares) are commonly applied methods for exploring and analysing multivariate datasets. Here we use these two statistical methods to demonstrate the different types of `struct` (STatistics in R Using Class Templates) objects that are available as part of the `structToolbox` and how these objects (i.e. class templates) can be used to conduct unsupervised and supervised multivariate statistical analysis.
+
+## Dataset
+For demonstration purposes we will use the "Iris" dataset. This famous (Fisher's or Anderson's) dataset contains measurements of sepal length and width and petal length and width, in centimeters, for 50 flowers from each of 3 class of Iris. The class are Iris setosa, versicolor, and virginica. See here (https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/iris.html) for more information.
+
+Note: this vignette is also compatible with the Direct infusion mass spectrometry metabolomics "benchmark" dataset described in Kirwan et al., _Sci Data_ *1*, 140012 (2014) (https://doi.org/10.1038/sdata.2014.12).
+
+Both datasets are available as part of the structToolbox package and already prepared as a `DatasetExperiment` object.
+
+```{r}
+## Iris dataset (comment if using MTBLS79 benchmark data)
+D = iris_DatasetExperiment()
+D$sample_meta$class = D$sample_meta$Species
+
+## MTBLS (comment if using Iris data)
+# D = MTBLS79_DatasetExperiment(filtered=TRUE)
+# M = pqn_norm(qc_label='QC',factor_name='sample_type') + 
+#   knn_impute(neighbours=5) +
+#   glog_transform(qc_label='QC',factor_name='sample_type') +
+#   filter_smeta(mode='exclude',levels='QC',factor_name='sample_type')
+# M = model_apply(M,D)
+# D = predicted(M)
+
+# show info
+D
+```
+
+### DatasetExperiment objects
+The `DatasetExperiment` object is an extension of the `SummarizedExperiment` class used by the Bioconductor community. It contains three main parts:
+
+1. `data` A data frame containing the measured data for each sample.
+2. `sample_meta` A data frame of additional information related to the samples e.g. group labels.
+3. `variable_meta` A data frame of additional information related to the variables (features) e.g. annotations
+
+Like all `struct` objects it also contains `name` and `description` fields (called "slots" is R language). 
+
+A key difference between `DatasetExperiment` and `SummarizedExperiment` objects is that the data is transposed. i.e. for `DatasetExperiment` objects the samples are in rows and the features are in columns, while the opposite is true for `SummarizedExperiment` objects.
+
+All slots are accessible using dollar notation.
+
+```{r}
+# show some data
+head(D$data[,1:4])
+```
+
+## Using `struct` model objects
+
+### Statistical models
+Before we can apply e.g. PCA we first need to create a PCA object. This object contains all the inputs, outputs and methods needed to apply PCA. We can set parameters such as the number of components when the PCA model is created, but we can also use dollar notation to change/view it later. 
+
+```{r}
+P = PCA(number_components=15)
+P$number_components=5
+P$number_components
+```
+  
+The inputs for a model can be listed using `param_ids(object)`:
+
+```{r}
+param_ids(P)
+```
+Or a summary of the object can be printed to the console:
+```{r}
+P
+```
+
+### Model sequences
+Unless you have good reason not to, it is usually sensible to mean centre the columns of the data before PCA. Using the `STRUCT` framework we can create a model sequence that will mean centre and then apply PCA to the mean centred data.
+
+```{r}
+M = mean_centre() + PCA(number_components = 4)
+```
+  
+In `structToolbox` mean centring and PCA are both model objects, and joining them using "+" creates a model_sequence object. In a model_sequence the outputs of the first object (mean centring) are automatically passed to the inputs of the second object (PCA), which allows you chain together modelling steps in order to build a workflow.
+
+The objects in the model_sequence can be accessed by indexing, and we can combine this with dollar notation. For example, the PCA object is the second object in our sequence and we can access the number of components as follows:
+
+```{r}
+M[2]$number_components
+```
+
+### Training/testing models
+Model and model_sequence objects need to be trained using data in the form of a `DatasetExperiment` object. For example, the PCA model sequence we created (`M`) can be trained using the iris `DatasetExperiment` object ('D'). 
+
+```{r}
+M = model_train(M,D)
+```
+This model sequence has now mean centred the original data and calculated the PCA scores and loadings.
+  
+Model objects can be used to generate predictions for test datasets. For the PCA model sequence this involves mean centring the test data using the mean of training data, and the projecting the centred test data onto the PCA model using the loadings. The outputs are all stored in the model sequence and can be accessed using dollar notation. For this example we will just use the training data again (sometimes called autoprediction), which for PCA allows us to explore the training data in more detail.
+
+```{r}
+M = model_predict(M,D)
+```
+
+
+
+Sometimes models don't make use the training/test approach e.g. univariate statsitics, filtering etc. For these models the `model_apply` method can be used instead. For models that do provide training/test methods, `model_apply` applies autoprediction by default i.e. it is a short-cut for applying `model_train` and `model_predict` to the same data.
+
+```{r}
+M = model_apply(M,D)
+```
+
+The available outputs for an object can be listed and accessed like input params, using dollar notation:
+  
+```{r}
+output_ids(M[2])
+M[2]$scores
+```
+
+### Model charts
+The `struct` framework includes chart objects. Charts associated with a model object can be listed.
+
+```{r}
+chart_names(M[2])
+```
+
+Like model objects, chart objects need to be created before they can be used. Here we will plot the PCA scores plot for our mean centred PCA model.
+
+```{r}
+C = pca_scores_plot(factor_name='class') # colour by class
+chart_plot(C,M[2])
+```
+  
+Note that indexing the PCA model is required because the `pca_scores_plot` object requires a PCA object as input, not a model_sequence.
+
+If we make changes to the input parameters of the chart, `chart_plot` must be called again to see the effects.
+
+```{r}
+# add petal width to meta data of pca scores
+M[2]$scores$sample_meta$example=D$data[,1]
+# update plot
+C$factor_name='example'
+chart_plot(C,M[2])
+```
+  
+The `chart_plot` method returns a ggplot object so that you can easily combine it with other plots using the `gridExtra` or `cowplot` packages for example.
+
+```{r,fig.width=10}
+# scores plot
+C1 = pca_scores_plot(factor_name='class') # colour by class
+g1 = chart_plot(C1,M[2])
+
+# scree plot
+C2 = pca_scree_plot()
+g2 = chart_plot(C2,M[2])
+
+# arange in grid
+grid.arrange(grobs=list(g1,g2),nrow=1)
+```
+
+### STATistics Ontology (STATO)
+Within the `struct` framework (and `structToolbox`) we use STATO objects to provide standardardised definitions for objects and its inputs and outputs.
+
+STATO is a general purpose STATistics Ontology (http://stato-ontology.org). From the webpage:
+
+> Its aim is to provide coverage for processes such as statistical tests, their conditions of application, and information needed or resulting from statistical methods, such as probability distributions, variables, spread and variation metrics. STATO also covers aspects of experimental design and description of plots and graphical representations commonly used to provide visual cues of data distribution or layout and to assist review of the results.
+
+The STATistics Ontology for the PCA model is available via the following methods. We can verify that an object has STATO definitions attached by checking that the object is derived from the `stat` class:
+
+```{r}
+is(PCA(),'stato')
+```
+STATO definitions can be extracted from the object using the `stato_id`, `stato_name` and `stato_definition` methods.
+
+```{r}
+# this is the stato id for PCA
+stato_id(M[2])
+
+# this is the stato name
+stato_name(M[2])
+
+# this is the stato definition
+stato_definition(M[2])
+```
+This information is more succinctly displayed using `stato_summary`. This method also scans over all input params and outputs for those with STATO definitions and displays those as well. 
+
+For PCA the "number of components" input is listed with definitions because it is a STATO object, but none of the outputs (e.g. PCA scores) are STATO objects at this time and therefore no definition is provided.
+
+```{r}
+stato_summary(M[2])
+```
+
+## Validating supervised statistical models
+Validation is an important aspect of chemometric modelling. The `struct` framework enables this kind of iterative model testing through `iterator` objects. 
+
+### Cross-validation
+Cross validation is a common technique for assessing the performance of classification models. For this example we will use a Partial least squares-discriminant analysis (PLS-DA) model. Data should be mean centred prior to PLS, so we will build a model sequence first.
+
+
+```{r}
+M = mean_centre() + PLSDA(number_components=2,factor_name='class')
+M
+```
+
+`iterator` objects like the k-fold cross-validation object (`kfold_xval`) can be created just like any other `struct` object. Parameters can be set at creation using the equals sign, and accessed or changed later using dollar notation.
+
+```{r}
+# create object
+XCV = kfold_xval(folds=5,factor_name='class')
+
+# change the number of folds
+XCV$folds=10
+XCV$folds
+```
+
+The model to be cross-validated can be set/accessed using the `models` method.
+
+```{r}
+models(XCV)=M
+models(XCV)
+```
+
+Alternatively, iterators can be combined with models using the multiplication symbol was shorthand for the `models` assignement method:
+
+```{r}
+# cross validation of a mean centred PLSDA model
+XCV = kfold_xval(
+        folds=5,
+        method='venetian',
+        factor_name='class') * 
+      (mean_centre() + PLSDA(factor_name='class'))
+```
+
+
+The `run` method can be used with any `iterator` object. The iterator will then run the set model or model sequence multiple times. 
+
+In this case we run cross-validation 5 times, splitting the data into different training and test sets each time. 
+
+The `run` method also needs a `metric` to be specified, which is another type of `struct` object. This metric may be calculated once after all iterations, or after each iteration, depending on the iterator type (resampling, permutation etc). For cross-validation we will calculate "balanced accuracy" after all iterations.
+
+```{r}
+XCV = run(XCV,D,balanced_accuracy())
+XCV$metric
+```
+
+Note The `balanced_accuracy` metric actually reports 1-accuracy, so a value of 0 indicates perfect performance. The standard deviation "sd" is NA in this example because there is only one permutation.
+
+Like other `struct` objects, iterators can have chart objects associated with them. The `chart_names` function will list them for an object.
+
+```{r}
+chart_names(XCV)
+```
+
+Charts for `iterator` objects can be plotted in the same way as charts for any other object.
+
+```{r,warning=FALSE,fig.width=8,fig.height=4}
+C = kfoldxcv_grid(
+  factor_name='class',
+  level=levels(D$sample_meta$class)[2]) # first level
+chart_plot(C,XCV)
+```
+
+It is possible to combine multiple iterators by using the multiplication symbol. This is equivalent to nesting one iterator inside the other. For example, we can repeat our cross-validation multiple times by permuting the sample order.
+
+
+```{r}
+# permute sample order 10 times and run cross-validation
+P = permute_sample_order(number_of_permutations = 10) * 
+    kfold_xval(folds=5,factor_name='class')*
+    (mean_centre() + PLSDA(factor_name='class',number_components=2))
+P = run(P,D,balanced_accuracy())
+P$metric
+```
+
+# A typical workflow for processing and analysing mass spectrometry-based metabolomics data.
+
+## Introduction
+This vignette provides an overview of a `structToolbox` workflow implemented to process (e.g. filter features, signal drift and batch correction, normalise and missing value imputation) mass spectrometry data. The workflow exists of methods that are part of the Peak Matrix Processing (`r Biocpkg('pmp')`) package, including a range of additional filters that are described in Kirwan et al., [2013](https://link.springer.com/article/10.1007/s00216-013-6856-7), [2014](https://doi.org/10.1038/sdata.2014.12).
+
+Some packages are required for this vignette in addition `structToolbox`:
+
+## Dataset
+For demonstration purposes we will process and analyse the MTBLS79 dataset ('Dataset 7:SFPM' Kirwan et al., [2014](https://doi.org/10.1038/sdata.2014.12). This dataset represents a systematic evaluation of the reproducibility of a multi-batch direct-infusion mass spectrometry (DIMS)-based metabolomics study of cardiac tissue extracts. It comprises twenty biological samples (cow vs. sheep) that were analysed repeatedly, in 8 batches across 7 days, together with a concurrent set of quality control (QC) samples. Data are presented from each step of the data processing workflow and are available through MetaboLights (https://www.ebi.ac.uk/metabolights/MTBLS79). 
+
+The `MTBLS79_DatasetExperiment` object included in the `structToolbox` package is a processed version of the MTBLS79 dataset available in peak matrix processing (`r Biocpkg('pmp')`) package. This vignette describes step by step how the `structToolbox` version was created from the `pmp` version (i.e. 'Dataset 7:SFPM' from the Scientific Data publication - https://doi.org/10.1038/sdata.2014.12).
+
+The `SummarizedExperiment` object from the `pmp` package needs to be converted to a `DatasetExperiment` object for use with `structToolbox`.
+
+```{r,warning=FALSE,message=FALSE}
+# the pmp SE object
+SE = MTBLS79
+
+# convert to DE
+DE = as.DatasetExperiment(SE)
+DE$name = 'MTBLS79'
+DE$description = 'Converted from SE provided by the pmp package'
+
+# add a column indicating the order the samples were measured in
+DE$sample_meta$run_order = 1:nrow(DE)
+
+# add a column indicating if the sample is biological or a QC
+Type=as.character(DE$sample_meta$Class)
+Type[Type != 'QC'] = 'Sample'
+DE$sample_meta$Type = factor(Type)
+
+# convert to factors
+DE$sample_meta$Batch = factor(DE$sample_meta$Batch)
+DE$sample_meta$Class = factor(DE$sample_meta$Class)
+
+# print summary
+DE
+```
+
+Full processing of the data set requires a number of steps. These will be applied using a single `struct` model sequence (`model.seq`).
+
+## Signal drift and batch correction
+A batch correction algorithm is applied to reduce intra- and inter- batch variations in the dataset.
+Quality Control-Robust Spline Correction (QC-RSC) is provided in the `pmp` package, and it has been
+wrapped into a `structToolbox` object called `sb_corr`.
+
+```{r,message=FALSE,warning=FALSE}
+
+M = # batch correction
+    sb_corr(
+      order_col='run_order',
+      batch_col='Batch', 
+      qc_col='Type', 
+      qc_label='QC'
+    )
+
+M = model_apply(M,DE)
+```
+
+The figure below shows a plot of a feature vs run order, before and after the correction. It can be seen that the correction has removed instrument drift within and between batches.
+
+```{r,fig.wide = TRUE,warning=FALSE,fig.width=10}
+C = feature_profile(
+      run_order='run_order',
+      qc_label='QC',
+      qc_column='Type',
+      colour_by='Batch',
+      feature_to_plot='200.03196'
+  )
+
+# plot and modify using ggplot2 
+chart_plot(C,DE)+ylab('Peak area')+ggtitle('Before')
+chart_plot(C,predicted(M))+ylab('Peak area')+ggtitle('After')
+```
+
+An additional step is added to the published workflow to remove any feature not corrected by QCRCMS. This can occur if there are not enough measured QC values within a batch. `QCRMS` in the `pmp` package currently returns NA for all samples in the feature where this occurs. Features where this occurs will be excluded.
+
+```{r}
+M2 = filter_na_count(
+      threshold=3,
+      factor_name='Batch'
+    )
+M2 = model_apply(M2,predicted(M))
+
+# calculate number of features removed
+nc = ncol(DE) - ncol(predicted(M2))
+
+cat(paste0('Number of features removed: ', nc))
+```
+The output of this step is the output of `MTBLS79_DatasetExperiment(filtered=FALSE)`.
+
+## Feature filtering
+
+In the journal article three spectral cleaning steps are applied. In the first filter a Kruskal-Wallis test is used to identify features not reliably detected in the QC samples (p < 0.0001) of all batches. We follow the same parameters as the original article and do not use multiple test correction (`mtc = 'false'`).
+
+```{r}
+M3 = kw_rank_sum(
+      alpha=0.0001,
+      mtc='none',
+      factor_names='Batch',
+      predicted='significant'
+    ) +
+    filter_by_name(
+      mode='exclude',
+      dimension = 'variable',
+      seq_in = 'names', 
+      names='seq_fcn', # this is a placeholder and will be replaced by seq_fcn
+      seq_fcn=function(x){return(x[,1])}
+    )
+M3 = model_apply(M3, predicted(M2))
+
+nc = ncol(predicted(M2)) - ncol(predicted(M3))
+cat(paste0('Number of features removed: ', nc))
+```
+To make use of univariate tests such as `kw_rank_sum` as a filter some advanced features of `struct` are needed. Slots `predicted`, and `seq_in` are used to ensure the correct output of the univariate test is connected to the correct input of a feature filter using `filter_by_name`. Another slot `seq_fcn` is used to extract the relevant column of the `predicted` output so that it is compatible with the `seq_in` input. A placeholder is used for the "names" parameter (`names = 'place_holder'`) as this input will be replaced by the output from `seq_fcn`.
+
+The second filter is a Wilcoxon Signed-Rank test. It is used to identify features that are not representative of the average of the biological samples (p < 1e-14). Again we make use of `seq_in` and `seq_fcn`.
+
+```{r}
+M4 = wilcox_test(
+      alpha=1e-14,
+      factor_names='Type', 
+      mtc='none', 
+      predicted = 'significant'
+    ) +
+    filter_by_name(
+      mode='exclude',
+      dimension='variable',
+      seq_in='names', 
+      names='place_holder'
+    )
+M4 = model_apply(M4, predicted(M3))
+
+nc = ncol(predicted(M3)) - ncol(predicted(M4))
+cat(paste0('Number of features removed: ', nc))
+```
+Finally, an RSD filter is used to remove features with high analytical variation (QC RSD > 20 removed)
+
+```{r}
+M5 = rsd_filter(
+     rsd_threshold=20,
+     factor_name='Type'
+)
+M5 = model_apply(M5,predicted(M4))
+
+nc = ncol(predicted(M4)) - ncol(predicted(M5))
+cat(paste0('Number of features removed: ', nc))
+
+```
+
+The output of this filter is the output of `MTBLS79_DatasetExperiment(filtered=TRUE)`.
+
+## Normalisation, missing value imputation and scaling
+We will apply a number of common pre-processing steps to the filtered peak matrix that are identical to steps applied in are described in Kirwan et al. [2013](https://link.springer.com/article/10.1007/s00216-013-6856-7), [2014](https://doi.org/10.1038/sdata.2014.12).
+
+- Probabilistic Quotient Normalisation (PQN)
+- k-nearest neighbours imputation (k = 5)
+- Generalised log transform (glog)
+
+These steps prepare the data for multivariate analysis by accounting for sample concentration differences, imputing missing values and scaling the data.
+
+```{r}
+# peak matrix processing
+M6 = pqn_norm(qc_label='QC',factor_name='Type') + 
+     knn_impute(neighbours=5) +
+     glog_transform(qc_label='QC',factor_name='Type')
+M6 = model_apply(M6,predicted(M5))
+```
+
+## Exploratory Analysis
+Principal Component Analysis (PCA) can be used to visualise high-dimensional data. It is an unsupervised method that maximises variance in a reduced number of latent variables, or principal components.
+
+```{r}
+# PCA
+M7  = mean_centre() + PCA(number_components = 2)
+
+# apply model sequence to data
+M7 = model_apply(M7,predicted(M6))
+
+# plot pca scores
+C = pca_scores_plot(factor_name=c('Sample_Rep','Class'),ellipse='none')
+chart_plot(C,M7[2]) + coord_fixed() +guides(colour=FALSE)
+```
+
+This plot is very similar to Figure 3b of the original publication [link](https://www.nature.com/articles/sdata201412/figures/3). Sample replicates are represented by colours and samples groups  (C = cow and S = Sheep) by different shapes.
+
+Plotting the scores and colouring by Batch indicates that the signal/batch correction was effective as all batches are overlapping.
+
+```{r}
+# chart object
+C = pca_scores_plot(factor_name=c('Batch'),ellipse='none')
+# plot
+chart_plot(C,M7[2]) + coord_fixed()
+```
+
+# Partial Least Squares (PLS) analysis of a untargeted LC-MS-based clinical metabolomics dataset.
+
+## Introduction
+The aim of this vignette is to demonstrate how to 1) apply and validate Partial Least Squares (PLS) analysis using the structToolbox, 2) reproduce statistical analysis in [Thevenot et al. (2015)](https://pubs.acs.org/doi/10.1021/acs.jproteome.5b00354) and 3. compare different implementations of PLS.
+
+## Dataset
+The objective of the original study was to:
+>  ...study the influence of age, body mass index (bmi), and gender on metabolite concentrations in urine, by analysing 183 samples from a cohort of adults with liquid chromatography coupled to high-resolution mass spectrometry.
+
+[Thevenot et al. (2015)](https://pubs.acs.org/doi/10.1021/acs.jproteome.5b00354)
+
+The "Sacurine" dataset needs to be converted to a `DatasetExperiment` object. The `r Biocpkg("ropls")` package provides the data as a list containing a `dataMatrix`, `sampleMetadata` and `variableMetadata`.
+
+
+```{r}
+data('sacurine',package = 'ropls')
+# the 'sacurine' list should now be available
+
+# move the annotations to a new column and rename the features by index to avoid issues
+# later when data.frames get transposed and names get checked/changed
+sacurine$variableMetadata$annotation=rownames(sacurine$variableMetadata)
+rownames(sacurine$variableMetadata)=1:nrow(sacurine$variableMetadata)
+colnames(sacurine$dataMatrix)=1:ncol(sacurine$dataMatrix)
+
+# create DatasetExperiment
+DE = DatasetExperiment(data = data.frame(sacurine$dataMatrix),
+                       sample_meta = sacurine$sampleMetadata,
+                       variable_meta = sacurine$variableMetadata,
+                       name = 'Sacurine data',
+                       description = 'See ropls package documentation for details')
+
+# print summary
+DE
+```
+
+## Data preprocessing
+The Sacurine dataset used within this vignette has already been pre-processed:
+
+> After signal drift and batch effect correction of intensities, each urine profile was normalized to the osmolality of the sample. Finally, the data were log10 transformed.
+
+## Exploratory data analysis
+Since the data has already been processed the data can be visualised using Principal Component Analysis (PCA) without further pre-processing. The `ropls` package automatically applies unit variance scaling (autoscaling) by default. The same approach is applied here.
+
+```{r,fig.width=15,fig.wide = TRUE}
+# prepare model sequence
+M = autoscale() + PCA(number_components = 5)
+# apply model sequence to dataset
+M = model_apply(M,DE)
+
+# pca scores plots
+g=list()
+for (k in colnames(DE$sample_meta)) {
+    C = pca_scores_plot(factor_name = k)
+    g[[k]] = chart_plot(C,M[2])
+}
+# plot using cowplot
+plot_grid(plotlist=g, nrow=1, align='vh', labels=c('A','B','C'))
+```
+
+The third plot coloured by gender (C) is identical to Figure 2 of the `r Biocpkg("ropls")` package vignette. The `structToolbox` package provides a range of PCA-related diagnostic plots, including D-statistic, scree, and loadings plots. These plots can be used to further explore the variance of the data.
+
+```{r,fig.height=10,fig.width=9,fig.wide=TRUE}
+C = pca_scree_plot()
+g1 = chart_plot(C,M[2])
+
+C = pca_loadings_plot()
+g2 = chart_plot(C,M[2])
+
+C = pca_dstat_plot(alpha=0.95)
+g3 = chart_plot(C,M[2])
+
+p1=plot_grid(plotlist = list(g1,g2),align='h',nrow=1,axis='b')
+p2=plot_grid(plotlist = list(g3),nrow=1)
+plot_grid(p1,p2,nrow=2)
+```
+
+## Partial Least Squares (PLS) analysis
+The `ropls` package uses its own implementation of the (O)PLS algorithms. `structToolbox` uses the `pls`
+package, so it is interesting to compare the outputs from both approaches. For simplicity only the scores
+plots are compared.
+
+```{r, fig.width=5, fig.height=5}
+# prepare model sequence
+M = autoscale() + PLSDA(factor_name='gender')
+M = model_apply(M,DE)
+
+C = plsda_scores_plot(factor_name = 'gender')
+chart_plot(C,M[2])
+```
+
+The plot is similar to fig.3 of the `r Biocpkg("ropls")` vignette. Differences are due to inverted LV axes, a common occurrence with the NIPALS algorithm (used by both `structToolbox` and `ropls`) which depends on how the algorithm is initialised.
+
+To compare the R2 values for the model in structToolbox we have to use a regression model, instead of a discriminant model. For this we convert the gender factor to a numeric variable before applying the model.
+
+```{r,fig.width=10,fig.height=9,fig.wide=TRUE}
+# convert gender to numeric
+DE$sample_meta$gender=as.numeric(DE$sample_meta$gender)
+
+# models sequence
+M = autoscale(mode='both') + PLSR(factor_name='gender',number_components=3)
+M = model_apply(M,DE)
+
+# some diagnostic charts
+C = plsr_cook_dist()
+g1 = chart_plot(C,M[2])
+
+C = plsr_prediction_plot()
+g2 = chart_plot(C,M[2])
+
+C = plsr_qq_plot()
+g3 = chart_plot(C,M[2])
+
+C = plsr_residual_hist()
+g4 = chart_plot(C,M[2])
+
+plot_grid(plotlist = list(g1,g2,g3,g4), nrow=2,align='vh')
+```
+
+The `ropls` package automatically applies cross-validation to asses the performance of the PLSDA model. In `structToolbox` this is applied separately to give more control over the approach used if desired. The default cross-validation used by the `ropls` package is 7-fold cross-validation and we replicate that here.
+
+```{r,results='asis'}
+# model sequence
+M = kfold_xval(folds=7, factor_name='gender') * 
+    (autoscale(mode='both') + PLSR(factor_name='gender'))
+M = run(M,DE,r_squared())
+
+```
+```{r,results='asis',echo=FALSE}
+# training set performance
+cat('Training set R2:\n')
+cat(M$metric.train)
+cat('\n\n')
+# test set performance
+cat('Test set Q2:\n')
+cat(M$metric.test)
+```
+
+The validity of the model can further be assessed using permutation testing. For this we will return to a discriminant model.
+
+```{r,fig.width=5,fig.height=5}
+# reset gender to original factor
+DE$sample_meta$gender=sacurine$sampleMetadata$gender
+# model sequence
+M = permutation_test(number_of_permutations = 10, factor_name='gender') *
+    kfold_xval(folds=7,factor_name='gender') *
+    (autoscale() + PLSDA(factor_name='gender',number_components = 3))
+M = run(M,DE,balanced_accuracy())
+
+C = permutation_test_plot(style='boxplot')
+chart_plot(C,M)+ylab('1 - balanced accuracy')
+```
+
+The permuted models have a balanced accuracy of around 50%, which is to be expected for a dataset with two groups. The unpermuted models have a balanced accuracy of around 90% and is therefore much better than might be expected to occur by chance.
+
+# Univariate and multivariate statistical analysis of a NMR-based clinical metabolomics dataset.
+
+## Introduction
+The purpose of this vignette is to demonstrate the different functionalities and methods that are available as part of the structToolbox and reproduce the data analysis reported in [Mendez et al., (2020)](https://link.springer.com/article/10.1007/s11306-019-1588-0) and [Chan et al., (2016)](https://www.nature.com/articles/bjc2015414).
+
+## Dataset
+The 1H-NMR dataset used and described in [Mendez et al., (2020)](https://link.springer.com/article/10.1007/s11306-019-1588-0) and in this vignette contains processed spectra of urine samples obtained from gastric cancer and healthy patients [Chan et al., (2016)](https://www.nature.com/articles/bjc2015414). The experimental raw data is available through Metabolomics Workbench ([PR000699](http://dx.doi.org/10.21228/M8B10B)) and the processed version is available from [here](https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx) as an Excel data file.
+
+As a first step we need to reorganise and convert the Excel data file into a DatasetExperiment object. Using the `openxlsx` package the file can be read directly into an R `data.frame` and then manipulated as required.
+
+```{r}
+url = 'https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx'
+
+# read in file directly from github...
+# X=read.xlsx(url)
+
+# ...or use BiocFileCache
+path = bfcrpath(bfc,url)
+X = read.xlsx(path)
+
+# sample meta data
+SM=X[,1:4]
+rownames(SM)=SM$SampleID
+# convert to factors
+SM$SampleType=factor(SM$SampleType)
+SM$Class=factor(SM$Class)
+# keep a numeric version of class for regression
+SM$Class_num = as.numeric(SM$Class)
+
+## data matrix
+# remove meta data
+X[,1:4]=NULL
+rownames(X)=SM$SampleID
+
+# feature meta data
+VM=data.frame(idx=1:ncol(X))
+rownames(VM)=colnames(X)
+
+# prepare DatasetExperiment
+DE = DatasetExperiment(
+    data=X,
+    sample_meta=SM,
+    variable_meta=VM,
+    description='1H-NMR urinary metabolomic profiling for diagnosis of gastric cancer',
+    name='Gastric cancer (NMR)')
+
+DE
+
+```
+
+## Data pre-processing and quality assessment
+It is good practice to remove any features that may be of low quality, and to assess the quality of the data in general. In the Tutorial features with QC-RSD > 20% and where more than 10% of the features are missing are retained.
+
+```{r}
+# prepare model sequence
+M = rsd_filter(rsd_threshold=20,qc_label='QC',factor_name='Class') +
+    mv_feature_filter(threshold = 10,method='across',factor_name='Class')
+
+# apply model
+M = model_apply(M,DE)
+
+# get the model output
+filtered = predicted(M)
+
+# summary of filtered data
+filtered
+
+```
+Note there is an additional feature vs the the processing reported by Mendez et. al. because the filters
+here use >= or <= instead of > and <.
+
+After suitable scaling and transformation PCA can be used to assess data quality. It is expected that the biological variance (samples) will be larger than the technical variance (QCs). In the workflow that we are reproducing ([link](https://cimcb.github.io/MetabWorkflowTutorial/Tutorial1.html)) the following steps were applied:
+
+- log10 transform
+- autoscaling (scaled to unit variance)
+- knn imputation (3 neighbours)
+
+The transformed and scaled matrix in then used as input to PCA. Using `struct` we can chain all of these steps into a single model sequence.
+
+```{r,fig.width=10,fig.height=5.5}
+# prepare the model sequence
+M = log_transform(base = 10) +
+    autoscale() + 
+    knn_impute(neighbours = 3) +
+    PCA(number_components = 10)
+
+# apply model sequence to data
+M = model_apply(M,filtered)
+
+# get the transformed, scaled and imputed matrix
+TSI = predicted(M[3])
+
+# scores plot
+C = pca_scores_plot(factor_name = 'SampleType')
+g1 = chart_plot(C,M[4])
+
+# loadings plot
+C = pca_loadings_plot()
+g2 = chart_plot(C,M[4])
+
+plot_grid(g1,g2,align='hv',nrow=1,axis='tblr')
+```
+
+## Univariate statistics
+`structToolbox` provides a number of objects for ttest, counting numbers of features etc. For brevity only the ttest is calculated for comparison with the workflow we are following ([link](https://cimcb.github.io/MetabWorkflowTutorial/Tutorial1.html)). The QC samples need to be excluded, and the data reduced to only the GC and HE groups.
+
+```{r}
+# prepare model
+TT = filter_smeta(mode='include',factor_name='Class',levels=c('GC','HE')) +  
+     ttest(alpha=0.05,mtc='fdr',factor_names='Class')
+
+# apply model
+TT = model_apply(TT,filtered)
+
+# keep the data filtered by group for later
+filtered = predicted(TT[1])
+
+# convert to data frame
+out=as_data_frame(TT[2])
+
+# show first few features
+head(out)
+```
+
+##  Multivariate statistics and machine learning
+
+### Training and Test sets
+Splitting data into training and test sets is an important aspect of machine learning. In `structToolbox` this is implemented using the `split_data` object for random subsampling across the whole dataset, and `stratified_split` for splitting based on group sizes, which is the approach used by Mendez et al.
+
+```{r}
+# prepare model
+M = stratified_split(p_train=0.75,factor_name='Class')
+# apply to filtered data
+M = model_apply(M,filtered)
+# get data from object
+train = M$training
+train
+cat('\n')
+
+test = M$testing
+test
+```
+
+### Optimal number of PLS components
+In Mendez et al a k-fold cross-validation is used to determine the optimal number of PLS components. 100 bootstrap iterations are used to generate confidence intervals. In `strucToolbox` these are implemented using "iterator" objects, that can be combined with model objects. R2 is used as the metric for optimisation, so the `PLSR` model in structToolbox will be used. For speed only 10 bootstrap iterations are used here.
+
+```{r}
+# scale/transform training data
+M = log_transform(base = 10) +
+    autoscale() + 
+    knn_impute(neighbours = 3,by='samples')
+
+# apply model
+M = model_apply(M,train)
+
+# get scaled/transformed training data
+train_st = predicted(M)
+
+# prepare model sequence
+MS = grid_search_1d(
+        param_to_optimise = 'number_components',
+        search_values = as.numeric(c(1:6)),
+        model_index = 2,
+        factor_name = 'Class_num',
+        max_min = 'max') *
+     permute_sample_order(
+        number_of_permutations = 10) *
+     kfold_xval(
+        folds = 5,
+        factor_name = 'Class_num') * 
+     (mean_centre(mode='sample_meta')+
+      PLSR(factor_name='Class_num'))
+
+# run the validation
+MS = struct::run(MS,train_st,r_squared())
+
+#
+C = gs_line()
+chart_plot(C,MS)
+```
+
+The chart plotted shows Q2, which is comparable with Figure 13 of [Mendez et al]((https://cimcb.github.io/MetabWorkflowTutorial/Tutorial1.html)) . Two components were selected by Mendez et al, so we will use that here.
+
+### PLS model evalutation
+To evaluate the model for discriminant analysis in structToolbox the `PLSDA` model is appropriate.
+
+```{r,fig.wide=TRUE,warning=FALSE,fig.width=15,fig.height=5.5}
+# prepare the discriminant model
+P = PLSDA(number_components = 2, factor_name='Class')
+
+# apply the model
+P = model_apply(P,train_st)
+
+# charts
+C = plsda_predicted_plot(factor_name='Class',style='boxplot')
+g1 = chart_plot(C,P)
+
+C = plsda_predicted_plot(factor_name='Class',style='density')
+g2 = chart_plot(C,P)+xlim(c(-2,2))
+
+C = plsda_roc_plot(factor_name='Class')
+g3 = chart_plot(C,P)
+
+plot_grid(g1,g2,g3,align='vh',axis='tblr',nrow=1, labels=c('A','B','C'))
+```
+```{r}
+# AUC for comparison with Mendez et al
+MET = calculate(AUC(),P$y$Class,P$yhat[,1])
+MET
+```
+
+Note that the default cutoff in A and B of the figure above for the PLS models in `structToolbox` is 0, because groups are encoded as +/-1. This has no impact on the overall performance of the model.
+
+### Permutation test
+A permutation test can be used to assess how likely the observed result is to have occurred by chance. In structToolbox `permutation_test` is an iterator object that can be combined with other iterators and models.
+
+```{r}
+# model sequence
+MS = permutation_test(number_of_permutations = 20,factor_name = 'Class_num') * 
+     kfold_xval(folds = 5,factor_name = 'Class_num') *
+     (mean_centre(mode='sample_meta') + PLSR(factor_name='Class_num', number_components = 2))
+
+# run iterator
+MS = struct::run(MS,train_st,r_squared())
+
+# chart
+C = permutation_test_plot(style = 'density') 
+chart_plot(C,MS) + xlim(c(-1,1)) + xlab('R Squared')
+```
+
+This plot is comparable to the bottom half of Figure 17 in [Mendez et. al.](https://cimcb.github.io/MetabWorkflowTutorial/Tutorial1.html). The unpermuted (true) Q2 values are consistently better than the permuted (null) models. i.e. the model is reliable.
+
+### PLS projection plots
+PLS can also be used to visualise the model and interpret the latent variables.
+
+```{r}
+# prepare the discriminant model
+P = PLSDA(number_components = 2, factor_name='Class')
+
+# apply the model
+P = model_apply(P,train_st)
+
+C = plsda_scores_plot(components=c(1,2),factor_name = 'Class')
+chart_plot(C,P)
+```
+
+### PLS feature importance
+Regression coefficients and VIP scores can be used to estimate the importance of individual features to the PLS model. In Mendez et al bootstrapping is used to estimate the confidence intervals, but for brevity here we will skip this.
+
+```{r,fig.width=10,fig.height=5.5}
+# prepare chart
+C = plsda_vip_plot(level='HE')
+g1 = chart_plot(C,P)
+
+C = plsda_regcoeff_plot(level='HE')
+g2 = chart_plot(C,P)
+
+plot_grid(g1,g2,align='hv',axis='tblr',nrow=2)
+```
+
+# Classification of Metabolomics Data using Support Vector Machines.
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,fig.wide=TRUE,fig.width=5,fig.height=5.5)
+set.seed(57475)
+
+# read in file using BiocFileCache
+url='https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx'
+path = bfcrpath(bfc,url)
+X = read.xlsx(path)
+
+# sample meta data
+SM=X[,1:4]
+rownames(SM)=SM$SampleID
+# convert to factors
+SM$SampleType=factor(SM$SampleType)
+SM$Class=factor(SM$Class)
+# keep a numeric version of class for regression
+SM$Class_num = as.numeric(SM$Class)
+
+## data matrix
+# remove meta data
+X[,1:4]=NULL
+rownames(X)=SM$SampleID
+
+# feature meta data
+VM=data.frame(idx=1:ncol(X))
+rownames(VM)=colnames(X)
+
+# prepare DatasetExperiment
+DE = DatasetExperiment(
+    data=X,
+    sample_meta=SM,
+    variable_meta=VM,
+    description='1H-NMR urinary metabolomic profiling for diagnosis of gastric cancer',
+    name='Gastric cancer (NMR)')
+
+M = rsd_filter(rsd_threshold=20,qc_label='QC',factor_name='Class') +
+    mv_feature_filter(threshold = 10,method='across',factor_name='Class') +
+    log_transform(base = 10) +
+    autoscale() + 
+    knn_impute(neighbours = 3)
+
+M = model_apply(M,DE)
+DE = predicted(M)
+
+```
+
+## Introduction
+The aim of this vignette is to illustrate how to apply SVM analysis for Classifying Metabolomics data.
+
+Support vector Machines (SVM) are a commonly used method in Machine Learning. For classification tasks they are used to generate a boundary between groups of samples in the training set. As well as generating linear boundaries, SVM can be extended to exploit the use of kernels and generate complex non-linear boundaries between groups if required.
+
+For the `structToolbox` package, SVM functionality provided by the `r CRANpkg("e1071")` package has been incorporated into a `model` object. A chart object (`svm_plot_2d`) is also available to plot SVM boundaries for data with two variables.
+
+## Dataset
+The 1H-NMR dataset used and described in [Mendez et al., (2020)](https://link.springer.com/article/10.1007/s11306-019-1588-0, https://github.com/CIMCB/MetabWorkflowTutorial) and in this vignette contains processed spectra of urine samples obtained from gastric cancer and healthy patients [Chan et al., (2016)](https://www.nature.com/articles/bjc2015414). The raw experimental data is available through Metabolomics Workbench ([PR000699](http://dx.doi.org/10.21228/M8B10B)) and the processed version is available from [here](https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx) as an Excel data file.
+
+For simplicity we will use a pre-processed version of the 1H-NMR "Gastric cancer" dataset using the `structToolbox` package. Details in regards to pre-processing are reported in the "NMR_clinical_metabolomics" vignette of the `r Biocpkg("structToolbox") package.
+
+```{r}
+# summary of DatasetExperiment object
+DE
+```
+
+For the purposes of illustrating the effect of SVM parameters on the boundary between groups, we reduce the data to include only the GC and HE groups and apply PLS to reduce the data to two components. We then treat the PLS scores as as a two group dataset with only two features.
+
+```{r}
+# model sequence and pls model (NB data already centred)
+MS = filter_smeta(mode = 'include', levels = c('GC','HE'), factor_name = 'Class') +
+     PLSDA(factor_name = 'Class',number_components = 2)
+
+# apply PLS model
+MS = model_apply(MS,DE)
+
+# plot the data
+C = plsda_scores_plot(factor_name = 'Class')
+chart_plot(C,MS[2])
+
+# new DatasetExperiment object from the PLS scores
+DE2 = DatasetExperiment(
+  data = MS[2]$scores, 
+  sample_meta = predicted(MS[1])$sample_meta,
+  variable_meta = data.frame('LV'=c(1,2),row.names = colnames(MS[2]$scores)),
+  name = 'Illustrativate SVM dataset',
+  description = 'Generated by applying PLS to the processed Gastric cancer (NMR) dataset'
+)
+
+DE2
+```
+
+## Basic SVM model
+The simplest SVM model uses a linear kernel. In `structToolbox` the `SVM` model can be used to train and apply SVM models. A `svm_plot_2d` chart object is provided for visualisation of boundaries in two dimensions.
+
+```{r}
+# SVM model
+M = SVM(
+  factor_name = 'Class',
+  kernel = 'linear'
+)
+
+# apply model
+M = model_apply(M,DE2)
+
+# plot boundary
+C = svm_plot_2d(factor_name = 'Class')
+chart_plot(C,M, DE2)
+
+```
+
+The SVM boundary is plotted in black, the margins in grey and support vectors are indicated by grey circles.
+
+## SVM cost function
+The SVM cost function applies a penalty to samples on the wrong side of the margins. A high penalty results
+in a narrow margin and tries to force more samples to be on the correct side of the boundary. A low penalty
+makes for a wider margin and is less strict about samples being misclassified. The optimal cost to use is data dependent.
+
+```{r,fig.width=10,fig.height=11}
+# low cost
+M$cost=0.01
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g1=chart_plot(C,M,DE2)
+
+# medium cost
+M$cost=0.05
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g2=chart_plot(C,M,DE2)
+
+# high cost
+M$cost=100
+M=model_apply(M,DE2)
+
+C=svm_plot_2d(factor_name='Species')
+g3=chart_plot(C,M,DE2)
+
+# plot
+prow <- plot_grid(
+  g1 + theme(legend.position="none"),
+  g2 + theme(legend.position="none"),
+  g3 + theme(legend.position="none"),
+  align = 'vh',
+  labels = c("Low cost", "Medium cost", "High cost"),
+  hjust = -1,
+  nrow = 2
+)
+
+legend <- get_legend(
+  # create some space to the left of the legend
+  g1 + guides(color = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom")
+)
+
+plot_grid(prow, legend, ncol=1, rel_heights = c(1, .1))
+```
+
+## Kernel functions
+A number of different kernels can be used with support vector machines. For the `structToolbox` wrapper
+‘linear’, ‘polynomial’,‘radial’ and ‘sigmoid’ kernels can be specified. Using kernels allows the boundary to be
+more flexible, but often require additional parameters to be specified. The best kernel to use will vary depending on the dataset, but a common choice is the radial kernel as it allows high flexibility with a single parameter.
+
+```{r, fig.width=10,fig.height=11}
+# set a fixed cost for this comparison
+M$cost=1
+
+# linear kernel
+M$kernel='linear'
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g1=chart_plot(C,M,DE2)
+
+# polynomial kernel
+M$kernel='polynomial'
+M$gamma=1
+M$coef0=0
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g2=chart_plot(C,M,DE2)
+
+# rbf kernel
+M$kernel='radial'
+M$gamma=1
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g3=chart_plot(C,M,DE2)
+
+# sigmoid kernel
+M$kernel='sigmoid'
+M$gamma=1
+M$coef0=0
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g4=chart_plot(C,M,DE2)
+
+# plot
+prow <- plot_grid(
+  g1 + theme(legend.position="none"),
+  g2 + theme(legend.position="none"),
+  g3 + theme(legend.position="none"),
+  g4 + theme(legend.position="none"),
+  align = 'vh',
+  labels = c("Linear", "Polynomial", "Radial","Sigmoid"),
+  hjust = -1,
+  nrow = 2
+)
+legend <- get_legend(
+  # create some space to the left of the legend
+  g1 + guides(color = guide_legend(nrow = 1)) +
+    theme(legend.position = "bottom")
+)
+plot_grid(prow, legend, ncol = 1, rel_heights = c(1, .1))
+```
+
+The parameters of a kernel can be used to control the complexity of the boundary. Here I show how the
+radial kernel parameter “gamma” can be used to change the complexity of the boundary. In combination
+with the cost parameter (which I keep constant here) this allows for highly flexible boundary models. 
+
+```{r,fig.width=10,fig.height=11}
+# rbf kernel and cost
+M$kernel = 'radial'
+M$cost = 1
+
+# low gamma
+M$gamma=0.01
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g1=chart_plot(C,M,DE2)
+
+# medium gamma
+M$gamma=0.1
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g2=chart_plot(C,M,DE2)
+
+# high gamma
+M$gamma=1
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g3=chart_plot(C,M,DE2)
+
+# plot
+prow <- plot_grid(
+ g1 + theme(legend.position="none"),
+ g2 + theme(legend.position="none"),
+ g3 + theme(legend.position="none"),
+ align = 'vh',
+ labels = c("Low gamma", "Medium gamma", "High gamma"),
+ hjust = -1,
+ nrow = 2
+)
+legend <- get_legend(
+  # create some space to the left of the legend
+  g1 + guides(color = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom")
+)
+plot_grid(prow, legend, ncol = 1, rel_heights = c(1, .1))
+```
+
+Note that best practice would be to select the optimal kernel parameter(s) in combination with the cost parameter (e.g. by 2d grid search) so that the best combination of both is identified.
+
+# Exploratory data analysis of LC-MS-based proteomics and metabolomics datasets (STATegra project)
+
+## Introduction
+The aim of this vignette is to conduct data preprocessing and exploratory analysis of data from the STATegra project (https://www.nature.com/articles/s41597-019-0202-7). For demonstration purposes we will focus on the Proteomics and Metabolomics datasets that are publicly available as part of the STATegra multi-omics dataset. 
+
+>...the STATegra multi-omics dataset combines measurements from up to 10 different omics technologies applied to the same biological system, namely the well-studied mouse pre-B-cell differentiation. STATegra includes high-throughput measurements of chromatin structure, gene expression, proteomics and metabolomics, and it is complemented with single-cell data. 
+[Gomez-Cabrero et al](https://www.nature.com/articles/s41597-019-0202-7)
+
+STATegra includes high-throughput measurements of chromatin structure, gene expression, proteomics and metabolomics, and it is complemented with single-cell data.
+
+## LC-MS-based proteomics dataset
+The LC-MS-based proteomics dataset from the STATegra multi-omics dataset (see Introduction) can be found on [github](https://github.com/STATegraData/STATegraData) and must be extracted from the zip file prior to data analysis.
+
+```{r, warning=FALSE, message=FALSE}
+# path to zip
+zipfile = "https://raw.github.com/STATegraData/STATegraData/master/Script_STATegra_Proteomics.zip"
+
+## retrieve from BiocFileCache
+path = bfcrpath(bfc,zipfile)
+temp = bfccache(bfc)
+
+## ... or download to temp location
+# path = tempfile()
+# temp = tempdir()
+# download.file(zipfile,path)
+
+# unzip
+unzip(path, files = "Proteomics_01_uniprot_canonical_normalized.txt", exdir=temp)
+# read samples
+all_data <-  read.delim(file.path(temp,"Proteomics_01_uniprot_canonical_normalized.txt"), as.is = TRUE, header = TRUE, sep = "\t")
+```
+
+The imported data needs to be converted to `DatasetExperiment` format for use with `structToolbox`.
+
+```{r}
+# extract data matrix
+data = all_data[1:2527,51:86]
+# shorten sample names
+colnames(data) = lapply(colnames(data), function (x) substr(x, 27, nchar(x)))
+# replace 0 with NA
+data[data == 0] <- NA
+# transpose
+data=as.data.frame(t(data))
+
+# prepare sample meta
+SM = lapply(rownames(data),function(x) {
+  s=strsplit(x,'_')[[1]] # split at underscore
+  out=data.frame(
+    'treatment' = s[[1]],
+    'time' = substr(s[[2]],1,nchar(s[[2]])-1) ,    
+    'batch' = substr(s[[3]],6,nchar(s[[3]])),
+    'condition' = substr(x,1,6) # interaction between treatment and time
+  )
+  return(out)
+})
+SM = do.call(rbind,SM)
+rownames(SM)=rownames(data)
+# convert to factors
+SM$treatment=factor(SM$treatment)
+SM$time=ordered(SM$time,c("0","2","6","12","18","24"))
+SM$batch=ordered(SM$batch,c(1,3,4,5,6,7))
+SM$condition=factor(SM$condition)
+
+# variable meta data
+VM = all_data[1:2527,c(1,6,7)]
+rownames(VM)=colnames(data)
+
+# prepare DatasetExperiment
+DS = DatasetExperiment(
+  data = data, 
+  sample_meta = SM, 
+  variable_meta = VM, 
+  name = 'STATegra Proteomics',
+  description = 'downloaded from: https://github.com/STATegraData/STATegraData/'
+)
+DS
+```
+
+A number of Reporter genes  were included in the study. We plot two of them here to illustrate some trends in the data.
+
+```{r,fig.width=10,fig.height=4.5}
+# find id of reporters
+Ldha = which(DS$variable_meta$Gene.names=='Ldha')
+Hk2 = which(DS$variable_meta$Gene.names=='Hk2')
+
+# chart object
+C = feature_boxplot(feature_to_plot=Ldha,factor_name='time',label_outliers=FALSE)
+g1=chart_plot(C,DS)+ggtitle('Ldha')+ylab('expression')
+C = feature_boxplot(feature_to_plot=Hk2,factor_name='time',label_outliers=FALSE)
+g2=chart_plot(C,DS)+ggtitle('Hk2')+ylab('expression')
+
+plot_grid(g1,g2,nrow=1,align='vh',axis='tblr')
+```
+
+### Data transformation
+The data is log2 transformed, then scaled such that the mean of the medians is equal for all conditions. These steps are available in `structToolbox` using `log_transform` and `mean_of_medians` objects.
+
+```{r,fig.width=10,fig.height=4.5}
+# prepare model sequence
+M = log_transform(
+  base=2) + 
+  mean_of_medians(
+    factor_name = 'condition')
+# apply model sequence
+M = model_apply(M,DS) 
+
+# get transformed data
+DST = predicted(M)
+```
+
+The Reporter genes are plotted again for comparison.
+
+```{r,fig.width=10,fig.height=4.5}
+# chart object
+C = feature_boxplot(feature_to_plot=Ldha,factor_name='time',label_outliers=FALSE)
+g1=chart_plot(C,DST)+ggtitle('Ldha')+ylab('log2(expression)')
+C = feature_boxplot(feature_to_plot=Hk2,factor_name='time',label_outliers=FALSE)
+g2=chart_plot(C,DST)+ggtitle('Hk2')+ylab('log2(expression)')
+
+plot_grid(g1,g2,nrow=1,align='vh',axis='tblr')
+```
+
+### Missing value filtering
+Missing value filtering involves removing any feature (gene) where there are at least 3 missing values per group in at least 11 samples.
+
+This specific filter is not in `structToolbox` at this time, but can be achieved by combining `filter_na_count` and `filter_by_name` objects. 
+
+Specifically, the default output of `filter_na_count` is changed to return a matrix of NA counts per class. This output is then connected to the 'names' input of `filter_by_names` and converted to TRUE/FALSE using the 'seq_fcn' input. 
+
+The 'seq_fcn' function processes the NA counts _before_ they are used as inputs for `filter_by_names`. When data is passed along the model sequence it passes unchanged through the `filter_na_count` object becuase the default output has been changed, so the `filter_na_count` and `filter_by_name` objects are working together as a single filter.
+
+```{r}
+# build model sequence
+M2 = filter_na_count(
+  threshold=2,
+  factor_name='condition', 
+  predicted='na_count') +    # override the default output
+  filter_by_name(
+    mode='exclude',
+    dimension='variable',
+    names='place_holder',
+    seq_in='names',
+    seq_fcn=function(x) {      # convert NA count pre group to true/false
+      x=x>2                  # more the two missing per group
+      x=rowSums(x)>10        # in more than 10 groups
+      return(x)
+    }
+  )
+# apply to transformed data
+M2 = model_apply(M2,DST)
+
+# get the filtered data
+DSTF = predicted(M2)
+```
+
+### Missing value imputation
+STATegra uses two imputation methods that are not available as `struct` objects, so we create temporary `STATegra_impute` objects to do this using some functions from the `struct` package.
+
+The first imputation method imputes missing values for any treatment where values are missing for all samples using a "random value below discovery". We create a new struct object using `set_struct_obj` in the global environment, and a "method_apply" method that implements the imputation.
+
+```{r}
+# create new imputation object
+set_struct_obj(
+  class_name = 'STATegra_impute1',
+  struct_obj = 'model',
+  stato=FALSE,
+  params=c(factor_sd='character',factor_name='character'),
+  outputs=c(imputed='DatasetExperiment'),
+  prototype = list(
+    name = 'STATegra imputation 1',
+    description = 'If missing values are present for all one group then they are replaced with min/2 + "random value below discovery".',
+    predicted = 'imputed'
+  ) 
+)
+
+# create method_apply for imputation method 1
+set_obj_method(
+  class_name='STATegra_impute1',
+  method_name='model_apply',
+  definition=function(M,D) {
+    
+    # for each feature count NA within each level
+    na = apply(D$data,2,function(x){
+      tapply(x,D$sample_meta[[M$factor_name]],function(y){
+        sum(is.na(y))
+      })
+    })
+    # count number of samples in each group
+    count=summary(D$sample_meta[[M$factor_name]])
+    # standard deviation of features within levels of factor_sd
+    sd = apply(D$data,2,function(x) {tapply(x,D$sample_meta[[M$factor_sd]],sd,na.rm=TRUE)})
+    sd = median(sd,na.rm=TRUE)
+    
+    # impute or not
+    check=na == matrix(count,nrow=2,ncol=ncol(D)) # all missing in one class
+    
+    # impute matrix
+    mi = D$data
+    for (j in 1:nrow(mi)) {
+      # index of group for this sample
+      g = which(levels(D$sample_meta[[M$factor_name]])==D$sample_meta[[M$factor_name]][j])
+      iv=rnorm(ncol(D),min(D$data[j,],na.rm=TRUE)/2,sd)
+      mi[j,is.na(mi[j,]) & check[g,]] = iv[is.na(mi[j,]) & check[g,]]
+    }
+    D$data = mi
+    M$imputed=D
+    return(M)
+  }
+)
+```
+
+The second imputation method replacing missing values in any condition with exactly 1 missing value with the mean of the values for that condition. Again we create a new struct object and corresponding method for the the new object to implement the filter.
+
+```{r}
+# create new imputation object
+set_struct_obj(
+  class_name = 'STATegra_impute2',
+  struct_obj = 'model',
+  stato=FALSE,
+  params=c(factor_name='character'),
+  outputs=c(imputed='DatasetExperiment'),
+  prototype = list(
+    name = 'STATegra imputation 2',
+    description = 'For those conditions with only 1 NA impute with the mean of the condition.',
+    predicted = 'imputed'
+  ) 
+)
+
+# create method_apply for imputation method 2
+set_obj_method(
+  class_name='STATegra_impute2',
+  method_name='model_apply',
+  definition=function(M,D) {
+    # levels in condition
+    L = levels(D$sample_meta[[M$factor_name]])
+    
+    # for each feature count NA within each level
+    na = apply(D$data,2,function(x){
+      tapply(x,D$sample_meta[[M$factor_name]],function(y){
+        sum(is.na(y))
+      })
+    })
+    
+    # standard deviation of features within levels of factor_sd
+    sd = apply(D$data,2,function(x) {tapply(x,D$sample_meta[[M$factor_name]],sd,na.rm=TRUE)})
+    sd = median(sd,na.rm=TRUE)
+    
+    # impute or not
+    check=na == 1 # only one missing for a condition
+    
+    # index of samples for each condition
+    IDX = list()
+    for (k in L) {
+      IDX[[k]]=which(D$sample_meta[[M$factor_name]]==k)
+    }
+    
+    ## impute
+    # for each feature
+    for (k in 1:ncol(D)) {
+      # for each condition
+      for (j in 1:length(L)) {
+        # if passes test
+        if (check[j,k]) {
+          # mean of samples in group
+          m = mean(D$data[IDX[[j]],k],na.rm=TRUE)
+          # imputed value
+          im = rnorm(1,m,sd)
+          # replace NA with imputed
+          D$data[is.na(D$data[,k]) & D$sample_meta[[M$factor_name]]==L[j],k]=im
+        }
+      }
+    }
+    M$imputed=D
+    return(M)
+  }
+)
+```
+
+The new STATegra imputation objects can now be used in model sequences like any other `struct` object. A final filter is added to remove any feature that has missing values after imputation.
+
+```{r,fig.width=10,fig.height=4.5}
+# model sequence
+M3 = STATegra_impute1(factor_name='treatment',factor_sd='condition') +
+     STATegra_impute2(factor_name = 'condition') + 
+     filter_na_count(threshold = 3, factor_name='condition')
+# apply model
+M3 = model_apply(M3,DSTF)
+# get imputed data
+DSTFI = predicted(M3)
+DSTFI
+
+
+```
+
+### Exploratory analysis
+It is often useful to visualise the distribution of values across samples to verify that the transformations/normalisation/filtering etc have been effective.
+
+```{r,fig.height=10,fig.width=9,warning=FALSE,message=FALSE,echo=FALSE}
+# distributions plot
+C = compare_dist(factor_name = 'treatment')
+g=chart_plot(C,DS,DSTFI)
+```
+
+The values are no longer skewed and show an approximately normal distribution. The boxplots are comparable in width with very few outliers indicated, so the transformations etc have had an overall positive effect.
+
+PCA is used to provide a graphical representation of the data. For comparison with the outputs from STATegra a filter is included to reduce the data to include only the treated samples (IKA)
+
+```{r,fig.width=9,fig.height=5,warning=FALSE,message=FALSE}
+# model sequence
+P = filter_smeta(mode='include',factor_name='treatment',levels='IKA') +
+    mean_centre() + 
+    PCA(number_components = 2)
+# apply model
+P = model_apply(P,DSTFI)
+
+# scores plots coloured by factors
+g = list()
+for (k in c('batch','time')) {
+  C = pca_scores_plot(factor_name=k,ellipse='none')
+  g[[k]]=chart_plot(C,P[3])
+}
+
+plot_grid(plotlist = g,nrow=1)
+```
+
+There does not appear to be a strong batch effect. PC1 is dominated by time point "24" and some potentially outlying points from time points "2" and "0".
+
+## LC-MS-based metabolomics dataset
+The LC-MS-based metabolomics dataset from the STATegra multi-omics dataset (see Introduction) can be found on [github](https://github.com/STATegraData/STATegraData) and must be extracted from zip file prior to data analysis.
+
+```{r, warning=FALSE, message=FALSE }
+# path to zip
+zipfile = "https://raw.github.com/STATegraData/STATegraData/master/Script_STATegra_Metabolomics.zip"
+
+## retrieve from BiocFileCache
+path = bfcrpath(bfc,zipfile)
+temp = bfccache(bfc)
+
+## ... or download to temp location
+# path = tempfile()
+# temp = tempdir()
+# download.file(zipfile,path)
+
+# unzip
+unzip(zipfile=path, files = "LC_MS_raw_data.xlsx", exdir=temp)
+
+# read samples
+data <- as.data.frame(read.xlsx(file.path(temp,"LC_MS_raw_data.xlsx"),sheet = 'Data'))
+```
+The imported data needs to be converted to `DatasetExperiment` format for use with `structToolbox`.
+
+```{r}
+# extract sample meta data
+SM = data[ ,1:8]
+
+# add coloumn for sample type (QC, blank etc)
+blanks=c(1,2,33,34,65,66)
+QCs=c(3,4,11,18,25,32,35,36,43,50,57,64)
+SM$sample_type='Sample'
+SM$sample_type[blanks]='Blank'
+SM$sample_type[QCs]='QC'
+
+# put qc/blank labels in all factors for plotting later
+SM$biol.batch[SM$sample_type!='Sample']=SM$sample_type[SM$sample_type!='Sample']
+SM$time.point[SM$sample_type!='Sample']=SM$sample_type[SM$sample_type!='Sample']
+SM$condition[SM$sample_type!='Sample']=SM$sample_type[SM$sample_type!='Sample']
+
+# convert to factors
+SM$biol.batch=ordered(SM$biol.batch,c('9','10','11','12','QC','Blank'))
+SM$time.point=ordered(SM$time.point,c('0h','2h','6h','12h','18h','24h','QC','Blank'))
+SM$condition=factor(SM$condition)
+SM$sample_type=factor(SM$sample_type)
+
+# variable meta data
+VM = data.frame('annotation'=colnames(data)[9:ncol(data)])
+
+# raw data
+X = data[,9:ncol(data)]
+# convert 0 to NA
+X[X==0]=NA
+# force to numeric; any non-numerics will become NA
+X=data.frame(lapply(X,as.numeric),check.names = FALSE)
+
+# make sure row/col names match
+rownames(X)=data$label
+rownames(SM)=data$label
+rownames(VM)=colnames(X)
+
+
+# create DatasetExperiment object
+DE = DatasetExperiment(
+  data = X, 
+  sample_meta = SM, 
+  variable_meta = VM, 
+  name = 'STATegra Metabolomics LCMS',
+  description = 'https://www.nature.com/articles/s41597-019-0202-7'
+)
+
+DE
+```
+
+### Data preprocessing
+In the STATegra project the LCMS data was combined with GCMS data and multiblock
+analysis was conducted. Here only the LCMS will be explored, so the data will be processed
+differently in comparison to [Gomez-Cabrero et al](https://www.nature.com/articles/s41597-019-0202-7). Some basic processing steps will be applied in order to generate a valid PCA plot from the biological and QC samples.
+
+```{r}
+# prepare model sequence
+MS = filter_smeta(mode = 'include', levels='QC', factor_name = 'sample_type') +
+     knn_impute(neighbours=5) +
+     vec_norm() + 
+     log_transform(base = 10) 
+
+# apply model sequence
+MS = model_apply(MS, DE)
+```
+
+### Exploratory analysis
+First we will use PCA to look at the QC samples in order to make an assessment of the data quality.
+
+```{r}
+# pca model sequence
+M =  mean_centre() +
+     PCA(number_components = 3)
+
+# apply model
+M = model_apply(M,predicted(MS))
+
+
+# PCA scores plot
+C = pca_scores_plot(factor_name = 'sample_type',label_factor = 'order',points_to_label = 'all')
+# plot
+chart_plot(C,M[2])
+```
+
+# Session Info
+```{r}
+sessionInfo()
+```

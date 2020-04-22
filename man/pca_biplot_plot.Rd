@@ -26,7 +26,8 @@ You can provide up to two factors for this plot.}
 
 \item{style}{Plot style for loadings. Can be 'points' (default) or 'arrows'.}
 
-\item{label_features}{TRUE or FALSE to label features on the plot. Default is FALSE.}
+\item{label_features}{'Include feature labels from this variable meta column. 
+Special keyword "rownames" will use the rownames of the variable_meta data.frame'}
 
 \item{...}{additional slots and values passed to struct_class}
 }

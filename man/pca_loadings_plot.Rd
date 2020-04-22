@@ -16,7 +16,8 @@ pca_loadings_plot(
 
 \item{style}{Plot style for loadings. Can be 'points' (default) or 'arrows'.}
 
-\item{label_features}{TRUE or FALSE to label features on the plot. Default is FALSE.}
+\item{label_features}{'A list of labels to use, one for each feature. Special 
+keyword "rownames" will use the rownames of the variable_meta data.frame'}
 
 \item{...}{additional slots and values passed to struct_class}
 }
