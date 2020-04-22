@@ -14,10 +14,19 @@ Authors@R: c(
            role=c("aut"),
            email="r.j.weber@bham.ac.uk")
            )
-Description: Extends the class templates provided by the struct package to 
-    provide PCA, PLS models with cross-validation, permutation testing etc. Also 
-    includes a suite of univariate tests and data processing models for building
-    complete workflows.
+Description: An extensive set of data (pre-)processing and analysis methods and 
+    tools for metabolomics and other omics, with a strong emphasis on statistics and 
+    machine learning. This toolbox allows the user to build extensive and 
+    standardised workflows for data analysis. The methods and tools have been 
+    implemented using class-based templates provided by the struct (Statistics 
+    in R Using Class-based Templates) package. The toolbox includes pre-processing 
+    methods (e.g. signal drift and batch correction, normalisation, missing value 
+    imputation and scaling), univariate (e.g. ttest, various forms of ANOVA, 
+    Kruskal–Wallis test and more) and multivariate statistical methods (e.g. PCA and
+    PLS, including cross-validation and permutation testing) as well as machine 
+    learning methods (e.g. Support Vector Machines). The 
+    STATistics Ontology (STATO) has been integrated and implemented to provide 
+    standardised definitions for the different methods, inputs and outputs.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
