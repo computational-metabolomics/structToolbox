@@ -1,9 +1,19 @@
 Package: structToolbox
 Type: Package
-Title: Some tools bult using the struct package
-Version: 0.99.8
-Author: Gavin Rhys Lloyd
-Maintainer: Gavin Rhys Lloyd <g.r.lloyd@bham.ac.uk>
+Title: Data processing & analysis tools for Metabolomics and other omics
+Version: 0.99.9
+Authors@R: c(
+    person(
+        c("Gavin","Rhys"),
+          "Lloyd",
+           role=c("aut","cre"),
+           email="g.r.lloyd@bham.ac.uk"),
+    person(
+        c("Ralf","Johannes", "Maria"),
+          "Weber",
+           role=c("aut"),
+           email="r.j.weber@bham.ac.uk")
+           )
 Description: Extends the class templates provided by the struct package to 
     provide PCA, PLS models with cross-validation, permutation testing etc. Also 
     includes a suite of univariate tests and data processing models for building
@@ -58,6 +68,7 @@ Collate:
     'linear_model_class.R'
     'log_transform.R'
     'mean_centre_class.R'
+    'mean_of_medians.R'
     'model_apply_doc.R'
     'model_predict_doc.R'
     'model_reverse_doc.R'
@@ -95,6 +106,7 @@ Imports: ggplot2,
     stats
 RoxygenNote: 7.1.0
 Suggests: agricolae,
+ BiocFileCache,
  BiocStyle,
  car,
  covr,
