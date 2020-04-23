@@ -43,21 +43,28 @@ The latest version of `structToolbox` compatible with your current R version can
 # install BiocManager if not present
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-# install structToolbox
+
+# install structToolbox and dependencies
 BiocManager::install("structToolbox")
 ```
 
 A number of additional packages are needed for this vignette.
 
 ```{r, message=FALSE, warning=FALSE}
+## install additional bioc packages for vignette if needed
+#BiocManager::install(c('pmp', 'ropls', 'BiocFileCache'))
+
+## install additional CRAN packages if needed
+#install.packages(c('cowplot', 'openxlsx'))
+
 suppressPackageStartupMessages({
-    # Bioconductor packages (use BiocManager::install())
+    # Bioconductor packages
     library(structToolbox)
     library(pmp)
     library(ropls)
     library(BiocFileCache)
-    
-    # cran libraries (use install.packages())
+  
+    # CRAN libraries
     library(ggplot2)
     library(gridExtra)
     library(cowplot)
