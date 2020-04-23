@@ -1,6 +1,8 @@
 Changes 0.99.9
 + add proteomics vignette
 + add mean_of_medians
++ merge all vignettes
++ fix bug in kfold_xval_grid
 
 Changes 0.99.8
 + added stratified splitting (stratified_split)
