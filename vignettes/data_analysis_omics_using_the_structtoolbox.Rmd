@@ -1648,6 +1648,200 @@ C = pca_scores_plot(factor_name = 'sample_type',label_factor = 'order',points_to
 chart_plot(C,M[2])
 ```
 
+The QC labelled "36" is clearly very different to the other QCs. In STATegra this QC was removed, so we will exclude it here as well. This corresponds to QC H1. STATegra also excluded QC samples measured immediately after a blank, which we will also do here.
+
+```{r}
+# prepare mdoel sequence
+MS = filter_smeta(
+      mode = 'include', 
+      levels='QC', 
+      factor_name = 'sample_type') +
+  
+     filter_by_name(
+      mode = 'exclude', 
+      dimension='sample',
+      names = c('1358BZU_0001QC_H1','1358BZU_0001QC_A1','1358BZU_0001QC_G1')) +
+  
+     knn_impute(
+      neighbours=5) +
+  
+     vec_norm() + 
+  
+     log_transform(
+       base = 10) + 
+  
+     mean_centre() +
+  
+     PCA(
+       number_components = 3)
+
+# apply model sequence
+MS = model_apply(MS, DE)
+
+# PCA scores plot
+C = pca_scores_plot(factor_name = 'sample_type',label_factor = 'order',points_to_label = 'all')
+# plot
+chart_plot(C,MS[7])
+```
+
+Now we will plot the QC samples in context with the samples. There are several possible approaches, and we will apply the approach of applying PCA to the full dataset including the QCs. We will exclude the blanks as it is likely that they will dominate the plot if not removed. All samples from batch 12 were excluded from STATegra and we will replicate that here.
+
+```{r}
+# prepare model sequence
+MS = filter_smeta(
+      mode = 'exclude', 
+      levels='Blank', 
+      factor_name = 'sample_type') +
+  
+     filter_smeta(
+      mode = 'exclude', 
+      levels='12', 
+      factor_name = 'biol.batch') +
+  
+     filter_by_name(
+      mode = 'exclude', 
+      dimension='sample',
+      names = c('1358BZU_0001QC_H1',
+                '1358BZU_0001QC_A1',
+                '1358BZU_0001QC_G1')) +
+  
+     knn_impute(
+      neighbours=5) +
+  
+     vec_norm() + 
+  
+     log_transform(
+       base = 10) + 
+  
+     mean_centre() +
+  
+     PCA(
+       number_components = 3)
+
+# apply model sequence
+MS = model_apply(MS, DE)
+
+# PCA scores plots
+C = pca_scores_plot(factor_name = 'sample_type')
+# plot
+chart_plot(C,MS[8])
+
+```
+The QCs appear to representative of the samples, but there are strong clusters in the data, including the QC samples which have no biological variation. There is likely to be a number of 'low quality' features that should be excluded, so we will do that now, and use more sophisticated normalisation (PQN) and scaling methods (glog).
+
+```{r,fig.height=10,fig.width=10}
+
+MS =  filter_smeta(
+       mode = 'exclude', 
+       levels = '12', 
+       factor_name = 'biol.batch') +
+  
+      filter_by_name(
+       mode = 'exclude', 
+       dimension='sample',
+       names = c('1358BZU_0001QC_H1',
+                 '1358BZU_0001QC_A1',
+                 '1358BZU_0001QC_G1')) +
+
+      blank_filter(
+       fold_change = 20,
+       qc_label = 'QC',
+       factor_name = 'sample_type') +
+
+      filter_smeta(
+       mode='exclude',
+       levels='Blank',
+       factor_name='sample_type') +
+  
+      mv_feature_filter(
+       threshold = 80, 
+       qc_label = 'QC', 
+       factor_name = 'sample_type', 
+       method = 'QC') +
+     
+      mv_feature_filter(
+        threshold = 50, 
+        factor_name = 'sample_type', 
+        method='across') +
+  
+     rsd_filter(
+       rsd_threshold=20, 
+       qc_label='QC',
+       factor_name='sample_type') +
+  
+     mv_sample_filter(
+       mv_threshold = 50) +
+     
+     pqn_norm(
+       qc_label='QC',
+       factor_name='sample_type') +
+     
+     knn_impute(
+       neighbours=5, 
+       by='samples') +
+     
+     glog_transform(
+       qc_label = 'QC',
+       factor_name = 'sample_type') +
+     
+     mean_centre() + 
+     
+     PCA(
+       number_components = 10)
+
+# apply model sequence
+MS = model_apply(MS, DE)
+
+
+# PCA plots using different factors
+g=list()
+for (k in c('order','biol.batch','time.point','condition')) {
+  C = pca_scores_plot(factor_name = k,ellipse='none')
+  # plot
+  g[[k]]=chart_plot(C,MS[length(MS)])
+}
+
+plot_grid(plotlist = g,align='vh',axis='tblr',nrow=2,labels=c('A','B','C','D'))
+
+```
+
+We can see now that the QCs are tightly clustered. This indicates that the biological variance of the remaining high quality features is much greater than the technical variance represented by the QCs.
+
+There does not appear to be a trend by measurement order (A), which is an important indicator that instrument drift throughout the run is not a large source of variation in this dataset.
+
+There does not appear to be strong clustering related to biological batch (B).
+
+There does not appear to be a strong trend with time (C) but this is likely to be a more subtle variation and might be masked by other sources of variance at this stage.
+
+There is some clustering related to condition (D) but with overlap.
+
+To further explore any trends with time, we will split the data by the condition factor and only explore the Ikaros group. Removing the condition factor variation will potentially make it easier to spot any more subtle trends. We will extract the glog transformed matrix from the previous model sequence and continue from there.
+
+```{r,warning=FALSE,message=FALSE,fig.height=11,fig.width=5}
+# get the glog scaled data
+GL = predicted(MS[11])
+
+# extract the Ikaros group and apply PCA
+IK = filter_smeta(
+      mode='include',
+      factor_name='condition',
+      levels='Ikaros') +
+     mean_centre() + 
+     PCA(number_components = 5)
+
+# apply the model sequence to glog transformed data
+IK = model_apply(IK,GL)
+
+# plot the PCA scores
+C = pca_scores_plot(factor_name='time.point',ellipse = 'sample')
+g1=chart_plot(C,IK[3])
+g2=g1 + scale_color_viridis_d() # add continuous scale colouring
+
+plot_grid(g1,g2,nrow=2,align='vh',axis = 'tblr',labels=c('A','B'))
+```
+
+Colouring by groups (A) makes the time point trend difficult to see, but by adding a `ggplot` continuous colour scale "viridis" (B) the trend with time along PC1 becomes much clearer.
+
 # Session Info
 ```{r}
 sessionInfo()
