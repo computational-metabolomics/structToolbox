@@ -1,7 +1,7 @@
 Package: structToolbox
 Type: Package
 Title: Data processing & analysis tools for Metabolomics and other omics
-Version: 0.99.9
+Version: 0.99.10
 Authors@R: c(
     person(
         c("Gavin","Rhys"),
@@ -135,4 +135,4 @@ Suggests: agricolae,
  Rtsne,
  testthat
 VignetteBuilder: knitr
-biocViews: WorkflowStep
+biocViews: WorkflowStep, Metabolomics
