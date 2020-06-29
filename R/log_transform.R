@@ -9,7 +9,7 @@
 #' M = log_transform()
 log_transform = function(base=10,...) {
     out=struct::new_struct('log_transform',
-        base=10,
+        base=base,
         ...)
     return(out)
 }
