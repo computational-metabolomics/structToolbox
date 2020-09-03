@@ -129,7 +129,7 @@ setMethod(f="model_apply",
         # put control group first if provided
         if (length(M$control_group)>0) {
             w=which(L==M$control_group)
-            if (length(w)>1) {
+            if (length(w)>0) {
                 L=c(L[-w],L[w])
             }
         }
