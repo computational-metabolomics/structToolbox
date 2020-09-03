@@ -130,7 +130,7 @@ setMethod(f="model_apply",
         if (length(M$control_group)>0) {
             w=which(L==M$control_group)
             if (length(w)>1) {
-                L=c(L[w],L[-w])
+                L=c(L[-w],L[w])
             }
         }
 
