@@ -90,6 +90,7 @@ setMethod(f="model_apply",
         df=D$sample_meta[,M$factor_name,drop=FALSE]
         df$orig_order=1:nrow(df)
         df$label=rownames(D$data)
+        df$order=M$hclust$order
         M$factor_df=df
         return(M)
     }
@@ -129,8 +130,8 @@ setMethod(f="chart_plot",
 
         A=ggdendro::label(hcdata)
 
-        A=A[order(dobj$factor_df$label),,drop=FALSE]
-        dobj$factor_df[order(dobj$factor_df$label),,drop=FALSE]
+        A=A[order(dobj$factor_df$order),,drop=FALSE]
+        dobj$factor_df[order(dobj$factor_df$order),,drop=FALSE]
         A$group=dobj$factor_df[,1]
 
         g= ggplot() +
