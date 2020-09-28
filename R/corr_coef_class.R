@@ -94,7 +94,12 @@ setMethod(f="model_apply",
         out=as.data.frame(t(out),stringsAsFactors = FALSE)
         out=as.data.frame(lapply(out,as.numeric))
 
-        p_val=as.data.frame(lapply(out[,seq(2,ncol(out),7)],p.adjust,method=M$mtc),row.names = colnames(D$data))
+        p_val=as.data.frame(vapply(
+                out[,seq(2,ncol(out),7),drop=FALSE],
+                FUN.VALUE = numeric(ncol(D)),
+                FUN=p.adjust,method=M$mtc),
+            row.names = colnames(D$data))
+        
         colnames(p_val)=M$factor_names
         M$p_value=p_val
 
