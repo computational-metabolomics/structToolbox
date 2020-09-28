@@ -113,7 +113,7 @@ Imports: ggplot2,
     scales,
     sp,
     stats
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: agricolae,
  BiocFileCache,
  BiocStyle,
