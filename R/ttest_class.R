@@ -115,6 +115,12 @@ setMethod(f="model_apply",
         X=D$data
         CN=colnames(X) # keep a copy of the original colnames
         y=D$sample_meta[[M$factor_names]]
+        
+        # convert to factor if it isn't one already
+        if (!is(y,'factor')) {
+            y=factor(y)
+        }
+        
         L=levels(y)
         if (length(L)!=2) {
             stop('must have exactly two levels for this implmentation of t-statistic')
