@@ -4,12 +4,14 @@
 \alias{glog_transform}
 \title{glog transform}
 \usage{
-glog_transform(qc_label = "QC", factor_name, ...)
+glog_transform(qc_label = "QC", factor_name, lambda = NULL, ...)
 }
 \arguments{
 \item{qc_label}{The label used to identify QC samples}
 
 \item{factor_name}{The sample_meta column name containing QC labels}
+
+\item{lambda}{The value of lambda to use. If `lambda = NULL` then the `pmp` package will be used to determine the value of lambda.}
 
 \item{...}{additional slots and values passed to struct_class}
 }
