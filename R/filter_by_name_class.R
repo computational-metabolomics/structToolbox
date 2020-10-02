@@ -59,27 +59,36 @@ filter_by_name = function(mode='exclude',dimension='sample',names,...) {
 )
 
 #' @export
-#' @template model_apply
-setMethod(f="model_apply",
+#' @template model_train
+setMethod(f="model_train",
     signature=c("filter_by_name","DatasetExperiment"),
-    definition=function(M,D)
-    {
+    definition=function(M,D) {
+        # nothing required here for this filter
+        return(M)
+    }
+)
+
+#' @export
+#' @template model_predict
+setMethod(f="model_predict",
+    signature=c("filter_by_name","DatasetExperiment"),
+    definition=function(M,D) {
         opt=param_list(M)
         x=D$data
-
+        
         if (opt$dimension=='sample') {
             smeta=D$sample_meta
-
+            
             if (is.logical(opt$names)) {
-
+                
                 IN = opt$names
-
+                
             } else if (is.numeric(opt$names)) {
                 IN = (1:nrow(D$data)) %in% opt$names
             } else {
                 IN=rownames(smeta) %in% opt$names
             }
-
+            
             if (opt$mode=='include') {
                 smeta=smeta[IN,,drop=FALSE]
                 D=D[IN,,drop=FALSE]
@@ -87,10 +96,10 @@ setMethod(f="model_apply",
                 smeta=smeta[!IN,,drop=FALSE]
                 D=D[!IN,,drop=FALSE]
             }
-
+            
         } else if (opt$dimension=='variable') {
             vmeta=D$variable_meta
-
+            
             if (is.logical(opt$names)) {
                 # TRUE or FALSE provided so use as is
                 IN = opt$names
@@ -101,8 +110,8 @@ setMethod(f="model_apply",
                 # character so assume column names
                 IN=rownames(vmeta) %in% opt$names
             }
-
-
+            
+            
             if (opt$mode=='include') {
                 vmeta=vmeta[IN,,drop=FALSE]
                 D=D[ ,IN,drop=FALSE]
@@ -110,29 +119,9 @@ setMethod(f="model_apply",
                 vmeta=vmeta[!IN,,drop=FALSE]
                 D=D[,!IN,drop=FALSE]
             }
-
+            
         }
         output_value(M,'filtered')=D
-        return(M)
-    }
-)
-
-#' @export
-#' @template model_train
-setMethod(f="model_train",
-    signature=c("filter_by_name","DatasetExperiment"),
-    definition=function(M,D) {
-        M=model_apply(M,D)
-        return(M)
-    }
-)
-
-#' @export
-#' @template model_predict
-setMethod(f="model_predict",
-    signature=c("filter_by_name","DatasetExperiment"),
-    definition=function(M,D) {
-        M=model_apply(M,D)
         return(M)
     }
 )
