@@ -1,7 +1,7 @@
 #' fold change class
 #'
-#' Calculates fold change between groups for all features in a DatasetExperiment, based on
-#' a log transform and t-test.
+#' Calculates fold change between groups for all features in a 
+#' DatasetExperiment.
 #'
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
@@ -15,6 +15,13 @@
 #' @param threshold a threshold to define fold change as 'significant'.
 #' @param control_group a level of factor name to use as the control group for
 #' calculations.
+#' @param method the method used to calculate fold change. `method = "geometric"`
+#' uses a log transform and a t-test to calculate fold change and estimate
+#' confidence intervals. In the non-transformed space this is equivalent to
+#' fold change using geometric means. `method = "median"` uses a log transform
+#' and the method described in DOI: 10.1080/00949650212140 to calculate fold
+#' change and estimate confidence intervals. In the non-transformed space this 
+#' is equivalent to using group medians to calculate fold change.
 #'
 #' @import struct
 #' @import stats

@@ -21,7 +21,8 @@ A STRUCT method object with functions for applying a pairs filter
 struct object
 }
 \description{
-Filters samples for paired analysis, ensuring each sample id is present in all groups.
+Filters samples for paired analysis, ensuring each sample id is present 
+in all groups and equal number of times.
 }
 \examples{
 M=pairs_filter(factor_name='Class',sample_id='ids')
