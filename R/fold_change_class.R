@@ -391,14 +391,17 @@ ci_delta_nu = function(y1,y2,alpha=0.05,paired=FALSE) {
             stop('all samples must be present in all groups for a paired comparison')
         }
         # median of pairwise fold changes
-        delta=y1/y2
+        delta=sort(y1/y2)
         delta_nu=median(delta)
-        # usual confidence in median, by estimating quantiles
-        n=length(y1)
-        z=qnorm(1-(alpha/2))
-        lci_rank=(n/2)-((z*sqrt(n))/2)
-        uci_rank=1+(n/2)+((z*sqrt(n))/2)
-        out=c(delta_nu,delta[round(lci_rank)],delta[round(uci_rank)])
+        # confidence intervals from wilcox.test
+        out=wilcox.test(
+            delta,
+            conf.level=1-alpha,
+            alternative="two.sided",
+            correct=TRUE,
+            conf.int = TRUE
+        )
+        out=c(delta_nu,out$conf.int[1],out$conf.int[2])
         return(out)
     }
     
