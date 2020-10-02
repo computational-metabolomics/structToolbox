@@ -1,7 +1,7 @@
 #' fold change class
 #'
-#' Calculates fold change between groups for all features in a DatasetExperiment, based on
-#' a log transform and t-test.
+#' Calculates fold change between groups for all features in a 
+#' DatasetExperiment.
 #'
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
@@ -15,6 +15,13 @@
 #' @param threshold a threshold to define fold change as 'significant'.
 #' @param control_group a level of factor name to use as the control group for
 #' calculations.
+#' @param method the method used to calculate fold change. `method = "geometric"`
+#' uses a log transform and a t-test to calculate fold change and estimate
+#' confidence intervals. In the non-transformed space this is equivalent to
+#' fold change using geometric means. `method = "median"` uses a log transform
+#' and the method described in DOI: 10.1080/00949650212140 to calculate fold
+#' change and estimate confidence intervals. In the non-transformed space this 
+#' is equivalent to using group medians to calculate fold change.
 #'
 #' @import struct
 #' @import stats
@@ -28,6 +35,7 @@ fold_change = function(
     sample_name=character(0),
     threshold=2,
     control_group=character(0),
+    method = "geometric",
     ...) {
 
     out=struct::new_struct('fold_change',
@@ -37,6 +45,7 @@ fold_change = function(
         sample_name=sample_name,
         threshold=threshold,
         control_group=control_group,
+        method = method,
         ...)
 
     return(out)
@@ -54,6 +63,7 @@ fold_change = function(
         sample_name='entity',
         threshold='numeric',
         control_group='character',
+        method='entity',
 
         # OUTPUTS
         fold_change='entity',
@@ -66,7 +76,7 @@ fold_change = function(
         type="univariate",
         predicted='fold_change',
         #  stato_id="STATO:0000304",
-        .params=c('factor_name','sample_name','alpha','paired','threshold','control_group'),
+        .params=c('factor_name','sample_name','alpha','paired','threshold','control_group','method'),
         .outputs=c('fold_change','lower_ci','upper_ci','significant'),
 
         factor_name=entity(name='Factor names',
@@ -106,6 +116,13 @@ fold_change = function(
             type='data.frame',
             description='upper confidence interval for fold change.',
             value=data.frame()
+        ),
+        method=enum(name='Fold change method',
+            type='character',
+            description='The method used to calculate fold change. "geometric" or
+            "median"',
+            value="geometric",
+            allowed=c("geometric","median")
         )
     )
 )
@@ -116,13 +133,13 @@ setMethod(f="model_apply",
     signature=c("fold_change",'DatasetExperiment'),
     definition=function(M,D)
     {
-
         # log transform
-        X=log2(D$data)
+        if (M$method=='geometric') {
+            # log transform
+            D$data=log2(D$data)
+        }
+        X=D$data
         Y=D$sample_meta
-
-        D$data=X
-        D$sample_meta=Y
 
         # levels for factor of interest
         L=levels(as.factor(Y[[M$factor_name]]))
@@ -138,7 +155,8 @@ setMethod(f="model_apply",
         n=((length(L)^2)-length(L))/2
 
         # prep some matrices
-        FC=matrix(0,nrow=ncol(X),ncol=n)
+        FC=matrix(NA,nrow=ncol(X),ncol=n)
+        rownames(FC)=colnames(D)
         LCI=FC
         UCI=FC
 
@@ -151,43 +169,94 @@ setMethod(f="model_apply",
         # for all pairs of groups
         for (A in 1:(length(L)-1)) {
             for (B in (A+1):(length(L))) {
+
                 # filter groups to A and B
                 FG=filter_smeta(factor_name=M$factor_name,mode='include',levels=L[c(A,B)])
                 FG=model_apply(FG,D)
                 # change to ordered factor so that we make use of control group
                 FG$filtered$sample_meta[[M$factor_name]]=ordered(FG$filtered$sample_meta[[M$factor_name]],levels=L[c(A,B)])
-                # apply t-test
-                TT=ttest(alpha=M$alpha,mtc='none',factor_names=M$factor_name,paired=M$paired,paired_factor=M$sample_name)
-                TT=model_apply(TT,predicted(FG))
-                # log2(fold change) is the difference in estimate.mean from ttest
-                if (M$paired) {
-                    fc=TT$estimates[,1]
+                
+                if (M$method=='geometric') {
+                                   
+                    # apply t-test
+                    TT=ttest(alpha=M$alpha,mtc='none',factor_names=M$factor_name,paired=M$paired,paired_factor=M$sample_name)
+                    TT=model_apply(TT,predicted(FG))
+                    # log2(fold change) is the difference in estimate.mean from ttest
+                    if (M$paired) {
+                        fc=TT$estimates[,1]
+                    } else {
+                        fc=TT$estimates[,1]-TT$estimates[,2] # log2 fold change
+                    }
+                    FC[,counter]=fc
+                    LCI[,counter]=TT$conf_int[,1]
+                    UCI[,counter]=TT$conf_int[,2]
+                    counter=counter+1
+                    comp=c(comp,paste0(L[A],'/',L[B]))
+                    
+                    #store in object
+                    M$fold_change=2^FC
+                    M$lower_ci=2^LCI
+                    M$upper_ci=2^UCI
+                    
                 } else {
-                    fc=TT$estimates[,1]-TT$estimates[,2] # log2 fold change
+
+                    D = predicted(FG)
+                    # check for pairs in features
+                    if (M$paired) {
+                        FF=pairs_filter(
+                            factor_name=M$factor_name,
+                            sample_id=M$sample_name)
+                        FF=model_apply(FF,D)
+                        D=predicted(FF)
+                    }
+                    
+
+                    # calculate medians and confidence intervals for all features
+                    out=lapply(D$data,function(x) {
+                        y1=x[D$sample_meta[[M$factor_name]]==L[A]]
+                        y2=x[D$sample_meta[[M$factor_name]]==L[B]]
+                        val=ci_delta_nu(y1,y2,alpha=M$alpha,paired=M$paired)
+                        val=matrix(val,nrow=1,ncol=3)
+                        colnames(val)=c('median','lci','uci')
+                        return(val)
+                    })
+                    
+                    nmes=names(out)
+                    out=do.call(rbind,out)
+                    rownames(out)=nmes
+                    
+                    # merge with original names
+                    temp=merge(
+                        FC[,counter,drop=FALSE],
+                        out,
+                        by = 'row.names',
+                        all.x=TRUE,
+                        )
+                    rownames(temp)=temp$Row.names
+                    # sort back into original order
+                    temp=temp[rownames(FC),]
+                    
+                    FC[,counter]=temp$median
+                    LCI[,counter]=temp$lci
+                    UCI[,counter]=temp$uci
+                    counter=counter+1
+                    comp=c(comp,paste0(L[A],'/',L[B]))
+                    
+                    # store in object
+                    M$fold_change = as.data.frame(FC)
+                    M$lower_ci = as.data.frame(LCI)
+                    M$upper_ci = as.data.frame(UCI)
                 }
-                FC[,counter]=fc
-                LCI[,counter]=TT$conf_int[,1]
-                UCI[,counter]=TT$conf_int[,2]
-                counter=counter+1
-                comp=c(comp,paste0(L[A],'/',L[B]))
             }
         }
 
-        FC=as.data.frame(FC)
-        LCI=as.data.frame(LCI)
-        UCI=as.data.frame(UCI)
+
 
         colnames(FC)=comp
         colnames(LCI)=comp
         colnames(UCI)=comp
 
-        rownames(FC)=colnames(D$data)
-        rownames(LCI)=colnames(D$data)
-        rownames(UCI)=colnames(D$data)
 
-        M$fold_change=2^FC
-        M$lower_ci=2^LCI
-        M$upper_ci=2^UCI
 
         M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
         colnames(M$significant)=comp
@@ -286,5 +355,55 @@ setMethod(f="chart_plot",
 
 
 
+var_nu = function(y) {
+    n=length(y)
+    c=((n+1)/2)-n^(1/2)
+    # "c is rounded to nearest non-zero integer"
+    c=max(c(round(c),1))
+    i=seq(from=0,to=c-1,by=1)
+    p=sum( (factorial(n)/(factorial(i)*factorial(n-i)) ) * ((0.5)^(n-1)) )
+    # NB error in paper has ^(n-i)
+    
+    # "for large n set z = 2"
+    if (n<=50) {
+        z=qnorm(1-(p/2))
+    } else {
+        z=2
+    }
+    v=(y[n-c+1]-y[c])/(2*z)
+    v=v^2
+    return(v)
+}
 
+ci_delta_nu = function(y1,y2,alpha=0.05,paired=FALSE) {
+    
+    if (!paired) {
+        # https://www.tandfonline.com/doi/abs/10.1080/00949650212140
+        # For ratio n1/n2
+        n1=median(y1,na.rm=TRUE)
+        n2=median(y2,na.rm=TRUE)
+        z=qnorm(1-(alpha/2))
+        ci=z*(var_nu(log(y1))+var_nu(log(y2)))^0.5
+        out=c(n1/n2,(n1/n2)*exp(-ci),(n1/n2)*exp(ci))
+        return(out)
+    } else {
+        if (length(y1) != length(y2)) {
+            stop('all samples must be present in all groups for a paired comparison')
+        }
+        # median of pairwise fold changes
+        delta=sort(y1/y2)
+        delta_nu=median(delta)
+        # confidence intervals from wilcox.test
+        out=wilcox.test(
+            delta,
+            conf.level=1-alpha,
+            alternative="two.sided",
+            correct=TRUE,
+            conf.int = TRUE
+        )
+        out=c(delta_nu,out$conf.int[1],out$conf.int[2])
+        return(out)
+    }
+    
+}
 

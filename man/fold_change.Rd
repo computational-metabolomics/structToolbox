@@ -11,6 +11,7 @@ fold_change(
   sample_name = character(0),
   threshold = 2,
   control_group = character(0),
+  method = "geometric",
   ...
 )
 }
@@ -28,14 +29,22 @@ fold_change(
 \item{control_group}{a level of factor name to use as the control group for
 calculations.}
 
+\item{method}{the method used to calculate fold change. `method = "geometric"`
+uses a log transform and a t-test to calculate fold change and estimate
+confidence intervals. In the non-transformed space this is equivalent to
+fold change using geometric means. `method = "median"` uses a log transform
+and the method described in DOI: 10.1080/00949650212140 to calculate fold
+change and estimate confidence intervals. In the non-transformed space this 
+is equivalent to using group medians to calculate fold change.}
+
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
 struct object
 }
 \description{
-Calculates fold change between groups for all features in a DatasetExperiment, based on
-a log transform and t-test.
+Calculates fold change between groups for all features in a 
+DatasetExperiment.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()

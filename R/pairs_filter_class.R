@@ -1,6 +1,7 @@
 #' Pairs filter
 #'
-#' Filters samples for paired analysis, ensuring each sample id is present in all groups.
+#' Filters samples for paired analysis, ensuring each sample id is present 
+#' in all groups and equal number of times.
 #'
 #' @param factor_name (character) the column name of sample_meta containing the
 #' labels
@@ -32,9 +33,12 @@ pairs_filter = function(factor_name,sample_id,...) {
         flags='entity'
     ),
     prototype=list(name = 'Blank filter',
-        description = 'Filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the intensity is not large compared to the blank are removed.',
+        description = 'Filters features to ensure pair-wise representation of 
+        samples in all groups.',
         type = 'filter',
         predicted = 'filtered',
+        .params=c('factor_name','sample_id'),
+        .outputs=c('filtered','flags'),
 
         factor_name=entity(name='Factor name',
             description='Name of sample meta column to use',
