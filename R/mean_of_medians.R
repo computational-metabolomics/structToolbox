@@ -1,6 +1,8 @@
 #' Mean of median adjustment
 #'
-#' Applies an offset to the data such that the mean of the medians is equal for all samples.
+#' Normalises the data of a DatasetExperiment object such that the median of each
+#' factor level is equal to the mean of the sample medians in that level.
+#' 
 #' @param factor_name the column sample of sample_meta to use. Mean of medians 
 #' will be applied based on the levels in this factor.
 #' @examples
@@ -51,7 +53,7 @@ setMethod(f="model_apply",
         
         # difference between medians means of medians each factor level
         md=numeric(length(m))
-        for (k in levels(M$factor_name)) {
+        for (k in levels(D$sample_meta[[M$factor_name]])) {
             mm = mean(m[D$sample_meta[[M$factor_name]]==k]) # mean of medians in this factor level
             md[D$sample_meta[[M$factor_name]]==k]=m[D$sample_meta[[M$factor_name]]==k] - mm
         }
