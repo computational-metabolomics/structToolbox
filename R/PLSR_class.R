@@ -293,7 +293,7 @@ plsr_cook_dist = function(...) {
     "plsr_cook_dist",
     contains='chart',
     prototype = list(name="Cook's distance barchart",
-        description=paste0("A barchart of Cook’s distance for each sample ",
+        description=paste0("A barchart of Cook's distance for each sample ",
         "used to train a PLSR model. Cook's distance is used to estimate the ",
         "influence of a sample on the model and can be used to identify ",
         "potential outliers."),

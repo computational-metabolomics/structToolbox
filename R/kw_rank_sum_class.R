@@ -29,8 +29,8 @@ kw_rank_sum = function(alpha=0.05,mtc='fdr',factor_names,...) {
         significant='entity',
         estimates='data.frame'
     ),
-    prototype = list(name='kruskal-wallis rank sum test',
-        description=paste0('The Kruskal–Wallis test is a univariate ',
+    prototype = list(name='Kruskal-Wallis rank sum test',
+        description=paste0('The Kruskal-Wallis test is a univariate ',
         'hypothesis testing method that allows multiple (n>=2) groups to be ',
         'compared without making the assumption that values are normally ',
         'distributed. It is the non-parametric equivalent of a 1-way ANOVA. ',

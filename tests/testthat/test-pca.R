@@ -83,7 +83,7 @@ test_that('PCA biplot chart returns ggplot object',{
   # apply the model
   M=model_predict(M,D)
   # chart
-  C=pca_biplot_plot(factor_name='Species',style='arrows')
+  C=pca_biplot(factor_name='Species',style='arrows')
   # plot
   gg=chart_plot(C,M[2])
 
