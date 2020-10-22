@@ -2,7 +2,7 @@
 % Please edit documentation in R/kw_rank_sum_class.R
 \name{kw_rank_sum}
 \alias{kw_rank_sum}
-\title{kruskal-wallis rank sum test}
+\title{Kruskal-Wallis rank sum test}
 \usage{
 kw_rank_sum(alpha = 0.05, mtc = "fdr", factor_names, ...)
 }
@@ -19,7 +19,7 @@ kw_rank_sum(alpha = 0.05, mtc = "fdr", factor_names, ...)
 A  \code{kw_rank_sum} object.
 }
 \description{
-The Kruskal㤼㸶Wallis test is a univariate hypothesis testing method that allows multiple (n>=2) groups to be compared without making the assumption that values are normally distributed. It is the non-parametric equivalent of a 1-way ANOVA. The test is applied to all variables/features individually, and multiple test corrected p-values are computed to indicate the significance of variables/features.
+The Kruskal-Wallis test is a univariate hypothesis testing method that allows multiple (n>=2) groups to be compared without making the assumption that values are normally distributed. It is the non-parametric equivalent of a 1-way ANOVA. The test is applied to all variables/features individually, and multiple test corrected p-values are computed to indicate the significance of variables/features.
 }
 \examples{
 D = iris_DatasetExperiment()

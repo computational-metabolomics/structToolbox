@@ -13,7 +13,7 @@ plsr_cook_dist(...)
 A  \code{plsr_cook_dist} object.
 }
 \description{
-A barchart of Cook㤼㸲s distance for each sample used to train a PLSR model. Cook's distance is used to estimate the influence of a sample on the model and can be used to identify potential outliers.
+A barchart of Cook's distance for each sample used to train a PLSR model. Cook's distance is used to estimate the influence of a sample on the model and can be used to identify potential outliers.
 }
 \examples{
 C = plsr_cook_dist()
