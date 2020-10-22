@@ -1,11 +1,6 @@
-#' permute_sample_order class
-#'
-#' Permutes the sample order a defined number of times, running the model each time
+#' @eval get_description('permute_sample_order')
 #' @examples
 #' C = permute_sample_order()
-#' @param number_of_permutations The number of times to permute the sample order
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export permute_sample_order
 permute_sample_order = function(number_of_permutations=10,...) {
     out=struct::new_struct('permute_sample_order',
@@ -17,7 +12,7 @@ permute_sample_order = function(number_of_permutations=10,...) {
 .permute_sample_order<-setClass(
     "permute_sample_order",
     contains='resampler',
-    slots=c(number_of_permutations='numeric',
+    slots=c(number_of_permutations='entity',
         results='data.frame',
         metric='data.frame',
         metric.train='numeric'
@@ -25,9 +20,18 @@ permute_sample_order = function(number_of_permutations=10,...) {
     prototype = list(name='Permute Sample Order',
         type="permutation",
         result='results',
-        number_of_permutations=10,
+        number_of_permutations=entity(
+            name='Number of permutations',
+            description = 'The number of times the sample order is permuted.',
+            type=c('numeric','integer'),
+            value=100,
+            max_length=1
+        ),
         .params=c('number_of_permutations'),
-        .outputs=c('results','metric','metric.train')
+        .outputs=c('results','metric','metric.train'),
+        description=paste0('The order of samples in the data matrix is ',
+        'randomly permuted. The relationship between the samples and the ',
+        'sample meta data is maintained.')
     )
 )
 

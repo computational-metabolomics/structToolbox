@@ -2,18 +2,18 @@
 % Please edit documentation in R/r_squared_class.R
 \name{r_squared}
 \alias{r_squared}
-\title{Coefficient of determination class}
+\title{Coefficient of determination (R-squared)}
 \usage{
 r_squared(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{r_squared} object.
 }
 \description{
-Coefficient of determination (r-squared).
+R-squared is a metric used to assess the goodness of fit for regression models. It measures how much variance of one variable can be explained by another variable.
 }
 \examples{
 MET = r_squared()

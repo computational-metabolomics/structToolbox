@@ -1,12 +1,4 @@
-#' kfold_xval model class
-#'
-#' Applies k-fold crossvalidation to a model or model_seq()
-#' @param folds The number of cross-validation folds
-#' @param method The method for selecting samples in each fold. Can be one of
-#' "venetian", "blocks" or "random". Default is "venetian".
-#' @param factor_name The sample_meta column name to use.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('kfold_xval')
 #' @export kfold_xval
 #' @examples
 #' D = iris_DatasetExperiment()
@@ -27,8 +19,9 @@ kfold_xval = function(folds=10,method='venetian',factor_name,...) {
 .kfold_xval<-setClass(
     "kfold_xval",
     contains='resampler',
-    slots=c(folds='numeric',
-        method='character',
+    slots=c(
+        folds='entity',
+        method='enum',
         factor_name='entity',
         results='data.frame',
         metric='data.frame',
@@ -40,9 +33,30 @@ kfold_xval = function(folds=10,method='venetian',factor_name,...) {
         result='results',
         .params=c('folds','method','factor_name'),
         .outputs=c('results','metric','metric.train','metric.test'),
-
-        folds=10,
-        method='venetian'
+        description=paste0('k-fold cross-validation is an iterative approach ',
+            'applied to validate models. The samples are divided into k "folds", ',
+            'or subsets. Each subset is excluded from model training and used for ',
+            'model validation once, resulting in a single left-out prediction for ',
+            'each sample. Model performance metrics are then computed for the ',
+            'training and test sets across all folds.'),
+        folds=entity(
+            name='Number of folds',
+            description = 'The number of cross-validation folds.',
+            type=c('numeric','integer'),
+            value=5,
+            max_length=1),
+        method=enum(
+            name = 'Fold selection method',
+            description=c(
+                'venetian' = 'Every nth sample is assigned to the same fold, where n is the number of folds.',
+                'blocks' = 'Blocks of adjacent samples are assigned to the same fold.',
+                'random' = 'Samples are randomly assigned to a fold.'
+            ),
+            type='character',
+            allowed = c('venetian','blocks','random'),
+            value='random'
+        ),
+        factor_name=ents$factor_name
     )
 )
 
@@ -56,7 +70,7 @@ setMethod(f="run",
         y=D$sample_meta[,I$factor_name,drop=FALSE]
         all_results=data.frame('actual'=rep(y[,1],param_value(I,'folds')),'predicted'=rep(y[,1],param_value(I,'folds')),'fold'=0,'in.test'=FALSE,'sampleid'=rep(rownames(X),param_value(I,'folds')))
         WF=models(I)
-
+        
         # venetian 123123123123
         if (param_value(I,'method')=='venetian')
         {
@@ -71,22 +85,22 @@ setMethod(f="run",
         } else {
             stop('unknown method for cross-validation. (try "venetian", "blocks" or "random")')
         }
-
+        
         # for each value of k, split the data and run the workflow
         for (i in 1:param_value(I,'folds'))
         {
             fold_results=data.frame('actual'=y[,1],'predicted'=y,'fold'=i,'in.test'=FALSE,'sampleid'=rownames(X))
             fold_results[fold_id==i,4]=TRUE
-
+            
             # prep the training data
             TrainX=X[fold_id!=i,,drop=FALSE]
             TrainY=as.data.frame(y[fold_id!=i,,drop=FALSE])
             dtrain=DatasetExperiment(data=TrainX,sample_meta=TrainY,variable_meta=D$variable_meta)
-
+            
             TestX=X[fold_id==i,,drop=FALSE]
             TestY=as.data.frame(y[fold_id==i,,drop=FALSE])
             dtest=DatasetExperiment(data=TestX,sample_meta=TestY,variable_meta=D$variable_meta)
-
+            
             if (is(WF,'model_OR_model_seq'))
                 # HAS TO BE A model OR model_seq
             {
@@ -95,7 +109,7 @@ setMethod(f="run",
                 WF=model_predict(WF,dtrain)
                 p=predicted(WF)
                 fold_results[fold_id!=i,2]=p[,1]
-
+                
                 # test set
                 WF=model_predict(WF,dtest)
                 p=predicted(WF)
@@ -108,13 +122,13 @@ setMethod(f="run",
             # WF=predict(WF,dval)
             # p=predicted(WF[length(WF)])
             # val_result[,1]=p[,1]
-
+            
             all_results[((nrow(X)*(i-1))+1):(nrow(X)*i),]=fold_results
         }
         models(I)=WF # last model
         output_value(I,'results')=all_results
         I=evaluate(I,MET)
-
+        
         return(I)
     }
 )
@@ -140,7 +154,7 @@ setMethod(f="evaluate",
         MET=calculate(MET,te$actual,te$predicted)
         te.metric=value(MET)
         out=data.frame('metric'=class(MET)[1],'mean'=mean(te.metric),'sd'=sd(te.metric))
-
+        
         output_value(I,'metric')=out
         output_value(I,'metric.train')=ts.metric
         output_value(I,'metric.test')=te.metric

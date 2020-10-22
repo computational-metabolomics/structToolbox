@@ -2,22 +2,25 @@
 % Please edit documentation in R/svm_classifier_class.R
 \name{svm_plot_2d}
 \alias{svm_plot_2d}
-\title{SVM boundary plot (2d)}
+\title{SVM scatter plot}
 \usage{
 svm_plot_2d(factor_name, npoints = 100, ...)
 }
 \arguments{
-\item{factor_name}{The column of sample_meta to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{npoints}{Used to control the resolution of the grid used to plot the boundary. Default 100.}
+\item{npoints}{(numeric) The number of grid points used to plot the boundary. The default is \code{100}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{svm_plot_2d} object.
 }
 \description{
-Plots the training data and the SVM boundary. 2d data only (ncol(D$data)==2).
+A scatter plot of the input data by group and the calculated boundary of a SVM model.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{e1071}}}
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -29,4 +32,10 @@ M = model_apply(M,D)
 C = svm_plot_2d(factor_name='Species')
 chart_plot(C,M[4],predicted(M[3]))
 
+}
+\references{
+Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2019).
+\emph{e1071: Misc Functions of the Department of Statistics, Probability
+Theory Group (Formerly: E1071), TU Wien}.
+R package version 1.7-3, \url{https://CRAN.R-project.org/package=e1071}.
 }

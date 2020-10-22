@@ -2,18 +2,18 @@
 % Please edit documentation in R/grid_search_1d_class.R
 \name{gs_line}
 \alias{gs_line}
-\title{grid_search_plot}
+\title{Grid search line plot}
 \usage{
 gs_line(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{gs_line} object.
 }
 \description{
-plots the result of the evaluated models for against the values of the optimisation paramter within the search range.
+A plot of the calculated performance metric against the model input parameter values used to train the model. The optimum parameter value is indicated based on minimising (or maximising) the chosen metric.
 }
 \examples{
 C = gs_line()

@@ -1,10 +1,4 @@
-#' nroot transform
-#'
-#' Applies an nth root transform to the data
-#' @param root The nth root of the transform. Default is 2, resulting in a 
-#' square-root transformation of the data.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('nroot_transform')
 #' @export nroot_transform
 #' @examples
 #' M = nroot_transform()
@@ -24,7 +18,7 @@ nroot_transform = function(root=2,...) {
     ),
     
     prototype=list(name = 'nth root transform',
-        description = 'applies an nth root transform to the data.',
+        description = 'All values in the data matrix are transformed by raising them to the power of 1/n.',
         type = 'transform',
         predicted = 'transformed',
         .params=c('root'),

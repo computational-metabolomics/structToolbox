@@ -1,17 +1,8 @@
-#' filter_na_count class
-#'
-#' Filters features by the number of NA per class
-#'
-#' @param threshold the maximum number of NA allowed per level of factor_name
-#' @param factor_name the sample_meta column name to use
-#'
+#' @eval get_description('filter_na_count')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' M = filter_na_count(threshold=3,factor_name='class')
 #' M = model_apply(M,D)
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export filter_na_count
 filter_na_count = function(threshold,factor_name,...) {
     out=struct::new_struct('filter_na_count',
@@ -31,20 +22,21 @@ filter_na_count = function(threshold,factor_name,...) {
         na_count='entity',
         flags='entity'
     ),
-    prototype=list(name = 'filters features by the number of NA per class',
-        description = 'Filters by removing features where the number of features in any class exceeds the threshold',
+    prototype=list(name = 'Minimum number of measured values filter',
+        description = paste0('The number of measured values is counted for ',
+            'each feature, and any feature with less than a predefined minimum ',
+            'number of values in each group is removed. If there are several factors, then ',
+            'the threshold is applied so that the minimum number of samples ',
+            'is present for all combinations (interactions) of groups.'),
         type = 'filter',
         predicted = 'filtered',
         .params=c('threshold','factor_name'),
         .outputs=c('filtered','count','na_count','flags'),
 
-        factor_name=entity(name='Factor name',
-            type='character',
-            description='Name of sample_meta column to use'
-        ),
+        factor_name=ents$factor_name,
 
-        threshold=entity(name = 'Count threshold (%)',
-            description = 'Features with less than THRESHOLD missing values in any class are excluded.',
+        threshold=entity(name = 'Missing value threshold',
+            description = 'The minimum number of samples in each group/interaction.',
             value = 2,
             type='numeric'),
 
@@ -55,17 +47,17 @@ filter_na_count = function(threshold,factor_name,...) {
             value=DatasetExperiment()
         ),
         count=entity(name = 'Count per class',
-            description = 'Number of non-NA per class',
+            description = 'The number of measured values in each group/interaction.',
             type='data.frame',
             value=data.frame()
         ),
-        na_count=entity(name = 'NA count per class',
-            description = 'Number of NA per class',
+        na_count=entity(name = 'Missing value count',
+            description = 'The number of missing values in each group/interaction.',
             type='data.frame',
             value=data.frame()
         ),
         flags=entity(name = 'Flags',
-            description = 'a flag indicating whether the sample was rejected.',
+            description = 'Flags to indicate which features were removed.',
             type='data.frame',
             value=data.frame()
         )
@@ -87,20 +79,20 @@ setMethod(f="model_train",
         count=na_count=matrix(0,nrow=ncol(D$data),ncol=length(L))
 
         for (k in 1:length(L)) {
-            na_count[,k]=apply(D$data,2,function(x) sum(!is.na(x[IF==L[k]])))
-            count[,k]=apply(D$data,2,function(x) sum(is.na(x[IF==L[k]])))
+            count[,k]=apply(D$data,2,function(x) sum(!is.na(x[IF==L[k]])))
+            na_count[,k]=apply(D$data,2,function(x) sum(is.na(x[IF==L[k]])))
         }
         colnames(na_count)=L
         colnames(count)=L
         rownames(na_count)=colnames(D$data)
         rownames(count)=colnames(D$data)
 
-        flags=apply(na_count,1,function(x) any(x<M$threshold))
+        flags=apply(count,1,function(x) any(x<M$threshold))
 
 
         M$flags=data.frame(flags=flags)
-        M$count=as.data.frame(na_count)
-        M$na_count=as.data.frame(count)
+        M$count=as.data.frame(count)
+        M$na_count=as.data.frame(na_count)
 
         return(M)
     }

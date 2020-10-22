@@ -2,18 +2,18 @@
 % Please edit documentation in R/blank_filter_class.R
 \name{blank_filter_hist}
 \alias{blank_filter_hist}
-\title{plot for blank filter}
+\title{Histogram of blank filter fold changes}
 \usage{
 blank_filter_hist(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{blank_filter_hist} object.
 }
 \description{
-plots a histogram of the calculated fold change for the blank filter (median blank / median sample)
+A histogram of the calculated fold changes for the blank filter (median samples divided by median blanks)
 }
 \examples{
 C = blank_filter_hist()

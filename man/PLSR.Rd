@@ -2,23 +2,31 @@
 % Please edit documentation in R/PLSR_class.R
 \name{PLSR}
 \alias{PLSR}
-\title{PLSR model class}
+\title{Partial least squares regression}
 \usage{
 PLSR(number_components = 2, factor_name, ...)
 }
 \arguments{
-\item{number_components}{The number of PLS components to calculate.}
+\item{number_components}{(numeric, integer) The number of PLS components. The default is \code{2}.}
 
-\item{factor_name}{The sample_meta column name to use.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{PLSR} object.
 }
 \description{
-Calculates a PLS regression model using the input data.
+PLS is a multivariate regression technique that extracts latent variables maximising covariance between the input data and the response. For regression the response is a continuous variable.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pls}}}
 }
 \examples{
 M = PLSR(factor_name='run_order')
+}
+\references{
+Mevik B, Wehrens R, Liland K (2020).
+\emph{pls: Partial Least Squares and Principal Component Regression}.
+R package version 2.7-3, \url{https://CRAN.R-project.org/package=pls}.
 }

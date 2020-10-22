@@ -2,18 +2,20 @@
 % Please edit documentation in R/PCA_plotfcns.R
 \name{pca_scree_plot}
 \alias{pca_scree_plot}
-\title{pca_scree_plot_plot class}
+\title{Scree plot}
 \usage{
 pca_scree_plot(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
+A  \code{pca_scree_plot} object.
+
 struct object
 }
 \description{
-Line plot showing percent variance and cumulative percent variance for the computed components.
+A plot of the percent variance and cumulative percent variance for the components of a PCA model.
 }
 \examples{
 C = pca_scree_plot()

@@ -2,28 +2,36 @@
 % Please edit documentation in R/linear_model_class.R
 \name{linear_model}
 \alias{linear_model}
-\title{linear model class}
+\title{Linear model}
 \usage{
 linear_model(formula, na_action = "na.omit", contrasts = list(), ...)
 }
 \arguments{
-\item{formula}{The formula to use.}
+\item{formula}{(formula) A symbolic description of the model to be fitted.}
 
-\item{na_action}{The action to take when missing values are present. Can any
-one of 'na.omit','na.fail','na.exclude' or 'na.pass'. Default is 'na.omit'.}
+\item{na_action}{(character) NA action. Allowed values are limited to the following: \itemize{\item{\code{"na.omit"}: Incomplete cases are removed.}\item{\code{"na.fail"}: An error is thrown if NA are present.}\item{\code{"na.exclude"}: Incomplete cases are removed, and the output result is padded to the correct size using NA.}\item{\code{"na.pass"}: Does not apply a linear model if NA are present.}} The default is \code{"na.omit"}.}
 
-\item{contrasts}{The contrasts for this model. If zero length then the default contrasts are used.}
+\item{contrasts}{(list) The contrasts associated with a factor. The default is \code{list}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{linear_model} object.
 }
 \description{
-Wrapper for R lm. See \code{lm} for details.
+Linear models can be used to carry out regression, single stratum analysis of variance and analysis of covariance.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{stats}}}
 }
 \examples{
 D = iris_DatasetExperiment()
 M = linear_model(formula = y~Species)
 
+}
+\references{
+R Core Team (2020).
+\emph{R: A Language and Environment for Statistical Computing}.
+R Foundation for Statistical Computing, Vienna, Austria.
+\url{https://www.R-project.org/}.
 }

@@ -2,20 +2,23 @@
 % Please edit documentation in R/glog_class.R
 \name{glog_opt_plot}
 \alias{glog_opt_plot}
-\title{glog transform optimisation plot}
+\title{Glog optimisation}
 \usage{
 glog_opt_plot(plot_grid = 100, ...)
 }
 \arguments{
-\item{plot_grid}{the resolution of the search space for plotting}
+\item{plot_grid}{(numeric)  The default is \code{100}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{glog_opt_plot} object.
 }
 \description{
-plots the SSE error vs lambda for glog transform
+A plot of the sum of squares error (SSE) vs different values of lambda for the glog transform. The indicated optimum value for lambda minimises the SSE.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -23,4 +26,10 @@ M = glog_transform(qc_label='versicolor',factor_name='Species')
 M = model_apply(M,D)
 C = glog_opt_plot()
 chart_plot(C,M,D)
+}
+\references{
+Jankevics A, Weber RJM (2020).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.1.0.
 }

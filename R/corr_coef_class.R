@@ -1,9 +1,4 @@
-#' Correlation Coefficient
-#'
-#' Calculates correlation between features and continuous variables.
-#'
-#' @import struct
-#' @import stats
+#' @eval get_description('corr_coef')
 #' @examples
 #' D = MTBLS79_DatasetExperiment(filtered=TRUE)
 #'
@@ -16,13 +11,6 @@
 #'
 #' M = corr_coef(factor_names=c('sample_order','sample_rep'))
 #' M = model_apply(M,D)
-#'
-#' @templateVar paramNames c('alpha','mtc','factor_names')
-#' @template common_params
-#' @param factor_names Sample_meta column names to correlate features with
-#' @param method 'Calculate "kendall", "pearson" or "spearman" correlation coefficient. Default method = "spearman".'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export
 corr_coef = function(alpha=0.05,mtc='fdr',factor_names,method='spearman',...) {
     out=struct::new_struct('corr_coef',
@@ -36,11 +24,11 @@ corr_coef = function(alpha=0.05,mtc='fdr',factor_names,method='spearman',...) {
 
 .corr_coef<-setClass(
     "corr_coef",
-    contains=c('model'),
+    contains=c('model','stato'),
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         factor_names='entity',
         method='enum',
         # OUTPUTS
@@ -49,8 +37,14 @@ corr_coef = function(alpha=0.05,mtc='fdr',factor_names,method='spearman',...) {
         significant='entity'
     ),
     prototype = list(name='Correlation coefficient',
-        description='Calculates the correlation coefficient between features and continuous factors.',
+        description=paste0(
+            'The correlation between features and a set of ',
+            'continuous factor are calculated. Multiple-test corrected ',
+            'p-values are used to indicate whether the computed coefficients ',
+            'may have occurred by chance.'),
         type="univariate",
+        libraries='stats',
+        stato_id='STATO:0000142',
         predicted='p_value',
         .params=c('alpha','mtc','factor_names','method'),
         .outputs=c('coeff','p_value','significant'),
@@ -62,7 +56,11 @@ corr_coef = function(alpha=0.05,mtc='fdr',factor_names,method='spearman',...) {
         method=enum(name='Type of correlation',
             value='spearman',
             type='character',
-            description='"kendall", "pearson" or "spearman" correlation coefficient. Default="spearman".',
+            description=c(
+                "kendall" = "Kendall's tau is computed.",
+                "pearson" = 'Pearson product moment correlation is computed.',
+                "spearman" = "Spearman's rho statistic is computed."
+                ),
             allowed=c("kendall", "pearson","spearman")
         ),
         coeff=entity(name='Correlation coefficient',

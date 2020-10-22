@@ -1,11 +1,5 @@
-#' pca_correlation_plot class
-#'
-#' Plots the correlation between features and selected components.
-#'
+#' @eval get_description('pca_correlation_plot')
 #' @import struct
-#' @param components The principal components to plot (\code{numeric(2)})
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export pca_correlation_plot
 #' @include PCA_class.R
 #' @examples
@@ -25,15 +19,18 @@ pca_correlation_plot = function(components=c(1,2),...) {
         # INPUTS
         components='entity'
     ),
-    prototype = list(name='Feature boxplot',
-        description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
+    prototype = list(name='PCA correlation plot',
+        description=paste0(
+            'A plot of the correlation between the variables/features and ',
+            'the selected principal component scores. Features with high ',
+            'correlation are well represented by the selected component(s)'),
         type="boxlot",
         .params=c('components'),
         
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
-            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
+            description='The Principal Components used to generate the plot.',
             max_length=2
         )
         
@@ -65,25 +62,8 @@ setMethod(f="chart_plot",
 #################################################
 #################################################
 
-#' pca_scores_plot class
-#'
-#' 2d scatter plot of principal component scores.
-#'
+#' @eval get_description('pca_scores_plot')
 #' @import struct
-#' @param components The principal components to plot (\code{numeric(2)})
-#' @param points_to_label "none", "all", or "outliers" will be labelled on the plot.
-#' @param factor_name The sample_meta column name to use for colouring the points.
-#' You can provide up to two factors for this plot.
-#' @param ellipse "all" will plot all ellipses, "group" will only plot group ellipses,
-#' "none" will not plot any ellipses and "sample" will plot ellipse for all samples (ignoring group).
-#' @param label_filter Only include labels for samples in the group specified by label_filter.
-#' If zero length then all labels will be included.
-#' @param label_factor The sample_meta column to use for labelling the samples.
-#' If 'rownames' then the rownames will be used.
-#' @param label_size The text size of the labels.NB ggplot units, not font size units.
-#' Default 3.88.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export pca_scores_plot
 #' @include PCA_class.R
 #' @examples
@@ -137,42 +117,52 @@ pca_scores_plot = function(
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
-            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
+            description=paste0('The components selected for plotting.'),
             max_length=2
         ),
         
-        points_to_label=enum(name='points_to_label',
+        points_to_label=enum(name='Points to label',
             value='none',
             type='character',
-            description='("none"), "all", or "outliers" will be labelled on the plot.',
+            description=c(
+                'none' = 'No samples labels are displayed.', 
+                "all" = 'The labels for all samples are displayed.', 
+                "outliers" = 'Labels for for potential outlier samples are displayed.'
+            ),
             allowed=c('none','all','outliers')
         ),
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The column name of sample meta to use for plotting. A second column can be included to plot using symbols.',
-            max_length=2
-        ),
-        ellipse=enum(name = 'Plot ellipses',description=c(
-            '"all" will plot all ellipses',
-            '"group" will only plot group ellipses',
-            '"none" will not plot any ellipses',
-            '"sample" will plot ellipse for all samples (ignoring group)'),
+        factor_name=ents$factor_name,
+        ellipse=enum(
+            name = 'Plot ellipses',
+            description=c(
+                "all" = paste0('Hotelling T2 95\\% ellipses are plotted for all groups and all samples.'),
+                "group" = 'Hotelling T2 95\\% ellipses are plotted for all groups.',
+                "none" = 'Ellipses are not included on the plot.',
+                "sample" = 'A Hotelling T2 95\\% ellipse is plotted for all samples (ignoring group)'),
             allowed=c('all','group','none','sample'),
-            value='all'),
-        label_filter=entity(name='Label filter',
+            value='all'
+        ),
+        label_filter=entity(
+            name='Label filter',
             value=character(0),
             type='character',
-            description='Only include the param.group labels included in label_filter. If zero length then all labels will be included.'
+            description=paste0(
+                'Labels are only plotted for the named groups. If ',
+                'zero-length then all groups are included.'
+            )
         ),
         label_factor=entity(name='Factor for labels',
-            description='The column name of sample_meta to use as labels. "rownames" will use the row names from sample_meta.',
+            description=paste0('The column name of sample_meta to use for ',
+                'labelling samples on the plot. "rownames" will use the row ',
+                'names from sample_meta.'),
             type='character',
-            value='rownames'),
+            value='rownames',
+            max_length=1),
         label_size=entity(name='Text size of labels',
-            description='The text size of labels. Note this is not in Font Units. Default 3.88.',
+            description='The text size of labels. Note this is not in Font Units.',
             type='numeric',
-            value=3.88)
+            value=3.88,
+            max_length=1)
     )
 )
 
@@ -307,26 +297,13 @@ setMethod(f="chart_plot",
 #################################################################
 #################################################################
 
-#' pca_biplot_plot class
-#'
-#' 2d scatter plot of principal component scores overlaid with principal component loadings.
-#'
+#' @eval get_description('pca_biplot')
 #' @import struct
-#' @param components The principal components to plot (\code{numeric(2)})
-#' @param points_to_label "none", "all", or "outliers" will be labelled on the plot.
-#' @param factor_name The sample_meta column name to use for colouring the points.
-#' You can provide up to two factors for this plot.
-#' @param scale_factor Scaling factor to apply to loadings. Default = 0.95.
-#' @param style Plot style for loadings. Can be 'points' (default) or 'arrows'.
-#' @param label_features 'Include feature labels from this variable meta column. 
-#' Special keyword "rownames" will use the rownames of the variable_meta data.frame'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
-#' @export pca_biplot_plot
+#' @export pca_biplot
 #' @include PCA_class.R
 #' @examples
-#' C = pca_biplot_plot(factor_name='Species')
-pca_biplot_plot = function(
+#' C = pca_biplot(factor_name='Species')
+pca_biplot = function(
     components=c(1,2),
     points_to_label='none',
     factor_name,
@@ -334,7 +311,7 @@ pca_biplot_plot = function(
     style='points',
     label_features=FALSE,
     ...) {
-    out=struct::new_struct('pca_biplot_plot',
+    out=struct::new_struct('pca_biplot',
         components=components,
         points_to_label=points_to_label,
         factor_name=factor_name,
@@ -346,9 +323,9 @@ pca_biplot_plot = function(
 }
 
 
-.pca_biplot_plot<-setClass(
-    "pca_biplot_plot",
-    contains='chart',
+.pca_biplot<-setClass(
+    "pca_biplot",
+    contains=c('chart','stato'),
     slots=c(
         # INPUTS
         components='entity',
@@ -358,43 +335,48 @@ pca_biplot_plot = function(
         style='enum',
         label_features='entity'
     ),
-    prototype = list(name='Feature boxplot',
-        description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
+    prototype = list(name='PCA biplot',
+        description=paste0('A scatter plot of the selected principal ',
+        'component scores overlaid with the corresponding principal ',
+        'component loadings.'),
         type="boxlot",
         .params=c('components','points_to_label','factor_name','scale_factor','style','label_features'),
         
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
-            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
+            description='The principal components used to generate the plot.',
             max_length=2
         ),
         points_to_label=enum(name='points_to_label',
             value='none',
             type='character',
-            description='("none"), "all", or "outliers" will be labelled on the plot.',
+            description=c(
+                "none" = 'No samples are labelled on the plot.',
+                "all" = 'All samples are labelled on the plot.',
+                "outliers" = 'Potential outliers are labelled on the plot.'),
             allowed=c('none','all','outliers')
         ),
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
-        ),
+        factor_name=ents$factor_name,
         scale_factor=entity(name='Loadings scale factor',
             value=0.95,
             type='numeric',
-            description='Scaling factor to apply to loadings. Default = 0.95.'
+            description='The scaling factor applied to the loadings.'
         ),
         style=enum(name='Plot style',
             value='points',
             type='character',
-            description='Named plot styles for the biplot. [points], arrows',
+            description=c(
+                "points" = 'Loadings and scores are plotted as a scatter plot.',
+                'arrows' = 'The loadings are plotted as arrow vectors.'),
             allowed=c('points','arrows')
         ),
         label_features=entity(name='Add feature labels',
             value=FALSE,
             type='logical',
-            description='Include feature labels on the plot'
+            description=c(
+                "TRUE" = 'Features are labelled.',
+                "FALSE" = "Features are not labelled.")
         )
     )
     
@@ -403,7 +385,7 @@ pca_biplot_plot = function(
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("pca_biplot_plot",'PCA'),
+    signature=c("pca_biplot",'PCA'),
     definition=function(obj,dobj)
     {
         opt=param_list(obj)
@@ -480,17 +462,8 @@ setMethod(f="chart_plot",
 ##################################################################
 ##################################################################
 
-#' pca_loadings_plot class
-#'
-#' 2d scatter plot of princpal component loadings.
-#'
+#' @eval get_description('pca_loadings_plot')
 #' @import struct
-#' @param components The principal components to plot (\code{numeric(2)})
-#' @param style Plot style for loadings. Can be 'points' (default) or 'arrows'.
-#' @param label_features 'A list of labels to use, one for each feature. Special 
-#' keyword "rownames" will use the rownames of the variable_meta data.frame'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export pca_loadings_plot
 #' @include PCA_class.R
 #' @examples
@@ -514,27 +487,32 @@ pca_loadings_plot = function(components=c(1,2),style='points',label_features=NUL
         style='enum',
         label_features='entity'
     ),
-    prototype = list(name='Feature boxplot',
-        description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
+    prototype = list(name='PCA loadings plot',
+        description=paste0('A barchart (one component) or scatter plot ',
+        '(two components) of the selected principal component loadings.'),
         type="boxlot",
         .params=c('components','style','label_features'),
         
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
-            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
+            description='The principal components used to generate the plot.',
             max_length=2
         ),
         style=enum(name='Plot style',
             value='points',
             type='character',
-            description='Named plot styles for the biplot. [points], arrows',
+            description=c(
+                "points" = 'Loadings and scores are plotted as a scatter plot.',
+                'arrows' = 'The loadings are plotted as arrow vectors.'),
             allowed=c('points','arrows')
         ),
-        label_features=entity(name='Label features',
-            value=NULL,
-            type=c('NULL','character'),
-            description='Include feature labels from this variable meta column. Special keyword "rownames" will use the rownames of the variable_meta data.frame'
+        label_features=entity(name='Add feature labels',
+            value=FALSE,
+            type='logical',
+            description=c(
+                "TRUE" = 'Features are labelled.',
+                "FALSE" = "Features are not labelled.")
         )
     )
     
@@ -597,12 +575,8 @@ setMethod(f="chart_plot",
 )
 
 
-#' pca_scree_plot_plot class
-#'
-#' Line plot showing percent variance and cumulative percent variance for the computed components.
-#'
+#' @eval get_description('pca_scree_plot')
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pca_scree_plot
 #' @include PCA_class.R
@@ -616,10 +590,12 @@ pca_scree_plot = function(...) {
 
 .pca_scree_plot<-setClass(
     "pca_scree_plot",
-    contains=c('chart'),
+    contains=c('chart','stato'),
     prototype = list(name='Scree plot',
-        description='plots the percent and cumulative percent variance for the calculated components',
-        type="line"
+        description=paste0('A plot of the percent variance and cumulative ',
+        'percent variance for the components of a PCA model. '),
+        type="line",
+        stato_id="STATO:0000386"
     )
 )
 
@@ -652,16 +628,8 @@ setMethod(f="chart_plot",
     }
 )
 
-#' pca_dstat_plot_plot class
-#'
-#' Bar chart showing mahalanobis distance from the mean in PCA scores space. A threshold is
-#' plotted at a chosen confidence as an indicator for rejecting outliers.
-#'
+#' @eval get_description('pca_dstat_plot')
 #' @import struct
-#' @param number_components The number of components to use.
-#' @param alpha The confidence level to plot.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export pca_dstat_plot
 #' @include PCA_class.R
 #' @examples
@@ -677,21 +645,23 @@ pca_dstat_plot = function(number_components=2,alpha=0.05,...) {
 
 .pca_dstat_plot<-setClass(
     "pca_dstat_plot",
-    contains=c('chart'),
+    contains=c('chart','stato'),
     slots=c(number_components='entity',
         alpha='entity'),
     prototype = list(name='d-statistic plot',
-        description='a bar chart of the d-statistics for samples in the input PCA model',
+        description=paste0('A bar chart of the d-statistics for samples in ',
+        'the input PCA model. Samples above the indicated threshold are ',
+        'considered to be outlying.'),
         type="bar",
         .params=c('number_components','alpha'),
-        
+        stato_id='STATO:0000132',
         number_components=entity(value = 2,
-            name = 'number of principal components',
-            description = 'number of principal components to use for the plot',
+            name = 'Number of principal components',
+            description = 'The number of principal components to use.',
             type='numeric'),
         alpha=entity(value=0.95,
-            name='threshold for rejecting outliers',
-            description='a confidence threshold for rejecting samples based on the d-statistic',
+            name='Outlier threshold',
+            description='A confidence threshold for rejecting samples based on the d-statistic',
             type='numeric')
     )
 )

@@ -2,7 +2,7 @@
 % Please edit documentation in R/PLSDA_charts.R
 \name{plsda_scores_plot}
 \alias{plsda_scores_plot}
-\title{plsda_scores_plot class}
+\title{PLSDA scores plot}
 \usage{
 plsda_scores_plot(
   components = c(1, 2),
@@ -12,19 +12,22 @@ plsda_scores_plot(
 )
 }
 \arguments{
-\item{components}{The PLS components to plot (\code{numeric(2)})}
+\item{components}{(numeric) The components selected for plotting. The default is \code{c(1, 2)}.}
 
-\item{points_to_label}{"none", "all", or "outliers" will be labelled on the plot.}
+\item{points_to_label}{(character) Points to label. Allowed values are limited to the following: \itemize{\item{\code{"none"}: No samples labels are displayed.}\item{\code{"all"}: The labels for all samples are displayed.}\item{\code{"outliers"}: Labels for for potential outlier samples are displayed.}} The default is \code{"none"}.}
 
-\item{factor_name}{The sample_meta column name for labelling the legend}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{plsda_scores_plot} object.
 }
 \description{
-2d scatter plot of plsda component scores.
+A scatter plot of the selected PLSDA scores.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pls}}\item{\code{ggplot2}}}
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -33,4 +36,14 @@ M = model_apply(M,D)
 
 C = plsda_scores_plot(factor_name='Species')
 chart_plot(C,M[2])
+}
+\references{
+Mevik B, Wehrens R, Liland K (2020).
+\emph{pls: Partial Least Squares and Principal Component Regression}.
+R package version 2.7-3, \url{https://CRAN.R-project.org/package=pls}.
+
+Wickham H (2016).
+\emph{ggplot2: Elegant Graphics for Data Analysis}.
+Springer-Verlag New York.
+ISBN 978-3-319-24277-4, \url{https://ggplot2.tidyverse.org}.
 }

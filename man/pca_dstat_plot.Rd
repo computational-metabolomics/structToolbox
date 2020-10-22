@@ -2,23 +2,22 @@
 % Please edit documentation in R/PCA_plotfcns.R
 \name{pca_dstat_plot}
 \alias{pca_dstat_plot}
-\title{pca_dstat_plot_plot class}
+\title{d-statistic plot}
 \usage{
 pca_dstat_plot(number_components = 2, alpha = 0.05, ...)
 }
 \arguments{
-\item{number_components}{The number of components to use.}
+\item{number_components}{(numeric) The number of principal components to use. The default is \code{2}.}
 
-\item{alpha}{The confidence level to plot.}
+\item{alpha}{(numeric) A confidence threshold for rejecting samples based on the d-statistic. The default is \code{0.05}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{pca_dstat_plot} object.
 }
 \description{
-Bar chart showing mahalanobis distance from the mean in PCA scores space. A threshold is
-plotted at a chosen confidence as an indicator for rejecting outliers.
+A bar chart of the d-statistics for samples in the input PCA model. Samples above the indicated threshold are considered to be outlying.
 }
 \examples{
 C = pca_dstat_plot()

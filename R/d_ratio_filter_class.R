@@ -1,13 +1,4 @@
-#' D ratio filter
-#'
-#' Filters features based on their D ratio, which is the ratio of technical to
-#' sample variance.
-#' @param threshold D ratio threshold. Features with a d-ratio larger than this
-#' value are removed.
-#' @param qc_label the label used to identify QC labels
-#' @param factor_name the the sample_meta data column containing the QC labels
-#' @param ... additional slots and values passed to struct_class
-#' @return A struct method object with functions for filtering using the d-ratio.
+#' @eval get_description('dratio_filter')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
@@ -32,35 +23,53 @@ dratio_filter = function(threshold=20, qc_label='QC', factor_name, ...) {
         flags='entity',
         d_ratio='data.frame'
     ),
-    prototype=list(name = 'd_ratio filter',
-        description = 'Filters features by calculating the d_ratio and removing features below the threshold.',
+    prototype=list(name = 'Dispersion ratio filter',
+        description = paste0('The dispersion ratio (d-ratio) compares the ',
+        'standard deviation (or non-parametric equivalent) of the Quality ',
+        'Control (QC) samples relative to the standard deviation (or ',
+        'non-parametric equivalent) of the samples for each feature. ',
+        'If the d-ratio is greater than a predefined threshold then the ',
+        'observed sample variance could be due to technical variance and ',
+        'the feature is removed.'),
         type = 'filter',
         predicted = 'filtered',
         .params=c('threshold','qc_label','factor_name'),
         .outputs=c('filtered','flags','d_ratio'),
+        citations=list(
+            bibentry(
+                bibtype='Article',
+                year = '2018',
+                month = 'May',
+                volume = 14,
+                number = 6,
+                author = as.person('David Broadhurst, Royston Goodacre, Stacey N. Reinke, Julia Kuligowski, Ian D. Wilson, Matthew R. Lewis, Warwick B. Dunn'),
+                title = paste0('Guidelines and considerations for the use of ',
+                    'system suitability and quality control samples in mass ',
+                    'spectrometry assays applied in untargeted clinical ',
+                    'metabolomic studies'),
+                journal = 'Metabolomics'
+            )
+        ),
 
-        threshold=entity(name = 'd_ratio filter',
-            description = 'Features with d_ratio less than the threshold are removed.',
+        threshold=entity(name = 'Dispersion ratio threshold',
+            description = 'The threshold below which features are removed.',
             value = 20,
             type='numeric'),
 
         qc_label=entity(name = 'QC label',
-            description = 'Label used to identify QC samples.',
+            description = 'The label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        factor_name=entity(name='Factor name',
-            description='Name of sample meta column to use',
-            type='character',
-            value='V1'),
+        factor_name=ents$factor_name,
 
-        filtered=entity(name = 'd_ratio filtered DatasetExperiment',
+        filtered=entity(name = 'Filtered data',
             description = 'A DatasetExperiment object containing the filtered data.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
         flags=entity(name = 'Flags',
-            description = 'flag indicating whether the feature was rejected by the filter or not.',
+            description = 'Flag indicating whether the feature was rejected by the filter or not.',
             type='data.frame',
             value=data.frame()
         )

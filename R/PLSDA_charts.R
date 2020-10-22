@@ -1,15 +1,7 @@
 #################################################
 #################################################
 
-#' plsda_scores_plot class
-#'
-#' 2d scatter plot of plsda component scores.
-#'
-#' @param components The PLS components to plot (\code{numeric(2)})
-#' @param points_to_label "none", "all", or "outliers" will be labelled on the plot.
-#' @param factor_name The sample_meta column name for labelling the legend
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('plsda_scores_plot')
 #' @export plsda_scores_plot
 #' @include PLSDA_class.R
 #' @examples
@@ -38,7 +30,7 @@ plsda_scores_plot = function(components=c(1,2),points_to_label='none',factor_nam
         factor_name='entity'
     ),
     prototype = list(name='PLSDA scores plot',
-        description='scatter plot of PLSDA component scores',
+        description='A scatter plot of the selected PLSDA scores.',
         type="scatter",
         libraries=c('pls','ggplot2'),
         .params=c('components','points_to_label','factor_name'),
@@ -46,19 +38,21 @@ plsda_scores_plot = function(components=c(1,2),points_to_label='none',factor_nam
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
-            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
+            description=paste0('The components selected for plotting.'),
             max_length=2
         ),
-        points_to_label=entity(name='points_to_label',
+        
+        points_to_label=enum(name='Points to label',
             value='none',
             type='character',
-            description='("none"), "all", or "outliers" will be labelled on the plot.'
+            description=c(
+                'none' = 'No samples labels are displayed.', 
+                "all" = 'The labels for all samples are displayed.', 
+                "outliers" = 'Labels for for potential outlier samples are displayed.'
+            ),
+            allowed=c('none','all','outliers')
         ),
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
-        )
+        factor_name=ents$factor_name
     )
     
 )
@@ -144,15 +138,7 @@ setMethod(f="chart_plot",
 #################################################
 #################################################
 
-#' plsda_predicted_plot class
-#'
-#' A box plot of the predicted values from a PLSDA model for each class. 
-#' Only usitable for two class models.
-#'
-#' @param factor_name The sample_meta column name to use
-#' @param style The plot style. One of 'boxplot', 'violin' or 'density'.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('plsda_predicted_plot')
 #' @export plsda_predicted_plot
 #' @include PLSDA_class.R
 #' @examples
@@ -179,7 +165,7 @@ plsda_predicted_plot = function(factor_name,style='boxplot',...) {
         style='entity'
     ),
     prototype = list(name='PLSDA predicted plot',
-        description='A boxplot of PLSDA predictions',
+        description='A plot of the regression coefficients from a PLSDA model.',
         type="boxplot",
         libraries=c('pls','ggplot2'),
         .params=c('factor_name','style'),
@@ -187,7 +173,10 @@ plsda_predicted_plot = function(factor_name,style='boxplot',...) {
         factor_name=ents$factor_name,
         
         style=enum(name='Plot style',
-            description="The plot style. One of 'boxplot', 'violin' or 'density'",
+            description=c(
+                'boxplot' = 'A boxplot',
+                'violin' = 'A violin plot',
+                'density' = 'A density plot'),
             type='character',
             value='boxplot',
             allowed=c('boxplot','violin','density')
@@ -238,13 +227,7 @@ setMethod(f="chart_plot",
 #################################################
 #################################################
 
-#' plsda_roc_plot class
-#'
-#' Plots the ROC curve of a PLSDA model. Only suitable for two classes.
-#'
-#' @param factor_name The sample_meta column name to use
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('plsda_roc_plot')
 #' @export plsda_roc_plot
 #' @include PLSDA_class.R
 #' @examples
@@ -263,17 +246,19 @@ plsda_roc_plot = function(factor_name,...) {
 
 .plsda_roc_plot<-setClass(
     "plsda_roc_plot",
-    contains='chart',
+    contains=c('chart','stato'),
     slots=c(
         # INPUTS
         factor_name='entity'
     ),
     prototype = list(name='PLSDA ROC plot',
-        description='Plots the ROC curve of a PLSDA model',
+        description=paste0('A Receiver Operator Characteristic (ROC) plot for ',
+        'PLSDA models computed by adjusting the threshold for assigning group ',
+        'labels from PLS predictions.'),
         type="roc",
         libraries=c('pls','ggplot2'),
         .params=c('factor_name'),
-        
+        stato_id='STATO:0000274',
         factor_name=ents$factor_name
     )
     
@@ -326,14 +311,7 @@ setMethod(f="chart_plot",
 #################################################
 #################################################
 
-#' plsda_vip_plot class
-#'
-#' Plots the vip scores of a PLSDA model.
-#'
-#' @param threshold the VIP threshold to plot. Default = 1
-#' @param level = the group label to plot VIP scores for
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('plsda_vip_plot')
 #' @export plsda_vip_plot
 #' @include PLSDA_class.R
 #' @examples
@@ -353,19 +331,33 @@ plsda_vip_plot = function(threshold=1,level,...) {
 
 .plsda_vip_plot<-setClass(
     "plsda_vip_plot",
-    contains='chart',
+    contains=c('chart','stato'),
     slots=c(
         # INPUTS
-        threshold='numeric',
-        level = 'character'
+        threshold='entity',
+        level = 'entity'
     ),
-    prototype = list(name='PLSDA VIP score plot',
-        description='Plots the VIP scores of a PLSDA model',
+    prototype = list(name='PLSDA VIP plot',
+        description='A plot of the Variable Importance for Projection (VIP) scores for a PLSDA model.',
         type="scatter",
         libraries=c('pls','ggplot2'),
         .params=c('threshold','level'),
         
-        threshold = 1
+        threshold = entity(
+            name = 'VIP threshold',
+            description = 'The threshold for indicating significant features.',
+            type=c('numeric','integer'),
+            value=1,
+            max_length=1
+        ),
+        level=entity(
+            name='Factor level',
+            description = 'The factor level (group) to plot',
+            type='character',
+            value=character(0),
+            max_length=1
+        ),
+        stato_id='STATO:0000580'
     )
     
 )

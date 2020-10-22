@@ -1,32 +1,9 @@
-#' fold change class
-#'
-#' Calculates fold change between groups for all features in a 
-#' DatasetExperiment.
-#'
+#' @eval get_description('fold_change')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' M = fold_change(factor_name='class')
 #' M = model_apply(M,D)
-#'
-#' @param alpha confidence level to use for intervals
-#' @param factor_name the sample_meta column to use
-#' @param paired TRUE or [FALSE] to account for paired samples
-#' @param sample_name the sample_meta column name to use for a paired samples
-#' @param threshold a threshold to define fold change as 'significant'.
-#' @param control_group a level of factor name to use as the control group for
-#' calculations.
-#' @param method the method used to calculate fold change. `method = "geometric"`
-#' uses a log transform and a t-test to calculate fold change and estimate
-#' confidence intervals. In the non-transformed space this is equivalent to
-#' fold change using geometric means. `method = "median"` uses a log transform
-#' and the method described in DOI: 10.1080/00949650212140 to calculate fold
-#' change and estimate confidence intervals. In the non-transformed space this 
-#' is equivalent to using group medians to calculate fold change.
-#'
-#' @import struct
 #' @import stats
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export fold_change
 fold_change = function(
     alpha=0.05,
@@ -37,7 +14,7 @@ fold_change = function(
     control_group=character(0),
     method = "geometric",
     ...) {
-
+    
     out=struct::new_struct('fold_change',
         alpha=alpha,
         factor_name=factor_name,
@@ -47,7 +24,7 @@ fold_change = function(
         control_group=control_group,
         method = method,
         ...)
-
+    
     return(out)
 }
 
@@ -61,71 +38,112 @@ fold_change = function(
         factor_name='entity',
         paired='entity',
         sample_name='entity',
-        threshold='numeric',
-        control_group='character',
+        threshold='entity',
+        control_group='entity',
         method='entity',
-
+        
         # OUTPUTS
         fold_change='entity',
         upper_ci='entity',
         lower_ci='entity',
-        significant='data.frame'
+        significant='entity'
     ),
-    prototype = list(name='fold change',
-        description='Calculates the fold change between all pairs of groups for each feature.',
+    prototype = list(name='Fold change',
+        description=paste0('Fold change is the relative change in mean (or ',
+            'non-parametric equivalent) intensities of a feature between all pairs of levels ',
+            'in a factor.'),
         type="univariate",
         predicted='fold_change',
+        citations=list(
+            bibentry(
+                bibtype='Article',
+                year = 2002,
+                volume = 72,
+                number = 2,
+                pages = "119-124",
+                author = as.person('Robert M. Price and Douglas G. Bonett'),
+                title = 'Distribution-Free Confidence Intervals for Difference and Ratio of Medians',
+                journal = 'Journal of Statistical Computation and Simulation'
+            )
+        ),
         #  stato_id="STATO:0000304",
         .params=c('factor_name','sample_name','alpha','paired','threshold','control_group','method'),
         .outputs=c('fold_change','lower_ci','upper_ci','significant'),
-
-        factor_name=entity(name='Factor names',
-            type='character',
-            description='Name of sample_meta column to use for grouping samples'
-        ),
+        
+        factor_name=ents$factor_name,
         sample_name=entity(name='Sample names',
             type='character',
-            description='Name of sample_meta columns to use for extracting pairwise comparisons'
+            description='The name of a sample_meta column containing sample identifiers for paired sampling.'
         ),
-        alpha=entity_stato(name='Confidence level',
-            stato_id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for calculating confidence intervals.'
-        ),
-        paired=entity(name='Apply paired fold change',
+        alpha=ents$alpha,
+        paired=entity(name='Paired fold change',
             value=FALSE,
             type='logical',
-            description='TRUE/FALSE to apply paired fold change.'
+            description=c(
+                'TRUE' = 'Fold change is calculated taking into account paired sampling.',
+                'FALSE'= 'Fold change is calculated assuming there is no paired sampling.'),
         ),
-
-        threshold=2,
-
-        fold_change=entity(name='fold change',
+        
+        fold_change=entity(name='Fold change',
             type='data.frame',
-            description='fold change between groups',
+            description='The fold change between groups',
             value=data.frame()
         ),
-
-        lower_ci=entity(name='Confidence interval',
+        
+        lower_ci=entity(name='Lower confidence interval',
             type='data.frame',
-            description='lower confidence interval for fold change',
+            description='Lower confidence interval for fold change',
             value=data.frame()
         ),
-        upper_ci=entity(name='Fold change upper confidence interval',
+        upper_ci=entity(name='Upper confidence interval',
             type='data.frame',
-            description='upper confidence interval for fold change.',
+            description='Upper confidence interval for fold change.',
             value=data.frame()
         ),
         method=enum(name='Fold change method',
             type='character',
-            description='The method used to calculate fold change. "geometric" or
-            "median"',
+            description=c(
+                'geometric' = paste0('A log transform and a t-test is used ',
+                    'to calculate fold change and estimate confidence ',
+                    'intervals. In the non-transformed space this is ',
+                    'equivalent to fold change using geometric means.'),
+                "median" = paste0('A log transform and the method described ',
+                    'by Price and Bonett to calculate fold change and ',
+                    'estimate confidence intervals. In the non-transformed ',
+                    'space this is equivalent to using group medians to ',
+                    'calculate fold change.')
+            ),
             value="geometric",
             allowed=c("geometric","median")
+        ),
+        control_group=entity(
+            name='Control group',
+            description = paste0('The level name of the group used in ',
+                'the denominator (where possible) when computing fold change.'
+            ),
+            type='character',
+            max_length = 1,
+            value=character(0)
+        ),
+        threshold=entity(
+            name='threshold',
+            description = paste0('The fold change threshold for labelling ',
+                'features as significant.'
+            ),
+            type='numeric',
+            max_length = 1,
+            value=2
+        ),
+        significant = entity(
+            name='Significant features',
+            description=paste0('A logical indictor of whether the fold change ', 
+                'for a feature is greater than the threshold.'),
+            type='data.frame',
+            value=data.frame()
         )
     )
 )
+
 
 #' @export
 #' @template model_apply
@@ -140,7 +158,7 @@ setMethod(f="model_apply",
         }
         X=D$data
         Y=D$sample_meta
-
+        
         # levels for factor of interest
         L=levels(as.factor(Y[[M$factor_name]]))
         # put control group first if provided
@@ -150,26 +168,26 @@ setMethod(f="model_apply",
                 L=c(L[-w],L[w])
             }
         }
-
+        
         # number of pairwise comparisons
         n=((length(L)^2)-length(L))/2
-
+        
         # prep some matrices
         FC=matrix(NA,nrow=ncol(X),ncol=n)
         rownames(FC)=colnames(D)
         LCI=FC
         UCI=FC
-
+        
         comp=character(0)
-
+        
         counter=1
-
+        
         D$sample_meta[[M$factor_name]]=ordered(D$sample_meta[[M$factor_name]])
-
+        
         # for all pairs of groups
         for (A in 1:(length(L)-1)) {
             for (B in (A+1):(length(L))) {
-
+                
                 # filter groups to A and B
                 FG=filter_smeta(factor_name=M$factor_name,mode='include',levels=L[c(A,B)])
                 FG=model_apply(FG,D)
@@ -177,7 +195,7 @@ setMethod(f="model_apply",
                 FG$filtered$sample_meta[[M$factor_name]]=ordered(FG$filtered$sample_meta[[M$factor_name]],levels=L[c(A,B)])
                 
                 if (M$method=='geometric') {
-                                   
+                    
                     # apply t-test
                     TT=ttest(alpha=M$alpha,mtc='none',factor_names=M$factor_name,paired=M$paired,paired_factor=M$sample_name)
                     TT=model_apply(TT,predicted(FG))
@@ -194,12 +212,12 @@ setMethod(f="model_apply",
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
                     #store in object
-                    M$fold_change=2^FC
-                    M$lower_ci=2^LCI
-                    M$upper_ci=2^UCI
+                    M$fold_change=as.data.frame(2^FC)
+                    M$lower_ci=as.data.frame(2^LCI)
+                    M$upper_ci=as.data.frame(2^UCI)
                     
                 } else {
-
+                    
                     D = predicted(FG)
                     # check for pairs in features
                     if (M$paired) {
@@ -210,7 +228,7 @@ setMethod(f="model_apply",
                         D=predicted(FF)
                     }
                     
-
+                    
                     # calculate medians and confidence intervals for all features
                     out=lapply(D$data,function(x) {
                         y1=x[D$sample_meta[[M$factor_name]]==L[A]]
@@ -231,7 +249,7 @@ setMethod(f="model_apply",
                         out,
                         by = 'row.names',
                         all.x=TRUE,
-                        )
+                    )
                     rownames(temp)=temp$Row.names
                     # sort back into original order
                     temp=temp[rownames(FC),]
@@ -249,31 +267,23 @@ setMethod(f="model_apply",
                 }
             }
         }
-
-
-
+        
+        
+        
         colnames(FC)=comp
         colnames(LCI)=comp
         colnames(UCI)=comp
-
-
-
+        
+        
+        
         M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
         colnames(M$significant)=comp
-
+        
         return(M)
     }
 )
 
-#' fold_change plot
-#'
-#' Plots fold change with error bars for a limited number of features.
-#'
-#' @import struct
-#' @param number_features The number of features to display on the plot
-#' @param orientation The orientation of the plot (portrait or landscape). Portrait is default.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('fold_change_plot')
 #' @export fold_change_plot
 #' @include PCA_class.R
 #' @examples
@@ -291,16 +301,34 @@ fold_change_plot = function(number_features=20,orientation='portrait',...) {
     "fold_change_plot",
     contains='chart',
     slots=c(
-        number_features='numeric',
-        orientation='character'),
+        number_features='entity',
+        orientation='entity'),
     prototype = list(name='Fold change plot',
-        description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
+        description=paste0('A plot of fold changes calculated for a chosen ',
+        'subset of features. A predefined fold change threshold is indicated ',
+        'by shaded regions.'),
         type="boxlot",
-        number_features=20,
-        orientation='portrait',
-        .params=c('number_features','orientation')
+        .params=c('number_features','orientation'),
+        number_features=entity(
+            name='Features to plot',
+            description = 'The number randomly selected features to plot, or 
+            a list of column numbers.',
+            type='numeric',
+            value=10
+        ),
+        orientation=enum(
+            name='Plot orientation',
+            description = c(
+            'landscape' = 'Features are plotted on the y-axis.',
+            'portrait' = 'Features are plotted on the x-axis.'
+            ),
+            type='character',
+            value='portrait',
+            allowed=c('portrait','landscape'),
+            max_length=1
+        )
     )
-
+    
 )
 
 #' @export
@@ -309,25 +337,35 @@ setMethod(f="chart_plot",
     signature=c("fold_change_plot",'fold_change'),
     definition=function(obj,dobj)
     {
-
+        
         # choose randomly,or use provided vector
         if (length(obj$number_features)==1) {
             S=sample.int(nrow(dobj$fold_change),size=obj$number_features)
         } else {
             S=obj$number_features
         }
-
-
-        A=data.frame('fc'=dobj$fold_change[S,1],'group'=colnames(dobj$fold_change)[1],'lci'=dobj$lower_ci[S,1],'uci'=dobj$upper_ci[S,1],'feature'=rownames(dobj$fold_change)[S])
+        
+        
+        A=data.frame(
+            'fc'=dobj$fold_change[S,1],
+            'group'=colnames(dobj$fold_change)[1],
+            'lci'=dobj$lower_ci[S,1],
+            'uci'=dobj$upper_ci[S,1],
+            'feature'=rownames(dobj$fold_change)[S])
         if (ncol(dobj$fold_change)>1) {
             for (k in 2:ncol(dobj$fold_change)) {
-                B=data.frame('fc'=dobj$fold_change[S,k],'group'=colnames(dobj$fold_change)[k],'lci'=dobj$lower_ci[S,k],'uci'=dobj$upper_ci[S,k],'feature'=rownames(dobj$fold_change)[S])
+                B=data.frame(
+                    'fc'=dobj$fold_change[S,k],
+                    'group'=colnames(dobj$fold_change)[k],
+                    'lci'=dobj$lower_ci[S,k],
+                    'uci'=dobj$upper_ci[S,k],
+                    'feature'=rownames(dobj$fold_change)[S])
                 A=rbind(A,B)
             }
         }
         A[,c(1,3,4)]=log2(A[,c(1,3,4)])
         A$x=1:nrow(A)
-
+        
         out=ggplot(data=A,aes(x=feature,y=fc,color=group)) +
             geom_rect(xmin=-Inf,xmax=Inf,ymin=-Inf,ymax=-log2(dobj$threshold),fill='#9EC086',inherit.aes = FALSE,alpha=0.02) +
             geom_rect(xmin=-Inf,xmax=Inf,ymax=Inf,ymin=log2(dobj$threshold),fill='#9EC086',inherit.aes = FALSE,alpha=0.02) +
@@ -339,14 +377,14 @@ setMethod(f="chart_plot",
             ylab('log2(Fold change)')+
             scale_colour_Publication() +
             theme_Publication(base_size = 12)
-
+        
         if (obj$orientation=='landscape') {
             out=out+coord_flip()
-
+            
         } else {
             out=out+theme(axis.text.x = element_text(angle = 90,hjust=1,vjust=0.5))
         }
-
+        
         return(out)
     }
 )

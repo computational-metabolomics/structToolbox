@@ -1,14 +1,4 @@
-#' Mixed Effects model class
-#'
-#' Mixed Effects model class. Applies RE model for all features in a DatasetExperiment
-#' @param alpha The p-value threshold. Default alpha = 0.05.
-#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
-#' @param formula The formula to use. See \code{aov} for details.
-#' @param ss_type Type of sum of squares to use. "marginal" = Type III sum of squares,
-#' and "sequential" = Type II. Default is "marginal".
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
-#' @export mixed_effect
+#' @eval get_description('mixed_effect')
 #' @examples
 #' D = iris_DatasetExperiment()
 #' D$sample_meta$id=rownames(D) # dummy id column
@@ -29,7 +19,7 @@ mixed_effect = function(alpha=0.05,mtc='fdr',formula,ss_type='marginal',...) {
     "mixed_effect",
     contains=c('model','stato','ANOVA'), # inherits from ANOVA
     prototype = list(name='Mixed effects model',
-        description='Mixed effects model applied to each column of a DatasetExperiment.',
+        description='A mixed effects model is an extension of ANOVA where there are both fixed and random effects.',
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000189",
@@ -37,10 +27,13 @@ mixed_effect = function(alpha=0.05,mtc='fdr',formula,ss_type='marginal',...) {
         .params=c('alpha','mtc','formula','ss_type'),
         .outputs=c('f_statistic','p_value','significant'),
 
-        ss_type=enum(allowed=c('sequential','marginal'),
+        ss_type=enum(
+            allowed=c('sequential','marginal'),
             value = 'marginal',
-            name ='ANOVA Sum of Squares type',
-            description = '"marginal" = Type III sum of squares, and "sequential" = Type II. Default is "marginal"',
+            name ='Sum of squares type',
+            description = c(
+                "marginal" = 'Type III sum of squares.',
+                "sequential" = 'Type II sum of squares.'),
             type='character')
     )
 )

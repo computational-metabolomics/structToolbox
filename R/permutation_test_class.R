@@ -1,14 +1,6 @@
-#' Permutation test class
-#'
-#' Applies a permutation test to a model or model_seq(). The input metric is calculated for
-#' all permutations, and can be compared to the results from the unpermuted model to
-#' assess model validity.
+#' @eval get_description('permutation_test')
 #' @examples
 #' I=permutation_test(factor_name='Species')
-#' @param number_of_permutations The number of permutations to run
-#' @param factor_name The same of the sample_meta column to use
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export permutation_test
 permutation_test = function(number_of_permutations=50,factor_name,...) {
     out=struct::new_struct('permutation_test',
@@ -22,19 +14,34 @@ permutation_test = function(number_of_permutations=50,factor_name,...) {
 .permutation_test<-setClass(
     "permutation_test",
     contains='resampler',
-    slots=c(number_of_permutations='numeric',
+    slots=c(
+        number_of_permutations='entity',
         results.permuted='data.frame',
         results.unpermuted='data.frame',
         metric='data.frame',
         factor_name='entity'
     ),
-    prototype = list(name='permutation test',
+    prototype = list(name='Permutation test',
         type='permutation',
         result='results.permuted',
+        description=paste0('A permutation test generates a "null" model by ',
+        'randomising the response (for regression models) or group labels ',
+        '(for classification models). This is repeated many times to generate ',
+        'a distribution of performance metrics for the null model. This ',
+        'distribution can then be compared to the performance of the true ',
+        'model. If there is overlap between the true and null model ',
+        'performances then the model is overfitted.'),
         number_of_permutations=10,
         .params=c('number_of_permutations','factor_name'),
         .outputs=c('results.permuted','results.unpermuted','metric'),
-        factor_name=ents$factor_name
+        factor_name=ents$factor_name,
+        number_of_permutations=entity(
+            name = 'Number of permutations',
+            description = 'The number of permutations.',
+            type=c('numeric','integer'),
+            value=100,
+            max_length=1
+        )
     )
 )
 
@@ -167,10 +174,15 @@ permutation_test_plot = function(style = 'boxplot',binwidth=0.05,...) {
     prototype = list(
         name='Permutation test plot',
         type='boxplot',
-        description='A plot of the calculated metric for the model with permuted and unpermuted data',
+        description='A plot of the calculated metric for the model with permuted and unpermuted labels.',
         .params=c('style','binwidth'),
         style=enum(name='Plot style',
-            description="The plot style. One of 'boxplot', 'violin', 'histogram', 'density' or 'scatter'.",
+            description=c(
+                'boxplot' = 'A boxplot to visualise the performance metrics',
+                'violin' = 'A violin plot to visualise the performance metrics',
+                'histogram' = 'A histogram of the computed performance metrics',
+                'density' = 'A density plot of the computed metrics',
+                'scatter' = 'A scatter plot of the computed metrics'),
             type='character',
             value='boxplot',
             allowed=c('boxplot','violin','histogram','scatter','density')

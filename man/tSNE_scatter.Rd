@@ -2,22 +2,39 @@
 % Please edit documentation in R/tSNE_class.R
 \name{tSNE_scatter}
 \alias{tSNE_scatter}
-\title{tSNE_scatter class}
+\title{Feature boxplot}
 \usage{
 tSNE_scatter(factor_name, ...)
 }
 \arguments{
-\item{factor_name}{Sample_meta column named used for colouring the points.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{tSNE_scatter} object.
 }
 \description{
-plots the new representation of data after applying tSNE
+plots the new representation of data after applying tSNE.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{Rtsne}}}
 }
 \examples{
 M = tSNE_scatter(factor_name='Species')
 
+}
+\references{
+van der Maaten L, Hinton G (2008).
+``Visualizing High-Dimensional Data Using t-SNE.''
+\emph{Journal of Machine Learning Research}, \bold{9}, 2579-2605.
+
+van der Maaten L (2014).
+``Accelerating t-SNE using Tree-Based Algorithms.''
+\emph{Journal of Machine Learning Research}, \bold{15}, 3221-3245.
+
+Krijthe JH (2015).
+\emph{Rtsne: T-Distributed Stochastic Neighbor Embedding using Barnes-Hut
+Implementation}.
+R package version 0.15, \url{https://github.com/jkrijthe/Rtsne}.
 }

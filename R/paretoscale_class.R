@@ -1,18 +1,9 @@
-#' Pareto scaling
-#'
-#' Pareto scaling centres the columns of the data in a DatasetExperiment object
-#' and divides by the square root of the standard deviation.
-#'
-#' @return A STRUCT model object with methods for pareto scaling.
-#'
+#' @eval get_description('pareto_scale')
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = pareto_scale()
 #' M = model_train(M,D)
 #' M = model_predict(M,D)
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export pareto_scale
 pareto_scale = function(...) {
     out=struct::new_struct('pareto_scale',...)
@@ -21,16 +12,21 @@ pareto_scale = function(...) {
 
 .pareto_scale<-setClass(
     "pareto_scale",
-    contains='model',
+    contains=c('model','stato'),
     slots=c(
         scaled='DatasetExperiment',
         mean='numeric',
         sd='numeric'
     ),
-    prototype = list(name='Pareto scaling',
+    prototype = list(
+        name='Pareto scaling',
         type="preprocessing",
         predicted='scaled',
-        .outputs=c('scaled','mean','sd')
+        description=paste0('The mean sample is subtracted from all samples ',
+            'and then scaled by the square root of the standard deviation. The ',
+            'transformed data has zero mean.'),
+        .outputs=c('scaled','mean','sd'),
+        stato_id='OBI:0200037'
     )
 )
 

@@ -2,23 +2,20 @@
 % Please edit documentation in R/autoscale_class.R
 \name{autoscale}
 \alias{autoscale}
-\title{Autoscale}
+\title{Autoscaling}
 \usage{
 autoscale(mode = "data", ...)
 }
 \arguments{
-\item{mode}{Used to control whether centring is apply to the data, the meta data or both.
-Can be any one of "data","sample_meta" or "both". default is "data".}
+\item{mode}{(character) Mode of action. Allowed values are limited to the following: \itemize{\item{\code{"data"}: Autoscaling is applied to the data matrix only.}\item{\code{"sample_meta"}: Autoscaling is applied to the sample_meta data only.}\item{\code{"both"}: Autoscaling is applied to both the data matrix and the meta data.}} The default is \code{"data"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A STRUCT model object with methods for autoscaling.
-
-struct object
+A  \code{autoscale} object.
 }
 \description{
-Autoscaling centres the columns of the data in a DatasetExperiment object and divides by the standard deviation.
+Each variable/feature is mean centred and scaled by the standard deviation. The transformed variables have zero-mean and unit-variance.
 }
 \examples{
 D = iris_DatasetExperiment()

@@ -1,20 +1,5 @@
-#' Check for confounding factors in ttest
-#'
-#' Compares the coefficients for a ttest without including confounding factors
-#' to models with confounding factor included. Currently only ttest is supported.
-#'
+#' @eval get_description('confounders_clsq')
 #' @import struct
-#'
-#' @param alpha p-value threshold for determining significance. Default alpha = 0.05.
-#' @param mtc multiple test correction method to apply. Can be: holm, hochberg,
-#' hommel, bonferroni, BH, BY, fdr or [none]
-#' @param factor_name the column name of sample_meta to use in regression
-#' @param confounding_factors the column names of factors potentially confounding
-#' with the main factor if interest
-#' @param threshold the threshold (between 0 and 1) for accepting a factor as confounding
-#'
-#' @return A struct model object with functions for applying classical least squares
-#'
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' M = filter_by_name(mode='include',dimension='variable',
@@ -24,11 +9,9 @@
 #'     confounders_clsq(factor_name = 'class',
 #'         confounding_factors=c('sample_order','batch'))
 #' M = model_apply(M,D)
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export confounders_clsq
-confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,confounding_factors,threshold=0.15,...) {
+confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,
+    confounding_factors,threshold=0.15,...) {
     out=struct::new_struct('confounders_clsq',
         alpha=alpha,
         mtc=mtc,
@@ -46,7 +29,7 @@ confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,confounding_factors
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         factor_name='entity',
         confounding_factors='entity',
         threshold='entity',
@@ -58,41 +41,43 @@ confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,confounding_factors
         potential_confounders='list',
         significant='data.frame'
     ),
-    prototype = list(name='ttest with confounding factors',
-        description='Applies least squares regression to account for confounding factors in when applying a ttest.',
+    prototype = list(
+        name='Check for confounding factors',
+        description=paste0(
+            'Univariate least squares regression models are used to compare ',
+            'models with and without potential confounding factors included. ',
+            'The change in coefficients (delta) is then computed for each ',
+            'potential confounding factor. Factors with a large delta are ',
+            'said to be having a large impact on the model and are therefore ',
+            'confounding. p-values are computed for models with confounders ',
+            'included to reduce potential false positives. Only suitable for ',
+            'main factors with 2 levels.'),
         type="univariate",
         predicted='p_value',
         .params=c('alpha','mtc','factor_name','confounding_factors','threshold'),
-        .outputs=c('coefficients','p_value','significant','percent_change','potential_confounders'),
+        .outputs=c('coefficients','p_value','significant','percent_change',
+            'potential_confounders'),
 
         threshold=entity(name='Confounding factor threshold',
             type='numeric',
-            description='threshold for accepting a factor as confounding (0 < threshold < 1)',
-            value=0.15
+            description=paste0('Factors with a delta greater than the ',
+                'the threshold are considered to be confounding.'),
+            value=0.15,
+            max_length=1
         ),
 
         confounding_factors=entity(name='Confounding factors',
             type='character',
-            description='Names of sample_meta columns to use as confounding factors'
+            description='The name(s) of factor(s) that are potential confounding factors.'
         ),
 
-        factor_name=entity(name='Name of factor to use for ttest',
+        factor_name=entity(name='Factor name',
             type='character',
-            description='Names of sample_meta column to use for the ttest'
+            description='The name of the main factor with which other factors may be confounding.'
         ),
 
-        alpha=entity_stato(name='Confidence level',
-            stato_id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        mtc=entity_stato(name='Multiple testing Correction method',
-            stato_id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        )
+        alpha=ents$alpha,
+        mtc=ents$mtc
     )
 )
 
@@ -177,15 +162,8 @@ setMethod(f="model_apply",
 
 
 ##### plots
-#' barchart of percent change
-#'
-#' plots a barchart of the percent change when including a confounding factor in a classical least squares model
+#' @eval get_description('confounders_lsq_barchart') 
 #' @import struct
-#' @param feature_to_plot the name or index of the feature to be plotted
-#' @param threshold the threshold to be plotted (in \%)
-#'
-#' @return A STRUCT chart object
-#'
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' M = filter_by_name(mode='include',dimension='variable',
@@ -197,9 +175,6 @@ setMethod(f="model_apply",
 #' M = model_apply(M,D)
 #' C = C=confounders_lsq_barchart(feature_to_plot=1,threshold=15)
 #' chart_plot(C,M[3])
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export confounders_lsq_barchart
 confounders_lsq_barchart = function(feature_to_plot,threshold=10,...) {
     out=struct::new_struct('confounders_lsq_barchart',
@@ -218,20 +193,24 @@ confounders_lsq_barchart = function(feature_to_plot,threshold=10,...) {
         feature_to_plot='entity',
         threshold='entity'
     ),
-    prototype = list(name='Percent change',
-        description='a barchart of the percent change when including a confounding factor in a classical least squares model_',
+    prototype = list(name='Confounding factor relative change barchart',
+        description=paste0('A barchart of the relative change (delta) in ',
+        'regression coefficient when potential confounding factors are ',
+        'included, and excluded, from the model. Factors with a large delta ',
+        'are considered to be confounding factors.'),
         type="barchart",
         .params=c('feature_to_plot','threshold'),
 
         feature_to_plot=entity(name='Feature to plot',
             value=1,
             type=c('numeric','character','integer'),
-            description='The name of the feature to be plotted.'
+            description='The column name of the feature to be plotted.'
         ),
         threshold=entity(name='Threshold',
             value=10,
             type='numeric',
-            description='A horizontal line plotted to indicate the threshold'
+            description=paste0('A horizontal line is plotted to indicate ',
+            'the threshold.')
         )
     )
 )
@@ -266,15 +245,7 @@ setMethod(f="chart_plot",
     }
 )
 
-#' boxplot of percent change
-#'
-#' Plots a boxplot of the percent change over all features when including a
-#' confounding factor in the ttest
-#' @import struct
-#' @param threshold the threshold to be plotted (in \%)
-#'
-#' @return A STRUCT chart object
-#'
+#' @eval get_description('confounders_lsq_boxplot')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' M = filter_by_name(mode='include',dimension='variable',
@@ -286,9 +257,6 @@ setMethod(f="chart_plot",
 #' M = model_apply(M,D)
 #' C = C=confounders_lsq_boxplot(threshold=15)
 #' chart_plot(C,M[3])
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export confounders_lsq_boxplot
 confounders_lsq_boxplot = function(threshold=10,...) {
     out=struct::new_struct('confounders_lsq_boxplot',
@@ -305,15 +273,20 @@ confounders_lsq_boxplot = function(threshold=10,...) {
         # INPUTS
         threshold='entity'
     ),
-    prototype = list(name='Percent change',
-        description='a barchart of the percent change when including a confounding factor in a classical least squares model_',
+    prototype = list(name='Confounding factor relative change boxplot',
+        description='Confounding factor relative change barchart',
+        description=paste0('A boxplot of the relative change (delta) in ',
+            'regression coefficient when potential confounding factors are ',
+            'included, and excluded, from the model. Factors with a large delta ',
+            'are considered to be confounding factors.'),
         type="barchart",
         .params=c('threshold'),
 
         threshold=entity(name='Threshold',
             value=10,
             type='numeric',
-            description='A horizontal line plotted to indicate the threshold'
+            description=paste0('A horizontal line is plotted to indicate ',
+                'the threshold.')
         )
     )
 )

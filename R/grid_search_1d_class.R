@@ -1,15 +1,4 @@
-#' grid_search_1d class
-#'
-#' Carries out a grid search for a single parameter to try and identify the
-#' 'best' value for the parameter based on the input metric.
-#'
-#' @param param_to_optimise The name of an input parameter of the model the optimise
-#' @param search_values A vector of values to search for the optimum
-#' @param model_index A number indicating which step of a model_seq is to be optimised
-#' @param factor_name The sample_meta column name to use
-#' @param max_min 'A string 'max' or 'min' to indicate whether to maximise or minimise the metric
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('grid_search_1d')
 #' @export grid_search_1d
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
@@ -45,21 +34,65 @@ grid_search_1d = function(param_to_optimise,search_values,model_index,factor_nam
 .grid_search_1d<-setClass(
     "grid_search_1d",
     contains='resampler',
-    slots=c(param_to_optimise='character',
-        search_values='numeric',
-        model_index='numeric',
-        factor_name='character',
-        max_min='character',
+    slots=c(
+        param_to_optimise='entity',
+        search_values='entity',
+        model_index='entity',
+        factor_name='entity',
+        max_min='entity',
         results='data.frame',
         metric='data.frame',
         optimum_value='numeric'
-
+        
     ),
     prototype = list(name='1D grid search',
         type="optimisation",
         result='results',
         .params=c('param_to_optimise','search_values','model_index','factor_name','max_min'),
-        .outputs=c('results','metric','optimum_value')
+        .outputs=c('results','metric','optimum_value'),
+        name = 'One dimensional grid search',
+        description = paste0('A one dimensional grid search calculates a ',
+            'performance metric for a model at evenly spaced values for a model ',
+            'input parameter. The "optimum" value for the parameter is suggested as the one ',
+            'which maximises performance, or minimises error (whichever is ',
+            'appropriate for the chosen metric)'
+        ),
+        param_to_optimise = entity(
+            name = 'Paramater to optimise',
+            description = paste0('The name of the model input parameter that is the ',
+            'focus of the search.'),
+            value=character(0),
+            type='character',
+            max_length=1
+        ),
+        search_values = entity(
+            name = 'Search values',
+            description = paste0('The values of the input parameter being optimised.'),
+            value=numeric(0),
+            type='ANY'
+        ),
+        model_index = entity(
+            name = 'Model index',
+            description = paste0('The index of the model in the sequence ',
+            'that uses the parameter being optimised.'),
+            value=numeric(0),
+            type=c('numeric','integer'),
+            max_length=1
+        ),
+        factor_name=ents$factor_name,
+        max_min = enum(
+            name='Maximise or minimise',
+            description=c(
+                'max' = paste0('The optimium parameter value is suggested ',
+                    'based on maximising the performance metric'),
+                'min' = paste0('The optimium parameter value is suggested ',
+                    'based on minimising the performance metric')
+            ),
+            type='character',
+            value='min',
+            allowed=c('max','min'),
+            max_length=1
+        )
     )
 )
 
@@ -112,12 +145,12 @@ setMethod(f="run",
         }
         models(I)=WF
         output_value(I,'results')=all_results
-
+        
         results=output_value(I,'results')
-
+        
         if (is(models(I),'model_OR_model_seq'))
         { # if a model or list then apply the metric
-
+            
             k=length(unique((results$search.value)))
             ts.metric=numeric(k)
             for (i in 1:k)
@@ -126,7 +159,7 @@ setMethod(f="run",
                 MET=calculate(MET,ts$actual,ts$predicted)
                 ts.metric[i]=value(MET)
             }
-
+            
             # index of minimum
             if (I$max_min=='min') {
                 idx=first_min(ts.metric)
@@ -135,11 +168,11 @@ setMethod(f="run",
             } else {
                 stop('not a valid max_min choice')
             }
-
+            
             out=data.frame('metric'=class(MET)[1],'value'=ts.metric,'search.value'=param_value(I,'search_values'))
             output_value(I,'metric')=out
             output_value(I,'optimum_value')=out$search.value[idx]
-
+            
         } else {
             # if not a model or list then the metric has already been applied, we just need to choose the optimum
             if (I$max_min=='min') {
@@ -152,20 +185,14 @@ setMethod(f="run",
             out=data.frame('metric'=class(MET)[1],'value'=results$mean[idx],'search.value'=param_value(I,'search_values')[idx])
             output_value(I,'metric')=out
             output_value(I,'optimum_value')=out$search.value
-
+            
         }
         return(I)
     }
 )
 
 
-#' grid_search_plot
-#'
-#' plots the result of the evaluated models for against the values of the optimisation paramter within the search range.
-#'
-#' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('gs_line')
 #' @export gs_line
 #' @examples
 #' C = gs_line()
@@ -178,8 +205,12 @@ gs_line = function(...) {
 .gs_line<-setClass(
     "gs_line",
     contains='chart',
-    prototype = list(name='Grid search line plot',
-        description='Plots the result of the optimisation',
+    prototype = list(
+        name='Grid search line plot',
+        description=paste0('A plot of the calculated performance metric against ',
+        'the model input parameter values used to train the model. The ',
+        'optimum parameter value is indicated based on minimising ',
+        '(or maximising) the chosen metric.'),
         type="line"
     )
 )
@@ -209,7 +240,7 @@ setMethod(f="chart_plot",
 
 first_min=function(x,t=0.02)
 {
-
+    
     idxs=1 # force first index to be the first value
     # search for v
     for (i in 2:(length(x)-1))
@@ -236,5 +267,5 @@ first_min=function(x,t=0.02)
         }
     }
     return(idxs[id])
-
+    
 }

@@ -2,19 +2,27 @@
 % Please edit documentation in R/hca_class.R
 \name{hca_dendrogram}
 \alias{hca_dendrogram}
-\title{hca_dendrogram class}
+\title{HCA dendrogram}
 \usage{
 hca_dendrogram(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{hca_dendrogram} object.
 }
 \description{
-plots a dendrogram for HCA
+A dendrogram visualising the clustering by HCA.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{ggdendro}}}
 }
 \examples{
 C = hca_dendrogram()
+}
+\references{
+de Vries A, Ripley BD (2020).
+\emph{ggdendro: Create Dendrograms and Tree Diagrams Using 'ggplot2'}.
+R package version 0.1.22, \url{https://CRAN.R-project.org/package=ggdendro}.
 }

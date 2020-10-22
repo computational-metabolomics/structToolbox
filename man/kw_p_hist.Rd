@@ -2,18 +2,18 @@
 % Please edit documentation in R/kw_rank_sum_class.R
 \name{kw_p_hist}
 \alias{kw_p_hist}
-\title{plot histogram of p values}
+\title{Histogram of p values}
 \usage{
 kw_p_hist(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{kw_p_hist} object.
 }
 \description{
-plots a histogram of p values
+A histogram of the p-values computed by the kruskal-wallis method
 }
 \examples{
 C = kw_p_hist()

@@ -2,7 +2,7 @@
 % Please edit documentation in R/svm_classifier_class.R
 \name{SVM}
 \alias{SVM}
-\title{SVM model classifier}
+\title{Support Vector Machine Classifier}
 \usage{
 SVM(
   factor_name,
@@ -16,44 +16,44 @@ SVM(
 )
 }
 \arguments{
-\item{factor_name}{The sample-meta column name to use for group labels}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{kernel}{the kernel used in training and predicting. You
-    might consider changing some of the following parameters, depending
-    on the kernel type.\cr
-    \describe{
-      \item{linear:}{\eqn{u'v}{u'*v}}
-      \item{polynomial:}{\eqn{(\gamma u'v + coef0)^{degree}}{(gamma*u'*v + coef0)^degree}}
-      \item{radial basis:}{\eqn{e^(-\gamma |u-v|^2)}{exp(-gamma*|u-v|^2)}}
-      \item{sigmoid:}{\eqn{tanh(\gamma u'v + coef0)}{tanh(gamma*u'*v + coef0)}}
-      }
-    }
+\item{kernel}{(character) Kernel type. Allowed values are limited to the following: \itemize{\item{\code{"linear"}: .}\item{\code{"polynomial"}: .}\item{\code{"radial"}: .}\item{\code{"sigmoid"}: .}} The default is \code{"linear"}.}
 
-\item{degree}{parameter needed for kernel of type \code{polynomial} (default: 3)}
+\item{degree}{(numeric) The polynomial degree. The default is \code{3}.}
 
-\item{gamma}{parameter needed for all kernels except \code{linear}
-    (default: 1/(data dimension))}
+\item{gamma}{(numeric) The gamma parameter. The default is \code{1}.}
 
-\item{coef0}{parameter needed for kernels of type \code{polynomial}
-    and \code{sigmoid} (default: 0)}
+\item{coef0}{(numeric) The offset coefficient. The default is \code{0}.}
 
-\item{cost}{cost of constraints violation (default: 1)---it is the
-    \sQuote{C}-constant of the regularization term in the Lagrange formulation.}
+\item{cost}{(numeric) The cost of violating the constraints. The default is \code{1}.}
 
-\item{class_weights}{a named vector of weights for the different classes, 
-used for asymmetric class sizes. Not all factor levels have to be supplied 
-(default weight: 1). All components have to be named. Specifying "inverse" 
-will choose the weights inversely proportional to the class distribution.}
+\item{class_weights}{(numeric, character, NULL) A named vector of weights for the different classes.  Specifying 
+"inverse" will choose the weights inversely proportional to the class distribution. The default is \code{NULL}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
+A  \code{SVM} object.
+
 struct object
 }
 \description{
-Support vector machines model classifier. Wraps svm from the "e1071" package, which interfaces with the
-"libsvm" library to train SVM classifiers.
+Support Vector Machines (SVM) are a machine learning algorithm for classification. They can make use of kernel functions to generate highly non-linear boundaries between groups.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{e1071}}}
 }
 \examples{
 M = SVM(factor_name='Species',gamma=1)
+}
+\references{
+Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2019).
+\emph{e1071: Misc Functions of the Department of Statistics, Probability
+Theory Group (Formerly: E1071), TU Wien}.
+R package version 1.7-3, \url{https://CRAN.R-project.org/package=e1071}.
+
+Brereton RG, Lloyd GR (2010).
+``Support Vector Machines for classification and regression.''
+\emph{The Analyst}, \bold{135}(2), 230-267.
 }

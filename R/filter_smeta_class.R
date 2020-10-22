@@ -1,19 +1,8 @@
-#' filter_smeta class
-#'
-#' A filter to subset a DatasetExperiment object based on sample meta data.
-#'
-#' @param mode = ['include'] or 'exclude' to include or exclude samples based on
-#' the provided labels
-#' @param levels a list of level names to include/exclude
-#' @param factor_name the sample_meta column name to use
-#'
+#' @eval get_description('filter_smeta')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
 #' M = model_apply(M,D)
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export filter_smeta
 filter_smeta = function(mode='include',levels,factor_name,...) {
     out=struct::new_struct('filter_smeta',
@@ -33,29 +22,31 @@ filter_smeta = function(mode='include',levels,factor_name,...) {
         filtered='DatasetExperiment'
     ),
     prototype=list(type = 'filter',
-        name='Filter by sample_meta data',
-        description='Filter data to include or exlude samples based on their meta data.',
+        name='Filter by sample meta data',
+        description=paste0('The data is filtered by so that the named levels ',
+        'of a factor are included/excluded from the dataset. '),
         predicted = 'filtered',
         .params=c('mode','levels','factor_name'),
         .outputs=c('filtered'),
 
         mode=enum(name='Mode of action',
-            description='"include" or "exclude" samples based on the sample_meta data',
+            description=c(
+                "include" = 'Samples in the specified levels are retained.' ,
+                "exclude" = 'Samples in the specified levels are excluded.'
+                ),
             type='character',
             allowed=c('include','exclude'),
-            value='include'
+            value='include',
+            max_length=1
         ),
 
-        levels=entity(name='list of level names to filter by',
-            description='The levels of factor_name to filter by',
+        levels=entity(name='Levels to filter by',
+            description='The level name(s) for filtering.',
             type='character',
-            value='NA'
+            value=character(0)
         ),
 
-        factor_name=entity(name='Factor name',
-            description='The sample_meta column name to filter by',
-            type='character',
-            value='NA')
+        factor_name=ents$factor_name
     )
 )
 

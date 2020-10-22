@@ -2,18 +2,18 @@
 % Please edit documentation in R/wilcox_test_class.R
 \name{wilcox_p_hist}
 \alias{wilcox_p_hist}
-\title{plot histogram of p values}
+\title{Histogram of p values}
 \usage{
 wilcox_p_hist(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{wilcox_p_hist} object.
 }
 \description{
-plots a histogram of p values
+A histogram of p values for the wilcoxon signed rank test
 }
 \examples{
 M = wilcox_p_hist()

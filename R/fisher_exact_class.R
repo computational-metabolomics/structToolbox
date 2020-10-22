@@ -1,14 +1,4 @@
-#' fisher_exact class
-#'
-#' Fisher's exact test (FET). Applies FET for all features in a DatasetExperiment.
-#'
-#' @param alpha the p-value threshold to declare a result 'significant'
-#' @param mtc multiple test correction method
-#' @param factor_name the sample_meta column to use
-#' @param factor_pred A data.frame, with a factor of predicted group labels to
-#' compare with factor_name. Can be a data frame with a factor of predictions
-#' for each feature.'
-#'
+#' @eval get_description('fisher_exact')
 #' @examples
 #' # load some data
 #' D=MTBLS79_DatasetExperiment()
@@ -21,11 +11,8 @@
 #' # apply method
 #' M = fisher_exact(alpha=0.05,mtc='fdr',factor_name='class',factor_pred=pred)
 #' M=model_apply(M,D)
-#'
 #' @import struct
 #' @import stats
-#' @param ... additional slots and values passed to struct_class
-#' @return A struct model with functions for applying fisher exact test.
 #' @export fisher_exact
 fisher_exact = function(alpha=0.05,mtc='fdr',factor_name,factor_pred,...) {
     out=struct::new_struct('fisher_exact',
@@ -44,7 +31,7 @@ fisher_exact = function(alpha=0.05,mtc='fdr',factor_name,factor_pred,...) {
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         factor_name='entity',
         factor_pred='entity',
 
@@ -53,7 +40,11 @@ fisher_exact = function(alpha=0.05,mtc='fdr',factor_name,factor_pred,...) {
         significant='entity'
     ),
     prototype = list(name='Fisher Exact Test',
-        description='Fisher Exact Test applied to each column of a DatasetExperiment.',
+        description=paste0('A fisher exact test is used to analyse ',
+        'contingency tables by comparing the number of correctly/incorrectly ',
+        'predicted group labels. A multiple test corrected p-value indicates ',
+        'whether the number of measured values is significantly different ',
+        'between groups. '),
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000073",
@@ -63,10 +54,11 @@ fisher_exact = function(alpha=0.05,mtc='fdr',factor_name,factor_pred,...) {
         alpha=ents$alpha,
         mtc=ents$mtc,
         factor_name=ents$factor_name,
-        factor_pred=entity(name='Factor predictions',
+        factor_pred=entity(name='Predictions',
             value=data.frame(),
             type='data.frame',
-            description='A data.frame, with a factor of predicted group labels to compare with factor_name. Can be a data frame with a factor of predictions for each feature.'
+            description=paste0('A data.frame, where each column is a factor of predicted ',
+            'group labels to compare with the true groups labels.')
         ),
         p_value=ents$p_value,
         significant=ents$significant
@@ -94,10 +86,10 @@ setMethod(f="model_apply",
 
         p=sapply(FET,function(x) return(x$p.value))
         p=p.adjust(p,M$mtc)
-        names(p)=colnames(X)
+        names(p)=colnames(M$factor_pred)
 
         s=p<M$alpha
-        names(s)=colnames(X)
+        names(s)=colnames(M$factor_pred)
 
         M$p_value=as.data.frame(p)
         M$significant=as.data.frame(s)

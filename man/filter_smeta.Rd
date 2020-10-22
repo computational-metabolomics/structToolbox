@@ -2,29 +2,27 @@
 % Please edit documentation in R/filter_smeta_class.R
 \name{filter_smeta}
 \alias{filter_smeta}
-\title{filter_smeta class}
+\title{Filter by sample meta data}
 \usage{
 filter_smeta(mode = "include", levels, factor_name, ...)
 }
 \arguments{
-\item{mode}{= ['include'] or 'exclude' to include or exclude samples based on
-the provided labels}
+\item{mode}{(character) Mode of action. Allowed values are limited to the following: \itemize{\item{\code{"include"}: Samples in the specified levels are retained.}\item{\code{"exclude"}: Samples in the specified levels are excluded.}} The default is \code{"include"}.}
 
-\item{levels}{a list of level names to include/exclude}
+\item{levels}{(character) The level name(s) for filtering.}
 
-\item{factor_name}{the sample_meta column name to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{filter_smeta} object.
 }
 \description{
-A filter to subset a DatasetExperiment object based on sample meta data.
+The data is filtered by so that the named levels of a factor are included/excluded from the dataset.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
 M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
 M = model_apply(M,D)
-
 }

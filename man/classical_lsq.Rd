@@ -2,35 +2,29 @@
 % Please edit documentation in R/classical_lsq_class.R
 \name{classical_lsq}
 \alias{classical_lsq}
-\title{Classical Least Squares regression}
+\title{Univariate Classical Least Squares Regression}
 \usage{
 classical_lsq(alpha = 0.05, mtc = "fdr", factor_names, intercept = TRUE, ...)
 }
 \arguments{
-\item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg, hommel, bonferroni, BH, BY, fdr or none}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{factor_names}{the column name(s) of sample_meta to use}
+\item{factor_names}{(character) The name of sample meta column(s) to use.}
 
-\item{intercept}{[TRUE] or FALSE to include an intercept term in the fit}
+\item{intercept}{(logical) Model intercept. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: An intercept term is included in the model.}\item{\code{"FALSE"}: An intercept term is not included in the model.}} The default is \code{TRUE}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A STRUCT method object with functions for applying classical least squares
-
-struct object
+A  \code{classical_lsq} object.
 }
 \description{
-Classical least squares, where y is the response and X is the design matrix,
-applied to each feature individually. Here the response is taken from the
-data matrix and the design matrix is the taken from the specified sample meta
-data column.
+In univariate classical least squares regression a line is fitted between each feature/variable and a response variable. The fitted line minimises the sum of squared differences between the true response and the predicted response. The coefficients (offset, gradient) of the fit can be tested for significance.
 }
 \examples{
 D = iris_DatasetExperiment()
 M = classical_lsq(factor_names = 'Species')
 M = model_apply(M,D)
-
 }

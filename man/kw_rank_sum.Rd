@@ -2,29 +2,27 @@
 % Please edit documentation in R/kw_rank_sum_class.R
 \name{kw_rank_sum}
 \alias{kw_rank_sum}
-\title{kruskal-wallis model class}
+\title{kruskal-wallis rank sum test}
 \usage{
 kw_rank_sum(alpha = 0.05, mtc = "fdr", factor_names, ...)
 }
 \arguments{
-\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{factor_names}{The sample_meta column name to use}
+\item{factor_names}{(character) The name of sample meta column(s) to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{kw_rank_sum} object.
 }
 \description{
-Calculate kw-test for all features in a DatasetExperiment.
- A non-parametric 1-way ANOVA.
+The Kruskal㤼㸶Wallis test is a univariate hypothesis testing method that allows multiple (n>=2) groups to be compared without making the assumption that values are normally distributed. It is the non-parametric equivalent of a 1-way ANOVA. The test is applied to all variables/features individually, and multiple test corrected p-values are computed to indicate the significance of variables/features.
 }
 \examples{
 D = iris_DatasetExperiment()
 M = kw_rank_sum(factor_names='Species')
 M = model_apply(M,D)
-
 }

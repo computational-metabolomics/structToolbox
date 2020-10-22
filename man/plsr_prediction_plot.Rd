@@ -2,18 +2,18 @@
 % Please edit documentation in R/PLSR_class.R
 \name{plsr_prediction_plot}
 \alias{plsr_prediction_plot}
-\title{plsr_prediction_plot class}
+\title{PLSR prediction plot}
 \usage{
 plsr_prediction_plot(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{plsr_prediction_plot} object.
 }
 \description{
-Plots the true values against the predicted values for a PLSR model.
+A scatter plot of the true response values against the predicted values for a PLSR model.
 }
 \examples{
 C = plsr_prediction_plot()

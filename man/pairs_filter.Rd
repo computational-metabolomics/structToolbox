@@ -7,24 +7,20 @@
 pairs_filter(factor_name, sample_id, ...)
 }
 \arguments{
-\item{factor_name}{(character) the column name of sample_meta containing the
-labels}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{sample_id}{(character) the column name of sample_meta containing the
-sample ids}
+\item{sample_id}{(character) Name of sample meta column containing sample identifiers.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A STRUCT method object with functions for applying a pairs filter
+A  \code{pairs_filter} object.
 
 struct object
 }
 \description{
-Filters samples for paired analysis, ensuring each sample id is present 
-in all groups and equal number of times.
+This filter is used for study designs with paired sampling to ensure that  measurements from the same source (e.g. patient) are represented in all factor levels and interactions.
 }
 \examples{
 M=pairs_filter(factor_name='Class',sample_id='ids')
-
 }

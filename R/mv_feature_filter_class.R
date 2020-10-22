@@ -1,14 +1,4 @@
-#' filter features by fraction of missing values
-#'
-#' Filters features by the percent number of missing values, based on class labels if required.
-#' @param threshold The max percentage missing values in a feature, above which the feature is removed. Default  is 20.
-#' @param qc_label The label of the QC samples in the named sample_meta column.
-#' @param factor_name The name of the sample_meta column to use.
-#' @param method "within_all" applies filter within classes,"within_one" applies
-#' filter within any one class, "QC" applies filter within QC samples, "across" applies filter
-#' ignoring class.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('mv_feature_filter')
 #' @export mv_feature_filter
 #' @examples
 #' D = iris_DatasetExperiment()
@@ -35,30 +25,32 @@ mv_feature_filter = function(threshold=20,qc_label='QC',method='QC',factor_name,
         flags='entity'
     ),
     prototype=list(name = 'Filter by fraction missing values',
-        description = 'Filters by removing features where the percent number of missing values exceeds the threshold',
+        description = paste0('Filters features where the percent number ',
+        'of missing values exceeds a predefined threshold.'),
         type = 'filter',
         predicted = 'filtered',
         libraries='pmp',
         .params=c('threshold','qc_label','method','factor_name'),
         .outputs=c('filtered','flags'),
 
-        factor_name=entity(name='Factor name',
-            type='character',
-            description='Name of sample_meta column to use'
-        ),
+        factor_name=ents$factor_name,
 
-        threshold=entity(name = 'Missing value threshold (%)',
-            description = 'Features with greather than THRESHOLD% missing values are excluded.',
+        threshold=entity(name = 'Missing value threshold (\\%)',
+            description = 'The threshold for excluding features.',
             value = 20,
             type='numeric'),
 
         qc_label=entity(name = 'QC label',
-            description = 'Label used to identify QC samples.',
+            description = 'The label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        method=enum(name='Method',
-            description='"within_all" applies filter within classes,"within_one" applies filter within any one class, "QC" applies filter within QC samples, "across" applies filter ignoring class.',
+        method=enum(name='Filtering method',
+            description=c(
+                "within_all" = 'The filter is applied within classes',
+                "within_one" = 'The filter is applied within any one class',
+                "QC" = 'The filter is applied within QC samples',
+                "across" = 'The filter is applied across all samples'),
             value='QC',
             type='character',
             allowed=c('within_all','within_one','QC','across')),
@@ -133,12 +125,8 @@ setMethod(f="model_predict",
 
 
 ##### plots
-#' plot for missing value sample filter
-#'
-#' plots a histogram of % missing values per sample
+#' @eval get_description('mv_feature_filter_hist')
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export mv_feature_filter_hist
 #' @examples
 #' C = mv_feature_filter_hist()
@@ -152,7 +140,7 @@ mv_feature_filter_hist = function(...) {
     "mv_feature_filter_hist",
     contains='chart',
     prototype = list(name='Histogram of missing values per feature',
-        description='A histogram of the % missing values per feature',
+        description='A histogram of the proportion of missing values per feature.',
         type="histogram"
     )
 )

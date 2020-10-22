@@ -2,20 +2,20 @@
 % Please edit documentation in R/PCA_plotfcns.R
 \name{pca_correlation_plot}
 \alias{pca_correlation_plot}
-\title{pca_correlation_plot class}
+\title{PCA correlation plot}
 \usage{
 pca_correlation_plot(components = c(1, 2), ...)
 }
 \arguments{
-\item{components}{The principal components to plot (\code{numeric(2)})}
+\item{components}{(numeric) The Principal Components used to generate the plot. The default is \code{c(1, 2)}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{pca_correlation_plot} object.
 }
 \description{
-Plots the correlation between features and selected components.
+A plot of the correlation between the variables/features and the selected principal component scores. Features with high correlation are well represented by the selected component(s)
 }
 \examples{
 C = pca_correlation_plot()

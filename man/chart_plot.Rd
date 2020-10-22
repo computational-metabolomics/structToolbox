@@ -13,7 +13,7 @@
 \alias{chart_plot,dfa_scores_plot,DFA-method}
 \alias{chart_plot,pca_correlation_plot,PCA-method}
 \alias{chart_plot,pca_scores_plot,PCA-method}
-\alias{chart_plot,pca_biplot_plot,PCA-method}
+\alias{chart_plot,pca_biplot,PCA-method}
 \alias{chart_plot,pca_loadings_plot,PCA-method}
 \alias{chart_plot,pca_scree_plot,PCA-method}
 \alias{chart_plot,pca_dstat_plot,PCA-method}
@@ -37,10 +37,10 @@
 \alias{chart_plot,DatasetExperiment_boxplot,DatasetExperiment-method}
 \alias{chart_plot,compare_dist,DatasetExperiment-method}
 \alias{chart_plot,DatasetExperiment_heatmap,DatasetExperiment-method}
-\alias{chart_plot,DatasetExperiment_factor_barchart,DatasetExperiment-method}
+\alias{chart_plot,DatasetExperiment_factor_boxplot,DatasetExperiment-method}
 \alias{chart_plot,feature_profile,DatasetExperiment-method}
 \alias{chart_plot,fold_change_plot,fold_change-method}
-\alias{chart_plot,fs_line,forward_selection_byrank-method}
+\alias{chart_plot,fs_line,forward_selection_by_rank-method}
 \alias{chart_plot,glog_opt_plot,glog_transform-method}
 \alias{chart_plot,gs_line,grid_search_1d-method}
 \alias{chart_plot,hca_dendrogram,HCA-method}
@@ -63,7 +63,7 @@
 
 \S4method{chart_plot}{pca_scores_plot,PCA}(obj, dobj)
 
-\S4method{chart_plot}{pca_biplot_plot,PCA}(obj, dobj)
+\S4method{chart_plot}{pca_biplot,PCA}(obj, dobj)
 
 \S4method{chart_plot}{pca_loadings_plot,PCA}(obj, dobj)
 
@@ -109,13 +109,13 @@
 
 \S4method{chart_plot}{DatasetExperiment_heatmap,DatasetExperiment}(obj, dobj)
 
-\S4method{chart_plot}{DatasetExperiment_factor_barchart,DatasetExperiment}(obj, dobj)
+\S4method{chart_plot}{DatasetExperiment_factor_boxplot,DatasetExperiment}(obj, dobj)
 
 \S4method{chart_plot}{feature_profile,DatasetExperiment}(obj, dobj)
 
 \S4method{chart_plot}{fold_change_plot,fold_change}(obj, dobj)
 
-\S4method{chart_plot}{fs_line,forward_selection_byrank}(obj, dobj)
+\S4method{chart_plot}{fs_line,forward_selection_by_rank}(obj, dobj)
 
 \S4method{chart_plot}{glog_opt_plot,glog_transform}(obj, dobj, gobj)
 

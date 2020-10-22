@@ -2,26 +2,37 @@
 % Please edit documentation in R/rsd_filter.R
 \name{rsd_filter}
 \alias{rsd_filter}
-\title{rsd filter}
+\title{Analysis of Variance}
 \usage{
 rsd_filter(rsd_threshold = 20, qc_label = "QC", factor_name, ...)
 }
 \arguments{
-\item{rsd_threshold}{Features with RSD greater than the threshold are removed.}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 
-\item{qc_label}{The label used to identify QC samples in the chosen sample_meta column.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{factor_name}{The name of the sample_meta column containing QC labels.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{formula}{(formula) A symbolic description of the model to be fitted.}
+
+\item{ss_type}{(character) ANOVA sum of squares. Allowed values are limited to the following: \itemize{\item{\code{"I"}: Type I sum of squares.}\item{\code{"II"}: Type II sum of squares.}\item{\code{"III"}: Type III sum of squares.}} The default is \code{"III"}.}
 }
 \value{
-struct object
+A  \code{ANOVA} object.
 }
 \description{
-Filters features based on the relative standard deviation (RSD) for the QC samples.
+Analysis of Variance (ANOVA) is a univariate method used to analyse the difference among group means. Multiple test corrected p-values are computed to indicate significance for each feature.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{car}}}
 }
 \examples{
 M = rsd_filter(factor_name='class')
 
+}
+\references{
+Fox J, Weisberg S (2019).
+\emph{An R Companion to Applied Regression}, Third edition.
+Sage, Thousand Oaks CA.
+\url{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}.
 }

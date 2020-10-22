@@ -1,18 +1,8 @@
-#' kruskal-wallis model class
-#'
-#'  Calculate kw-test for all features in a DatasetExperiment.
-#'  A non-parametric 1-way ANOVA.
-#'
+#' @eval get_description('kw_rank_sum')
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = kw_rank_sum(factor_names='Species')
 #' M = model_apply(M,D)
-#'
-#' @param alpha The p-value threshold. Default alpha = 0.05.
-#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
-#' @param factor_names The sample_meta column name to use
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export kw_rank_sum
 kw_rank_sum = function(alpha=0.05,mtc='fdr',factor_names,...) {
     out=struct::new_struct('kw_rank_sum',
@@ -26,11 +16,11 @@ kw_rank_sum = function(alpha=0.05,mtc='fdr',factor_names,...) {
 
 .kw_rank_sum<-setClass(
     "kw_rank_sum",
-    contains=c('model'),
+    contains=c('model','stato'),
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         factor_names='entity',
         # OUTPUTS
         test_statistic='entity',
@@ -40,30 +30,22 @@ kw_rank_sum = function(alpha=0.05,mtc='fdr',factor_names,...) {
         estimates='data.frame'
     ),
     prototype = list(name='kruskal-wallis rank sum test',
-        description='Applies the kw rank sum test to each feature to indicate significance, with (optional)
-                                multiple-testing correction.',
+        description=paste0('The Kruskal–Wallis test is a univariate ',
+        'hypothesis testing method that allows multiple (n>=2) groups to be ',
+        'compared without making the assumption that values are normally ',
+        'distributed. It is the non-parametric equivalent of a 1-way ANOVA. ',
+        'The test is applied to all variables/features individually, and ',
+        'multiple test corrected p-values are computed to indicate the ',
+        'significance of variables/features.'),
         type="univariate",
         predicted='p_value',
         .params=c('alpha','mtc','factor_names'),
         .outputs=c('test_statistic','p_value','dof','significant','estimates'),
+        stato_id='STATO:0000094',
+        factor_names=ents$factor_names,
 
-        factor_names=entity(name='Factor names',
-            type='character',
-            description='Names of sample_meta columns to use'
-        ),
-
-        alpha=entity_stato(name='Confidence level',
-            stato_id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        mtc=entity_stato(name='Multiple Test Correction method',
-            stato_id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
+        alpha=ents$alpha,
+        mtc=ents$mtc,
         test_statistic=entity(name='test statistic',
             type='data.frame',
             description='the value of the calculated statistic which is converted to a p-value when compared to a chi2-distribution.'
@@ -71,7 +53,7 @@ kw_rank_sum = function(alpha=0.05,mtc='fdr',factor_names,...) {
         p_value=entity_stato(name='p value',
             stato_id='STATO:0000175',
             type='data.frame',
-            description='the probability of observing the calculated t-statistic.'
+            description='the probability of observing the calculated statistic.'
         ),
         dof=entity_stato(name='degrees of freedom',
             stato_id='STATO:0000069',
@@ -128,14 +110,10 @@ setMethod(f="model_apply",
 
 
 ##### plots
-#' plot histogram of p values
-#'
-#' plots a histogram of p values
+#' @eval get_description('kw_p_hist')
 #' @import struct
 #' @examples
 #' C = kw_p_hist()
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export kw_p_hist
 kw_p_hist = function(...) {
     out=struct::new_struct('kw_p_hist',...)
@@ -147,7 +125,7 @@ kw_p_hist = function(...) {
     "kw_p_hist",
     contains='chart',
     prototype = list(name='Histogram of p values',
-        description='Histogram of p values',
+        description='A histogram of the p-values computed by the kruskal-wallis method',
         type="histogram"
     )
 )

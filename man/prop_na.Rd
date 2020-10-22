@@ -2,25 +2,26 @@
 % Please edit documentation in R/prop_na_class.R
 \name{prop_na}
 \alias{prop_na}
-\title{prop_na model class}
+\title{Fisher's exact test for missing values}
 \usage{
 prop_na(alpha = 0.05, mtc = "fdr", factor_name, ...)
 }
 \arguments{
-\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{factor_name}{The sample_meta column name to use.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
+A  \code{prop_na} object.
+
 struct object
 }
 \description{
-Compares proportion of NA for all features in a DatasetExperiment using a
-Fisher's Exact test
+A Fisher's exact test is used to compare the number of missing values in each group. Multiple test corrected p-values are computed to indicate whether there is a significant difference in the number of missing values across groups for each feature.
 }
 \examples{
 M = prop_na(factor_name='Species')

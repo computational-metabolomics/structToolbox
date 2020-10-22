@@ -1,11 +1,4 @@
-#' rsd filter
-#'
-#' Filters features based on the relative standard deviation (RSD) for the QC samples.
-#' @param rsd_threshold Features with RSD greater than the threshold are removed.
-#' @param qc_label The label used to identify QC samples in the chosen sample_meta column.
-#' @param factor_name The name of the sample_meta column containing QC labels.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('ANOVA')
 #' @export rsd_filter
 #' @examples
 #' M = rsd_filter(factor_name='class')
@@ -21,7 +14,7 @@ rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
 
 .rsd_filter<-setClass(
     "rsd_filter",
-    contains = c('model'),
+    contains = c('model','stato'),
     slots=c(rsd_threshold='entity',
         qc_label='entity',
         factor_name='entity',
@@ -30,7 +23,12 @@ rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
         rsd_qc='entity'
     ),
     prototype=list(name = 'RSD filter',
-        description = 'Filters features by calculating the relative standard deviation (RSD) for the QC samples and removing features with RSD greater than the threshold.',
+        description = paste0(
+            'An RSD filter calculates the relative standard deviation (the ',
+            'ratio of the mean to the standard deviation) for all features. ',
+            'Any feature with an RSD lower than a predefined threshold is ',
+            'excluded.'),
+        stato_id='STATO:0000236',
         type = 'filter',
         predicted = 'filtered',
         libraries='pmp',
@@ -38,19 +36,16 @@ rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
         .outputs=c('filtered','flags','rsd_qc'),
 
         rsd_threshold=entity(name = 'RSD threhsold',
-            description = 'Features with RSD greater than the threshold are removed.',
+            description = 'The RSD threshold below which features are removed.',
             value = 20,
             type='numeric'),
 
         qc_label=entity(name = 'QC label',
-            description = 'Label used to identify QC samples.',
+            description = 'The label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
-        factor_name=entity(name='Factor name',
-            description='Name of sample meta column to use',
-            type='character',
-            value='V1'),
+        factor_name=ents$factor_name,
 
         filtered=entity(name = 'RSD filtered DatasetExperiment',
             description = 'A DatasetExperiment object containing the filtered data.',
@@ -93,12 +88,8 @@ setMethod(f="model_apply",
 
 
 ##### plots
-#' plot for rsd filter
-#'
-#' plots a histogram of the calculated RSD for the RSD filter
+#' @eval get_description('rsd_filter_hist')
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export rsd_filter_hist
 #' @examples
 #' C = rsd_filter_hist()
@@ -112,8 +103,9 @@ rsd_filter_hist = function(...) {
 .rsd_filter_hist<-setClass(
     "rsd_filter_hist",
     contains='chart',
-    prototype = list(name='Histogram of RSD for the QC samples',
-        description='A histogram of the calculated RSD for QC samples.',
+    prototype = list(
+        name='RSD histogram',
+        description='A histogram of the calculated RSD values.',
         type="histogram"
     )
 )

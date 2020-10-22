@@ -2,21 +2,18 @@
 % Please edit documentation in R/AUC_metric_class.R
 \name{AUC}
 \alias{AUC}
-\title{Area under ROC}
+\title{Area under ROC curve}
 \usage{
 AUC(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A metric object with methods for calculating AUC
-
-struct object
+A  \code{AUC} object.
 }
 \description{
-Area under ROC calculated by approximating the curve as a series of trapeziums.
-Only suitable for 2 classes.
+The area under the ROC curve of a classifier is estimated using the trapezoid method.
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -24,5 +21,4 @@ XCV = kfold_xval(folds=5,factor_name='Species') *
       (mean_centre() + PLSDA(number_components=2,factor_name='Species'))
 MET = AUC()
 XCV = run(XCV,D,MET)
-
 }

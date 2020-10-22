@@ -2,7 +2,7 @@
 % Please edit documentation in R/ttest_class.R
 \name{ttest}
 \alias{ttest}
-\title{t-test model class}
+\title{t-test}
 \usage{
 ttest(
   alpha = 0.05,
@@ -14,24 +14,23 @@ ttest(
 )
 }
 \arguments{
-\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{factor_names}{The sample_meta column name to use.}
+\item{factor_names}{(character) The name of sample meta column(s) to use.}
 
-\item{paired}{TRUE or FALSE to use a paired t-test.}
+\item{paired}{(logical) Apply a paired t-test. The default is \code{FALSE}.}
 
-\item{paired_factor}{The name of the sample_meta column used to indicate which samples are from the same
-subject. Must be provided if \code{paired = TRUE}}
+\item{paired_factor}{(character) The factor name that encodes the sample id for pairing. The default is \code{character(0)}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{ttest} object.
 }
 \description{
-t-test model class. Calculate t-test for all features in a DatasetExperiment.
+A t-test compares the means of two factor levels. Multiple-test corrected p-values are used to indicate the significance of the computed difference for all features.
 }
 \examples{
 M = ttest(factor_name='class')

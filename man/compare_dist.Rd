@@ -7,16 +7,15 @@
 compare_dist(factor_name, ...)
 }
 \arguments{
-\item{factor_name}{the sample_meta colum to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{compare_dist} object.
 }
 \description{
-A combination of plots to compare distributions of samples/features in two
-datasets
+Histograms and boxplots computed across samples and features are used to visually compare two datasets e.g. before and after filtering and/or normalisation.
 }
 \examples{
 D1=MTBLS79_DatasetExperiment(filtered=FALSE)

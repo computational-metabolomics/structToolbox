@@ -7,16 +7,13 @@
 balanced_accuracy(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A metric object with methods for calculating balanced accuracy.
-
-struct object
+A  \code{balanced_accuracy} object.
 }
 \description{
-Balanced accuracy is the average of the true positive rate and false positive
-rate.
+Balanced Accuracy is the average proportion of correctly classified samples across all groups.
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -24,5 +21,4 @@ XCV = kfold_xval(folds=5,factor_name='Species') *
       (mean_centre() + PLSDA(number_components=2,factor_name='Species'))
 MET = balanced_accuracy()
 XCV = run(XCV,D,MET)
-
 }

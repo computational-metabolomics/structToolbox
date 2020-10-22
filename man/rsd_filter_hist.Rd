@@ -2,18 +2,18 @@
 % Please edit documentation in R/rsd_filter.R
 \name{rsd_filter_hist}
 \alias{rsd_filter_hist}
-\title{plot for rsd filter}
+\title{RSD histogram}
 \usage{
 rsd_filter_hist(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{rsd_filter_hist} object.
 }
 \description{
-plots a histogram of the calculated RSD for the RSD filter
+A histogram of the calculated RSD values.
 }
 \examples{
 C = rsd_filter_hist()

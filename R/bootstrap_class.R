@@ -1,22 +1,8 @@
-#' Bootstrap class
-#'
-#' Applies bootstrapping to a model or model_seq(). Any output from the model can
-#' be 'collected' over all bootstrap repetitions for further analysis.
-#'
-#' @examples
-#' D = iris_DatasetExperiment()
-#' I = bootstrap(number_of_iterations = 5, collect='vip') *
-#'     (mean_centre() + PLSDA(factor_name = 'Species'))
-#' I = run(I,D,balanced_accuracy())
-#'
-#' @param number_of_iterations The number of bootstrap iterations to run
-#' @param collect The name of model output to collect over all iterations
-#' @param ... additional slots and values passed to struct_class
-#' @return A struct iterator object
+#' @eval get_description('bootstrap')
 #' @export bootstrap
-bootstrap = function(number_of_iterations = 100, collect, ...) {
+bootstrap = function(number_of_repetitions = 100, collect, ...) {
     out=struct::new_struct('bootstrap',
-        number_of_iterations = number_of_iterations,
+        number_of_repetitions = number_of_repetitions,
         collect = collect,
         ...)
     return(out)
@@ -24,22 +10,38 @@ bootstrap = function(number_of_iterations = 100, collect, ...) {
 
 .bootstrap<-setClass(
     "bootstrap",
-    contains='resampler',
+    contains=c('resampler','stato'),
     slots=c(
-        number_of_iterations='numeric',
-        collect='character',
+        number_of_repetitions='entity',
+        collect='entity',
         results='data.frame',
         metric='data.frame',
         collected='entity'
     ),
-    prototype = list(name='permutation test',
+    prototype = list(
+        name='Bootstrap resampling',
+        description=paste0('In bootstrap resampling a subset of samples is ',
+        'selected at random with replacement to form a training set. Any ',
+            'sample not selected for training is included in the test set. ',
+            'This process is repeated many times, and performance metrics are ',
+            'computed for each repetition.'),
         type='permutation',
         result='results',
-        .params=c('number_of_iterations','collect'),
+        stato_id='STATO:0000548',
+        .params=c('number_of_repetitions','collect'),
         .outputs=c('results','metric','collected'),
 
-        number_of_iterations=10,
-        collect='vip',
+        number_of_repetitions=entity(name = 'Number of iterations',
+            description='The number of bootstrap repetitions.',
+            value = 10,
+            max_length = 1,
+            type=c('numeric','integer')),
+        collect=entity(name = 'Collect output',
+            description=paste0('The name of a model output to collect over all ',
+            'bootstrap repetitions, in addition to the input metric.'),
+            value = 'vip',
+            max_length = 1,
+            type=c('character')),
         collected=entity(name='collected output',
             type=c('logical','list'),
             value=NA,max_length=Inf)

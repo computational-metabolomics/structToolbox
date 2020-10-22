@@ -1,9 +1,4 @@
-#' Missing value filter (samples)
-#'
-#' Filters samples based on the percent number of missing values.
-#' @param mv_threshold The max percentage of missing values, above which the sample is removed.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('mv_sample_filter')
 #' @export mv_sample_filter
 #' @examples
 #' C = mv_sample_filter()
@@ -24,15 +19,16 @@ mv_sample_filter = function(mv_threshold=20,...) {
         percent_missing='entity'
     ),
     prototype=list(name = 'Missing value sample filter',
-        description = 'Filters by removing samples where the percent number of missing values exceeds the threshold.',
+        description = paste0('Filters samples by removing those where the ',
+        'percent number of missing values exceeds a predefined threshold.'),
         type = 'filter',
         predicted = 'filtered',
         libraries='pmp',
         .params=c('mv_threshold'),
         .outputs=c('filtered','flags','percent_missing'),
 
-        mv_threshold=entity(name = 'Missing value threshold (%)',
-            description = 'Samples with greather than THRESHOLD% missing values are excluded.',
+        mv_threshold=entity(name = 'Missing value threshold (\\%)',
+            description = 'The theshold for excluding samples.',
             value = 20,
             type='numeric'),
         filtered=entity(name = 'Filtered DatasetExperiment',
@@ -102,12 +98,8 @@ setMethod(f="model_predict",
 )
 
 ##### plots
-#' plot for missing value sample filter
-#'
-#' plots a histogram of % missing values per sample
+#' @eval get_description('mv_sample_filter_hist')
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export mv_sample_filter_hist
 #' @examples
 #' C = mv_sample_filter_hist()
@@ -121,7 +113,7 @@ mv_sample_filter_hist = function(...) {
     "mv_sample_filter_hist",
     contains='chart',
     prototype = list(name='Histogram of missing values per sample',
-        description='A histogram of the % missing values per sample',
+        description='A histogram of the the proportion of missing values per sample',
         type="histogram"
     )
 )
