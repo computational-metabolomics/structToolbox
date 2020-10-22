@@ -112,7 +112,8 @@ Imports: ggplot2,
     methods,
     scales,
     sp,
-    stats
+    stats,
+    utils
 RoxygenNote: 7.1.1
 Suggests: agricolae,
  BiocFileCache,
