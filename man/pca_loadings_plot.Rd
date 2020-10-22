@@ -16,7 +16,7 @@ pca_loadings_plot(
 
 \item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{\item{\code{"points"}: Loadings and scores are plotted as a scatter plot.}\item{\code{"arrows"}: The loadings are plotted as arrow vectors.}} The default is \code{"points"}.}
 
-\item{label_features}{(logical) Add feature labels. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Features are labelled.}\item{\code{"FALSE"}: Features are not labelled.}} The default is \code{NULL}.}
+\item{label_features}{(character, NULL) Feature labels. Allowed values are limited to the following: \itemize{\item{\code{"character()"}: A vector of labels for the features.}\item{\code{"NULL"}: No labels.}\item{\code{"row.names"}: Labels will be extracted from the column names of the data matrix.}} The default is \code{NULL}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }

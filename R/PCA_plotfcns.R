@@ -337,8 +337,8 @@ pca_biplot = function(
     ),
     prototype = list(name='PCA biplot',
         description=paste0('A scatter plot of the selected principal ',
-        'component scores overlaid with the corresponding principal ',
-        'component loadings.'),
+            'component scores overlaid with the corresponding principal ',
+            'component loadings.'),
         type="boxlot",
         .params=c('components','points_to_label','factor_name','scale_factor','style','label_features'),
         
@@ -489,7 +489,7 @@ pca_loadings_plot = function(components=c(1,2),style='points',label_features=NUL
     ),
     prototype = list(name='PCA loadings plot',
         description=paste0('A barchart (one component) or scatter plot ',
-        '(two components) of the selected principal component loadings.'),
+            '(two components) of the selected principal component loadings.'),
         type="boxlot",
         .params=c('components','style','label_features'),
         
@@ -507,12 +507,14 @@ pca_loadings_plot = function(components=c(1,2),style='points',label_features=NUL
                 'arrows' = 'The loadings are plotted as arrow vectors.'),
             allowed=c('points','arrows')
         ),
-        label_features=entity(name='Add feature labels',
-            value=FALSE,
-            type='logical',
+        label_features=entity(name='Feature labels',
+            value=NULL,
+            type=c('character',"NULL"),
             description=c(
-                "TRUE" = 'Features are labelled.',
-                "FALSE" = "Features are not labelled.")
+                'character()'='A vector of labels for the features',
+                'NULL' = 'No labels',
+                'row.names' = 'Labels will be extracted from the column names of the data matrix.'
+            )
         )
     )
     
@@ -593,7 +595,7 @@ pca_scree_plot = function(...) {
     contains=c('chart','stato'),
     prototype = list(name='Scree plot',
         description=paste0('A plot of the percent variance and cumulative ',
-        'percent variance for the components of a PCA model. '),
+            'percent variance for the components of a PCA model. '),
         type="line",
         stato_id="STATO:0000386"
     )
@@ -650,8 +652,8 @@ pca_dstat_plot = function(number_components=2,alpha=0.05,...) {
         alpha='entity'),
     prototype = list(name='d-statistic plot',
         description=paste0('A bar chart of the d-statistics for samples in ',
-        'the input PCA model. Samples above the indicated threshold are ',
-        'considered to be outlying.'),
+            'the input PCA model. Samples above the indicated threshold are ',
+            'considered to be outlying.'),
         type="bar",
         .params=c('number_components','alpha'),
         stato_id='STATO:0000132',
