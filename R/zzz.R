@@ -8,6 +8,9 @@ if(getRversion() >= "2.15.1"){
         'lci','pairs','segment'))
 }
 
+
+
+#' @importFrom utils capture.output
 get_description=function(id) {
     
     # object template
