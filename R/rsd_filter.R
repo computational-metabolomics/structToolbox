@@ -1,4 +1,4 @@
-#' @eval get_description('ANOVA')
+#' @eval get_description('rsd_filter')
 #' @export rsd_filter
 #' @examples
 #' M = rsd_filter(factor_name='class')

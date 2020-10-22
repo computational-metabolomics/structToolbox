@@ -2,37 +2,35 @@
 % Please edit documentation in R/rsd_filter.R
 \name{rsd_filter}
 \alias{rsd_filter}
-\title{Analysis of Variance}
+\title{RSD filter}
 \usage{
 rsd_filter(rsd_threshold = 20, qc_label = "QC", factor_name, ...)
 }
 \arguments{
+\item{rsd_threshold}{(numeric) The RSD threshold below which features are removed. The default is \code{20}.}
+
+\item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
+
+\item{factor_name}{(character) The name of a sample-meta column to use.}
+
 \item{...}{Additional slots and values passed to \code{struct_class}.}
-
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
-
-\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
-
-\item{formula}{(formula) A symbolic description of the model to be fitted.}
-
-\item{ss_type}{(character) ANOVA sum of squares. Allowed values are limited to the following: \itemize{\item{\code{"I"}: Type I sum of squares.}\item{\code{"II"}: Type II sum of squares.}\item{\code{"III"}: Type III sum of squares.}} The default is \code{"III"}.}
 }
 \value{
-A  \code{ANOVA} object.
+A  \code{rsd_filter} object.
 }
 \description{
-Analysis of Variance (ANOVA) is a univariate method used to analyse the difference among group means. Multiple test corrected p-values are computed to indicate significance for each feature.
+An RSD filter calculates the relative standard deviation (the ratio of the mean to the standard deviation) for all features. Any feature with an RSD lower than a predefined threshold is excluded.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{car}}}
+This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
 M = rsd_filter(factor_name='class')
 
 }
 \references{
-Fox J, Weisberg S (2019).
-\emph{An R Companion to Applied Regression}, Third edition.
-Sage, Thousand Oaks CA.
-\url{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}.
+Jankevics A, Weber RJM (2020).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.1.0.
 }
