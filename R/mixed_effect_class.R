@@ -4,6 +4,7 @@
 #' D$sample_meta$id=rownames(D) # dummy id column
 #' M = mixed_effect(formula = y~Species+ Error(id/Species))
 #' M = model_apply(M,D)
+#' @export
 mixed_effect = function(alpha=0.05,mtc='fdr',formula,ss_type='marginal',...) {
     out=struct::new_struct('mixed_effect',
         alpha=alpha,
