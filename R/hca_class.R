@@ -139,6 +139,7 @@ setMethod(f="chart_plot",
         
         A=ggdendro::label(hcdata)
         
+
         A=A[order(dobj$factor_df$order),,drop=FALSE]
         dobj$factor_df[order(dobj$factor_df$order),,drop=FALSE]
         A$group=dobj$factor_df[,1]
