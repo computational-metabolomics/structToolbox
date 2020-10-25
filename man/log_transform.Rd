@@ -2,20 +2,22 @@
 % Please edit documentation in R/log_transform.R
 \name{log_transform}
 \alias{log_transform}
-\title{log transform}
+\title{logarithm transform}
 \usage{
 log_transform(base = 10, ...)
 }
 \arguments{
-\item{base}{The base of the logarithm. Default is 10, resulting in a log10 transformation of the data.}
+\item{base}{(numeric) The base of the logarithm used for the transform. The default is \code{10}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
+A  \code{log_transform} object.
+
 struct object
 }
 \description{
-Applies a log transform to the input data
+A logarithmic transform is applied to all values in the data matrix.
 }
 \examples{
 M = log_transform()

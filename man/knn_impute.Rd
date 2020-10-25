@@ -2,7 +2,7 @@
 % Please edit documentation in R/knn_impute_class.R
 \name{knn_impute}
 \alias{knn_impute}
-\title{knn missing value imputation}
+\title{kNN missing value imputation}
 \usage{
 knn_impute(
   neighbours = 5,
@@ -13,22 +13,31 @@ knn_impute(
 )
 }
 \arguments{
-\item{neighbours}{The number of neighbours to use for imputation.}
+\item{neighbours}{(numeric) The number of neighbours (k) to use for imputation. The default is \code{5}.}
 
-\item{sample_max}{Maximum percentage of missing values in any sample. Default = 50.}
+\item{sample_max}{(numeric) The maximum percent missing values per sample. The default is \code{50}.}
 
-\item{feature_max}{Maximum percentage of missing values in any feature. Default = 50.}
+\item{feature_max}{(numeric) The maximum percent missing values per feature. The default is \code{50}.}
 
-\item{by}{Impute by similar "samples" or "features". Default = "features".}
+\item{by}{(character) Impute using similar "samples" or "features". Default features. The default is \code{"features"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{knn_impute} object.
 }
 \description{
-Applies a k-nearest neighbour approach to impute missing values.
+k-nearest neighbour missing value imputation replaces missing values in the data with the average of a predefined number of the most similar neighbours for which the value is present
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
 M = knn_impute()
+}
+\references{
+Jankevics A, Weber RJM (2020).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.1.0.
 }

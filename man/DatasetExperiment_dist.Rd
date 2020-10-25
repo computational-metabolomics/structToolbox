@@ -2,27 +2,25 @@
 % Please edit documentation in R/dataset_chart_classes.R
 \name{DatasetExperiment_dist}
 \alias{DatasetExperiment_dist}
-\title{Distribution plot}
+\title{Feature distribution histogram}
 \usage{
 DatasetExperiment_dist(factor_name, per_class = TRUE, ...)
 }
 \arguments{
-\item{factor_name}{the sample_meta column to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{per_class}{= [TRUE] or FALSE to plot distrubutions for each level in
-factor_name}
+\item{per_class}{(logical) Plot per class. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The distributions are plotted for each class.}\item{\code{"FALSE"}: The distribution is plotted for all samples.}} The default is \code{TRUE}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{DatasetExperiment_dist} object.
 }
 \description{
-Visualise distributions of values in features/samples.
+A histogram to visualise the distribution of values within features.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
 C = DatasetExperiment_dist(factor_name='class')
 chart_plot(C,D)
-
 }

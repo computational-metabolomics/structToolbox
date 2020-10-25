@@ -2,7 +2,7 @@
 % Please edit documentation in R/fold_change_int_class.R
 \name{fold_change_int}
 \alias{fold_change_int}
-\title{fold change for interactions class}
+\title{Fold change for interactions between factors}
 \usage{
 fold_change_int(
   alpha = 0.05,
@@ -13,23 +13,21 @@ fold_change_int(
 )
 }
 \arguments{
-\item{alpha}{confidence level to use for intervals}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{factor_name}{the sample_meta column to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{threshold}{a threshold to define fold change as 'significant'.}
+\item{threshold}{(numeric) The fold change threshold for labelling features as significant. The default is \code{2}.}
 
-\item{control_group}{a level of factor name to use as the control group for
-calculations.}
+\item{control_group}{(character) The level name of the group used in the denominator (where possible) when computing fold change. The default is \code{character(0)}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{fold_change_int} object.
 }
 \description{
-Calculates fold change between groups for interactions between levels of
-factors. Note that paired forced to FALSE for all comparisons.
+For more than one factor the fold change calculation is extended to include all combinations of levels (interactions) of all factors. Paired fold changes are not possible for this computation.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
@@ -37,5 +35,9 @@ D=D[,1:10,drop=FALSE]
 M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
     fold_change_int(factor_name=c('class','batch'))
 M = model_apply(M,D)
-
+}
+\references{
+Lloyd GR, Weber RJM (????).
+\emph{struct: Statistics in R Using Class-based Templates}.
+R package version 1.1.2.
 }

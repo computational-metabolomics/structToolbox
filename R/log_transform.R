@@ -1,15 +1,11 @@
-#' log transform
-#'
-#' Applies a log transform to the input data
-#' @param base The base of the logarithm. Default is 10, resulting in a log10 transformation of the data.
-#' @param ... additional slots and values passed to struct_class
+#' @eval get_description('log_transform')
 #' @return struct object
 #' @export log_transform
 #' @examples
 #' M = log_transform()
 log_transform = function(base=10,...) {
     out=struct::new_struct('log_transform',
-        base=10,
+        base=base,
         ...)
     return(out)
 }
@@ -17,24 +13,24 @@ log_transform = function(base=10,...) {
 
 .log_transform<-setClass(
     "log_transform",
-    contains = c('model'),
+    contains = c('model','stato'),
     slots=c(base='entity',
         transformed='entity'
     ),
 
     prototype=list(name = 'logarithm transform',
-        description = 'applies a log tranform to the data.',
+        description = 'A logarithmic transform is applied to all values in the data matrix.',
         type = 'transform',
         predicted = 'transformed',
         .params=c('base'),
         .outputs=c('transformed'),
-
-        base=entity(name = 'logarithm base',
-            description = 'The base of the logarithm used for the tranform.',
+        stato_id = 'OBI:0200094',
+        base=entity(name = 'Logarithm base',
+            description = 'The base of the logarithm used for the transform.',
             value = 10,
             type='numeric'),
 
-        transformed=entity(name = 'log transformed DatasetExperiment',
+        transformed=entity(name = 'Log transformed DatasetExperiment',
             description = 'A DatasetExperiment object containing the log transformed data.',
             type='DatasetExperiment',
             value=DatasetExperiment()

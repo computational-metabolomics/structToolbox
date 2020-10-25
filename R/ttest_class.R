@@ -1,14 +1,4 @@
-#' t-test model class
-#'
-#' t-test model class. Calculate t-test for all features in a DatasetExperiment.
-#' @param alpha The p-value threshold. Default alpha = 0.05.
-#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
-#' @param factor_names The sample_meta column name to use.
-#' @param paired TRUE or FALSE to use a paired t-test.
-#' @param paired_factor The name of the sample_meta column used to indicate which samples are from the same
-#' subject. Must be provided if \code{paired = TRUE}
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('ttest')
 #' @export ttest
 #' @examples
 #' M = ttest(factor_name='class')
@@ -31,7 +21,7 @@ ttest = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=ch
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         factor_names='entity',
         paired='entity',
         paired_factor='entity',
@@ -44,40 +34,28 @@ ttest = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=ch
         estimates='data.frame'
     ),
     prototype = list(name='t-test',
-        description='Applies the t-test to each feature to indicate significance, with (optional)
-                                multiple-testing correction.',
+        description=paste0('A t-test compares the means of two factor levels. ',
+        'Multiple-test corrected p-values are used to indicate the significance ',
+        'of the computed difference for all features.'),
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000304",
         .params=c('alpha','mtc','factor_names','paired','paired_factor'),
         .outputs=c('t_statistic','p_value','dof','significant','conf_int','estimates'),
 
-        factor_names=entity(name='Factor names',
-            type='character',
-            description='Names of sample_meta columns to use'
-        ),
+        factor_names=ents$factor_names,
 
-        alpha=entity_stato(name='Confidence level',
-            stato_id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        mtc=entity_stato(name='Multiple Test Correction method',
-            stato_id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
+        alpha=ents$alpha,
+        mtc=ents$mtc,
         paired=entity(name='Apply paired t-test',
             value=FALSE,
             type='logical',
-            description='TRUE/FALSE to apply paired t-test.'
+            description='Apply a paired t-test.'
         ),
         paired_factor=entity(name='Paired factor',
             value='NA',
             type='character',
-            description='Factor name that encodes the sample id for pairing'
+            description='The factor name that encodes the sample id for pairing'
         ),
         t_statistic=entity_stato(name='t-statistic',
             stato_id='STATO:0000176',
@@ -115,6 +93,12 @@ setMethod(f="model_apply",
         X=D$data
         CN=colnames(X) # keep a copy of the original colnames
         y=D$sample_meta[[M$factor_names]]
+        
+        # convert to factor if it isn't one already
+        if (!is(y,'factor')) {
+            y=factor(y)
+        }
+        
         L=levels(y)
         if (length(L)!=2) {
             stop('must have exactly two levels for this implmentation of t-statistic')

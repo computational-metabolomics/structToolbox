@@ -2,24 +2,27 @@
 % Please edit documentation in R/HSDEM_class.R
 \name{HSDEM}
 \alias{HSDEM}
-\title{HSD model class using estimated marginal means}
+\title{Tukey's Honest Significant Difference using estimated marginal means}
 \usage{
 HSDEM(alpha = 0.05, mtc = "fdr", formula, ...)
 }
 \arguments{
-\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{formula}{The formula to use. See \code{lm} for details.}
+\item{formula}{(formula) A symbolic description of the model to be fitted.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{HSDEM} object.
 }
 \description{
-HSD model class using estimate marginal means, for use with mixed effects designs.
+Tukey's HSD post hoc test is a modified t-test applied for all features to all pairs of levels in a factor. It is used to determine which groups are different (if any). A multiple test corrected p-value is computed to indicate which groups are significantly different to the others for each feature. For mixed effects models estimated marginal means are used.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{emmeans}}\item{\code{nlme}}}
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -27,4 +30,13 @@ D$sample_meta$id=rownames(D) # dummy id column
 M = HSDEM(formula = y~Species+ Error(id/Species))
 M = model_apply(M,D)
 
+}
+\references{
+Lenth R (2020).
+\emph{emmeans: Estimated Marginal Means, aka Least-Squares Means}.
+R package version 1.5.2-1, \url{https://CRAN.R-project.org/package=emmeans}.
+
+Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team (2020).
+\emph{nlme: Linear and Nonlinear Mixed Effects Models}.
+R package version 3.1-149, \url{https://CRAN.R-project.org/package=nlme}.
 }

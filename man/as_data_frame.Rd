@@ -21,7 +21,7 @@
 A data.frame of model outputs
 }
 \description{
-convert the outputs of the input model into a data.frame.
+Convert the outputs of the input model into a data.frame.
 }
 \examples{
 D = iris_DatasetExperiment()

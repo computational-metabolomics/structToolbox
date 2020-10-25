@@ -2,18 +2,18 @@
 % Please edit documentation in R/pqn_norm_method_class.R
 \name{pqn_norm_hist}
 \alias{pqn_norm_hist}
-\title{plot for PQN normalisation}
+\title{PQN coefficient histogram}
 \usage{
 pqn_norm_hist(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{pqn_norm_hist} object.
 }
 \description{
-plots a histogram of the PQN coeffients
+A histogram of the PQN coefficients for all features
 }
 \examples{
 C = pqn_norm_hist()

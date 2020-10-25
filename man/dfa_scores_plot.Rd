@@ -2,7 +2,7 @@
 % Please edit documentation in R/DFA_class.R
 \name{dfa_scores_plot}
 \alias{dfa_scores_plot}
-\title{dfa_scores_plot class}
+\title{DFA scores plot}
 \usage{
 dfa_scores_plot(
   components = c(1, 2),
@@ -16,32 +16,30 @@ dfa_scores_plot(
 )
 }
 \arguments{
-\item{components}{The discriminant factors to plot (\code{numeric(2)})}
+\item{components}{(numeric) The components selected for plotting. The default is \code{c(1, 2)}.}
 
-\item{points_to_label}{"none", "all", or "outliers" will be labelled on the plot.}
+\item{points_to_label}{(character) Points to label. Allowed values are limited to the following: \itemize{\item{\code{"none"}: No samples labels are displayed.}\item{\code{"all"}: The labels for all samples are displayed.}\item{\code{"outliers"}: Labels for for potential outlier samples are displayed.}} The default is \code{"none"}.}
 
-\item{factor_name}{The sample_meta column name to use for colouring the points.
-You can provide up to two factors for this plot.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{ellipse}{"all" will plot all ellipses, "group" will only plot group ellipses,
-"none" will not plot any ellipses and "sample" will plot ellipse for all samples (ignoring group).}
+\item{ellipse}{(character) Plot ellipses. Allowed values are limited to the following: \itemize{\item{\code{"all"}: Hotelling T2 95\% ellipses are plotted for all groups and all samples.}\item{\code{"group"}: Hotelling T2 95\% ellipses are plotted for all groups.}\item{\code{"none"}: Ellipses are not included on the plot.}\item{\code{"sample"}: A Hotelling T2 95\% ellipse is plotted for all samples (ignoring group).}} The default is \code{"all"}.}
 
-\item{label_filter}{Only include labels for samples in the group specified by label_filter.
-If zero length then all labels will be included.}
+\item{label_filter}{(character) Labels are only plotted for the named groups. If zero-length then all groups are included. The default is \code{character(0)}.}
 
-\item{label_factor}{The sample_meta column to use for labelling the samples.
-If 'rownames' then the rownames will be used.}
+\item{label_factor}{(character) The column name of sample_meta to use for labelling samples on the plot. "rownames" will use the row names from sample_meta. The default is \code{"rownames"}.}
 
-\item{label_size}{The text size of the labels.NB ggplot units, not font size units.
-Default 3.88.}
+\item{label_size}{(numeric) The text size of labels. Note this is not in Font Units. The default is \code{3.88}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{dfa_scores_plot} object.
 }
 \description{
-2d scatter plot of discriminant factor scores.
+A scatter plot of the selected DFA components.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{scales}}\item{\code{ggplot2}}}
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -50,4 +48,14 @@ M = model_apply(M,D)
 C = dfa_scores_plot(factor_name = 'Species')
 chart_plot(C,M[2])
 
+}
+\references{
+Wickham H, Seidel D (2020).
+\emph{scales: Scale Functions for Visualization}.
+R package version 1.1.1, \url{https://CRAN.R-project.org/package=scales}.
+
+Wickham H (2016).
+\emph{ggplot2: Elegant Graphics for Data Analysis}.
+Springer-Verlag New York.
+ISBN 978-3-319-24277-4, \url{https://ggplot2.tidyverse.org}.
 }

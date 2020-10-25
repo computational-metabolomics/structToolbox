@@ -2,31 +2,47 @@
 % Please edit documentation in R/mixed_effect_class.R
 \name{mixed_effect}
 \alias{mixed_effect}
-\title{Mixed Effects model class}
+\title{Mixed effects model}
 \usage{
 mixed_effect(alpha = 0.05, mtc = "fdr", formula, ss_type = "marginal", ...)
 }
 \arguments{
-\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{formula}{The formula to use. See \code{aov} for details.}
+\item{formula}{(formula) A symbolic description of the model to be fitted.}
 
-\item{ss_type}{Type of sum of squares to use. "marginal" = Type III sum of squares,
-and "sequential" = Type II. Default is "marginal".}
+\item{ss_type}{(character) Sum of squares type. Allowed values are limited to the following: \itemize{\item{\code{"marginal"}: Type III sum of squares.}\item{\code{"sequential"}: Type II sum of squares.}} The default is \code{"marginal"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{mixed_effect} object.
 }
 \description{
-Mixed Effects model class. Applies RE model for all features in a DatasetExperiment
+A mixed effects model is an extension of ANOVA where there are both fixed and random effects.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{nlme}}\item{\code{emmeans}}}
 }
 \examples{
 D = iris_DatasetExperiment()
 D$sample_meta$id=rownames(D) # dummy id column
 M = mixed_effect(formula = y~Species+ Error(id/Species))
 M = model_apply(M,D)
+}
+\references{
+Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team (2020).
+\emph{nlme: Linear and Nonlinear Mixed Effects Models}.
+R package version 3.1-149, \url{https://CRAN.R-project.org/package=nlme}.
+
+Lenth R (2020).
+\emph{emmeans: Estimated Marginal Means, aka Least-Squares Means}.
+R package version 1.5.2-1, \url{https://CRAN.R-project.org/package=emmeans}.
+
+Fox J, Weisberg S (2019).
+\emph{An R Companion to Applied Regression}, Third edition.
+Sage, Thousand Oaks CA.
+\url{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}.
 }

@@ -2,25 +2,46 @@
 % Please edit documentation in R/glog_class.R
 \name{glog_transform}
 \alias{glog_transform}
-\title{glog transform}
+\title{Generalised logarithmic transform}
 \usage{
-glog_transform(qc_label = "QC", factor_name, ...)
+glog_transform(qc_label = "QC", factor_name, lambda = NULL, ...)
 }
 \arguments{
-\item{qc_label}{The label used to identify QC samples}
+\item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
-\item{factor_name}{The sample_meta column name containing QC labels}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{lambda}{(numeric, NULL) The value of lambda to use. If NULL then the pmp package will be used to determine an "optimal" value for lambda. The default is \code{NULL}.}
+
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{glog_transform} object.
 }
 \description{
-applies a glog transform to the input data
+The generalised logarithm (glog) transformation applies a log transformation while applying an offset to account for technical variation.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
 D = iris_DatasetExperiment()
 M = glog_transform(qc_label='versicolor',factor_name='Species')
 M = model_apply(M,D)
+}
+\references{
+Jankevics A, Weber RJM (2020).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.1.0.
+
+Durbin B, Hardin J, Hawkins D, Rocke D (2002).
+``A variance-stabilizing transformation for gene-expression microarray data.''
+\emph{Bioinformatics}, \bold{18}(Suppl 1), S105-S110.
+
+Parsons HM, Ludwig C, Gunther UL, Viant MR (2007).
+``Improved classification accuracy in 1- and ',
+'2-dimensional NMR metabolomics data using the variance ',
+'stabilising generalised logarithm transformation.''
+\emph{Bioinformatics}, \bold{8}(1), 234.
 }

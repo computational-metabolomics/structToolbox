@@ -2,26 +2,29 @@
 % Please edit documentation in R/corr_coef_class.R
 \name{corr_coef}
 \alias{corr_coef}
-\title{Correlation Coefficient}
+\title{Correlation coefficient}
 \usage{
 corr_coef(alpha = 0.05, mtc = "fdr", factor_names, method = "spearman", ...)
 }
 \arguments{
-\item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg, hommel, bonferroni, BH, BY, fdr or none}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{factor_names}{Sample_meta column names to correlate features with}
+\item{factor_names}{(character) The name of sample meta column(s) to use.}
 
-\item{method}{'Calculate "kendall", "pearson" or "spearman" correlation coefficient. Default method = "spearman".'}
+\item{method}{(character) Type of correlation. Allowed values are limited to the following: \itemize{\item{\code{"kendall"}: Kendall's tau is computed.}\item{\code{"pearson"}: Pearson product moment correlation is computed.}\item{\code{"spearman"}: Spearman's rho statistic is computed.}} The default is \code{"spearman"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{corr_coef} object.
 }
 \description{
-Calculates correlation between features and continuous variables.
+The correlation between features and a set of continuous factor are calculated. Multiple-test corrected p-values are used to indicate whether the computed coefficients may have occurred by chance.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{stats}}}
 }
 \examples{
 D = MTBLS79_DatasetExperiment(filtered=TRUE)
@@ -35,5 +38,10 @@ D$sample_meta$sample_rep=as.numeric(D$sample_meta$sample_rep)
 
 M = corr_coef(factor_names=c('sample_order','sample_rep'))
 M = model_apply(M,D)
-
+}
+\references{
+R Core Team (2020).
+\emph{R: A Language and Environment for Statistical Computing}.
+R Foundation for Statistical Computing, Vienna, Austria.
+\url{https://www.R-project.org/}.
 }

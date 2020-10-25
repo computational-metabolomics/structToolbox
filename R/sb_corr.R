@@ -1,16 +1,4 @@
-#' sbcms
-#'
-#' Signal/batch correction using SMCBMS package
-#' @param order_col The sample-meta column containing the order of measurement.
-#' @param batch_col The sample_meta column containing the batch labels.
-#' @param qc_col The sample_meta column containing QC labels.
-#' @param qc_label The label used in \code{qc_col} to identify QC samples.
-#' @param smooth Spline smoothing parameter. Should be in the range 0 to 1.
-#' If set to 0 it will be estimated using leave-one-out cross-validation.
-#' @param use_log Perform the signal correction fit on the log scaled data. Default is TRUE.
-#' @param min_qc Minimum number of measured quality control (QC) samples required
-#' for signal correction within feature per batch. Default 4.
-#' @param ... additional slots and values passed to struct_class
+#' @eval get_description('sb_corr')
 #' @return struct object
 #' @export sb_corr
 #' @examples
@@ -30,7 +18,7 @@ sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_
 
 .sb_corr<-setClass(
     "sb_corr",
-    contains = c('model'),
+    contains = c('model','stato'),
     slots=c(
         order_col='entity',
         batch_col='entity',
@@ -44,11 +32,26 @@ sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_
 
     prototype=list(
         name = 'Signal/batch correction for mass spectrometry data',
-        description = 'Applies Quality Control Robust Spline (QC-RSC) method to
-        correct for signal drift and batch differences in mass spectrometry data.',
+        description = paste0('Applies Quality Control Robust Spline (QC-RSC) ',
+            'method to correct for signal drift and batch differences in mass ',
+            'spectrometry data.'),
         type = 'correction',
         predicted = 'corrected',
         libraries='pmp',
+        citations=list(
+            bibentry(
+                bibtype = 'Article',
+                year = '2013',
+                volume = '405',
+                number = '15',
+                pages = '5147-5157',
+                author = as.person('J. A. Kirwan and D. I. Broadhurst and R. L. Davidson and M. R. Viant'),
+                title = paste0('Characterising and correcting batch variation ',
+                'in an automated direct infusion mass spectrometry (DIMS) metabolomics workflow'),
+                journal = 'Analytical and Bioanalytical Chemistry'
+            )
+        ),
+        stato_id='STATO:0000236',
         .params=c('order_col','batch_col','qc_col','smooth','use_log','min_qc','qc_label'),
         .outputs=c('corrected'),
 
@@ -72,20 +75,22 @@ sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_
 
         smooth=entity(
             name = 'Spline smoothing parameter',
-            description = 'Should be in the range 0 to 1. If set to 0 (default) it will be estimated using
+            description = 'The amount of smoothing applied (0 to 1). If set to 0 the smoothing parameter will be estimated using
             leave-one-out cross-validation.',
             value = 0,
             type='numeric'),
 
         use_log=entity(
-            name = 'Use log transformed data',
-            description = 'TRUE or FALSE to perform the signal correction fit on the log scaled data. Default is TRUE.',
+            name = 'Log tranformation',
+            description = c(
+                'TRUE' = 'The data is log transformed prior to performing signal correction.',
+                'FALSE' = 'Signal correction is applied to the input data'),
             value = TRUE,
             type='logical'),
 
         min_qc=entity(
             name = 'Minimum number of QCs',
-            description = 'Minimum number of QC samples required for signal correction.',
+            description = 'The minimum number of QC samples required for signal correction.',
             value = 4,
             type='numeric'),
 

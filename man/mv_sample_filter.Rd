@@ -2,21 +2,30 @@
 % Please edit documentation in R/mv_sample_filter_class.R
 \name{mv_sample_filter}
 \alias{mv_sample_filter}
-\title{Missing value filter (samples)}
+\title{Missing value sample filter}
 \usage{
 mv_sample_filter(mv_threshold = 20, ...)
 }
 \arguments{
-\item{mv_threshold}{The max percentage of missing values, above which the sample is removed.}
+\item{mv_threshold}{(numeric) The theshold for excluding samples. The default is \code{20}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{mv_sample_filter} object.
 }
 \description{
-Filters samples based on the percent number of missing values.
+Filters samples by removing those where the percent number of missing values exceeds a predefined threshold.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
 C = mv_sample_filter()
+}
+\references{
+Jankevics A, Weber RJM (2020).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.1.0.
 }

@@ -2,22 +2,25 @@
 % Please edit documentation in R/PLSDA_charts.R
 \name{plsda_vip_plot}
 \alias{plsda_vip_plot}
-\title{plsda_vip_plot class}
+\title{PLSDA VIP plot}
 \usage{
 plsda_vip_plot(threshold = 1, level, ...)
 }
 \arguments{
-\item{threshold}{the VIP threshold to plot. Default = 1}
+\item{threshold}{(numeric, integer) The threshold for indicating significant features. The default is \code{1}.}
 
-\item{level}{= the group label to plot VIP scores for}
+\item{level}{(character) The factor level (group) to plot.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{plsda_vip_plot} object.
 }
 \description{
-Plots the vip scores of a PLSDA model.
+A plot of the Variable Importance for Projection (VIP) scores for a PLSDA model.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pls}}\item{\code{ggplot2}}}
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -26,4 +29,14 @@ M = model_apply(M,D)
 
 C = plsda_vip_plot(level='setosa')
 chart_plot(C,M[2])
+}
+\references{
+Mevik B, Wehrens R, Liland K (2020).
+\emph{pls: Partial Least Squares and Principal Component Regression}.
+R package version 2.7-3, \url{https://CRAN.R-project.org/package=pls}.
+
+Wickham H (2016).
+\emph{ggplot2: Elegant Graphics for Data Analysis}.
+Springer-Verlag New York.
+ISBN 978-3-319-24277-4, \url{https://ggplot2.tidyverse.org}.
 }

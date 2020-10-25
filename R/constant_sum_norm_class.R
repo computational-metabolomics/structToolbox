@@ -1,10 +1,4 @@
-#' Normalisation to constant sum
-#'
-#' Applies normalisation to a constant sum, such that the sum of values for each sample
-#' after normalisation is equal to 1 (or a scaling factor, if specified).
-#' @param scaling_factor The sum of all values for a sample after normalisation. Default = 1.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('constant_sum_norm')
 #' @export constant_sum_norm
 #' @examples
 #' M = constant_sum_norm()
@@ -19,20 +13,22 @@ constant_sum_norm = function(scaling_factor=1,...) {
 
 .constant_sum_norm<-setClass(
     "constant_sum_norm",
-    contains = c('model'),
+    contains = c('model','stato'),
     slots=c(
         scaling_factor='entity',
         normalised='entity',
         coeff='entity'
     ),
     prototype=list(name = 'Normalisation to constant sum',
-        description = 'Normalises each row such that the sum is equal to 1 (or a scaling factor if specified).',
+        description = paste0('Each sample is normalised such that the total ',
+            'signal is equal to one (or a scaling factor if specified).'),
         type = 'normalisation',
         predicted='normalised',
+        stato_id='OBI:0200026',
         .params='scaling_factor',
         .outputs=c('normalised','coeff'),
         scaling_factor=entity(name = 'Normalised total',
-            description = 'A scaling factor applied after normalisation so that the sum is equal to this value.',
+            description = 'The scaling factor applied after normalisation.',
             type='numeric',
             value=1
         ),

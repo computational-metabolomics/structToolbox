@@ -2,18 +2,18 @@
 % Please edit documentation in R/kfold_xval_charts.R
 \name{kfoldxcv_metric}
 \alias{kfoldxcv_metric}
-\title{kfoldxcv_metric class}
+\title{kfoldxcv metric plot}
 \usage{
 kfoldxcv_metric(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{kfoldxcv_metric} object.
 }
 \description{
-A box plot of the calculated cross validation metric over all iterations.
+A boxplot of the performance metric computed for each fold of a k-fold cross-validation.
 }
 \examples{
 C = kfoldxcv_metric()

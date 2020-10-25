@@ -1,3 +1,13 @@
+Changes 1.1.2
++ Documentation updates
++ Bug fixes
+
+Changes 1.0.1
++ Fix HCA bug
+
+Changes 1.0.0
++ Bioconductor 3.11 release
+
 Changes 0.99.10
 + add Metabolmics BiocView
 + fix missing sections at end of vignette

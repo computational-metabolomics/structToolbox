@@ -2,20 +2,20 @@
 % Please edit documentation in R/PCA_class.R
 \name{PCA}
 \alias{PCA}
-\title{PCA model class}
+\title{Principal Component Analysis (PCA)}
 \usage{
 PCA(number_components = 2, ...)
 }
 \arguments{
-\item{number_components}{The number of principal components to retain}
+\item{number_components}{(numeric, integer) The number of Principal Components calculated. The default is \code{2}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{PCA} object.
 }
 \description{
-Principal Component Analysis (PCA) model class. This object can be used to train/apply PCA mdoels to DatasetExperiment objects.
+PCA is a multivariate data reduction technique. It summarises the data in a smaller number of Principal Components that maximise variance.
 }
 \examples{
 M = PCA()

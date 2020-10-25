@@ -1,10 +1,4 @@
-#' Discriminant Factor Analysis (DFA)
-#'
-#' Applies Discriminant Factor Analysis to a dataset.
-#' @param factor_name The sample_meta column name containing group labels
-#' @param number_components The number of discriminant factors to calculate
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('DFA')
 #' @export DFA
 #' @include entity_objects.R
 #' @examples
@@ -24,22 +18,42 @@ DFA = function(factor_name,number_components=2,...) {
     "DFA",
     contains = c('model'),
     slots=c(
-        number_components='numeric',
+        number_components='entity',
         factor_name='entity',
         scores='DatasetExperiment',
         loadings='data.frame',
         eigenvalues='data.frame',
         that='DatasetExperiment'
     ),
-
+    
     prototype=list(name = 'Discriminant Factor Analysis',
-        description = 'Applies DFA to a data matrix.',
+        description = paste0('Discriminant Factor Analysis (DFA) is a ',
+            'supervised classification method. Using a linear combination of the ',
+            'input variables, DFA finds new orthogonal axes (canonical values) ',
+            'to minimize the variance within each given class and maximize ',
+            'variance between classes.'),
         type = 'classification',
         predicted = 'that',
+        citations=list(
+            bibentry(
+                bibtype='Book',
+                title='Multivariate Statistical Methods: A Primer',
+                author=as.person('B.F.J. Manly'),
+                year='1986',
+                publisher='Chapman and Hall',
+                address='Boca Raton'
+            )
+        ),
         .params=c('factor_name','number_components'),
         .outputs=c('scores','loadings','eigenvalues','that'),
-
-        factor_name=ents$factor_name
+        
+        factor_name=ents$factor_name,
+        
+        number_components=entity(value = 2,
+            name = 'Number of components',
+            description = 'The number of DFA components calculated.',
+            type = c('numeric','integer')
+        )
         
     )
 )
@@ -84,11 +98,11 @@ setMethod(f="model_train",
         
         # projection
         ev = eigen(P)
-
+        
         # handle imaginary values (should be vv small)
         ev$values=Re(ev$values)
         ev$vectors=Re(ev$vectors)
-
+        
         # reduce to number of desired components
         ev$values=ev$values[1:M$number_components]
         ev$vectors=ev$vectors[,1:M$number_components]
@@ -122,7 +136,7 @@ setMethod(f="model_train",
 setMethod(f="model_predict",
     signature=c("DFA","DatasetExperiment"),
     definition=function(M,D) {
-
+        
         X=as.matrix(D$data)
         P=output_value(M,'loadings')
         that=X%*%as.matrix(P)
@@ -141,25 +155,8 @@ setMethod(f="model_predict",
 )
 
 
-#' dfa_scores_plot class
-#'
-#' 2d scatter plot of discriminant factor scores.
-#'
+#' @eval get_description('dfa_scores_plot')
 #' @import struct
-#' @param components The discriminant factors to plot (\code{numeric(2)})
-#' @param points_to_label "none", "all", or "outliers" will be labelled on the plot.
-#' @param factor_name The sample_meta column name to use for colouring the points.
-#' You can provide up to two factors for this plot.
-#' @param ellipse "all" will plot all ellipses, "group" will only plot group ellipses,
-#' "none" will not plot any ellipses and "sample" will plot ellipse for all samples (ignoring group).
-#' @param label_filter Only include labels for samples in the group specified by label_filter.
-#' If zero length then all labels will be included.
-#' @param label_factor The sample_meta column to use for labelling the samples.
-#' If 'rownames' then the rownames will be used.
-#' @param label_size The text size of the labels.NB ggplot units, not font size units.
-#' Default 3.88.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export dfa_scores_plot
 #' @include DFA_class.R
 #' @examples
@@ -206,51 +203,64 @@ dfa_scores_plot = function(
     ),
     
     prototype = list(name='DFA scores plot',
-        description='Plots a 2d scatter plot of the selected components',
+        description='A scatter plot of the selected DFA components.',
         type="scatter",
-        .params=c('components','points_to_label','factor_name','ellipse','label_filter','label_factor','label_size'),
+        libraries=c('scales','ggplot2'),
+        .params=c('components','points_to_label','factor_name','ellipse',
+            'label_filter','label_factor','label_size'),
         
         components=entity(name='Components to plot',
             value=c(1,2),
             type='numeric',
-            description='the components to be plotted e.g. c(1,2) plots component 1 on the x axis and component 2 on the y axis.',
+            description=paste0('The components selected for plotting.'),
             max_length=2
         ),
         
-        points_to_label=enum(name='points_to_label',
+        points_to_label=enum(name='Points to label',
             value='none',
             type='character',
-            description='("none"), "all", or "outliers" will be labelled on the plot.',
+            description=c(
+                'none' = 'No samples labels are displayed.', 
+                "all" = 'The labels for all samples are displayed.', 
+                "outliers" = 'Labels for for potential outlier samples are displayed.'
+            ),
             allowed=c('none','all','outliers')
         ),
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The column name of sample meta to use for plotting. A second column can be included to plot using symbols.',
-            max_length=2
-        ),
-        ellipse=enum(name = 'Plot ellipses',description=c(
-            '"all" will plot all ellipses',
-            '"group" will only plot group ellipses',
-            '"none" will not plot any ellipses',
-            '"sample" will plot ellipse for all samples (ignoring group)'),
+        factor_name=ents$factor_name,
+        ellipse=enum(
+            name = 'Plot ellipses',
+            description=c(
+                "all" = paste0('Hotelling T2 95\\% ellipses are plotted for all groups and all samples.'),
+                "group" = 'Hotelling T2 95\\% ellipses are plotted for all groups.',
+                "none" = 'Ellipses are not included on the plot.',
+                "sample" = 'A Hotelling T2 95\\% ellipse is plotted for all samples (ignoring group)'),
             allowed=c('all','group','none','sample'),
-            value='all'),
-        label_filter=entity(name='Label filter',
+            value='all'
+        ),
+        label_filter=entity(
+            name='Label filter',
             value=character(0),
             type='character',
-            description='Only include the param.group labels included in label_filter. If zero length then all labels will be included.'
+            description=paste0(
+                'Labels are only plotted for the named groups. If ',
+                'zero-length then all groups are included.'
+            )
         ),
         label_factor=entity(name='Factor for labels',
-            description='The column name of sample_meta to use as labels. "rownames" will use the row names from sample_meta.',
+            description=paste0('The column name of sample_meta to use for ',
+                'labelling samples on the plot. "rownames" will use the row ',
+                'names from sample_meta.'),
             type='character',
-            value='rownames'),
+            value='rownames',
+            max_length=1),
         label_size=entity(name='Text size of labels',
-            description='The text size of labels. Note this is not in Font Units. Default 3.88.',
+            description='The text size of labels. Note this is not in Font Units.',
             type='numeric',
-            value=3.88)
+            value=3.88,
+            max_length=1)
     )
 )
+
 
 
 
@@ -269,7 +279,7 @@ setMethod(f="chart_plot",
         }
         opt=param_list(obj)
         scores=output_value(dobj,'scores')$data
-
+        
         if (length(obj$factor_name)==1) {
             shapes = 19 # filled circles for all samples
         } else {

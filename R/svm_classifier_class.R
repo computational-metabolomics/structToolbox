@@ -1,14 +1,4 @@
-#' SVM model classifier
-#'
-#' Support vector machines model classifier. Wraps svm from the "e1071" package, which interfaces with the
-#' "libsvm" library to train SVM classifiers.
-#' @param factor_name The sample-meta column name to use for group labels
-#' @param class_weights a named vector of weights for the different classes, 
-#' used for asymmetric class sizes. Not all factor levels have to be supplied 
-#' (default weight: 1). All components have to be named. Specifying "inverse" 
-#' will choose the weights inversely proportional to the class distribution.
-#' @param ... additional slots and values passed to struct_class
-#' @inheritParams e1071::svm
+#' @eval get_description('SVM')
 #' @return struct object
 #' @export SVM
 #' @examples
@@ -48,48 +38,64 @@ SVM = function(factor_name,kernel='linear',degree=3,gamma=1,coef0=0,cost=1,class
         SVM_model='entity'
     ),
     prototype = list(name='Support Vector Machine Classifier',
+        
         type="classification",
         predicted='pred',
         libraries='e1071',
+        description=paste0('Support Vector Machines (SVM) are a machine ',
+            'learning algorithm for classification. They can make use of kernel ',
+            'functions to generate highly non-linear boundaries between groups.'),
         .params=c('factor_name','kernel','degree','gamma','coef0','cost','class_weights'),
         .outputs=c('SV','index','coefs','pred','decision_values'),
-
-        factor_name=entity(value = 'V1',
-            name = 'Name of sample_meta column',
-            description = 'The name of the sample_meta column to use for the PLS models',
-            type = 'character'),
+        citations=list(
+            bibentry(
+                bibtype='Article',
+                year = '2010',
+                volume = 135,
+                number = 2,
+                pages = "230-267",
+                author = as.person('Richard G. Brereton and Gavin R. Lloyd'),
+                title = "Support Vector Machines for classification and regression",
+                journal = "The Analyst"
+            )
+        ),
+        factor_name=ents$factor_name,
         
         kernel=enum(value = 'linear',
-            name = 'Kernel parameter',
-            description = 'The kernel used in training and predicting',
+            name = 'Kernel type',
+            description = c(
+                'linear' = '',
+                'polynomial' = '',
+                'radial'='',
+                'sigmoid'=''
+            ),
             type = 'character',
             allowed = c('linear','polynomial','radial','sigmoid')),
         
         degree=entity(value = 3,
             name = 'Polynomial degree',
-            description = 'Parameter needed for kernel of type polynomial (default: 3)',
+            description = 'The polynomial degree',
             type = 'numeric'),
         
         gamma=entity(value = 1,
             name = 'Gamma parameter',
-            description = 'Parameter needed for all kernels except linear (default: 1)',
+            description = 'The gamma parameter',
             type = 'numeric'),
         
         coef0=entity(value = 0,
             name = 'Offset coefficient',
-            description = 'Parameter needed for kernels of type polynomial and sigmoid (default: 0)',
+            description = 'The offset coefficient',
             type = 'numeric'),
         
         cost=entity(value = 1,
             name = 'SVM cost parameter',
-            description = 'Cost of constraints violation (default: 1)',
+            description = 'The cost of violating the constraints',
             type = 'numeric'),
         
         class_weights=entity(value = 1,
             name = 'Class weights',
-            description = 'A named vector of weights for the different classes, 
-            used for asymmetric class sizes (default weight: 1).  Specifying 
-            "inverse" will choose the weights inversely proportional to the class distribution.',
+            description = paste0('A named vector of weights for the different classes.  Specifying 
+            "inverse" will choose the weights inversely proportional to the class distribution.'),
             type = c('numeric','character','NULL')),
         
         SVM_model=entity(
@@ -125,7 +131,7 @@ setMethod(f="model_train",
             cost=M$cost,
             class.weights=cw,
             scale=FALSE
-            )
+        )
         
         M$SV=sv_model$SV
         M$index=sv_model$index
@@ -157,13 +163,7 @@ setMethod(f="model_predict",
 
 
 
-#' SVM boundary plot (2d)
-#'
-#' Plots the training data and the SVM boundary. 2d data only (ncol(D$data)==2). 
-#' @param factor_name The column of sample_meta to use
-#' @param npoints Used to control the resolution of the grid used to plot the boundary. Default 100.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('svm_plot_2d')
 #' @export svm_plot_2d
 #' @examples
 #' D = iris_DatasetExperiment()
@@ -191,17 +191,13 @@ svm_plot_2d = function(factor_name,npoints=100,...) {
         factor_name='entity',
         npoints='entity'
     ),
-    prototype = list(name='svm_plot_2d',
-        description='Scatter plot of data and the calculated SVM boundary',
+    prototype = list(name='SVM scatter plot',
+        description='A scatter plot of the input data by group and the calculated boundary of a SVM model.',
         type="scatter",
         libraries=c('e1071'),
         .params=c('factor_name','npoints'),
         
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
-        ),
+        factor_name=ents$factor_name,
         npoints=entity(name='Number of grid points',
             value=100,
             type='numeric',
@@ -248,19 +244,19 @@ setMethod(f="chart_plot",
         Z$pred=Z$decision_values
         
         A=data.frame(x=gobj$data[,1],y=gobj$data[,2],group=gobj$sample_meta[[dobj$factor_name]])
-    
+        
         # Scatter points
         g=ggplot()
         
         for (k in 1:ncol(dobj$decision_values)) {
-                g=g+geom_contour(data=Z,aes_(x=~gx,y=~gy,z=Z[,k+2]),breaks=c(0),colour='#000000',size=1)
-                g=g+geom_contour(data=Z,aes_(x=~gx,y=~gy,z=Z[,k+2]),breaks=c(-1,1),linetype=7,colour='#A9A9A9')
+            g=g+geom_contour(data=Z,aes_(x=~gx,y=~gy,z=Z[,k+2]),breaks=c(0),colour='#000000',size=1)
+            g=g+geom_contour(data=Z,aes_(x=~gx,y=~gy,z=Z[,k+2]),breaks=c(-1,1),linetype=7,colour='#A9A9A9')
         }
-
+        
         g = g + geom_point(data=A,aes_(x=~x,y=~y,colour=~group)) +
-                structToolbox:::scale_colour_Publication(name=obj$factor_name) +
-                structToolbox:::theme_Publication(base_size = 12)
-    
+            structToolbox:::scale_colour_Publication(name=obj$factor_name) +
+            structToolbox:::theme_Publication(base_size = 12)
+        
         # Support vectors
         B=as.data.frame(dobj$SV)
         colnames(B)=c('xx','yy')

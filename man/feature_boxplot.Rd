@@ -2,7 +2,7 @@
 % Please edit documentation in R/dataset_chart_classes.R
 \name{feature_boxplot}
 \alias{feature_boxplot}
-\title{Feature boxplots}
+\title{Feature boxplot}
 \usage{
 feature_boxplot(
   label_outliers = TRUE,
@@ -13,22 +13,21 @@ feature_boxplot(
 )
 }
 \arguments{
-\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot}
+\item{label_outliers}{(logical) Label outliers. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The index for outlier samples is included on the plot.}\item{\code{"FALSE"}: No labels are displayed.}} The default is \code{TRUE}.}
 
-\item{feature_to_plot}{the column id to plot.}
+\item{feature_to_plot}{(character, numeric, integer) The column name of the plotted feature.}
 
-\item{factor_name}{the sample_meta column to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{show_counts}{[TRUE] or FALSE to include the number of samples on the
-plot}
+\item{show_counts}{(logical) Show counts. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The number of samples for each box is displayed.}\item{\code{"FALSE"}: The number of samples for each box is not displayed.}} The default is \code{TRUE}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A struct chart object
+A  \code{feature_boxplot} object.
 }
 \description{
-Plots a boxplot of a chosen feature for each group of a input factor.
+A boxplot to visualise the distribution of values within a feature.
 }
 \examples{
 D = MTBLS79_DatasetExperiment

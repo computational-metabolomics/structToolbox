@@ -1,11 +1,4 @@
-#' kfoldxcv_grid class
-#'
-#' Plot of cross validation predictions vs the true values.
-#'
-#' @param factor_name The sample_meta column name to use.
-#' @param level The level of the factor to plot
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('kfoldxcv_grid')
 #' @export kfoldxcv_grid
 #' @include kfold_xval_class.R
 #' @examples
@@ -34,21 +27,19 @@ kfoldxcv_grid = function(factor_name,level,...) {
         factor_name='entity',
         level='entity'
     ),
-    prototype = list(name='kfoldxcv grid plot',
-        description='Plots the predictions for each cross-validation loop',
+    prototype = list(name='k-fold cross validation plot',
+        description=paste0('A graphic for visualising the true class and the ',
+        'predicted class of samples in all groups for all cross-validation ',
+        'folds. '),
         type="grid",
         .params=c('factor_name','level'),
         
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
-        ),
+        factor_name=ents$factor_name,
         
         level=entity(name='The level of the factor to plot',
             value='level_1',
             type='character',
-            description='The level of the factor to plot.'
+            description='The level/group to plot.'
         )
         
     )
@@ -118,13 +109,8 @@ setMethod(f="chart_plot",
 
 ###################
 
-#' kfoldxcv_metric class
-#'
-#' A box plot of the calculated cross validation metric over all iterations.
-#'
+#' @eval get_description('kfoldxcv_metric')
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export kfoldxcv_metric
 #' @include kfold_xval_class.R
 #' @examples
@@ -139,9 +125,9 @@ kfoldxcv_metric = function(...) {
     "kfoldxcv_metric",
     contains='chart',
     prototype = list(name='kfoldxcv metric plot',
-        description='box plot of the metric for each cross-validation loop',
+        description=paste0('A boxplot of the performance metric computed ',
+        'for each fold of a k-fold cross-validation.'),
         type="boxplot"
-        
     )
 )
 

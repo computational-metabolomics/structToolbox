@@ -2,30 +2,38 @@
 % Please edit documentation in R/anova_class.R
 \name{ANOVA}
 \alias{ANOVA}
-\title{ANOVA}
+\title{Analysis of Variance}
 \usage{
 ANOVA(alpha = 0.05, mtc = "fdr", formula, ss_type = "III", ...)
 }
 \arguments{
-\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{formula}{The formula to use for ANOVA. See \code{lm} for details.}
+\item{formula}{(formula) A symbolic description of the model to be fitted.}
 
-\item{ss_type}{The type of sum of squares to use. Can be I, II or III. Default is ss_type = 'III'.}
+\item{ss_type}{(character) ANOVA sum of squares. Allowed values are limited to the following: \itemize{\item{\code{"I"}: Type I sum of squares.}\item{\code{"II"}: Type II sum of squares.}\item{\code{"III"}: Type III sum of squares.}} The default is \code{"III"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-ANOVA object
+A  \code{ANOVA} object.
 }
 \description{
-Applies ANOVA to each feature in a DatasetExperiment object.
+Analysis of Variance (ANOVA) is a univariate method used to analyse the difference among group means. Multiple test corrected p-values are computed to indicate significance for each feature.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{car}}}
 }
 \examples{
 D = iris_DatasetExperiment()
 M = ANOVA(formula=y~Species)
 M = model_apply(M,D)
-
+}
+\references{
+Fox J, Weisberg S (2019).
+\emph{An R Companion to Applied Regression}, Third edition.
+Sage, Thousand Oaks CA.
+\url{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}.
 }

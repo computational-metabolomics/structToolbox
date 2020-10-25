@@ -1,7 +1,7 @@
 Package: structToolbox
 Type: Package
 Title: Data processing & analysis tools for Metabolomics and other omics
-Version: 1.1.1
+Version: 1.1.2
 Authors@R: c(
     person(
         c("Gavin","Rhys"),
@@ -104,7 +104,7 @@ Collate:
     'vec_norm_class.R'
     'wilcox_test_class.R'
     'zzz.R'
-Depends: R (>= 4.0), struct (>= 0.99.10)
+Depends: R (>= 4.0), struct (>= 1.1.2)
 Imports: ggplot2,
     ggthemes,
     grid,
@@ -112,8 +112,9 @@ Imports: ggplot2,
     methods,
     scales,
     sp,
-    stats
-RoxygenNote: 7.1.0
+    stats,
+    utils
+RoxygenNote: 7.1.1
 Suggests: agricolae,
  BiocFileCache,
  BiocStyle,

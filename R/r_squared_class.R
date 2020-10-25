@@ -1,8 +1,4 @@
-#' Coefficient of determination class
-#'
-#' Coefficient of determination (r-squared).
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('r_squared')
 #' @export r_squared
 #' @examples
 #' MET = r_squared()
@@ -15,10 +11,16 @@ r_squared = function(...) {
 
 .r_squared<-setClass(
     "r_squared",
-    contains='metric',
+    contains=c('metric','stato'),
     prototype = list(
-        name='r squared',
-        type="regression"
+        name='Coefficient of determination (R-squared)',
+        description=paste0(
+            'R-squared is a metric used to assess the goodness of fit for ',
+            'regression models. It measures how much variance of one variable ',
+            'can be explained by another variable.'
+        ),
+        type="regression",
+        stato_id='STATO:0000564'
     )
 )
 

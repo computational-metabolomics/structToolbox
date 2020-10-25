@@ -1,19 +1,10 @@
-#' Area under ROC
-#'
-#' Area under ROC calculated by approximating the curve as a series of trapeziums.
-#' Only suitable for 2 classes.
-#' 
-#' @return A metric object with methods for calculating AUC
-#'
+#' @eval get_description('AUC')
 #' @examples
 #' D = iris_DatasetExperiment()
 #' XCV = kfold_xval(folds=5,factor_name='Species') *
 #'       (mean_centre() + PLSDA(number_components=2,factor_name='Species'))
 #' MET = AUC()
 #' XCV = run(XCV,D,MET)
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export AUC
 AUC = function(...) {
     out=struct::new_struct('AUC',...)
@@ -23,9 +14,12 @@ AUC = function(...) {
 
 .AUC<-setClass(
     "AUC",
-    contains='metric',
-    prototype = list(name='Area under ROC',
-        type="classification"
+    contains=c('metric','stato'),
+    prototype = list(name='Area under ROC curve',
+        description=paste0("The area under the ROC curve of a classifier is ",
+            "estimated using the trapezoid method."),
+        type="classification",
+        stato_id="STATO:0000209"
     )
 )
 

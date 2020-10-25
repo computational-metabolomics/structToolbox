@@ -2,26 +2,25 @@
 % Please edit documentation in R/filter_na_count.R
 \name{filter_na_count}
 \alias{filter_na_count}
-\title{filter_na_count class}
+\title{Minimum number of measured values filter}
 \usage{
 filter_na_count(threshold, factor_name, ...)
 }
 \arguments{
-\item{threshold}{the maximum number of NA allowed per level of factor_name}
+\item{threshold}{(numeric) The minimum number of samples in each group/interaction.}
 
-\item{factor_name}{the sample_meta column name to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{filter_na_count} object.
 }
 \description{
-Filters features by the number of NA per class
+The number of measured values is counted for each feature, and any feature with less than a predefined minimum number of values in each group is removed. If there are several factors, then the threshold is applied so that the minimum number of samples is present for all combinations (interactions) of groups.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
 M = filter_na_count(threshold=3,factor_name='class')
 M = model_apply(M,D)
-
 }

@@ -7,21 +7,17 @@
 pareto_scale(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A STRUCT model object with methods for pareto scaling.
-
-struct object
+A  \code{pareto_scale} object.
 }
 \description{
-Pareto scaling centres the columns of the data in a DatasetExperiment object
-and divides by the square root of the standard deviation.
+The mean sample is subtracted from all samples and then scaled by the square root of the standard deviation. The transformed data has zero mean.
 }
 \examples{
 D = iris_DatasetExperiment()
 M = pareto_scale()
 M = model_train(M,D)
 M = model_predict(M,D)
-
 }

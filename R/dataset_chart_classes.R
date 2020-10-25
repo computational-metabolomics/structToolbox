@@ -1,22 +1,11 @@
-#' Feature boxplots
-#'
-#' Plots a boxplot of a chosen feature for each group of a input factor.
-#'
-#' @import struct
-#'
-#' @param label_outliers [TRUE] or FALSE to label outliers on the plot
-#' @param feature_to_plot the column id to plot.
-#' @param factor_name the sample_meta column to use
-#' @param show_counts [TRUE] or FALSE to include the number of samples on the
-#' plot
-#' @param ... additional slots and values passed to struct_class
+#' @eval get_description('feature_boxplot')
 #' @examples
 #' D = MTBLS79_DatasetExperiment
 #' C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')
 #' chart_plot(C,D)
-#' @return A struct chart object
 #' @export feature_boxplot
-feature_boxplot = function(label_outliers=TRUE,feature_to_plot,factor_name,show_counts=TRUE,...) {
+feature_boxplot = function(label_outliers=TRUE,feature_to_plot,
+    factor_name,show_counts=TRUE,...) {
     out=struct::new_struct('feature_boxplot',
         label_outliers=label_outliers,
         feature_to_plot=feature_to_plot,
@@ -38,31 +27,26 @@ feature_boxplot = function(label_outliers=TRUE,feature_to_plot,factor_name,show_
         show_counts='entity'
     ),
     prototype = list(name='Feature boxplot',
-        description='plots a boxplot of a chosen feature for each group of a DatasetExperiment.',
+        description='A boxplot to visualise the distribution of values within a feature.',
         type="boxlot",
         stato_id='STATO:0000243',
         .params=c('label_outliers','feature_to_plot','factor_name','show_counts'),
-
+        
         label_outliers=entity(name='Label outliers',
             value=TRUE,
             type='logical',
-            description='(TRUE) of FALSE to print labels for outliers.'
+            description=c(
+                'TRUE' = 'The index for outlier samples is included on the plot.',
+                'FALSE' = 'No labels are displayed.'
+            )
         ),
         feature_to_plot=entity(name='Feature to plot',
             value='V1',
             type=c('character','numeric','integer'),
-            description='The column name of the feature to be plotted.'
+            description='The column name of the plotted feature.'
         ),
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The column name of meta data to use.'
-        ),
-        show_counts=entity(name='Show counts',
-            value=TRUE,
-            type='logical',
-            description='(TRUE) or FALSE to display the number of values used to create each boxplot.'
-        )
+        factor_name=ents$factor_name,
+        show_counts=ents$show_counts
     )
 )
 
@@ -87,22 +71,22 @@ setMethod(f="chart_plot",
         # meta data
         SM=dobj$sample_meta
         SM=SM[[obj$factor_name]]
-
+        
         # remove NA
         SM=SM[!is.na(Xt)]
         Xt=Xt[!is.na(Xt)]
-
+        
         # count number of values
         L=levels(SM)
         count=numeric(length(L))
         for (i in 1:length(L)) {
             count[i]=sum(SM==L[i])
         }
-
+        
         # get color pallete using pmp
         clrs= createClassAndColors(class = SM)
         SM=clrs$class
-
+        
         #prep the plot
         temp=data.frame(x=SM,y=Xt)
         p<-ggplot(temp, aes_(x=~x,y=~y,color=~x)) +
@@ -113,13 +97,13 @@ setMethod(f="chart_plot",
             scale_colour_manual(values=clrs$manual_colors,name=opt$factor_name) +
             theme_Publication(base_size = 12) +
             theme(legend.position="none")
-
+        
         if (opt$show_counts) {
             newlabels=as.character(count)
             newlabels=paste0(as.character(L),'\n(n = ',newlabels,')')
             p=p+scale_x_discrete(labels=newlabels)
         }
-
+        
         if (opt$label_outliers) {
             outliers=numeric()
             for (l in L) {
@@ -131,9 +115,9 @@ setMethod(f="chart_plot",
             outlier_df$out_label=paste0('  ',rownames(dobj$data))[outliers]
             p=p+geom_text(data=outlier_df,aes_(group=~x,color=~x,label=~out_label),hjust='left')
         }
-
+        
         return(p)
-
+        
     }
 )
 
@@ -143,13 +127,7 @@ setMethod(f="chart_plot",
 ######################################
 
 
-#' mv_histogram class
-#'
-#' histograms indicating the numbers of missing values per sample/feature
-#'
-#' @param label_outliers [TRUE] or FALSE to label outliers on the plot
-#' @param by_sample [TRUE] to plot by sample or FALSE to plot by features
-#'
+#' @eval get_description('mv_histogram')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' C = mv_histogram(label_outliers=FALSE,by_sample=FALSE)
@@ -177,20 +155,12 @@ mv_histogram = function(label_outliers=TRUE,by_sample=TRUE,...) {
         by_sample='entity'
     ),
     prototype = list(name='Missing value histogram',
-        description='Histogram of missing values per sample/feature.',
+        description='A histogram of the numbers of missing values per sample/feature',
         type="histogram",
         .params=c('label_outliers','by_sample'),
-
-        by_sample=entity(name='Plot by sample or by feature',
-            value=TRUE,
-            type='logical',
-            description='(TRUE) to plot missing values per sample or FALSE to plot by feature.'
-        ),
-        label_outliers=entity(name='Label outliers on the plot',
-            value=FALSE,
-            type='logical',
-            description='TRUE or FALSE to include labels for outlying samples. Default FALSE'
-        )
+        
+        by_sample=ents$by_sample,
+        label_outliers=ents$label_outliers
     )
 )
 
@@ -206,7 +176,7 @@ setMethod(f="chart_plot",
         Xt=dobj$data
         # meta data
         SM=dobj$sample_meta[ ,1]
-
+        
         if (opt$by_sample) {
             # count NS per sample
             count=apply(Xt,1,function(x) {sum(is.na(x))/length(x)*100})
@@ -216,15 +186,15 @@ setMethod(f="chart_plot",
             count=apply(Xt,2,function(x) {sum(is.na(x))/length(x)*100})
             txt='Missing values per feature'
         }
-
+        
         A=data.frame(x=count)
         p=ggplot (data=A, aes_(x=~x)) + geom_histogram()+
             xlab ("missing values, %")+ ggtitle(txt)+
             xlim (0,100)+
             scale_colour_Publication()+ theme_Publication(base_size = 12)
-
+        
         return(p)
-
+        
     }
 )
 
@@ -233,27 +203,13 @@ setMethod(f="chart_plot",
 ######################################
 
 
-#' mv_boxplot class
-#'
-#' Boxplot of the numbers of missing values per sample/feature
-#'
-#' @param label_outliers [TRUE] or FALSE to label outliers on the plot
-#' plot
-#' @param by_sample by_sample [TRUE] to plot by sample or FALSE to plot by features
-#' @param factor_name the sample_meta column to use
-#' @param show_counts [TRUE] or FALSE to include the number of samples on the plot
+#' @eval get_description('mv_boxplot')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' C = mv_boxplot(factor_name='class')
 #' chart_plot(C,D)
 #'
 #' @import struct
-#' @param label_outliers TRUE or FALSE to label outliers on the plot.
-#' @param by_sample TRUE to plot missing values by sample, or FALSE to plot for features.
-#' @param factor_name The sample_meta column to use.
-#' @param show_counts TRUE to show a count of the number of items used to create the boxplot on the chart.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export mv_boxplot
 mv_boxplot = function(label_outliers=TRUE,by_sample=TRUE,factor_name,show_counts=TRUE,...) {
     out=struct::new_struct('mv_boxplot',
@@ -277,30 +233,14 @@ mv_boxplot = function(label_outliers=TRUE,by_sample=TRUE,factor_name,show_counts
         show_counts='entity'
     ),
     prototype = list(name='Missing value boxplots',
-        description='Histogram ofmissing values per sample/feature.',
-        type="histogram",
+        description='Boxplots of the number of missing values per sample/feature.',
+        type="boxplot",
         .params=c('label_outliers','by_sample','factor_name','show_counts'),
-
-        label_outliers=entity(name='Label outliers',
-            value=TRUE,
-            type='logical',
-            description='(TRUE) of FALSE to print labels for outliers.'
-        ),
-        by_sample=entity(name='Plot by sample or by feature',
-            value=TRUE,
-            type='logical',
-            description='(TRUE) to plot missing values per sample or FALSE to plot by feature.'
-        ),
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
-        ),
-        show_counts=entity(name='Show counts',
-            value=TRUE,
-            type='logical',
-            description='(TRUE) or FALSE to display the number of values used to create each boxplot.'
-        )
+        
+        by_sample=ents$by_sample,
+        label_outliers=ents$label_outliers,
+        factor_name=ents$factor_name,
+        show_counts=ents$show_counts
     )
 )
 
@@ -315,9 +255,9 @@ setMethod(f="chart_plot",
         Xt=dobj$data
         # meta data
         SM=dobj$sample_meta[ ,obj$factor_name]
-
+        
         L=levels(SM)
-
+        
         if (opt$by_sample) {
             # count NS per sample
             count=apply(Xt,1,function(x) {sum(is.na(x))/length(x)*100})
@@ -350,8 +290,8 @@ setMethod(f="chart_plot",
             clrs= createClassAndColors(class = as.factor(result$x))
             A=data.frame(x=clrs$class,y=result$y)
         }
-
-
+        
+        
         p=ggplot (data=A, aes_(x=~x,y=~y,color=~x)) +
             geom_boxplot() +
             ggtitle(txt) +
@@ -362,7 +302,7 @@ setMethod(f="chart_plot",
             ylab ("missing values, %") +
             coord_flip()+
             theme(legend.position="none")
-
+        
         if (opt$show_counts) {
             L=levels(A$x)
             num=numeric(length(L))
@@ -373,7 +313,7 @@ setMethod(f="chart_plot",
             newlabels=paste0(as.character(L),'\n(n = ',newlabels,')')
             p=p+scale_x_discrete(labels=newlabels)
         }
-
+        
         if (opt$label_outliers) {
             outliers=numeric()
             for (l in L) {
@@ -382,7 +322,7 @@ setMethod(f="chart_plot",
                 outliers=c(outliers,IN[which( A$y[IN]<(quantile(A$y[IN], 0.25) - 1.5*IQR(A$y[IN]))) ] )
             }
             outlier_df=A[outliers,]
-
+            
             if (length(outliers)>0){
                 if (opt$by_sample) {
                     outlier_df$out_label=paste0('  ',rownames(dobj$data))[outliers]
@@ -392,29 +332,19 @@ setMethod(f="chart_plot",
                 }
                 p=p+geom_text(data=outlier_df,aes_(group=~x,color=~x,label=~out_label,angle =~ 90),hjust='left')
             }
-
+            
         }
-
+        
         return(p)
     }
 )
 
-#' Distribution plot
-#'
-#' Visualise distributions of values in features/samples.
-#'
-#' @param factor_name the sample_meta column to use
-#' @param per_class = [TRUE] or FALSE to plot distrubutions for each level in
-#' factor_name
-#'
+#' @eval get_description('DatasetExperiment_dist')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' C = DatasetExperiment_dist(factor_name='class')
 #' chart_plot(C,D)
-#'
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export DatasetExperiment_dist
 DatasetExperiment_dist = function(factor_name,per_class=TRUE,...) {
     out=struct::new_struct('DatasetExperiment_dist',
@@ -432,20 +362,19 @@ DatasetExperiment_dist = function(factor_name,per_class=TRUE,...) {
         factor_name='entity',
         per_class='entity'
     ),
-    prototype = list(name='Distribution plot',
-        description='Plot of the distribution of all values in the data matrix.',
-        type="boxlot",
+    prototype = list(name='Feature distribution histogram',
+        description=paste0('A histogram to visualise the distribution of ',
+            'values within features.'),
+        type="histogram",
         .params=c('factor_name','per_class'),
-
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
-        ),
+        
+        factor_name=ents$factor_name,
         per_class=entity(name='Plot per class',
             value=TRUE,
             type='logical',
-            description='[TRUE] or FALSE to plot distributions by class.'
+            description=c(
+                "TRUE" = 'The distributions are plotted for each class.',
+                "FALSE" = 'The distribution is plotted for all samples')
         )
     )
 )
@@ -459,7 +388,7 @@ setMethod(f="chart_plot",
         opt=param_list(obj)
         X=as.matrix(dobj$data)
         S=dobj$sample_meta[[opt$factor_name]]
-
+        
         if (opt$per_class) {
             L=levels(S)
             for (k in L) {
@@ -482,28 +411,17 @@ setMethod(f="chart_plot",
             ylab('Density') +
             scale_colour_Publication(name=opt$factor_name)+
             theme_Publication(base_size = 12)
-
+        
         return(out)
-
+        
     }
 )
 
-#' DatasetExperiment boxplot
-#'
-#' Boxplot of values per sample/feature in a DatasetExperiment
-#'
-#' @param factor_name the column name of sample_meta to use
-#' @param by_sample [TRUE] or FALSE to plot by samples or features respectively
-#' @param per_class [TRUE] or FALSE to plot per level in factro_name
-#' @param number the number of samples/features to plot
-#'
+#' @eval get_description('DatasetExperiment_boxplot')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' C = DatasetExperiment_boxplot(factor_name='class',number=10,per_class=FALSE)
 #' chart_plot(C,D)
-#'
-#' @import struct
-#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export DatasetExperiment_boxplot
 DatasetExperiment_boxplot = function(factor_name,by_sample=TRUE,per_class=TRUE,number=50,...) {
@@ -527,30 +445,32 @@ DatasetExperiment_boxplot = function(factor_name,by_sample=TRUE,per_class=TRUE,n
         per_class='entity',
         number='entity'
     ),
-    prototype = list(name='Distribution plot',
-        description='Plot of the distribution of all values in the data matrix.',
-        type="boxlot",
+    prototype = list(name='Feature distribution histogram',
+        description=paste0('A boxplot to visualise the distribution of ',
+            'values within a subset of features.'),
+        type="boxplot",
         .params=c('factor_name','by_sample','per_class','number'),
-
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example. By default the column name of the meta data will be used where possible.'
-        ),
-        by_sample=entity(name='Plot by sample or by feature',
+        
+        factor_name=ents$factor_name,
+        by_sample=entity(name='Plot by sample',
             value=TRUE,
             type='logical',
-            description='[TRUE] to plot by sample or FALSE to plot by feature.'
+            description=c(
+                'TRUE' = 'The data is plotted across features for a subset of samples.',
+                'FALSE' = 'The data is plotted across samples for a subset of features.')
         ),
         per_class=entity(name='Plot per class',
             value=TRUE,
             type='logical',
-            description='[TRUE] or FALSE to plot distributions by class.'
+            description=c(
+                "TRUE" = 'The data is plotted for each class.',
+                "FALSE" = 'The data is plotted for all samples')
         ),
         number=entity(name='Number of features/samples',
             value=50,
-            type='numeric',
-            description='The number of features/samples to plot.'
+            type=c('numeric','integer'),
+            description='The number of features/samples plotted.',
+            max_length=1
         )
     )
 )
@@ -574,7 +494,7 @@ setMethod(f="chart_plot",
             ylabel='Samples'
         }
         s=unique(floor(s))
-
+        
         for (i in s) {
             if (!opt$by_sample){
                 sm=SM[[obj$factor_name]]
@@ -602,26 +522,18 @@ setMethod(f="chart_plot",
             out=out+theme(legend.position="none")
         }
         return(out)
-
+        
     }
 )
 
 
-#' Compare distributions
-#'
-#' A combination of plots to compare distributions of samples/features in two
-#' datasets
-#'
-#' @param factor_name the sample_meta colum to use
-#'
+#' @eval get_description('compare_dist')
 #' @examples
 #' D1=MTBLS79_DatasetExperiment(filtered=FALSE)
 #' D2=MTBLS79_DatasetExperiment(filtered=TRUE)
 #' C = compare_dist(factor_name='class')
 #' chart_plot(C,D1,D2)
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export compare_dist
 compare_dist = function(factor_name,...) {
     out=struct::new_struct('compare_dist',
@@ -632,18 +544,16 @@ compare_dist = function(factor_name,...) {
 
 .compare_dist<-setClass(
     "compare_dist",
-    contains='chart',
+    contains=c('chart','stato'),
     slots=c(factor_name='entity'),
     prototype = list(name='Compare distributions',
-        description='Distributions and box plots to compare two datasets',
+        description=paste0('Histograms and boxplots computed across samples ',
+            'and features are used to visually compare two datasets e.g. before ',
+            'and after filtering and/or normalisation.'),
         type="mixed",
+        stato_id='STATO:0000161',
         .params=c('factor_name'),
-        factor_name=entity(name='Factor name',
-            value='factor',
-            type='character',
-            description='The name of the factor to be displayed on the plot. Appears on axis and legend titles, for example.'
-        )
-
+        factor_name=ents$factor_name
     )
 )
 
@@ -656,25 +566,25 @@ setMethod(f="chart_plot",
     definition=function(obj,dobj,eobj)
     {
         C=DatasetExperiment_boxplot(by_sample=FALSE,per_class=FALSE,number=30,factor_name=obj$factor_name)
-
+        
         C1=chart_plot(C,dobj)+
             labs(tag='c)')+
             theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle(NULL,'Before processing')
-
+        
         C2=chart_plot(C,eobj)+
             labs(tag='d)')+
             theme(axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle(NULL,'After processing')
-
+        
         C=DatasetExperiment_dist(factor_name=obj$factor_name,per_class=TRUE)
-
+        
         C3=chart_plot(C,dobj)+
             labs(tag='a)')+
             theme(legend.position="none",axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle(NULL,'Before processing')
-
+        
         C4=chart_plot(C,eobj)+
             labs(tag='b)')+
             theme(legend.position="none",axis.text.x = element_text(angle = 90, hjust = 1))+ggtitle(NULL,'After processing')
-
+        
         rC1=ggplot_build(C1)$layout$panel_scales_y[[1]]$range$range
         rC2=ggplot_build(C2)$layout$panel_scales_y[[1]]$range$range
         rC3=ggplot_build(C3)$layout$panel_scales_x[[1]]$range$range
@@ -683,41 +593,41 @@ setMethod(f="chart_plot",
         rC2=max(abs(rC2))
         rC3=max(abs(rC3))
         rC4=max(abs(rC4))
-
+        
         C1=C1+ylim(c(-rC1,rC1))
         C3=C3+xlim(c(-rC1,rC1))
         C2=C2+ylim(c(-rC2,rC2))
         C4=C4+xlim(c(-rC2,rC2))
-
-
+        
+        
         gA <- ggplotGrob(C3)
         gB <- ggplotGrob(C4)
         gC <- ggplotGrob(C1)
         gD <- ggplotGrob(C2)
-
+        
         L=matrix(nrow=4,ncol=1)
         L=as.matrix(rbind(c(1,2),c(3,4),c(3,4),c(3,4)))
-
+        
         temp=gtable_cbind(gA,gB)
         heights1=temp$heights
         gA$heights=heights1
         gB$heights=heights1
-
+        
         temp=gtable_cbind(gC,gD)
         heights2=temp$heights
         gC$heights=heights2
         gD$heights=heights2
-
+        
         maxWidth = grid::unit.pmax(gA$widths[2:5], gB$widths[2:5],gC$widths[2:5],gD$widths[2:5])
         gA$widths[2:5] <- as.list(maxWidth)
         gB$widths[2:5] <- as.list(maxWidth)
         gC$widths[2:5] <- as.list(maxWidth)
         gD$widths[2:5] <- as.list(maxWidth)
-
+        
         p=grid.arrange(grobs=list(gA,gB,gC,gD),layout_matrix=L)
-
+        
         return(p)
-
+        
     }
 )
 
@@ -725,16 +635,12 @@ setMethod(f="chart_plot",
 #############################################################
 #############################################################
 
-#' DatasetExperiment_heatmap class
-#'
-#' plots a DatasetExperiment as a heatmap
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @param na_colour A hex colour code to use for missing values
-#' @return struct object
+#' @eval get_description('DatasetExperiment_heatmap')
 #' @export DatasetExperiment_heatmap
 #' @examples
+#' D = iris_DatasetExperiment()
 #' C = DatasetExperiment_heatmap()
+#' chart_plot(C,D)
 DatasetExperiment_heatmap = function(na_colour='#FF00E4',...) {
     out=struct::new_struct('DatasetExperiment_heatmap',
         na_colour=na_colour,...)
@@ -750,15 +656,16 @@ DatasetExperiment_heatmap = function(na_colour='#FF00E4',...) {
         na_colour='entity'
     ),
     prototype = list(name='DatasetExperiment heatmap',
-        description='plots a heatmap of a DatasetExperiment',
+        description='A heatmap to visualise the measured values in a data matrix.',
         type="scatter",
         libraries='reshape2',
         .params=c('na_colour'),
-
-        na_colour=entity(name='NA colour',
+        
+        na_colour=entity(name='Missing value colour',
             value='#FF00E4',
             type='character',
-            description='A hex colour code to use for missing values'
+            description='The hex colour code used to plot missing values.',
+            max_length=1
         )
     )
 )
@@ -780,9 +687,9 @@ setMethod(f="chart_plot",
                 axis.text.y=element_blank(),
                 axis.ticks.y=element_blank()
             )
-
-
+        
+        
         return(p)
-
+        
     }
 )

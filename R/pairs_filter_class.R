@@ -1,17 +1,6 @@
-#' Pairs filter
-#'
-#' Filters samples for paired analysis, ensuring each sample id is present in all groups.
-#'
-#' @param factor_name (character) the column name of sample_meta containing the
-#' labels
-#' @param sample_id (character) the column name of sample_meta containing the
-#' sample ids
-#'
-#' @return A STRUCT method object with functions for applying a pairs filter
+#' @eval get_description('pairs_filter')
 #' @examples
 #' M=pairs_filter(factor_name='Class',sample_id='ids')
-#'
-#' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pairs_filter
 pairs_filter = function(factor_name,sample_id,...) {
@@ -31,18 +20,19 @@ pairs_filter = function(factor_name,sample_id,...) {
         filtered='entity',
         flags='entity'
     ),
-    prototype=list(name = 'Blank filter',
-        description = 'Filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the intensity is not large compared to the blank are removed.',
+    prototype=list(name = 'Pairs filter',
+        description = paste0('This filter is used for study designs with ',
+        'paired sampling to ensure that  measurements from the same source ',
+        '(e.g. patient) are represented in all factor levels and interactions. '),
         type = 'filter',
         predicted = 'filtered',
+        .params=c('factor_name','sample_id'),
+        .outputs=c('filtered','flags'),
 
-        factor_name=entity(name='Factor name',
-            description='Name of sample meta column to use',
-            type='character',
-            value='V1'),
+        factor_name=ents$factor_name,
 
         sample_id=entity(name='Sample id',
-            description='Name of sample meta column containing the sample id',
+            description='Name of sample meta column containing sample identifiers',
             type='character',
             value='V1'),
 

@@ -14,30 +14,26 @@ blank_filter(
 )
 }
 \arguments{
-\item{fold_change}{\code{numeric(1)}, fold_change minimum fold change 
-between analytical and blank samples.}
+\item{fold_change}{(numeric) Features with fold change less than this value are removed. The default is \code{20}.}
 
-\item{blank_label}{\code{character(1)}, class label used to identify blank
-samples.}
+\item{blank_label}{(character) The label used to identify blank samples. The default is \code{"blank"}.}
 
-\item{qc_label}{\code{character(1)} or \code{NULL}, class label used to
-identify QC samples.}
+\item{qc_label}{(character, NULL) The label used to identify QC samples. If set to NULL then the median of the samples is used. The default is \code{"QC"}.}
 
-\item{factor_name}{the column name of sample_meta to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{fraction_in_blank}{\code{numeric(1)}, value between 0 to 1 to specify 
-fraction in how many blanks peaks should be present.}
+\item{fraction_in_blank}{(numeric) Features present in less than this proportion of the blanks are not considered for removal. The default is \code{0}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A struct model object for applying a blank filter
+A  \code{blank_filter} object.
 }
 \description{
-Filters features based on the features present in blank samples. The median
-intensity of the samples is compared to the median intensity of the blank
-samples. Any sample not sufficiently more intense than the blank is removed.
-This is a wrapper for the blank filter in the PMP package.
+A blank filter filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the relative intensity (fold change) is not large when compared to the blank are removed. The number of times a feature is detected across all blank samples may also be considered. If the feature is not detected in a high enough proportion of the blanks then it is not removed.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -46,4 +42,10 @@ M = blank_filter(fold_change=2,
                  blank_label='setosa',
                  qc_label='versicolor')
 M = model_apply(M,D)
+}
+\references{
+Jankevics A, Weber RJM (2020).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.1.0.
 }

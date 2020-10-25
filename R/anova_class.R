@@ -1,25 +1,11 @@
-#' ANOVA
-#'
-#' Applies ANOVA to each feature in a DatasetExperiment object.
-#'
+#' @eval get_description('ANOVA')
+#' @include entity_objects.R
 #' @import struct
 #' @import stats
-#'
-#' @templateVar paramNames c('alpha','mtc','formula')
-#' @template common_params
-#'
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = ANOVA(formula=y~Species)
 #' M = model_apply(M,D)
-#'
-#' @include entity_objects.R
-#' @param alpha The p-value threshold. Default alpha = 0.05.
-#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
-#' @param formula The formula to use for ANOVA. See \code{lm} for details.
-#' @param ss_type The type of sum of squares to use. Can be I, II or III. Default is ss_type = 'III'.
-#' @param ... additional slots and values passed to struct_class
-#' @return ANOVA object
 #' @export ANOVA
 ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III',...) {
     out=struct::new_struct('ANOVA',
@@ -38,7 +24,7 @@ ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III',...) {
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         formula='entity',
         ss_type='enum',
         # OUTPUTS
@@ -47,7 +33,11 @@ ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III',...) {
         significant='entity'
     ),
     prototype = list(name='Analysis of Variance',
-        description='ANOVA applied to each column of a DatasetExperiment.',
+        description=paste0(
+            "Analysis of Variance (ANOVA) is a univariate method used to ",
+            "analyse the difference among ",
+            "group means. Multiple test corrected p-values are computed to ",
+            "indicate significance for each feature."),
         type="univariate",
         predicted='p_value',
         stato_id="OBI:0200201",
@@ -59,8 +49,12 @@ ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III',...) {
         mtc=ents$mtc,
         formula=ents$formula,
 
-        ss_type=enum(name='ANOVA type',
-            description='I, II or [III]. The type of sums of squares to use. For balanced designs all types gives the same result.',
+        ss_type=enum(name='ANOVA sum of squares',
+            description=c(
+                'I' = 'Type I sum of squares.',
+                'II' = 'Type II sum of squares.',
+                'III' = 'Type III sum of squares.'
+            ),
             value='III',
             type='character',
             allowed=c('I','II','III')

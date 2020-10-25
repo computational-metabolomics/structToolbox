@@ -2,24 +2,22 @@
 % Please edit documentation in R/confounders_clsq_class.R
 \name{confounders_lsq_barchart}
 \alias{confounders_lsq_barchart}
-\title{barchart of percent change}
+\title{Confounding factor relative change barchart}
 \usage{
 confounders_lsq_barchart(feature_to_plot, threshold = 10, ...)
 }
 \arguments{
-\item{feature_to_plot}{the name or index of the feature to be plotted}
+\item{feature_to_plot}{(numeric, character, integer) The column name of the feature to be plotted.}
 
-\item{threshold}{the threshold to be plotted (in \%)}
+\item{threshold}{(numeric) A horizontal line is plotted to indicate the threshold. The default is \code{10}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A STRUCT chart object
-
-struct object
+A  \code{confounders_lsq_barchart} object.
 }
 \description{
-plots a barchart of the percent change when including a confounding factor in a classical least squares model
+A barchart of the relative change (delta) in regression coefficient when potential confounding factors are included, and excluded, from the model. Factors with a large delta are considered to be confounding factors.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
@@ -32,5 +30,4 @@ M = filter_by_name(mode='include',dimension='variable',
 M = model_apply(M,D)
 C = C=confounders_lsq_barchart(feature_to_plot=1,threshold=15)
 chart_plot(C,M[3])
-
 }

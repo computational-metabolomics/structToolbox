@@ -1,14 +1,5 @@
-#' HSD model class using estimated marginal means
-#'
-#' HSD model class using estimate marginal means, for use with mixed effects designs.
-#'
-#' @param alpha The p-value threshold. Default alpha = 0.05.
-#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
-#' @param formula The formula to use. See \code{lm} for details.
-#' @param ... additional slots and values passed to struct_class
-#'
+#' @eval get_description('HSDEM')
 #' @include mixed_effect_class.R HSD_class.R
-#' @return struct object
 #' @export HSDEM
 #' @examples
 #' D = iris_DatasetExperiment()
@@ -32,15 +23,20 @@ HSDEM = function(alpha=0.05,mtc='fdr',formula,...) {
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         formula='entity',
 
         # OUTPUTS
         p_value='entity_stato',
         significant='entity'
     ),
-    prototype = list(name='Tukey Honest Significant Difference using estimated marginal means',
-        description='Tukey HSD post hoc tests for mixed effects models using estimated marginal means',
+    prototype = list(name="Tukey's Honest Significant Difference using estimated marginal means",
+        description=paste0("Tukey's HSD post hoc test is a modified t-test ",
+            'applied for all features to all pairs of levels in a factor. ',
+            'It is used to determine which groups are different (if any). A multiple ',
+            'test corrected p-value is computed to indicate which groups are ',
+            'significantly different to the others for each feature. ',
+            'For mixed effects models estimated marginal means are used.'),
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000187",
@@ -48,33 +44,11 @@ HSDEM = function(alpha=0.05,mtc='fdr',formula,...) {
         .params=c('alpha','mtc','formula'),
         .outputs=c('p_value','significant'),
 
-        alpha=entity_stato(name='Confidence level',
-            stato_id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        mtc=entity_stato(name='Multiple Test Correction method',
-            stato_id='OBI:0200089',
-            value='none',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
-        formula=entity(name='Formula',
-            value=y~x,
-            type='formula',
-            description='The formula to use'
-        ),
-        p_value=entity_stato(name='p value',
-            stato_id='STATO:0000175',
-            type='data.frame',
-            description='the probability of observing the calculated t-statistic.'
-        ),
-        significant=entity(name='Significant features',
-            #stato_id='STATO:0000069',
-            type='data.frame',
-            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
-        )
+        alpha=ents$alpha,
+        mtc=ents$mtc,
+        formula=ents$formula,
+        p_value=ents$p_value,
+        significant=ents$significant
     )
 )
 

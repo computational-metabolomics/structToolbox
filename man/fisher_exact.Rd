@@ -2,28 +2,26 @@
 % Please edit documentation in R/fisher_exact_class.R
 \name{fisher_exact}
 \alias{fisher_exact}
-\title{fisher_exact class}
+\title{Fisher Exact Test}
 \usage{
 fisher_exact(alpha = 0.05, mtc = "fdr", factor_name, factor_pred, ...)
 }
 \arguments{
-\item{alpha}{the p-value threshold to declare a result 'significant'}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{multiple test correction method}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{factor_name}{the sample_meta column to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{factor_pred}{A data.frame, with a factor of predicted group labels to
-compare with factor_name. Can be a data frame with a factor of predictions
-for each feature.'}
+\item{factor_pred}{(data.frame) A data.frame, where each column is a factor of predicted group labels to compare with the true groups labels.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A struct model with functions for applying fisher exact test.
+A  \code{fisher_exact} object.
 }
 \description{
-Fisher's exact test (FET). Applies FET for all features in a DatasetExperiment.
+A fisher exact test is used to analyse contingency tables by comparing the number of correctly/incorrectly predicted group labels. A multiple test corrected p-value indicates whether the number of measured values is significantly different between groups.
 }
 \examples{
 # load some data
@@ -37,5 +35,4 @@ pred=as.data.frame(pred)
 # apply method
 M = fisher_exact(alpha=0.05,mtc='fdr',factor_name='class',factor_pred=pred)
 M=model_apply(M,D)
-
 }

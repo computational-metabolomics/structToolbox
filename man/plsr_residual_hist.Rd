@@ -2,18 +2,18 @@
 % Please edit documentation in R/PLSR_class.R
 \name{plsr_residual_hist}
 \alias{plsr_residual_hist}
-\title{plsr_residual_hist class}
+\title{PLSR residuals histogram}
 \usage{
 plsr_residual_hist(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{plsr_residual_hist} object.
 }
 \description{
-A histogram of the model residuals
+A histogram of the residuals for a PLSR model.
 }
 \examples{
 C = plsr_residual_hist()

@@ -2,22 +2,23 @@
 % Please edit documentation in R/fold_change_class.R
 \name{fold_change_plot}
 \alias{fold_change_plot}
-\title{fold_change plot}
+\title{Fold change plot}
 \usage{
 fold_change_plot(number_features = 20, orientation = "portrait", ...)
 }
 \arguments{
-\item{number_features}{The number of features to display on the plot}
+\item{number_features}{(numeric) The number randomly selected features to plot, or 
+a list of column numbers. The default is \code{20}.}
 
-\item{orientation}{The orientation of the plot (portrait or landscape). Portrait is default.}
+\item{orientation}{(character) Plot orientation. Allowed values are limited to the following: \itemize{\item{\code{"landscape"}: Features are plotted on the y-axis.}\item{\code{"portrait"}: Features are plotted on the x-axis.}} The default is \code{"portrait"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{fold_change_plot} object.
 }
 \description{
-Plots fold change with error bars for a limited number of features.
+A plot of fold changes calculated for a chosen subset of features. A predefined fold change threshold is indicated by shaded regions.
 }
 \examples{
 C = fold_change_plot()

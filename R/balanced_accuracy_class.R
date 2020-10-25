@@ -1,19 +1,10 @@
-#' Balanced Accuracy
-#'
-#' Balanced accuracy is the average of the true positive rate and false positive
-#' rate.
-#'
-#' @return A metric object with methods for calculating balanced accuracy.
-#'
+#' @eval get_description('balanced_accuracy')
 #' @examples
 #' D = iris_DatasetExperiment()
 #' XCV = kfold_xval(folds=5,factor_name='Species') *
 #'       (mean_centre() + PLSDA(number_components=2,factor_name='Species'))
 #' MET = balanced_accuracy()
 #' XCV = run(XCV,D,MET)
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export balanced_accuracy
 balanced_accuracy = function(...) {
     out=struct::new_struct('balanced_accuracy',...)
@@ -25,7 +16,9 @@ balanced_accuracy = function(...) {
     "balanced_accuracy",
     contains='metric',
     prototype = list(name='Balanced Accuracy',
-        type="classification"
+        type="classification",
+        description=paste0('Balanced Accuracy is the average proportion of ',
+        'correctly classified samples across all groups.')
     )
 )
 

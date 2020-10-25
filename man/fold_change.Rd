@@ -2,7 +2,7 @@
 % Please edit documentation in R/fold_change_class.R
 \name{fold_change}
 \alias{fold_change}
-\title{fold change class}
+\title{Fold change}
 \usage{
 fold_change(
   alpha = 0.05,
@@ -11,35 +11,40 @@ fold_change(
   sample_name = character(0),
   threshold = 2,
   control_group = character(0),
+  method = "geometric",
   ...
 )
 }
 \arguments{
-\item{alpha}{confidence level to use for intervals}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{factor_name}{the sample_meta column to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{paired}{TRUE or [FALSE] to account for paired samples}
+\item{paired}{(logical) Paired fold change. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Fold change is calculated taking into account paired sampling.}\item{\code{"FALSE"}: Fold change is calculated assuming there is no paired sampling.}} The default is \code{FALSE}.}
 
-\item{sample_name}{the sample_meta column name to use for a paired samples}
+\item{sample_name}{(character) The name of a sample_meta column containing sample identifiers for paired sampling. The default is \code{character(0)}.}
 
-\item{threshold}{a threshold to define fold change as 'significant'.}
+\item{threshold}{(numeric) The fold change threshold for labelling features as significant. The default is \code{2}.}
 
-\item{control_group}{a level of factor name to use as the control group for
-calculations.}
+\item{control_group}{(character) The level name of the group used in the denominator (where possible) when computing fold change. The default is \code{character(0)}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{method}{(character) Fold change method. Allowed values are limited to the following: \itemize{\item{\code{"geometric"}: A log transform and a t-test is used to calculate fold change and estimate confidence intervals. In the non-transformed space this is equivalent to fold change using geometric means.}\item{\code{"median"}: A log transform and the method described by Price and Bonett to calculate fold change and estimate confidence intervals. In the non-transformed space this is equivalent to using group medians to calculate fold change.}} The default is \code{"geometric"}.}
+
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{fold_change} object.
 }
 \description{
-Calculates fold change between groups for all features in a DatasetExperiment, based on
-a log transform and t-test.
+Fold change is the relative change in mean (or non-parametric equivalent) intensities of a feature between all pairs of levels in a factor.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
 M = fold_change(factor_name='class')
 M = model_apply(M,D)
-
+}
+\references{
+Price RM, Bonett DG (2002).
+``Distribution-Free Confidence Intervals for Difference and Ratio of Medians.''
+\emph{Journal of Statistical Computation and Simulation}, \bold{72}(2), 119-124.
 }

@@ -1,24 +1,15 @@
-#' DatasetExperiment_factor_barchart class
-#'
-#' Bar charts based on groupings by factor. Can plot up to three factors.
-#'
-#' @param feature_to_plot Column ID of feature to plot.
-#' @param factor_names Names(s) of factors to plot for a feature
-#'
+#' @eval get_description('DatasetExperiment_factor_boxplot')
 #' @examples
 #' D = iris_DatasetExperiment()
-#' C = DatasetExperiment_factor_barchart(factor_names='Species',feature_to_plot='Petal.Width')
+#' C = DatasetExperiment_factor_boxplot(factor_names='Species',feature_to_plot='Petal.Width')
 #' chart_plot(C,D)
-#'
 #' @import struct
 #' @import grid
 #' @import gridExtra
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
-#' @export DatasetExperiment_factor_barchart
+#' @export DatasetExperiment_factor_boxplot
 #' @include HSD_class.R
-DatasetExperiment_factor_barchart = function(feature_to_plot,factor_names,...) {
-    out=struct::new_struct('DatasetExperiment_factor_barchart',
+DatasetExperiment_factor_boxplot = function(feature_to_plot,factor_names,...) {
+    out=struct::new_struct('DatasetExperiment_factor_boxplot',
         feature_to_plot=feature_to_plot,
         factor_names=factor_names,
         ...)
@@ -26,35 +17,32 @@ DatasetExperiment_factor_barchart = function(feature_to_plot,factor_names,...) {
 }
 
 
-.DatasetExperiment_factor_barchart<-setClass(
-    "DatasetExperiment_factor_barchart",
+.DatasetExperiment_factor_boxplot<-setClass(
+    "DatasetExperiment_factor_boxplot",
     contains='chart',
     slots=c(
         feature_to_plot='entity',
         factor_names='entity'
     ),
-    prototype = list(name='Factor barchart',
-        description='bar charts split by factors in the sample_meta data',
+    prototype = list(name='Factor boxplot',
+        description=paste0('Boxplot for a feature to visualise the ',
+        'distribution of values within each group'),
         type="barchart",
         .params=c('factor_names','feature_to_plot'),
 
         feature_to_plot=entity(name='Feature to plot',
             value='V1',
             type=c('character','numeric','integer'),
-            description='The column name of the feature to be plotted.'
+            description='The name of the plotted feature.'
         ),
-        factor_names=entity(name='Factor names',
-            value='factor',
-            type='character',
-            description='The column name(s) of meta data to use.'
-        )
+        factor_names=ents$factor_names
     )
 )
 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("DatasetExperiment_factor_barchart",'DatasetExperiment'),
+    signature=c("DatasetExperiment_factor_boxplot",'DatasetExperiment'),
     definition=function(obj,dobj)
     {
         X=dobj$data

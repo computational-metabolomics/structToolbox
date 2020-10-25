@@ -1,11 +1,4 @@
-#' Stratified sampling
-#'
-#' Splits the data into a training and test set, using stratification to keep group sizes
-#' in equal proportions to the full dataset.
-#' @param p_train The proportion of samples in the training set.
-#' @param factor_name The column of sample_meta to use for stratification
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('stratified_split')
 #' @export stratified_split
 #' @examples
 #' D = iris_DatasetExperiment()
@@ -32,7 +25,12 @@ stratified_split = function(p_train,factor_name,...) {
     
     prototype=list(
         name = 'Stratified sampling',
-        description = 'Splits the data into a training and test sets using stratification',
+        description = paste0('The dataset is divided into two subsets. A ',
+        'predefined proportion of samples from each level of a factor is ',
+        'selected for the training set, and the remaining samples are used for ',
+        'the test set. The stratification by factor level means that the ',
+        'relative number of samples per level is approximately equal to the ',
+        'original dataset.'),
         type = 'processing',
         predicted = 'testing',
         .params=c('factor_name'),

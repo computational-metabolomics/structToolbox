@@ -1,22 +1,10 @@
-#' HSD model class
-#'
-#' Tukey's honest significant difference. Usually used in conjunction with ANOVA,
-#' this model compares classes in a pairwise fashion to try to identify which groups
-#' are different to the others (if any).
-#'
-#' @include anova_class.R
-#' @param alpha The p-value threshold. Default alpha = 0.05.
-#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
-#' @param formula The formula to use. See \code{lm} for details.
-#' @param unbalanced TRUE or FALSE to apply correction for unbalanced designs. Default is FALSE.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('HSD')
 #' @export HSD
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = HSD(formula=y~Species)
 #' M = model_apply(M,D)
-#'
+#' @include anova_class.R
 HSD = function(alpha=0.05,mtc='fdr',formula,unbalanced=FALSE,...) {
     out=struct::new_struct('HSD',
         alpha=alpha,
@@ -34,7 +22,7 @@ HSD = function(alpha=0.05,mtc='fdr',formula,unbalanced=FALSE,...) {
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         formula='entity',
         unbalanced='entity',
         # OUTPUTS
@@ -47,8 +35,12 @@ HSD = function(alpha=0.05,mtc='fdr',formula,unbalanced=FALSE,...) {
         p_value='entity_stato',
         significant='entity'
     ),
-    prototype = list(name='Tukey Honest Significant Difference',
-        description='Tukey HSD post hoc test abblied to ANOVA object.',
+    prototype = list(name="Tukey's Honest Significant Difference",
+        description=paste0("Tukey's HSD post hoc test is a modified t-test ",
+            'applied for all features to all pairs of levels in a factor. ',
+            'It is used to determine which groups are different (if any). A multiple ',
+            'test corrected p-value is computed to indicate which groups are ',
+            'significantly different to the others for each feature.'),
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000187",
@@ -56,38 +48,19 @@ HSD = function(alpha=0.05,mtc='fdr',formula,unbalanced=FALSE,...) {
         .params=c('alpha','mtc','formula','unbalanced'),
         .outputs=c('difference','UCL','LCL','p_value','significant'),
 
-        alpha=entity_stato(name='Confidence level',
-            stato_id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        mtc=entity_stato(name='Multiple Test Correction method',
-            stato_id='OBI:0200089',
-            value='none',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
+        alpha=ents$alpha,
+        mtc=ents$mtc,
         unbalanced=entity(name='Unbalanced model',
-            description='TRUE or [FALSE]. Apply correction for unbalanced designs.',
+            description=c(
+                'TRUE' = 'A correction is applied for unbalanced designs.',
+                'FALSE' = 'No correction is applied for unbalanced designs'
+                ),
             value=FALSE,
             type='logical'
         ),
-        formula=entity(name='Formula',
-            value=y~x,
-            type='formula',
-            description='The formula to use'
-        ),
-        p_value=entity_stato(name='p value',
-            stato_id='STATO:0000175',
-            type='data.frame',
-            description='the probability of observing the calculated t-statistic.'
-        ),
-        significant=entity(name='Significant features',
-            #stato_id='STATO:0000069',
-            type='data.frame',
-            description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
-        )
+        formula=ents$formula,
+        p_value=ents$p_value,
+        significant=ents$significant
     )
 )
 

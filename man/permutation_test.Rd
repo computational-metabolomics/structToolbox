@@ -2,24 +2,22 @@
 % Please edit documentation in R/permutation_test_class.R
 \name{permutation_test}
 \alias{permutation_test}
-\title{Permutation test class}
+\title{Permutation test}
 \usage{
 permutation_test(number_of_permutations = 50, factor_name, ...)
 }
 \arguments{
-\item{number_of_permutations}{The number of permutations to run}
+\item{number_of_permutations}{(numeric, integer) The number of permutations. The default is \code{50}.}
 
-\item{factor_name}{The same of the sample_meta column to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{permutation_test} object.
 }
 \description{
-Applies a permutation test to a model or model_seq(). The input metric is calculated for
-all permutations, and can be compared to the results from the unpermuted model to
-assess model validity.
+A permutation test generates a "null" model by randomising the response (for regression models) or group labels (for classification models). This is repeated many times to generate a distribution of performance metrics for the null model. This distribution can then be compared to the performance of the true model. If there is overlap between the true and null model performances then the model is overfitted.
 }
 \examples{
 I=permutation_test(factor_name='Species')

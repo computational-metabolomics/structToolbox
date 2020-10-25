@@ -7,18 +7,17 @@
 stratified_split(p_train, factor_name, ...)
 }
 \arguments{
-\item{p_train}{The proportion of samples in the training set.}
+\item{p_train}{(numeric) The proportion of samples selected for the training set.}
 
-\item{factor_name}{The column of sample_meta to use for stratification}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{stratified_split} object.
 }
 \description{
-Splits the data into a training and test set, using stratification to keep group sizes
-in equal proportions to the full dataset.
+The dataset is divided into two subsets. A predefined proportion of samples from each level of a factor is selected for the training set, and the remaining samples are used for the test set. The stratification by factor level means that the relative number of samples per level is approximately equal to the original dataset.
 }
 \examples{
 D = iris_DatasetExperiment()

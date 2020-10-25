@@ -2,7 +2,7 @@
 % Please edit documentation in R/PCA_plotfcns.R
 \name{pca_loadings_plot}
 \alias{pca_loadings_plot}
-\title{pca_loadings_plot class}
+\title{PCA loadings plot}
 \usage{
 pca_loadings_plot(
   components = c(1, 2),
@@ -12,20 +12,19 @@ pca_loadings_plot(
 )
 }
 \arguments{
-\item{components}{The principal components to plot (\code{numeric(2)})}
+\item{components}{(numeric) The principal components used to generate the plot. The default is \code{c(1, 2)}.}
 
-\item{style}{Plot style for loadings. Can be 'points' (default) or 'arrows'.}
+\item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{\item{\code{"points"}: Loadings and scores are plotted as a scatter plot.}\item{\code{"arrows"}: The loadings are plotted as arrow vectors.}} The default is \code{"points"}.}
 
-\item{label_features}{'A list of labels to use, one for each feature. Special 
-keyword "rownames" will use the rownames of the variable_meta data.frame'}
+\item{label_features}{(character, NULL) Feature labels. Allowed values are limited to the following: \itemize{\item{\code{"character()"}: A vector of labels for the features.}\item{\code{"NULL"}: No labels.}\item{\code{"row.names"}: Labels will be extracted from the column names of the data matrix.}} The default is \code{NULL}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{pca_loadings_plot} object.
 }
 \description{
-2d scatter plot of princpal component loadings.
+A barchart (one component) or scatter plot (two components) of the selected principal component loadings.
 }
 \examples{
 C = pca_loadings_plot()

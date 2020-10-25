@@ -2,25 +2,24 @@
 % Please edit documentation in R/kfold_xval_class.R
 \name{kfold_xval}
 \alias{kfold_xval}
-\title{kfold_xval model class}
+\title{k-fold cross-validation}
 \usage{
 kfold_xval(folds = 10, method = "venetian", factor_name, ...)
 }
 \arguments{
-\item{folds}{The number of cross-validation folds}
+\item{folds}{(numeric, integer) The number of cross-validation folds. The default is \code{10}.}
 
-\item{method}{The method for selecting samples in each fold. Can be one of
-"venetian", "blocks" or "random". Default is "venetian".}
+\item{method}{(character) Fold selection method. Allowed values are limited to the following: \itemize{\item{\code{"venetian"}: Every nth sample is assigned to the same fold, where n is the number of folds.}\item{\code{"blocks"}: Blocks of adjacent samples are assigned to the same fold.}\item{\code{"random"}: Samples are randomly assigned to a fold.}} The default is \code{"venetian"}.}
 
-\item{factor_name}{The sample_meta column name to use.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{kfold_xval} object.
 }
 \description{
-Applies k-fold crossvalidation to a model or model_seq()
+k-fold cross-validation is an iterative approach applied to validate models. The samples are divided into k "folds", or subsets. Each subset is excluded from model training and used for model validation once, resulting in a single left-out prediction for each sample. Model performance metrics are then computed for the training and test sets across all folds.
 }
 \examples{
 D = iris_DatasetExperiment()

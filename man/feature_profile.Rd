@@ -2,7 +2,7 @@
 % Please edit documentation in R/feature_profile_class.R
 \name{feature_profile}
 \alias{feature_profile}
-\title{Feature profile class}
+\title{Feature profile}
 \usage{
 feature_profile(
   run_order,
@@ -14,25 +14,23 @@ feature_profile(
 )
 }
 \arguments{
-\item{run_order}{the sample_meta column containing the measurement
-order of the samples}
+\item{run_order}{(character) The sample-meta column name containing run order.}
 
-\item{qc_label}{the label used to identify QC samples}
+\item{qc_label}{(character) The label used to identify QC samples.}
 
-\item{qc_column}{the sample_meta column containing the QC labels}
+\item{qc_column}{(character) The sample-meta column name containing the labels used to identify QC samples.}
 
-\item{colour_by}{the sample_meta column to use to colour the plot}
+\item{colour_by}{(character) The sample-meta column name to used to colour the plot.}
 
-\item{feature_to_plot}{the column id of the feature to plot}
+\item{feature_to_plot}{(numeric, character, integer) The name or column id of the plotted feature.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{feature_profile} object.
 }
 \description{
-Scatter plot of a feature against measurement order with limits for samples
-and quality control samples.
+A plot visualising the change in intensity of a feature with a continuous variable such as time, dose, or run order.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
@@ -42,5 +40,4 @@ C = feature_profile(run_order='sample_order',
     colour_by='class',
     feature_to_plot=1)
 chart_plot(C,D)
-
 }

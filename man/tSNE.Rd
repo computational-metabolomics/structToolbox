@@ -2,7 +2,7 @@
 % Please edit documentation in R/tSNE_class.R
 \name{tSNE}
 \alias{tSNE}
-\title{tSNE method class}
+\title{tSNE}
 \usage{
 tSNE(
   dims = 2,
@@ -16,34 +16,46 @@ tSNE(
 )
 }
 \arguments{
-\item{dims}{integer; Output dimensionality (default: 2)}
+\item{dims}{(numeric) The number of tSNE dimensions computed. The default is \code{2}.}
 
-\item{perplexity}{numeric; Perplexity parameter (should not be bigger than 3 * perplexity < nrow(X) - 1, see details for interpretation)}
+\item{perplexity}{(numeric) Perplexity parameter. The default is \code{30}.}
 
-\item{max_iter}{integer; Number of iterations (default: 1000)}
+\item{max_iter}{(numeric) The maximum number of tSNE iterations. The default is \code{100}.}
 
-\item{theta}{numeric; Speed/accuracy trade-off (increase for less accuracy), set to 0.0 for exact TSNE (default: 0.5)}
+\item{theta}{(numeric) Speed/accuracy trade-off. A value of 0 gives an exact tSNE. The default is \code{0.5}.}
 
-\item{check_duplicates}{logical; Checks whether duplicates are present. It is best to make sure there are no duplicates present and set this option to FALSE, especially for large datasets (default: TRUE)}
+\item{check_duplicates}{(logical) Check for duplicates. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Checks for the presence of exact duplicate samples.}\item{\code{"FALSE"}: Does not check for exact duplicate samples.}} The default is \code{FALSE}.}
 
-\item{init}{Initial locations of the objects. If NULL, random initialization will be used.
-If NULL then}
+\item{init}{(NULL, data.frame, DatasetExperiment) A set of coordinates for initialising the tSNE algorithm. NULL uses random initialisation. The default is \code{NULL}.}
 
-\item{eta}{numeric; Learning rate (default: 200.0)}
+\item{eta}{(numeric) The learning rate parameter. The default is \code{200}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{tSNE} object.
 }
 \description{
-t-Distributed Stochastic Neighbor Embedding (tSNE) class. This object can be
-used to train/apply tSNE models to DatasetExperiment objects.
+t-Distributed Stochastic Neighbor Embedding.
 }
 \details{
-This object is a wrapper for Rtsne::Rtsne.
+This object makes use of functionality from the following packages:\itemize{\item{\code{Rtsne}}}
 }
 \examples{
 M = tSNE()
 
+}
+\references{
+van der Maaten L, Hinton G (2008).
+``Visualizing High-Dimensional Data Using t-SNE.''
+\emph{Journal of Machine Learning Research}, \bold{9}, 2579-2605.
+
+van der Maaten L (2014).
+``Accelerating t-SNE using Tree-Based Algorithms.''
+\emph{Journal of Machine Learning Research}, \bold{15}, 3221-3245.
+
+Krijthe JH (2015).
+\emph{Rtsne: T-Distributed Stochastic Neighbor Embedding using Barnes-Hut
+Implementation}.
+R package version 0.15, \url{https://github.com/jkrijthe/Rtsne}.
 }

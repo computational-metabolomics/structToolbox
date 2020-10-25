@@ -2,22 +2,24 @@
 % Please edit documentation in R/dataset_chart_classes.R
 \name{mv_histogram}
 \alias{mv_histogram}
-\title{mv_histogram class}
+\title{Missing value histogram}
 \usage{
 mv_histogram(label_outliers = TRUE, by_sample = TRUE, ...)
 }
 \arguments{
-\item{label_outliers}{[TRUE] or FALSE to label outliers on the plot}
+\item{label_outliers}{(logical) Label outliers. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Sample labels for potential outliers are displayed on the plot.}\item{\code{"FALSE"}: Sample labels are not included on the plot.}} The default is \code{TRUE}.}
 
-\item{by_sample}{[TRUE] to plot by sample or FALSE to plot by features}
+\item{by_sample}{(logical) Plot by sample or by feature. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Missing values are plotted per sample.}\item{\code{"FALSE"}: Missing values are plotted per feature.}} The default is \code{TRUE}.}
 
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
+A  \code{mv_histogram} object.
+
 struct object
 }
 \description{
-histograms indicating the numbers of missing values per sample/feature
+A histogram of the numbers of missing values per sample/feature
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
