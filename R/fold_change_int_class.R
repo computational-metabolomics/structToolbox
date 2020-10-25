@@ -1,25 +1,10 @@
-#' fold change for interactions class
-#'
-#' Calculates fold change between groups for interactions between levels of
-#' factors. Note that paired forced to FALSE for all comparisons.
-#'
+#' @eval get_description('fold_change_int')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' D=D[,1:10,drop=FALSE]
 #' M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
 #'     fold_change_int(factor_name=c('class','batch'))
 #' M = model_apply(M,D)
-#'
-#' @param alpha confidence level to use for intervals
-#' @param factor_name the sample_meta column to use
-#' @param threshold a threshold to define fold change as 'significant'.
-#' @param control_group a level of factor name to use as the control group for
-#' calculations.
-#'
-#' @import struct
-#' @import stats
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export fold_change_int
 fold_change_int = function(alpha=0.05,factor_name,threshold=2,control_group=character(0),...) {
     out=struct::new_struct('fold_change_int',
@@ -38,7 +23,12 @@ fold_change_int = function(alpha=0.05,factor_name,threshold=2,control_group=char
     prototype = list(
         predicted='fold_change',
         .params=c('factor_name','sample_name','alpha','paired','threshold'),
-        .outputs=c('fold_change','lower_ci','upper_ci')
+        .outputs=c('fold_change','lower_ci','upper_ci'),
+        name = 'Fold change for interactions between factors',
+        description = paste0('For more than one factor the fold change ',
+        'calculation is extended to include all combinations of levels ',
+            '(interactions) of all factors. Paired fold changes are not possible ',
+            'for this computation.')
     )
 )
 

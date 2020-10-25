@@ -1,10 +1,4 @@
-#' PLSDA model class
-#'
-#' Partial least squares (PLS) discriminant analysis (DA) model class. This object can be used to train/apply PLS models.
-#' @param number_components The number of PLS components to calculate.
-#' @param factor_name The sample-meta column name to use.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('PLSDA')
 #' @export PLSDA
 #' @examples
 #' M = PLSDA('number_components'=2,factor_name='Species')
@@ -18,7 +12,7 @@ PLSDA = function(number_components=2,factor_name,...) {
 
 .PLSDA<-setClass(
     "PLSDA",
-    contains='model',
+    contains=c('model','stato'),
     slots=c(number_components='entity',
         factor_name='entity',
         scores='data.frame',
@@ -32,12 +26,17 @@ PLSDA = function(number_components=2,factor_name,...) {
         pls_model='list',
         pred='data.frame',
         threshold='numeric'
-
+        
     ),
     prototype = list(name='Partial least squares discriminant analysis',
         type="classification",
         predicted='pred',
         libraries='pls',
+        description=paste0('PLS is a multivariate regression technique that ',
+            'extracts latent variables maximising covariance between the input ',
+            'data and the response. The Discriminant Analysis variant uses group ',
+            'labels in the response variable and applies a threshold to the ',
+            'predicted values in order to predict group membership for new samples.'),
         .params=c('number_components','factor_name'),
         .outputs=c(
             'scores',
@@ -51,16 +50,38 @@ PLSDA = function(number_components=2,factor_name,...) {
             'pls_model',
             'pred',
             'threshold'),
-
+        
         number_components=entity(value = 2,
-            name = 'Number of PLS components',
-            description = 'The number of PLS components to use',
+            name = 'Number of components',
+            description = 'The number of PLS components',
             type = c('numeric','integer')
         ),
-        factor_name=entity(value = 'V1',
-            name = 'Name of sample_meta column',
-            description = 'The name of the sample_meta column to use for the PLS models',
-            type = 'character')
+        factor_name=ents$factor_name,
+        stato_id='STATO:0000572',
+        citations=list(
+            bibentry(
+                bibtype ='Article',
+                year = 2009,
+                volume = 95,
+                number = 2,
+                pages = '122-128',
+                author = as.person("Nestor F. Perez and Joan Ferre and Ricard Boque"),
+                title = paste0('Calculation of the reliability of ',
+                    'classification in discriminant partial least-squares ',
+                    'binary classification'),
+                journal = "Chemometrics and Intelligent Laboratory Systems"
+            ),
+            bibentry(
+                bibtype='Article',
+                year = 2003,
+                volume = 17,
+                number = 3,
+                pages = '166-173',
+                author = as.person('Matthew Barker and William Rayens'),
+                title = 'Partial least squares for discrimination',
+                journal = 'Journal of Chemometrics'
+            )
+        )
     )
 )
 
@@ -75,22 +96,22 @@ setMethod(f="model_train",
         # convert the factor to a design matrix
         z=model.matrix(~y+0)
         z[z==0]=-1 # +/-1 for PLS
-
+        
         X=as.matrix(D$data) # convert X to matrix
-
+        
         Z=as.data.frame(z)
         output_value(M,'design_matrix')=Z
         output_value(M,'y')=D$sample_meta
-
+        
         #pls_model=pls::plsr(y ~ X,validation="none",method='oscorespls',model=TRUE,ncomp=param_value(M,'number_components'),
         #    center=FALSE,
         #    scale=FALSE)
-
-
+        
+        
         pls_model=pls::oscorespls.fit(X,z,ncomp=param_value(M,'number_components'),
             center=FALSE)
         class(pls_model)='mvr'
-
+        
         ny=ncol(z)
         nr=ncol(output_value(M,'reg_coeff'))
         output_value(M,'reg_coeff')=as.data.frame(pls_model$coefficients[,,M$number_components]) # keep only the requested number of components
@@ -136,7 +157,7 @@ setMethod(f="model_predict",
         if (!is.matrix(p)){
             p=t(as.matrix(p)) # in case of leave one out p is a numeric instead of a matrix
         }
-
+        
         ## probability estimate
         # http://www.eigenvector.com/faq/index.php?id=38%7C
         d=prob(x=p,yhat=output_value(M,'yhat'),ytrue=M$y[,M$factor_name])
@@ -162,7 +183,7 @@ prob=function(x,yhat,ytrue)
     # ytrue are real group labels
     ytrue=as.factor(ytrue)
     L=levels(ytrue)
-
+    
     din=dout=x*0
     d=list()
     threshold=numeric(length(L))
@@ -172,15 +193,15 @@ prob=function(x,yhat,ytrue)
         m1=mean(ingroup)
         s1=max(c(sd(ingroup),1e-5)) # make sure sd is not zero
         din[,i]=dnorm(x[,i,drop=FALSE],m1,s1)
-
+        
         outgroup=yhat[ytrue!=L[i],i]
         m2=mean(outgroup)
         s2=max(c(sd(outgroup),1e-5)) # make sure sd is not 0
         dout[,i]=dnorm(x[,i,drop=FALSE],m2,s2)
-
+        
         # threshold where distributions cross
         t=gauss_intersect(m1,m2,s1,s2)
-
+        
         if (is.complex(t)) {
             # get the real values but only if the imaginary part is small
             w=which(abs(Im(t)) < 1e-6)
@@ -189,23 +210,23 @@ prob=function(x,yhat,ytrue)
             }
             t=Re(t[w])
         }
-
+        
         if (length(t)>1) {
             # multiple cross over points so choose the one closest to 0
             t=t[which.min(abs(t))]
         }
-
+        
         if (length(t)==0 ) {
             # length is zero. how does this happen? default to 0.
             t=0
         }
-
+        
         if (is.na(t)) {
             # if polyroot failed return 0
             t=0
         }
-
-
+        
+        
         threshold[i]=t
     }
     d$ingroup=din/(din+dout) # assume probabilities sum to 1
@@ -235,7 +256,7 @@ gauss_intersect=function(m1,m2,s1,s2)
         return(g)
     }
     )
-
+    
     return() # in reverse order vs numpy.roots
 }
 
@@ -264,7 +285,7 @@ vips<-function(object)
 
 
 set_scale <- function(y=NULL,name='PCA',...){
-
+    
     #library(scales)
     pal=c("#386cb0","#ef3b2c","#7fc97f","#fdb462","#984ea3","#a6cee3","#778899","#fb9a99","#ffff33") #  default palette
     if (name=='PCA') {

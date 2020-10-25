@@ -2,7 +2,7 @@
 % Please edit documentation in R/mv_feature_filter_class.R
 \name{mv_feature_filter}
 \alias{mv_feature_filter}
-\title{filter features by fraction of missing values}
+\title{Filter by fraction missing values}
 \usage{
 mv_feature_filter(
   threshold = 20,
@@ -13,26 +13,33 @@ mv_feature_filter(
 )
 }
 \arguments{
-\item{threshold}{The max percentage missing values in a feature, above which the feature is removed. Default  is 20.}
+\item{threshold}{(numeric) The threshold for excluding features. The default is \code{20}.}
 
-\item{qc_label}{The label of the QC samples in the named sample_meta column.}
+\item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
-\item{method}{"within_all" applies filter within classes,"within_one" applies
-filter within any one class, "QC" applies filter within QC samples, "across" applies filter
-ignoring class.}
+\item{method}{(character) Filtering method. Allowed values are limited to the following: \itemize{\item{\code{"within_all"}: The filter is applied within classes.}\item{\code{"within_one"}: The filter is applied within any one class.}\item{\code{"QC"}: The filter is applied within QC samples.}\item{\code{"across"}: The filter is applied across all samples.}} The default is \code{"QC"}.}
 
-\item{factor_name}{The name of the sample_meta column to use.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{mv_feature_filter} object.
 }
 \description{
-Filters features by the percent number of missing values, based on class labels if required.
+Filters features where the percent number of missing values exceeds a predefined threshold.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
 D = iris_DatasetExperiment()
 M = mv_feature_filter(factor_name='Species',qc_label='versicolor')
 M = model_apply(M,D)
+}
+\references{
+Jankevics A, Weber RJM (2020).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.1.0.
 }

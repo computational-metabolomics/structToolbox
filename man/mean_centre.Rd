@@ -2,22 +2,20 @@
 % Please edit documentation in R/mean_centre_class.R
 \name{mean_centre}
 \alias{mean_centre}
-\title{mean_centre model class}
+\title{Mean centre}
 \usage{
 mean_centre(mode = "data", ...)
 }
 \arguments{
-\item{mode}{Used to control whether centring is apply to the data, the meta data or both.
-Can be any one of "data","sample_meta" or "both". default is "data".}
+\item{mode}{(character) Mode of action. Allowed values are limited to the following: \itemize{\item{\code{"data"}: Centring is applied to the data block.}\item{\code{"sample_meta"}: Centring is applied to the sample_meta block.}\item{\code{"both"}: Centring is applied to both the data and the sample_meta blocks.}} The default is \code{"data"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{mean_centre} object.
 }
 \description{
-Mean centres the columns of a DatasetExperiment object. Can also centre the meta
-data for e.g regression models, if required.
+The mean sample is subtracted from all samples in the data matrix. The features in the centred matrix all have zero mean.
 }
 \examples{
 M = mean_centre()

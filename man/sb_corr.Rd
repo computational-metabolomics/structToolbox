@@ -2,7 +2,7 @@
 % Please edit documentation in R/sb_corr.R
 \name{sb_corr}
 \alias{sb_corr}
-\title{sbcms}
+\title{Signal/batch correction for mass spectrometry data}
 \usage{
 sb_corr(
   order_col,
@@ -16,30 +16,44 @@ sb_corr(
 )
 }
 \arguments{
-\item{order_col}{The sample-meta column containing the order of measurement.}
+\item{order_col}{(character) The column name of sample_meta indicating the run order of the samples.}
 
-\item{batch_col}{The sample_meta column containing the batch labels.}
+\item{batch_col}{(character) The column name of sample_meta indicating the batch each sample was measured in.}
 
-\item{qc_col}{The sample_meta column containing QC labels.}
+\item{qc_col}{(character) The column name of sample_meta indicating the group each sample is a member of.}
 
-\item{smooth}{Spline smoothing parameter. Should be in the range 0 to 1.
-If set to 0 it will be estimated using leave-one-out cross-validation.}
+\item{smooth}{(numeric) The amount of smoothing applied (0 to 1). If set to 0 the smoothing parameter will be estimated using
+leave-one-out cross-validation. The default is \code{0}.}
 
-\item{use_log}{Perform the signal correction fit on the log scaled data. Default is TRUE.}
+\item{use_log}{(logical) Log tranformation. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The data is log transformed prior to performing signal correction.}\item{\code{"FALSE"}: Signal correction is applied to the input data.}} The default is \code{TRUE}.}
 
-\item{min_qc}{Minimum number of measured quality control (QC) samples required
-for signal correction within feature per batch. Default 4.}
+\item{min_qc}{(numeric) The minimum number of QC samples required for signal correction. The default is \code{4}.}
 
-\item{qc_label}{The label used in \code{qc_col} to identify QC samples.}
+\item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
+A  \code{sb_corr} object.
+
 struct object
 }
 \description{
-Signal/batch correction using SMCBMS package
+Applies Quality Control Robust Spline (QC-RSC) method to correct for signal drift and batch differences in mass spectrometry data.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
 M = sb_corr(order_col='run_order',batch_col='batch_no',qc_col='class')
+}
+\references{
+Jankevics A, Weber RJM (2020).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.1.0.
+
+Kirwan JA, Broadhurst DI, Davidson RL, Viant MR (2013).
+``Characterising and correcting batch variation in an automated direct infusion mass spectrometry (DIMS) metabolomics workflow.''
+\emph{Analytical and Bioanalytical Chemistry}, \bold{405}(15), 5147-5157.
 }

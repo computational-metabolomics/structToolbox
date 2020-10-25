@@ -1,11 +1,5 @@
-#' PCA model class
-#'
-#' Principal Component Analysis (PCA) model class. This object can be used to train/apply PCA mdoels to DatasetExperiment objects.
-#'
+#' @eval get_description('PCA')
 #' @import struct
-#' @param number_components The number of principal components to retain
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export PCA
 #' @examples
 #' M = PCA()
@@ -34,14 +28,17 @@ PCA = function(number_components=2,...) {
 
     ),
     prototype = list(name='Principal Component Analysis (PCA)',
-        description='PCA is a multivariate data reduction technique. It summarises the data in a smaller number of Principal Components that describe the maximum variation present in the DatasetExperiment.',
+        description=paste0('PCA is a multivariate data reduction technique. ',
+        'It summarises the data in a smaller number of Principal Components ',
+        'that maximise variance.'),
         type="preprocessing",
         predicted='that',
         stato_id="OBI:0200051",
         .params=c('number_components'),
         .outputs=c('scores','loadings','eigenvalues','ssx','correlation','that'),
 
-        number_components=entity_stato(name='Number of PCs',
+        number_components=entity_stato(name='Number of Principal Components',
+            description='The number of Principal Components calculated.',
             stato_id='STATO:0000555',
             value=2,
             type=c('numeric','integer')

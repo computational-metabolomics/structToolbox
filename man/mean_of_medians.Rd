@@ -2,21 +2,20 @@
 % Please edit documentation in R/mean_of_medians.R
 \name{mean_of_medians}
 \alias{mean_of_medians}
-\title{Mean of median adjustment}
+\title{Mean of medians}
 \usage{
 mean_of_medians(factor_name, ...)
 }
 \arguments{
-\item{factor_name}{the column sample of sample_meta to use. Mean of medians 
-will be applied based on the levels in this factor.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{mean_of_medians} object.
 }
 \description{
-Applies an offset to the data such that the mean of the medians is equal for all samples.
+The data matrix is normalised by the mean of the median of each factor level.
 }
 \examples{
 D = iris_DatasetExperiment()

@@ -7,16 +7,15 @@
 constant_sum_norm(scaling_factor = 1, ...)
 }
 \arguments{
-\item{scaling_factor}{The sum of all values for a sample after normalisation. Default = 1.}
+\item{scaling_factor}{(numeric) The scaling factor applied after normalisation. The default is \code{1}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{constant_sum_norm} object.
 }
 \description{
-Applies normalisation to a constant sum, such that the sum of values for each sample
-after normalisation is equal to 1 (or a scaling factor, if specified).
+Each sample is normalised such that the total signal is equal to one (or a scaling factor if specified).
 }
 \examples{
 M = constant_sum_norm()

@@ -2,7 +2,7 @@
 % Please edit documentation in R/dataset_chart_classes.R
 \name{mv_boxplot}
 \alias{mv_boxplot}
-\title{mv_boxplot class}
+\title{Missing value boxplots}
 \usage{
 mv_boxplot(
   label_outliers = TRUE,
@@ -13,21 +13,21 @@ mv_boxplot(
 )
 }
 \arguments{
-\item{label_outliers}{TRUE or FALSE to label outliers on the plot.}
+\item{label_outliers}{(logical) Label outliers. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Sample labels for potential outliers are displayed on the plot.}\item{\code{"FALSE"}: Sample labels are not included on the plot.}} The default is \code{TRUE}.}
 
-\item{by_sample}{TRUE to plot missing values by sample, or FALSE to plot for features.}
+\item{by_sample}{(logical) Plot by sample or by feature. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Missing values are plotted per sample.}\item{\code{"FALSE"}: Missing values are plotted per feature.}} The default is \code{TRUE}.}
 
-\item{factor_name}{The sample_meta column to use.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{show_counts}{TRUE to show a count of the number of items used to create the boxplot on the chart.}
+\item{show_counts}{(logical) Show counts. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The number of samples for each box is displayed.}\item{\code{"FALSE"}: The number of samples for each box is not displayed.}} The default is \code{TRUE}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{mv_boxplot} object.
 }
 \description{
-Boxplot of the numbers of missing values per sample/feature
+Boxplots of the number of missing values per sample/feature.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()

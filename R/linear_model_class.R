@@ -1,14 +1,5 @@
-#'linear model class
-#'
-#' Wrapper for R lm. See \code{lm} for details.
-#'
+#' @eval get_description('linear_model')
 #' @import struct
-#' @param formula The formula to use.
-#' @param na_action The action to take when missing values are present. Can any
-#' one of 'na.omit','na.fail','na.exclude' or 'na.pass'. Default is 'na.omit'.
-#' @param contrasts The contrasts for this model. If zero length then the default contrasts are used.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export linear_model
 #' @examples
 #' D = iris_DatasetExperiment()
@@ -43,27 +34,30 @@ linear_model = function(formula,na_action='na.omit',contrasts=list(),...) {
         adj_r_squared='entity'
 
     ),
-    prototype = list(name='Linear Model',
-        description='Used to fit linear models. It can be used to carry out regression, single stratum analysis of variance and analysis of covariance.',
+    prototype = list(name='Linear model',
+        description=paste0(
+            'Linear models can be used to carry out ',
+            'regression, single stratum analysis of variance and analysis ',
+            'of covariance.'),
         type="regression",
         predicted='predicted_values',
         .params=c('formula','na_action','contrasts'),
         .outputs=c('lm','coefficients','residuals','fitted_values','predicted_values','r_squared','adj_r_squared'),
-
-        formula=entity(name='Model Formula',
-            description='Compact symbolic form of the equation to be fitted using a linear model_',
-            value=y~x,
-            type='formula',
-            max_length=Inf
-        ),
-        na_action=enum(name='NA Action',
-            description='The action to be taken when encoutering NA',
+        libraries='stats',
+        formula=ents$formula,
+        na_action=enum(name='NA action',
+            description=c(
+                'na.omit' = 'Incomplete cases are removed.',
+                'na.fail' = 'An error is thrown if NA are present.',
+                'na.exclude'='Incomplete cases are removed, and the output result is padded to the correct size using NA.',
+                'na.pass' = 'Does not apply a linear model if NA are present.'
+            ),
             value='na.omit',
             type='character',
             allowed=c('na.omit','na.fail','na.exclude','na.pass')
         ),
         contrasts=entity(name='Contrasts',
-            description='The contrasts associated with a factor. If zero length then the default contrasts are used.',
+            description='The contrasts associated with a factor.',
             type='list'
         ),
 

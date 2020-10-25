@@ -2,7 +2,7 @@
 % Please edit documentation in R/grid_search_1d_class.R
 \name{grid_search_1d}
 \alias{grid_search_1d}
-\title{grid_search_1d class}
+\title{One dimensional grid search}
 \usage{
 grid_search_1d(
   param_to_optimise,
@@ -14,24 +14,23 @@ grid_search_1d(
 )
 }
 \arguments{
-\item{param_to_optimise}{The name of an input parameter of the model the optimise}
+\item{param_to_optimise}{(character) The name of the model input parameter that is the focus of the search.}
 
-\item{search_values}{A vector of values to search for the optimum}
+\item{search_values}{(ANY) The values of the input parameter being optimised.}
 
-\item{model_index}{A number indicating which step of a model_seq is to be optimised}
+\item{model_index}{(numeric, integer) The index of the model in the sequence that uses the parameter being optimised.}
 
-\item{factor_name}{The sample_meta column name to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{max_min}{'A string 'max' or 'min' to indicate whether to maximise or minimise the metric}
+\item{max_min}{(character) Maximise or minimise. Allowed values are limited to the following: \itemize{\item{\code{"max"}: The optimium parameter value is suggested based on maximising the performance metric.}\item{\code{"min"}: The optimium parameter value is suggested based on minimising the performance metric.}} The default is \code{"min"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{grid_search_1d} object.
 }
 \description{
-Carries out a grid search for a single parameter to try and identify the
-'best' value for the parameter based on the input metric.
+A one dimensional grid search calculates a performance metric for a model at evenly spaced values for a model input parameter. The "optimum" value for the parameter is suggested as the one which maximises performance, or minimises error (whichever is appropriate for the chosen metric)
 }
 \examples{
 D = MTBLS79_DatasetExperiment()

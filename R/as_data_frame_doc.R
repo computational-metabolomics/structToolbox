@@ -1,6 +1,6 @@
 #' Convert to data.frame
 #'
-#' convert the outputs of the input model into a data.frame.
+#' Convert the outputs of the input model into a data.frame.
 #'
 #' @param M a model object
 #' @return A data.frame of model outputs

@@ -1,12 +1,4 @@
-#' mean_centre model class
-#'
-#' Mean centres the columns of a DatasetExperiment object. Can also centre the meta
-#' data for e.g regression models, if required.
-#'
-#' @param mode Used to control whether centring is apply to the data, the meta data or both.
-#'  Can be any one of "data","sample_meta" or "both". default is "data".
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('mean_centre')
 #' @export mean_centre
 #' @examples
 #' M = mean_centre()
@@ -28,13 +20,19 @@ mean_centre = function(mode='data',...) {
     ),
     prototype = list(name='Mean centre',
         type="preprocessing",
-        mode=enum(name = 'Mode of action', description=c(
-            '"data" will apply centring to data block',
-            '"sample_meta" will apply centring to the sample_meta block',
-            '"both" will apply centring to both the data and the sample_meta blocks'),
+        mode=enum(
+            name = 'Mode of action', 
+            description=c(
+                "data" = 'Centring is applied to the data block',
+                "sample_meta" = 'Centring is applied to the sample_meta block',
+                "both" = 'Centring is applied to both the data and the sample_meta blocks'
+            ),
             value='data',
             allowed=c('data','sample_meta','both')
         ),
+        description=paste0('The mean sample is subtracted from all samples ',
+        'in the data matrix. The features in the centred matrix all have ',
+        'zero mean.'),
         predicted='centred',
         .params=c('mode'),
         .outputs=c('centred','mean_data','mean_sample_meta')

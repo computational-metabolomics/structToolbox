@@ -2,21 +2,32 @@
 % Please edit documentation in R/dataset_chart_classes.R
 \name{DatasetExperiment_heatmap}
 \alias{DatasetExperiment_heatmap}
-\title{DatasetExperiment_heatmap class}
+\title{DatasetExperiment heatmap}
 \usage{
 DatasetExperiment_heatmap(na_colour = "#FF00E4", ...)
 }
 \arguments{
-\item{na_colour}{A hex colour code to use for missing values}
+\item{na_colour}{(character) The hex colour code used to plot missing values. The default is \code{"#FF00E4"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{DatasetExperiment_heatmap} object.
 }
 \description{
-plots a DatasetExperiment as a heatmap
+A heatmap to visualise the measured values in a data matrix.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{reshape2}}}
 }
 \examples{
+D = iris_DatasetExperiment()
 C = DatasetExperiment_heatmap()
+chart_plot(C,D)
+}
+\references{
+Wickham H (2007).
+``Reshaping Data with the reshape Package.''
+\emph{Journal of Statistical Software}, \bold{21}(12), 1--20.
+\url{http://www.jstatsoft.org/v21/i12/}.
 }

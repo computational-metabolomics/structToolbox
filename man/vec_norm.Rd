@@ -7,14 +7,15 @@
 vec_norm(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
+A  \code{vec_norm} object.
+
 struct object
 }
 \description{
-Applies vector normalisation, such the sum of squared values for each sample
-after normalisation are equal to 1.
+The samples in the data matrix are normalised to account for differences in concentration by scaling each sample such that the sum of squares is equal to 1.
 }
 \examples{
 M = vec_norm()

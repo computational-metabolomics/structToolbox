@@ -2,21 +2,20 @@
 % Please edit documentation in R/nroot_transform_class.R
 \name{nroot_transform}
 \alias{nroot_transform}
-\title{nroot transform}
+\title{nth root transform}
 \usage{
 nroot_transform(root = 2, ...)
 }
 \arguments{
-\item{root}{The nth root of the transform. Default is 2, resulting in a 
-square-root transformation of the data.}
+\item{root}{(numeric) The nth root used for the transform. The default is \code{2}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{nroot_transform} object.
 }
 \description{
-Applies an nth root transform to the data
+All values in the data matrix are transformed by raising them to the power of 1/n.
 }
 \examples{
 M = nroot_transform()

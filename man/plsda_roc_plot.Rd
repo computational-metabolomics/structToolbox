@@ -2,20 +2,23 @@
 % Please edit documentation in R/PLSDA_charts.R
 \name{plsda_roc_plot}
 \alias{plsda_roc_plot}
-\title{plsda_roc_plot class}
+\title{PLSDA ROC plot}
 \usage{
 plsda_roc_plot(factor_name, ...)
 }
 \arguments{
-\item{factor_name}{The sample_meta column name to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{plsda_roc_plot} object.
 }
 \description{
-Plots the ROC curve of a PLSDA model. Only suitable for two classes.
+A Receiver Operator Characteristic (ROC) plot for PLSDA models computed by adjusting the threshold for assigning group labels from PLS predictions.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pls}}\item{\code{ggplot2}}}
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -24,4 +27,14 @@ M = model_apply(M,D)
 
 C = plsda_roc_plot(factor_name='Species')
 chart_plot(C,M[2])
+}
+\references{
+Mevik B, Wehrens R, Liland K (2020).
+\emph{pls: Partial Least Squares and Principal Component Regression}.
+R package version 2.7-3, \url{https://CRAN.R-project.org/package=pls}.
+
+Wickham H (2016).
+\emph{ggplot2: Elegant Graphics for Data Analysis}.
+Springer-Verlag New York.
+ISBN 978-3-319-24277-4, \url{https://ggplot2.tidyverse.org}.
 }

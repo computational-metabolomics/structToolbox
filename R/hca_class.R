@@ -1,25 +1,16 @@
-#' HCA method class
-#'
-#' HCA method class. Calculate a hierarchical clustering for the input data.
-#'
-#' @param dist_method The distance method to use for clustering. Can be any one of
-#' "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski". Default
-#' is "euclidean".
-#' @param cluster_method The clustering method to use. Can be any one of "ward.D",
-#' "ward.D2", "single", "complete", "average", "mcquitty", "median" or "centroid".
-#' Default is 'complete'.
-#' @param minkowski_power This parameter is only used when \code{dist_method = 'minkowski'}.
-#' @param factor_name The sample_meta column to use.
-#' @param ... additional slots and values passed to struct_class
-#'
-#' @return struct object
+#' @eval get_description('HCA')
 #' @export HCA
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = HCA(factor_name='Species')
 #' M = model_apply(M,D)
 #'
-HCA = function(dist_method='euclidean',cluster_method='complete',minkowski_power=2,factor_name,...) {
+HCA = function(
+    dist_method='euclidean',
+    cluster_method='complete',
+    minkowski_power=2,
+    factor_name,...) 
+{
     out=struct::new_struct('HCA',
         dist_method=dist_method,
         cluster_method=cluster_method,
@@ -38,33 +29,52 @@ HCA = function(dist_method='euclidean',cluster_method='complete',minkowski_power
         dist_method='enum',
         cluster_method='enum',
         minkowski_power='numeric',
-        factor_name='character',
+        factor_name='entity',
         # OUTPUTS
         dist_matrix='entity',
         hclust='entity',
         factor_df='data.frame'
     ),
     prototype = list(name='Hierarchical Cluster Analysis',
-        description='Applies hierarchical clustering to a DatasetExperiment.',
+        description=paste0('Hierarchical Cluster Analysis is a numerical ',
+        'technique that uses agglomerative clustering to identify clusters ',
+        'or groupings of samples.'),
         type="univariate",
+        libraries='stats',
         predicted='dist_matrix',
         .params=c('dist_method','cluster_method','minkowski_power','factor_name'),
         .outputs=c('dist_matrix','hclust','factor_df'),
-
-
-        dist_method=enum(name='Distance method',
+        
+        factor_name=ents$factor_name,
+        dist_method=enum(name='Distance measure',
             value='euclidean',
             type='character',
-            description='The distance measure to be used. This must be one of "euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski"',
+            description=c(
+                "euclidean" = "The euclidean distance (2 norm)", 
+                "maximum"  =  "The maximum distance",
+                "manhattan" = 'The absolute distance (1 norm)',
+                "canberra" = 'A weighted version of the mahattan distance',
+                "minkowski" = 'A generalisation of manhattan and euclidean distance to nth norm'
+            ),
             allowed=c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski")
         ),
-        cluster_method=enum(name='Clustering method',
+        cluster_method=enum(
+            name='Agglomeration method',
             value='complete',
             type='character',
-            description='The agglomeration method to be used. This should be one of "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median" or "centroid"',
+            description=c(
+                "ward.D" = 'Ward clustering',
+                "ward.D2" = 'Ward clustering using sqaured distances',
+                "single" = 'Single linkage',
+                "complete" = 'Complete linkage',
+                "average" = 'Average linkage (UPGMA)',
+                "mcquitty" = 'McQuitty linkage (WPGMA)',
+                "median" = 'Median linkage (WPGMC)',
+                "centroid" = 'Centroid linkage (UPGMC)'
+                ),
             allowed=c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
         ),
-
+        
         dist_matrix=entity(name='distance structure',
             type='dist',
             description='An object containing pairwise distance information between samples'
@@ -82,11 +92,11 @@ setMethod(f="model_apply",
     signature=c("HCA",'DatasetExperiment'),
     definition=function(M,D)
     {
-
+        
         M$dist_matrix=dist(D$data, method = M$dist_method, diag = FALSE, upper = FALSE, p = M$minkowski_power)
-
+        
         M$hclust=hclust(M$dist_matrix, method = M$cluster_method, members = NULL)
-
+        
         df=D$sample_meta[,M$factor_name,drop=FALSE]
         df$orig_order=1:nrow(df)
         df$label=rownames(D$data)
@@ -98,12 +108,7 @@ setMethod(f="model_apply",
 
 
 
-#' hca_dendrogram class
-#'
-#' plots a dendrogram for HCA
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('hca_dendrogram')
 #' @export hca_dendrogram
 #' @include hca_class.R
 #' @examples
@@ -117,7 +122,11 @@ hca_dendrogram = function(...) {
 .hca_dendrogram<-setClass(
     "hca_dendrogram",
     contains='chart',
-    prototype = list(libraries='ggdendro')
+    prototype = list(
+        libraries='ggdendro',
+        name = 'HCA dendrogram',
+        description=paste0('A dendrogram visualising the clustering by HCA.')
+        )
 )
 
 #' @export
@@ -127,13 +136,13 @@ setMethod(f="chart_plot",
     definition=function(obj,dobj)
     {
         hcdata=ggdendro::dendro_data(dobj$hclust)
-
+        
         A=ggdendro::label(hcdata)
-
+        
         A=A[order(dobj$factor_df$order),,drop=FALSE]
         dobj$factor_df[order(dobj$factor_df$order),,drop=FALSE]
         A$group=dobj$factor_df[,1]
-
+        
         g= ggplot() +
             geom_segment(data=ggdendro::segment(hcdata), aes(x=x, y=y, xend=xend, yend=yend)) +
             geom_point(data=A, aes(x=x, y=y,color=group))+
@@ -144,7 +153,7 @@ setMethod(f="chart_plot",
                 axis.text.x=element_blank(),
                 axis.ticks.x=element_blank()) +
             ylab('dissimilarity')
-
+        
         return(g)
     }
 )

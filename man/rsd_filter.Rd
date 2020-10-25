@@ -2,26 +2,35 @@
 % Please edit documentation in R/rsd_filter.R
 \name{rsd_filter}
 \alias{rsd_filter}
-\title{rsd filter}
+\title{RSD filter}
 \usage{
 rsd_filter(rsd_threshold = 20, qc_label = "QC", factor_name, ...)
 }
 \arguments{
-\item{rsd_threshold}{Features with RSD greater than the threshold are removed.}
+\item{rsd_threshold}{(numeric) The RSD threshold below which features are removed. The default is \code{20}.}
 
-\item{qc_label}{The label used to identify QC samples in the chosen sample_meta column.}
+\item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
-\item{factor_name}{The name of the sample_meta column containing QC labels.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{rsd_filter} object.
 }
 \description{
-Filters features based on the relative standard deviation (RSD) for the QC samples.
+An RSD filter calculates the relative standard deviation (the ratio of the mean to the standard deviation) for all features. Any feature with an RSD lower than a predefined threshold is excluded.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
 M = rsd_filter(factor_name='class')
 
+}
+\references{
+Jankevics A, Weber RJM (2020).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.1.0.
 }

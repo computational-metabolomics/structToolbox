@@ -1,12 +1,4 @@
-#' prop_na model class
-#'
-#' Compares proportion of NA for all features in a DatasetExperiment using a
-#' Fisher's Exact test
-#'
-#' @param alpha The p-value threshold. Default alpha = 0.05.
-#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
-#' @param factor_name The sample_meta column name to use.
-#' @param ... additional slots and values passed to struct_class
+#' @eval get_description('prop_na')
 #' @return struct object
 #' @export prop_na
 #' @examples
@@ -28,7 +20,7 @@ prop_na = function(alpha=0.05,mtc='fdr',factor_name,...) {
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         factor_name='entity',
         # OUTPUTS
         p_value='entity_stato',
@@ -37,31 +29,21 @@ prop_na = function(alpha=0.05,mtc='fdr',factor_name,...) {
         # CHARTS
         # none
     ),
-    prototype = list(name='Fisher\'s exact test to compare number of NA',
-        description='Applies Fisher\'s exact test to each feature to indicate whether the proportion of NA per group is greater than expected, with (optional)
-    multiple-testing correction.',
+    prototype = list(name='Fisher\'s exact test for missing values',
+        description=paste0('A Fisher\'s exact test is used to compare the ',
+        'number of missing values in each group. Multiple test corrected ',
+        'p-values are computed to indicate whether there is a significant ',
+        'difference in the number of missing values across groups for each ',
+        'feature.'),
         type="univariate",
         predicted='p_value',
         .params=c('alpha','mtc','factor_name'),
         .outputs=c('p_value','significant','na_count'),
 
-        factor_name=entity(name='Factor names',
-            type='character',
-            description='Names of sample_meta columns to use'
-        ),
+        factor_name=ents$factor_name,
 
-        alpha=entity_stato(name='Confidence level',
-            stato_id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        mtc=entity_stato(name='Multiple Test Correction method',
-            stato_id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
+        alpha=ents$alpha,
+        mtc=ents$mtc,
         p_value=entity_stato(name='p value',
             stato_id='STATO:0000175',
             type='data.frame',

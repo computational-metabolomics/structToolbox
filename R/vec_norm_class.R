@@ -1,8 +1,4 @@
-#' Vector normalisation
-#'
-#' Applies vector normalisation, such the sum of squared values for each sample
-#' after normalisation are equal to 1.
-#' @param ... additional slots and values passed to struct_class
+#' @eval get_description('vec_norm')
 #' @return struct object
 #' @export vec_norm
 #' @examples
@@ -21,7 +17,11 @@ vec_norm = function(...) {
         coeff='entity'
     ),
     prototype=list(name = 'Vector normalisation',
-        description = 'Normalises each row such that the sum of squares is equal to 1',
+        description = paste0(
+            'The samples in the data matrix are normalised to account for ',
+            'differences in concentration by scaling each sample such that the ',
+            'sum of squares is equal to 1.'
+            ),
         type = 'normalisation',
         predicted='normalised',
         .outputs=c('normalised','coeff'),

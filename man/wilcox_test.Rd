@@ -2,7 +2,7 @@
 % Please edit documentation in R/wilcox_test_class.R
 \name{wilcox_test}
 \alias{wilcox_test}
-\title{Wilcoxon signed rank test method class}
+\title{wilcoxon signed rank test}
 \usage{
 wilcox_test(
   alpha = 0.05,
@@ -14,25 +14,25 @@ wilcox_test(
 )
 }
 \arguments{
-\item{alpha}{The p-value threshold. Default alpha = 0.05.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{factor_names}{The sample_meta column name to use.}
+\item{factor_names}{(character) The name of a sample-meta column to use.}
 
-\item{paired}{TRUE or FALSE to use a paired test.}
+\item{paired}{(logical) Apply a paired test. The default is \code{FALSE}.}
 
-\item{paired_factor}{The name of the sample_meta column used to indicate which samples are from the same
-subject. Must be provided if \code{paired = TRUE}}
+\item{paired_factor}{(character) The factor name containing sample ids for paired data. The default is \code{character(0)}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
+A  \code{wilcox_test} object.
+
 struct object
 }
 \description{
-Calculates a signed rank test for all features in a DatasetExperiment.
-Used as a non-parametric ttest.
+A Mann-Whitney-Wilcoxon signed rank test compares ,the ranks of values in two groups. It is the non-parametric equivalent of a t-test. Multiple test corrected p-values are computed as indicators of significance for each variable/feature.
 }
 \examples{
 M = wilcox_test(factor_name='class')

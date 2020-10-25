@@ -2,7 +2,7 @@
 % Please edit documentation in R/confounders_clsq_class.R
 \name{confounders_clsq}
 \alias{confounders_clsq}
-\title{Check for confounding factors in ttest}
+\title{Check for confounding factors}
 \usage{
 confounders_clsq(
   alpha = 0.05,
@@ -14,28 +14,23 @@ confounders_clsq(
 )
 }
 \arguments{
-\item{alpha}{p-value threshold for determining significance. Default alpha = 0.05.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
 
-\item{mtc}{multiple test correction method to apply. Can be: holm, hochberg,
-hommel, bonferroni, BH, BY, fdr or [none]}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{factor_name}{the column name of sample_meta to use in regression}
+\item{factor_name}{(character) The name of the main factor with which other factors may be confounding.}
 
-\item{confounding_factors}{the column names of factors potentially confounding
-with the main factor if interest}
+\item{confounding_factors}{(character) The name(s) of factor(s) that are potential confounding factors.}
 
-\item{threshold}{the threshold (between 0 and 1) for accepting a factor as confounding}
+\item{threshold}{(numeric) Factors with a delta greater than the the threshold are considered to be confounding. The default is \code{0.15}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A struct model object with functions for applying classical least squares
-
-struct object
+A  \code{confounders_clsq} object.
 }
 \description{
-Compares the coefficients for a ttest without including confounding factors
-to models with confounding factor included. Currently only ttest is supported.
+Univariate least squares regression models are used to compare models with and without potential confounding factors included. The change in coefficients (delta) is then computed for each potential confounding factor. Factors with a large delta are said to be having a large impact on the model and are therefore confounding. p-values are computed for models with confounders included to reduce potential false positives. Only suitable for main factors with 2 levels.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
@@ -46,5 +41,4 @@ M = filter_by_name(mode='include',dimension='variable',
     confounders_clsq(factor_name = 'class',
         confounding_factors=c('sample_order','batch'))
 M = model_apply(M,D)
-
 }

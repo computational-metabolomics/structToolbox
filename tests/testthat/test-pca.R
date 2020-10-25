@@ -83,21 +83,21 @@ test_that('PCA biplot chart returns ggplot object',{
   # apply the model
   M=model_predict(M,D)
   # chart
-  C=pca_biplot_plot(factor_name='Species',style='arrows')
+  C=pca_biplot(factor_name='Species',style='arrows')
   # plot
   gg=chart_plot(C,M[2])
 
   ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
   # different style
-  C=pca_biplot_plot(factor_name='Species',style='points')
+  C=pca_biplot(factor_name='Species',style='points')
   # plot
   gg=chart_plot(C,M[2])
 
   ggplot_build(gg)
   expect_true(is(gg,'ggplot'))
   # variable labels
-  C=pca_biplot_plot(factor_name='Species',style='points',label_features = TRUE)
+  C=pca_biplot(factor_name='Species',style='points',label_features = TRUE)
   # plot
   gg=chart_plot(C,M[2])
 

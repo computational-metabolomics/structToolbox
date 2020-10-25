@@ -2,7 +2,7 @@
 % Please edit documentation in R/hca_class.R
 \name{HCA}
 \alias{HCA}
-\title{HCA method class}
+\title{Hierarchical Cluster Analysis}
 \usage{
 HCA(
   dist_method = "euclidean",
@@ -13,29 +13,34 @@ HCA(
 )
 }
 \arguments{
-\item{dist_method}{The distance method to use for clustering. Can be any one of
-"euclidean", "maximum", "manhattan", "canberra", "binary" or "minkowski". Default
-is "euclidean".}
+\item{dist_method}{(character) Distance measure. Allowed values are limited to the following: \itemize{\item{\code{"euclidean"}: The euclidean distance (2 norm).}\item{\code{"maximum"}: The maximum distance.}\item{\code{"manhattan"}: The absolute distance (1 norm).}\item{\code{"canberra"}: A weighted version of the mahattan distance.}\item{\code{"minkowski"}: A generalisation of manhattan and euclidean distance to nth norm.}} The default is \code{"euclidean"}.}
 
-\item{cluster_method}{The clustering method to use. Can be any one of "ward.D",
-"ward.D2", "single", "complete", "average", "mcquitty", "median" or "centroid".
-Default is 'complete'.}
+\item{cluster_method}{(character) Agglomeration method. Allowed values are limited to the following: \itemize{\item{\code{"ward.D"}: Ward clustering.}\item{\code{"ward.D2"}: Ward clustering using sqaured distances.}\item{\code{"single"}: Single linkage.}\item{\code{"complete"}: Complete linkage.}\item{\code{"average"}: Average linkage (UPGMA).}\item{\code{"mcquitty"}: McQuitty linkage (WPGMA).}\item{\code{"median"}: Median linkage (WPGMC).}\item{\code{"centroid"}: Centroid linkage (UPGMC).}} The default is \code{"complete"}.}
 
-\item{minkowski_power}{This parameter is only used when \code{dist_method = 'minkowski'}.}
+\item{minkowski_power}{(numeric)  The default is \code{2}.}
 
-\item{factor_name}{The sample_meta column to use.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{HCA} object.
 }
 \description{
-HCA method class. Calculate a hierarchical clustering for the input data.
+Hierarchical Cluster Analysis is a numerical technique that uses agglomerative clustering to identify clusters or groupings of samples.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{stats}}}
 }
 \examples{
 D = iris_DatasetExperiment()
 M = HCA(factor_name='Species')
 M = model_apply(M,D)
 
+}
+\references{
+R Core Team (2020).
+\emph{R: A Language and Environment for Statistical Computing}.
+R Foundation for Statistical Computing, Vienna, Austria.
+\url{https://www.R-project.org/}.
 }

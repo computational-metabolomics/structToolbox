@@ -1,10 +1,4 @@
-#' PLSR model class
-#'
-#' Calculates a PLS regression model using the input data.
-#' @param number_components The number of PLS components to calculate.
-#' @param factor_name The sample_meta column name to use.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('PLSR')
 #' @export PLSR
 #' @examples
 #' M = PLSR(factor_name='run_order')
@@ -19,7 +13,7 @@ PLSR = function(number_components=2,factor_name,...) {
 .PLSR<-setClass(
 
     "PLSR",
-    contains='model',
+    contains=c('model','stato'),
 
     slots=c(
         number_components = 'entity',
@@ -38,6 +32,11 @@ PLSR = function(number_components=2,factor_name,...) {
         type="regression",
         predicted='pred',
         libraries='pls',
+        stato_id='STATO:0000571',
+        description=paste0('PLS is a multivariate regression technique that ',
+        'extracts latent variables maximising covariance between the input ',
+        'data and the response. For regression the response is a continuous ',
+        'variable.'),
         .params=c('number_components','factor_name'),
         .outputs=c(
             'scores',
@@ -49,8 +48,13 @@ PLSR = function(number_components=2,factor_name,...) {
             'pls_model',
             'pred'),
 
-        number_components=entity(value = 2,name = 'Number of PLS components',description = 'The number of PLS components to use',type = c('numeric','integer')),
-        factor_name=entity(name='Factor name', description='A vector of sample_meta column names to use')
+        number_components=entity(
+            value = 2,
+            name = 'Number of PLS components',
+            description = 'The number of PLS components'
+            ,type = c('numeric','integer')
+            ),
+        factor_name=ents$factor_name
     )
 
 )
@@ -136,12 +140,7 @@ vips<-function(object)
     return(vip)
 }
 
-#' plsr_prediction_plot class
-#'
-#' Plots the true values against the predicted values for a PLSR model.
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('plsr_prediction_plot')
 #' @export plsr_prediction_plot
 #' @include PLSR_class.R
 #' @examples
@@ -155,7 +154,7 @@ plsr_prediction_plot = function(...) {
     "plsr_prediction_plot",
     contains='chart',
     prototype = list(name='PLSR prediction plot',
-        description='plots the true values against the predicted values for a PLSR model_',
+        description='A scatter plot of the true response values against the predicted values for a PLSR model.',
         type="scatterplot"
     )
 )
@@ -186,13 +185,7 @@ setMethod(f="chart_plot",
     }
 )
 
-#' plsr_residual_hist class
-#'
-#' A histogram of the model residuals
-#'
-#' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('plsr_residual_hist')
 #' @export plsr_residual_hist
 #' @include PLSR_class.R
 #' @examples
@@ -237,14 +230,8 @@ setMethod(f="chart_plot",
     }
 )
 
-#' plsr_qq_plot class
-#'
-#' Quantiles of PLSR residuals against the qualtiles of a normal
-#' distribution
-#'
+#' @eval get_description('plsr_qq_plot')
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export plsr_qq_plot
 #' @include PLSR_class.R
 #' @examples
@@ -257,11 +244,13 @@ plsr_qq_plot = function(...) {
 
 .plsr_qq_plot<-setClass(
     "plsr_qq_plot",
-    contains='chart',
-    prototype = list(name='PLSR QQ plot',
-        description='plots the quantiles of PLSR residuals against the qualtiles of a normal
-    distribution',
-        type="scatter"
+    contains=c('chart','stato'),
+    prototype = list(
+        name='PLSR QQ plot',
+        description=paste0('A plot of the quantiles of the residuals from a ',
+        'PLSR model against the quantiles of a normal distribution.'),
+        type="scatter",
+        stato_id='STATO:0000241'
     )
 )
 
@@ -289,15 +278,8 @@ setMethod(f="chart_plot",
     }
 )
 
-#' plsr_cook_dist class
-#'
-#' Cook's distance for a PLSR model. Cook's distance measures the effect of deleting
-#' each observation. Samples with a larger Cook's distance might be considered outlying
-#' as they have strong influence on the regression.
-#'
+#' @eval get_description('plsr_cook_dist')
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export plsr_cook_dist
 #' @include PLSR_class.R
 #' @examples
@@ -310,8 +292,11 @@ plsr_cook_dist = function(...) {
 .plsr_cook_dist<-setClass(
     "plsr_cook_dist",
     contains='chart',
-    prototype = list(name='Cook distance barchart',
-        description='Plots Cook\'s distance for each sample of a PLSR model',
+    prototype = list(name="Cook's distance barchart",
+        description=paste0("A barchart of Cook's distance for each sample ",
+        "used to train a PLSR model. Cook's distance is used to estimate the ",
+        "influence of a sample on the model and can be used to identify ",
+        "potential outliers."),
         type="barchart"
     )
 )

@@ -1,26 +1,9 @@
-#' Classical Least Squares regression
-#'
-#' Classical least squares, where y is the response and X is the design matrix,
-#' applied to each feature individually. Here the response is taken from the
-#' data matrix and the design matrix is the taken from the specified sample meta
-#' data column.
-#'
+#' @eval get_description('classical_lsq')
 #' @import struct
-#'
-#' @templateVar paramNames c('alpha','mtc','factor_names')
-#' @template common_params
-#'
-#' @param intercept [TRUE] or FALSE to include an intercept term in the fit
-#'
-#' @return A STRUCT method object with functions for applying classical least squares
-#'
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = classical_lsq(factor_names = 'Species')
 #' M = model_apply(M,D)
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export classical_lsq
 
 classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
@@ -38,11 +21,11 @@ classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
 
 .classical_lsq<-setClass(
     "classical_lsq",
-    contains='model',
+    contains=c('model','stato'),
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         factor_names='entity',
         intercept='entity',
         # OUTPUTS
@@ -52,23 +35,32 @@ classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
         r_squared='entity',
         adj_r_squared='entity'
     ),
-    prototype = list(name='Univariate Classical Least Squares Regression',
-        description='classical least squares, where y is the response and x is the design matrix, applied to each feature individually.',
+    prototype = list(
+        name='Univariate Classical Least Squares Regression',
+        description=paste0(
+            'In univariate classical least squares regression a line is ',
+            'fitted between each feature/variable and a response variable. ',
+            'The fitted line minimises the sum of squared differences ',
+            'between the true response and the predicted response. ',
+            'The coefficients (offset, gradient) of the fit can be tested ',
+            'for significance.'
+        ),
         type="univariate",
+        stato_id='STATO:0000370',
         predicted='p_value',
         .params=c('alpha','mtc','factor_names','intercept'),
-        .outputs=c('coefficients','p_value','significant','r_squared','adj_r_squared'),
+        .outputs=c('coefficients','p_value','significant',
+            'r_squared','adj_r_squared'),
 
-        intercept=entity(name='Include intercept',
+        intercept=entity(name='Model intercept',
             type='logical',
-            description='TRUE or FALSE to include the intercept term when fitting the model',
+            description=c(
+                'TRUE' = 'An intercept term is included in the model.',
+                'FALSE' = 'An intercept term is not included in the model.'),
             value=TRUE
         ),
 
-        factor_names=entity(name='Factor name(s)',
-            description='Name of sample meta column(s) to use',
-            type=c('character','list'),
-            value='V1'),
+        factor_names=ents$factor_names,
 
         alpha=ents$alpha,
 
@@ -76,18 +68,18 @@ classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
 
         coefficients=entity(name='Regression coefficients',
             type='data.frame',
-            description='The regression coefficients for each model_',
+            description='The regression coefficients for each term in the model.',
             value=data.frame()
         ),
         p_value=ents$p_value,
         significant=ents$significant,
         r_squared=entity(name='R Squared',
-            description='The value of R Squared for the fitted model_',
+            description='The value of R Squared for the fitted model',
             type='data.frame',
             value=data.frame()
         ),
         adj_r_squared=entity(name='Adjusted R Squared',
-            description='The value ofAdjusted  R Squared for the fitted model_',
+            description='The value ofAdjusted  R Squared for the fitted model',
             type='data.frame',
             value=data.frame()
         )

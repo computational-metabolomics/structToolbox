@@ -2,26 +2,35 @@
 % Please edit documentation in R/pqn_norm_method_class.R
 \name{pqn_norm}
 \alias{pqn_norm}
-\title{Probabilistic Quotient Normalisation}
+\title{Probabilistic Quotient Normalisation (PQN)}
 \usage{
 pqn_norm(qc_label = "QC", factor_name, ...)
 }
 \arguments{
-\item{qc_label}{= The label for qc samples in the chosen sample_meta column.}
+\item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
-\item{factor_name}{The sample_meta column name containing QC labels.}
+\item{factor_name}{(character) No description provided.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{pqn_norm} object.
 }
 \description{
-Applies PQN using QC samples as reference samples
+PQN is used to normalise for differences in concentration between samples. It makes use of Quality Control (QC) samples as a reference. PQN scales by the median change relative to the reference in order to be more robust against changes caused by response to perturbation.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
 D = iris_DatasetExperiment()
 M = pqn_norm(factor_name='Species',qc_label='all')
 M = model_apply(M,D)
 
+}
+\references{
+Jankevics A, Weber RJM (2020).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.1.0.
 }

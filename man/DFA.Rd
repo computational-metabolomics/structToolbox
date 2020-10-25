@@ -2,25 +2,30 @@
 % Please edit documentation in R/DFA_class.R
 \name{DFA}
 \alias{DFA}
-\title{Discriminant Factor Analysis (DFA)}
+\title{Discriminant Factor Analysis}
 \usage{
 DFA(factor_name, number_components = 2, ...)
 }
 \arguments{
-\item{factor_name}{The sample_meta column name containing group labels}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{number_components}{The number of discriminant factors to calculate}
+\item{number_components}{(numeric, integer) The number of DFA components calculated. The default is \code{2}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{DFA} object.
 }
 \description{
-Applies Discriminant Factor Analysis to a dataset.
+Discriminant Factor Analysis (DFA) is a supervised classification method. Using a linear combination of the input variables, DFA finds new orthogonal axes (canonical values) to minimize the variance within each given class and maximize variance between classes.
 }
 \examples{
 D = iris_DatasetExperiment()
 M = DFA(factor_name='Species')
 M = model_apply(M,D)
+}
+\references{
+Manly B (1986).
+\emph{Multivariate Statistical Methods: A Primer}.
+Chapman and Hall, Boca Raton.
 }

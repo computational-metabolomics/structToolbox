@@ -1,10 +1,4 @@
-#' Probabilistic Quotient Normalisation
-#'
-#' Applies PQN using QC samples as reference samples
-#' @param qc_label = The label for qc samples in the chosen sample_meta column.
-#' @param factor_name The sample_meta column name containing QC labels.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('pqn_norm')
 #' @export pqn_norm
 #' @examples
 #' D = iris_DatasetExperiment()
@@ -29,7 +23,12 @@ pqn_norm = function(qc_label='QC',factor_name,...) {
         coeff='entity'
     ),
     prototype=list(name = 'Probabilistic Quotient Normalisation (PQN)',
-        description = 'PQN normalisation using QC samples as reference samples',
+        description = paste0(
+            'PQN is used to normalise for differences in concentration ',
+            'between samples. It makes use of Quality Control (QC) samples as ',
+            'a reference. PQN scales by the median change relative to the ',
+            'reference in order to be more robust against changes caused by ',
+            'response to perturbation.'),
         type = 'normalisation',
         predicted = 'normalised',
         libraries='pmp',
@@ -37,7 +36,7 @@ pqn_norm = function(qc_label='QC',factor_name,...) {
         .outputs=c('normalised','coeff'),
 
         qc_label=entity(name = 'QC label',
-            description = 'Label used to identify QC samples.',
+            description = 'The label used to identify QC samples.',
             value = 'QC',
             type='character'),
 
@@ -77,12 +76,8 @@ setMethod(f="model_apply",
 
 
 ##### plots
-#' plot for PQN normalisation
-#'
-#' plots a histogram of the PQN coeffients
+#' @eval get_description('pqn_norm_hist')
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export pqn_norm_hist
 #' @examples
 #' C = pqn_norm_hist()
@@ -94,8 +89,8 @@ pqn_norm_hist = function(...) {
 .pqn_norm_hist<-setClass(
     "pqn_norm_hist",
     contains='chart',
-    prototype = list(name='Histogram of the PQN coefficients per feature',
-        description='A histogram of the PQN coefficients per feature',
+    prototype = list(name='PQN coefficient histogram',
+        description='A histogram of the PQN coefficients for all features',
         type="histogram"
     )
 )

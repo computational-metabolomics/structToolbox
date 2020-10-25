@@ -1,16 +1,8 @@
-#' Mean of median adjustment
-#'
-#' Normalises the data of a DatasetExperiment object such that the median of each
-#' factor level is equal to the mean of the sample medians in that level.
-#' 
-#' @param factor_name the column sample of sample_meta to use. Mean of medians 
-#' will be applied based on the levels in this factor.
+#' @eval get_description('mean_of_medians')
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = mean_of_medians(factor_name='Species')
 #' M = model_apply(M,D)
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export
 mean_of_medians = function(factor_name,...) {
     out=struct::new_struct('mean_of_medians',
@@ -28,6 +20,7 @@ mean_of_medians = function(factor_name,...) {
     ),
     prototype = list(
         name='Mean of medians',
+        description='The data matrix is normalised by the mean of the median of each factor level.',
         type="preprocessing",
         predicted='transformed',
         .params=c('factor_name'),

@@ -5,7 +5,7 @@
 %   R/permute_sample_order_class.R, R/run_doc.R
 \name{run,bootstrap,DatasetExperiment,metric-method}
 \alias{run,bootstrap,DatasetExperiment,metric-method}
-\alias{run,forward_selection_byrank,DatasetExperiment,metric-method}
+\alias{run,forward_selection_by_rank,DatasetExperiment,metric-method}
 \alias{run,grid_search_1d,DatasetExperiment,metric-method}
 \alias{run,kfold_xval,DatasetExperiment,metric-method}
 \alias{run,permutation_test,DatasetExperiment,metric-method}
@@ -15,7 +15,7 @@
 \usage{
 \S4method{run}{bootstrap,DatasetExperiment,metric}(I, D, MET = NULL)
 
-\S4method{run}{forward_selection_byrank,DatasetExperiment,metric}(I, D, MET)
+\S4method{run}{forward_selection_by_rank,DatasetExperiment,metric}(I, D, MET)
 
 \S4method{run}{grid_search_1d,DatasetExperiment,metric}(I, D, MET)
 

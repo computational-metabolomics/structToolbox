@@ -1,9 +1,4 @@
-#' Split data into subsets
-#'
-#' Splits the data into a training and test set.
-#' @param p_train The proportion of samples in the training set.
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
+#' @eval get_description('split_data')
 #' @export split_data
 #' @examples
 #' M = split_data(p_train=0.75)
@@ -26,14 +21,17 @@ split_data = function(p_train,...) {
 
     prototype=list(
         name = 'Split data',
-        description = 'Splits the data into a training and test set',
+        description = paste0('The data matrix is divided into two subsets.',
+        'A predefined proportion of the samples are randomly selected for a ',
+        'training set, and the remaining samples are used for the test set.'),
         type = 'processing',
         predicted = 'testing',
         .params=c('p_train'),
         .outputs=c('training','testing'),
 
         p_train=entity(name = 'Proportion in training set',
-            description = 'The proportion of samples selected for the training set. All other samples will be in assigned to the test set.',
+            description = paste0('The proportion of samples selected for the ',
+            'training set.'),
             value = 0.75,
             type='numeric'),
 

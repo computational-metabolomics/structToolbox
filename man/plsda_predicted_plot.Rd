@@ -2,23 +2,25 @@
 % Please edit documentation in R/PLSDA_charts.R
 \name{plsda_predicted_plot}
 \alias{plsda_predicted_plot}
-\title{plsda_predicted_plot class}
+\title{PLSDA predicted plot}
 \usage{
 plsda_predicted_plot(factor_name, style = "boxplot", ...)
 }
 \arguments{
-\item{factor_name}{The sample_meta column name to use}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{style}{The plot style. One of 'boxplot', 'violin' or 'density'.}
+\item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{\item{\code{"boxplot"}: A boxplot.}\item{\code{"violin"}: A violin plot.}\item{\code{"density"}: A density plot.}} The default is \code{"boxplot"}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{plsda_predicted_plot} object.
 }
 \description{
-A box plot of the predicted values from a PLSDA model for each class. 
-Only usitable for two class models.
+A plot of the regression coefficients from a PLSDA model.
+}
+\details{
+This object makes use of functionality from the following packages:\itemize{\item{\code{pls}}\item{\code{ggplot2}}}
 }
 \examples{
 D = iris_DatasetExperiment()
@@ -27,4 +29,14 @@ M = model_apply(M,D)
 
 C = plsda_predicted_plot(factor_name='Species')
 chart_plot(C,M[2])
+}
+\references{
+Mevik B, Wehrens R, Liland K (2020).
+\emph{pls: Partial Least Squares and Principal Component Regression}.
+R package version 2.7-3, \url{https://CRAN.R-project.org/package=pls}.
+
+Wickham H (2016).
+\emph{ggplot2: Elegant Graphics for Data Analysis}.
+Springer-Verlag New York.
+ISBN 978-3-319-24277-4, \url{https://ggplot2.tidyverse.org}.
 }

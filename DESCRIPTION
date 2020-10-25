@@ -104,7 +104,7 @@ Collate:
     'vec_norm_class.R'
     'wilcox_test_class.R'
     'zzz.R'
-Depends: R (>= 4.0), struct (>= 0.99.10)
+Depends: R (>= 4.0), struct (>= 1.1.2)
 Imports: ggplot2,
     ggthemes,
     grid,
@@ -112,7 +112,8 @@ Imports: ggplot2,
     methods,
     scales,
     sp,
-    stats
+    stats,
+    utils
 RoxygenNote: 7.1.1
 Suggests: agricolae,
  BiocFileCache,

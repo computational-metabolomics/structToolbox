@@ -2,20 +2,20 @@
 % Please edit documentation in R/permute_sample_order_class.R
 \name{permute_sample_order}
 \alias{permute_sample_order}
-\title{permute_sample_order class}
+\title{Permute Sample Order}
 \usage{
 permute_sample_order(number_of_permutations = 10, ...)
 }
 \arguments{
-\item{number_of_permutations}{The number of times to permute the sample order}
+\item{number_of_permutations}{(numeric, integer) The number of times the sample order is permuted. The default is \code{10}.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{permute_sample_order} object.
 }
 \description{
-Permutes the sample order a defined number of times, running the model each time
+The order of samples in the data matrix is randomly permuted. The relationship between the samples and the sample meta data is maintained.
 }
 \examples{
 C = permute_sample_order()

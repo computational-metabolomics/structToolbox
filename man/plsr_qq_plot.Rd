@@ -2,19 +2,18 @@
 % Please edit documentation in R/PLSR_class.R
 \name{plsr_qq_plot}
 \alias{plsr_qq_plot}
-\title{plsr_qq_plot class}
+\title{PLSR QQ plot}
 \usage{
 plsr_qq_plot(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{plsr_qq_plot} object.
 }
 \description{
-Quantiles of PLSR residuals against the qualtiles of a normal
-distribution
+A plot of the quantiles of the residuals from a PLSR model against the quantiles of a normal distribution.
 }
 \examples{
 C = plsr_qq_plot()

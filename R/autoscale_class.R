@@ -1,17 +1,9 @@
-#' Autoscale
-#'
-#' Autoscaling centres the columns of the data in a DatasetExperiment object and divides by the standard deviation.
-#' @param mode Used to control whether centring is apply to the data, the meta data or both.
-#'  Can be any one of "data","sample_meta" or "both". default is "data".
-#' @return A STRUCT model object with methods for autoscaling.
-#'
+#' @eval get_description('autoscale')
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = autoscale()
 #' M = model_train(M,D)
 #' M = model_predict(M,D)
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export autoscale
 autoscale = function(mode='data',...) {
     out=struct::new_struct('autoscale',mode=mode,...)
@@ -20,7 +12,7 @@ autoscale = function(mode='data',...) {
 
 .autoscale<-setClass(
     "autoscale",
-    contains='model',
+    contains=c('model','stato'),
     slots=c(
         mode='enum',
         autoscaled='DatasetExperiment',
@@ -31,17 +23,23 @@ autoscale = function(mode='data',...) {
     ),
     prototype = list(
         name='Autoscaling',
+        description=paste0(
+            'Each variable/feature is mean centred and scaled by the standard ',
+            'deviation. The transformed variables have zero-mean and ',
+            'unit-variance.'
+        ),
         type="preprocessing",
         predicted='autoscaled',
         .params=c('mode'),
         .outputs=c('autoscaled','mean_data','sd_data','mean_sample_meta','sd_sample_meta'),
         mode=enum(name = 'Mode of action', description=c(
-            '"data" will apply autoscaling to the data block',
-            '"sample_meta" will apply autoscaling to the sample_meta block',
-            '"both" will apply autoscaling to both the data and the sample_meta blocks'),
+            "data" = 'Autoscaling is applied to the data matrix only.',
+            "sample_meta" = 'Autoscaling is applied to the sample_meta data only.',
+            "both" =  'Autoscaling is applied to both the data matrix and the meta data.'),
             value='data',
             allowed=c('data','sample_meta','both')
-        )
+        ),
+        stato_id='OBI:0200149'
         
     )
 )
@@ -96,7 +94,7 @@ setMethod(f="model_predict",
             Xc[nu]=ascale(X[nu],output_value(M,'mean_sample_meta')[nu],output_value(M,'sd_sample_meta')[nu])
             D = DatasetExperiment(data=D$data,sample_meta=Xc,variable_meta=D$variable_meta)
         }
-
+        
         output_value(M,'autoscaled')=D
         return(M)
     }

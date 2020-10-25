@@ -2,19 +2,18 @@
 % Please edit documentation in R/forward_selection_by_rank_class.R
 \name{fs_line}
 \alias{fs_line}
-\title{forward_selection_plot}
+\title{Forward selection line plot}
 \usage{
 fs_line(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{fs_line} object.
 }
 \description{
-Plots the result of the evaluated models against the values the number of
-features within the search range for forward_selection_by_rank objects.
+A line plot for forward selection. The computed model performance metric is plotted against the number of features included in the model.
 }
 \examples{
 # some data
@@ -29,7 +28,7 @@ P = model_apply(P,D)
 D = predicted(P)
 
 # forward selection using a PLSDA model
-M = forward_selection_byrank(factor_name='class',
+M = forward_selection_by_rank(factor_name='class',
                              min_no_vars=2,
                              max_no_vars=11,
                              variable_rank=1:2063) *

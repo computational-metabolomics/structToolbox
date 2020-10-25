@@ -2,20 +2,20 @@
 % Please edit documentation in R/split_data_class.R
 \name{split_data}
 \alias{split_data}
-\title{Split data into subsets}
+\title{Split data}
 \usage{
 split_data(p_train, ...)
 }
 \arguments{
-\item{p_train}{The proportion of samples in the training set.}
+\item{p_train}{(numeric) The proportion of samples selected for the training set.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{split_data} object.
 }
 \description{
-Splits the data into a training and test set.
+The data matrix is divided into two subsets.A predefined proportion of the samples are randomly selected for a training set, and the remaining samples are used for the test set.
 }
 \examples{
 M = split_data(p_train=0.75)

@@ -2,22 +2,22 @@
 % Please edit documentation in R/kfold_xval_charts.R
 \name{kfoldxcv_grid}
 \alias{kfoldxcv_grid}
-\title{kfoldxcv_grid class}
+\title{k-fold cross validation plot}
 \usage{
 kfoldxcv_grid(factor_name, level, ...)
 }
 \arguments{
-\item{factor_name}{The sample_meta column name to use.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{level}{The level of the factor to plot}
+\item{level}{(character) The level/group to plot.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{kfoldxcv_grid} object.
 }
 \description{
-Plot of cross validation predictions vs the true values.
+A graphic for visualising the true class and the predicted class of samples in all groups for all cross-validation folds.
 }
 \examples{
 D = iris_DatasetExperiment()

@@ -1,14 +1,4 @@
-#' Wilcoxon signed rank test method class
-#'
-#' Calculates a signed rank test for all features in a DatasetExperiment.
-#' Used as a non-parametric ttest.
-#' @param alpha The p-value threshold. Default alpha = 0.05.
-#' @param mtc Multiple test correction method passed to \code{p.adjust}. Default mtc = 'fdr'.
-#' @param factor_names The sample_meta column name to use.
-#' @param paired TRUE or FALSE to use a paired test.
-#' @param paired_factor The name of the sample_meta column used to indicate which samples are from the same
-#' subject. Must be provided if \code{paired = TRUE}
-#' @param ... additional slots and values passed to struct_class
+#' @eval get_description('wilcox_test')
 #' @return struct object
 #' @export wilcox_test
 #' @examples
@@ -32,10 +22,10 @@ wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_fac
     slots=c(
         # INPUTS
         alpha='entity_stato',
-        mtc='entity_stato',
+        mtc='enum_stato',
         factor_names='entity',
         paired='entity',
-        paired_factor='character',
+        paired_factor='entity',
         # OUTPUTS
         statistic='entity_stato',
         p_value='entity',
@@ -45,40 +35,36 @@ wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_fac
         estimates='data.frame'
     ),
     prototype = list(name='wilcoxon signed rank test',
-        description='Applies the signed rank test to each feature to indicate significance, with (optional)
-                                multiple-testing correction.',
+        description=paste0('A Mann-Whitney-Wilcoxon signed rank test compares ,',
+        'the ranks of values in two groups. It is the non-parametric equivalent ',
+        'of a t-test. Multiple test corrected p-values are computed as ',
+        'indicators of significance for each variable/feature.'),
         type="univariate",
         predicted='p_value',
-        stato_id="STATO:0000304",
+        stato_id="STATO:0000092",
         .params=c('alpha','mtc','factor_names','paired','paired_factor'),
         .outputs=c('statistic','p_value','dof','significant','conf_int','estimates'),
 
-        factor_names=entity(name='Factor names',
-            type='character',
-            description='Names of sample_meta columns to use'
-        ),
+        factor_names=ents$factor_name,
 
-        alpha=entity_stato(name='Confidence level',
-            stato_id='STATO:0000053',
-            value=0.05,
-            type='numeric',
-            description='the p-value cutoff for determining significance.'
-        ),
-        mtc=entity_stato(name='Multiple Test Correction method',
-            stato_id='OBI:0200089',
-            value='fdr',
-            type='character',
-            description='The method used to adjust for multiple comparisons.'
-        ),
+        alpha=ents$alpha,
+        mtc=ents$mtc,
         paired=entity(name='Apply paired test',
             value=FALSE,
             type='logical',
-            description='TRUE/FALSE to apply paired test.'
+            description='Apply a paired test.'
+        ),
+        paired_factor=entity(
+            name='Paired factor',
+            description='The factor name containing sample ids for paired data.',
+            type='character',
+            value=character(0),
+            max_length=1
         ),
         statistic=entity_stato(name='statistic',
             stato_id='STATO:0000176',
             type='numeric',
-            description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.'
+            description='the value of the calculated statistic which is converted to a p-value.'
         ),
         p_value=entity_stato(name='p value',
             stato_id='STATO:0000175',
@@ -206,12 +192,8 @@ setMethod(f="model_apply",
 
 
 ##### plots
-#' plot histogram of p values
-#'
-#' plots a histogram of p values
+#' @eval get_description('wilcox_p_hist')
 #' @import struct
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export wilcox_p_hist
 #' @examples
 #' M = wilcox_p_hist()
@@ -226,7 +208,7 @@ wilcox_p_hist = function(...) {
     "wilcox_p_hist",
     contains='chart',
     prototype = list(name='Histogram of p values',
-        description='Histogram of p values',
+        description='A histogram of p values for the wilcoxon signed rank test',
         type="histogram"
     )
 )

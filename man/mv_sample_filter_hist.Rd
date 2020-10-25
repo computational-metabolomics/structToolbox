@@ -2,18 +2,18 @@
 % Please edit documentation in R/mv_sample_filter_class.R
 \name{mv_sample_filter_hist}
 \alias{mv_sample_filter_hist}
-\title{plot for missing value sample filter}
+\title{Histogram of missing values per sample}
 \usage{
 mv_sample_filter_hist(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{mv_sample_filter_hist} object.
 }
 \description{
-plots a histogram of % missing values per sample
+A histogram of the the proportion of missing values per sample
 }
 \examples{
 C = mv_sample_filter_hist()

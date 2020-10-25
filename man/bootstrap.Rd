@@ -2,28 +2,20 @@
 % Please edit documentation in R/bootstrap_class.R
 \name{bootstrap}
 \alias{bootstrap}
-\title{Bootstrap class}
+\title{Bootstrap resampling}
 \usage{
-bootstrap(number_of_iterations = 100, collect, ...)
+bootstrap(number_of_repetitions = 100, collect, ...)
 }
 \arguments{
-\item{number_of_iterations}{The number of bootstrap iterations to run}
+\item{number_of_repetitions}{(numeric, integer) The number of bootstrap repetitions. The default is \code{100}.}
 
-\item{collect}{The name of model output to collect over all iterations}
+\item{collect}{(character) The name of a model output to collect over all bootstrap repetitions, in addition to the input metric.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A struct iterator object
+A  \code{bootstrap} object.
 }
 \description{
-Applies bootstrapping to a model or model_seq(). Any output from the model can
-be 'collected' over all bootstrap repetitions for further analysis.
-}
-\examples{
-D = iris_DatasetExperiment()
-I = bootstrap(number_of_iterations = 5, collect='vip') *
-    (mean_centre() + PLSDA(factor_name = 'Species'))
-I = run(I,D,balanced_accuracy())
-
+In bootstrap resampling a subset of samples is selected at random with replacement to form a training set. Any sample not selected for training is included in the test set. This process is repeated many times, and performance metrics are computed for each repetition.
 }

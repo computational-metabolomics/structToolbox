@@ -2,20 +2,18 @@
 % Please edit documentation in R/PLSR_class.R
 \name{plsr_cook_dist}
 \alias{plsr_cook_dist}
-\title{plsr_cook_dist class}
+\title{Cook's distance barchart}
 \usage{
 plsr_cook_dist(...)
 }
 \arguments{
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{plsr_cook_dist} object.
 }
 \description{
-Cook's distance for a PLSR model. Cook's distance measures the effect of deleting
-each observation. Samples with a larger Cook's distance might be considered outlying
-as they have strong influence on the regression.
+A barchart of Cook's distance for each sample used to train a PLSR model. Cook's distance is used to estimate the influence of a sample on the model and can be used to identify potential outliers.
 }
 \examples{
 C = plsr_cook_dist()
