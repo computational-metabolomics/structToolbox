@@ -39,6 +39,7 @@ R package version 3.1-149, \url{https://CRAN.R-project.org/package=nlme}.
 
 Lenth R (2020).
 \emph{emmeans: Estimated Marginal Means, aka Least-Squares Means}.
+
 R package version 1.5.2-1, \url{https://CRAN.R-project.org/package=emmeans}.
 
 Fox J, Weisberg S (2019).
