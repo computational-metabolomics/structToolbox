@@ -211,6 +211,10 @@ setMethod(f="model_apply",
                     counter=counter+1
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
+                    colnames(FC)=comp
+                    colnames(LCI)=comp
+                    colnames(UCI)=comp
+                    
                     #store in object
                     M$fold_change=as.data.frame(2^FC)
                     M$lower_ci=as.data.frame(2^LCI)
@@ -260,6 +264,10 @@ setMethod(f="model_apply",
                     counter=counter+1
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
+                    colnames(FC)=comp
+                    colnames(LCI)=comp
+                    colnames(UCI)=comp
+                    
                     # store in object
                     M$fold_change = as.data.frame(FC)
                     M$lower_ci = as.data.frame(LCI)
@@ -270,10 +278,7 @@ setMethod(f="model_apply",
         
         
         
-        colnames(FC)=comp
-        colnames(LCI)=comp
-        colnames(UCI)=comp
-        
+
         
         
         M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
