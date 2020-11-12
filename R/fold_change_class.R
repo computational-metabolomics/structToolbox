@@ -211,15 +211,6 @@ setMethod(f="model_apply",
                     counter=counter+1
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
-                    colnames(FC)=comp
-                    colnames(LCI)=comp
-                    colnames(UCI)=comp
-
-                    #store in object
-                    M$fold_change=as.data.frame(2^FC)
-                    M$lower_ci=as.data.frame(2^LCI)
-                    M$upper_ci=as.data.frame(2^UCI)
-                    
                 } else {
                     
                     D = predicted(FG)
@@ -264,19 +255,27 @@ setMethod(f="model_apply",
                     counter=counter+1
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
-
-                    colnames(FC)=comp
-                    colnames(LCI)=comp
-                    colnames(UCI)=comp
-
-                    # store in object
-                    M$fold_change = as.data.frame(FC)
-                    M$lower_ci = as.data.frame(LCI)
-                    M$upper_ci = as.data.frame(UCI)
                 }
             }
         }
                
+        colnames(FC)=comp
+        colnames(LCI)=comp
+        colnames(UCI)=comp
+        
+        #store in object
+        if (M$method=='geometric') {
+            # undo log
+            M$fold_change=as.data.frame(2^FC)
+            M$lower_ci=as.data.frame(2^LCI)
+            M$upper_ci=as.data.frame(2^UCI)
+        } else {
+            M$fold_change = as.data.frame(FC)
+            M$lower_ci = as.data.frame(LCI)
+            M$upper_ci = as.data.frame(UCI)
+        }
+        
+        
         M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
         colnames(M$significant)=comp
         
