@@ -48,10 +48,10 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = SVM(factor_name='Species',gamma=1)
 }
 \references{
-Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2019).
+Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2020).
 \emph{e1071: Misc Functions of the Department of Statistics, Probability
 Theory Group (Formerly: E1071), TU Wien}.
-R package version 1.7-3, \url{https://CRAN.R-project.org/package=e1071}.
+R package version 1.7-4, \url{https://CRAN.R-project.org/package=e1071}.
 
 Brereton RG, Lloyd GR (2010).
 ``Support Vector Machines for classification and regression.''
