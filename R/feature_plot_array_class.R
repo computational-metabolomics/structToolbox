@@ -7,7 +7,7 @@
 #'     colour_by='class',
 #'     feature_to_plot=1)
 #' chart_plot(C,D)
-#' @export feature_profile
+#' @export feature_profile_array
 feature_profile_array = function(run_order,qc_label,qc_column,colour_by,feature_to_plot,nrow=5,log=TRUE,...) {
     out=struct::new_struct('feature_profile_array',
         run_order=run_order,
