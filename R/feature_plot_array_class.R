@@ -98,7 +98,7 @@ setMethod(f="chart_plot",
         
         ylabel='Intensity'
         if (obj$log) {
-            dobj$data=log10(DE$data)
+            dobj$data=log10(dobj$data)
             ylabel='log10(intensity)'
         }
         
