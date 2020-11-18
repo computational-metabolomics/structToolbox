@@ -87,7 +87,7 @@ setMethod(f="chart_plot",
     signature=c("feature_profile_array",'DatasetExperiment'),
     definition=function(obj,dobj) {
         
-        groups=structToolbox:::createClassAndColors(class = dobj$sample_meta[[obj$colour_by]],
+        groups=createClassAndColors(class = dobj$sample_meta[[obj$colour_by]],
             QC_label=obj$qc_label)
         
         nm=obj$feature_to_plot
@@ -124,11 +124,10 @@ setMethod(f="chart_plot",
         
         g=ggplot(X,aes(x=run_order,y=feature,colour=group)) +
             geom_point()+
-            structToolbox:::theme_Publication(base_size = 12) +
+            theme_Publication(base_size = 12) +
             scale_colour_manual(values=groups$manual_colors,name=obj$colour_by)+
             ylab(ylabel) +
             xlab('Run order')+
-            theme(plot.margin=unit(c(1,6,1,1),'lines'))+
             facet_wrap("feature_id",nrow=obj$nrow)
         return(g)
     }
