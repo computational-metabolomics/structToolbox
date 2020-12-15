@@ -1,8 +1,8 @@
 ==============================================
-STRUCT Toolbox 
+structToolbox
 ==============================================
 
-|Git| |Bioconda| |Build Status (Travis)| |License| |Coverage| |AppVeyor| |mybinder|
+|Git| |Bioconda| |Build Status| |License| |Coverage| |mybinder|
 
 
 ------------
@@ -24,19 +24,15 @@ Conda
 
 .. code-block:: command
 
-   conda create -n structtoolbox bioconductor-structtoolbox -c conda-forge -c bioconda -c computational-metabolomics
-   source activate structtoolbox
+   conda create -n structtoolbox bioconductor-structtoolbox -c conda-forge -c bioconda
+   conda activate structtoolbox
 
 ------------
 References
 ------------
 
-
-.. |Build Status (Travis)| image:: https://img.shields.io/travis/computational-metabolomics/structToolbox/master.svg?label=Travis
-   :target: https://travis-ci.org/computational-metabolomics/structToolbox
-
-.. |Build Status (AppVeyor)| image:: https://ci.appveyor.com/api/projects/status/github/computational-metabolomics/structToolbox?branch=master&svg=true
-   :target: https://ci.appveyor.com/project/computational-metabolomcis/structToolbox
+.. |Build Status| image:: https://github.com/computational-metabolomics/structToolbox/workflows/structToolbox/badge.svg
+   :target: https://github.com/computational-metabolomics/structToolbox/actions
 
 .. |Git| image:: https://img.shields.io/badge/repository-GitHub-blue.svg?style=flat&maxAge=3600
    :target: https://github.com/computational-metabolomics/structToolbox
@@ -49,9 +45,6 @@ References
 
 .. |Coverage| image:: https://codecov.io/gh/computational-metabolomics/structToolbox/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/computational-metabolomics/structToolbox
-
-.. |AppVeyor| image:: https://ci.appveyor.com/api/projects/status/github/computational-metabolomics/structToolbox?branch=master&svg=true
-   :target: https://ci.appveyor.com/project/RJMW/structToolbox
 
 .. |mybinder| image:: https://mybinder.org/badge_logo.svg
    :target: https://mybinder.org/v2/gh/computational-metabolomics/structToolbox/master?filepath=notebooks
