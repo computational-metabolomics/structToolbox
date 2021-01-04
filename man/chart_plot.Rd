@@ -39,6 +39,7 @@
 \alias{chart_plot,compare_dist,DatasetExperiment-method}
 \alias{chart_plot,DatasetExperiment_heatmap,DatasetExperiment-method}
 \alias{chart_plot,DatasetExperiment_factor_boxplot,DatasetExperiment-method}
+\alias{chart_plot,feature_profile_array,DatasetExperiment-method}
 \alias{chart_plot,feature_profile,DatasetExperiment-method}
 \alias{chart_plot,fold_change_plot,fold_change-method}
 \alias{chart_plot,fs_line,forward_selection_by_rank-method}
@@ -111,6 +112,8 @@
 \S4method{chart_plot}{DatasetExperiment_heatmap,DatasetExperiment}(obj, dobj)
 
 \S4method{chart_plot}{DatasetExperiment_factor_boxplot,DatasetExperiment}(obj, dobj)
+
+\S4method{chart_plot}{feature_profile_array,DatasetExperiment}(obj, dobj)
 
 \S4method{chart_plot}{feature_profile,DatasetExperiment}(obj, dobj)
 
