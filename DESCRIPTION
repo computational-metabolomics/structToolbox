@@ -58,6 +58,7 @@ Collate:
     'd_ratio_filter_class.R'
     'dataset_chart_classes.R'
     'factor_barchart_class.R'
+    'feature_plot_array_class.R'
     'feature_profile_class.R'
     'filter_by_name_class.R'
     'filter_na_count.R'
