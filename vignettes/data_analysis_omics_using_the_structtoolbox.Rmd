@@ -27,7 +27,7 @@ vignette: >
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
-    dpi=72,fig.width=5,fig.height=5.5
+    fig.width=5,fig.height=5.5,fig.retina = 1
 )
 set.seed(57475)
 
