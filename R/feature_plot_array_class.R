@@ -1,11 +1,14 @@
-#' @eval get_description('feature_profile')
+#' @eval get_description('feature_profile_array')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
-#' C = feature_profile(run_order='sample_order',
+#' C = feature_profile_array(
+#'     run_order='sample_order',
 #'     qc_label='QC',
 #'     qc_column='class',
 #'     colour_by='class',
-#'     feature_to_plot=1)
+#'     feature_to_plot=1:3,
+#'     nrow=1,
+#'     log=TRUE)
 #' chart_plot(C,D)
 #' @export feature_profile_array
 feature_profile_array = function(run_order,qc_label,qc_column,colour_by,feature_to_plot,nrow=5,log=TRUE,...) {

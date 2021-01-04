@@ -26,20 +26,27 @@ feature_profile_array(
 
 \item{feature_to_plot}{(numeric, character, integer) The name or column id of the plotted feature.}
 
+\item{nrow}{(numeric, integer) The number of rows in the plot. The default is \code{5}.}
+
+\item{log}{(logical) Log transform. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The data is log tranformed before plotting.}\item{\code{"FALSE"}: The data is not transformed before plotting.}} The default is \code{TRUE}.}
+
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{feature_profile} object.
+A  \code{feature_profile_array} object.
 }
 \description{
 A plot visualising the change in intensity of a feature with a continuous variable such as time, dose, or run order.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
-C = feature_profile(run_order='sample_order',
+C = feature_profile_array(
+    run_order='sample_order',
     qc_label='QC',
     qc_column='class',
     colour_by='class',
-    feature_to_plot=1)
+    feature_to_plot=1:3,
+    nrow=1,
+    log=TRUE)
 chart_plot(C,D)
 }
