@@ -38,5 +38,5 @@ R package version 1.5.2-1, \url{https://CRAN.R-project.org/package=emmeans}.
 
 Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team (2020).
 \emph{nlme: Linear and Nonlinear Mixed Effects Models}.
-R package version 3.1-150, \url{https://CRAN.R-project.org/package=nlme}.
+R package version 3.1-149, \url{https://CRAN.R-project.org/package=nlme}.
 }
