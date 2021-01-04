@@ -9,7 +9,7 @@ pqn_norm(qc_label = "QC", factor_name, ...)
 \arguments{
 \item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
-\item{factor_name}{(character) No description provided.}
+\item{factor_name}{(character) The name of a sample-meta column to use.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }

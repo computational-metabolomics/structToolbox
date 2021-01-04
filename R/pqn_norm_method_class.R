@@ -49,7 +49,8 @@ pqn_norm = function(qc_label='QC',factor_name,...) {
             description = 'The normalisation coefficients calculated by PQN',
             type='data.frame',
             value=data.frame()
-        )
+        ),
+        factor_name=ents$factor_name
     )
 )
 
