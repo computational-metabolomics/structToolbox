@@ -27,7 +27,7 @@ vignette: >
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
-    fig.width=5,fig.height=5.5,fig.retina = 1
+    dpi=96,fig.width=5,fig.height=5.5,fig.retina = 1,fig.small = TRUE
 )
 set.seed(57475)
 
@@ -216,7 +216,7 @@ chart_plot(C,M[2])
   
 The `chart_plot` method returns a ggplot object so that you can easily combine it with other plots using the `gridExtra` or `cowplot` packages for example.
 
-```{r,fig.width=10}
+```{r,fig.width=10,fig.small=FALSE}
 # scores plot
 C1 = pca_scores_plot(factor_name='class') # colour by class
 g1 = chart_plot(C1,M[2])
@@ -324,7 +324,7 @@ chart_names(XCV)
 
 Charts for `iterator` objects can be plotted in the same way as charts for any other object.
 
-```{r,warning=FALSE,fig.width=8,fig.height=4}
+```{r,warning=FALSE,fig.width=8,fig.height=4,fig.small=FALSE}
 C = kfoldxcv_grid(
   factor_name='class',
   level=levels(D$sample_meta$class)[2]) # first level
@@ -771,7 +771,7 @@ After suitable scaling and transformation PCA can be used to assess data quality
 
 The transformed and scaled matrix in then used as input to PCA. Using `struct` we can chain all of these steps into a single model sequence.
 
-```{r,fig.width=10,fig.height=5.5}
+```{r,fig.width=10,fig.height=5.5,fig.small=FALSE}
 # prepare the model sequence
 M = log_transform(base = 10) +
     autoscale() + 
@@ -941,7 +941,7 @@ chart_plot(C,P)
 ### PLS feature importance
 Regression coefficients and VIP scores can be used to estimate the importance of individual features to the PLS model. In Mendez et al bootstrapping is used to estimate the confidence intervals, but for brevity here we will skip this.
 
-```{r,fig.width=10,fig.height=5.5}
+```{r,fig.width=10,fig.height=5.5,fig.small=FALSE}
 # prepare chart
 C = plsda_vip_plot(level='HE')
 g1 = chart_plot(C,P)
@@ -955,9 +955,6 @@ plot_grid(g1,g2,align='hv',axis='tblr',nrow=2)
 # Classification of Metabolomics Data using Support Vector Machines.
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,fig.wide=TRUE,fig.width=5,fig.height=5.5)
-set.seed(57475)
-
 # read in file using BiocFileCache
 url='https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx'
 path = bfcrpath(bfc,url)
@@ -1069,7 +1066,7 @@ The SVM cost function applies a penalty to samples on the wrong side of the marg
 in a narrow margin and tries to force more samples to be on the correct side of the boundary. A low penalty
 makes for a wider margin and is less strict about samples being misclassified. The optimal cost to use is data dependent.
 
-```{r,fig.width=10,fig.height=11}
+```{r,fig.width=10,fig.height=11,fig.small=FALSE}
 # low cost
 M$cost=0.01
 M=model_apply(M,DE2)
@@ -1114,7 +1111,7 @@ A number of different kernels can be used with support vector machines. For the 
 ‘linear’, ‘polynomial’,‘radial’ and ‘sigmoid’ kernels can be specified. Using kernels allows the boundary to be
 more flexible, but often require additional parameters to be specified. The best kernel to use will vary depending on the dataset, but a common choice is the radial kernel as it allows high flexibility with a single parameter.
 
-```{r, fig.width=10,fig.height=11}
+```{r, fig.width=10,fig.height=11,fig.small=FALSE}
 # set a fixed cost for this comparison
 M$cost=1
 
@@ -1170,7 +1167,7 @@ The parameters of a kernel can be used to control the complexity of the boundary
 radial kernel parameter “gamma” can be used to change the complexity of the boundary. In combination
 with the cost parameter (which I keep constant here) this allows for highly flexible boundary models. 
 
-```{r,fig.width=10,fig.height=11}
+```{r,fig.width=10,fig.height=11,fig.small=FALSE}
 # rbf kernel and cost
 M$kernel = 'radial'
 M$cost = 1
@@ -1293,7 +1290,7 @@ DS
 
 A number of Reporter genes  were included in the study. We plot two of them here to illustrate some trends in the data.
 
-```{r,fig.width=10,fig.height=4.5}
+```{r,fig.width=10,fig.height=4.5,fig.small=FALSE}
 # find id of reporters
 Ldha = which(DS$variable_meta$Gene.names=='Ldha')
 Hk2 = which(DS$variable_meta$Gene.names=='Hk2')
@@ -1310,7 +1307,7 @@ plot_grid(g1,g2,nrow=1,align='vh',axis='tblr')
 ### Data transformation
 The data is log2 transformed, then scaled such that the mean of the medians is equal for all conditions. These steps are available in `structToolbox` using `log_transform` and `mean_of_medians` objects.
 
-```{r,fig.width=10,fig.height=4.5}
+```{r,fig.width=10,fig.height=4.5,fig.small=FALSE}
 # prepare model sequence
 M = log_transform(
   base=2) + 
@@ -1510,7 +1507,7 @@ DSTFI
 ### Exploratory analysis
 It is often useful to visualise the distribution of values across samples to verify that the transformations/normalisation/filtering etc have been effective.
 
-```{r,fig.height=10,fig.width=9,warning=FALSE,message=FALSE,echo=FALSE}
+```{r,fig.height=10,fig.width=9,warning=FALSE,message=FALSE,echo=FALSE,fig.small=FALSE}
 # distributions plot
 C = compare_dist(factor_name = 'treatment')
 g=chart_plot(C,DS,DSTFI)
@@ -1520,7 +1517,7 @@ The values are no longer skewed and show an approximately normal distribution. T
 
 PCA is used to provide a graphical representation of the data. For comparison with the outputs from STATegra a filter is included to reduce the data to include only the treated samples (IKA)
 
-```{r,fig.width=9,fig.height=5,warning=FALSE,message=FALSE}
+```{r,fig.width=9,fig.height=5,warning=FALSE,message=FALSE,fig.small=FALSE}
 # model sequence
 P = filter_smeta(mode='include',factor_name='treatment',levels='IKA') +
     mean_centre() + 
@@ -1633,7 +1630,7 @@ MS = model_apply(MS, DE)
 ### Exploratory analysis
 First we will use PCA to look at the QC samples in order to make an assessment of the data quality.
 
-```{r}
+```{r,fig.width=5,fig.height=5.5}
 # pca model sequence
 M =  mean_centre() +
      PCA(number_components = 3)
@@ -1651,7 +1648,7 @@ chart_plot(C,M[2])
 The QC labelled "36" is clearly very different to the other QCs. In STATegra this QC was removed, so we will exclude it here as well. This corresponds to QC H1. STATegra also excluded QC samples measured immediately after a blank, which we will also do here.
 
 ```{r}
-# prepare mdoel sequence
+# prepare model sequence
 MS = filter_smeta(
       mode = 'include', 
       levels='QC', 
@@ -1729,7 +1726,7 @@ chart_plot(C,MS[8])
 ```
 The QCs appear to representative of the samples, but there are strong clusters in the data, including the QC samples which have no biological variation. There is likely to be a number of 'low quality' features that should be excluded, so we will do that now, and use more sophisticated normalisation (PQN) and scaling methods (glog).
 
-```{r,fig.height=10,fig.width=10}
+```{r,fig.height=10,fig.width=10,fig.small=FALSE}
 
 MS =  filter_smeta(
        mode = 'exclude', 
@@ -1817,7 +1814,7 @@ There is some clustering related to condition (D) but with overlap.
 
 To further explore any trends with time, we will split the data by the condition factor and only explore the Ikaros group. Removing the condition factor variation will potentially make it easier to spot any more subtle trends. We will extract the glog transformed matrix from the previous model sequence and continue from there.
 
-```{r,warning=FALSE,message=FALSE,fig.height=11,fig.width=5}
+```{r,warning=FALSE,message=FALSE,fig.height=11,fig.width=5,fig.small=TRUE}
 # get the glog scaled data
 GL = predicted(MS[11])
 
