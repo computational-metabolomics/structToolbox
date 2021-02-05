@@ -485,10 +485,12 @@ setMethod(f="chart_plot",
         X=dobj$data
         SM=dobj$sample_meta
         if (!opt$by_sample) {
-            s=sample(ncol(X),min(c(ncol(X),opt$number)),replace=FALSE)
+            #s=sample(ncol(X),min(c(ncol(X),opt$number)),replace=FALSE)
+            s=seq(from=1,to=ncol(X),length.out = min(c(opt$number,ncol(X))))
             ylabel='Features'
         } else {
-            s=sample(nrow(X),min(c(nrow(X),opt$number)),replace=FALSE)
+            #s=sample(nrow(X),min(c(nrow(X),opt$number)),replace=FALSE)
+            s=seq(from=1,to=nrow(X),length.out = min(c(opt$number,nrow(X))))
             X=as.data.frame(t(X))
             colnames(X)=rownames(dobj$data)
             ylabel='Samples'
@@ -565,6 +567,12 @@ setMethod(f="chart_plot",
     signature=c("compare_dist",'DatasetExperiment'),
     definition=function(obj,dobj,eobj)
     {
+        
+        # match features across datasets
+        inboth=intersect(colnames(dobj),colnames(eobj))
+        dobj=dobj[,inboth]
+        eobj=eobj[,inboth]
+        
         C=DatasetExperiment_boxplot(by_sample=FALSE,per_class=FALSE,number=30,factor_name=obj$factor_name)
         
         C1=chart_plot(C,dobj)+
