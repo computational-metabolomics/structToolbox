@@ -33,7 +33,7 @@ M = model_apply(M,D)
 Jankevics A, Weber RJM (2020).
 \emph{pmp: Peak Matrix Processing and signal batch correction for
 metabolomics datasets}.
-R package version 1.1.0.
+R package version 1.2.0.
 
 Durbin B, Hardin J, Hawkins D, Rocke D (2002).
 ``A variance-stabilizing transformation for gene-expression microarray data.''
