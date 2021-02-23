@@ -273,7 +273,7 @@ setMethod(f="model_apply",
         colnames(FC)=comp
         colnames(LCI)=comp
         colnames(UCI)=comp
-   
+
         M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
         colnames(M$significant)=comp
         

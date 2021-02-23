@@ -48,6 +48,7 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = SVM(factor_name='Species',gamma=1)
 }
 \references{
+
 Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2020).
 \emph{e1071: Misc Functions of the Department of Statistics, Probability
 Theory Group (Formerly: E1071), TU Wien}.
