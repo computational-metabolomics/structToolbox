@@ -5,8 +5,8 @@
 %   R/filter_by_name_class.R, R/filter_na_count.R, R/filter_smeta_class.R,
 %   R/glog_class.R, R/linear_model_class.R, R/mean_centre_class.R,
 %   R/model_predict_doc.R, R/mv_feature_filter_class.R,
-%   R/mv_sample_filter_class.R, R/paretoscale_class.R, R/svm_classifier_class.R,
-%   R/vec_norm_class.R
+%   R/mv_sample_filter_class.R, R/paretoscale_class.R,
+%   R/pqn_norm_method_class.R, R/svm_classifier_class.R, R/vec_norm_class.R
 \name{model_predict,DFA,DatasetExperiment-method}
 \alias{model_predict,DFA,DatasetExperiment-method}
 \alias{model_predict,PCA,DatasetExperiment-method}
@@ -26,6 +26,7 @@
 \alias{model_predict,mv_feature_filter,DatasetExperiment-method}
 \alias{model_predict,mv_sample_filter,DatasetExperiment-method}
 \alias{model_predict,pareto_scale,DatasetExperiment-method}
+\alias{model_predict,pqn_norm,DatasetExperiment-method}
 \alias{model_predict,SVM,DatasetExperiment-method}
 \alias{model_predict,vec_norm,DatasetExperiment-method}
 \title{Model prediction}
@@ -63,6 +64,8 @@
 \S4method{model_predict}{mv_sample_filter,DatasetExperiment}(M, D)
 
 \S4method{model_predict}{pareto_scale,DatasetExperiment}(M, D)
+
+\S4method{model_predict}{pqn_norm,DatasetExperiment}(M, D)
 
 \S4method{model_predict}{SVM,DatasetExperiment}(M, D)
 
