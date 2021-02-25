@@ -101,6 +101,7 @@ Collate:
     'structToolbox.R'
     'svm_classifier_class.R'
     'tSNE_class.R'
+    'tic_chart_class.R'
     'ttest_class.R'
     'vec_norm_class.R'
     'wilcox_test_class.R'
