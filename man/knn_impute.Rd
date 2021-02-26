@@ -36,8 +36,7 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = knn_impute()
 }
 \references{
-Jankevics A, Weber RJM (2020).
-\emph{pmp: Peak Matrix Processing and signal batch correction for
-metabolomics datasets}.
-R package version 1.2.0.
+Jankevics A, Lloyd GR, Weber RJM (????).
+\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
+R package version 1.3.1.
 }
