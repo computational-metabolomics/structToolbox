@@ -43,6 +43,7 @@ tic_chart = function(
 )
 
 #' @export
+#' @template chart_plot
 setMethod(f="chart_plot",
     signature=c("tic_chart",'DatasetExperiment'),
     definition=function(obj,dobj) {
