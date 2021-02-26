@@ -382,7 +382,7 @@ DE$sample_meta$Class = factor(DE$sample_meta$Class)
 DE
 ```
 
-Full processing of the data set requires a number of steps. These will be applied using a single `struct` model sequence (`model.seq`).
+Full processing of the data set requires a number of steps. These will be applied using a single `struct` model sequence (`model_seq`).
 
 ## Signal drift and batch correction
 A batch correction algorithm is applied to reduce intra- and inter- batch variations in the dataset.
@@ -436,7 +436,7 @@ The output of this step is the output of `MTBLS79_DatasetExperiment(filtered=FAL
 
 ## Feature filtering
 
-In the journal article three spectral cleaning steps are applied. In the first filter a Kruskal-Wallis test is used to identify features not reliably detected in the QC samples (p < 0.0001) of all batches. We follow the same parameters as the original article and do not use multiple test correction (`mtc = 'false'`).
+In the journal article three spectral cleaning steps are applied. In the first filter a Kruskal-Wallis test is used to identify features not reliably detected in the QC samples (p < 0.0001) of all batches. We follow the same parameters as the original article and do not use multiple test correction (`mtc = 'none'`).
 
 ```{r}
 M3 = kw_rank_sum(
