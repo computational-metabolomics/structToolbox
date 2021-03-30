@@ -161,7 +161,8 @@ setMethod(f="model_apply",
         
         # levels for factor of interest
         L=levels(as.factor(Y[[M$factor_name]]))
-        # put control group first if provided
+        L=rev(L)
+        # put control group last, if provided
         if (length(M$control_group)>0) {
             w=which(L==M$control_group)
             if (length(w)>0) {
