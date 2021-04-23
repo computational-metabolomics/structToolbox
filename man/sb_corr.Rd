@@ -12,6 +12,7 @@ sb_corr(
   use_log = TRUE,
   min_qc = 4,
   qc_label = "QC",
+  spar_lim = c(-1.5, 1.5),
   ...
 )
 }
@@ -30,6 +31,8 @@ leave-one-out cross-validation. The default is \code{0}.}
 \item{min_qc}{(numeric) The minimum number of QC samples required for signal correction. The default is \code{4}.}
 
 \item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
+
+\item{spar_lim}{(numeric) A two element vector specifying the upper and lower limits when `spar = 0`. Allows the value of `spar` to be constrained within these limits to prevent overfitting. The default is \code{c(-1.5, 1.5)}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }

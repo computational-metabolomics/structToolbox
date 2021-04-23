@@ -58,7 +58,7 @@ setMethod(f="model_apply",
 
         ## apply fold change between all pairwise combinations of levels of all factors
         # combinations of factors
-        FF=structToolbox:::full_fact(M$factor_name)
+        FF=full_fact(M$factor_name)
         FF=apply(FF,1,function(x) M$factor_name[x==1])
         FF=FF[-1]
 

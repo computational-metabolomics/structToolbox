@@ -10,6 +10,7 @@ feature_profile(
   qc_column,
   colour_by,
   feature_to_plot,
+  plot_sd = FALSE,
   ...
 )
 }
@@ -23,6 +24,8 @@ feature_profile(
 \item{colour_by}{(character) The sample-meta column name to used to colour the plot.}
 
 \item{feature_to_plot}{(numeric, character, integer) The name or column id of the plotted feature.}
+
+\item{plot_sd}{(logical) Plot standard deviation. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Standard deviation of samples and QCs are included on the plot.}\item{\code{"FALSE"}: Standard deviation is not plotted.}} The default is \code{FALSE}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }

@@ -3,7 +3,16 @@
 #' @export sb_corr
 #' @examples
 #' M = sb_corr(order_col='run_order',batch_col='batch_no',qc_col='class')
-sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_label='QC',...) {
+sb_corr = function(
+    order_col,
+    batch_col,
+    qc_col,
+    smooth=0,
+    use_log=TRUE,
+    min_qc=4,
+    qc_label='QC',
+    spar_lim=c(-1.5,1.5),
+    ...) {
     out=struct::new_struct('sb_corr',
         order_col=order_col,
         batch_col=batch_col,
@@ -11,7 +20,8 @@ sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_
         smooth=smooth,
         use_log=use_log,
         min_qc=min_qc,
-        qc_label='QC',
+        qc_label=qc_label,
+        spar_lim=spar_lim,
         ...)
     return(out)
 }
@@ -27,7 +37,9 @@ sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_
         use_log='entity',
         min_qc='entity',
         qc_label='entity',
-        corrected='entity'
+        corrected='entity',
+        spar_lim='entity',
+        fitted='entity'
     ),
 
     prototype=list(
@@ -52,8 +64,9 @@ sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_
             )
         ),
         stato_id='STATO:0000236',
-        .params=c('order_col','batch_col','qc_col','smooth','use_log','min_qc','qc_label'),
-        .outputs=c('corrected'),
+        .params=c('order_col','batch_col','qc_col','smooth','use_log','min_qc',
+            'qc_label','spar_lim'),
+        .outputs=c('corrected','fitted'),
 
         order_col=entity(
             name = 'Sample run order column',
@@ -101,9 +114,21 @@ sb_corr = function(order_col,batch_col,qc_col,smooth=0,use_log=TRUE,min_qc=4,qc_
             type='character'),
 
         corrected=entity(name = 'Signal/batch corrected DatasetExperiment',
-            description = 'THe DatasetExperiment after signal/batch correction has been applied.',
+            description = 'The DatasetExperiment after signal/batch correction has been applied.',
             type='DatasetExperiment',
             value=DatasetExperiment()
+        ),
+        spar_lim=entity(name = 'Smoothing parameter limits',
+            description = paste0('A two element vector specifying the upper ',
+                'and lower limits when `spar = 0`. Allows the value of `spar` ',
+                'to be constrained within these limits to prevent overfitting.'),
+            type='numeric',
+            value=c(-1.5,1.5),
+            max_length = 2
+        ),
+        fitted=entity(name = 'Fitted splines',
+            description = paste0('The fitted splines for each feature.'),
+            type='data.frame'
         )
     )
 )
@@ -128,14 +153,53 @@ setMethod(f="model_apply",
             spar=M$smooth,
             minQC=M$min_qc,
             log=M$use_log,
-            qc_label=M$qc_label
+            qc_label=M$qc_label,
+            spar_lim = M$spar_lim
         )
 
         D$data=as.data.frame(t(corrected_data))
         rownames(D$data)=rn
         colnames(D$data)=cn
-
+        
+        # get the fits
+        A=attr(corrected_data,'processing_history')$QCRSC$QC_fit
+        A=as.data.frame(t(A))
+        colnames(A)=colnames(D$data)
+        rownames(A)=rownames(D$data)
+        
         M$corrected=D
+        M$fitted=A
+        
         return(M)
     }
 )
+
+
+
+
+
+#' @export
+#' @template chart_plot
+#' @param gobj The DatasetExperiment object before signal correction was applied.
+setMethod(f="chart_plot",
+    signature=c("feature_profile",'sb_corr'),
+    definition=function(obj,dobj,gobj) {
+        
+        # usual plot object
+        C = do.call('feature_profile', param_list(obj))
+        g = chart_plot(C,gobj)
+        
+        # add fitted curve for selected feature
+        df=data.frame(
+            x = gobj$sample_meta[[obj$run_order]],
+            y = dobj$fitted[,obj$feature_to_plot],
+            batch=factor(gobj$sample_meta[[dobj$batch_col]]))
+        g = g +
+            geom_line(data=df,mapping=aes_string(x='x',y='y',group='batch'),
+                color='#9E9998',size=0.8)
+        
+        return(g)
+    }
+    
+)
+
