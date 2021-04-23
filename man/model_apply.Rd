@@ -32,7 +32,6 @@
 \alias{model_apply,mv_sample_filter,DatasetExperiment-method}
 \alias{model_apply,nroot_transform,DatasetExperiment-method}
 \alias{model_apply,pairs_filter,DatasetExperiment-method}
-\alias{model_apply,pqn_norm,DatasetExperiment-method}
 \alias{model_apply,prop_na,DatasetExperiment-method}
 \alias{model_apply,rsd_filter,DatasetExperiment-method}
 \alias{model_apply,sb_corr,DatasetExperiment-method}
@@ -83,8 +82,6 @@
 \S4method{model_apply}{nroot_transform,DatasetExperiment}(M, D)
 
 \S4method{model_apply}{pairs_filter,DatasetExperiment}(M, D)
-
-\S4method{model_apply}{pqn_norm,DatasetExperiment}(M, D)
 
 \S4method{model_apply}{prop_na,DatasetExperiment}(M, D)
 

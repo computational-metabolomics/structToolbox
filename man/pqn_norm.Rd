@@ -4,12 +4,28 @@
 \alias{pqn_norm}
 \title{Probabilistic Quotient Normalisation (PQN)}
 \usage{
-pqn_norm(qc_label = "QC", factor_name, ...)
+pqn_norm(
+  qc_label = "QC",
+  factor_name,
+  qc_frac = 0,
+  sample_frac = 0,
+  ref_method = "mean",
+  ref_mean = NULL,
+  ...
+)
 }
 \arguments{
 \item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
+
+\item{qc_frac}{(numeric) A value between 0 and 1 to indicate the minimum proportion of QC samples a feature must be present in for it to be included when computing the reference. Default qc_frac = 0. . The default is \code{0}.}
+
+\item{sample_frac}{(numeric) A value between 0 and 1 to indicate the minimum proportion of samples a feature must be present in for it to be considered when computing the normalisation coefficients. . The default is \code{0}.}
+
+\item{ref_method}{(character) Reference computation method. Allowed values are limited to the following: \itemize{\item{\code{"mean"}: The reference is computed as the mean of the samples matching the qc_label input.}\item{\code{"median"}: The reference is computed as the median of the samples matching the qc_label_input.}} The default is \code{"mean"}.}
+
+\item{ref_mean}{(numeric, NULL) A single sample to use as the reference for normalisation. If set to NULL then the reference will be computed based on the other input parameters (ref_mean, qc_label etc). . The default is \code{NULL}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -29,8 +45,7 @@ M = model_apply(M,D)
 
 }
 \references{
-Jankevics A, Weber RJM (2020).
-\emph{pmp: Peak Matrix Processing and signal batch correction for
-metabolomics datasets}.
-R package version 1.2.0.
+Jankevics A, Lloyd GR, Weber RJM (????).
+\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
+R package version 1.3.3.
 }

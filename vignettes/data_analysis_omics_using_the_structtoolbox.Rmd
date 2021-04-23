@@ -374,15 +374,21 @@ Type=as.character(DE$sample_meta$Class)
 Type[Type != 'QC'] = 'Sample'
 DE$sample_meta$Type = factor(Type)
 
+# add a column for plotting batches
+DE$sample_meta$batch_qc = DE$sample_meta$Batch
+DE$sample_meta$batch_qc[DE$sample_meta$Type=='QC']='QC'
+
 # convert to factors
 DE$sample_meta$Batch = factor(DE$sample_meta$Batch)
+DE$sample_meta$Type = factor(DE$sample_meta$Type)
 DE$sample_meta$Class = factor(DE$sample_meta$Class)
+DE$sample_meta$batch_qc = factor(DE$sample_meta$batch_qc)
 
 # print summary
 DE
 ```
 
-Full processing of the data set requires a number of steps. These will be applied using a single `struct` model sequence (`model.seq`).
+Full processing of the data set requires a number of steps. These will be applied using a single `struct` model sequence (`model_seq`).
 
 ## Signal drift and batch correction
 A batch correction algorithm is applied to reduce intra- and inter- batch variations in the dataset.
@@ -396,25 +402,27 @@ M = # batch correction
       order_col='run_order',
       batch_col='Batch', 
       qc_col='Type', 
-      qc_label='QC'
+      qc_label='QC',
+      spar_lim = c(0.6,0.8) 
     )
 
 M = model_apply(M,DE)
 ```
 
-The figure below shows a plot of a feature vs run order, before and after the correction. It can be seen that the correction has removed instrument drift within and between batches.
+The figure below shows a plot of a feature vs run order, before and after the correction. The fitted spline for each batch is shown in grey. It can be seen that the correction has removed instrument drift within and between batches.
 
 ```{r,fig.wide = TRUE,warning=FALSE,fig.width=10}
 C = feature_profile(
       run_order='run_order',
       qc_label='QC',
       qc_column='Type',
-      colour_by='Batch',
-      feature_to_plot='200.03196'
+      colour_by='batch_qc',
+      feature_to_plot='200.03196',
+      plot_sd=FALSE
   )
 
 # plot and modify using ggplot2 
-chart_plot(C,DE)+ylab('Peak area')+ggtitle('Before')
+chart_plot(C,M,DE)+ylab('Peak area')+ggtitle('Before')
 chart_plot(C,predicted(M))+ylab('Peak area')+ggtitle('After')
 ```
 
@@ -436,7 +444,7 @@ The output of this step is the output of `MTBLS79_DatasetExperiment(filtered=FAL
 
 ## Feature filtering
 
-In the journal article three spectral cleaning steps are applied. In the first filter a Kruskal-Wallis test is used to identify features not reliably detected in the QC samples (p < 0.0001) of all batches. We follow the same parameters as the original article and do not use multiple test correction (`mtc = 'false'`).
+In the journal article three spectral cleaning steps are applied. In the first filter a Kruskal-Wallis test is used to identify features not reliably detected in the QC samples (p < 0.0001) of all batches. We follow the same parameters as the original article and do not use multiple test correction (`mtc = 'none'`).
 
 ```{r}
 M3 = kw_rank_sum(

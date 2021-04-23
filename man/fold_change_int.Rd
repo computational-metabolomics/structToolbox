@@ -9,6 +9,7 @@ fold_change_int(
   factor_name,
   threshold = 2,
   control_group = character(0),
+  method = "geometric",
   ...
 )
 }
@@ -19,7 +20,9 @@ fold_change_int(
 
 \item{threshold}{(numeric) The fold change threshold for labelling features as significant. The default is \code{2}.}
 
-\item{control_group}{(character) The level name of the group used in the denominator (where possible) when computing fold change. The default is \code{character(0)}.}
+\item{control_group}{(character) The level names of the groups used in the denominator (where possible) when computing fold change. One level for each factor, assumed to be in the same order as factor_name. The default is \code{character(0)}.}
+
+\item{method}{(character) Fold change method. Allowed values are limited to the following: \itemize{\item{\code{"geometric"}: A log transform and a t-test is used to calculate fold change and estimate confidence intervals. In the non-transformed space this is equivalent to fold change using geometric means.}\item{\code{"median"}: A log transform and the method described by Price and Bonett to calculate fold change and estimate confidence intervals. In the non-transformed space this is equivalent to using group medians to calculate fold change.}} The default is \code{"geometric"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -37,7 +40,7 @@ M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
 M = model_apply(M,D)
 }
 \references{
-Lloyd GR, Weber RJM (????).
+Lloyd GR, Weber RJM (2021).
 \emph{struct: Statistics in R Using Class-based Templates}.
-R package version 1.3.0.
+R package version 1.3.1.
 }

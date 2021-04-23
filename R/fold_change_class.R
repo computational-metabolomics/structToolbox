@@ -161,7 +161,8 @@ setMethod(f="model_apply",
         
         # levels for factor of interest
         L=levels(as.factor(Y[[M$factor_name]]))
-        # put control group first if provided
+        L=rev(L)
+        # put control group last, if provided
         if (length(M$control_group)>0) {
             w=which(L==M$control_group)
             if (length(w)>0) {
@@ -211,11 +212,6 @@ setMethod(f="model_apply",
                     counter=counter+1
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
-                    #store in object
-                    M$fold_change=as.data.frame(2^FC)
-                    M$lower_ci=as.data.frame(2^LCI)
-                    M$upper_ci=as.data.frame(2^UCI)
-                    
                 } else {
                     
                     D = predicted(FG)
@@ -260,20 +256,26 @@ setMethod(f="model_apply",
                     counter=counter+1
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
-                    # store in object
-                    M$fold_change = as.data.frame(FC)
-                    M$lower_ci = as.data.frame(LCI)
-                    M$upper_ci = as.data.frame(UCI)
                 }
             }
         }
-        
-        
-        
+
         colnames(FC)=comp
         colnames(LCI)=comp
         colnames(UCI)=comp
-   
+
+        # store in object
+        if (M$method=='geometric') {
+            #store in object
+            M$fold_change=as.data.frame(2^FC)
+            M$lower_ci=as.data.frame(2^LCI)
+            M$upper_ci=as.data.frame(2^UCI) 
+        } else {
+            M$fold_change = as.data.frame(FC)
+            M$lower_ci = as.data.frame(LCI)
+            M$upper_ci = as.data.frame(UCI)
+        }
+        
         M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
         colnames(M$significant)=comp
         

@@ -8,8 +8,9 @@
 %   R/glog_class.R, R/grid_search_1d_class.R, R/hca_class.R,
 %   R/kfold_xval_charts.R, R/kw_rank_sum_class.R, R/mv_feature_filter_class.R,
 %   R/mv_sample_filter_class.R, R/permutation_test_class.R,
-%   R/pqn_norm_method_class.R, R/rsd_filter.R, R/svm_classifier_class.R,
-%   R/tSNE_class.R, R/wilcox_test_class.R
+%   R/pqn_norm_method_class.R, R/rsd_filter.R, R/sb_corr.R,
+%   R/svm_classifier_class.R, R/tSNE_class.R, R/tic_chart_class.R,
+%   R/wilcox_test_class.R
 \name{chart_plot,dfa_scores_plot,DFA-method}
 \alias{chart_plot,dfa_scores_plot,DFA-method}
 \alias{chart_plot,pca_correlation_plot,PCA-method}
@@ -54,8 +55,10 @@
 \alias{chart_plot,permutation_test_plot,permutation_test-method}
 \alias{chart_plot,pqn_norm_hist,pqn_norm-method}
 \alias{chart_plot,rsd_filter_hist,rsd_filter-method}
+\alias{chart_plot,feature_profile,sb_corr-method}
 \alias{chart_plot,svm_plot_2d,SVM-method}
 \alias{chart_plot,tSNE_scatter,tSNE-method}
+\alias{chart_plot,tic_chart,DatasetExperiment-method}
 \alias{chart_plot,wilcox_p_hist,wilcox_test-method}
 \title{chart_plot method}
 \usage{
@@ -143,9 +146,13 @@
 
 \S4method{chart_plot}{rsd_filter_hist,rsd_filter}(obj, dobj)
 
+\S4method{chart_plot}{feature_profile,sb_corr}(obj, dobj, gobj)
+
 \S4method{chart_plot}{svm_plot_2d,SVM}(obj, dobj, gobj)
 
 \S4method{chart_plot}{tSNE_scatter,tSNE}(obj, dobj)
+
+\S4method{chart_plot}{tic_chart,DatasetExperiment}(obj, dobj)
 
 \S4method{chart_plot}{wilcox_p_hist,wilcox_test}(obj, dobj)
 }
@@ -156,7 +163,7 @@
 
 \item{eobj}{a second DatasetExperiment object to compare with the first}
 
-\item{gobj}{The DatasetExperiment object used with glog_transform}
+\item{gobj}{The DatasetExperiment object before signal correction was applied.}
 }
 \value{
 a plot object

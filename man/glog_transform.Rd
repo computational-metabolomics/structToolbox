@@ -30,10 +30,9 @@ M = glog_transform(qc_label='versicolor',factor_name='Species')
 M = model_apply(M,D)
 }
 \references{
-Jankevics A, Weber RJM (2020).
-\emph{pmp: Peak Matrix Processing and signal batch correction for
-metabolomics datasets}.
-R package version 1.2.0.
+Jankevics A, Lloyd GR, Weber RJM (????).
+\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
+R package version 1.3.3.
 
 Durbin B, Hardin J, Hawkins D, Rocke D (2002).
 ``A variance-stabilizing transformation for gene-expression microarray data.''
