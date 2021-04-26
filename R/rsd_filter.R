@@ -25,8 +25,8 @@ rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
     prototype=list(name = 'RSD filter',
         description = paste0(
             'An RSD filter calculates the relative standard deviation (the ',
-            'ratio of the mean to the standard deviation) for all features. ',
-            'Any feature with an RSD lower than a predefined threshold is ',
+            'ratio of the standard deviation to the mean) for all features. ',
+            'Any feature with an RSD greater than a predefined threshold is ',
             'excluded.'),
         stato_id='STATO:0000236',
         type = 'filter',
@@ -36,7 +36,7 @@ rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
         .outputs=c('filtered','flags','rsd_qc'),
 
         rsd_threshold=entity(name = 'RSD threhsold',
-            description = 'The RSD threshold below which features are removed.',
+            description = 'The RSD threshold above which features are removed.',
             value = 20,
             type='numeric'),
 
