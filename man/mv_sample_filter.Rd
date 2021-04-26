@@ -26,5 +26,5 @@ C = mv_sample_filter()
 \references{
 Jankevics A, Lloyd GR, Weber RJM (????).
 \emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.3.3.
+R package version 1.3.5.
 }
