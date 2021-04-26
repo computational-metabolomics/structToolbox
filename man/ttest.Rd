@@ -10,6 +10,7 @@ ttest(
   factor_names,
   paired = FALSE,
   paired_factor = character(0),
+  equal_variance = FALSE,
   ...
 )
 }
@@ -23,6 +24,8 @@ ttest(
 \item{paired}{(logical) Apply a paired t-test. The default is \code{FALSE}.}
 
 \item{paired_factor}{(character) The factor name that encodes the sample id for pairing. The default is \code{character(0)}.}
+
+\item{equal_variance}{(logical) Equal variance. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The variance of each group is treated as being equal using the pooled variance to estimate the variance.}\item{\code{"FALSE"}: The variance of each group is not assumed to be equal and the Welch (or Satterthwaite) approximation is used.}} The default is \code{FALSE}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }

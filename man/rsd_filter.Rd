@@ -7,7 +7,7 @@
 rsd_filter(rsd_threshold = 20, qc_label = "QC", factor_name, ...)
 }
 \arguments{
-\item{rsd_threshold}{(numeric) The RSD threshold below which features are removed. The default is \code{20}.}
+\item{rsd_threshold}{(numeric) The RSD threshold above which features are removed. The default is \code{20}.}
 
 \item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
@@ -19,7 +19,7 @@ rsd_filter(rsd_threshold = 20, qc_label = "QC", factor_name, ...)
 A  \code{rsd_filter} object.
 }
 \description{
-An RSD filter calculates the relative standard deviation (the ratio of the mean to the standard deviation) for all features. Any feature with an RSD lower than a predefined threshold is excluded.
+An RSD filter calculates the relative standard deviation (the ratio of the standard deviation to the mean) for all features. Any feature with an RSD greater than a predefined threshold is excluded.
 }
 \details{
 This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}

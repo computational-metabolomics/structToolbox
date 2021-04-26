@@ -3,13 +3,21 @@
 #' @examples
 #' M = ttest(factor_name='class')
 #'
-ttest = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=character(0),...) {
+ttest = function(
+    alpha=0.05,
+    mtc='fdr',
+    factor_names,
+    paired=FALSE,
+    paired_factor=character(0),
+    equal_variance=FALSE,
+    ...) {
     out=struct::new_struct('ttest',
         alpha=alpha,
         mtc=mtc,
         factor_names=factor_names,
         paired=paired,
         paired_factor=paired_factor,
+        equal_variance=equal_variance,
         ...)
     return(out)
 }
@@ -25,6 +33,7 @@ ttest = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=ch
         factor_names='entity',
         paired='entity',
         paired_factor='entity',
+        equal_variance='entity',
         # OUTPUTS
         t_statistic='entity_stato',
         p_value='entity',
@@ -40,7 +49,7 @@ ttest = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=ch
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000304",
-        .params=c('alpha','mtc','factor_names','paired','paired_factor'),
+        .params=c('alpha','mtc','factor_names','paired','paired_factor','equal_variance'),
         .outputs=c('t_statistic','p_value','dof','significant','conf_int','estimates'),
 
         factor_names=ents$factor_names,
@@ -57,6 +66,20 @@ ttest = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=ch
             type='character',
             description='The factor name that encodes the sample id for pairing'
         ),
+        equal_variance=entity(name = 'Equal variance',
+            description = c(
+                "TRUE" = paste0('The variance of each group is ',
+                'treated as being equal using the pooled variance to estimate ',
+                    'the variance.'),
+                "FALSE" = paste0('The variance of each group is not assumed to ',
+                'be equal and the Welch (or Satterthwaite) approximation is ',
+                'used.')
+            ),
+            value = FALSE,
+            type = 'logical',
+            max_length = 1
+        ),
+        
         t_statistic=entity_stato(name='t-statistic',
             stato_id='STATO:0000176',
             type='numeric',
@@ -168,7 +191,14 @@ setMethod(f="model_apply",
 
         output=lapply(X,function(x) {
             a=tryCatch({
-                g=unlist(t.test(x[y==L[1]],x[y==L[2]],paired = M$paired)[c("statistic","p.value","parameter",'conf.int','estimate')])
+                g=unlist(
+                    t.test(
+                        x[y==L[1]],
+                        x[y==L[2]],
+                        paired = M$paired,
+                        var.equal=M$equal_variance
+                   )[c("statistic","p.value","parameter",'conf.int','estimate')]
+                )
                 return(g)
             },warning=function(w) {
                 g = NA
