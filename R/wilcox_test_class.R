@@ -2,7 +2,7 @@
 #' @return struct object
 #' @export wilcox_test
 #' @examples
-#' M = wilcox_test(factor_name='class')
+#' M = wilcox_test(factor_name='Class')
 #'
 wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_factor=character(0),...) {
     out=struct::new_struct('wilcox_test',

@@ -206,7 +206,7 @@ setMethod(f="chart_plot",
 #' @eval get_description('mv_boxplot')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
-#' C = mv_boxplot(factor_name='class')
+#' C = mv_boxplot(factor_name='Class')
 #' chart_plot(C,D)
 #'
 #' @import struct
@@ -342,7 +342,7 @@ setMethod(f="chart_plot",
 #' @eval get_description('DatasetExperiment_dist')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
-#' C = DatasetExperiment_dist(factor_name='class')
+#' C = DatasetExperiment_dist(factor_name='Class')
 #' chart_plot(C,D)
 #' @import struct
 #' @export DatasetExperiment_dist
@@ -420,7 +420,7 @@ setMethod(f="chart_plot",
 #' @eval get_description('DatasetExperiment_boxplot')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
-#' C = DatasetExperiment_boxplot(factor_name='class',number=10,per_class=FALSE)
+#' C = DatasetExperiment_boxplot(factor_name='Class',number=10,per_class=FALSE)
 #' chart_plot(C,D)
 #' @return struct object
 #' @export DatasetExperiment_boxplot
@@ -533,7 +533,7 @@ setMethod(f="chart_plot",
 #' @examples
 #' D1=MTBLS79_DatasetExperiment(filtered=FALSE)
 #' D2=MTBLS79_DatasetExperiment(filtered=TRUE)
-#' C = compare_dist(factor_name='class')
+#' C = compare_dist(factor_name='Class')
 #' chart_plot(C,D1,D2)
 #' @import struct
 #' @export compare_dist

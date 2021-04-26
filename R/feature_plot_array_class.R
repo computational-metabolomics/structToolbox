@@ -2,10 +2,10 @@
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' C = feature_profile_array(
-#'     run_order='sample_order',
+#'     run_order='run_order',
 #'     qc_label='QC',
-#'     qc_column='class',
-#'     colour_by='class',
+#'     qc_column='Class',
+#'     colour_by='Class',
 #'     feature_to_plot=1:3,
 #'     nrow=1,
 #'     log=TRUE)

@@ -37,10 +37,10 @@ A plot visualising the change in intensity of a feature with a continuous variab
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
-C = feature_profile(run_order='sample_order',
+C = feature_profile(run_order='run_order',
     qc_label='QC',
-    qc_column='class',
-    colour_by='class',
+    qc_column='Class',
+    colour_by='Class',
     feature_to_plot=1)
 chart_plot(C,D)
 }

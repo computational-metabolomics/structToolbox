@@ -23,7 +23,7 @@ The dispersion ratio (d-ratio) compares the standard deviation (or non-parametri
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
-M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
+M = dratio_filter(threshold=20,qc_label='QC',factor_name='Class')
 M = model_apply(M,D)
 }
 \references{

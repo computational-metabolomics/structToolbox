@@ -1,7 +1,7 @@
 #' @eval get_description('rsd_filter')
 #' @export rsd_filter
 #' @examples
-#' M = rsd_filter(factor_name='class')
+#' M = rsd_filter(factor_name='Class')
 #'
 rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
     out=struct::new_struct('rsd_filter',

@@ -35,6 +35,6 @@ struct object
 A Mann-Whitney-Wilcoxon signed rank test compares ,the ranks of values in two groups. It is the non-parametric equivalent of a t-test. Multiple test corrected p-values are computed as indicators of significance for each variable/feature.
 }
 \examples{
-M = wilcox_test(factor_name='class')
+M = wilcox_test(factor_name='Class')
 
 }

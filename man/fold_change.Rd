@@ -40,7 +40,7 @@ Fold change is the relative change in mean (or non-parametric equivalent) intens
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
-M = fold_change(factor_name='class')
+M = fold_change(factor_name='Class')
 M = model_apply(M,D)
 }
 \references{

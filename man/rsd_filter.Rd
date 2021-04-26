@@ -25,7 +25,7 @@ An RSD filter calculates the relative standard deviation (the ratio of the stand
 This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
 }
 \examples{
-M = rsd_filter(factor_name='class')
+M = rsd_filter(factor_name='Class')
 
 }
 \references{

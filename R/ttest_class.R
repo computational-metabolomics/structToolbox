@@ -1,7 +1,7 @@
 #' @eval get_description('ttest')
 #' @export ttest
 #' @examples
-#' M = ttest(factor_name='class')
+#' M = ttest(factor_name='Class')
 #'
 ttest = function(
     alpha=0.05,

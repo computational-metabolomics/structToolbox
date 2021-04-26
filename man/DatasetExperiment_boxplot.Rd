@@ -33,6 +33,6 @@ A boxplot to visualise the distribution of values within a subset of features.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
-C = DatasetExperiment_boxplot(factor_name='class',number=10,per_class=FALSE)
+C = DatasetExperiment_boxplot(factor_name='Class',number=10,per_class=FALSE)
 chart_plot(C,D)
 }

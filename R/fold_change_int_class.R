@@ -2,8 +2,8 @@
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' D=D[,1:10,drop=FALSE]
-#' M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
-#'     fold_change_int(factor_name=c('class','batch'))
+#' M = filter_smeta(mode='exclude',levels='QC',factor_name='Class') +
+#'     fold_change_int(factor_name=c('Class','Batch'))
 #' M = model_apply(M,D)
 #' @export fold_change_int
 fold_change_int = function(

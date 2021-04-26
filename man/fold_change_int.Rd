@@ -35,8 +35,8 @@ For more than one factor the fold change calculation is extended to include all 
 \examples{
 D = MTBLS79_DatasetExperiment()
 D=D[,1:10,drop=FALSE]
-M = filter_smeta(mode='exclude',levels='QC',factor_name='class') +
-    fold_change_int(factor_name=c('class','batch'))
+M = filter_smeta(mode='exclude',levels='QC',factor_name='Class') +
+    fold_change_int(factor_name=c('Class','Batch'))
 M = model_apply(M,D)
 }
 \references{

@@ -31,7 +31,7 @@ Boxplots of the number of missing values per sample/feature.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
-C = mv_boxplot(factor_name='class')
+C = mv_boxplot(factor_name='Class')
 chart_plot(C,D)
 
 }

@@ -1,7 +1,7 @@
 #' @eval get_description('dratio_filter')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
-#' M = dratio_filter(threshold=20,qc_label='QC',factor_name='class')
+#' M = dratio_filter(threshold=20,qc_label='QC',factor_name='Class')
 #' M = model_apply(M,D)
 #' @export dratio_filter
 dratio_filter = function(threshold=20, qc_label='QC', factor_name, ...) {

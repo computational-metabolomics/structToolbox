@@ -20,6 +20,6 @@ Histograms and boxplots computed across samples and features are used to visuall
 \examples{
 D1=MTBLS79_DatasetExperiment(filtered=FALSE)
 D2=MTBLS79_DatasetExperiment(filtered=TRUE)
-C = compare_dist(factor_name='class')
+C = compare_dist(factor_name='Class')
 chart_plot(C,D1,D2)
 }

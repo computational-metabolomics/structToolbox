@@ -5,9 +5,9 @@
 #' M = filter_by_name(mode='include',dimension='variable',
 #'         names=colnames(D$data)[1:10]) + # first 10 features
 #'     filter_smeta(mode='exclude',levels='QC',
-#'         factor_name='class') + # reduce to two group comparison
-#'     confounders_clsq(factor_name = 'class',
-#'         confounding_factors=c('sample_order','batch'))
+#'         factor_name='Class') + # reduce to two group comparison
+#'     confounders_clsq(factor_name = 'Class',
+#'         confounding_factors=c('run_order','Batch'))
 #' M = model_apply(M,D)
 #' @export confounders_clsq
 confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,
@@ -169,9 +169,9 @@ setMethod(f="model_apply",
 #' M = filter_by_name(mode='include',dimension='variable',
 #'         names=colnames(D$data)[1:10]) + # first 10 features
 #'     filter_smeta(mode='exclude',levels='QC',
-#'         factor_name='class') + # reduce to two group comparison
-#'     confounders_clsq(factor_name = 'class',
-#'         confounding_factors=c('sample_order','batch'))
+#'         factor_name='Class') + # reduce to two group comparison
+#'     confounders_clsq(factor_name = 'Class',
+#'         confounding_factors=c('run_order','Batch'))
 #' M = model_apply(M,D)
 #' C = C=confounders_lsq_barchart(feature_to_plot=1,threshold=15)
 #' chart_plot(C,M[3])
@@ -251,9 +251,9 @@ setMethod(f="chart_plot",
 #' M = filter_by_name(mode='include',dimension='variable',
 #'         names=colnames(D$data)[1:10]) + # first 10 features
 #'     filter_smeta(mode='exclude',levels='QC',
-#'         factor_name='class') + # reduce to two group comparison
-#'     confounders_clsq(factor_name = 'class',
-#'         confounding_factors=c('sample_order','batch'))
+#'         factor_name='Class') + # reduce to two group comparison
+#'     confounders_clsq(factor_name = 'Class',
+#'         confounding_factors=c('run_order','Batch'))
 #' M = model_apply(M,D)
 #' C = C=confounders_lsq_boxplot(threshold=15)
 #' chart_plot(C,M[3])

@@ -36,6 +36,6 @@ A  \code{ttest} object.
 A t-test compares the means of two factor levels. Multiple-test corrected p-values are used to indicate the significance of the computed difference for all features.
 }
 \examples{
-M = ttest(factor_name='class')
+M = ttest(factor_name='Class')
 
 }

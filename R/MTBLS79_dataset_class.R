@@ -34,9 +34,9 @@ MTBLS79_DatasetExperiment=function(filtered=FALSE) {
 
 # internal function to generate corrected data from pmp
 prep_from_pmp = function() {
-    library(pmp)
+    # library(pmp)
     # the pmp SE object
-    SE = MTBLS79
+    SE = pmp::MTBLS79
     
     # convert to DE
     DE = as.DatasetExperiment(SE)
@@ -117,5 +117,5 @@ prep_from_pmp = function() {
     to_filter=colnames(MTBLS79_corrected)[!to_filter] # names of features to remove
     
     # write the data
-    usethis::use_data(MTBLS79_corrected,to_filter,internal=TRUE,overwrite=TRUE)
+    #usethis::use_data(MTBLS79_corrected,to_filter,internal=TRUE,overwrite=TRUE)
 }

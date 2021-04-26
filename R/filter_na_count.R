@@ -1,7 +1,7 @@
 #' @eval get_description('filter_na_count')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
-#' M = filter_na_count(threshold=3,factor_name='class')
+#' M = filter_na_count(threshold=3,factor_name='Class')
 #' M = model_apply(M,D)
 #' @export filter_na_count
 filter_na_count = function(threshold,factor_name,...) {

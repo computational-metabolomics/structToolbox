@@ -21,6 +21,6 @@ The number of measured values is counted for each feature, and any feature with 
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
-M = filter_na_count(threshold=3,factor_name='class')
+M = filter_na_count(threshold=3,factor_name='Class')
 M = model_apply(M,D)
 }

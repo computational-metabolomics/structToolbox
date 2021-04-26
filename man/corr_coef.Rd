@@ -33,8 +33,8 @@ D = MTBLS79_DatasetExperiment(filtered=TRUE)
 D = D[,1:10]
 
 # convert to numeric for this example
-D$sample_meta$sample_order=as.numeric(D$sample_meta$sample_order)
-D$sample_meta$sample_rep=as.numeric(D$sample_meta$sample_rep)
+D$sample_meta$sample_order=as.numeric(D$sample_meta$run_order)
+D$sample_meta$sample_rep=as.numeric(D$sample_meta$Sample_Rep)
 
 M = corr_coef(factor_names=c('sample_order','sample_rep'))
 M = model_apply(M,D)

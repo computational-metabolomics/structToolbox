@@ -9,7 +9,7 @@
 #' pred=as.data.frame(pred)
 #'
 #' # apply method
-#' M = fisher_exact(alpha=0.05,mtc='fdr',factor_name='class',factor_pred=pred)
+#' M = fisher_exact(alpha=0.05,mtc='fdr',factor_name='Class',factor_pred=pred)
 #' M=model_apply(M,D)
 #' @import struct
 #' @import stats

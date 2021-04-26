@@ -21,6 +21,6 @@ A histogram to visualise the distribution of values within features.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
-C = DatasetExperiment_dist(factor_name='class')
+C = DatasetExperiment_dist(factor_name='Class')
 chart_plot(C,D)
 }

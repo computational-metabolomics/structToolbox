@@ -20,20 +20,20 @@ A line plot for forward selection. The computed model performance metric is plot
 D = MTBLS79_DatasetExperiment(filtered=TRUE)
 
 # normalise, impute and scale then remove QCs
-P = pqn_norm(qc_label='QC',factor_name='class') +
+P = pqn_norm(qc_label='QC',factor_name='Class') +
     knn_impute(neighbours=5) +
-    glog_transform(qc_label='QC',factor_name='class') +
-    filter_smeta(mode='exclude',levels='QC',factor_name='class')
+    glog_transform(qc_label='QC',factor_name='Class') +
+    filter_smeta(mode='exclude',levels='QC',factor_name='Class')
 P = model_apply(P,D)
 D = predicted(P)
 
 # forward selection using a PLSDA model
-M = forward_selection_by_rank(factor_name='class',
+M = forward_selection_by_rank(factor_name='Class',
                              min_no_vars=2,
                              max_no_vars=11,
                              variable_rank=1:2063) *
     (mean_centre() + PLSDA(number_components=1,
-                           factor_name='class'))
+                           factor_name='Class'))
 M = run(M,D,balanced_accuracy())
 
 # chart
