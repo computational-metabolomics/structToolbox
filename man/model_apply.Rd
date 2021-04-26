@@ -7,9 +7,9 @@
 %   R/knn_impute_class.R, R/kw_rank_sum_class.R, R/log_transform.R,
 %   R/mean_of_medians.R, R/model_apply_doc.R, R/mv_sample_filter_class.R,
 %   R/nroot_transform_class.R, R/pairs_filter_class.R,
-%   R/prop_na_class.R, R/rsd_filter.R, R/sb_corr.R, R/split_data_class.R,
-%   R/stratified_split_class.R, R/tSNE_class.R, R/ttest_class.R,
-%   R/vec_norm_class.R, R/wilcox_test_class.R
+%   R/pqn_norm_method_class.R, R/prop_na_class.R, R/rsd_filter.R, R/sb_corr.R,
+%   R/split_data_class.R, R/stratified_split_class.R, R/tSNE_class.R,
+%   R/ttest_class.R, R/vec_norm_class.R, R/wilcox_test_class.R
 \name{model_apply,ANOVA,DatasetExperiment-method}
 \alias{model_apply,ANOVA,DatasetExperiment-method}
 \alias{model_apply,HSD,DatasetExperiment-method}

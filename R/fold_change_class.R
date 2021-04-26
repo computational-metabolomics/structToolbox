@@ -212,7 +212,6 @@ setMethod(f="model_apply",
                     counter=counter+1
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
-                    
                 } else {
                     
                     D = predicted(FG)
@@ -257,13 +256,10 @@ setMethod(f="model_apply",
                     counter=counter+1
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
-
                 }
             }
         }
-        
-        
-        
+
         colnames(FC)=comp
         colnames(LCI)=comp
         colnames(UCI)=comp

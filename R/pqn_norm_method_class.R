@@ -173,8 +173,6 @@ pqn_norm = function(
             type=c('NULL','numeric','character'),
             value = NULL
         )
-        
-        
     )
 )
 
