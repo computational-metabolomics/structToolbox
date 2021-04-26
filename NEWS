@@ -1,3 +1,11 @@
+Changes 1.3.3
++ Documentation updates
++ Minor issue fixes
++ Add median method for fold change
++ Update PQN with new inputs/outputs due to changes in pmp package
++ Update SBC with new inputs/outputs due to changes in pmp package
++ Update MTBLS79 due to changes in SBC
+
 Changes 1.1.2
 + Documentation updates
 + Bug fixes
