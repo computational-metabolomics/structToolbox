@@ -50,8 +50,8 @@ mv_sample_filter = function(mv_threshold=20,...) {
 )
 
 #' @export
-#' @template model_apply
-setMethod(f="model_apply",
+#' @template model_train
+setMethod(f="model_train",
     signature=c("mv_sample_filter","DatasetExperiment"),
     definition=function(M,D)
     {
@@ -64,24 +64,8 @@ setMethod(f="model_apply",
         # apply filter
         filtered = pmp::filter_samples_by_mv(x,max_perc_mv=opt$mv_threshold/100,D$sample_meta[,1],remove_samples = FALSE)
         flags<-data.frame(attributes(filtered)$flags)
-        # remove samples
-        D=D[flags$filter_samples_by_mv_flags==1,,drop=FALSE]
-        # fill output slots
-        output_value(M,'filtered') = D
         output_value(M,'flags') = data.frame('flags'=flags[,2],row.names = rownames(x))
         output_value(M,'percent_missing')=data.frame('precent_missing'=flags[,1],row.names = rownames(x))
-
-        return(M)
-    }
-)
-
-#' @export
-#' @template model_train
-setMethod(f="model_train",
-    signature=c("mv_sample_filter","DatasetExperiment"),
-    definition=function(M,D)
-    {
-        M=model_apply(M,D)
         return(M)
     }
 )
@@ -92,7 +76,16 @@ setMethod(f="model_predict",
     signature=c("mv_sample_filter","DatasetExperiment"),
     definition=function(M,D)
     {
-        M=model_apply(M,D)
+        flags=M$flags
+        # remove samples
+        RM=filter_by_name(
+            mode='exclude',
+            dimension='sample',
+            names=rownames(flags)[flags[,1]==0]
+        )
+        RM=model_apply(RM,D)
+        # fill output slots
+        output_value(M,'filtered') = predicted(RM)
         return(M)
     }
 )
