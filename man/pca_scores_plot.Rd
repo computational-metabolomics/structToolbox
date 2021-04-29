@@ -9,6 +9,8 @@ pca_scores_plot(
   points_to_label = "none",
   factor_name,
   ellipse = "all",
+  ellipse_type = "norm",
+  ellipse_confidence = 0.95,
   label_filter = character(0),
   label_factor = "rownames",
   label_size = 3.88,
@@ -22,7 +24,11 @@ pca_scores_plot(
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{ellipse}{(character) Plot ellipses. Allowed values are limited to the following: \itemize{\item{\code{"all"}: Hotelling T2 95\% ellipses are plotted for all groups and all samples.}\item{\code{"group"}: Hotelling T2 95\% ellipses are plotted for all groups.}\item{\code{"none"}: Ellipses are not included on the plot.}\item{\code{"sample"}: A Hotelling T2 95\% ellipse is plotted for all samples (ignoring group).}} The default is \code{"all"}.}
+\item{ellipse}{(character) Plot ellipses. Allowed values are limited to the following: \itemize{\item{\code{"all"}: Ellipses are plotted for all groups and all samples.}\item{\code{"group"}: Ellipses are plotted for all groups.}\item{\code{"none"}: Ellipses are not included on the plot.}\item{\code{"sample"}: An ellipse is plotted for all samples (ignoring group).}} The default is \code{"all"}.}
+
+\item{ellipse_type}{(character) Type of ellipse. Allowed values are limited to the following: \itemize{\item{\code{"norm"}: Multivariate normal (p = 0.95).}\item{\code{"t"}: Multivariate t (p = 0.95).}} The default is \code{"norm"}.}
+
+\item{ellipse_confidence}{(numeric) The confidence level for plotting ellipses. The default is \code{0.95}.}
 
 \item{label_filter}{(character) Labels are only plotted for the named groups. If zero-length then all groups are included. The default is \code{character(0)}.}
 

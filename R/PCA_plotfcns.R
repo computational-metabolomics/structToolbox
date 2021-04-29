@@ -78,6 +78,8 @@ pca_scores_plot = function(
     points_to_label='none',
     factor_name,
     ellipse='all',
+    ellipse_type='norm',
+    ellipse_confidence=0.95,
     label_filter=character(0),
     label_factor='rownames',
     label_size=3.88,
@@ -90,6 +92,8 @@ pca_scores_plot = function(
         label_filter=label_filter,
         label_factor=label_factor,
         label_size=label_size,
+        ellipse_type=ellipse_type,
+        ellipse_confidence=ellipse_confidence,
         ...)
     return(out)
 }
@@ -104,6 +108,8 @@ pca_scores_plot = function(
         points_to_label='enum',
         factor_name='entity',
         ellipse='enum',
+        ellipse_type='enum',
+        ellipse_confidence='entity',
         label_filter='entity',
         label_factor='entity',
         label_size='entity'
@@ -112,7 +118,9 @@ pca_scores_plot = function(
     prototype = list(name='PCA scores plot',
         description='Plots a 2d scatter plot of the selected components',
         type="scatter",
-        .params=c('components','points_to_label','factor_name','ellipse','label_filter','label_factor','label_size'),
+        .params=c('components','points_to_label','factor_name','ellipse',
+            'label_filter','label_factor','label_size','ellipse_type',
+            'ellipse_confidence'),
         
         components=entity(name='Components to plot',
             value=c(1,2),
@@ -135,13 +143,34 @@ pca_scores_plot = function(
         ellipse=enum(
             name = 'Plot ellipses',
             description=c(
-                "all" = paste0('Hotelling T2 95\\% ellipses are plotted for all groups and all samples.'),
-                "group" = 'Hotelling T2 95\\% ellipses are plotted for all groups.',
+                "all" = paste0('Ellipses are plotted for all groups and all samples.'),
+                "group" = 'Ellipses are plotted for all groups.',
                 "none" = 'Ellipses are not included on the plot.',
-                "sample" = 'A Hotelling T2 95\\% ellipse is plotted for all samples (ignoring group)'),
+                "sample" = 'An ellipse is plotted for all samples (ignoring group)'),
             allowed=c('all','group','none','sample'),
             value='all'
         ),
+        
+        ellipse_type=enum(
+            name='Type of ellipse',
+            description=c(
+                'norm' = paste0('Multivariate normal (p = 0.95)'),
+                't' = paste0('Multivariate t (p = 0.95)')
+                ),
+            value='norm',
+            type='character',
+            max_length = 1,
+            allowed=c('norm','t')
+        ),
+        
+        ellipse_confidence=entity(
+            name='Ellipse confidence level',
+            description='The confidence level for plotting ellipses.',
+            value=0.95,
+            type='numeric',
+            max_length = 1
+        ),
+        
         label_filter=entity(
             name='Label filter',
             value=character(0),
@@ -246,19 +275,24 @@ setMethod(f="chart_plot",
         }
         
         if (obj$ellipse %in% c('all','group')) {
-            out = out +stat_ellipse(type='norm') # ellipse for individual groups
+            out = out +stat_ellipse(type=obj$ellipse_type,
+                level=obj$ellipse_confidence) # ellipse for individual groups
         }
         
         if (is(opt$groups,'factor')) { # if a factor then plot by group using the colours from pmp package
-            out=out+scale_colour_manual(values=plotClass$manual_colors,name=opt$factor_name)
+            out=out+scale_colour_manual(values=plotClass$manual_colors,
+                name=opt$factor_name)
         }
         else {# assume continuous and use the default colour gradient
-            out=out+scale_colour_viridis_c(limits=quantile(opt$groups,c(0.05,0.95),na.rm = TRUE),oob=squish,name=opt$factor_name)
+            out=out+scale_colour_viridis_c(limits=quantile(opt$groups,
+                c(0.05,0.95),na.rm = TRUE),oob=squish,name=opt$factor_name)
         }
         out=out+theme_Publication(base_size = 12)
         # add ellipse for all samples (ignoring group)
         if (obj$ellipse %in% c('all','sample')) {
-            out=out+stat_ellipse(type='norm',mapping=aes(x=x,y=y),colour="#C0C0C0",linetype='dashed',data=A)
+            out=out+stat_ellipse(type=obj$ellipse_type,mapping=aes(x=x,y=y),
+                colour="#C0C0C0",linetype='dashed',data=A,
+                level=obj$ellipse_confidence)
         }
         
         if (obj$ellipse %in% c('all','sample')) { # only do this if we plotted the sample ellipse
