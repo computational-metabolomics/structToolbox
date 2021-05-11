@@ -90,6 +90,7 @@ Collate:
     'paretoscale_class.R'
     'permutation_test_class.R'
     'permute_sample_order_class.R'
+    'plsda_vip_summary_chart.R'
     'pqn_norm_method_class.R'
     'prop_na_class.R'
     'r_squared_class.R'
