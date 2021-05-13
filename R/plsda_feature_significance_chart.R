@@ -41,7 +41,7 @@ plsda_feature_importance_plot = function(n_features=30,metric='vip',...) {
             name='Metric to plot',
             description=c(
                 'sr' = 'Plot Selectivity Ratio',
-                'pvalue'='Plot SR p-values',
+                'sr_pvalue'='Plot SR p-values',
                 'vip'='Plot Variable Importance in Projection scores'
             ),
             type='character',
@@ -63,8 +63,8 @@ setMethod(f="chart_plot",
             data=dobj$sr
             txt='Selectivity Ratio'
         } else if(obj$metric=='sr_pvalue') {
-            data=dobj$sr_pvalue
-            txt='SR p-value'
+            data=1-dobj$sr_pvalue
+            txt='1 - (p-value)'
         } else if(obj$metric=='vip') {
             data=dobj$vip
             txt='VIP score'
@@ -77,14 +77,8 @@ setMethod(f="chart_plot",
         data$feature_id=rownames(data)
         data$max=max_vip[,1]
         
-        # sort by max SR, or min pvalue
-        if (obj$metric=='sr'){
-            vip_order=order(-data$max)
-        } else if(obj$metric=='sr_pvalue') {
-            vip_order=order(data$max)
-        } else if(obj$metric=='vip') {
-            vip_order=order(-data$max)
-        }
+        # sort by max
+        vip_order=order(-data$max)
         data=data[vip_order,]
         
         data2=reshape2::melt(data[1:obj$n_features,seq_len(ncol(data)-1)],id.vars = 'feature_id')
