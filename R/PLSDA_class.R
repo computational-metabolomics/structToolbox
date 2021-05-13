@@ -25,7 +25,9 @@ PLSDA = function(number_components=2,factor_name,...) {
         vip='data.frame',
         pls_model='list',
         pred='data.frame',
-        threshold='numeric'
+        threshold='numeric',
+        sr = 'entity',
+        sr_pvalue='entity'
         
     ),
     prototype = list(name='Partial least squares discriminant analysis',
@@ -49,7 +51,9 @@ PLSDA = function(number_components=2,factor_name,...) {
             'vip',
             'pls_model',
             'pred',
-            'threshold'),
+            'threshold',
+            'sr',
+            'sr_pvalue'),
         
         number_components=entity(value = 2,
             name = 'Number of components',
@@ -57,6 +61,25 @@ PLSDA = function(number_components=2,factor_name,...) {
             type = c('numeric','integer')
         ),
         factor_name=ents$factor_name,
+        sr = entity(
+            name = 'Selectivity ratio',
+            description = paste0(
+                "Selectivity ratio for a variable represents a measure of a ",
+                "variable's importance in the PLS model. The output data.frame ",
+                "contains a column of selectivity ratios, a column of p-values ",
+                "based on an F-distribution and a column indicating ",
+                "significance at p < 0.05."
+            ),
+            type='data.frame'
+        ),
+        sr_pvalue = entity(
+            name = 'Selectivity ratio p-value',
+            description = paste0(
+                "A p-value computed from the Selectivity Ratio based on an ",
+                "F-distribution."
+            ),
+            type='data.frame'
+        ),
         stato_id='STATO:0000572',
         citations=list(
             bibentry(
@@ -114,20 +137,24 @@ setMethod(f="model_train",
         
         ny=ncol(z)
         nr=ncol(output_value(M,'reg_coeff'))
-        output_value(M,'reg_coeff')=as.data.frame(pls_model$coefficients[,,M$number_components]) # keep only the requested number of components
+        output_value(M,'reg_coeff')=as.data.frame(pls_model$projection %*% t(pls_model$Yloadings)) # keep only the requested number of components
         output_value(M,'vip')=as.data.frame(vips(pls_model))
         colnames(M$vip)=levels(y)
+        
         yhat=predict(pls_model, ncomp = param_value(M,'number_components'), newdata = X)
         yhat=as.matrix(yhat[,,dim(yhat)[3]])
         output_value(M,'yhat')=as.data.frame(yhat)
+        
         probs=prob(yhat,yhat,D$sample_meta[[M$factor_name]])
         output_value(M,'probability')=as.data.frame(probs$ingroup)
         output_value(M,'threshold')=probs$threshold
         output_value(M,'pls_model')=list(pls_model)
+        
         scores=pls::scores(pls_model)
         output_value(M,'scores')=as.data.frame(matrix(scores,nrow = nrow(scores),ncol=ncol(scores)))
         colnames(M$scores)=as.character(interaction('LV',1:ncol(M$scores)))
         rownames(M$scores)=rownames(D$data)
+        
         loadings=pls::loadings(pls_model)
         M$loadings=as.data.frame(matrix(pls_model$loadings,nrow=nrow(loadings),ncol=ncol(loadings)))
         colnames(M$loadings)=as.character(interaction('LV',1:ncol(M$loadings)))
@@ -135,6 +162,21 @@ setMethod(f="model_train",
         rownames(M$vip)=rownames(M$loadings)
         rownames(M$reg_coeff)=rownames(M$loadings)
         colnames(M$reg_coeff)=colnames(M$vip)
+        
+        SR=SRp=data.frame(row.names=colnames(X))
+        for(k in 1:ncol(M$reg_coeff)){
+            SR[,k] = SelRat(pls_model,X,b=as.matrix(M$reg_coeff[,k]))
+            SRp[,k]= pf(SR[,k],nrow(X)-2,nrow(X)-3,lower.tail = FALSE)
+        }
+        colnames(SR)=levels(y)
+        colnames(SRp)=levels(y)
+
+        rownames(SR) = colnames(X)
+        rownames(SRp) = colnames(X)
+        
+        
+        M$sr = SR
+        M$sr_pvalue = SRp
         
         return(M)
     }
@@ -297,4 +339,24 @@ set_scale <- function(y=NULL,name='PCA',...){
         }
     }
     discrete_scale(c("colour","fill"),"Publication",manual_pal(values = pal), drop=FALSE, name=NULL,...) # sets both fill and colour aesthetics to chosen palette.
+}
+
+SelRat=function(model,X,b) {
+    # model is the output from pls::oscorespls.fit
+    # X is the data used to train the model
+    X=as.matrix(X)
+    
+    bnorm=sqrt(sum(b*b))
+    # normalised regression coefficients
+    wtp=b/bnorm
+    wtp=matrix(wtp,nrow=ncol(X))
+    
+    ttp=X %*% wtp
+    ptp=(t(X) %*% ttp) / sum(ttp*ttp)
+    
+    xtp=ttp %*% t(ptp)
+    etp=X-xtp
+    
+    SR = colSums(xtp*xtp)/colSums(etp*etp)
+    return(SR)
 }
