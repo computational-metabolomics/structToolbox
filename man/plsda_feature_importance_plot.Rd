@@ -9,7 +9,7 @@ plsda_feature_importance_plot(n_features = 30, metric = "vip", ...)
 \arguments{
 \item{n_features}{(numeric, integer) The number of features to include in the summary. The default is \code{30}.}
 
-\item{metric}{(character) Metric to plot. Allowed values are limited to the following: \itemize{\item{\code{"sr"}: Plot Selectivity Ratio.}\item{\code{"pvalue"}: Plot SR p-values.}\item{\code{"vip"}: Plot Variable Importance in Projection scores.}} The default is \code{"vip"}.}
+\item{metric}{(character) Metric to plot. Allowed values are limited to the following: \itemize{\item{\code{"sr"}: Plot Selectivity Ratio.}\item{\code{"sr_pvalue"}: Plot SR p-values.}\item{\code{"vip"}: Plot Variable Importance in Projection scores.}} The default is \code{"vip"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
