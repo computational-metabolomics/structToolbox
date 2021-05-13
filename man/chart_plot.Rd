@@ -8,9 +8,9 @@
 %   R/glog_class.R, R/grid_search_1d_class.R, R/hca_class.R,
 %   R/kfold_xval_charts.R, R/kw_rank_sum_class.R, R/mv_feature_filter_class.R,
 %   R/mv_sample_filter_class.R, R/permutation_test_class.R,
-%   R/plsda_vip_summary_chart.R, R/pqn_norm_method_class.R, R/rsd_filter.R,
-%   R/sb_corr.R, R/svm_classifier_class.R, R/tSNE_class.R, R/tic_chart_class.R,
-%   R/wilcox_test_class.R
+%   R/plsda_feature_significance_chart.R, R/pqn_norm_method_class.R,
+%   R/rsd_filter.R, R/sb_corr.R, R/svm_classifier_class.R, R/tSNE_class.R,
+%   R/tic_chart_class.R, R/wilcox_test_class.R
 \name{chart_plot,dfa_scores_plot,DFA-method}
 \alias{chart_plot,dfa_scores_plot,DFA-method}
 \alias{chart_plot,pca_correlation_plot,PCA-method}
@@ -53,7 +53,7 @@
 \alias{chart_plot,mv_feature_filter_hist,mv_feature_filter-method}
 \alias{chart_plot,mv_sample_filter_hist,mv_sample_filter-method}
 \alias{chart_plot,permutation_test_plot,permutation_test-method}
-\alias{chart_plot,plsda_vip_summary_plot,PLSDA-method}
+\alias{chart_plot,plsda_feature_importance_plot,PLSDA-method}
 \alias{chart_plot,pqn_norm_hist,pqn_norm-method}
 \alias{chart_plot,rsd_filter_hist,rsd_filter-method}
 \alias{chart_plot,feature_profile,sb_corr-method}
@@ -143,7 +143,7 @@
 
 \S4method{chart_plot}{permutation_test_plot,permutation_test}(obj, dobj)
 
-\S4method{chart_plot}{plsda_vip_summary_plot,PLSDA}(obj, dobj)
+\S4method{chart_plot}{plsda_feature_importance_plot,PLSDA}(obj, dobj)
 
 \S4method{chart_plot}{pqn_norm_hist,pqn_norm}(obj, dobj)
 
