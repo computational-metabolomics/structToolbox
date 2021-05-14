@@ -96,6 +96,7 @@ Collate:
     'pqn_norm_method_class.R'
     'prop_na_class.R'
     'r_squared_class.R'
+    'resample_class.R'
     'rsd_filter.R'
     'run_doc.R'
     'sb_corr.R'
