@@ -11,7 +11,7 @@ classical_lsq(alpha = 0.05, mtc = "fdr", factor_names, intercept = TRUE, ...)
 
 \item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
-\item{factor_names}{(character) The name of sample meta column(s) to use.}
+\item{factor_names}{(character, list) The column names to regress against. If a character vector then the same list is used ofr all features. If a list of character vectors is provided it is assumed there is a different set of columns for each feature.}
 
 \item{intercept}{(logical) Model intercept. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: An intercept term is included in the model.}\item{\code{"FALSE"}: An intercept term is not included in the model.}} The default is \code{TRUE}.}
 

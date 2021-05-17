@@ -60,7 +60,13 @@ classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
             value=TRUE
         ),
 
-        factor_names=ents$factor_names,
+        factor_names=entity(name='Factor name',
+            description=paste0('The column names to regress against. If a ',
+            'character vector then the same list is used ofr all features. ',
+            'If a list of character vectors is provided it is assumed there ',
+            'is a different set of columns for each feature.'),
+            type=c('character','list'),
+            value='V1'),
 
         alpha=ents$alpha,
 
