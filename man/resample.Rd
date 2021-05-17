@@ -30,5 +30,9 @@ A  \code{resample} object.
 New training sets are generated from the original data by selecting samples at random. This can be based on levels in a factor or on the whole dataset.
 }
 \examples{
-C = resample()
+I = resample(
+    number_of_iterations = 10, 
+    factor_name = 'Species', 
+    method = 'split_data',
+    p_train = 0.8)
 }

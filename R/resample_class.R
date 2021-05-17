@@ -1,6 +1,10 @@
 #' @eval get_description('resample')
 #' @examples
-#' C = resample()
+#' I = resample(
+#'     number_of_iterations = 10, 
+#'     factor_name = 'Species', 
+#'     method = 'split_data',
+#'     p_train = 0.8)
 #' @export resample
 resample = function(
     number_of_iterations=10,
