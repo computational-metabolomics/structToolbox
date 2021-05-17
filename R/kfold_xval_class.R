@@ -6,11 +6,13 @@
 #'     (mean_centre() + PLSDA(factor_name='Species'))
 #' I = run(I,D,balanced_accuracy())
 #'
-kfold_xval = function(folds=10,method='venetian',factor_name,...) {
+kfold_xval = function(folds=10,method='venetian',factor_name,
+    collect=NULL,...) {
     out=struct::new_struct('kfold_xval',
         folds=folds,
         method=method,
         factor_name=factor_name,
+        collect=collect,
         ...)
     return(out)
 }
@@ -26,13 +28,15 @@ kfold_xval = function(folds=10,method='venetian',factor_name,...) {
         results='data.frame',
         metric='data.frame',
         metric.train='numeric',
-        metric.test='numeric'
+        metric.test='numeric',
+        collect='entity',
+        collected='entity'
     ),
     prototype = list(name='k-fold cross-validation',
         type="resampling",
         result='results',
-        .params=c('folds','method','factor_name'),
-        .outputs=c('results','metric','metric.train','metric.test'),
+        .params=c('folds','method','factor_name','collect'),
+        .outputs=c('results','metric','metric.train','metric.test','collected'),
         description=paste0('k-fold cross-validation is an iterative approach ',
             'applied to validate models. The samples are divided into k "folds", ',
             'or subsets. Each subset is excluded from model training and used for ',
@@ -56,7 +60,16 @@ kfold_xval = function(folds=10,method='venetian',factor_name,...) {
             allowed = c('venetian','blocks','random'),
             value='random'
         ),
-        factor_name=ents$factor_name
+        factor_name=ents$factor_name,
+        collect=entity(name = 'Collect output',
+            description=paste0('The name of a model output to collect over all ',
+                'bootstrap repetitions, in addition to the input metric.'),
+            value = NULL,
+            max_length = 1,
+            type=c('NULL','character')),
+        collected=entity(name='collected output',
+            type=c('list'),
+            value=list(),max_length=Inf)
     )
 )
 
@@ -86,6 +99,8 @@ setMethod(f="run",
             stop('unknown method for cross-validation. (try "venetian", "blocks" or "random")')
         }
         
+        collected=list()
+        
         # for each value of k, split the data and run the workflow
         for (i in 1:param_value(I,'folds'))
         {
@@ -114,6 +129,17 @@ setMethod(f="run",
                 WF=model_predict(WF,dtest)
                 p=predicted(WF)
                 fold_results[fold_id==i,2]=p[,1]
+                
+                if (!is.null(I$collect)) {
+                    if (is(WF,'model')) {
+                        collected=c(collected,list(output_value(WF,I$collect)))
+                    } else {
+                        # if sequence assume collecting from last index
+                        collected=c(collected,list(output_value(WF[length(WF)],I$collect)))
+                    }
+                    I$collected=collected
+                }
+                
             } else if (is(WF,'iterator'))
             {
                 stop('not implemented yet')
