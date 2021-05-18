@@ -9,6 +9,7 @@ resample(
   method = "split_data",
   factor_name,
   p_train = 0.8,
+  collect = NULL,
   ...
 )
 }
@@ -20,6 +21,8 @@ resample(
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
 \item{p_train}{(numeric) The proportion of samples selected for the training set. The default is \code{0.8}.}
+
+\item{collect}{(NULL, character) The name of a model output to collect over all bootstrap repetitions, in addition to the input metric. The default is \code{NULL}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }

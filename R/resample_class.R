@@ -11,12 +11,13 @@ resample = function(
     method='split_data',
     factor_name,
     p_train=0.8,
-    ...) {
+    collect=NULL,...) {
     out=struct::new_struct('resample',
         number_of_iterations=number_of_iterations,
         method=method,
         factor_name=factor_name,
         p_train=p_train,
+        collect=collect,
         ...)
     return(out)
 }
@@ -31,7 +32,9 @@ resample = function(
         p_train='entity',
         results.training='data.frame',
         results.testing='data.frame',
-        metric='data.frame'
+        metric='data.frame',
+        collect='entity',
+        collected='entity'
     ),
     prototype = list(name='Data resampling',
         description=paste0('New training sets are generated from the original data ',
@@ -65,8 +68,17 @@ resample = function(
             type='numeric'
         ),
         factor_name=ents$factor_name,
-        .params=c('number_of_iterations','method','factor_name','p_train'),
-        .outputs=c('results.training','results.testing','metric')
+        collect=entity(name = 'Collect output',
+            description=paste0('The name of a model output to collect over all ',
+                'bootstrap repetitions, in addition to the input metric.'),
+            value = NULL,
+            max_length = Inf,
+            type=c('NULL','character')),
+        collected=entity(name='collected output',
+            type=c('list'),
+            value=list(),max_length=Inf),
+        .params=c('number_of_iterations','method','factor_name','p_train','collect'),
+        .outputs=c('results.training','results.testing','metric','collected')
     )
 )
 
@@ -92,6 +104,8 @@ setMethod(f="run",
         
         tr.metric=numeric(n)
         te.metric=numeric(n)
+        
+        collected=list()
         
         for (i in 1:n)
         {
@@ -124,6 +138,23 @@ setMethod(f="run",
                 # calculate metric
                 MET=calculate(MET,S$training$sample_meta[[I$factor_name]],p)
                 tr.metric[i]=value(MET)
+                
+                # collect from training set
+                if (!is.null(I$collect)) {
+                    
+                    temp_collect=list()
+                    for (k in I$collect) {
+                        
+                        if (is(WF,'model')) {
+                            temp_collect=c(temp_collect,list(output_value(WF,k)))
+                        } else {
+                            # if sequence assume collecting from last index
+                            temp_collect=c(temp_collect,list(output_value(WF[length(WF)],k)))
+                        }
+                    }
+                    names(temp_collect)=I$collect
+                    collected=c(collected,list(temp_collect))
+                }
                 
                 ## testing set
                 # predict
@@ -165,6 +196,7 @@ setMethod(f="run",
         output_value(I,'results.training')=all_results_training
         output_value(I,'results.testing')=all_results_testing
         I$metric=data.frame('metric'=class(MET)[1],'training'=tr.metric,'testing'=te.metric)
+        I$collected=collected
         return(I)
     }
 )
