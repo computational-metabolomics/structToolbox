@@ -33,6 +33,8 @@ resample = function(
         results.training='data.frame',
         results.testing='data.frame',
         metric='data.frame',
+        metric.train='numeric',
+        metric.test='numeric',
         collect='entity',
         collected='entity'
     ),
@@ -78,7 +80,7 @@ resample = function(
             type=c('list'),
             value=list(),max_length=Inf),
         .params=c('number_of_iterations','method','factor_name','p_train','collect'),
-        .outputs=c('results.training','results.testing','metric','collected')
+        .outputs=c('results.training','results.testing','metric','collected','metric.train','metric.test')
     )
 )
 
@@ -169,7 +171,6 @@ setMethod(f="run",
             }
             else
             {
-                ## training
                 WF=run(WF,S$training,MET)
                 v=output_value(WF,'metric')
                 
@@ -192,11 +193,36 @@ setMethod(f="run",
             }
             
         }
-        # store results
-        output_value(I,'results.training')=all_results_training
-        output_value(I,'results.testing')=all_results_testing
-        I$metric=data.frame('metric'=class(MET)[1],'training'=tr.metric,'testing'=te.metric)
+        
+        results=all_results_training
+        k=max(results$iteration)
+        ts.metric=numeric(k)
+        te.metric=numeric(k)
+        for (i in 1:k) {
+            # training set
+            ts=results[results$iteration==i & !is.na(results$predicted),]
+            MET=calculate(MET,ts$actual,factor(ts$predicted,labels=levels(ts$actual)))
+            ts.metric[i]=value(MET)
+        }
+        
+        # test set
+        results=all_results_testing
+        for (i in 1:k) {
+            # testing set
+            te=results[results$iteration==i & !is.na(results$predicted),]
+            MET=calculate(MET,te$actual,factor(te$predicted,labels=levels(te$actual)))
+            te.metric[i]=value(MET)
+        }
+        out=data.frame('metric'=class(MET)[1],'mean'=mean(te.metric),'sd'=sd(te.metric))
+        
+        output_value(I,'metric')=out
+        output_value(I,'metric.train')=ts.metric
+        output_value(I,'metric.test')=te.metric
+        
         I$collected=collected
+        
+        I$results.training=all_results_training
+        I$results.testing=all_results_testing
         return(I)
     }
 )
@@ -253,15 +279,15 @@ setMethod(f="chart_plot",
     definition=function(obj,dobj) {
         
         if (is(models(dobj),'iterator')) {
-            p=output_value(dobj,'results.training')
-            u=output_value(dobj,'results.testing')
+            p=output_value(dobj,'metric.train')
+            u=output_value(dobj,'metric.test')
             
             A=data.frame(
                 'value'=c(p$mean,u$mean),
                 'dataset'=c(rep('Training',nrow(p)),rep('Testing',nrow(u))))
         } else {
-            p=dobj$metric$training
-            u=dobj$metric$testing
+            p=dobj$metric.train
+            u=dobj$metric.test
             A=data.frame(
                 'value'=c(p,u),
                 'dataset'=c(rep('Training',length(p)),rep('Testing',length(u))))
