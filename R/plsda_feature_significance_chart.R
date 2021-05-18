@@ -70,37 +70,49 @@ setMethod(f="chart_plot",
             txt='VIP score'
         }
         
+        # max and min of reg coeff 0 and 1
+        d2=dobj$reg_coeff
+        #lo=apply(d2,1,min)
+        hi=apply(abs(d2),1,max)
+        #lo=matrix(rep(lo,ncol(d2)),nrow=nrow(d2))
+        hi=matrix(rep(hi,ncol(d2)),nrow=nrow(d2))
+        d2=(d2)/(hi)
+            
         # max sure we dont over the max number of features
         obj$n_features=min(nrow(data),obj$n_features)
         
-        max_vip=as.data.frame(apply(data,1,max))
+        max_vip=apply(data,1,max)
         data$feature_id=rownames(data)
-        data$max=max_vip[,1]
+        data$max=max_vip
         
         # sort by max
         vip_order=order(-data$max)
         data=data[vip_order,]
         
-        data2=reshape2::melt(data[1:obj$n_features,seq_len(ncol(data)-1)],id.vars = 'feature_id')
+        d2=d2[vip_order,]
+        d2$feature_id=rownames(d2)
+        d2$max=data$max
+        
+        data2=reshape2::melt(d2[1:obj$n_features,seq_len(ncol(data)-1)],id.vars = 'feature_id')
         data2$max=rep(data$max[1:obj$n_features],ncol(data)-2)
         
         g1 = ggplot(data=data[1:obj$n_features,],aes_string(x='max',y='reorder(feature_id,max)')) +
             geom_point() +
             labs(x=txt,
                 y="Feature") +
-            theme_Publication() +
+            structToolbox:::theme_Publication() +
             theme(
                 panel.background = element_blank(),
                 panel.grid.major = element_line(colour="#f0f0f0")
             )
         
         
-        g2 = ggplot(data=data2[],aes_string(x='variable',y='reorder(feature_id,max)')) +
+        g2 = ggplot(data=data2,aes_string(x='variable',y='reorder(feature_id,max)')) +
             geom_tile(aes_string(fill='value'),colour = "black",width=0.8,height=0.8) +
             scale_fill_gradient2(low='#5e4fa2',mid='#ffffbf',high='#9e0142',
-                midpoint=(quantile(data2$value,0.05)+quantile(data2$value,0.95))/2,
-                limits=c(quantile(data2$value,0.05),quantile(data2$value,0.95)),oob=scales::squish,name=txt) +
-            theme_Publication() +
+                midpoint=0,
+                limits=c(-1,1),name='Reg. coefficient',breaks=c(-1,0,1),labels=c('-','0','+')) +
+            structToolbox:::theme_Publication() +
             theme(axis.title.y=element_blank(),
                 axis.text.y=element_blank()) +
             coord_fixed()+
