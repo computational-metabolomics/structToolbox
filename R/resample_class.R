@@ -201,7 +201,7 @@ setMethod(f="run",
         for (i in 1:k) {
             # training set
             ts=results[results$iteration==i & !is.na(results$predicted),]
-            MET=calculate(MET,ts$actual,factor(ts$predicted,labels=levels(ts$actual)))
+            MET=calculate(MET,ts$actual,factor(ts$predicted,labels=levels(ts$actual),levels=1:length(levels(ts$actual))))
             ts.metric[i]=value(MET)
         }
         
@@ -210,7 +210,7 @@ setMethod(f="run",
         for (i in 1:k) {
             # testing set
             te=results[results$iteration==i & !is.na(results$predicted),]
-            MET=calculate(MET,te$actual,factor(te$predicted,labels=levels(te$actual)))
+            MET=calculate(MET,te$actual,factor(te$predicted,labels=levels(te$actual),levels=1:length(levels(te$actual))))
             te.metric[i]=value(MET)
         }
         out=data.frame('metric'=class(MET)[1],'mean'=mean(te.metric),'sd'=sd(te.metric))
