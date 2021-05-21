@@ -60,7 +60,7 @@ plsda_scores_plot = function(components=c(1,2),points_to_label='none',factor_nam
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("plsda_scores_plot",'PLSDA'),
+    signature=c("plsda_scores_plot",'PLSR'),
     definition=function(obj,dobj)
     {
         opt=param_list(obj)
@@ -311,31 +311,31 @@ setMethod(f="chart_plot",
 #################################################
 #################################################
 
-#' @eval get_description('plsda_vip_plot')
-#' @export plsda_vip_plot
-#' @include PLSDA_class.R
+#' @eval get_description('pls_vip_plot')
+#' @export pls_vip_plot
+#' @include PLSR_class.R
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = mean_centre()+PLSDA(factor_name='Species')
 #' M = model_apply(M,D)
 #'
-#' C = plsda_vip_plot(level='setosa')
+#' C = pls_vip_plot(ycol='setosa')
 #' chart_plot(C,M[2])
-plsda_vip_plot = function(threshold=1,level,...) {
-    out=struct::new_struct('plsda_vip_plot',
+pls_vip_plot = function(threshold=1,ycol,...) {
+    out=struct::new_struct('pls_vip_plot',
         threshold = threshold,
-        level=level,
+        ycol=ycol,
         ...)
     return(out)
 }
 
-.plsda_vip_plot<-setClass(
-    "plsda_vip_plot",
+.pls_vip_plot<-setClass(
+    "pls_vip_plot",
     contains=c('chart','stato'),
     slots=c(
         # INPUTS
         threshold='entity',
-        level = 'entity'
+        ycol = 'entity'
     ),
     prototype = list(name='PLSDA VIP plot',
         description='A plot of the Variable Importance for Projection (VIP) scores for a PLSDA model.',
@@ -350,11 +350,11 @@ plsda_vip_plot = function(threshold=1,level,...) {
             value=1,
             max_length=1
         ),
-        level=entity(
-            name='Factor level',
-            description = 'The factor level (group) to plot',
-            type='character',
-            value=character(0),
+        ycol=entity(
+            name='Y column to plot',
+            description = 'The column of the Y block to be plotted.',
+            type=c('character','numeric','integer'),
+            value=1,
             max_length=1
         ),
         stato_id='STATO:0000580'
@@ -365,10 +365,10 @@ plsda_vip_plot = function(threshold=1,level,...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("plsda_vip_plot",'PLSDA'),
+    signature=c("pls_vip_plot",'PLSR'),
     definition=function(obj,dobj) {
         
-        A=data.frame(vip=dobj$vip[[obj$level]])
+        A=data.frame(vip=dobj$vip[[obj$ycol]])
         A$feature=rownames(dobj$loadings)
         
         out = ggplot(data=A,aes_(x=~feature,y=~vip)) +
@@ -386,51 +386,56 @@ setMethod(f="chart_plot",
 #################################################
 #################################################
 
-#' plsda_regcoeff_plot class
+#' pls_regcoeff_plot class
 #'
 #' Plots the regression coefficients of a PLSDA model.
 #'
 #' @param level the group label to plot regression coefficients for
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export plsda_regcoeff_plot
-#' @include PLSDA_class.R
+#' @export pls_regcoeff_plot
+#' @include PLSR_class.R
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = mean_centre()+PLSDA(factor_name='Species')
 #' M = model_apply(M,D)
 #'
-#' C = plsda_regcoeff_plot(level='setosa')
+#' C = pls_regcoeff_plot(ycol='setosa')
 #' chart_plot(C,M[2])
-plsda_regcoeff_plot = function(level,...) {
+pls_regcoeff_plot = function(ycol,...) {
     out=struct::new_struct('plsda_regcoeff_plot',
-        level=level,
+        ycol=ycol,
         ...)
     return(out)
 }
 
-.plsda_regcoeff_plot<-setClass(
-    "plsda_regcoeff_plot",
+.pls_regcoeff_plot<-setClass(
+    "pls_regcoeff_plot",
     contains='chart',
     slots=c(
         # INPUTS
-        level = 'character'
+        ycol = 'entity'
     ),
     prototype = list(name='PLSDA regression coefficient plot',
         description='Plots the regression coefficient scores of a PLSDA model',
         type="scatter",
         libraries=c('pls','ggplot2'),
-        .params=c('level')
+        .params=c('ycol'),
+        ycol=entity(name= ' Y - column',
+            description = "The Y column to plot",
+            value=1,
+            type=c('character','numeric','integer'),
+            max_length=1)
     )
 )
     
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("plsda_regcoeff_plot",'PLSDA'),
+    signature=c("pls_regcoeff_plot",'PLSR'),
     definition=function(obj,dobj) {
         
-        A=data.frame(rc=dobj$reg_coeff[[obj$level]])
+        A=data.frame(rc=dobj$reg_coeff[[obj$ycol]])
         A$feature=rownames(dobj$loadings)
         
         out = ggplot(data=A,aes_(x=~feature,y=~rc)) +

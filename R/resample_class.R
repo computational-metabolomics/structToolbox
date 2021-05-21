@@ -96,8 +96,6 @@ setMethod(f="run",
         X=D$data
         y=D$sample_meta[,I$factor_name,drop=FALSE]
         
-        # get the WF
-        WF=models(I)
         n=param_value(I,'number_of_iterations')
         
         all_results_training=data.frame('actual'=rep(y[,1],n),'predicted'=NA,'iteration'=0)
@@ -111,6 +109,9 @@ setMethod(f="run",
         
         for (i in 1:n)
         {
+            # get the WF
+            WF=models(I)
+            
             # subsample the data
             if (I$method=='split_data') {
                 S = split_data(p_train=I$p_train)

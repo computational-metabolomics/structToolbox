@@ -76,7 +76,8 @@ setMethod(f="chart_plot",
         hi=apply(abs(d2),1,max)
         #lo=matrix(rep(lo,ncol(d2)),nrow=nrow(d2))
         hi=matrix(rep(hi,ncol(d2)),nrow=nrow(d2))
-        d2=(d2)/(hi)
+        rownames(hi)=rownames(d2)
+        d2=as.data.frame(as.matrix(d2)/hi)
             
         # max sure we dont over the max number of features
         obj$n_features=min(nrow(data),obj$n_features)

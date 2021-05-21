@@ -9,7 +9,7 @@ PLSR(number_components = 2, factor_name, ...)
 \arguments{
 \item{number_components}{(numeric, integer) The number of PLS components. The default is \code{2}.}
 
-\item{factor_name}{(character) The name of a sample-meta column to use.}
+\item{factor_name}{(character) The name of sample meta column(s) to use.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }

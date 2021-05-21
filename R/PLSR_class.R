@@ -16,23 +16,25 @@ PLSR = function(number_components=2,factor_name,...) {
     contains=c('model','stato'),
 
     slots=c(
-        number_components = 'entity',
-        factor_name       = 'entity',
-        scores           = 'data.frame',
-        loadings         = 'data.frame',
-        yhat             = 'data.frame',
-        y                = 'data.frame',
-        reg_coeff        = 'data.frame',
-        vip              = 'data.frame',
-        pls_model        = 'list',
-        pred             = 'data.frame'
+        number_components='entity',
+        factor_name='entity',
+        scores='data.frame',
+        loadings='data.frame',
+        yhat='data.frame',
+        y='data.frame',
+        reg_coeff='data.frame',
+        vip='data.frame',
+        pls_model='list',
+        pred='data.frame',
+        sr = 'entity',
+        sr_pvalue='entity'
     ),
 
     prototype = list(name='Partial least squares regression',
         type="regression",
         predicted='pred',
         libraries='pls',
-        stato_id='STATO:0000571',
+        stato_id='STATO:0000572',
         description=paste0('PLS is a multivariate regression technique that ',
         'extracts latent variables maximising covariance between the input ',
         'data and the response. For regression the response is a continuous ',
@@ -41,20 +43,39 @@ PLSR = function(number_components=2,factor_name,...) {
         .outputs=c(
             'scores',
             'loadings',
-            'y',
             'yhat',
+            'y',
             'reg_coeff',
             'vip',
             'pls_model',
-            'pred'),
-
-        number_components=entity(
-            value = 2,
-            name = 'Number of PLS components',
-            description = 'The number of PLS components'
-            ,type = c('numeric','integer')
+            'pred',
+            'sr',
+            'sr_pvalue'),
+        number_components=entity(value = 2,
+            name = 'Number of components',
+            description = 'The number of PLS components',
+            type = c('numeric','integer')
+        ),
+        factor_name=ents$factor_names,
+        sr = entity(
+            name = 'Selectivity ratio',
+            description = paste0(
+                "Selectivity ratio for a variable represents a measure of a ",
+                "variable's importance in the PLS model. The output data.frame ",
+                "contains a column of selectivity ratios, a column of p-values ",
+                "based on an F-distribution and a column indicating ",
+                "significance at p < 0.05."
             ),
-        factor_name=ents$factor_name
+            type='data.frame'
+        ),
+        sr_pvalue = entity(
+            name = 'Selectivity ratio p-value',
+            description = paste0(
+                "A p-value computed from the Selectivity Ratio based on an ",
+                "F-distribution."
+            ),
+            type='data.frame'
+        )
     )
 
 )
@@ -66,30 +87,57 @@ setMethod(f="model_train",
     definition=function(M,D)
     {
         y=D$sample_meta
+        output_value(M,'y')=D$sample_meta
+
         y=y[,M$factor_name] # might be multiple columns (?)
-
-        output_value(M,'y')=as.data.frame(y)
-
+        
         X=as.matrix(D$data) # convert X to matrix
         y=as.matrix(y)
-        #print(param_value(M,'number_components'))
-        pls_model=pls::plsr(y ~ X,validation="none",
-            method='oscorespls',
-            model=TRUE,
-            ncomp=param_value(M,'number_components'),
-            center=FALSE,
-            scale=FALSE)
+
+        pls_model=pls::oscorespls.fit(X,y,ncomp=param_value(M,'number_components'),
+            center=FALSE)
+        class(pls_model)='mvr'
+        
         ny=ncol(y)
         nr=ncol(output_value(M,'reg_coeff'))
-        output_value(M,'reg_coeff')=as.data.frame(output_value(M,'reg_coeff')[,(nr-ny+1):nr]) # keep only the requested number of components
+        output_value(M,'reg_coeff')=as.data.frame(pls_model$projection %*% t(pls_model$Yloadings)) # keep only the requested number of components
         output_value(M,'vip')=as.data.frame(vips(pls_model))
+        colnames(M$vip)=levels(y)
+        
         yhat=predict(pls_model, ncomp = param_value(M,'number_components'), newdata = X)
-        yhat=yhat[,,dim(yhat)[3]]
+        yhat=as.matrix(yhat[,,dim(yhat)[3]])
         output_value(M,'yhat')=as.data.frame(yhat)
-
+        
         output_value(M,'pls_model')=list(pls_model)
+        
         scores=pls::scores(pls_model)
         output_value(M,'scores')=as.data.frame(matrix(scores,nrow = nrow(scores),ncol=ncol(scores)))
+        colnames(M$scores)=as.character(interaction('LV',1:ncol(M$scores)))
+        rownames(M$scores)=rownames(D$data)
+        
+        loadings=pls::loadings(pls_model)
+        M$loadings=as.data.frame(matrix(pls_model$loadings,nrow=nrow(loadings),ncol=ncol(loadings)))
+        colnames(M$loadings)=as.character(interaction('LV',1:ncol(M$loadings)))
+        rownames(M$loadings)=colnames(D$data)
+        rownames(M$vip)=rownames(M$loadings)
+        rownames(M$reg_coeff)=rownames(M$loadings)
+        colnames(M$reg_coeff)=colnames(M$vip)
+        
+        SR=SRp=data.frame(row.names=colnames(X))
+        for(k in 1:ncol(M$reg_coeff)){
+            SR[,k] = SelRat(pls_model,X,b=as.matrix(M$reg_coeff[,k]))
+            SRp[,k]= pf(SR[,k],nrow(X)-2,nrow(X)-3,lower.tail = FALSE)
+        }
+        colnames(SR)=levels(y)
+        colnames(SRp)=levels(y)
+        
+        rownames(SR) = colnames(X)
+        rownames(SRp) = colnames(X)
+        
+        
+        M$sr = SR
+        M$sr_pvalue = SRp
+        
         return(M)
     }
 )
@@ -111,6 +159,7 @@ setMethod(f="model_predict",
 
         q=data.frame("pred"=p)
         output_value(M,'pred')=q
+        
         return(M)
     }
 )
@@ -138,6 +187,27 @@ vips<-function(object)
         }
     }
     return(vip)
+}
+
+
+SelRat=function(model,X,b) {
+    # model is the output from pls::oscorespls.fit
+    # X is the data used to train the model
+    X=as.matrix(X)
+    
+    bnorm=sqrt(sum(b*b))
+    # normalised regression coefficients
+    wtp=b/bnorm
+    wtp=matrix(wtp,nrow=ncol(X))
+    
+    ttp=X %*% wtp
+    ptp=(t(X) %*% ttp) / sum(ttp*ttp)
+    
+    xtp=ttp %*% t(ptp)
+    etp=X-xtp
+    
+    SR = colSums(xtp*xtp)/colSums(etp*etp)
+    return(SR)
 }
 
 #' @eval get_description('plsr_prediction_plot')
