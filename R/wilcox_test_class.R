@@ -146,8 +146,9 @@ setMethod(f="model.apply",
             D=predicted(FF)
 
             # check equal numbers per class. if not equal then exclude.
-            out=FF$count[,1]!=FF$count[,2]
-            D$data=D$data[,!out]
+            IN=rownames(FF$count)[(FF$count[,1]==FF$count[,2]) & (FF$count[,1]>2) & (FF$count[,2]>2)]
+            D$data=D$data[,IN]
+            D$variable_meta=D$variable_meta[IN,]
         }
 
 
