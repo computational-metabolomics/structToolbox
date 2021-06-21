@@ -127,9 +127,6 @@ setMethod(f="model_train",
         Z=as.data.frame(z)
         colnames(Z)=as.character(interaction('PLSDA',colnames(Z)))
         
-        output_value(M,'design_matrix')=Z
-        output_value(M,'y')=D$sample_meta
-        
         D$sample_meta=cbind(D$sample_meta,Z)
         
         # PLSR model
@@ -138,6 +135,10 @@ setMethod(f="model_train",
         
         # copy outputs across
         output_list(M) = output_list(N)
+        
+        # some specific outputs for PLSDA
+        output_value(M,'design_matrix')=Z
+        output_value(M,'y')=D$sample_meta[,M$factor_name,drop=FALSE]
         
         # for PLSDA compute probabilities
         probs=prob(as.matrix(M$yhat),as.matrix(M$yhat),D$sample_meta[[M$factor_name]])
@@ -166,8 +167,8 @@ setMethod(f="model_predict",
     {
         # call PLSR predict
         N=callNextMethod(M,D)
-
         SM=N$y
+        
         ## probability estimate
         # http://www.eigenvector.com/faq/index.php?id=38%7C
         p=as.matrix(N$pred)
