@@ -4,12 +4,12 @@
 \alias{pls_vip_plot}
 \title{PLSDA VIP plot}
 \usage{
-pls_vip_plot(threshold = 1, ycol, ...)
+pls_vip_plot(threshold = 1, ycol = 1, ...)
 }
 \arguments{
 \item{threshold}{(numeric, integer) The threshold for indicating significant features. The default is \code{1}.}
 
-\item{ycol}{(character, numeric, integer) The column of the Y block to be plotted.}
+\item{ycol}{(character, numeric, integer) The column of the Y block to be plotted. The default is \code{1}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }

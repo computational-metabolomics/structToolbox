@@ -4,7 +4,7 @@
 \alias{pls_regcoeff_plot}
 \title{pls_regcoeff_plot class}
 \usage{
-pls_regcoeff_plot(ycol, ...)
+pls_regcoeff_plot(ycol = 1, ...)
 }
 \arguments{
 \item{...}{additional slots and values passed to struct_class}
