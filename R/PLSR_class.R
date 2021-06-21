@@ -87,9 +87,9 @@ setMethod(f="model_train",
     definition=function(M,D)
     {
         y=D$sample_meta
-        output_value(M,'y')=D$sample_meta
-
-        y=y[,M$factor_name] # might be multiple columns (?)
+        
+        y=y[,M$factor_name,drop=FALSE] # might be multiple columns (?)
+        output_value(M,'y')=y
         
         X=as.matrix(D$data) # convert X to matrix
         y=as.matrix(y)
@@ -215,17 +215,31 @@ SelRat=function(model,X,b) {
 #' @include PLSR_class.R
 #' @examples
 #' C = plsr_prediction_plot()
-plsr_prediction_plot = function(...) {
-    out=struct::new_struct('plsr_prediction_plot',...)
+plsr_prediction_plot = function(ycol=1,...) {
+    out=struct::new_struct('plsr_prediction_plot',
+        ycol=ycol,
+        ...)
     return(out)
 }
 
 .plsr_prediction_plot<-setClass(
     "plsr_prediction_plot",
     contains='chart',
-    prototype = list(name='PLSR prediction plot',
+    slots=c(
+        ycol='entity'
+    ),
+    prototype = list(
+        name='PLSR prediction plot',
         description='A scatter plot of the true response values against the predicted values for a PLSR model.',
-        type="scatterplot"
+        type="scatterplot",
+        ycol=entity(
+            name='Y column',
+            description='The y-block column to plot',
+            type=c('numeric','integer','character'),
+            value = 1,
+            max_length = 1
+        ),
+        .params=c('ycol')
     )
 )
 
@@ -236,11 +250,11 @@ setMethod(f="chart_plot",
     definition=function(obj,dobj)
     {
         R2=r_squared()
-        R2=calculate(R2,dobj$y[,1],dobj$yhat[,1])
+        R2=calculate(R2,dobj$y[,obj$ycol],dobj$yhat[,obj$ycol])
 
-        B=data.frame(x=rep(dobj$y[,1],2),y=c(dobj$y[,1],dobj$yhat[,1]),group=rep(1:nrow(dobj$y),2))
-        A=data.frame(x=dobj$y[,1],y=dobj$yhat[,1])
-        p=ggplot(data=A,aes(x=x,y=y)) +
+        B=data.frame(x=rep(dobj$y[,obj$ycol],2),y=c(dobj$y[,obj$ycol],dobj$yhat[,obj$ycol]),group=rep(1:nrow(dobj$y),2))
+        A=data.frame(x=dobj$y[,obj$ycol],y=dobj$yhat[,obj$ycol])
+        p=ggplot(data=A,aes_string(x='x',y='y')) +
             geom_line(data=B,aes(x=x,y=y,group=group),color='#B2B2B2') +
             geom_point(color="blue") +
             geom_abline(slope=1,intercept=0,color="red")+
@@ -260,17 +274,28 @@ setMethod(f="chart_plot",
 #' @include PLSR_class.R
 #' @examples
 #' C = plsr_residual_hist()
-plsr_residual_hist = function(...) {
-    out=struct::new_struct('plsr_residual_hist',...)
+plsr_residual_hist = function(ycol=1,...) {
+    out=struct::new_struct('plsr_residual_hist',ycol=ycol,...)
     return(out)
 }
 
 .plsr_residual_hist<-setClass(
     "plsr_residual_hist",
     contains='chart',
+    slots=c(
+        ycol='entity'
+    ),
     prototype = list(name='PLSR residuals histogram',
         description='A histogram of the residuals for a PLSR model.',
-        type="histogram"
+        type="histogram",
+        ycol=entity(
+            name='Y column',
+            description='The y-block column to plot',
+            type=c('numeric','integer','character'),
+            value = 1,
+            max_length = 1
+        ),
+        .params=c('ycol')
     )
 )
 
@@ -280,7 +305,7 @@ setMethod(f="chart_plot",
     signature=c("plsr_residual_hist",'PLSR'),
     definition=function(obj,dobj)
     {
-        d=dobj$y[,1]-dobj$yhat[,1]
+        d=dobj$y[,obj$ycol]-dobj$yhat[,obj$ycol]
         bw=0.2
         n=length(d)
         nx=seq(min(d),max(d),length.out = 100)
@@ -288,7 +313,7 @@ setMethod(f="chart_plot",
 
         B=data.frame(nx,nc)
         A=data.frame(y=d)
-        p=ggplot(data=A,aes(x=y)) +
+        p=ggplot(data=A,aes_string(x='y')) +
             geom_histogram(color="#10C8CD",fill="#b2e9eb",binwidth=0.2) +
             geom_line(data=B,aes(x=nx,y=nc),color="blue") +
             scale_colour_Publication() +
@@ -306,8 +331,8 @@ setMethod(f="chart_plot",
 #' @include PLSR_class.R
 #' @examples
 #' C = plsr_qq_plot()
-plsr_qq_plot = function(...) {
-    out=struct::new_struct('plsr_qq_plot',...)
+plsr_qq_plot = function(ycol=1,...) {
+    out=struct::new_struct('plsr_qq_plot',ycol=ycol,...)
     return(out)
 }
 
@@ -315,12 +340,23 @@ plsr_qq_plot = function(...) {
 .plsr_qq_plot<-setClass(
     "plsr_qq_plot",
     contains=c('chart','stato'),
+    slots=c(
+        ycol='entity'
+    ),
     prototype = list(
         name='PLSR QQ plot',
         description=paste0('A plot of the quantiles of the residuals from a ',
         'PLSR model against the quantiles of a normal distribution.'),
         type="scatter",
-        stato_id='STATO:0000241'
+        stato_id='STATO:0000241',
+        ycol=entity(
+            name='Y column',
+            description='The y-block column to plot',
+            type=c('numeric','integer','character'),
+            value = 1,
+            max_length = 1
+        ),
+        .params=c('ycol')
     )
 )
 
@@ -331,11 +367,11 @@ setMethod(f="chart_plot",
     definition=function(obj,dobj)
     {
 
-        x=sort(dobj$y[,1]-dobj$yhat[,1])
+        x=sort(dobj$y[,obj$ycol]-dobj$yhat[,obj$ycol])
         p=seq(0,1,length.out = length(x))
         q=qnorm(p,0,sd(x))
         A=data.frame('x'=q,'y'=x)
-        p=ggplot(data=A,aes(x=x,y=y)) +
+        p=ggplot(data=A,aes_string(x='x',y='y')) +
             geom_point(color="blue")+
             geom_abline(slope=1,intercept=0,color="red")+
 
@@ -354,20 +390,32 @@ setMethod(f="chart_plot",
 #' @include PLSR_class.R
 #' @examples
 #' C = plsr_cook_dist()
-plsr_cook_dist = function(...) {
-    out=struct::new_struct('plsr_cook_dist',...)
+plsr_cook_dist = function(ycol=1,...) {
+    out=struct::new_struct('plsr_cook_dist',ycol=ycol,...)
     return(out)
 }
 
 .plsr_cook_dist<-setClass(
     "plsr_cook_dist",
     contains='chart',
-    prototype = list(name="Cook's distance barchart",
+    slots=c(
+        ycol='entity'
+    ),
+    prototype = list(
+        name="Cook's distance barchart",
         description=paste0("A barchart of Cook's distance for each sample ",
         "used to train a PLSR model. Cook's distance is used to estimate the ",
         "influence of a sample on the model and can be used to identify ",
         "potential outliers."),
-        type="barchart"
+        type="barchart",
+        ycol=entity(
+            name='Y column',
+            description='The y-block column to plot',
+            type=c('numeric','integer','character'),
+            value = 1,
+            max_length = 1
+        ),
+        .params=c('ycol')
     )
 )
 
@@ -377,7 +425,7 @@ setMethod(f="chart_plot",
     signature=c("plsr_cook_dist",'PLSR'),
     definition=function(obj,dobj) {
         # residual
-        e=as.matrix(dobj$y-dobj$yhat)^2 # e^2
+        e=as.matrix(dobj$y[,obj$ycol]-dobj$yhat[,obj$ycol])^2 # e^2
 
         # leverage
         T=as.matrix(dobj$scores)
@@ -388,11 +436,11 @@ setMethod(f="chart_plot",
         # cook distance
         CD=(e/(s2*ncol(T)))*(H/((1-H)^2))
 
-        A=data.frame(x=seq_len(length(CD)),y=CD)
-        p=ggplot(data=A,aes(x=x,y=y)) +
+        A=data.frame(x=seq_len(length(CD)),y=CD[,1])
+        p=ggplot(data=A,aes_string(x='x',y='y')) +
             geom_col(width=1,color="black",fill='#B2B2B2')+
-            scale_colour_Publication() +
-            theme_Publication(base_size = 12) +
+            structToolbox:::scale_colour_Publication() +
+            structToolbox:::theme_Publication(base_size = 12) +
             xlab('Sample number')+
             ylab('Cook\'s distance')+
             geom_hline(yintercept=4/(nrow(T)-ncol(T)),color='red')

@@ -321,7 +321,7 @@ setMethod(f="chart_plot",
 #'
 #' C = pls_vip_plot(ycol='setosa')
 #' chart_plot(C,M[2])
-pls_vip_plot = function(threshold=1,ycol,...) {
+pls_vip_plot = function(threshold=1,ycol=1,...) {
     out=struct::new_struct('pls_vip_plot',
         threshold = threshold,
         ycol=ycol,
@@ -341,7 +341,7 @@ pls_vip_plot = function(threshold=1,ycol,...) {
         description='A plot of the Variable Importance for Projection (VIP) scores for a PLSDA model.',
         type="scatter",
         libraries=c('pls','ggplot2'),
-        .params=c('threshold','level'),
+        .params=c('threshold','ycol'),
         
         threshold = entity(
             name = 'VIP threshold',
@@ -402,8 +402,8 @@ setMethod(f="chart_plot",
 #'
 #' C = pls_regcoeff_plot(ycol='setosa')
 #' chart_plot(C,M[2])
-pls_regcoeff_plot = function(ycol,...) {
-    out=struct::new_struct('plsda_regcoeff_plot',
+pls_regcoeff_plot = function(ycol=1,...) {
+    out=struct::new_struct('pls_regcoeff_plot',
         ycol=ycol,
         ...)
     return(out)
