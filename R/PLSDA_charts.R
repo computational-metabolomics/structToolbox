@@ -390,7 +390,7 @@ setMethod(f="chart_plot",
 #'
 #' Plots the regression coefficients of a PLSDA model.
 #'
-#' @param level the group label to plot regression coefficients for
+#' @eval get_description('pls_regcoeff_plot')
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
 #' @export pls_regcoeff_plot
