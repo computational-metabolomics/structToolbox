@@ -1,3 +1,6 @@
+Changes 1.4.1
++ fix broken ttest and wilcoxon test when paired = TRUE
+
 Changes 1.4.0
 + added VIP summary chart
 + add ellipse plotting options to pca_scores_plot

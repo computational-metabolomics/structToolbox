@@ -121,41 +121,27 @@ setMethod(f="model_apply",
                 if (ng != 2) {
                     out=c(out,k)
                 }
-
+                
             }
-            D$data=D$data[!(D$sample_meta[[M$paired_factor]] %in% out),]
-            D$sample_meta=D$sample_meta[!(D$sample_meta[[M$paired_factor]] %in% out),]
+            #D$data=D$data[!(D$sample_meta[[M$paired_factor]] %in% out),]
+            #D$sample_meta=D$sample_meta[!(D$sample_meta[[M$paired_factor]] %in% out),]
+            D=D[!(D$sample_meta[[M$paired_factor]] %in% out),]
             y=D$sample_meta[[M$factor_names]]
-
+            
             # sort the data by sample id so that theyre in the right order for paired ttest
-            X=apply(D$data,2,function(x) {
-                a=x[y==L[1]]
-                b=x[y==L[2]]
-                ay=y[y==L[1]]
-                by=y[y==L[2]]
-                a=a[order(ay)]
-                b=b[order(by)]
-                return(c(a,b))
-            })
-
-            # put back into DatasetExperiment object
-            D$data=as.data.frame(X)
-            D$sample_meta[[M$factor_names]]=D$sample_meta[[M$factor_names]][order(D$sample_meta[[M$paired_factor]])]
-            D$sample_meta[[M$paired_factor]]=D$sample_meta[[M$paired_factor]][order(D$sample_meta[[M$paired_factor]])]
-            y=D$sample_meta[[M$factor_names]]
-
+            temp=D$sample_meta[order(D$sample_meta[[M$factor_names]],D$sample_meta[[M$paired_factor]]),]
+            D=D[rownames(temp),]
+            
             # check number per class
             # if less then 2 then remove
             FF=filter_na_count(threshold=2,factor_name=M$factor_names)
             FF=model_apply(FF,D)
             D=predicted(FF)
-
+            
             # check equal numbers per class. if not equal then exclude.
-            out=FF$count[,1]!=FF$count[,2]
-            D$data=D$data[,!out]
+            IN=rownames(FF$count)[(FF$count[,1]==FF$count[,2]) & (FF$count[,1]>2) & (FF$count[,2]>2)]
+            D=D[,IN]
         }
-
-
 
         X=D$data
         y=D$sample_meta[[M$factor_names]]
