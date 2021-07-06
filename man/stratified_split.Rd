@@ -14,7 +14,11 @@ stratified_split(p_train, factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{stratified_split} object.
+A  \code{stratified_split} object with the following \code{output} slots:
+\tabular{ll}{
+\code{training} \tab          (DatasetExperiment) A DatasetExperiment object containing samples selected for the training set. \cr
+\code{testing} \tab          (DatasetExperiment) A DatasetExperiment object containing samples selected for the testing set. \cr
+}
 }
 \description{
 The dataset is divided into two subsets. A predefined proportion of samples from each level of a factor is selected for the training set, and the remaining samples are used for the test set. The stratification by factor level means that the relative number of samples per level is approximately equal to the original dataset.

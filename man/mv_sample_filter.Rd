@@ -12,7 +12,12 @@ mv_sample_filter(mv_threshold = 20, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{mv_sample_filter} object.
+A  \code{mv_sample_filter} object with the following \code{output} slots:
+\tabular{ll}{
+\code{filtered} \tab          (DatasetExperiment) A DatasetExperiment object containing the filtered data. \cr
+\code{flags} \tab          (data.frame) A flag indicating whether the sample was rejected. 0 = rejected. \cr
+\code{percent_missing} \tab          (data.frame) % missing values for each sample. \cr
+}
 }
 \description{
 Filters samples by removing those where the percent number of missing values exceeds a predefined threshold.
@@ -24,7 +29,8 @@ This object makes use of functionality from the following packages:\itemize{\ite
 C = mv_sample_filter()
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (????).
-\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.3.5.
+Jankevics A, Lloyd GR, Weber RJM (2021).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.4.0.
 }

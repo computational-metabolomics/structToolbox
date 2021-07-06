@@ -30,7 +30,11 @@ pqn_norm(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{pqn_norm} object.
+A  \code{pqn_norm} object with the following \code{output} slots:
+\tabular{ll}{
+\code{normalised} \tab          (DatasetExperiment) A DatasetExperiment object containing the normalised data. \cr
+\code{coeff} \tab          (data.frame) The normalisation coefficients calculated by PQN. \cr
+}
 }
 \description{
 PQN is used to normalise for differences in concentration between samples. It makes use of Quality Control (QC) samples as a reference. PQN scales by the median change relative to the reference in order to be more robust against changes caused by response to perturbation.
@@ -45,7 +49,8 @@ M = model_apply(M,D)
 
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (????).
-\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.3.5.
+Jankevics A, Lloyd GR, Weber RJM (2021).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.4.0.
 }

@@ -16,7 +16,11 @@ glog_transform(qc_label = "QC", factor_name, lambda = NULL, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{glog_transform} object.
+A  \code{glog_transform} object with the following \code{output} slots:
+\tabular{ll}{
+\code{transformed} \tab          (DatasetExperiment) A DatasetExperiment object containing the glog transformed data. \cr
+\code{error_flag} \tab          (logical) A logical indicating whether the glog optimisation for lambda was successful. If not then PMP returns a default value for lambda. \cr
+}
 }
 \description{
 The generalised logarithm (glog) transformation applies a log transformation while applying an offset to account for technical variation.
@@ -30,9 +34,10 @@ M = glog_transform(qc_label='versicolor',factor_name='Species')
 M = model_apply(M,D)
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (????).
-\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.3.5.
+Jankevics A, Lloyd GR, Weber RJM (2021).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.4.0.
 
 Durbin B, Hardin J, Hawkins D, Rocke D (2002).
 ``A variance-stabilizing transformation for gene-expression microarray data.''

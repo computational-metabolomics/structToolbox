@@ -18,7 +18,12 @@ ANOVA(alpha = 0.05, mtc = "fdr", formula, ss_type = "III", ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{ANOVA} object.
+A  \code{ANOVA} object with the following \code{output} slots:
+\tabular{ll}{
+\code{f_statistic} \tab          (data.frame) The value of the calculated statistic. \cr
+\code{p_value} \tab          (data.frame) The probability of observing the calculated statistic if the null hypothesis is true. \cr
+\code{significant} \tab          (data.frame) True/False indicating whether the p-value computed for each variable is less than the threshold. \cr
+}
 }
 \description{
 Analysis of Variance (ANOVA) is a univariate method used to analyse the difference among group means. Multiple test corrected p-values are computed to indicate significance for each feature.

@@ -37,7 +37,11 @@ leave-one-out cross-validation. The default is \code{0}.}
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{sb_corr} object.
+A  \code{sb_corr} object with the following \code{output} slots:
+\tabular{ll}{
+\code{corrected} \tab          (DatasetExperiment) The DatasetExperiment after signal/batch correction has been applied. \cr
+\code{fitted} \tab          (data.frame) The fitted splines for each feature. \cr
+}
 
 struct object
 }
@@ -51,9 +55,10 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = sb_corr(order_col='run_order',batch_col='batch_no',qc_col='class')
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (????).
-\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.3.5.
+Jankevics A, Lloyd GR, Weber RJM (2021).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.4.0.
 
 Kirwan JA, Broadhurst DI, Davidson RL, Viant MR (2013).
 ``Characterising and correcting batch variation in an automated direct infusion mass spectrometry (DIMS) metabolomics workflow.''

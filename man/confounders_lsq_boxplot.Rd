@@ -12,7 +12,10 @@ confounders_lsq_boxplot(threshold = 10, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{confounders_lsq_boxplot} object.
+A  \code{
+confounders_lsq_boxplot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A boxplot of the relative change (delta) in regression coefficient when potential confounding factors are included, and excluded, from the model. Factors with a large delta are considered to be confounding factors.

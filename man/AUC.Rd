@@ -10,7 +10,9 @@ AUC(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{AUC} object.
+A  \code{
+AUC
+} object. This object has no \code{output} slots.
 }
 \description{
 The area under the ROC curve of a classifier is estimated using the trapezoid method.

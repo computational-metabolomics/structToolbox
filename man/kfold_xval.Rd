@@ -16,7 +16,13 @@ kfold_xval(folds = 10, method = "venetian", factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{kfold_xval} object.
+A  \code{kfold_xval} object with the following \code{output} slots:
+\tabular{ll}{
+\code{results} \tab          (data.frame)  \cr
+\code{metric} \tab          (data.frame)  \cr
+\code{metric.train} \tab          (numeric)  \cr
+\code{metric.test} \tab          (numeric)  \cr
+}
 }
 \description{
 k-fold cross-validation is an iterative approach applied to validate models. The samples are divided into k "folds", or subsets. Each subset is excluded from model training and used for model validation once, resulting in a single left-out prediction for each sample. Model performance metrics are then computed for the training and test sets across all folds.

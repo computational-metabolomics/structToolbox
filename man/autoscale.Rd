@@ -12,7 +12,14 @@ autoscale(mode = "data", ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{autoscale} object.
+A  \code{autoscale} object with the following \code{output} slots:
+\tabular{ll}{
+\code{autoscaled} \tab          (DatasetExperiment)  \cr
+\code{mean_data} \tab          (numeric)  \cr
+\code{sd_data} \tab          (numeric)  \cr
+\code{mean_sample_meta} \tab          (numeric)  \cr
+\code{sd_sample_meta} \tab          (numeric)  \cr
+}
 }
 \description{
 Each variable/feature is mean centred and scaled by the standard deviation. The transformed variables have zero-mean and unit-variance.

@@ -14,7 +14,10 @@ plsda_vip_plot(threshold = 1, level, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{plsda_vip_plot} object.
+A  \code{
+plsda_vip_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A plot of the Variable Importance for Projection (VIP) scores for a PLSDA model.

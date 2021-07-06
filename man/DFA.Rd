@@ -14,7 +14,13 @@ DFA(factor_name, number_components = 2, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{DFA} object.
+A  \code{DFA} object with the following \code{output} slots:
+\tabular{ll}{
+\code{scores} \tab          (DatasetExperiment)  \cr
+\code{loadings} \tab          (data.frame)  \cr
+\code{eigenvalues} \tab          (data.frame)  \cr
+\code{that} \tab          (DatasetExperiment)  \cr
+}
 }
 \description{
 Discriminant Factor Analysis (DFA) is a supervised classification method. Using a linear combination of the input variables, DFA finds new orthogonal axes (canonical values) to minimize the variance within each given class and maximize variance between classes.

@@ -34,7 +34,14 @@ SVM(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{SVM} object.
+A  \code{SVM} object with the following \code{output} slots:
+\tabular{ll}{
+\code{SV} \tab          (matrix)  \cr
+\code{index} \tab          (numeric)  \cr
+\code{coefs} \tab          (matrix)  \cr
+\code{pred} \tab          (data.frame)  \cr
+\code{decision_values} \tab          (data.frame)  \cr
+}
 
 struct object
 }
@@ -51,7 +58,7 @@ M = SVM(factor_name='Species',gamma=1)
 Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2021).
 \emph{e1071: Misc Functions of the Department of Statistics, Probability
 Theory Group (Formerly: E1071), TU Wien}.
-R package version 1.7-6, \url{https://CRAN.R-project.org/package=e1071}.
+R package version 1.7-7, \url{https://CRAN.R-project.org/package=e1071}.
 
 Brereton RG, Lloyd GR (2010).
 ``Support Vector Machines for classification and regression.''

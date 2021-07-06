@@ -18,7 +18,12 @@ corr_coef(alpha = 0.05, mtc = "fdr", factor_names, method = "spearman", ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{corr_coef} object.
+A  \code{corr_coef} object with the following \code{output} slots:
+\tabular{ll}{
+\code{coeff} \tab          (data.frame) The value of the calculate statistics which is converted to a p-value when compared to a t-distribution. \cr
+\code{p_value} \tab          (data.frame) The probability of observing the calculated statistic if the null hypothesis is true. \cr
+\code{significant} \tab          (data.frame) True/False indicating whether the p-value computed for each variable is less than the threshold. \cr
+}
 }
 \description{
 The correlation between features and a set of continuous factor are calculated. Multiple-test corrected p-values are used to indicate whether the computed coefficients may have occurred by chance.

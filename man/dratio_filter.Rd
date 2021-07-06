@@ -16,7 +16,12 @@ dratio_filter(threshold = 20, qc_label = "QC", factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{dratio_filter} object.
+A  \code{dratio_filter} object with the following \code{output} slots:
+\tabular{ll}{
+\code{filtered} \tab          (DatasetExperiment) A DatasetExperiment object containing the filtered data. \cr
+\code{flags} \tab          (data.frame) Flag indicating whether the feature was rejected by the filter or not. \cr
+\code{d_ratio} \tab          (data.frame)  \cr
+}
 }
 \description{
 The dispersion ratio (d-ratio) compares the standard deviation (or non-parametric equivalent) of the Quality Control (QC) samples relative to the standard deviation (or non-parametric equivalent) of the samples for each feature. If the d-ratio is greater than a predefined threshold then the observed sample variance could be due to technical variance and the feature is removed.

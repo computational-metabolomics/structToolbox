@@ -16,7 +16,11 @@ HSDEM(alpha = 0.05, mtc = "fdr", formula, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{HSDEM} object.
+A  \code{HSDEM} object with the following \code{output} slots:
+\tabular{ll}{
+\code{p_value} \tab          (data.frame) The probability of observing the calculated statistic if the null hypothesis is true. \cr
+\code{significant} \tab          (data.frame) True/False indicating whether the p-value computed for each variable is less than the threshold. \cr
+}
 }
 \description{
 Tukey's HSD post hoc test is a modified t-test applied for all features to all pairs of levels in a factor. It is used to determine which groups are different (if any). A multiple test corrected p-value is computed to indicate which groups are significantly different to the others for each feature. For mixed effects models estimated marginal means are used.
@@ -34,7 +38,7 @@ M = model_apply(M,D)
 \references{
 Lenth R (2021).
 \emph{emmeans: Estimated Marginal Means, aka Least-Squares Means}.
-R package version 1.5.5-1, \url{https://CRAN.R-project.org/package=emmeans}.
+R package version 1.6.1, \url{https://CRAN.R-project.org/package=emmeans}.
 
 Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team (2021).
 \emph{nlme: Linear and Nonlinear Mixed Effects Models}.

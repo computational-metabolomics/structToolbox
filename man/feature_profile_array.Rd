@@ -33,7 +33,10 @@ feature_profile_array(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{feature_profile_array} object.
+A  \code{
+feature_profile_array
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A plot visualising the change in intensity of a feature with a continuous variable such as time, dose, or run order.

@@ -10,7 +10,10 @@ plsr_cook_dist(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{plsr_cook_dist} object.
+A  \code{
+plsr_cook_dist
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A barchart of Cook's distance for each sample used to train a PLSR model. Cook's distance is used to estimate the influence of a sample on the model and can be used to identify potential outliers.
