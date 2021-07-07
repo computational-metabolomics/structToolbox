@@ -18,7 +18,14 @@ HSD(alpha = 0.05, mtc = "fdr", formula, unbalanced = FALSE, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{HSD} object.
+A  \code{HSD} object with the following \code{output} slots:
+\tabular{ll}{
+\code{difference} \tab          (data.frame)  \cr
+\code{UCL} \tab          (data.frame)  \cr
+\code{LCL} \tab          (data.frame)  \cr
+\code{p_value} \tab          (data.frame) The probability of observing the calculated statistic if the null hypothesis is true. \cr
+\code{significant} \tab          (data.frame) True/False indicating whether the p-value computed for each variable is less than the threshold. \cr
+}
 }
 \description{
 Tukey's HSD post hoc test is a modified t-test applied for all features to all pairs of levels in a factor. It is used to determine which groups are different (if any). A multiple test corrected p-value is computed to indicate which groups are significantly different to the others for each feature.
@@ -32,7 +39,7 @@ M = HSD(formula=y~Species)
 M = model_apply(M,D)
 }
 \references{
-de Mendiburu F (2020).
+de Mendiburu F (2021).
 \emph{agricolae: Statistical Procedures for Agricultural Research}.
-R package version 1.3-3, \url{https://CRAN.R-project.org/package=agricolae}.
+R package version 1.3-5, \url{https://CRAN.R-project.org/package=agricolae}.
 }

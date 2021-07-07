@@ -14,7 +14,11 @@ pairs_filter(factor_name, sample_id, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{pairs_filter} object.
+A  \code{pairs_filter} object with the following \code{output} slots:
+\tabular{ll}{
+\code{filtered} \tab          (DatasetExperiment) A DatasetExperiment object after the filter has been applied. \cr
+\code{flags} \tab          (data.frame) A data.frame indicating whether features were filtered from the DatasetExperiment. \cr
+}
 
 struct object
 }

@@ -33,7 +33,13 @@ fold_change(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{fold_change} object.
+A  \code{fold_change} object with the following \code{output} slots:
+\tabular{ll}{
+\code{fold_change} \tab          (data.frame) The fold change between groups. \cr
+\code{lower_ci} \tab          (data.frame) Lower confidence interval for fold change. \cr
+\code{upper_ci} \tab          (data.frame) Upper confidence interval for fold change. \cr
+\code{significant} \tab          (data.frame) A logical indictor of whether the fold change for a feature is greater than the threshold. \cr
+}
 }
 \description{
 Fold change is the relative change in mean (or non-parametric equivalent) intensities of a feature between all pairs of levels in a factor.

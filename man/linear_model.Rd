@@ -16,7 +16,16 @@ linear_model(formula, na_action = "na.omit", contrasts = list(), ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{linear_model} object.
+A  \code{linear_model} object with the following \code{output} slots:
+\tabular{ll}{
+\code{lm} \tab          (lm) The lm object for this model_. \cr
+\code{coefficients} \tab          (numeric) The coefficients for the fitted model_. \cr
+\code{residuals} \tab          (numeric) The residuals for the fitted model_. \cr
+\code{fitted_values} \tab          (numeric) The fitted values for the data used to train the model_. \cr
+\code{predicted_values} \tab          (numeric) The predicted values for new data using the fitted model_. \cr
+\code{r_squared} \tab          (numeric) The value of R Squared for the fitted model_. \cr
+\code{adj_r_squared} \tab          (numeric) The value ofAdjusted  R Squared for the fitted model_. \cr
+}
 }
 \description{
 Linear models can be used to carry out regression, single stratum analysis of variance and analysis of covariance.

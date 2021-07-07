@@ -16,7 +16,12 @@ prop_na(alpha = 0.05, mtc = "fdr", factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{prop_na} object.
+A  \code{prop_na} object with the following \code{output} slots:
+\tabular{ll}{
+\code{p_value} \tab          (data.frame) The probability of observing the calculated statistic. \cr
+\code{significant} \tab          (data.frame) TRUE if the calculated p-value is less than the supplied threshold (alpha). \cr
+\code{na_count} \tab          (data.frame) The number of NA values per group of the chosen factor. \cr
+}
 
 struct object
 }

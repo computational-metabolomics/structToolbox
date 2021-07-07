@@ -347,12 +347,10 @@ setMethod(f="model_apply",
             M$fold_change = as.data.frame(FC)
             M$lower_ci = as.data.frame(LCI)
             M$upper_ci = as.data.frame(UCI)
-            M$significant=as.data.frame((UCI < (-(M$threshold))) | (LCI>(M$threshold)))
+            M$significant=as.data.frame((UCI < (-M$threshold)) | (LCI>(M$threshold)))
         }
         
-        
         colnames(M$significant)=comp
-        
         return(M)
     }
 )

@@ -24,7 +24,12 @@ HCA(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{HCA} object.
+A  \code{HCA} object with the following \code{output} slots:
+\tabular{ll}{
+\code{dist_matrix} \tab          (dist) An object containing pairwise distance information between samples. \cr
+\code{hclust} \tab          (hclust) An object of class hclust which describes the tree produced by the clustering process. \cr
+\code{factor_df} \tab          (data.frame)  \cr
+}
 }
 \description{
 Hierarchical Cluster Analysis is a numerical technique that uses agglomerative clustering to identify clusters or groupings of samples.

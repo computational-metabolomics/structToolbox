@@ -27,7 +27,12 @@ grid_search_1d(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{grid_search_1d} object.
+A  \code{grid_search_1d} object with the following \code{output} slots:
+\tabular{ll}{
+\code{results} \tab          (data.frame)  \cr
+\code{metric} \tab          (data.frame)  \cr
+\code{optimum_value} \tab          (numeric)  \cr
+}
 }
 \description{
 A one dimensional grid search calculates a performance metric for a model at evenly spaced values for a model input parameter. The "optimum" value for the parameter is suggested as the one which maximises performance, or minimises error (whichever is appropriate for the chosen metric)

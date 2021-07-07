@@ -15,7 +15,10 @@ a list of column numbers. The default is \code{20}.}
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{fold_change_plot} object.
+A  \code{
+fold_change_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A plot of fold changes calculated for a chosen subset of features. A predefined fold change threshold is indicated by shaded regions.

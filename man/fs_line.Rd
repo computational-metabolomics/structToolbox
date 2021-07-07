@@ -10,7 +10,10 @@ fs_line(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{fs_line} object.
+A  \code{
+fs_line
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A line plot for forward selection. The computed model performance metric is plotted against the number of features included in the model.

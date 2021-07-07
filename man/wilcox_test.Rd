@@ -27,7 +27,15 @@ wilcox_test(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{wilcox_test} object.
+A  \code{wilcox_test} object with the following \code{output} slots:
+\tabular{ll}{
+\code{statistic} \tab          (numeric) The value of the calculated statistic which is converted to a p-value. \cr
+\code{p_value} \tab          (numeric) The probability of observing the calculated t-statistic. \cr
+\code{dof} \tab          (numeric) The number of degrees of freedom used to calculate the test statistic. \cr
+\code{significant} \tab          (logical) TRUE if the calculated p-value is less than the supplied threhold (alpha). \cr
+\code{conf_int} \tab          (data.frame) Confidence interval for t statistic. \cr
+\code{estimates} \tab          (data.frame)  \cr
+}
 
 struct object
 }

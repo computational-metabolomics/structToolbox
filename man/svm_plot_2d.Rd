@@ -14,7 +14,10 @@ svm_plot_2d(factor_name, npoints = 100, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{svm_plot_2d} object.
+A  \code{
+svm_plot_2d
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A scatter plot of the input data by group and the calculated boundary of a SVM model.
@@ -37,5 +40,5 @@ chart_plot(C,M[4],predicted(M[3]))
 Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2021).
 \emph{e1071: Misc Functions of the Department of Statistics, Probability
 Theory Group (Formerly: E1071), TU Wien}.
-R package version 1.7-6, \url{https://CRAN.R-project.org/package=e1071}.
+R package version 1.7-7, \url{https://CRAN.R-project.org/package=e1071}.
 }

@@ -33,7 +33,15 @@ ttest(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{ttest} object.
+A  \code{ttest} object with the following \code{output} slots:
+\tabular{ll}{
+\code{t_statistic} \tab          (numeric) The value of the calculate statistics which is converted to a p-value when compared to a t-distribution. \cr
+\code{p_value} \tab          (numeric) The probability of observing the calculated t-statistic. \cr
+\code{dof} \tab          (numeric) The number of degrees of freedom used to calculate the test statistic. \cr
+\code{significant} \tab          (logical) TRUE if the calculated p-value is less than the supplied threhold (alpha). \cr
+\code{conf_int} \tab          (data.frame) Confidence interval for t statistic. \cr
+\code{estimates} \tab          (data.frame)  \cr
+}
 }
 \description{
 A t-test compares the means of two factor levels. Multiple-test corrected p-values are used to indicate the significance of the computed difference for all features.

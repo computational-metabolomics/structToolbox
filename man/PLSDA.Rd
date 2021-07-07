@@ -14,7 +14,20 @@ PLSDA(number_components = 2, factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{PLSDA} object.
+A  \code{PLSDA} object with the following \code{output} slots:
+\tabular{ll}{
+\code{scores} \tab          (data.frame)  \cr
+\code{loadings} \tab          (data.frame)  \cr
+\code{yhat} \tab          (data.frame)  \cr
+\code{design_matrix} \tab          (data.frame)  \cr
+\code{y} \tab          (data.frame)  \cr
+\code{reg_coeff} \tab          (data.frame)  \cr
+\code{probability} \tab          (data.frame)  \cr
+\code{vip} \tab          (data.frame)  \cr
+\code{pls_model} \tab          (list)  \cr
+\code{pred} \tab          (data.frame)  \cr
+\code{threshold} \tab          (numeric)  \cr
+}
 }
 \description{
 PLS is a multivariate regression technique that extracts latent variables maximising covariance between the input data and the response. The Discriminant Analysis variant uses group labels in the response variable and applies a threshold to the predicted values in order to predict group membership for new samples.

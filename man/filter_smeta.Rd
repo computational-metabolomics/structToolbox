@@ -16,7 +16,10 @@ filter_smeta(mode = "include", levels, factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{filter_smeta} object.
+A  \code{filter_smeta} object with the following \code{output} slots:
+\tabular{ll}{
+\code{filtered} \tab          (DatasetExperiment)  \cr
+}
 }
 \description{
 The data is filtered by so that the named levels of a factor are included/excluded from the dataset.

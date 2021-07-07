@@ -10,7 +10,9 @@ balanced_accuracy(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{balanced_accuracy} object.
+A  \code{
+balanced_accuracy
+} object. This object has no \code{output} slots.
 }
 \description{
 Balanced Accuracy is the average proportion of correctly classified samples across all groups.

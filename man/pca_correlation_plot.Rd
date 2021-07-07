@@ -12,7 +12,10 @@ pca_correlation_plot(components = c(1, 2), ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{pca_correlation_plot} object.
+A  \code{
+pca_correlation_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A plot of the correlation between the variables/features and the selected principal component scores. Features with high correlation are well represented by the selected component(s)

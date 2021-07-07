@@ -14,7 +14,10 @@ plsda_predicted_plot(factor_name, style = "boxplot", ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{plsda_predicted_plot} object.
+A  \code{
+plsda_predicted_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A plot of the regression coefficients from a PLSDA model.

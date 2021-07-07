@@ -27,7 +27,14 @@ confounders_clsq(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{confounders_clsq} object.
+A  \code{confounders_clsq} object with the following \code{output} slots:
+\tabular{ll}{
+\code{coefficients} \tab          (data.frame)  \cr
+\code{p_value} \tab          (data.frame)  \cr
+\code{significant} \tab          (data.frame)  \cr
+\code{percent_change} \tab          (data.frame)  \cr
+\code{potential_confounders} \tab          (list)  \cr
+}
 }
 \description{
 Univariate least squares regression models are used to compare models with and without potential confounding factors included. The change in coefficients (delta) is then computed for each potential confounding factor. Factors with a large delta are said to be having a large impact on the model and are therefore confounding. p-values are computed for models with confounders included to reduce potential false positives. Only suitable for main factors with 2 levels.

@@ -27,7 +27,13 @@ fold_change_int(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{fold_change_int} object.
+A  \code{fold_change_int} object with the following \code{output} slots:
+\tabular{ll}{
+\code{fold_change} \tab          (data.frame) The fold change between groups. \cr
+\code{lower_ci} \tab          (data.frame) Lower confidence interval for fold change. \cr
+\code{upper_ci} \tab          (data.frame) Upper confidence interval for fold change. \cr
+\code{significant} \tab          (data.frame) A logical indictor of whether the fold change for a feature is greater than the threshold. \cr
+}
 }
 \description{
 For more than one factor the fold change calculation is extended to include all combinations of levels (interactions) of all factors. Paired fold changes are not possible for this computation.

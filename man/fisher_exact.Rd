@@ -18,7 +18,11 @@ fisher_exact(alpha = 0.05, mtc = "fdr", factor_name, factor_pred, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{fisher_exact} object.
+A  \code{fisher_exact} object with the following \code{output} slots:
+\tabular{ll}{
+\code{p_value} \tab          (data.frame) The probability of observing the calculated statistic if the null hypothesis is true. \cr
+\code{significant} \tab          (data.frame) True/False indicating whether the p-value computed for each variable is less than the threshold. \cr
+}
 }
 \description{
 A fisher exact test is used to analyse contingency tables by comparing the number of correctly/incorrectly predicted group labels. A multiple test corrected p-value indicates whether the number of measured values is significantly different between groups.

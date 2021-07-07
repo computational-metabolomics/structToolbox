@@ -14,7 +14,12 @@ permutation_test(number_of_permutations = 50, factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{permutation_test} object.
+A  \code{permutation_test} object with the following \code{output} slots:
+\tabular{ll}{
+\code{results.permuted} \tab          (data.frame)  \cr
+\code{results.unpermuted} \tab          (data.frame)  \cr
+\code{metric} \tab          (data.frame)  \cr
+}
 }
 \description{
 A permutation test generates a "null" model by randomising the response (for regression models) or group labels (for classification models). This is repeated many times to generate a distribution of performance metrics for the null model. This distribution can then be compared to the performance of the true model. If there is overlap between the true and null model performances then the model is overfitted.
