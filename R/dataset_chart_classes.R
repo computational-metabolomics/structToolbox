@@ -685,8 +685,10 @@ setMethod(f="chart_plot",
     definition=function(obj,dobj)
     {
         X=reshape2::melt(as.matrix(dobj$data))
-        colnames(X)=c('Sample','Feature','Peak area')
-        p=ggplot(data=X,aes(x=`Feature`,y=`Sample`,fill=`Peak area`)) + geom_raster() +
+        colnames(X)=c('Sample','Feature','peak_area')
+        X$Feature=as.character(X$Feature)
+        X$Sample=as.character(X$Sample)
+        p=ggplot(data=X,aes_string(x='Feature',y='Sample',fill='peak_area')) + geom_raster() +
             scale_colour_Publication()+
             theme_Publication(base_size = 12)+
             scale_fill_viridis_c(na.value=obj$na_colour)+
