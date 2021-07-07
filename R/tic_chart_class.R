@@ -75,8 +75,7 @@ setMethod(f="chart_plot",
               xlab('Run order') +
               ylab('Total peak area') +
               scale_colour_manual(values=clrs$manual_colors,name=obj$factor_name) +
-              theme_Publication(base_size = 12) +
-              theme(legend.position="none")
+              theme_Publication(base_size = 12) 
           
           return(g)
           
