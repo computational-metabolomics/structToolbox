@@ -11,6 +11,7 @@ ttest(
   paired = FALSE,
   paired_factor = character(0),
   equal_variance = FALSE,
+  conf_level = 0.95,
   ...
 )
 }
@@ -26,6 +27,8 @@ ttest(
 \item{paired_factor}{(character) The factor name that encodes the sample id for pairing. The default is \code{character(0)}.}
 
 \item{equal_variance}{(logical) Equal variance. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The variance of each group is treated as being equal using the pooled variance to estimate the variance.}\item{\code{"FALSE"}: The variance of each group is not assumed to be equal and the Welch (or Satterthwaite) approximation is used.}} The default is \code{FALSE}.}
+
+\item{conf_level}{(numeric) The confidence level of the interval. The default is \code{0.95}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }

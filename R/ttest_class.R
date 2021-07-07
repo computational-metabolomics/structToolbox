@@ -10,6 +10,7 @@ ttest = function(
     paired=FALSE,
     paired_factor=character(0),
     equal_variance=FALSE,
+    conf_level=0.95,
     ...) {
     out=struct::new_struct('ttest',
         alpha=alpha,
@@ -18,6 +19,7 @@ ttest = function(
         paired=paired,
         paired_factor=paired_factor,
         equal_variance=equal_variance,
+        conf_level=conf_level,
         ...)
     return(out)
 }
@@ -34,6 +36,7 @@ ttest = function(
         paired='entity',
         paired_factor='entity',
         equal_variance='entity',
+        conf_level='entity',
         # OUTPUTS
         t_statistic='entity_stato',
         p_value='entity',
@@ -49,7 +52,7 @@ ttest = function(
         type="univariate",
         predicted='p_value',
         stato_id="STATO:0000304",
-        .params=c('alpha','mtc','factor_names','paired','paired_factor','equal_variance'),
+        .params=c('alpha','mtc','factor_names','paired','paired_factor','equal_variance','conf_level'),
         .outputs=c('t_statistic','p_value','dof','significant','conf_int','estimates'),
 
         factor_names=ents$factor_names,
@@ -103,6 +106,13 @@ ttest = function(
         conf_int=entity(name='Confidence interval',
             type='data.frame',
             description='confidence interval for t statistic'
+        ),
+        conf_level = entity(
+            name = 'Confidence level',
+            description = 'The confidence level of the interval.',
+            type='numeric',
+            value=0.95,
+            max_length = 1
         )
     )
 )
@@ -183,7 +193,8 @@ setMethod(f="model_apply",
                         x[y==L[1]],
                         x[y==L[2]],
                         paired = M$paired,
-                        var.equal=M$equal_variance
+                        var.equal=M$equal_variance,
+                        conf.level=M$conf_level
                    )[c("statistic","p.value","parameter",'conf.int','estimate')]
                 )
                 return(g)

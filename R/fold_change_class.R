@@ -6,23 +6,23 @@
 #' @import stats
 #' @export fold_change
 fold_change = function(
-    alpha=0.05,
     factor_name,
     paired=FALSE,
     sample_name=character(0),
     threshold=2,
     control_group=character(0),
     method = "geometric",
+    conf_level = 0.95,
     ...) {
     
     out=struct::new_struct('fold_change',
-        alpha=alpha,
         factor_name=factor_name,
         paired=paired,
         sample_name=sample_name,
         threshold=threshold,
         control_group=control_group,
         method = method,
+        conf_level=conf_level,
         ...)
     
     return(out)
@@ -34,13 +34,13 @@ fold_change = function(
     contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
         factor_name='entity',
         paired='entity',
         sample_name='entity',
         threshold='entity',
         control_group='entity',
         method='entity',
+        conf_level='entity',
         
         # OUTPUTS
         fold_change='entity',
@@ -57,17 +57,17 @@ fold_change = function(
         citations=list(
             bibentry(
                 bibtype='Article',
-                year = 2002,
-                volume = 72,
-                number = 2,
-                pages = "119-124",
-                author = as.person('Robert M. Price and Douglas G. Bonett'),
-                title = 'Distribution-Free Confidence Intervals for Difference and Ratio of Medians',
-                journal = 'Journal of Statistical Computation and Simulation'
+                year=2020,
+                volume=45,
+                number=6,
+                pages='750-770',
+                author=as.person('Robert M. Price Jr and Douglas G. Bonett'),
+                title='Confidence Intervals for Ratios of Means and Medians',
+                journal='Journal of Educational and Behavioral Statistics'
             )
         ),
         #  stato_id="STATO:0000304",
-        .params=c('factor_name','sample_name','alpha','paired','threshold','control_group','method'),
+        .params=c('factor_name','sample_name','paired','threshold','control_group','method','conf_level'),
         .outputs=c('fold_change','lower_ci','upper_ci','significant'),
         
         factor_name=ents$factor_name,
@@ -75,7 +75,7 @@ fold_change = function(
             type='character',
             description='The name of a sample_meta column containing sample identifiers for paired sampling.'
         ),
-        alpha=ents$alpha,
+
         paired=entity(name='Paired fold change',
             value=FALSE,
             type='logical',
@@ -103,18 +103,26 @@ fold_change = function(
         method=enum(name='Fold change method',
             type='character',
             description=c(
-                'geometric' = paste0('A log transform and a t-test is used ',
-                    'to calculate fold change and estimate confidence ',
-                    'intervals. In the non-transformed space this is ',
-                    'equivalent to fold change using geometric means.'),
-                "median" = paste0('A log transform and the method described ',
-                    'by Price and Bonett to calculate fold change and ',
-                    'estimate confidence intervals. In the non-transformed ',
-                    'space this is equivalent to using group medians to ',
-                    'calculate fold change.')
+                'geometric' = paste0('A log transform is applied before using ',
+                    'group means to calculate fold change. In the non-tranformed',
+                    'space this is equivalent to using geometric group means. ',
+                    'Confidence intervals for independant and paired sampling ',
+                    'are estimated using standard error of the mean in log ',
+                    'transformed space before being transformed back to the ',
+                    'original space.'),
+                "median" = paste0('The group medians and the method described ',
+                    'by Price and Bonett[1] is used to ',
+                    'estimate confidence intervals. For paired data standard ',
+                    'error of the median is used to estimate confidence ',
+                    'intervals from the median fold change of all pairs.'),
+                "mean" = paste0('The group means and the method described by ',
+                    'Price and Bonnet[1] is used to estimate confidence ',
+                    'intervals. For paired data standard error of the mean is ',
+                    'used to estimate confidence intervals from the mean ',
+                    'fold change of all pairs.')
             ),
             value="geometric",
-            allowed=c("geometric","median")
+            allowed=c("geometric","median","mean")
         ),
         control_group=entity(
             name='Control group',
@@ -136,10 +144,18 @@ fold_change = function(
         ),
         significant = entity(
             name='Significant features',
-            description=paste0('A logical indictor of whether the fold change ', 
-                'for a feature is greater than the threshold.'),
+            description=paste0('A logical indictor of whether the calculated ',
+            'fold change including the estimated confidence limits is greater ',
+            'than the selected threshold.'),
             type='data.frame',
             value=data.frame()
+        ),
+        conf_level = entity(
+            name = 'Confidence level',
+            description = 'The confidence level of the interval.',
+            type='numeric',
+            value=0.95,
+            max_length = 1
         )
     )
 )
@@ -198,7 +214,7 @@ setMethod(f="model_apply",
                 if (M$method=='geometric') {
                     
                     # apply t-test
-                    TT=ttest(alpha=M$alpha,mtc='none',factor_names=M$factor_name,paired=M$paired,paired_factor=M$sample_name)
+                    TT=ttest(alpha=0.05,mtc='none',factor_names=M$factor_name,paired=M$paired,paired_factor=M$sample_name,conf_level=M$conf_level)
                     TT=model_apply(TT,predicted(FG))
                     # log2(fold change) is the difference in estimate.mean from ttest
                     if (M$paired) {
@@ -212,24 +228,24 @@ setMethod(f="model_apply",
                     counter=counter+1
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
-                } else {
+                } else if (M$method == 'median') {
                     
-                    D = predicted(FG)
+                    D2 = predicted(FG)
                     # check for pairs in features
                     if (M$paired) {
                         FF=pairs_filter(
                             factor_name=M$factor_name,
                             sample_id=M$sample_name)
-                        FF=model_apply(FF,D)
-                        D=predicted(FF)
+                        FF=model_apply(FF,D2)
+                        D2=predicted(FF)
                     }
                     
                     
                     # calculate medians and confidence intervals for all features
-                    out=lapply(D$data,function(x) {
-                        y1=x[D$sample_meta[[M$factor_name]]==L[A]]
-                        y2=x[D$sample_meta[[M$factor_name]]==L[B]]
-                        val=ci_delta_nu(y1,y2,alpha=M$alpha,paired=M$paired)
+                    out=lapply(D2$data,function(x) {
+                        y1=x[D2$sample_meta[[M$factor_name]]==L[A]]
+                        y2=x[D2$sample_meta[[M$factor_name]]==L[B]]
+                        val=ci_delta_nu(y1,y2,alpha=1-M$conf_level,paired=M$paired)
                         val=matrix(val,nrow=1,ncol=3)
                         colnames(val)=c('median','lci','uci')
                         return(val)
@@ -256,6 +272,62 @@ setMethod(f="model_apply",
                     counter=counter+1
                     comp=c(comp,paste0(L[A],'/',L[B]))
                     
+                } else if (M$method == 'mean') {
+                    D2 = predicted(FG)
+                    # check for pairs in features
+                    if (M$paired) {
+                        FF=pairs_filter(
+                            factor_name=M$factor_name,
+                            sample_id=M$sample_name)
+                        FF=model_apply(FF,D2)
+                        D2=predicted(FF)
+                        
+                        # calculate means and confidence intervals for all features
+                        out=lapply(D2$data,function(x) {
+                            y1=x[D2$sample_meta[[M$factor_name]]==L[A]]
+                            y2=x[D2$sample_meta[[M$factor_name]]==L[B]]
+                            ret=ci.mean.paired(1-M$conf_level,y1,y2)
+                            return(ret)
+                        })
+                        
+                        
+                    } else {
+                        # calculate means and confidence intervals for all features
+                        out=lapply(D2$data,function(x) {
+                            y1=x[D2$sample_meta[[M$factor_name]]==L[A]]
+                            y2=x[D2$sample_meta[[M$factor_name]]==L[B]]
+                            ret=ci.mean.bs(1-M$conf_level,y1,y2)
+                            return(ret)
+                        })
+                        
+                        
+                    }
+                    nmes=names(out)
+                    out=do.call(rbind,out)
+                    rownames(out)=nmes
+                    
+                    # merge with original names
+                    temp=merge(
+                        FC[,counter,drop=FALSE],
+                        out,
+                        by = 'row.names',
+                        all.x=TRUE,
+                    )
+                    rownames(temp)=temp$Row.names
+                    # sort back into original order
+                    temp=temp[rownames(FC),]
+                    
+                    if (M$paired) {
+                        FC[,counter]=temp[,3]
+                        LCI[,counter]=temp[,4]
+                        UCI[,counter]=temp[,5]
+                    } else {
+                        FC[,counter]=temp[,6]
+                        LCI[,counter]=temp[,7]
+                        UCI[,counter]=temp[,8]
+                    }
+                    counter=counter+1
+                    comp=c(comp,paste0(L[A],'/',L[B]))
                 }
             }
         }
@@ -270,13 +342,15 @@ setMethod(f="model_apply",
             M$fold_change=as.data.frame(2^FC)
             M$lower_ci=as.data.frame(2^LCI)
             M$upper_ci=as.data.frame(2^UCI) 
+            M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
         } else {
             M$fold_change = as.data.frame(FC)
             M$lower_ci = as.data.frame(LCI)
             M$upper_ci = as.data.frame(UCI)
+            M$significant=as.data.frame((UCI < (-(M$threshold))) | (LCI>(M$threshold)))
         }
         
-        M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
+        
         colnames(M$significant)=comp
         
         return(M)
@@ -393,55 +467,113 @@ setMethod(f="chart_plot",
 
 
 
-var_nu = function(y) {
-    n=length(y)
-    c=((n+1)/2)-n^(1/2)
-    # "c is rounded to nearest non-zero integer"
-    c=max(c(round(c),1))
-    i=seq(from=0,to=c-1,by=1)
-    p=sum( (factorial(n)/(factorial(i)*factorial(n-i)) ) * ((0.5)^(n-1)) )
-    # NB error in paper has ^(n-i)
-    
-    # "for large n set z = 2"
-    if (n<=50) {
-        z=qnorm(1-(p/2))
-    } else {
-        z=2
-    }
-    v=(y[n-c+1]-y[c])/(2*z)
-    v=v^2
-    return(v)
-}
-
 ci_delta_nu = function(y1,y2,alpha=0.05,paired=FALSE) {
     
     if (!paired) {
-        # https://www.tandfonline.com/doi/abs/10.1080/00949650212140
-        # For ratio n1/n2
-        n1=median(y1,na.rm=TRUE)
-        n2=median(y2,na.rm=TRUE)
-        z=qnorm(1-(alpha/2))
-        ci=z*(var_nu(log(y1))+var_nu(log(y2)))^0.5
-        out=c(n1/n2,(n1/n2)*exp(-ci),(n1/n2)*exp(ci))
+        out=ci.median.bs(alpha=alpha,y1=y1,y2=y2)
         return(out)
     } else {
         if (length(y1) != length(y2)) {
             stop('all samples must be present in all groups for a paired comparison')
-        }
-        # median of pairwise fold changes
-        delta=sort(y1/y2)
-        delta_nu=median(delta)
-        # confidence intervals from wilcox.test
-        out=wilcox.test(
-            delta,
-            conf.level=1-alpha,
-            alternative="two.sided",
-            correct=TRUE,
-            conf.int = TRUE
-        )
-        out=c(delta_nu,out$conf.int[1],out$conf.int[2])
+        } 
+        r = y1/y2
+        mr=mean(r)
+        md=median(r)
+        s=sd(r)/sqrt(length(r)) # standard error of mean
+        z=qt(1-(alpha/2),length(r)-1)
+        sf=sqrt(pi/2)
+        
+        out=t(c(md,md-(sf*z*s),md+(sf*z*s)))
+        colnames(out)=c('fold_change','lower_ci','upper_ci')
+        
         return(out)
     }
     
 }
 
+ci.mean.bs <- function(alpha, y1, y2){
+    # from 10.3102/1076998620934125
+    # Compute confidence interval for a ratio of population means of ratio-scale
+    # measurements in a design with a 2-level between-subjects factor. 
+    # Arguments:
+    #   alpha:  alpha level for 1-alpha confidence
+    #   y1      n1 x 1 vector of scores for group 1
+    #   y2:     n2 x 1 vector of scores for group 2
+    # Returns:
+    #   confidence interval
+    n1 <- length(y1)
+    n2 <- length(y2)
+    m1 <- mean(y1)
+    m2 <- mean(y2)
+    v1 <- var(y1)
+    v2 <- var(y2)
+    var <- v1/(n1*m1^2) + v2/(n2*m2^2)
+    df <- var^2/(v1^2/(m1^4*(n1^3 - n1^2)) + v2^2/(m2^4*(n2^3 - n2^2)))
+    t <- qt(1 - alpha/2, df)
+    est <- log(m1/m2)
+    se <- sqrt(var)
+    ll <- exp(est - t*se)
+    ul <- exp(est + t*se)
+    out <- t(c(m1, m2, df, exp(est), ll, ul, est, se))
+    colnames(out) <- c("Mean1", "Mean2", "df", "  Mean1/Mean2", "LL", "UL", "  Log-ratio", "SE")
+    return(out)
+}
+
+
+
+ci.mean.paired = function(alpha,x,y) {
+    
+    r = x/y
+    mr=mean(r)
+    s=sd(r)/sqrt(length(x)) # standard error of mean
+    z=qt(1-(alpha/2),length(x)-1)
+    
+    out=t(c(mr,mr-(z*s),mr+z*s))
+    colnames(out)=c('fold_change','lower_ci','upper_ci')
+    
+    return(out)
+}
+
+
+
+ci.median.bs <- function(alpha, y1, y2) {
+    # from 10.3102/1076998620934125
+    # Computes confidence interval for a ratio of population medians of ratio-scale
+    # measurements in a design with a 2-level between-subjects factor.
+    # Arguments:
+    #   alpha: alpha level for 1-alpha confidence
+    #   y1:    n1 x 1 vector of scores for group 1
+    #   y2:    n2 x 1 vector of scores for group 2  
+    # Returns:
+    #   confidence interval
+    z <- qnorm(1 - alpha/2)
+    n1 <- length(y1)
+    y1 <- sort(y1)
+    n2 <- length(y2)
+    y2 <- sort(y2)
+    med1 <- median(y1)
+    med2 <- median(y2)
+    o1 <- round(n1/2 - sqrt(n1))
+    if (o1 < 1) {o1 = 1}
+    o2 <- n1 - o1 + 1
+    l1 <- log(y1[o1])
+    u1 <- log(y1[o2])
+    p <- pbinom(o1 - 1, size = n1, prob = .5)
+    z0 <- qnorm(1 - p)
+    se1 <- (u1 - l1)/(2*z0)
+    o1 <- round(n2/2 - sqrt(n2))
+    if (o1 < 1) {o1 = 1}
+    o2 <- n2 - o1 + 1
+    l2 <- log(y2[o1])
+    u2 <- log(y2[o2])
+    p <- pbinom(o1 - 1, size = n2, prob = .5)
+    z0 <- qnorm(1 - p)
+    se2 <- (u2 - l2)/(2*z0)
+    se <- sqrt(se1^2 + se2^2)
+    logratio <- log(med1/med2)
+    ll <- exp(logratio - z*se)
+    ul <- exp(logratio + z*se)
+    out <- t(c(exp(logratio), ll, ul))
+    colnames(out) <- c("fold_change", "LL", "UL")
+    return(out)
+}
