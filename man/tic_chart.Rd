@@ -4,12 +4,14 @@
 \alias{tic_chart}
 \title{Total Ion Count chart.}
 \usage{
-tic_chart(run_order, factor_name, ...)
+tic_chart(run_order, factor_name, connected = FALSE, ...)
 }
 \arguments{
 \item{run_order}{(character) The column name of sample_meta indicating the run order of the samples.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
+
+\item{connected}{(logical) Plot samples connected by a grey line. The default is \code{FALSE}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
