@@ -10,7 +10,11 @@ vec_norm(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{vec_norm} object.
+A  \code{vec_norm} object with the following \code{output} slots:
+\tabular{ll}{
+\code{normalised} \tab          (DatasetExperiment) A DatasetExperiment object containing the normalised data. \cr
+\code{coeff} \tab          (data.frame) The normalisation coefficients calculated by PQN. \cr
+}
 
 struct object
 }

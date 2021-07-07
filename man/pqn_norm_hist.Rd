@@ -10,7 +10,10 @@ pqn_norm_hist(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{pqn_norm_hist} object.
+A  \code{
+pqn_norm_hist
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A histogram of the PQN coefficients for all features

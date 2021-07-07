@@ -10,7 +10,9 @@ r_squared(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{r_squared} object.
+A  \code{
+r_squared
+} object. This object has no \code{output} slots.
 }
 \description{
 R-squared is a metric used to assess the goodness of fit for regression models. It measures how much variance of one variable can be explained by another variable.

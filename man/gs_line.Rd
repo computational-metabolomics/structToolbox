@@ -10,7 +10,10 @@ gs_line(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{gs_line} object.
+A  \code{
+gs_line
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A plot of the calculated performance metric against the model input parameter values used to train the model. The optimum parameter value is indicated based on minimising (or maximising) the chosen metric.

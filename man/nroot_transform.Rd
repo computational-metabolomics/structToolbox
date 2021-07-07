@@ -12,7 +12,10 @@ nroot_transform(root = 2, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{nroot_transform} object.
+A  \code{nroot_transform} object with the following \code{output} slots:
+\tabular{ll}{
+\code{transformed} \tab          (DatasetExperiment) A DatasetExperiment object containing the nth root transformed data. \cr
+}
 }
 \description{
 All values in the data matrix are transformed by raising them to the power of 1/n.

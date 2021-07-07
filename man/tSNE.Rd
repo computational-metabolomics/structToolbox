@@ -33,7 +33,10 @@ tSNE(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{tSNE} object.
+A  \code{tSNE} object with the following \code{output} slots:
+\tabular{ll}{
+\code{Y} \tab          (DatasetExperiment)  \cr
+}
 }
 \description{
 t-Distributed Stochastic Neighbor Embedding.

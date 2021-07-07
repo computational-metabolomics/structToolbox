@@ -10,7 +10,10 @@ plsr_qq_plot(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{plsr_qq_plot} object.
+A  \code{
+plsr_qq_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A plot of the quantiles of the residuals from a PLSR model against the quantiles of a normal distribution.

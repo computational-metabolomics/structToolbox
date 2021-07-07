@@ -14,7 +14,10 @@ mv_histogram(label_outliers = TRUE, by_sample = TRUE, ...)
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
-A  \code{mv_histogram} object.
+A  \code{
+mv_histogram
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 
 struct object
 }

@@ -14,7 +14,17 @@ PLSR(number_components = 2, factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{PLSR} object.
+A  \code{PLSR} object with the following \code{output} slots:
+\tabular{ll}{
+\code{scores} \tab          (data.frame)  \cr
+\code{loadings} \tab          (data.frame)  \cr
+\code{y} \tab          (data.frame)  \cr
+\code{yhat} \tab          (data.frame)  \cr
+\code{reg_coeff} \tab          (data.frame)  \cr
+\code{vip} \tab          (data.frame)  \cr
+\code{pls_model} \tab          (list)  \cr
+\code{pred} \tab          (data.frame)  \cr
+}
 }
 \description{
 PLS is a multivariate regression technique that extracts latent variables maximising covariance between the input data and the response. For regression the response is a continuous variable.

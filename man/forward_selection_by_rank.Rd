@@ -27,7 +27,14 @@ forward_selection_by_rank(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{forward_selection_by_rank} object.
+A  \code{forward_selection_by_rank} object with the following \code{output} slots:
+\tabular{ll}{
+\code{metric} \tab          (data.frame) The value of the computed metric for each model. For nested models the metric is averaged. \cr
+\code{results} \tab          (data.frame) The predicted outputs from collated from all models computed during forward selection. \cr
+\code{chosen_vars} \tab          (numeric, integer) The column number of the variables chosen for the best performing model. \cr
+\code{smoothed} \tab          (numeric) The value of the performance metric for each evaluated model after smoothing. \cr
+\code{searchlist} \tab          (numeric) The maxmimum rank of features included in each model. \cr
+}
 }
 \description{
 A model is trained and performance metric computed by including increasing numbers of features in the model. The features to be included in each step are defined by their rank, which is computed from another variable e.g. VIP score. An "optimal"subset of features is suggested by minimising the input performance metric.

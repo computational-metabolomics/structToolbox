@@ -14,7 +14,13 @@ filter_na_count(threshold, factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{filter_na_count} object.
+A  \code{filter_na_count} object with the following \code{output} slots:
+\tabular{ll}{
+\code{filtered} \tab          (DatasetExperiment) A DatasetExperiment object containing the filtered data. \cr
+\code{count} \tab          (data.frame) The number of measured values in each group/interaction. \cr
+\code{na_count} \tab          (data.frame) The number of missing values in each group/interaction. \cr
+\code{flags} \tab          (data.frame) Flags to indicate which features were removed. \cr
+}
 }
 \description{
 The number of measured values is counted for each feature, and any feature with less than a predefined minimum number of values in each group is removed. If there are several factors, then the threshold is applied so that the minimum number of samples is present for all combinations (interactions) of groups.

@@ -10,7 +10,10 @@ hca_dendrogram(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{hca_dendrogram} object.
+A  \code{
+hca_dendrogram
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A dendrogram visualising the clustering by HCA.

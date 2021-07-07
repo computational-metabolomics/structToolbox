@@ -10,7 +10,10 @@ mv_feature_filter_hist(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{mv_feature_filter_hist} object.
+A  \code{
+mv_feature_filter_hist
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A histogram of the proportion of missing values per feature.

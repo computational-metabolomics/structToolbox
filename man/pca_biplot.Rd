@@ -30,7 +30,10 @@ pca_biplot(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{pca_biplot} object.
+A  \code{
+pca_biplot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A scatter plot of the selected principal component scores overlaid with the corresponding principal component loadings.
