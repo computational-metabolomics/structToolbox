@@ -5,19 +5,17 @@
 \title{Fold change}
 \usage{
 fold_change(
-  alpha = 0.05,
   factor_name,
   paired = FALSE,
   sample_name = character(0),
   threshold = 2,
   control_group = character(0),
   method = "geometric",
+  conf_level = 0.95,
   ...
 )
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
-
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
 \item{paired}{(logical) Paired fold change. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Fold change is calculated taking into account paired sampling.}\item{\code{"FALSE"}: Fold change is calculated assuming there is no paired sampling.}} The default is \code{FALSE}.}
@@ -28,7 +26,9 @@ fold_change(
 
 \item{control_group}{(character) The level name of the group used in the denominator (where possible) when computing fold change. The default is \code{character(0)}.}
 
-\item{method}{(character) Fold change method. Allowed values are limited to the following: \itemize{\item{\code{"geometric"}: A log transform and a t-test is used to calculate fold change and estimate confidence intervals. In the non-transformed space this is equivalent to fold change using geometric means.}\item{\code{"median"}: A log transform and the method described by Price and Bonett to calculate fold change and estimate confidence intervals. In the non-transformed space this is equivalent to using group medians to calculate fold change.}} The default is \code{"geometric"}.}
+\item{method}{(character) Fold change method. Allowed values are limited to the following: \itemize{\item{\code{"geometric"}: A log transform is applied before using group means to calculate fold change. In the non-tranformedspace this is equivalent to using geometric group means. Confidence intervals for independant and paired sampling are estimated using standard error of the mean in log transformed space before being transformed back to the original space.}\item{\code{"median"}: The group medians and the method described by Price and Bonett[1] is used to estimate confidence intervals. For paired data standard error of the median is used to estimate confidence intervals from the median fold change of all pairs.}\item{\code{"mean"}: The group means and the method described by Price and Bonnet[1] is used to estimate confidence intervals. For paired data standard error of the mean is used to estimate confidence intervals from the mean fold change of all pairs.}} The default is \code{"geometric"}.}
+
+\item{conf_level}{(numeric) The confidence level of the interval. The default is \code{0.95}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -50,7 +50,7 @@ M = fold_change(factor_name='Class')
 M = model_apply(M,D)
 }
 \references{
-Price RM, Bonett DG (2002).
-``Distribution-Free Confidence Intervals for Difference and Ratio of Medians.''
-\emph{Journal of Statistical Computation and Simulation}, \bold{72}(2), 119-124.
+Price Jr RM, Bonett DG (2020).
+``Confidence Intervals for Ratios of Means and Medians.''
+\emph{Journal of Educational and Behavioral Statistics}, \bold{45}(6), 750-770.
 }

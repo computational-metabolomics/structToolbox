@@ -5,24 +5,24 @@
 \title{Fold change for interactions between factors}
 \usage{
 fold_change_int(
-  alpha = 0.05,
   factor_name,
   threshold = 2,
   control_group = character(0),
   method = "geometric",
+  conf_level = 0.95,
   ...
 )
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
-
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
 \item{threshold}{(numeric) The fold change threshold for labelling features as significant. The default is \code{2}.}
 
 \item{control_group}{(character) The level names of the groups used in the denominator (where possible) when computing fold change. One level for each factor, assumed to be in the same order as factor_name. The default is \code{character(0)}.}
 
-\item{method}{(character) Fold change method. Allowed values are limited to the following: \itemize{\item{\code{"geometric"}: A log transform and a t-test is used to calculate fold change and estimate confidence intervals. In the non-transformed space this is equivalent to fold change using geometric means.}\item{\code{"median"}: A log transform and the method described by Price and Bonett to calculate fold change and estimate confidence intervals. In the non-transformed space this is equivalent to using group medians to calculate fold change.}} The default is \code{"geometric"}.}
+\item{method}{(character) Fold change method. Allowed values are limited to the following: \itemize{\item{\code{"geometric"}: A log transform is applied before using group means to calculate fold change. In the non-tranformedspace this is equivalent to using geometric group means. Confidence intervals for independant and paired sampling are estimated using standard error of the mean in log transformed space before being transformed back to the original space.}\item{\code{"median"}: The group medians and the method described by Price and Bonett[1] is used to estimate confidence intervals. For paired data standard error of the median is used to estimate confidence intervals from the median fold change of all pairs.}\item{\code{"mean"}: The group means and the method described by Price and Bonnet[1] is used to estimate confidence intervals. For paired data standard error of the mean is used to estimate confidence intervals from the mean fold change of all pairs.}} The default is \code{"geometric"}.}
+
+\item{conf_level}{(numeric) The confidence level of the interval. The default is \code{0.95}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
