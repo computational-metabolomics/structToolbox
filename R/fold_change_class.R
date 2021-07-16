@@ -214,21 +214,21 @@ setMethod(f="model_apply",
                     
                 } else {
                     
-                    D = predicted(FG)
+                    D2 = predicted(FG)
                     # check for pairs in features
                     if (M$paired) {
                         FF=pairs_filter(
                             factor_name=M$factor_name,
                             sample_id=M$sample_name)
-                        FF=model_apply(FF,D)
-                        D=predicted(FF)
+                        FF=model_apply(FF,D2)
+                        D2=predicted(FF)
                     }
                     
                     
                     # calculate medians and confidence intervals for all features
-                    out=lapply(D$data,function(x) {
-                        y1=x[D$sample_meta[[M$factor_name]]==L[A]]
-                        y2=x[D$sample_meta[[M$factor_name]]==L[B]]
+                    out=lapply(D2$data,function(x) {
+                        y1=x[D2$sample_meta[[M$factor_name]]==L[A]]
+                        y2=x[D2$sample_meta[[M$factor_name]]==L[B]]
                         val=ci_delta_nu(y1,y2,alpha=M$alpha,paired=M$paired)
                         val=matrix(val,nrow=1,ncol=3)
                         colnames(val)=c('median','lci','uci')
@@ -270,14 +270,17 @@ setMethod(f="model_apply",
             M$fold_change=as.data.frame(2^FC)
             M$lower_ci=as.data.frame(2^LCI)
             M$upper_ci=as.data.frame(2^UCI) 
+            M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
+            colnames(M$significant)=comp
         } else {
             M$fold_change = as.data.frame(FC)
             M$lower_ci = as.data.frame(LCI)
             M$upper_ci = as.data.frame(UCI)
+            M$significant=as.data.frame((UCI < (-(M$threshold))) | (LCI>(M$threshold)))
+            colnames(M$significant)=comp
         }
         
-        M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
-        colnames(M$significant)=comp
+
         
         return(M)
     }
