@@ -32,7 +32,7 @@ A  \code{fold_change_int} object with the following \code{output} slots:
 \code{fold_change} \tab          (data.frame) The fold change between groups. \cr
 \code{lower_ci} \tab          (data.frame) Lower confidence interval for fold change. \cr
 \code{upper_ci} \tab          (data.frame) Upper confidence interval for fold change. \cr
-\code{significant} \tab          (data.frame) A logical indictor of whether the fold change for a feature is greater than the threshold. \cr
+\code{significant} \tab          (data.frame) A logical indictor of whether the calculated fold change including the estimated confidence limits is greater than the selected threshold. \cr
 }
 }
 \description{
@@ -46,7 +46,7 @@ M = filter_smeta(mode='exclude',levels='QC',factor_name='Class') +
 M = model_apply(M,D)
 }
 \references{
-Lloyd GR, Weber RJM (2021).
+Lloyd GR, Weber RJM (????).
 \emph{struct: Statistics in R Using Class-based Templates}.
-R package version 1.4.0.
+R package version 1.5.1.
 }
