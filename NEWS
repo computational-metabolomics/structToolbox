@@ -1,3 +1,9 @@
+Changes 1.5.2
+- add outputs to auto-generated documentation
+- fix fold change threshold using median (#56)
+- add fold change using means (#57)
+- HSD param "unbalanced" is no longer ignored
+
 Changes 1.5.1
 + fixed broken paired tests
 
