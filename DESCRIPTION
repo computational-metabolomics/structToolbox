@@ -29,11 +29,11 @@ Description: An extensive set of data (pre-)processing and analysis methods and
     standardised definitions for the different methods, inputs and outputs.
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 Collate:
     'AUC_metric_class.R'
     'entity_objects.R'
     'DFA_class.R'
+    'zzz.R'
     'anova_class.R'
     'HSD_class.R'
     'mixed_effect_class.R'
@@ -106,8 +106,7 @@ Collate:
     'ttest_class.R'
     'vec_norm_class.R'
     'wilcox_test_class.R'
-    'zzz.R'
-Depends: R (>= 4.0), struct (>= 1.4.0)
+Depends: R (>= 4.0), struct (>= 1.5.1)
 Imports: ggplot2,
     ggthemes,
     grid,
@@ -137,6 +136,7 @@ Suggests: agricolae,
  ropls,
  rmarkdown,
  Rtsne,
- testthat
+ testthat,
+ rappdirs
 VignetteBuilder: knitr
 biocViews: WorkflowStep, Metabolomics

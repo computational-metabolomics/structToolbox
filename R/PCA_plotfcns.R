@@ -359,7 +359,7 @@ pca_biplot = function(
 
 .pca_biplot<-setClass(
     "pca_biplot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(
         # INPUTS
         components='entity',
@@ -626,12 +626,12 @@ pca_scree_plot = function(...) {
 
 .pca_scree_plot<-setClass(
     "pca_scree_plot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     prototype = list(name='Scree plot',
         description=paste0('A plot of the percent variance and cumulative ',
             'percent variance for the components of a PCA model. '),
         type="line",
-        stato_id="STATO:0000386"
+        ontology="STATO:0000386"
     )
 )
 
@@ -681,7 +681,7 @@ pca_dstat_plot = function(number_components=2,alpha=0.05,...) {
 
 .pca_dstat_plot<-setClass(
     "pca_dstat_plot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(number_components='entity',
         alpha='entity'),
     prototype = list(name='d-statistic plot',
@@ -690,7 +690,7 @@ pca_dstat_plot = function(number_components=2,alpha=0.05,...) {
             'considered to be outlying.'),
         type="bar",
         .params=c('number_components','alpha'),
-        stato_id='STATO:0000132',
+        ontology='STATO:0000132',
         number_components=entity(value = 2,
             name = 'Number of principal components',
             description = 'The number of principal components to use.',

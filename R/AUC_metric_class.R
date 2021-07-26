@@ -14,12 +14,12 @@ AUC = function(...) {
 
 .AUC<-setClass(
     "AUC",
-    contains=c('metric','stato'),
+    contains=c('metric'),
     prototype = list(name='Area under ROC curve',
         description=paste0("The area under the ROC curve of a classifier is ",
             "estimated using the trapezoid method."),
         type="classification",
-        stato_id="STATO:0000209"
+        ontology="STATO:0000209"
     )
 )
 

@@ -19,15 +19,15 @@ HSDEM = function(alpha=0.05,mtc='fdr',formula,...) {
 
 .HSDEM<-setClass(
     "HSDEM",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         formula='entity',
 
         # OUTPUTS
-        p_value='entity_stato',
+        p_value='entity',
         significant='entity'
     ),
     prototype = list(name="Tukey's Honest Significant Difference using estimated marginal means",
@@ -39,7 +39,7 @@ HSDEM = function(alpha=0.05,mtc='fdr',formula,...) {
             'For mixed effects models estimated marginal means are used.'),
         type="univariate",
         predicted='p_value',
-        stato_id="STATO:0000187",
+        ontology="STATO:0000187",
         libraries=c('emmeans','nlme'),
         .params=c('alpha','mtc','formula'),
         .outputs=c('p_value','significant'),

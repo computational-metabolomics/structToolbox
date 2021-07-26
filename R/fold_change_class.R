@@ -66,7 +66,7 @@ fold_change = function(
                 journal='Journal of Educational and Behavioral Statistics'
             )
         ),
-        #  stato_id="STATO:0000304",
+        #  ontology="STATO:0000304",
         .params=c('factor_name','sample_name','paired','threshold','control_group','method','conf_level'),
         .outputs=c('fold_change','lower_ci','upper_ci','significant'),
         

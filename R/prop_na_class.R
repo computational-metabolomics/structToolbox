@@ -19,11 +19,11 @@ prop_na = function(alpha=0.05,mtc='fdr',factor_name,...) {
     contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         factor_name='entity',
         # OUTPUTS
-        p_value='entity_stato',
+        p_value='entity',
         significant='entity',
         na_count='entity'
         # CHARTS
@@ -44,18 +44,18 @@ prop_na = function(alpha=0.05,mtc='fdr',factor_name,...) {
 
         alpha=ents$alpha,
         mtc=ents$mtc,
-        p_value=entity_stato(name='p value',
-            stato_id='STATO:0000175',
+        p_value=entity(name='p value',
+            ontology='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated statistic.'
         ),
         significant=entity(name='Significant features',
-            #stato_id='STATO:0000069',
+            #ontology='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threshold (alpha)'
         ),
         na_count=entity(name='Number of NA',
-            #stato_id='STATO:0000069',
+            #ontology='STATO:0000069',
             type='data.frame',
             description='The number of NA values per group of the chosen factor'
         )

@@ -18,11 +18,11 @@ HSD = function(alpha=0.05,mtc='fdr',formula,unbalanced=FALSE,...) {
 
 .HSD<-setClass(
     "HSD",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         formula='entity',
         unbalanced='entity',
         # OUTPUTS
@@ -32,7 +32,7 @@ HSD = function(alpha=0.05,mtc='fdr',formula,unbalanced=FALSE,...) {
         # means='data.frame',
         # sd='data.frame',
         # counts='data.frame',
-        p_value='entity_stato',
+        p_value='entity',
         significant='entity'
     ),
     prototype = list(name="Tukey's Honest Significant Difference",
@@ -43,7 +43,7 @@ HSD = function(alpha=0.05,mtc='fdr',formula,unbalanced=FALSE,...) {
             'significantly different to the others for each feature.'),
         type="univariate",
         predicted='p_value',
-        stato_id="STATO:0000187",
+        ontology="STATO:0000187",
         libraries='agricolae',
         .params=c('alpha','mtc','formula','unbalanced'),
         .outputs=c('difference','UCL','LCL','p_value','significant'),

@@ -24,3 +24,6 @@ A  \code{bootstrap} object with the following \code{output} slots:
 \description{
 In bootstrap resampling a subset of samples is selected at random with replacement to form a training set. Any sample not selected for training is included in the test set. This process is repeated many times, and performance metrics are computed for each repetition.
 }
+\examples{
+I = bootstrap(number_of_repetitions = 10, collect = 'vip')
+}
