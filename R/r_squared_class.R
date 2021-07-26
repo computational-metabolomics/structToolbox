@@ -11,7 +11,7 @@ r_squared = function(...) {
 
 .r_squared<-setClass(
     "r_squared",
-    contains=c('metric','stato'),
+    contains=c('metric'),
     prototype = list(
         name='Coefficient of determination (R-squared)',
         description=paste0(
@@ -20,7 +20,7 @@ r_squared = function(...) {
             'can be explained by another variable.'
         ),
         type="regression",
-        stato_id='STATO:0000564'
+        ontology='STATO:0000564'
     )
 )
 

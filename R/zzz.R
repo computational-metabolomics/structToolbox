@@ -57,7 +57,7 @@ get_description=function(id) {
             next
         }
         
-        D[[k]]=structToolbox:::stringify_params(M,names(P)[k],type='param',val=P[[k]])
+        D[[k]]=stringify_params(M,names(P)[k],type='param',val=P[[k]])
     }
     str=c(str,D)
     
@@ -66,7 +66,7 @@ get_description=function(id) {
     
     D=list()
     for (k in seq_along(O)) {
-        D[[k]]=structToolbox:::stringify_params(M,names(O)[k],type='output',val=O[[k]])
+        D[[k]]=stringify_params(M,names(O)[k],type='output',val=O[[k]])
     }
     
     if (length(D)>0){
@@ -171,4 +171,20 @@ stringify_params = function(M,P,type='param',val=NULL) {
     } else {
         OUT=paste0('\\code{',P,'} \\tab          ',d,' \\cr')
     }
+}
+
+
+
+#' ontology cache
+#'
+#' A cached list of ontology terms obtained from the ontology lookup service 
+#' (OLS) for ontology terms specified for objects in \code{structToolbox}.
+#' 
+#' @export ontology_cache
+#' @return list of cached ontology terms
+#' @seealso ontology
+#' @examples
+#' cache = ontology_cache()
+ontology_cache=function() {
+    return(ontology_cached)
 }

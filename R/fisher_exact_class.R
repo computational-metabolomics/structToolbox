@@ -27,16 +27,16 @@ fisher_exact = function(alpha=0.05,mtc='fdr',factor_name,factor_pred,...) {
 
 .fisher_exact<-setClass(
     "fisher_exact",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         factor_name='entity',
         factor_pred='entity',
 
         # OUTPUTS
-        p_value='entity_stato',
+        p_value='entity',
         significant='entity'
     ),
     prototype = list(name='Fisher Exact Test',
@@ -47,7 +47,7 @@ fisher_exact = function(alpha=0.05,mtc='fdr',factor_name,factor_pred,...) {
         'between groups. '),
         type="univariate",
         predicted='p_value',
-        stato_id="STATO:0000073",
+        ontology="STATO:0000073",
         .params=c('alpha','mtc','factor_name','factor_pred'),
         .outputs=c('p_value','significant'),
 

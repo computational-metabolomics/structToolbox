@@ -18,18 +18,18 @@ wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_fac
 
 .wilcox_test<-setClass(
     "wilcox_test",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         factor_names='entity',
         paired='entity',
         paired_factor='entity',
         # OUTPUTS
-        statistic='entity_stato',
+        statistic='entity',
         p_value='entity',
-        dof='entity_stato',
+        dof='entity',
         significant='entity',
         conf_int='entity',
         estimates='data.frame'
@@ -41,7 +41,7 @@ wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_fac
         'indicators of significance for each variable/feature.'),
         type="univariate",
         predicted='p_value',
-        stato_id="STATO:0000092",
+        ontology="STATO:0000092",
         .params=c('alpha','mtc','factor_names','paired','paired_factor'),
         .outputs=c('statistic','p_value','dof','significant','conf_int','estimates'),
 
@@ -61,23 +61,23 @@ wilcox_test = function(alpha=0.05,mtc='fdr',factor_names,paired=FALSE,paired_fac
             value=character(0),
             max_length=1
         ),
-        statistic=entity_stato(name='statistic',
-            stato_id='STATO:0000176',
+        statistic=entity(name='statistic',
+            ontology='STATO:0000176',
             type='numeric',
             description='the value of the calculated statistic which is converted to a p-value.'
         ),
-        p_value=entity_stato(name='p value',
-            stato_id='STATO:0000175',
+        p_value=entity(name='p value',
+            ontology='STATO:0000175',
             type='numeric',
             description='the probability of observing the calculated t-statistic.'
         ),
-        dof=entity_stato(name='degrees of freedom',
-            stato_id='STATO:0000069',
+        dof=entity(name='degrees of freedom',
+            ontology='STATO:0000069',
             type='numeric',
             description='the number of degrees of freedom used to calculate the test statistic'
         ),
         significant=entity(name='Significant features',
-            #stato_id='STATO:0000069',
+            #ontology='STATO:0000069',
             type='logical',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         ),

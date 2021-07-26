@@ -246,7 +246,7 @@ plsda_roc_plot = function(factor_name,...) {
 
 .plsda_roc_plot<-setClass(
     "plsda_roc_plot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(
         # INPUTS
         factor_name='entity'
@@ -258,7 +258,7 @@ plsda_roc_plot = function(factor_name,...) {
         type="roc",
         libraries=c('pls','ggplot2'),
         .params=c('factor_name'),
-        stato_id='STATO:0000274',
+        ontology='STATO:0000274',
         factor_name=ents$factor_name
     )
     
@@ -331,7 +331,7 @@ plsda_vip_plot = function(threshold=1,level,...) {
 
 .plsda_vip_plot<-setClass(
     "plsda_vip_plot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(
         # INPUTS
         threshold='entity',
@@ -357,7 +357,7 @@ plsda_vip_plot = function(threshold=1,level,...) {
             value=character(0),
             max_length=1
         ),
-        stato_id='STATO:0000580'
+        ontology='STATO:0000580'
     )
     
 )

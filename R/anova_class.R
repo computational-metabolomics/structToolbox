@@ -1,5 +1,5 @@
 #' @eval get_description('ANOVA')
-#' @include entity_objects.R
+#' @include entity_objects.R zzz.R
 #' @import struct
 #' @import stats
 #' @examples
@@ -20,16 +20,16 @@ ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III',...) {
 
 .ANOVA<-setClass(
     "ANOVA",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         formula='entity',
         ss_type='enum',
         # OUTPUTS
-        f_statistic='entity_stato',
-        p_value='entity_stato',
+        f_statistic='entity',
+        p_value='entity',
         significant='entity'
     ),
     prototype = list(name='Analysis of Variance',
@@ -40,7 +40,7 @@ ANOVA = function(alpha=0.05,mtc='fdr',formula,ss_type='III',...) {
             "indicate significance for each feature."),
         type="univariate",
         predicted='p_value',
-        stato_id="OBI:0200201",
+        ontology="OBI:0200201",
         libraries='car',
         .params=c('alpha','mtc','formula','ss_type'),
         .outputs=c('f_statistic','p_value','significant'),

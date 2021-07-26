@@ -27,20 +27,20 @@ ttest = function(
 
 .ttest<-setClass(
     "ttest",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         factor_names='entity',
         paired='entity',
         paired_factor='entity',
         equal_variance='entity',
         conf_level='entity',
         # OUTPUTS
-        t_statistic='entity_stato',
+        t_statistic='entity',
         p_value='entity',
-        dof='entity_stato',
+        dof='entity',
         significant='entity',
         conf_int='entity',
         estimates='data.frame'
@@ -51,7 +51,7 @@ ttest = function(
         'of the computed difference for all features.'),
         type="univariate",
         predicted='p_value',
-        stato_id="STATO:0000304",
+        ontology="STATO:0000304",
         .params=c('alpha','mtc','factor_names','paired','paired_factor','equal_variance','conf_level'),
         .outputs=c('t_statistic','p_value','dof','significant','conf_int','estimates'),
 
@@ -83,23 +83,23 @@ ttest = function(
             max_length = 1
         ),
         
-        t_statistic=entity_stato(name='t-statistic',
-            stato_id='STATO:0000176',
+        t_statistic=entity(name='t-statistic',
+            ontology='STATO:0000176',
             type='numeric',
             description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.'
         ),
-        p_value=entity_stato(name='p value',
-            stato_id='STATO:0000175',
+        p_value=entity(name='p value',
+            ontology='STATO:0000175',
             type='numeric',
             description='the probability of observing the calculated t-statistic.'
         ),
-        dof=entity_stato(name='degrees of freedom',
-            stato_id='STATO:0000069',
+        dof=entity(name='degrees of freedom',
+            ontology='STATO:0000069',
             type='numeric',
             description='the number of degrees of freedom used to calculate the test statistic'
         ),
         significant=entity(name='Significant features',
-            #stato_id='STATO:0000069',
+            #ontology='STATO:0000069',
             type='logical',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         ),

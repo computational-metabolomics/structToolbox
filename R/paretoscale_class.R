@@ -12,7 +12,7 @@ pareto_scale = function(...) {
 
 .pareto_scale<-setClass(
     "pareto_scale",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         scaled='DatasetExperiment',
         mean='numeric',
@@ -26,7 +26,7 @@ pareto_scale = function(...) {
             'and then scaled by the square root of the standard deviation. The ',
             'transformed data has zero mean.'),
         .outputs=c('scaled','mean','sd'),
-        stato_id='OBI:0200037'
+        ontology='OBI:0200037'
     )
 )
 

@@ -38,7 +38,7 @@ A  \code{fold_change} object with the following \code{output} slots:
 \code{fold_change} \tab          (data.frame) The fold change between groups. \cr
 \code{lower_ci} \tab          (data.frame) Lower confidence interval for fold change. \cr
 \code{upper_ci} \tab          (data.frame) Upper confidence interval for fold change. \cr
-\code{significant} \tab          (data.frame) A logical indictor of whether the fold change for a feature is greater than the threshold. \cr
+\code{significant} \tab          (data.frame) A logical indictor of whether the calculated fold change including the estimated confidence limits is greater than the selected threshold. \cr
 }
 }
 \description{

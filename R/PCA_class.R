@@ -13,10 +13,10 @@ PCA = function(number_components=2,...) {
 
 .PCA<-setClass(
     "PCA",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         # INPUTS
-        number_components='entity_stato',
+        number_components='entity',
 
         # OUTPUTS
         scores='entity',
@@ -33,19 +33,22 @@ PCA = function(number_components=2,...) {
         'that maximise variance.'),
         type="preprocessing",
         predicted='that',
-        stato_id="OBI:0200051",
+        ontology='OBI:0200051',
         .params=c('number_components'),
         .outputs=c('scores','loadings','eigenvalues','ssx','correlation','that'),
 
-        number_components=entity_stato(name='Number of Principal Components',
+        number_components=entity(
+            name='Number of Principal Components',
             description='The number of Principal Components calculated.',
-            stato_id='STATO:0000555',
+            ontology='STATO:0000555',
             value=2,
             type=c('numeric','integer')
         ),
-        scores=entity('name'='PCA scores DatasetExperiment',
-            'description'='A matrix of PCA scores where each column corresponds to a Principal Component',
-            'type'='DatasetExperiment')
+        scores=entity(
+            name='PCA scores DatasetExperiment',
+            description='A matrix of PCA scores where each column corresponds to a Principal Component',
+            type='DatasetExperiment'
+        )
     )
 )
 

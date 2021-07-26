@@ -13,7 +13,7 @@ log_transform = function(base=10,...) {
 
 .log_transform<-setClass(
     "log_transform",
-    contains = c('model','stato'),
+    contains = c('model'),
     slots=c(base='entity',
         transformed='entity'
     ),
@@ -24,7 +24,7 @@ log_transform = function(base=10,...) {
         predicted = 'transformed',
         .params=c('base'),
         .outputs=c('transformed'),
-        stato_id = 'OBI:0200094',
+        ontology = 'OBI:0200094',
         base=entity(name = 'Logarithm base',
             description = 'The base of the logarithm used for the transform.',
             value = 10,
