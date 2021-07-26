@@ -138,7 +138,7 @@ setMethod(f="model_apply",
 
             # for each combination of factors...
             out2=lapply(FF,function(x) {
-                A=agricolae::HSD.test(LM,x,group = FALSE)$comparison
+                A=agricolae::HSD.test(LM,x,group = FALSE,unbalanced=M$unbalanced)$comparison
                 if (ALIAS) {
                     A[!is.na(A)]=NA # replace with NA if alias are present
                 }
