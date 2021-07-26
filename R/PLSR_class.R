@@ -13,7 +13,7 @@ PLSR = function(number_components=2,factor_name,...) {
 .PLSR<-setClass(
 
     "PLSR",
-    contains=c('model','stato'),
+    contains=c('model'),
 
     slots=c(
         number_components = 'entity',
@@ -32,7 +32,7 @@ PLSR = function(number_components=2,factor_name,...) {
         type="regression",
         predicted='pred',
         libraries='pls',
-        stato_id='STATO:0000571',
+        ontology='STATO:0000571',
         description=paste0('PLS is a multivariate regression technique that ',
         'extracts latent variables maximising covariance between the input ',
         'data and the response. For regression the response is a continuous ',
@@ -244,13 +244,13 @@ plsr_qq_plot = function(...) {
 
 .plsr_qq_plot<-setClass(
     "plsr_qq_plot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     prototype = list(
         name='PLSR QQ plot',
         description=paste0('A plot of the quantiles of the residuals from a ',
         'PLSR model against the quantiles of a normal distribution.'),
         type="scatter",
-        stato_id='STATO:0000241'
+        ontology='STATO:0000241'
     )
 )
 

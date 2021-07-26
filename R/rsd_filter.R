@@ -14,7 +14,7 @@ rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
 
 .rsd_filter<-setClass(
     "rsd_filter",
-    contains = c('model','stato'),
+    contains = c('model'),
     slots=c(rsd_threshold='entity',
         qc_label='entity',
         factor_name='entity',
@@ -28,7 +28,7 @@ rsd_filter = function(rsd_threshold=20,qc_label='QC',factor_name,...) {
             'ratio of the standard deviation to the mean) for all features. ',
             'Any feature with an RSD greater than a predefined threshold is ',
             'excluded.'),
-        stato_id='STATO:0000236',
+        ontology='STATO:0000236',
         type = 'filter',
         predicted = 'filtered',
         libraries='pmp',

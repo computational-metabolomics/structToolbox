@@ -24,11 +24,11 @@ corr_coef = function(alpha=0.05,mtc='fdr',factor_names,method='spearman',...) {
 
 .corr_coef<-setClass(
     "corr_coef",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         factor_names='entity',
         method='enum',
         # OUTPUTS
@@ -44,7 +44,7 @@ corr_coef = function(alpha=0.05,mtc='fdr',factor_names,method='spearman',...) {
             'may have occurred by chance.'),
         type="univariate",
         libraries='stats',
-        stato_id='STATO:0000142',
+        ontology='STATO:0000142',
         predicted='p_value',
         .params=c('alpha','mtc','factor_names','method'),
         .outputs=c('coeff','p_value','significant'),

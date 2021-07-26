@@ -12,7 +12,7 @@ PLSDA = function(number_components=2,factor_name,...) {
 
 .PLSDA<-setClass(
     "PLSDA",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(number_components='entity',
         factor_name='entity',
         scores='data.frame',
@@ -57,7 +57,7 @@ PLSDA = function(number_components=2,factor_name,...) {
             type = c('numeric','integer')
         ),
         factor_name=ents$factor_name,
-        stato_id='STATO:0000572',
+        ontology='STATO:0000572',
         citations=list(
             bibentry(
                 bibtype ='Article',

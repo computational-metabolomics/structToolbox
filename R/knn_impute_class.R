@@ -15,7 +15,7 @@ knn_impute = function(neighbours=5,sample_max=50,feature_max=50,by='features',..
 
 .knn_impute<-setClass(
     "knn_impute",
-    contains = c('model','stato'),
+    contains = c('model'),
     slots=c(neighbours='entity',
         sample_max='entity',
         feature_max='entity',
@@ -30,7 +30,7 @@ knn_impute = function(neighbours=5,sample_max=50,feature_max=50,by='features',..
         type = 'normalisation',
         predicted = 'imputed',
         libraries='pmp',
-        stato_id='STATO:0000523',
+        ontology='STATO:0000523',
         .params=c('neighbours','feature_max','sample_max','by'),
         .outputs=c('imputed'),
 

@@ -1,5 +1,7 @@
 #' @eval get_description('bootstrap')
 #' @export bootstrap
+#' @examples
+#' I = bootstrap(number_of_repetitions = 10, collect = 'vip')
 bootstrap = function(number_of_repetitions = 100, collect, ...) {
     out=struct::new_struct('bootstrap',
         number_of_repetitions = number_of_repetitions,
@@ -10,7 +12,7 @@ bootstrap = function(number_of_repetitions = 100, collect, ...) {
 
 .bootstrap<-setClass(
     "bootstrap",
-    contains=c('resampler','stato'),
+    contains=c('resampler'),
     slots=c(
         number_of_repetitions='entity',
         collect='entity',
@@ -27,7 +29,7 @@ bootstrap = function(number_of_repetitions = 100, collect, ...) {
             'computed for each repetition.'),
         type='permutation',
         result='results',
-        stato_id='STATO:0000548',
+        ontology='STATO:0000548',
         .params=c('number_of_repetitions','collect'),
         .outputs=c('results','metric','collected'),
 

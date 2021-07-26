@@ -18,7 +18,7 @@ feature_boxplot = function(label_outliers=TRUE,feature_to_plot,
 
 .feature_boxplot<-setClass(
     "feature_boxplot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(
         # INPUTS
         label_outliers='entity',
@@ -29,7 +29,7 @@ feature_boxplot = function(label_outliers=TRUE,feature_to_plot,
     prototype = list(name='Feature boxplot',
         description='A boxplot to visualise the distribution of values within a feature.',
         type="boxlot",
-        stato_id='STATO:0000243',
+        ontology='STATO:0000243',
         .params=c('label_outliers','feature_to_plot','factor_name','show_counts'),
         
         label_outliers=entity(name='Label outliers',
@@ -546,14 +546,14 @@ compare_dist = function(factor_name,...) {
 
 .compare_dist<-setClass(
     "compare_dist",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(factor_name='entity'),
     prototype = list(name='Compare distributions',
         description=paste0('Histograms and boxplots computed across samples ',
             'and features are used to visually compare two datasets e.g. before ',
             'and after filtering and/or normalisation.'),
         type="mixed",
-        stato_id='STATO:0000161',
+        ontology='STATO:0000161',
         .params=c('factor_name'),
         factor_name=ents$factor_name
     )

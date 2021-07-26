@@ -127,12 +127,12 @@ blank_filter_hist = function(...) {
 
 .blank_filter_hist<-setClass(
     "blank_filter_hist",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     prototype = list(name='Histogram of blank filter fold changes',
         description=paste0('A histogram of the calculated fold changes for ',
         'the blank filter (median samples divided by median blanks)'),
         type="histogram",
-        stato_id='STATO:0000169'
+        ontology='STATO:0000169'
     )
 )
 
