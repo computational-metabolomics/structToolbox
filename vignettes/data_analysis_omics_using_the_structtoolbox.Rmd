@@ -71,11 +71,6 @@ suppressPackageStartupMessages({
 })
 
 
-# set path to cache
-BFC_CACHE = rappdirs::user_cache_dir(appname="BiocFileCache")
-Sys.setenv(BFC_CACHE = BFC_CACHE)
-bfc = BiocFileCache(BFC_CACHE)
-
 # use the BiocFileCache
 bfc <- BiocFileCache(ask = FALSE)
 ```
