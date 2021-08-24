@@ -58,7 +58,7 @@ M = sb_corr(order_col='run_order',batch_col='batch_no',qc_col='class')
 Jankevics A, Lloyd GR, Weber RJM (2021).
 \emph{pmp: Peak Matrix Processing and signal batch correction for
 metabolomics datasets}.
-R package version 1.4.0.
+R package version 1.5.0.
 
 Kirwan JA, Broadhurst DI, Davidson RL, Viant MR (2013).
 ``Characterising and correcting batch variation in an automated direct infusion mass spectrometry (DIMS) metabolomics workflow.''

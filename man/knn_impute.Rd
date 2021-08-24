@@ -42,5 +42,5 @@ M = knn_impute()
 Jankevics A, Lloyd GR, Weber RJM (2021).
 \emph{pmp: Peak Matrix Processing and signal batch correction for
 metabolomics datasets}.
-R package version 1.4.0.
+R package version 1.5.0.
 }
