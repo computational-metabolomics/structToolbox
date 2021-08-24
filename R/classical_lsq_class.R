@@ -114,13 +114,14 @@ setMethod(f="model_apply",
             }
 
             # create a DatasetExperiment object we can use with the linear model class
-            temp_y=data.frame(y=y[,n])
+            temp_y=y[,n,drop=FALSE]
             if (is(M$factor_names,'character')) {
                 X=X[,M$factor_names,drop=FALSE]
 
             } else { # assume list
                 X=X[,M$factor_names[[n]],drop=FALSE]
             }
+            colnames(temp_y)='y'
             Dlm=DatasetExperiment(data=temp_y,sample_meta=X,variable_meta=colnames(temp_y))
 
             LM=model_train(LM,Dlm)
