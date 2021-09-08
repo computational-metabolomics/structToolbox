@@ -165,7 +165,7 @@ setMethod(f="model_apply",
             y=D$sample_meta[[M$factor_names]]
 
             # sort the data by sample id so that theyre in the right order for paired ttest
-            temp=D$sample_meta[order(D$sample_meta[[M$factor_names]],D$sample_meta[[M$paired_factor]]),]
+            temp=D$sample_meta[order(D$sample_meta[[M$factor_names]],D$sample_meta[[M$paired_factor]]), ]
             D=D[rownames(temp),]
 
             # check number per class
@@ -224,6 +224,8 @@ setMethod(f="model_apply",
         output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE,sort=FALSE)
         rownames(output)=output$Row.names
         output=output[,-1]
+        # ensure outputs are in the correct order (TODO: update to data.frame with rownames)
+        output=output[CN,]
         output$p.value=p.adjust(output$p.value,method = param_value(M,'mtc'))
         output_value(M,'t_statistic')=output$statistic.t
         output_value(M,'p_value')=output$p.value

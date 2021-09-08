@@ -99,7 +99,7 @@ setMethod(f="model_apply",
         y=D$sample_meta[[M$factor_names]]
         L=levels(y)
         if (length(L)!=2) {
-            stop('must have exactly two levels for this implmentation of t-statistic')
+            stop('must have exactly two levels for this implementation of t-statistic')
         }
 
         if (M$paired){
@@ -128,7 +128,7 @@ setMethod(f="model_apply",
             D=D[!(D$sample_meta[[M$paired_factor]] %in% out),]
             y=D$sample_meta[[M$factor_names]]
             
-            # sort the data by sample id so that theyre in the right order for paired ttest
+            # sort the data by sample id so that they're in the right order for paired ttest
             temp=D$sample_meta[order(D$sample_meta[[M$factor_names]],D$sample_meta[[M$paired_factor]]),]
             D=D[rownames(temp),]
             
@@ -154,6 +154,8 @@ setMethod(f="model_apply",
         output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE,sort=FALSE)
         rownames(output)=output$Row.names
         output=output[,-1]
+        # ensure outputs are in the correct order (TODO: update to data.frame with rownames)
+        output=output[CN,]
         output$p.value=p.adjust(output$p.value,method = param_value(M,'mtc'))
         if (M$paired) {
             output_value(M,'statistic')=output$statistic.V
