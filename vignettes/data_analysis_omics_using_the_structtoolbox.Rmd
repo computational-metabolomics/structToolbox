@@ -480,7 +480,10 @@ M4 = wilcox_test(
       mode='exclude',
       dimension='variable',
       seq_in='names', 
-      names='place_holder'
+      names='place_holder',
+      seq_fcn=function(x) {
+        return(x$significant)
+      }
     )
 M4 = model_apply(M4, predicted(M3))
 

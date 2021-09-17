@@ -82,12 +82,12 @@ ttest = function(
         
         t_statistic=entity_stato(name='t-statistic',
             stato_id='STATO:0000176',
-            type='numeric',
+            type='data.frame',
             description='the value of the calculate statistics which is converted to a p-value when compared to a t-distribution.'
         ),
         p_value=entity_stato(name='p value',
             stato_id='STATO:0000175',
-            type='numeric',
+            type='data.frame',
             description='the probability of observing the calculated t-statistic.'
         ),
         dof=entity_stato(name='degrees of freedom',
@@ -97,7 +97,7 @@ ttest = function(
         ),
         significant=entity(name='Significant features',
             #stato_id='STATO:0000069',
-            type='logical',
+            type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         ),
         conf_int=entity(name='Confidence interval',
@@ -124,67 +124,53 @@ setMethod(f="model_apply",
         
         L=levels(y)
         if (length(L)!=2) {
-            stop('must have exactly two levels for this implmentation of t-statistic')
+            stop('must have exactly two levels for this implementation of t-statistic')
         }
-
-        estimate_name='estimate'
+        
+        
         if (M$paired){
-            # check that we have a pair for each sample,
-            # if not then remove
-            u=unique(D$sample_meta[[M$paired_factor]])
-            out=character(0) # list of sample_id to remove
-            for (k in u) {
-                n=sum(D$sample_meta[[M$paired_factor]]==k) # number of samples (could be same class)
-                if (n<2) {
-                    out=c(out,k)
-                }
-                # if we have more than 2 then we need an even number.
-                if (n%%2 != 0) {
-                    out=c(out,k)
-                }
-                # check we have enough groups (must be two for ttest)
-                ng=length(unique(D$sample_meta[[M$factor_names]][D$sample_meta[[M$paired_factor]]==k]))
-                if (ng != 2) {
-                    out=c(out,k)
-                }
-
-            }
-            #D$data=D$data[!(D$sample_meta[[M$paired_factor]] %in% out),]
-            #D$sample_meta=D$sample_meta[!(D$sample_meta[[M$paired_factor]] %in% out),]
-            D=D[!(D$sample_meta[[M$paired_factor]] %in% out),]
-            y=D$sample_meta[[M$factor_names]]
-
-            # sort the data by sample id so that theyre in the right order for paired ttest
-            temp=D$sample_meta[order(D$sample_meta[[M$factor_names]],D$sample_meta[[M$paired_factor]]),]
-            D=D[rownames(temp),]
-
-            # check number per class
-            # if less then 2 then remove
-            FF=filter_na_count(threshold=2,factor_name=M$factor_names)
-            FF=model_apply(FF,D)
-            D=predicted(FF)
-
-            # check equal numbers per class. if not equal then exclude.
-            IN=rownames(FF$count)[(FF$count[,1]==FF$count[,2]) & (FF$count[,1]>2) & (FF$count[,2]>2)]
-            D=D[,IN]
-
             estimate_name='estimate.mean of the differences'
+        } else {
+            estimate_name='estimate'
         }
-
-
-
+        
         X=D$data
         y=D$sample_meta[[M$factor_names]]
-
+        
         output=lapply(X,function(x) {
             a=tryCatch({
+                
+                # check for pairs if required
+                if (M$paired) {
+                    # get group A
+                    dfA=data.frame(val=x[y==L[1]],id=D$sample_meta[y==L[1],M$paired_factor])
+                    # get group B
+                    dfB=data.frame(val=x[y==L[2]],id=D$sample_meta[y==L[2],M$paired_factor])
+                    # merge
+                    Z = merge(dfA,dfB,by='id') # will exclude any sample without a matching pair in sample list
+                    # omit pairs with an NA
+                    Z = na.omit(Z) # excludes any pair with at least one NA
+                    
+                    # check for at least 3 pairs
+                    if (nrow(Z)<3) {
+                        stop('not enough pairs')
+                    }
+                    
+                    #extract for t-stat
+                    A = Z$val.x
+                    B = Z$val.y
+                } else {
+                    A = x[y==L[1]]
+                    B = x[y==L[2]]
+                }
+                
                 g=unlist(
                     t.test(
-                        x[y==L[1]],
-                        x[y==L[2]],
+                        A,
+                        B,
                         paired = M$paired,
                         var.equal=M$equal_variance
-                   )[c("statistic","p.value","parameter",'conf.int','estimate')]
+                    )[c("statistic","p.value","parameter",'conf.int','estimate')]
                 )
                 return(g)
             },warning=function(w) {
@@ -196,28 +182,30 @@ setMethod(f="model_apply",
             }
             )
         })
-
+        
         # replace na with vector of na the correct length/names
         na=which(is.na(output))
-
+        
         if (length(na)>0) {
             notna=which(!is.na(output))
             torep=output[[notna[1]]] # the first output that worked as expected
             torep[1:length(torep)]=NA # populate with NA
             output[na]=rep(list(torep),length(na))
-
+            
         }
-
+        
         output=as.data.frame(output,check.names=FALSE)
         temp=data.frame(row.names=CN) # make sure we get  result for all features, even if NA
         output=merge(temp,as.data.frame(t(output),stringsAsFactors = FALSE),by=0,all=TRUE,sort=FALSE)
         rownames(output)=output$Row.names
         output=output[,-1]
-        output$p.value=p.adjust(output$p.value,method = param_value(M,'mtc'))
-        output_value(M,'t_statistic')=output$statistic.t
-        output_value(M,'p_value')=output$p.value
+        # ensure outputs are in the correct order (TODO: update to data.frame with rownames)
+        output=output[CN,]
+        output$p.value='p_value'=p.adjust(output$p.value,method = param_value(M,'mtc'))
+        output_value(M,'t_statistic')=data.frame('t_statistic'=output$statistic.t,row.names = CN)
+        output_value(M,'p_value')=data.frame('p_value'=output$p.value,row.names = CN)
         output_value(M,'dof')=output$parameter.df
-        output_value(M,'significant')=output$p.value<param_value(M,'alpha')
+        output_value(M,'significant')=data.frame('significant'=output$p.value<param_value(M,'alpha'),row.names=CN)
         M$conf_int=output[,4:5,drop=FALSE]
         colnames(M$conf_int)=c('lower','upper')
         if (M$paired) {
@@ -227,7 +215,7 @@ setMethod(f="model_apply",
             M$estimates=output[,6:7,drop=FALSE]
             colnames(M$estimates)=as.character(interaction('estimate.mean',L))
         }
-
+        
         return(M)
     }
 )
