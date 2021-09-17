@@ -117,7 +117,7 @@ Imports: ggplot2,
     sp,
     stats,
     utils
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: agricolae,
  BiocFileCache,
  BiocStyle,

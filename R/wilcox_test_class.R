@@ -264,10 +264,8 @@ setMethod(f="chart_plot",
 setMethod(f="as_data_frame",
     signature=c("wilcox_test"),
     definition=function(M) {
-        out=data.frame('w_statistic'=M$statistic[,1],
-            'w_p_value'=M$p_value[,1],
-            'w_significant'=M$significant[,1],row.names=rowname(M$statistic))
-        out=cbind(out,M$estimates,M$conf_int)
+        df=cbind(M$statistic,M$p_value,M$significant,M$estimates,M$conf_int)
+        return(df)
     }
 )
 
