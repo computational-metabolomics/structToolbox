@@ -1,3 +1,7 @@
+Changes 1.4.3
++ ensure paired ttest/wilcoxon return values for all features
++ fix feature_boxplot when NA present
+
 Changes 1.4.2
 + fix unused "unbalanced" input for HSD
 + fix median fold change computation when more than 2 levels
