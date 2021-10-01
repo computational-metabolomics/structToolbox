@@ -245,7 +245,7 @@ setMethod(f="model_apply",
                     out=lapply(D2$data,function(x) {
                         y1=x[D2$sample_meta[[M$factor_name]]==L[A]]
                         y2=x[D2$sample_meta[[M$factor_name]]==L[B]]
-                        val=ci_delta_nu(y1,y2,alpha=1-M$conf_level,paired=M$paired)
+                        val=ci_delta_nu(na.omit(y1),na.omit(y2),alpha=1-M$conf_level,paired=M$paired)
                         val=matrix(val,nrow=1,ncol=3)
                         colnames(val)=c('median','lci','uci')
                         return(val)
@@ -296,7 +296,7 @@ setMethod(f="model_apply",
                         out=lapply(D2$data,function(x) {
                             y1=x[D2$sample_meta[[M$factor_name]]==L[A]]
                             y2=x[D2$sample_meta[[M$factor_name]]==L[B]]
-                            ret=ci.mean.bs(1-M$conf_level,y1,y2)
+                            ret=ci.mean.bs(1-M$conf_level,na.omit(y1),na.omit(y2))
                             return(ret)
                         })
                         
