@@ -40,7 +40,7 @@ M = model_apply(M,D)
 \references{
 Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team (2021).
 \emph{nlme: Linear and Nonlinear Mixed Effects Models}.
-R package version 3.1-152, \url{https://CRAN.R-project.org/package=nlme}.
+R package version 3.1-153, \url{https://CRAN.R-project.org/package=nlme}.
 
 Lenth R (2021).
 \emph{emmeans: Estimated Marginal Means, aka Least-Squares Means}.

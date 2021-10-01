@@ -39,9 +39,9 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = PLSDA('number_components'=2,factor_name='Species')
 }
 \references{
-Mevik B, Wehrens R, Liland K (2020).
+Liland K, Mevik B, Wehrens R (2021).
 \emph{pls: Partial Least Squares and Principal Component Regression}.
-R package version 2.7-3, \url{https://CRAN.R-project.org/package=pls}.
+R package version 2.8-0, \url{https://CRAN.R-project.org/package=pls}.
 
 Perez NF, Ferre J, Boque R (2009).
 ``Calculation of the reliability of classification in discriminant partial least-squares binary classification.''

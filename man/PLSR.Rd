@@ -36,7 +36,7 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = PLSR(factor_name='run_order')
 }
 \references{
-Mevik B, Wehrens R, Liland K (2020).
+Liland K, Mevik B, Wehrens R (2021).
 \emph{pls: Partial Least Squares and Principal Component Regression}.
-R package version 2.7-3, \url{https://CRAN.R-project.org/package=pls}.
+R package version 2.8-0, \url{https://CRAN.R-project.org/package=pls}.
 }
