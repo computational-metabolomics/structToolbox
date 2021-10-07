@@ -245,7 +245,19 @@ setMethod(f="model_apply",
                     out=lapply(D2$data,function(x) {
                         y1=x[D2$sample_meta[[M$factor_name]]==L[A]]
                         y2=x[D2$sample_meta[[M$factor_name]]==L[B]]
-                        val=ci_delta_nu(na.omit(y1),na.omit(y2),alpha=1-M$conf_level,paired=M$paired)
+                        
+                        if (M$paired) {
+                            # if one of pair is NA, set both to NA
+                            y1[is.na(y2)]=NA
+                            y2[is.na(y1)]=NA
+                        }
+                        
+                        if (all(is.na(y1)) | all(is.na(y2))) {
+                            val=rep(NA,3) # report NA if a group is missing
+                        } else {
+                            val=ci_delta_nu(y1,y2,alpha=1-M$conf_level,paired=M$paired)
+                        }
+                        
                         val=matrix(val,nrow=1,ncol=3)
                         colnames(val)=c('median','lci','uci')
                         return(val)
@@ -284,9 +296,22 @@ setMethod(f="model_apply",
                         
                         # calculate means and confidence intervals for all features
                         out=lapply(D2$data,function(x) {
+                            
                             y1=x[D2$sample_meta[[M$factor_name]]==L[A]]
                             y2=x[D2$sample_meta[[M$factor_name]]==L[B]]
-                            ret=ci.mean.paired(1-M$conf_level,y1,y2)
+                            
+                            if (M$paired) {
+                                # if one of pair is NA, set both to NA
+                                y1[is.na(y2)]=NA
+                                y2[is.na(y1)]=NA
+                            }
+                            
+                            if (all(is.na(y1)) | all(is.na(y2))) {
+                                ret=matrix(NA,nrow=1,ncol=3) # report NA if a group is missing
+                                colnames(ret)=c('fold_change','lower_ci','upper_ci')
+                            } else {
+                                ret=ci.mean.paired(1-M$conf_level,y1,y2)
+                            }
                             return(ret)
                         })
                         
@@ -296,7 +321,13 @@ setMethod(f="model_apply",
                         out=lapply(D2$data,function(x) {
                             y1=x[D2$sample_meta[[M$factor_name]]==L[A]]
                             y2=x[D2$sample_meta[[M$factor_name]]==L[B]]
-                            ret=ci.mean.bs(1-M$conf_level,na.omit(y1),na.omit(y2))
+                            
+                            if (all(is.na(y1)) | all(is.na(y2))) {
+                                ret=matrix(NA,nrow=1,ncol=8) # report NA if a group is missing
+                                colnames(ret)=c("Mean1", "Mean2", "df", "  Mean1/Mean2", "LL", "UL", "  Log-ratio", "SE")
+                            } else {
+                                ret=ci.mean.bs(1-M$conf_level,na.exclude(y1),na.exclude(y2))
+                            }
                             return(ret)
                         })
                         
@@ -472,7 +503,7 @@ ci_delta_nu = function(y1,y2,alpha=0.05,paired=FALSE) {
         return(out)
     } else {
         if (length(y1) != length(y2)) {
-            stop('all samples must be present in all groups for a paired comparison')
+            stop('the same number of samples must be present in all groups for a paired comparison')
         } 
         r = y1/y2
         mr=mean(r)

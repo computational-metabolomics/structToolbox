@@ -1,3 +1,6 @@
+Changes 1.5.7
++ improve NA handling in fold_change computations
+
 Changes 1.5.5
 + change t-test outputs to data.frame
 + fix NA bug in feature_boxplot chart
