@@ -283,7 +283,7 @@ setMethod(f="chart_plot",
         }
         
         if (obj$ellipse %in% c('all','group')) {
-            out = out +stat_ellipse(type=obj$ellipse_type,
+            out = out +stat_ellipse(data=A, aes_(x=~x,y=~y,colour=~group),type=obj$ellipse_type,
                 level=obj$ellipse_confidence) # ellipse for individual groups
         }
         
