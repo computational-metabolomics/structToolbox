@@ -12,7 +12,7 @@ autoscale = function(mode='data',...) {
 
 .autoscale<-setClass(
     "autoscale",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         mode='enum',
         autoscaled='DatasetExperiment',
@@ -39,7 +39,7 @@ autoscale = function(mode='data',...) {
             value='data',
             allowed=c('data','sample_meta','both')
         ),
-        stato_id='OBI:0200149'
+        ontology='OBI:0200149'
         
     )
 )

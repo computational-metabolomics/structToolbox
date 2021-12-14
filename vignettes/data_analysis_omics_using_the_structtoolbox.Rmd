@@ -30,7 +30,6 @@ knitr::opts_chunk$set(
     dpi=96,fig.width=5,fig.height=5.5,fig.retina = 1,fig.small = TRUE
 )
 set.seed(57475)
-
 ```
 
 # Introduction
@@ -70,6 +69,7 @@ suppressPackageStartupMessages({
     library(cowplot)
     library(openxlsx)
 })
+
 
 # use the BiocFileCache
 bfc <- BiocFileCache(ask = FALSE)
@@ -229,37 +229,29 @@ g2 = chart_plot(C2,M[2])
 grid.arrange(grobs=list(g1,g2),nrow=1)
 ```
 
-### STATistics Ontology (STATO)
-Within the `struct` framework (and `structToolbox`) we use STATO objects to provide standardardised definitions for objects and its inputs and outputs.
+### Ontology
+Within the `struct` framework (and `structToolbox`) an `ontology` slot is provided to allow for standardardised definitions for objects and its inputs and outputs using the Ontology Lookup Service (OLS).
 
-STATO is a general purpose STATistics Ontology (http://stato-ontology.org). From the webpage:
+For example, STATO is a general purpose STATistics Ontology (http://stato-ontology.org). From the webpage:
 
 > Its aim is to provide coverage for processes such as statistical tests, their conditions of application, and information needed or resulting from statistical methods, such as probability distributions, variables, spread and variation metrics. STATO also covers aspects of experimental design and description of plots and graphical representations commonly used to provide visual cues of data distribution or layout and to assist review of the results.
 
-The STATistics Ontology for the PCA model is available via the following methods. We can verify that an object has STATO definitions attached by checking that the object is derived from the `stat` class:
+The ontology for an object can be set by assigning the ontology term identifier to the ontology slot of any `struct_class` object at design time. The ids can be listed using `$` notation:
 
 ```{r}
-is(PCA(),'stato')
+# create an example PCA object
+P=PCA()
+
+# ontology for the PCA object
+P$ontology
 ```
-STATO definitions can be extracted from the object using the `stato_id`, `stato_name` and `stato_definition` methods.
+
+The `ontology` method can be used obtain more detailed ontology information. When `cache = NULL` the `struct` package will automatically attempt to use the OLS API (via the `rols` package) to obtain a name and description for the provided identifiers. Here we used cached versions of the ontology definitions provided in the `structToolbox` package to prevent issues connecting to the OLS API when building the package.
 
 ```{r}
-# this is the stato id for PCA
-stato_id(M[2])
-
-# this is the stato name
-stato_name(M[2])
-
-# this is the stato definition
-stato_definition(M[2])
+ontology(P,cache = ontology_cache()) # set cache = NULL (default) for online use
 ```
-This information is more succinctly displayed using `stato_summary`. This method also scans over all input params and outputs for those with STATO definitions and displays those as well. 
-
-For PCA the "number of components" input is listed with definitions because it is a STATO object, but none of the outputs (e.g. PCA scores) are STATO objects at this time and therefore no definition is provided.
-
-```{r}
-stato_summary(M[2])
-```
+Note that the `ontology` method returns definitions for the object (PCA) and the inputs/outputs (number_of_components).
 
 ## Validating supervised statistical models
 Validation is an important aspect of chemometric modelling. The `struct` framework enables this kind of iterative model testing through `iterator` objects. 
@@ -480,7 +472,8 @@ M4 = wilcox_test(
       mode='exclude',
       dimension='variable',
       seq_in='names', 
-      names='place_holder'
+      names='place_holder',
+      seq_fcn=function(x){return(x$significant)}
     )
 M4 = model_apply(M4, predicted(M3))
 
@@ -1383,7 +1376,6 @@ The first imputation method imputes missing values for any treatment where value
 set_struct_obj(
   class_name = 'STATegra_impute1',
   struct_obj = 'model',
-  stato=FALSE,
   params=c(factor_sd='character',factor_name='character'),
   outputs=c(imputed='DatasetExperiment'),
   prototype = list(
@@ -1436,7 +1428,6 @@ The second imputation method replacing missing values in any condition with exac
 set_struct_obj(
   class_name = 'STATegra_impute2',
   struct_obj = 'model',
-  stato=FALSE,
   params=c(factor_name='character'),
   outputs=c(imputed='DatasetExperiment'),
   prototype = list(

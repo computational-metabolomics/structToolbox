@@ -24,7 +24,10 @@ mv_boxplot(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{mv_boxplot} object.
+A  \code{
+mv_boxplot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 Boxplots of the number of missing values per sample/feature.

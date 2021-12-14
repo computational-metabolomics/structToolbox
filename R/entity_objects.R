@@ -1,14 +1,14 @@
 # entity objects used in struct, to reduce duplicity
 ents=list()
 
-ents$alpha=entity_stato(name='Confidence level',
-    stato_id='STATO:0000053',
+ents$alpha=entity(name='Confidence level',
+    ontology='STATO:0000053',
     value=0.05,
     type='numeric',
     description='The p-value cutoff for determining significance.'
 )
 
-ents$mtc=enum_stato(name='Multiple test correction method',
+ents$mtc=enum(name='Multiple test correction method',
     value='fdr',
     type='character',
     description=c(
@@ -18,7 +18,7 @@ ents$mtc=enum_stato(name='Multiple test correction method',
     ),
     allowed=c("bonferroni","fdr", "none"),
     max_length = 1,
-    stato_id='OBI:0200089'
+    ontology='OBI:0200089'
 )
 
 ents$formula=entity(name='Formula',
@@ -27,15 +27,15 @@ ents$formula=entity(name='Formula',
     description='A symbolic description of the model to be fitted.'
 )
 
-ents$f_statistic=entity_stato(name='F-statistic',
-    stato_id='STATO:0000176',
+ents$f_statistic=entity(name='F-statistic',
+    ontology='STATO:0000176',
     type='data.frame',
     description=paste0('The value of the calculated statistic.'),
     value=data.frame()
 )
 
-ents$p_value=entity_stato(name='p value',
-    stato_id='STATO:0000175',
+ents$p_value=entity(name='p value',
+    ontology='STATO:0000175',
     type='data.frame',
     description=paste0('The probability of observing the calculated statistic ',
         'if the null hypothesis is true.'),
@@ -43,7 +43,7 @@ ents$p_value=entity_stato(name='p value',
 )
 
 ents$significant=entity(name='Significant features',
-    #stato_id='STATO:0000069',
+    #ontology='STATO:0000069',
     type='data.frame',
     description=paste0('True/False indicating whether the p-value computed ',
     'for each variable is less than the threshold.'),

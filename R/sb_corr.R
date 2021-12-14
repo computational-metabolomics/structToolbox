@@ -28,7 +28,7 @@ sb_corr = function(
 
 .sb_corr<-setClass(
     "sb_corr",
-    contains = c('model','stato'),
+    contains = c('model'),
     slots=c(
         order_col='entity',
         batch_col='entity',
@@ -63,7 +63,7 @@ sb_corr = function(
                 journal = 'Analytical and Bioanalytical Chemistry'
             )
         ),
-        stato_id='STATO:0000236',
+        ontology='STATO:0000236',
         .params=c('order_col','batch_col','qc_col','smooth','use_log','min_qc',
             'qc_label','spar_lim'),
         .outputs=c('corrected','fitted'),

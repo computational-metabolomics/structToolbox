@@ -9,6 +9,9 @@ feature_boxplot(
   feature_to_plot,
   factor_name,
   show_counts = TRUE,
+  style = "boxplot",
+  jitter = FALSE,
+  fill = FALSE,
   ...
 )
 }
@@ -21,10 +24,19 @@ feature_boxplot(
 
 \item{show_counts}{(logical) Show counts. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The number of samples for each box is displayed.}\item{\code{"FALSE"}: The number of samples for each box is not displayed.}} The default is \code{TRUE}.}
 
+\item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{\item{\code{"boxplot"}: Boxplot style.}\item{\code{"violin"}: Violon plot style.}} The default is \code{"boxplot"}.}
+
+\item{jitter}{(logical) Include points plotted with added jitter. The default is \code{FALSE}.}
+
+\item{fill}{(logical) Block fill the boxes or violins with the group colour. The default is \code{FALSE}.}
+
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{feature_boxplot} object.
+A  \code{
+feature_boxplot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A boxplot to visualise the distribution of values within a feature.

@@ -11,6 +11,7 @@ ttest(
   paired = FALSE,
   paired_factor = character(0),
   equal_variance = FALSE,
+  conf_level = 0.95,
   ...
 )
 }
@@ -27,10 +28,20 @@ ttest(
 
 \item{equal_variance}{(logical) Equal variance. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The variance of each group is treated as being equal using the pooled variance to estimate the variance.}\item{\code{"FALSE"}: The variance of each group is not assumed to be equal and the Welch (or Satterthwaite) approximation is used.}} The default is \code{FALSE}.}
 
+\item{conf_level}{(numeric) The confidence level of the interval. The default is \code{0.95}.}
+
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{ttest} object.
+A  \code{ttest} object with the following \code{output} slots:
+\tabular{ll}{
+\code{t_statistic} \tab          (data.frame) The value of the calculate statistics which is converted to a p-value when compared to a t-distribution. \cr
+\code{p_value} \tab          (data.frame) The probability of observing the calculated t-statistic. \cr
+\code{dof} \tab          (numeric) The number of degrees of freedom used to calculate the test statistic. \cr
+\code{significant} \tab          (data.frame) TRUE if the calculated p-value is less than the supplied threhold (alpha). \cr
+\code{conf_int} \tab          (data.frame) Confidence interval for t statistic. \cr
+\code{estimates} \tab          (data.frame) The group means estimated when computing the t-statistic. \cr
+}
 }
 \description{
 A t-test compares the means of two factor levels. Multiple-test corrected p-values are used to indicate the significance of the computed difference for all features.

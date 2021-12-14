@@ -10,7 +10,12 @@ pareto_scale(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{pareto_scale} object.
+A  \code{pareto_scale} object with the following \code{output} slots:
+\tabular{ll}{
+\code{scaled} \tab          (DatasetExperiment)  \cr
+\code{mean} \tab          (numeric)  \cr
+\code{sd} \tab          (numeric)  \cr
+}
 }
 \description{
 The mean sample is subtracted from all samples and then scaled by the square root of the standard deviation. The transformed data has zero mean.

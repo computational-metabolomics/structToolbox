@@ -28,8 +28,8 @@ confounders_clsq = function(alpha=0.05,mtc='fdr',factor_name,
     contains='model',
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         factor_name='entity',
         confounding_factors='entity',
         threshold='entity',

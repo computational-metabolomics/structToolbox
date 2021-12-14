@@ -12,7 +12,11 @@ constant_sum_norm(scaling_factor = 1, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{constant_sum_norm} object.
+A  \code{constant_sum_norm} object with the following \code{output} slots:
+\tabular{ll}{
+\code{normalised} \tab          (DatasetExperiment) A DatasetExperiment object containing the normalised data. \cr
+\code{coeff} \tab          (data.frame) The sum of each row, used to normalise the samples. \cr
+}
 }
 \description{
 Each sample is normalised such that the total signal is equal to one (or a scaling factor if specified).

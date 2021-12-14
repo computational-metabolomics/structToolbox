@@ -14,7 +14,10 @@ kfoldxcv_grid(factor_name, level, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{kfoldxcv_grid} object.
+A  \code{
+kfoldxcv_grid
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A graphic for visualising the true class and the predicted class of samples in all groups for all cross-validation folds.

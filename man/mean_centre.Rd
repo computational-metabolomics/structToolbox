@@ -12,7 +12,12 @@ mean_centre(mode = "data", ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{mean_centre} object.
+A  \code{mean_centre} object with the following \code{output} slots:
+\tabular{ll}{
+\code{centred} \tab          (DatasetExperiment)  \cr
+\code{mean_data} \tab          (numeric)  \cr
+\code{mean_sample_meta} \tab          (numeric)  \cr
+}
 }
 \description{
 The mean sample is subtracted from all samples in the data matrix. The features in the centred matrix all have zero mean.

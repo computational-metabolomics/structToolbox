@@ -9,10 +9,12 @@
 tic_chart = function(
     run_order,
     factor_name,
+    connected=FALSE,
     ...) {
     out=struct::new_struct('tic_chart',
         run_order=run_order,
         factor_name=factor_name,
+        connected=connected,
         ...)
     return(out)
 }
@@ -24,21 +26,29 @@ tic_chart = function(
     slots=c(
         # INPUTS
         factor_name='entity',
-        run_order='entity'
+        run_order='entity',
+        connected='entity'
     ),
     prototype = list(
         name='Total Ion Count chart.',
         description=paste0('A scatter plot of Total Ion Count (sum of each ',
         'sample) versus run order.'),
         type="scatter",
-        .params=c('factor_name','run_order'),
+        .params=c('factor_name','run_order','connected'),
         factor_name=ents$factor_name,
         run_order=entity(
             name = 'Sample run order column',
             description = paste0('The column name of sample_meta indicating ',
             'the run order of the samples.'),
             value = character(0),
-            type='character')
+            type='character'),
+        connected=entity(
+            name='Connect samples',
+            description = 'Plot samples connected by a grey line.',
+            value=FALSE,
+            type='logical',
+            max_length = 1
+        )
     )
 )
 
@@ -56,14 +66,16 @@ setMethod(f="chart_plot",
               clr=clrs$class
           )
           
-          g = ggplot(data = df,aes_string(x='x',y='y',color='clr')) +
-              geom_line(color='#D8D8D8',size=1)+
-              geom_point() +
+          g = ggplot(data = df,aes_string(x='x',y='y',color='clr'))
+          
+          if (obj$connected){
+              g=g+geom_line(color='#D8D8D8',size=1)
+          }
+              g=g+geom_point() +
               xlab('Run order') +
               ylab('Total peak area') +
               scale_colour_manual(values=clrs$manual_colors,name=obj$factor_name) +
-              theme_Publication(base_size = 12) +
-              theme(legend.position="none")
+              theme_Publication(base_size = 12) 
           
           return(g)
           

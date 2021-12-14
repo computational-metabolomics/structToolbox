@@ -82,7 +82,7 @@ PLSDA = function(number_components=2,factor_name,...) {
             ),
             type='data.frame'
         ),
-        stato_id='STATO:0000572',
+        ontology='STATO:0000572',
         citations=list(
             bibentry(
                 bibtype ='Article',

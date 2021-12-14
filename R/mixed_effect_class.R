@@ -23,7 +23,7 @@ mixed_effect = function(alpha=0.05,mtc='fdr',formula,ss_type='marginal',...) {
         description='A mixed effects model is an extension of ANOVA where there are both fixed and random effects.',
         type="univariate",
         predicted='p_value',
-        stato_id="STATO:0000189",
+        ontology="STATO:0000189",
         libraries=c('nlme','emmeans'),
         .params=c('alpha','mtc','formula','ss_type'),
         .outputs=c('f_statistic','p_value','significant'),
@@ -148,7 +148,7 @@ aov2lme = function(f) {
     # split at Error
     txt=strsplit(txt,' + Error',fixed=TRUE)[[1]]
     if (length(txt)>3) {
-        stop('aov2lmr: Too many Error terms')
+        stop('aov2lmr: Too many terms')
     }
     # parse the Error term
     pattern="[()*/]"

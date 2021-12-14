@@ -24,7 +24,11 @@ mv_feature_filter(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{mv_feature_filter} object.
+A  \code{mv_feature_filter} object with the following \code{output} slots:
+\tabular{ll}{
+\code{filtered} \tab          (DatasetExperiment) A DatasetExperiment object containing the filtered data. \cr
+\code{flags} \tab          (data.frame) % missing values and a flag indicating whether the sample was rejected. \cr
+}
 }
 \description{
 Filters features where the percent number of missing values exceeds a predefined threshold.
@@ -38,7 +42,8 @@ M = mv_feature_filter(factor_name='Species',qc_label='versicolor')
 M = model_apply(M,D)
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (????).
-\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.3.5.
+Jankevics A, Lloyd GR, Weber RJM (2021).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.5.0.
 }

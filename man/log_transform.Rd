@@ -12,7 +12,10 @@ log_transform(base = 10, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{log_transform} object.
+A  \code{log_transform} object with the following \code{output} slots:
+\tabular{ll}{
+\code{transformed} \tab          (DatasetExperiment) A DatasetExperiment object containing the log transformed data. \cr
+}
 
 struct object
 }

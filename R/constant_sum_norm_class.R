@@ -13,7 +13,7 @@ constant_sum_norm = function(scaling_factor=1,...) {
 
 .constant_sum_norm<-setClass(
     "constant_sum_norm",
-    contains = c('model','stato'),
+    contains = c('model'),
     slots=c(
         scaling_factor='entity',
         normalised='entity',
@@ -24,7 +24,7 @@ constant_sum_norm = function(scaling_factor=1,...) {
             'signal is equal to one (or a scaling factor if specified).'),
         type = 'normalisation',
         predicted='normalised',
-        stato_id='OBI:0200026',
+        ontology='OBI:0200026',
         .params='scaling_factor',
         .outputs=c('normalised','coeff'),
         scaling_factor=entity(name = 'Normalised total',

@@ -249,18 +249,26 @@ setMethod(f="chart_plot",
         }
         
         if (is(opt$groups,'factor') | is(opt$groups,'character')) {
-            plotClass= createClassAndColors(opt$groups)
+            plotClass= structToolbox:::createClassAndColors(opt$groups)
             opt$groups=plotClass$class
         }
         
         # build the plot
-        A <- data.frame (group=opt$groups,x=x, y=y)
+        A <- data.frame (group=opt$groups,x=x, y=y,slabels=slabels)
+        
+        out = ggplot()
+        
+        # add invisible sample points for ellipse
+        out = out+geom_point(data=A,aes_string(x='x',y='y'),alpha=0,show.legend=FALSE)
+        
         
         if (length(obj$factor_name)==2) {
-            out=ggplot (data=A, aes_(x=~x,y=~y,colour=~group,label=~slabels,shape=~shapes))
+            out=out+geom_point(data=A, aes_(x=~x,y=~y,colour=~group,shape=~shapes))
         }   else {
-            out=ggplot (data=A, aes_(x=~x,y=~y,colour=~group,label=~slabels))
+            out=out+geom_point(data=A, aes_(x=~x,y=~y,colour=~group))
         }
+        
+        
         out=out+
             
             geom_point(na.rm=TRUE) +
@@ -275,19 +283,18 @@ setMethod(f="chart_plot",
         }
         
         if (obj$ellipse %in% c('all','group')) {
-            out = out +stat_ellipse(type=obj$ellipse_type,
+            out = out +stat_ellipse(data=A, aes_(x=~x,y=~y,colour=~group),type=obj$ellipse_type,
                 level=obj$ellipse_confidence) # ellipse for individual groups
         }
         
         if (is(opt$groups,'factor')) { # if a factor then plot by group using the colours from pmp package
             out=out+scale_colour_manual(values=plotClass$manual_colors,
                 name=opt$factor_name)
-        }
-        else {# assume continuous and use the default colour gradient
+        }else {# assume continuous and use the default colour gradient
             out=out+scale_colour_viridis_c(limits=quantile(opt$groups,
                 c(0.05,0.95),na.rm = TRUE),oob=squish,name=opt$factor_name)
         }
-        out=out+theme_Publication(base_size = 12)
+        out=out+structToolbox:::theme_Publication(base_size = 12)
         # add ellipse for all samples (ignoring group)
         if (obj$ellipse %in% c('all','sample')) {
             out=out+stat_ellipse(type=obj$ellipse_type,mapping=aes(x=x,y=y),
@@ -310,7 +317,8 @@ setMethod(f="chart_plot",
                 {
                     temp=subset(points,!points$in.ell)
                     temp$group=opt$groups[!points$in.ell]
-                    out=out+geom_text(data=temp,aes_(x=~x,y=~y,label=~label,colour=~group),size=obj$label_size,vjust="inward",hjust="inward")
+                    temp$label=slabels[!points$in.ell]
+                    out=out+geom_text(data=temp,aes_(x=~x,y=~y,label=~label,colour=~group),size=obj$label_size,vjust="inward",hjust="inward",show.legend=FALSE)
                     
                 }
             }
@@ -319,9 +327,8 @@ setMethod(f="chart_plot",
         }
         
         # label all points if requested
-        if (opt$points_to_label=='all')
-        {
-            out=out+geom_text(vjust="inward",hjust="inward")
+        if (opt$points_to_label=='all') {
+            out=out+geom_text(data=A,aes_string(x='x',y='y',colour='group',label='slabels'),vjust="inward",hjust="inward",show.legend=FALSE)
         }
         
         return(out)
@@ -359,7 +366,7 @@ pca_biplot = function(
 
 .pca_biplot<-setClass(
     "pca_biplot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(
         # INPUTS
         components='entity',
@@ -626,12 +633,12 @@ pca_scree_plot = function(...) {
 
 .pca_scree_plot<-setClass(
     "pca_scree_plot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     prototype = list(name='Scree plot',
         description=paste0('A plot of the percent variance and cumulative ',
             'percent variance for the components of a PCA model. '),
         type="line",
-        stato_id="STATO:0000386"
+        ontology="STATO:0000386"
     )
 )
 
@@ -681,7 +688,7 @@ pca_dstat_plot = function(number_components=2,alpha=0.05,...) {
 
 .pca_dstat_plot<-setClass(
     "pca_dstat_plot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(number_components='entity',
         alpha='entity'),
     prototype = list(name='d-statistic plot',
@@ -690,7 +697,7 @@ pca_dstat_plot = function(number_components=2,alpha=0.05,...) {
             'considered to be outlying.'),
         type="bar",
         .params=c('number_components','alpha'),
-        stato_id='STATO:0000132',
+        ontology='STATO:0000132',
         number_components=entity(value = 2,
             name = 'Number of principal components',
             description = 'The number of principal components to use.',

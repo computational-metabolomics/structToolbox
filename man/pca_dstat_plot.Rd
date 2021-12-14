@@ -14,7 +14,10 @@ pca_dstat_plot(number_components = 2, alpha = 0.05, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{pca_dstat_plot} object.
+A  \code{
+pca_dstat_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A bar chart of the d-statistics for samples in the input PCA model. Samples above the indicated threshold are considered to be outlying.

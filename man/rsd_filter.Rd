@@ -16,7 +16,12 @@ rsd_filter(rsd_threshold = 20, qc_label = "QC", factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{rsd_filter} object.
+A  \code{rsd_filter} object with the following \code{output} slots:
+\tabular{ll}{
+\code{filtered} \tab          (DatasetExperiment) A DatasetExperiment object containing the filtered data. \cr
+\code{flags} \tab          (data.frame) RSD and a flag indicating whether the feature was rejected by the filter or not. \cr
+\code{rsd_qc} \tab          (data.frame) The calculated RSD of the QC class. \cr
+}
 }
 \description{
 An RSD filter calculates the relative standard deviation (the ratio of the standard deviation to the mean) for all features. Any feature with an RSD greater than a predefined threshold is excluded.
@@ -29,7 +34,8 @@ M = rsd_filter(factor_name='Class')
 
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (????).
-\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.3.5.
+Jankevics A, Lloyd GR, Weber RJM (2021).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.5.0.
 }

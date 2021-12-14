@@ -12,7 +12,11 @@ split_data(p_train, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{split_data} object.
+A  \code{split_data} object with the following \code{output} slots:
+\tabular{ll}{
+\code{training} \tab          (DatasetExperiment) A DatasetExperiment object containing samples selected for the training set. \cr
+\code{testing} \tab          (DatasetExperiment) A DatasetExperiment object containing samples selected for the testing set. \cr
+}
 }
 \description{
 The data matrix is divided into two subsets.A predefined proportion of the samples are randomly selected for a training set, and the remaining samples are used for the test set.

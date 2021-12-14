@@ -18,7 +18,14 @@ classical_lsq(alpha = 0.05, mtc = "fdr", factor_names, intercept = TRUE, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{classical_lsq} object.
+A  \code{classical_lsq} object with the following \code{output} slots:
+\tabular{ll}{
+\code{coefficients} \tab          (data.frame) The regression coefficients for each term in the model. \cr
+\code{p_value} \tab          (data.frame) The probability of observing the calculated statistic if the null hypothesis is true. \cr
+\code{significant} \tab          (data.frame) True/False indicating whether the p-value computed for each variable is less than the threshold. \cr
+\code{r_squared} \tab          (data.frame) The value of R Squared for the fitted model. \cr
+\code{adj_r_squared} \tab          (data.frame) The value ofAdjusted  R Squared for the fitted model. \cr
+}
 }
 \description{
 In univariate classical least squares regression a line is fitted between each feature/variable and a response variable. The fitted line minimises the sum of squared differences between the true response and the predicted response. The coefficients (offset, gradient) of the fit can be tested for significance.

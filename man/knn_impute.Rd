@@ -24,7 +24,10 @@ knn_impute(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{knn_impute} object.
+A  \code{knn_impute} object with the following \code{output} slots:
+\tabular{ll}{
+\code{imputed} \tab          (DatasetExperiment) A DatasetExperiment object containing the data where missing values have been imputed. \cr
+}
 }
 \description{
 k-nearest neighbour missing value imputation replaces missing values in the data with the average of a predefined number of the most similar neighbours for which the value is present
@@ -36,7 +39,8 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = knn_impute()
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (????).
-\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.3.5.
+Jankevics A, Lloyd GR, Weber RJM (2021).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.5.0.
 }

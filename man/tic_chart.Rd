@@ -4,17 +4,22 @@
 \alias{tic_chart}
 \title{Total Ion Count chart.}
 \usage{
-tic_chart(run_order, factor_name, ...)
+tic_chart(run_order, factor_name, connected = FALSE, ...)
 }
 \arguments{
 \item{run_order}{(character) The column name of sample_meta indicating the run order of the samples.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
+\item{connected}{(logical) Plot samples connected by a grey line. The default is \code{FALSE}.}
+
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{tic_chart} object.
+A  \code{
+tic_chart
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A scatter plot of Total Ion Count (sum of each sample) versus run order.

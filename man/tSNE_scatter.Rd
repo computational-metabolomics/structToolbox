@@ -12,7 +12,10 @@ tSNE_scatter(factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{tSNE_scatter} object.
+A  \code{
+tSNE_scatter
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 plots the new representation of data after applying tSNE.

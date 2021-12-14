@@ -14,8 +14,16 @@ bootstrap(number_of_repetitions = 100, collect, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{bootstrap} object.
+A  \code{bootstrap} object with the following \code{output} slots:
+\tabular{ll}{
+\code{results} \tab          (data.frame)  \cr
+\code{metric} \tab          (data.frame)  \cr
+\code{collected} \tab          (logical, list)  \cr
+}
 }
 \description{
 In bootstrap resampling a subset of samples is selected at random with replacement to form a training set. Any sample not selected for training is included in the test set. This process is repeated many times, and performance metrics are computed for each repetition.
+}
+\examples{
+I = bootstrap(number_of_repetitions = 10, collect = 'vip')
 }

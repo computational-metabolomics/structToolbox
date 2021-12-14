@@ -16,7 +16,14 @@ kw_rank_sum(alpha = 0.05, mtc = "fdr", factor_names, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{kw_rank_sum} object.
+A  \code{kw_rank_sum} object with the following \code{output} slots:
+\tabular{ll}{
+\code{test_statistic} \tab          (data.frame) The value of the calculated statistic which is converted to a p-value when compared to a chi2-distribution. \cr
+\code{p_value} \tab          (data.frame) The probability of observing the calculated statistic. \cr
+\code{dof} \tab          (numeric) The number of degrees of freedom used to calculate the test statistic. \cr
+\code{significant} \tab          (data.frame) TRUE if the calculated p-value is less than the supplied threhold (alpha). \cr
+\code{estimates} \tab          (data.frame)  \cr
+}
 }
 \description{
 The Kruskal-Wallis test is a univariate hypothesis testing method that allows multiple (n>=2) groups to be compared without making the assumption that values are normally distributed. It is the non-parametric equivalent of a 1-way ANOVA. The test is applied to all variables/features individually, and multiple test corrected p-values are computed to indicate the significance of variables/features.

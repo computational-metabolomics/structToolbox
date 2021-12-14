@@ -14,7 +14,17 @@ PLSR(number_components = 2, factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{PLSR} object.
+A  \code{PLSR} object with the following \code{output} slots:
+\tabular{ll}{
+\code{scores} \tab          (data.frame)  \cr
+\code{loadings} \tab          (data.frame)  \cr
+\code{y} \tab          (data.frame)  \cr
+\code{yhat} \tab          (data.frame)  \cr
+\code{reg_coeff} \tab          (data.frame)  \cr
+\code{vip} \tab          (data.frame)  \cr
+\code{pls_model} \tab          (list)  \cr
+\code{pred} \tab          (data.frame)  \cr
+}
 }
 \description{
 PLS is a multivariate regression technique that extracts latent variables maximising covariance between the input data and the response. For regression the response is a continuous variable.
@@ -26,7 +36,7 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = PLSR(factor_name='run_order')
 }
 \references{
-Mevik B, Wehrens R, Liland K (2020).
+Liland K, Mevik B, Wehrens R (2021).
 \emph{pls: Partial Least Squares and Principal Component Regression}.
-R package version 2.7-3, \url{https://CRAN.R-project.org/package=pls}.
+R package version 2.8-0, \url{https://CRAN.R-project.org/package=pls}.
 }

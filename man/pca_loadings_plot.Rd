@@ -21,7 +21,10 @@ pca_loadings_plot(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{pca_loadings_plot} object.
+A  \code{
+pca_loadings_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A barchart (one component) or scatter plot (two components) of the selected principal component loadings.

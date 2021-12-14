@@ -12,7 +12,10 @@ glog_opt_plot(plot_grid = 100, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{glog_opt_plot} object.
+A  \code{
+glog_opt_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A plot of the sum of squares error (SSE) vs different values of lambda for the glog transform. The indicated optimum value for lambda minimises the SSE.
@@ -28,7 +31,8 @@ C = glog_opt_plot()
 chart_plot(C,M,D)
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (????).
-\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.3.5.
+Jankevics A, Lloyd GR, Weber RJM (2021).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.5.0.
 }

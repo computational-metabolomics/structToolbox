@@ -12,7 +12,12 @@ permute_sample_order(number_of_permutations = 10, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{permute_sample_order} object.
+A  \code{permute_sample_order} object with the following \code{output} slots:
+\tabular{ll}{
+\code{results} \tab          (data.frame)  \cr
+\code{metric} \tab          (data.frame)  \cr
+\code{metric.train} \tab          (numeric)  \cr
+}
 }
 \description{
 The order of samples in the data matrix is randomly permuted. The relationship between the samples and the sample meta data is maintained.

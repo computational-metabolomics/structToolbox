@@ -12,7 +12,10 @@ plsr_prediction_plot(ycol = 1, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{plsr_prediction_plot} object.
+A  \code{
+plsr_prediction_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A scatter plot of the true response values against the predicted values for a PLSR model.

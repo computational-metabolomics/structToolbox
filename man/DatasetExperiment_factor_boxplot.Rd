@@ -14,7 +14,10 @@ DatasetExperiment_factor_boxplot(feature_to_plot, factor_names, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{DatasetExperiment_factor_boxplot} object.
+A  \code{
+DatasetExperiment_factor_boxplot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 Boxplot for a feature to visualise the distribution of values within each group

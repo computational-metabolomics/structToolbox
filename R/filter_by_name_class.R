@@ -114,10 +114,10 @@ setMethod(f="model_predict",
             
             if (opt$mode=='include') {
                 vmeta=vmeta[IN,,drop=FALSE]
-                D=D[ ,IN,drop=FALSE]
+                D=D[ ,IN]
             } else if (opt$mode=='exclude') {
                 vmeta=vmeta[!IN,,drop=FALSE]
-                D=D[,!IN,drop=FALSE]
+                D=D[,!IN]
             }
             
         }

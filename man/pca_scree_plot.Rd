@@ -10,7 +10,10 @@ pca_scree_plot(...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{pca_scree_plot} object.
+A  \code{
+pca_scree_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 
 struct object
 }

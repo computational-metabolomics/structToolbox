@@ -14,7 +14,10 @@ plsda_predicted_plot(factor_name, style = "boxplot", ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{plsda_predicted_plot} object.
+A  \code{
+plsda_predicted_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A plot of the regression coefficients from a PLSDA model.
@@ -31,9 +34,9 @@ C = plsda_predicted_plot(factor_name='Species')
 chart_plot(C,M[2])
 }
 \references{
-Mevik B, Wehrens R, Liland K (2020).
+Liland K, Mevik B, Wehrens R (2021).
 \emph{pls: Partial Least Squares and Principal Component Regression}.
-R package version 2.7-3, \url{https://CRAN.R-project.org/package=pls}.
+R package version 2.8-0, \url{https://CRAN.R-project.org/package=pls}.
 
 Wickham H (2016).
 \emph{ggplot2: Elegant Graphics for Data Analysis}.

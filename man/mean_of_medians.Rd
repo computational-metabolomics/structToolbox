@@ -12,7 +12,10 @@ mean_of_medians(factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{mean_of_medians} object.
+A  \code{mean_of_medians} object with the following \code{output} slots:
+\tabular{ll}{
+\code{transformed} \tab          (DatasetExperiment) Data after the tranformation has been applied. \cr
+}
 }
 \description{
 The data matrix is normalised by the mean of the median of each factor level.

@@ -16,16 +16,16 @@ kw_rank_sum = function(alpha=0.05,mtc='fdr',factor_names,...) {
 
 .kw_rank_sum<-setClass(
     "kw_rank_sum",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         factor_names='entity',
         # OUTPUTS
         test_statistic='entity',
         p_value='entity',
-        dof='entity_stato',
+        dof='entity',
         significant='entity',
         estimates='data.frame'
     ),
@@ -41,7 +41,7 @@ kw_rank_sum = function(alpha=0.05,mtc='fdr',factor_names,...) {
         predicted='p_value',
         .params=c('alpha','mtc','factor_names'),
         .outputs=c('test_statistic','p_value','dof','significant','estimates'),
-        stato_id='STATO:0000094',
+        ontology='STATO:0000094',
         factor_names=ents$factor_names,
 
         alpha=ents$alpha,
@@ -50,18 +50,18 @@ kw_rank_sum = function(alpha=0.05,mtc='fdr',factor_names,...) {
             type='data.frame',
             description='the value of the calculated statistic which is converted to a p-value when compared to a chi2-distribution.'
         ),
-        p_value=entity_stato(name='p value',
-            stato_id='STATO:0000175',
+        p_value=entity(name='p value',
+            ontology='STATO:0000175',
             type='data.frame',
             description='the probability of observing the calculated statistic.'
         ),
-        dof=entity_stato(name='degrees of freedom',
-            stato_id='STATO:0000069',
+        dof=entity(name='degrees of freedom',
+            ontology='STATO:0000069',
             type='numeric',
             description='the number of degrees of freedom used to calculate the test statistic'
         ),
         significant=entity(name='Significant features',
-            #stato_id='STATO:0000069',
+            #ontology='STATO:0000069',
             type='data.frame',
             description='TRUE if the calculated p-value is less than the supplied threhold (alpha)'
         )

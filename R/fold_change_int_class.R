@@ -7,18 +7,18 @@
 #' M = model_apply(M,D)
 #' @export fold_change_int
 fold_change_int = function(
-    alpha=0.05,
     factor_name,
     threshold=2,
     control_group=character(0),
     method = "geometric",
+    conf_level = 0.95,
     ...) {
     out=struct::new_struct('fold_change_int',
-        alpha=alpha,
         threshold=threshold,
         factor_name=factor_name,
         control_group=control_group,
         method=method,
+        conf_level=conf_level,
         ...)
     return(out)
 }
@@ -29,7 +29,7 @@ fold_change_int = function(
     contains=c('model','fold_change'),
     prototype = list(
         predicted='fold_change',
-        .params=c('factor_name','sample_name','alpha','threshold','control_group','method'),
+        .params=c('factor_name','sample_name','threshold','control_group','method'),
         .outputs=c('fold_change','lower_ci','upper_ci'),
         name = 'Fold change for interactions between factors',
         description = paste0('For more than one factor the fold change ',
@@ -99,12 +99,12 @@ setMethod(f="model_apply",
         }
         
         FC=fold_change(
-            alpha=M$alpha,
             paired=FALSE,
             sample_name='NA',
             factor_name='interaction',
             method=M$method,
-            threshold=M$threshold)
+            threshold=M$threshold,
+            conf_level=M$conf_level)
         
         FC=model_apply(FC,D)
         #if (k==1) {

@@ -10,6 +10,7 @@ wilcox_test(
   factor_names,
   paired = FALSE,
   paired_factor = character(0),
+  conf_level = 0.95,
   ...
 )
 }
@@ -24,10 +25,20 @@ wilcox_test(
 
 \item{paired_factor}{(character) The factor name containing sample ids for paired data. The default is \code{character(0)}.}
 
+\item{conf_level}{(numeric) The confidence level of the interval. The default is \code{0.95}.}
+
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{wilcox_test} object.
+A  \code{wilcox_test} object with the following \code{output} slots:
+\tabular{ll}{
+\code{statistic} \tab          (data.frame) The value of the calculated statistic which is converted to a p-value. \cr
+\code{p_value} \tab          (data.frame) The probability of observing the calculated t-statistic. \cr
+\code{dof} \tab          (numeric) The number of degrees of freedom used to calculate the test statistic. \cr
+\code{significant} \tab          (data.frame) TRUE if the calculated p-value is less than the supplied threhold (alpha). \cr
+\code{conf_int} \tab          (data.frame) Confidence interval for t statistic. \cr
+\code{estimates} \tab          (data.frame) The group estimates used when computing the statistic. \cr
+}
 
 struct object
 }

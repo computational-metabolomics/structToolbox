@@ -21,16 +21,16 @@ classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
 
 .classical_lsq<-setClass(
     "classical_lsq",
-    contains=c('model','stato'),
+    contains=c('model'),
     slots=c(
         # INPUTS
-        alpha='entity_stato',
-        mtc='enum_stato',
+        alpha='entity',
+        mtc='enum',
         factor_names='entity',
         intercept='entity',
         # OUTPUTS
         coefficients='entity',
-        p_value='entity_stato',
+        p_value='entity',
         significant='entity',
         r_squared='entity',
         adj_r_squared='entity'
@@ -46,7 +46,7 @@ classical_lsq = function(alpha=0.05,mtc='fdr',factor_names,intercept=TRUE,...) {
             'for significance.'
         ),
         type="univariate",
-        stato_id='STATO:0000370',
+        ontology='STATO:0000370',
         predicted='p_value',
         .params=c('alpha','mtc','factor_names','intercept'),
         .outputs=c('coefficients','p_value','significant',
@@ -120,13 +120,14 @@ setMethod(f="model_apply",
             }
 
             # create a DatasetExperiment object we can use with the linear model class
-            temp_y=data.frame(y=y[,n])
+            temp_y=y[,n,drop=FALSE]
             if (is(M$factor_names,'character')) {
                 X=X[,M$factor_names,drop=FALSE]
 
             } else { # assume list
                 X=X[,M$factor_names[[n]],drop=FALSE]
             }
+            colnames(temp_y)='y'
             Dlm=DatasetExperiment(data=temp_y,sample_meta=X,variable_meta=colnames(temp_y))
 
             LM=model_train(LM,Dlm)

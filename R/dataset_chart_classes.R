@@ -5,12 +5,15 @@
 #' chart_plot(C,D)
 #' @export feature_boxplot
 feature_boxplot = function(label_outliers=TRUE,feature_to_plot,
-    factor_name,show_counts=TRUE,...) {
+    factor_name,show_counts=TRUE,style='boxplot',jitter=FALSE,fill=FALSE,...) {
     out=struct::new_struct('feature_boxplot',
         label_outliers=label_outliers,
         feature_to_plot=feature_to_plot,
         factor_name=factor_name,
         show_counts=show_counts,
+        style=style,
+        jitter=jitter,
+        fill=fill,
         ...)
     return(out)
 }
@@ -18,19 +21,22 @@ feature_boxplot = function(label_outliers=TRUE,feature_to_plot,
 
 .feature_boxplot<-setClass(
     "feature_boxplot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(
         # INPUTS
         label_outliers='entity',
         feature_to_plot='entity',
         factor_name='entity',
-        show_counts='entity'
+        show_counts='entity',
+        style='enum',
+        jitter='entity',
+        fill='entity'
     ),
     prototype = list(name='Feature boxplot',
         description='A boxplot to visualise the distribution of values within a feature.',
         type="boxlot",
-        stato_id='STATO:0000243',
-        .params=c('label_outliers','feature_to_plot','factor_name','show_counts'),
+        ontology='STATO:0000243',
+        .params=c('label_outliers','feature_to_plot','factor_name','show_counts','style','jitter','fill'),
         
         label_outliers=entity(name='Label outliers',
             value=TRUE,
@@ -46,7 +52,32 @@ feature_boxplot = function(label_outliers=TRUE,feature_to_plot,
             description='The column name of the plotted feature.'
         ),
         factor_name=ents$factor_name,
-        show_counts=ents$show_counts
+        show_counts=ents$show_counts,
+        style=enum(
+            name='Plot style',
+            description=c(
+                'boxplot' = 'boxplot style',
+                'violin' = 'violon plot style'
+            ),
+            allowed=c('boxplot','violin'),
+            value='boxplot',
+            max_length=1,
+            type='character'
+        ),
+        jitter=entity(
+            name = 'Jitter',
+            description = 'Include points plotted with added jitter.',
+            value=FALSE,
+            type='logical',
+            max_length=1
+        ),
+        fill=entity(
+            name = 'Fill',
+            description = 'Block fill the boxes or violins with the group colour.',
+            value=FALSE,
+            type='logical',
+            max_length=1
+        )
     )
 )
 
@@ -71,10 +102,15 @@ setMethod(f="chart_plot",
         # meta data
         SM=dobj$sample_meta
         SM=SM[[obj$factor_name]]
+        names(SM)=rownames(dobj)
         
         # remove NA
         SM=SM[!is.na(Xt)]
         Xt=Xt[!is.na(Xt)]
+        
+        # get color pallete using pmp
+        clrs= createClassAndColors(class = SM)
+        SM=clrs$class
         
         # count number of values
         L=levels(SM)
@@ -83,19 +119,36 @@ setMethod(f="chart_plot",
             count[i]=sum(SM==L[i])
         }
         
-        # get color pallete using pmp
-        clrs= createClassAndColors(class = SM)
-        SM=clrs$class
-        
         #prep the plot
-        temp=data.frame(x=SM,y=Xt)
-        p<-ggplot(temp, aes_(x=~x,y=~y,color=~x)) +
-            geom_boxplot() +
-            xlab(opt$factor) +
+        temp=data.frame(x=SM,y=Xt,row.names=names(SM))
+        
+        if (obj$fill) {
+            A = aes_string(x='x',y='y',color='x',fill='x')
+        } else {
+            A = aes_string(x='x',y='y',color='x')
+        }
+
+        
+        p<-ggplot(temp, A) 
+        
+        if (obj$style=='boxplot') {
+            p=p+geom_boxplot(alpha=0.3)
+        } else {
+            p=p+geom_violin(alpha=0.3, draw_quantiles = c(0.25, 0.5, 0.75), 
+                            scale = "width", adjust = .5)
+        }
+        
+        if (obj$jitter) {
+            p=p+geom_jitter(show.legend = F, width = 0.1)
+        }
+            p=p+xlab(opt$factor) +
             ylab('') +
             ggtitle(varn) +
-            scale_colour_manual(values=clrs$manual_colors,name=opt$factor_name) +
-            theme_Publication(base_size = 12) +
+            scale_colour_manual(values=clrs$manual_colors,name=opt$factor_name)
+            
+            p=p+scale_fill_manual(values=clrs$manual_colors,name=opt$factor_name)
+
+            p=p+theme_Publication(base_size = 12) +
             theme(legend.position="none")
         
         if (opt$show_counts) {
@@ -112,7 +165,7 @@ setMethod(f="chart_plot",
                 outliers=c(outliers,IN[which( Xt[IN]<(quantile(Xt[IN], 0.25) - 1.5*IQR(Xt[IN]))) ] )
             }
             outlier_df=temp[outliers,]
-            outlier_df$out_label=paste0('  ',rownames(dobj$data))[outliers]
+            outlier_df$out_label=paste0('  ',rownames(temp))[outliers]
             p=p+geom_text(data=outlier_df,aes_(group=~x,color=~x,label=~out_label),hjust='left')
         }
         
@@ -546,14 +599,14 @@ compare_dist = function(factor_name,...) {
 
 .compare_dist<-setClass(
     "compare_dist",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(factor_name='entity'),
     prototype = list(name='Compare distributions',
         description=paste0('Histograms and boxplots computed across samples ',
             'and features are used to visually compare two datasets e.g. before ',
             'and after filtering and/or normalisation.'),
         type="mixed",
-        stato_id='STATO:0000161',
+        ontology='STATO:0000161',
         .params=c('factor_name'),
         factor_name=ents$factor_name
     )
@@ -685,8 +738,10 @@ setMethod(f="chart_plot",
     definition=function(obj,dobj)
     {
         X=reshape2::melt(as.matrix(dobj$data))
-        colnames(X)=c('Sample','Feature','Peak area')
-        p=ggplot(data=X,aes(x=`Feature`,y=`Sample`,fill=`Peak area`)) + geom_raster() +
+        colnames(X)=c('Sample','Feature','peak_area')
+        X$Feature=as.character(X$Feature)
+        X$Sample=as.character(X$Sample)
+        p=ggplot(data=X,aes_string(x='Feature',y='Sample',fill='peak_area')) + geom_raster() +
             scale_colour_Publication()+
             theme_Publication(base_size = 12)+
             scale_fill_viridis_c(na.value=obj$na_colour)+

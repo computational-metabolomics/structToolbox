@@ -18,7 +18,12 @@ mixed_effect(alpha = 0.05, mtc = "fdr", formula, ss_type = "marginal", ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{mixed_effect} object.
+A  \code{mixed_effect} object with the following \code{output} slots:
+\tabular{ll}{
+\code{f_statistic} \tab          (data.frame) The value of the calculated statistic. \cr
+\code{p_value} \tab          (data.frame) The probability of observing the calculated statistic if the null hypothesis is true. \cr
+\code{significant} \tab          (data.frame) True/False indicating whether the p-value computed for each variable is less than the threshold. \cr
+}
 }
 \description{
 A mixed effects model is an extension of ANOVA where there are both fixed and random effects.
@@ -35,11 +40,11 @@ M = model_apply(M,D)
 \references{
 Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team (2021).
 \emph{nlme: Linear and Nonlinear Mixed Effects Models}.
-R package version 3.1-152, \url{https://CRAN.R-project.org/package=nlme}.
+R package version 3.1-153, \url{https://CRAN.R-project.org/package=nlme}.
 
 Lenth R (2021).
 \emph{emmeans: Estimated Marginal Means, aka Least-Squares Means}.
-R package version 1.5.5-1, \url{https://CRAN.R-project.org/package=emmeans}.
+R package version 1.6.3, \url{https://CRAN.R-project.org/package=emmeans}.
 
 Fox J, Weisberg S (2019).
 \emph{An R Companion to Applied Regression}, Third edition.

@@ -27,7 +27,11 @@ blank_filter(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{blank_filter} object.
+A  \code{blank_filter} object with the following \code{output} slots:
+\tabular{ll}{
+\code{filtered} \tab          (DatasetExperiment) A DatasetExperiment object containing the filtered data. \cr
+\code{flags} \tab          (data.frame) A flag indicating whether the feature was rejected  or not. \cr
+}
 }
 \description{
 A blank filter filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the relative intensity (fold change) is not large when compared to the blank are removed. The number of times a feature is detected across all blank samples may also be considered. If the feature is not detected in a high enough proportion of the blanks then it is not removed.
@@ -44,7 +48,8 @@ M = blank_filter(fold_change=2,
 M = model_apply(M,D)
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (????).
-\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.3.5.
+Jankevics A, Lloyd GR, Weber RJM (2021).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.5.0.
 }

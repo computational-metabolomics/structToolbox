@@ -12,7 +12,15 @@ PCA(number_components = 2, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{PCA} object.
+A  \code{PCA} object with the following \code{output} slots:
+\tabular{ll}{
+\code{scores} \tab          (DatasetExperiment) A matrix of PCA scores where each column corresponds to a Principal Component. \cr
+\code{loadings} \tab          (data.frame)  \cr
+\code{eigenvalues} \tab          (data.frame)  \cr
+\code{ssx} \tab          (numeric)  \cr
+\code{correlation} \tab          (data.frame)  \cr
+\code{that} \tab          (DatasetExperiment)  \cr
+}
 }
 \description{
 PCA is a multivariate data reduction technique. It summarises the data in a smaller number of Principal Components that maximise variance.
