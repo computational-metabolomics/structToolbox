@@ -14,7 +14,10 @@ plsda_feature_importance_plot(n_features = 30, metric = "vip", ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{plsda_feature_importance_plot} object.
+A  \code{
+plsda_feature_importance_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 }
 \description{
 A plot of the selected feature significance metric for a PLSDA model for the top selected features.

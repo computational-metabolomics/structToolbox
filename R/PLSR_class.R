@@ -11,10 +11,10 @@ PLSR = function(number_components=2,factor_name,...) {
 }
 
 .PLSR<-setClass(
-
+    
     "PLSR",
     contains=c('model'),
-
+    
     slots=c(
         number_components='entity',
         factor_name='entity',
@@ -29,16 +29,16 @@ PLSR = function(number_components=2,factor_name,...) {
         sr = 'entity',
         sr_pvalue='entity'
     ),
-
+    
     prototype = list(name='Partial least squares regression',
         type="regression",
         predicted='pred',
         libraries='pls',
-        ontology='STATO:0000571',
+        ontology='STATO:0000572',
         description=paste0('PLS is a multivariate regression technique that ',
-        'extracts latent variables maximising covariance between the input ',
-        'data and the response. For regression the response is a continuous ',
-        'variable.'),
+            'extracts latent variables maximising covariance between the input ',
+            'data and the response. For regression the response is a continuous ',
+            'variable.'),
         .params=c('number_components','factor_name'),
         .outputs=c(
             'scores',
@@ -77,7 +77,7 @@ PLSR = function(number_components=2,factor_name,...) {
             type='data.frame'
         )
     )
-
+    
 )
 
 #' @export
@@ -340,12 +340,12 @@ plsr_qq_plot = function(ycol=1,...) {
 .plsr_qq_plot<-setClass(
     "plsr_qq_plot",
     contains=c('chart'),
+    slots=c(ycol='entity'),
     prototype = list(
         name='PLSR QQ plot',
         description=paste0('A plot of the quantiles of the residuals from a ',
         'PLSR model against the quantiles of a normal distribution.'),
         type="scatter",
-        stato_id='STATO:0000241',
         ycol=entity(
             name='Y column',
             description='The y-block column to plot',
@@ -353,7 +353,7 @@ plsr_qq_plot = function(ycol=1,...) {
             value = 1,
             max_length = 1
         ),
-        .params=c('ycol')
+        .params=c('ycol'),
         ontology='STATO:0000241'
     )
 )

@@ -58,7 +58,7 @@ M = SVM(factor_name='Species',gamma=1)
 Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2021).
 \emph{e1071: Misc Functions of the Department of Statistics, Probability
 Theory Group (Formerly: E1071), TU Wien}.
-R package version 1.7-8, \url{https://CRAN.R-project.org/package=e1071}.
+R package version 1.7-9, \url{https://CRAN.R-project.org/package=e1071}.
 
 Brereton RG, Lloyd GR (2010).
 ``Support Vector Machines for classification and regression.''

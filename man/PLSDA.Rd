@@ -27,6 +27,8 @@ A  \code{PLSDA} object with the following \code{output} slots:
 \code{pls_model} \tab          (list)  \cr
 \code{pred} \tab          (data.frame)  \cr
 \code{threshold} \tab          (numeric)  \cr
+\code{sr} \tab          (data.frame) Selectivity ratio for a variable represents a measure of a variable's importance in the PLS model. The output data.frame contains a column of selectivity ratios, a column of p-values based on an F-distribution and a column indicating significance at p < 0.05. \cr
+\code{sr_pvalue} \tab          (data.frame) A p-value computed from the Selectivity Ratio based on an F-distribution. \cr
 }
 }
 \description{

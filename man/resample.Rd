@@ -27,7 +27,15 @@ resample(
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{resample} object.
+A  \code{resample} object with the following \code{output} slots:
+\tabular{ll}{
+\code{results.training} \tab          (data.frame)  \cr
+\code{results.testing} \tab          (data.frame)  \cr
+\code{metric} \tab          (data.frame)  \cr
+\code{collected} \tab          (list)  \cr
+\code{metric.train} \tab          (numeric)  \cr
+\code{metric.test} \tab          (numeric)  \cr
+}
 }
 \description{
 New training sets are generated from the original data by selecting samples at random. This can be based on levels in a factor or on the whole dataset.

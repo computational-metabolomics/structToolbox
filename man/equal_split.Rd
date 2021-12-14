@@ -14,7 +14,11 @@ equal_split(p_train = 1, factor_name, ...)
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-A  \code{equal_split} object.
+A  \code{equal_split} object with the following \code{output} slots:
+\tabular{ll}{
+\code{training} \tab          (DatasetExperiment) A DatasetExperiment object containing samples selected for the training set. \cr
+\code{testing} \tab          (DatasetExperiment) A DatasetExperiment object containing samples selected for the testing set. \cr
+}
 }
 \description{
 Samples are randomly chosen from each level such that the training set has equal numbers of samples for all levels. The number of samples is based on the input proportion and the smallest group size.

@@ -12,7 +12,10 @@ pls_regcoeff_plot(ycol = 1, ...)
 \item{...}{additional slots and values passed to struct_class}
 }
 \value{
-A  \code{pls_regcoeff_plot} object.
+A  \code{
+pls_regcoeff_plot
+} object. This object has no \code{output} slots.
+See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this chart object.
 
 struct object
 }
@@ -33,9 +36,9 @@ C = pls_regcoeff_plot(ycol='setosa')
 chart_plot(C,M[2])
 }
 \references{
-Mevik B, Wehrens R, Liland K (2020).
+Liland K, Mevik B, Wehrens R (2021).
 \emph{pls: Partial Least Squares and Principal Component Regression}.
-R package version 2.7-3, \url{https://CRAN.R-project.org/package=pls}.
+R package version 2.8-0, \url{https://CRAN.R-project.org/package=pls}.
 
 Wickham H (2016).
 \emph{ggplot2: Elegant Graphics for Data Analysis}.

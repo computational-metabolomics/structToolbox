@@ -24,6 +24,7 @@ A  \code{kfold_xval} object with the following \code{output} slots:
 \code{metric} \tab          (data.frame)  \cr
 \code{metric.train} \tab          (numeric)  \cr
 \code{metric.test} \tab          (numeric)  \cr
+\code{collected} \tab          (list)  \cr
 }
 }
 \description{
