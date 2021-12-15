@@ -125,7 +125,7 @@ setMethod(f="model_train",
         X=as.matrix(D$data) # convert X to matrix
         
         Z=as.data.frame(z)
-        colnames(Z)=as.character(interaction('PLSDA',colnames(Z)))
+        colnames(Z)=as.character(interaction('PLSDA',1:ncol(Z),sep='_'))
         
         D$sample_meta=cbind(D$sample_meta,Z)
         
