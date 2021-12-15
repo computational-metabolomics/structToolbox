@@ -52,7 +52,11 @@ Plots a 2d scatter plot of the input data.
 }
 \examples{
 D = iris_DatasetExperiment()
-C = scatter_chart(xcol='Petal.Width',ycol='Sepal.Width',factor_name = 'Species')
-chart_plot(C,M[2])
+C = scatter_chart(
+        xcol = 'Petal.Width',
+        ycol = 'Sepal.Width',
+        factor_name = 'Species'
+    )
+chart_plot(C,D)
 
 }

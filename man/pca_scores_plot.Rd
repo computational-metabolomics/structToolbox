@@ -15,6 +15,7 @@ pca_scores_plot(
   label_filter = character(0),
   label_factor = "rownames",
   label_size = 3.88,
+  components = NULL,
   ...
 )
 }
@@ -39,6 +40,8 @@ pca_scores_plot(
 
 \item{label_size}{(numeric) The text size of labels. Note this is not in Font Units. The default is \code{3.88}.}
 
+\item{components}{(numeric, integer, NULL) The principal components used to generate the plot. If provided this parameter overrides xcol and ycol params. The default is \code{NULL}.}
+
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
@@ -56,5 +59,4 @@ M = mean_centre() + PCA()
 M = model_apply(M,D)
 C = pca_scores_plot(factor_name = 'Species')
 chart_plot(C,M[2])
-
 }

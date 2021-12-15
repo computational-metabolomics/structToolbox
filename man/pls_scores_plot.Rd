@@ -2,6 +2,8 @@
 % Please edit documentation in R/PLSDA_charts.R
 \name{pls_scores_plot}
 \alias{pls_scores_plot}
+\alias{pls_scores_plot,}
+\alias{plsda_scores_plot}
 \title{PLSDA scores plot}
 \usage{
 pls_scores_plot(
@@ -15,6 +17,22 @@ pls_scores_plot(
   label_filter = character(0),
   label_factor = "rownames",
   label_size = 3.88,
+  components = NULL,
+  ...
+)
+
+plsda_scores_plot(
+  xcol = "LV1",
+  ycol = "LV2",
+  points_to_label = "none",
+  factor_name,
+  ellipse = "all",
+  ellipse_type = "norm",
+  ellipse_confidence = 0.95,
+  label_filter = character(0),
+  label_factor = "rownames",
+  label_size = 3.88,
+  components = NULL,
   ...
 )
 }
@@ -38,6 +56,8 @@ pls_scores_plot(
 \item{label_factor}{(character) The column name of sample_meta to use for labelling samples on the plot. "rownames" will use the row names from sample_meta. The default is \code{"rownames"}.}
 
 \item{label_size}{(numeric) The text size of labels. Note this is not in Font Units. The default is \code{3.88}.}
+
+\item{components}{(numeric, integer, NULL) The principal components used to generate the plot. If provided this parameter overrides xcol and ycol params. The default is \code{NULL}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
