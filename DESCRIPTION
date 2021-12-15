@@ -143,3 +143,4 @@ Suggests: agricolae,
  rappdirs
 VignetteBuilder: knitr
 biocViews: WorkflowStep, Metabolomics
+URL: https://github.com/computational-metabolomics/structToolbox
