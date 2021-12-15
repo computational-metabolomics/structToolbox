@@ -4,12 +4,14 @@
 \alias{plsda_predicted_plot}
 \title{PLSDA predicted plot}
 \usage{
-plsda_predicted_plot(factor_name, style = "boxplot", ...)
+plsda_predicted_plot(factor_name, style = "boxplot", ycol = 1, ...)
 }
 \arguments{
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
 \item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{\item{\code{"boxplot"}: A boxplot.}\item{\code{"violin"}: A violin plot.}\item{\code{"density"}: A density plot.}} The default is \code{"boxplot"}.}
+
+\item{ycol}{(character, numeric, integer) The column of the Y block to be plotted. The default is \code{1}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }

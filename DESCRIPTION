@@ -40,6 +40,7 @@ Collate:
     'HSDEM_class.R'
     'MTBLS79_dataset_class.R'
     'PCA_class.R'
+    'scatter_chart_class.R'
     'PCA_plotfcns.R'
     'PLSR_class.R'
     'PLSDA_class.R'

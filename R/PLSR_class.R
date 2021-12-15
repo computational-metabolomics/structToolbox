@@ -18,7 +18,7 @@ PLSR = function(number_components=2,factor_name,...) {
     slots=c(
         number_components='entity',
         factor_name='entity',
-        scores='data.frame',
+        scores='DatasetExperiment',
         loadings='data.frame',
         yhat='data.frame',
         y='data.frame',
@@ -111,13 +111,22 @@ setMethod(f="model_train",
         output_value(M,'pls_model')=list(pls_model)
         
         scores=pls::scores(pls_model)
-        output_value(M,'scores')=as.data.frame(matrix(scores,nrow = nrow(scores),ncol=ncol(scores)))
-        colnames(M$scores)=as.character(interaction('LV',1:ncol(M$scores)))
-        rownames(M$scores)=rownames(D$data)
+        scores=as.data.frame(matrix(scores,nrow = nrow(scores),ncol=ncol(scores)))
+        colnames(scores)=as.character(interaction('LV',1:ncol(scores),sep=''))
+        rownames(scores)=rownames(D$data)
+        
+        S=DatasetExperiment(
+            data = scores,
+            sample_meta=D$sample_meta,
+            variable_meta = colnames(scores),
+            name = 'PLS scores',
+            description = 'PLS scores matrix'
+        )
+        M$scores=S
         
         loadings=pls::loadings(pls_model)
         M$loadings=as.data.frame(matrix(pls_model$loadings,nrow=nrow(loadings),ncol=ncol(loadings)))
-        colnames(M$loadings)=as.character(interaction('LV',1:ncol(M$loadings)))
+        colnames(M$loadings)=as.character(interaction('LV',1:ncol(M$loadings),sep=''))
         rownames(M$loadings)=colnames(D$data)
         rownames(M$vip)=rownames(M$loadings)
         rownames(M$reg_coeff)=rownames(M$loadings)
@@ -426,7 +435,7 @@ setMethod(f="chart_plot",
         e=as.matrix(dobj$y[,obj$ycol]-dobj$yhat[,obj$ycol])^2 # e^2
 
         # leverage
-        T=as.matrix(dobj$scores)
+        T=as.matrix(dobj$scores$data)
         H=T %*% solve(t(T) %*% T) %*% t(T)
         H=diag(H)
         s2=(1/(nrow(T)-ncol(T))) * sum(e)
@@ -437,8 +446,8 @@ setMethod(f="chart_plot",
         A=data.frame(x=seq_len(length(CD)),y=CD[,1])
         p=ggplot(data=A,aes_string(x='x',y='y')) +
             geom_col(width=1,color="black",fill='#B2B2B2')+
-            structToolbox:::scale_colour_Publication() +
-            structToolbox:::theme_Publication(base_size = 12) +
+            scale_colour_Publication() +
+            theme_Publication(base_size = 12) +
             xlab('Sample number')+
             ylab('Cook\'s distance')+
             geom_hline(yintercept=4/(nrow(T)-ncol(T)),color='red')

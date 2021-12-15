@@ -16,7 +16,7 @@ PLSR(number_components = 2, factor_name, ...)
 \value{
 A  \code{PLSR} object with the following \code{output} slots:
 \tabular{ll}{
-\code{scores} \tab          (data.frame)  \cr
+\code{scores} \tab          (DatasetExperiment)  \cr
 \code{loadings} \tab          (data.frame)  \cr
 \code{yhat} \tab          (data.frame)  \cr
 \code{y} \tab          (data.frame)  \cr

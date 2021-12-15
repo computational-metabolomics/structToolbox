@@ -17,7 +17,7 @@ PLSDA = function(number_components=2,factor_name,...) {
     slots=c(
         number_components='entity',
         factor_name='entity',
-        scores='data.frame',
+        scores='DatasetExperiment',
         loadings='data.frame',
         yhat='data.frame',
         design_matrix='data.frame',
