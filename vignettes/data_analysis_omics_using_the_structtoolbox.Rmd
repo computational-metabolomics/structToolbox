@@ -625,7 +625,7 @@ plots are compared.
 M = autoscale() + PLSDA(factor_name='gender')
 M = model_apply(M,DE)
 
-C = plsda_scores_plot(factor_name = 'gender')
+C = pls_scores_plot(factor_name = 'gender')
 chart_plot(C,M[2])
 ```
 
@@ -935,7 +935,7 @@ P = PLSDA(number_components = 2, factor_name='Class')
 # apply the model
 P = model_apply(P,train_st)
 
-C = plsda_scores_plot(components=c(1,2),factor_name = 'Class')
+C = pls_scores_plot(components=c(1,2),factor_name = 'Class')
 chart_plot(C,P)
 ```
 
@@ -1026,12 +1026,12 @@ MS = filter_smeta(mode = 'include', levels = c('GC','HE'), factor_name = 'Class'
 MS = model_apply(MS,DE)
 
 # plot the data
-C = plsda_scores_plot(factor_name = 'Class')
+C = pls_scores_plot(factor_name = 'Class')
 chart_plot(C,MS[2])
 
 # new DatasetExperiment object from the PLS scores
 DE2 = DatasetExperiment(
-  data = MS[2]$scores, 
+  data = MS[2]$scores$data, 
   sample_meta = predicted(MS[1])$sample_meta,
   variable_meta = data.frame('LV'=c(1,2),row.names = colnames(MS[2]$scores)),
   name = 'Illustrativate SVM dataset',
