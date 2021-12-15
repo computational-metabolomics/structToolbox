@@ -10,7 +10,7 @@ test_that('PLSR',{
   # apply the model
   M=model_predict(M,D)
   # check the first scores value
-  expect_equal(M[2]$scores[1,1],-2.692173222367)
+  expect_equal(M[2]$scores$data[1,1],-2.692173222367)
 })
 
 test_that('plsr_prediction_plot chart',{

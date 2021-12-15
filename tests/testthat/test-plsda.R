@@ -9,7 +9,7 @@ test_that('PLSDA',{
   # apply the model
   M=model_predict(M,D)
   # check the first scores value
-  expect_equal(M[2]$scores[1,1],2.69582435)
+  expect_equal(M[2]$scores$data[1,1],2.69582435)
 })
 
 test_that('plsda scores chart',{
