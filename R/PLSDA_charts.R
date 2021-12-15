@@ -1,9 +1,11 @@
+
 #################################################
 #################################################
 
 #' @eval get_description('pls_scores_plot')
 #' @export pls_scores_plot
 #' @include PLSDA_class.R
+#' @aliases pls_scores_plot, plsda_scores_plot
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = mean_centre()+PLSDA(factor_name='Species')
@@ -22,7 +24,14 @@ pls_scores_plot = function(
     label_filter=character(0),
     label_factor='rownames',
     label_size=3.88,
+    components=NULL,
     ...) {
+    
+    if (!is.null(components)){
+        xcol=components[1]
+        ycol=components[2]
+    }
+    
     out=struct::new_struct('pls_scores_plot',
         xcol=xcol,
         ycol=ycol,
@@ -34,6 +43,7 @@ pls_scores_plot = function(
         label_size=label_size,
         ellipse_type=ellipse_type,
         ellipse_confidence=ellipse_confidence,
+        components=components,
         ...)
     return(out)
 }
@@ -41,8 +51,16 @@ pls_scores_plot = function(
 .pls_scores_plot<-setClass(
     "pls_scores_plot",
     contains='scatter_chart',
+    slots=c(components='entity'),
     prototype = list(name='PLSDA scores plot',
-        description='A scatter plot of the selected PLSDA scores.'
+        description='A scatter plot of the selected PLSDA scores.',
+        components = entity(name='Components to plot',
+            value=NULL,
+            type=c('numeric','integer','NULL'),
+            description='The principal components used to generate the plot. If provided this parameter overrides xcol and ycol params.',
+            max_length=2
+        ),
+        .params='components'
     )
 )
 
@@ -54,7 +72,9 @@ setMethod(f="chart_plot",
     {
         # copy inputs to scatter chart
         C = scatter_chart()
-        param_list(C) = param_list(obj)
+        opt=param_list(obj)
+        opt$components=NULL # exclude as not in scatter chart
+        param_list(C) = opt
         
         # plot
         g = chart_plot(C,dobj$scores) +ggtitle('PLS scores')
@@ -64,7 +84,9 @@ setMethod(f="chart_plot",
     }
 )
 
-
+#' @rdname pls_scores_plot
+#' @export
+plsda_scores_plot = pls_scores_plot
 
 #################################################
 #################################################

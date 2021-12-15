@@ -72,7 +72,6 @@ setMethod(f="chart_plot",
 #' M = model_apply(M,D)
 #' C = pca_scores_plot(factor_name = 'Species')
 #' chart_plot(C,M[2])
-#'
 pca_scores_plot = function(
     xcol='PC1',
     ycol='PC2',
@@ -84,7 +83,14 @@ pca_scores_plot = function(
     label_filter=character(0),
     label_factor='rownames',
     label_size=3.88,
+    components=NULL,
     ...) {
+    
+    if (!is.null(components)){
+        xcol=components[1]
+        ycol=components[2]
+    }
+    
     out=struct::new_struct('pca_scores_plot',
         xcol=xcol,
         ycol=ycol,
@@ -96,6 +102,7 @@ pca_scores_plot = function(
         label_size=label_size,
         ellipse_type=ellipse_type,
         ellipse_confidence=ellipse_confidence,
+        components = components,
         ...)
     return(out)
 }
@@ -104,8 +111,16 @@ pca_scores_plot = function(
 .pca_scores_plot<-setClass(
     "pca_scores_plot",
     contains='scatter_chart',
+    slots=c(components='entity'),
     prototype = list(name='PCA scores plot',
-        description='Plots a 2d scatter plot of the selected components'
+        description='Plots a 2d scatter plot of the selected components',
+        components = entity(name='Components to plot',
+            value=NULL,
+            type=c('numeric','integer','NULL'),
+            description='The principal components used to generate the plot. If provided this parameter overrides xcol and ycol params.',
+            max_length=2
+        ),
+        .params='components'
     )
 )
 
@@ -143,7 +158,10 @@ setMethod(f="chart_plot",
         
         # copy inputs to scatter chart
         C = scatter_chart()
-        param_list(C) = param_list(obj)
+        opt=param_list(obj)
+        opt$components=NULL # exclude as not in scatter chart
+        param_list(C) = opt
+        
         
         # plot
         g = chart_plot(C,dobj$scores)
