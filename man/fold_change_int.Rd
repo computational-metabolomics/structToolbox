@@ -46,7 +46,7 @@ M = filter_smeta(mode='exclude',levels='QC',factor_name='Class') +
 M = model_apply(M,D)
 }
 \references{
-Lloyd GR, Weber RJM (????).
+Lloyd GR, Weber RJM (2021).
 \emph{struct: Statistics in R Using Class-based Templates}.
-R package version 1.5.2.
+R package version 1.6.0.
 }

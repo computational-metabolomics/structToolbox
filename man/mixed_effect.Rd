@@ -42,9 +42,9 @@ Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team (2021).
 \emph{nlme: Linear and Nonlinear Mixed Effects Models}.
 R package version 3.1-153, \url{https://CRAN.R-project.org/package=nlme}.
 
-Lenth R (2021).
+Lenth R (2022).
 \emph{emmeans: Estimated Marginal Means, aka Least-Squares Means}.
-R package version 1.6.3, \url{https://CRAN.R-project.org/package=emmeans}.
+R package version 1.7.2, \url{https://CRAN.R-project.org/package=emmeans}.
 
 Fox J, Weisberg S (2019).
 \emph{An R Companion to Applied Regression}, Third edition.

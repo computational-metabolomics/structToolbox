@@ -31,8 +31,7 @@ C = glog_opt_plot()
 chart_plot(C,M,D)
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (2021).
-\emph{pmp: Peak Matrix Processing and signal batch correction for
-metabolomics datasets}.
-R package version 1.5.0.
+Jankevics A, Lloyd GR, Weber RJM (????).
+\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
+R package version 1.7.1.
 }

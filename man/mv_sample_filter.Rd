@@ -29,8 +29,7 @@ This object makes use of functionality from the following packages:\itemize{\ite
 C = mv_sample_filter()
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (2021).
-\emph{pmp: Peak Matrix Processing and signal batch correction for
-metabolomics datasets}.
-R package version 1.5.0.
+Jankevics A, Lloyd GR, Weber RJM (????).
+\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
+R package version 1.7.1.
 }
