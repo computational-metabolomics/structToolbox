@@ -1,3 +1,11 @@
+Changes 1.7.2
++ internal updates to PLS
++ some PLS charts have been renamed for consistency with other methods
+
+Changes 1.6.1
++ hotfix vector_norm now correctly normalises samples to length 1
++ added vector_norm_tests
+
 Changes 1.5.7
 + improve NA handling in fold_change computations
 

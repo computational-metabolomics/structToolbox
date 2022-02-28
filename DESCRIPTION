@@ -1,19 +1,21 @@
 Package: structToolbox
 Type: Package
 Title: Data processing & analysis tools for Metabolomics and other omics
-Version: 1.7.1
+Version: 1.7.2
 Authors@R: c(
     person(
         c("Gavin","Rhys"),
           "Lloyd",
            role=c("aut","cre"),
-           email="g.r.lloyd@bham.ac.uk"),
+           email="g.r.lloyd@bham.ac.uk",
+		   comment = c(ORCID = "0000-0001-7989-6695")
+		),
     person(
         c("Ralf","Johannes", "Maria"),
           "Weber",
            role=c("aut"),
            email="r.j.weber@bham.ac.uk")
-           )
+        )
 Description: An extensive set of data (pre-)processing and analysis methods and 
     tools for metabolomics and other omics, with a strong emphasis on statistics and 
     machine learning. This toolbox allows the user to build extensive and 
