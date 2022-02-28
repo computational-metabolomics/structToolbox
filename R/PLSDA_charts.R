@@ -1,139 +1,92 @@
+
 #################################################
 #################################################
 
-#' @eval get_description('plsda_scores_plot')
-#' @export plsda_scores_plot
+#' @eval get_description('pls_scores_plot')
+#' @export pls_scores_plot
 #' @include PLSDA_class.R
+#' @aliases pls_scores_plot, plsda_scores_plot
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = mean_centre()+PLSDA(factor_name='Species')
 #' M = model_apply(M,D)
 #'
-#' C = plsda_scores_plot(factor_name='Species')
+#' C = pls_scores_plot(factor_name='Species')
 #' chart_plot(C,M[2])
-plsda_scores_plot = function(components=c(1,2),points_to_label='none',factor_name,...) {
-    out=struct::new_struct('plsda_scores_plot',
-        components=components,
+pls_scores_plot = function(
+    xcol='LV1',
+    ycol='LV2',
+    points_to_label='none',
+    factor_name,
+    ellipse='all',
+    ellipse_type='norm',
+    ellipse_confidence=0.95,
+    label_filter=character(0),
+    label_factor='rownames',
+    label_size=3.88,
+    components=NULL,
+    ...) {
+    
+    if (!is.null(components)){
+        xcol=components[1]
+        ycol=components[2]
+    }
+    
+    out=struct::new_struct('pls_scores_plot',
+        xcol=xcol,
+        ycol=ycol,
         points_to_label=points_to_label,
         factor_name=factor_name,
+        ellipse=ellipse,
+        label_filter=label_filter,
+        label_factor=label_factor,
+        label_size=label_size,
+        ellipse_type=ellipse_type,
+        ellipse_confidence=ellipse_confidence,
+        components=components,
         ...)
     return(out)
 }
 
-.plsda_scores_plot<-setClass(
-    "plsda_scores_plot",
-    contains='chart',
-    slots=c(
-        # INPUTS
-        components='entity',
-        points_to_label='entity',
-        factor_name='entity'
-    ),
+.pls_scores_plot<-setClass(
+    "pls_scores_plot",
+    contains='scatter_chart',
+    slots=c(components='entity'),
     prototype = list(name='PLSDA scores plot',
         description='A scatter plot of the selected PLSDA scores.',
-        type="scatter",
-        libraries=c('pls','ggplot2'),
-        .params=c('components','points_to_label','factor_name'),
-        
-        components=entity(name='Components to plot',
-            value=c(1,2),
-            type='numeric',
-            description=paste0('The components selected for plotting.'),
+        components = entity(name='Components to plot',
+            value=NULL,
+            type=c('numeric','integer','NULL'),
+            description='The principal components used to generate the plot. If provided this parameter overrides xcol and ycol params.',
             max_length=2
         ),
-        
-        points_to_label=enum(name='Points to label',
-            value='none',
-            type='character',
-            description=c(
-                'none' = 'No samples labels are displayed.', 
-                "all" = 'The labels for all samples are displayed.', 
-                "outliers" = 'Labels for for potential outlier samples are displayed.'
-            ),
-            allowed=c('none','all','outliers')
-        ),
-        factor_name=ents$factor_name
+        .params='components'
     )
-    
 )
 
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("plsda_scores_plot",'PLSDA'),
+    signature=c("pls_scores_plot",'PLSR'),
     definition=function(obj,dobj)
     {
+        # copy inputs to scatter chart
+        C = scatter_chart()
         opt=param_list(obj)
-        opt$groups=dobj$y[[obj$factor_name]]
+        opt$components=NULL # exclude as not in scatter chart
+        param_list(C) = opt
         
-        scores=output_value(dobj,'scores')
-        #pvar=(colSums(scores*scores)/output_value(dobj,'ssx'))*100 # percent variance
-        #pvar=round(pvar,digits = 2) # round to 2 decimal places
-        shapes <- rep(19,nrow(scores)) # filled circles for all samples
-        slabels <- rownames(scores)
-        x=scores[,opt$components[1]]
-        y=scores[,opt$components[2]]
-        xlabel=paste("LV",opt$components[[1]],sep='')
-        ylabel=paste("LV",opt$components[[2]],sep='')
-        
-        # add a space to the front of the labels to offset them from the points, because nudge_x is in data units
-        for (i in 1:length(slabels))
-        {
-            slabels[i]=paste0('  ',slabels[i], '  ')
-        }
-        
-        if (is(opt$groups,'factor')) {
-            plotClass= createClassAndColors(opt$groups)
-            opt$groups=plotClass$class
-        }
-        
-        # build the plot
-        A <- data.frame (group=opt$groups,x=x, y=y)
-        out=ggplot (data=A, aes_(x=~x,y=~y,colour=~group,label=~slabels,shapes=~shapes)) +
-            geom_point(na.rm=TRUE) +
-            xlab(xlabel) +
-            ylab(ylabel) +
-            ggtitle('PLSDA Scores', subtitle=NULL) +
-            stat_ellipse(type='norm') # ellipse for individual groups
-        
-        if (is(opt$groups,'factor')) {# if a factor then plot by group using the colours from pmp package
-            out=out+scale_colour_manual(values=plotClass$manual_colors,name=opt$factor_name)
-        }
-        else {# assume continuous and use the default colour gradient
-            out=out+scale_colour_viridis_c(limits=quantile(opt$groups,c(0.05,0.95),na.rm = TRUE),oob=squish,name=opt$factor_name)
-        }
-        out=out+theme_Publication(base_size = 12)
-        # add ellipse for all samples (ignoring group)
-        out=out+stat_ellipse(type='norm',mapping=aes_(x=~x,y=~y),colour="#C0C0C0",linetype='dashed',data=A)
-        # identify samples outside the ellipse
-        build=ggplot_build(out)$data
-        points=build[[1]]
-        ell=build[[length(build)]]
-        # outlier for DatasetExperiment ellipse
-        points$in.ell=as.logical(point.in.polygon(points$x,points$y,ell$x,ell$y))
-        
-        # label outliers if
-        if (opt$points_to_label=='outliers') {
-            if (!all(points$in.ell)) {
-                temp=subset(points,!points$in.ell)
-                temp$group=opt$groups[!points$in.ell]
-                out=out+geom_text(data=temp,aes_(x=~x,y=~y,label=~label,colour=~group),vjust="inward",hjust="inward")
-            }
-        }
-        
-        # label all points if requested
-        if (opt$points_to_label=='all') {
-            out=out+geom_text(vjust="inward",hjust="inward")
-        }
-        
-        # add a list of outliers to the plot object
-        out$outliers=trimws(slabels[!points$in.ell])
-        
-        return(out)
+        # plot
+        g = chart_plot(C,dobj$scores) +ggtitle('PLS scores')
+
+        return(g)
+
     }
 )
 
-
+#' @rdname pls_scores_plot
+#' @export
+plsda_scores_plot = pls_scores_plot
 
 #################################################
 #################################################
@@ -148,10 +101,13 @@ setMethod(f="chart_plot",
 #'
 #' C = plsda_predicted_plot(factor_name='Species')
 #' chart_plot(C,M[2])
-plsda_predicted_plot = function(factor_name,style='boxplot',...) {
+plsda_predicted_plot = function(factor_name,style='boxplot',
+    ycol=1,
+    ...) {
     out=struct::new_struct('plsda_predicted_plot',
         factor_name=factor_name,
         style=style,
+        ycol=ycol,
         ...)
     return(out)
 }
@@ -162,13 +118,14 @@ plsda_predicted_plot = function(factor_name,style='boxplot',...) {
     slots=c(
         # INPUTS
         factor_name='entity',
-        style='entity'
+        style='entity',
+        ycol='entity'
     ),
     prototype = list(name='PLSDA predicted plot',
         description='A plot of the regression coefficients from a PLSDA model.',
         type="boxplot",
         libraries=c('pls','ggplot2'),
-        .params=c('factor_name','style'),
+        .params=c('factor_name','style','ycol'),
         
         factor_name=ents$factor_name,
         
@@ -180,6 +137,13 @@ plsda_predicted_plot = function(factor_name,style='boxplot',...) {
             type='character',
             value='boxplot',
             allowed=c('boxplot','violin','density')
+        ),
+        ycol=entity(
+            name='Y column to plot',
+            description = 'The column of the Y block to be plotted.',
+            type=c('character','numeric','integer'),
+            value=1,
+            max_length=1
         )
     )
     
@@ -190,7 +154,7 @@ plsda_predicted_plot = function(factor_name,style='boxplot',...) {
 setMethod(f="chart_plot",
     signature=c("plsda_predicted_plot",'PLSDA'),
     definition=function(obj,dobj) {
-        A=data.frame(Class=dobj$y[[obj$factor_name]],Predicted=dobj$yhat[,1])
+        A=data.frame(Class=dobj$y[[obj$factor_name]],Predicted=dobj$yhat[,obj$ycol])
         
         plotClass= createClassAndColors(A$Class)
         
@@ -237,9 +201,10 @@ setMethod(f="chart_plot",
 #'
 #' C = plsda_roc_plot(factor_name='Species')
 #' chart_plot(C,M[2])
-plsda_roc_plot = function(factor_name,...) {
+plsda_roc_plot = function(factor_name,ycol=1,...) {
     out=struct::new_struct('plsda_roc_plot',
         factor_name=factor_name,
+        ycol=ycol,
         ...)
     return(out)
 }
@@ -249,7 +214,8 @@ plsda_roc_plot = function(factor_name,...) {
     contains=c('chart'),
     slots=c(
         # INPUTS
-        factor_name='entity'
+        factor_name='entity',
+        ycol='entity'
     ),
     prototype = list(name='PLSDA ROC plot',
         description=paste0('A Receiver Operator Characteristic (ROC) plot for ',
@@ -257,9 +223,16 @@ plsda_roc_plot = function(factor_name,...) {
         'labels from PLS predictions.'),
         type="roc",
         libraries=c('pls','ggplot2'),
-        .params=c('factor_name'),
+        .params=c('factor_name','ycol'),
         ontology='STATO:0000274',
-        factor_name=ents$factor_name
+        factor_name=ents$factor_name,
+        ycol=entity(
+            name='Y column to plot',
+            description = 'The column of the Y block to be plotted.',
+            type=c('character','numeric','integer'),
+            value=1,
+            max_length=1
+        )
     )
     
 )
@@ -269,16 +242,16 @@ plsda_roc_plot = function(factor_name,...) {
 setMethod(f="chart_plot",
     signature=c("plsda_roc_plot",'PLSDA'),
     definition=function(obj,dobj) {
-        threshold=sort(unique(c(0,dobj$yhat[,1],1)))
+        threshold=sort(unique(c(0,dobj$yhat[,obj$ycol],1)))
         
         sn=numeric()
         sp=numeric()
         for (k in threshold) {
-            pred=as.numeric(dobj$yhat[,1]>=k)
-            tp=sum(pred==1 & dobj$design_matrix[,1]==1)
-            fp=sum(pred==1 & dobj$design_matrix[,1]==-1)
-            tn=sum(pred==0 & dobj$design_matrix[,1]==-1)
-            fn=sum(pred==0 & dobj$design_matrix[,1]==1)
+            pred=as.numeric(dobj$yhat[,obj$ycol]>=k)
+            tp=sum(pred==1 & dobj$design_matrix[,obj$ycol]==1)
+            fp=sum(pred==1 & dobj$design_matrix[,obj$ycol]==-1)
+            tn=sum(pred==0 & dobj$design_matrix[,obj$ycol]==-1)
+            fn=sum(pred==0 & dobj$design_matrix[,obj$ycol]==1)
             
             sn=c(sn,tp/(tp+fn))
             sp=c(sp,tn/(tn+fp))
@@ -311,37 +284,37 @@ setMethod(f="chart_plot",
 #################################################
 #################################################
 
-#' @eval get_description('plsda_vip_plot')
-#' @export plsda_vip_plot
-#' @include PLSDA_class.R
+#' @eval get_description('pls_vip_plot')
+#' @export pls_vip_plot
+#' @include PLSR_class.R
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = mean_centre()+PLSDA(factor_name='Species')
 #' M = model_apply(M,D)
 #'
-#' C = plsda_vip_plot(level='setosa')
+#' C = pls_vip_plot(ycol='setosa')
 #' chart_plot(C,M[2])
-plsda_vip_plot = function(threshold=1,level,...) {
-    out=struct::new_struct('plsda_vip_plot',
+pls_vip_plot = function(threshold=1,ycol=1,...) {
+    out=struct::new_struct('pls_vip_plot',
         threshold = threshold,
-        level=level,
+        ycol=ycol,
         ...)
     return(out)
 }
 
-.plsda_vip_plot<-setClass(
-    "plsda_vip_plot",
-    contains=c('chart'),
+.pls_vip_plot<-setClass(
+    "pls_vip_plot",
+    contains=c('chart','stato'),
     slots=c(
         # INPUTS
         threshold='entity',
-        level = 'entity'
+        ycol = 'entity'
     ),
     prototype = list(name='PLSDA VIP plot',
         description='A plot of the Variable Importance for Projection (VIP) scores for a PLSDA model.',
         type="scatter",
         libraries=c('pls','ggplot2'),
-        .params=c('threshold','level'),
+        .params=c('threshold','ycol'),
         
         threshold = entity(
             name = 'VIP threshold',
@@ -350,11 +323,11 @@ plsda_vip_plot = function(threshold=1,level,...) {
             value=1,
             max_length=1
         ),
-        level=entity(
-            name='Factor level',
-            description = 'The factor level (group) to plot',
-            type='character',
-            value=character(0),
+        ycol=entity(
+            name='Y column to plot',
+            description = 'The column of the Y block to be plotted.',
+            type=c('character','numeric','integer'),
+            value=1,
             max_length=1
         ),
         ontology='STATO:0000580'
@@ -365,10 +338,10 @@ plsda_vip_plot = function(threshold=1,level,...) {
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("plsda_vip_plot",'PLSDA'),
+    signature=c("pls_vip_plot",'PLSR'),
     definition=function(obj,dobj) {
         
-        A=data.frame(vip=dobj$vip[[obj$level]])
+        A=data.frame(vip=dobj$vip[[obj$ycol]])
         A$feature=rownames(dobj$loadings)
         
         out = ggplot(data=A,aes_(x=~feature,y=~vip)) +
@@ -386,51 +359,56 @@ setMethod(f="chart_plot",
 #################################################
 #################################################
 
-#' plsda_regcoeff_plot class
+#' pls_regcoeff_plot class
 #'
 #' Plots the regression coefficients of a PLSDA model.
 #'
-#' @param level the group label to plot regression coefficients for
+#' @eval get_description('pls_regcoeff_plot')
 #' @param ... additional slots and values passed to struct_class
 #' @return struct object
-#' @export plsda_regcoeff_plot
-#' @include PLSDA_class.R
+#' @export pls_regcoeff_plot
+#' @include PLSR_class.R
 #' @examples
 #' D = iris_DatasetExperiment()
 #' M = mean_centre()+PLSDA(factor_name='Species')
 #' M = model_apply(M,D)
 #'
-#' C = plsda_regcoeff_plot(level='setosa')
+#' C = pls_regcoeff_plot(ycol='setosa')
 #' chart_plot(C,M[2])
-plsda_regcoeff_plot = function(level,...) {
-    out=struct::new_struct('plsda_regcoeff_plot',
-        level=level,
+pls_regcoeff_plot = function(ycol=1,...) {
+    out=struct::new_struct('pls_regcoeff_plot',
+        ycol=ycol,
         ...)
     return(out)
 }
 
-.plsda_regcoeff_plot<-setClass(
-    "plsda_regcoeff_plot",
+.pls_regcoeff_plot<-setClass(
+    "pls_regcoeff_plot",
     contains='chart',
     slots=c(
         # INPUTS
-        level = 'character'
+        ycol = 'entity'
     ),
     prototype = list(name='PLSDA regression coefficient plot',
         description='Plots the regression coefficient scores of a PLSDA model',
         type="scatter",
         libraries=c('pls','ggplot2'),
-        .params=c('level')
+        .params=c('ycol'),
+        ycol=entity(name= ' Y - column',
+            description = "The Y column to plot",
+            value=1,
+            type=c('character','numeric','integer'),
+            max_length=1)
     )
 )
     
 #' @export
 #' @template chart_plot
 setMethod(f="chart_plot",
-    signature=c("plsda_regcoeff_plot",'PLSDA'),
+    signature=c("pls_regcoeff_plot",'PLSR'),
     definition=function(obj,dobj) {
         
-        A=data.frame(rc=dobj$reg_coeff[[obj$level]])
+        A=data.frame(rc=dobj$reg_coeff[[obj$ycol]])
         A$feature=rownames(dobj$loadings)
         
         out = ggplot(data=A,aes_(x=~feature,y=~rc)) +

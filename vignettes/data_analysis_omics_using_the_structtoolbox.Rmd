@@ -197,7 +197,7 @@ chart_names(M[2])
 
 Like model objects, chart objects need to be created before they can be used. Here we will plot the PCA scores plot for our mean centred PCA model.
 
-```{r}
+```{r,fig.width=5,fig.height=5}
 C = pca_scores_plot(factor_name='class') # colour by class
 chart_plot(C,M[2])
 ```
@@ -582,7 +582,7 @@ The Sacurine dataset used within this vignette has already been pre-processed:
 ## Exploratory data analysis
 Since the data has already been processed the data can be visualised using Principal Component Analysis (PCA) without further pre-processing. The `ropls` package automatically applies unit variance scaling (autoscaling) by default. The same approach is applied here.
 
-```{r,fig.width=15,fig.wide = TRUE}
+```{r,fig.width=15,fig.height=6.5,fig.wide = TRUE}
 # prepare model sequence
 M = autoscale() + PCA(number_components = 5)
 # apply model sequence to dataset
@@ -625,7 +625,7 @@ plots are compared.
 M = autoscale() + PLSDA(factor_name='gender')
 M = model_apply(M,DE)
 
-C = plsda_scores_plot(factor_name = 'gender')
+C = pls_scores_plot(factor_name = 'gender')
 chart_plot(C,M[2])
 ```
 
@@ -935,7 +935,7 @@ P = PLSDA(number_components = 2, factor_name='Class')
 # apply the model
 P = model_apply(P,train_st)
 
-C = plsda_scores_plot(components=c(1,2),factor_name = 'Class')
+C = pls_scores_plot(components=c(1,2),factor_name = 'Class')
 chart_plot(C,P)
 ```
 
@@ -944,10 +944,10 @@ Regression coefficients and VIP scores can be used to estimate the importance of
 
 ```{r,fig.width=10,fig.height=5.5,fig.small=FALSE}
 # prepare chart
-C = plsda_vip_plot(level='HE')
+C = pls_vip_plot(ycol = 'HE')
 g1 = chart_plot(C,P)
 
-C = plsda_regcoeff_plot(level='HE')
+C = pls_regcoeff_plot(ycol='HE')
 g2 = chart_plot(C,P)
 
 plot_grid(g1,g2,align='hv',axis='tblr',nrow=2)
@@ -1017,7 +1017,7 @@ DE
 
 For the purposes of illustrating the effect of SVM parameters on the boundary between groups, we reduce the data to include only the GC and HE groups and apply PLS to reduce the data to two components. We then treat the PLS scores as as a two group dataset with only two features.
 
-```{r}
+```{r,fig.height=6,fig.width=5}
 # model sequence and pls model (NB data already centred)
 MS = filter_smeta(mode = 'include', levels = c('GC','HE'), factor_name = 'Class') +
      PLSDA(factor_name = 'Class',number_components = 2)
@@ -1026,12 +1026,12 @@ MS = filter_smeta(mode = 'include', levels = c('GC','HE'), factor_name = 'Class'
 MS = model_apply(MS,DE)
 
 # plot the data
-C = plsda_scores_plot(factor_name = 'Class')
+C = pls_scores_plot(factor_name = 'Class')
 chart_plot(C,MS[2])
 
 # new DatasetExperiment object from the PLS scores
 DE2 = DatasetExperiment(
-  data = MS[2]$scores, 
+  data = MS[2]$scores$data, 
   sample_meta = predicted(MS[1])$sample_meta,
   variable_meta = data.frame('LV'=c(1,2),row.names = colnames(MS[2]$scores)),
   name = 'Illustrativate SVM dataset',
@@ -1044,7 +1044,7 @@ DE2
 ## Basic SVM model
 The simplest SVM model uses a linear kernel. In `structToolbox` the `SVM` model can be used to train and apply SVM models. A `svm_plot_2d` chart object is provided for visualisation of boundaries in two dimensions.
 
-```{r}
+```{r,fig.width=5,fig.height=6}
 # SVM model
 M = SVM(
   factor_name = 'Class',

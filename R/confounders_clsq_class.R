@@ -146,7 +146,7 @@ setMethod(f="model_apply",
         # redo regression including all potential confounders for each feature
         conf=M$percent_change>M$threshold
         factor_names=M$confounding_factors
-        L=apply(conf[,2:ncol(conf),drop=FALSE],1,function(x) c(M$factor_name,factor_names[x]))
+        L=apply(conf[,2:ncol(conf),drop=FALSE],1,function(x) c(M$factor_name,factor_names[x]),simplify = FALSE)
         M2=classical_lsq(intercept=TRUE,alpha=M$alpha,mtc=M$mtc,factor_names=L)
         M2=model_apply(M2,D)
 

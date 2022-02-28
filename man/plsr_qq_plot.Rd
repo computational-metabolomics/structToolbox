@@ -4,9 +4,11 @@
 \alias{plsr_qq_plot}
 \title{PLSR QQ plot}
 \usage{
-plsr_qq_plot(...)
+plsr_qq_plot(ycol = 1, ...)
 }
 \arguments{
+\item{ycol}{(numeric, integer, character) The y-block column to plot. The default is \code{1}.}
+
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{

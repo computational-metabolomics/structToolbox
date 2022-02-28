@@ -1,5 +1,6 @@
 #' @eval get_description('PLSDA')
 #' @export PLSDA
+#' @include PLSR_class.R
 #' @examples
 #' M = PLSDA('number_components'=2,factor_name='Species')
 PLSDA = function(number_components=2,factor_name,...) {
@@ -12,10 +13,11 @@ PLSDA = function(number_components=2,factor_name,...) {
 
 .PLSDA<-setClass(
     "PLSDA",
-    contains=c('model'),
-    slots=c(number_components='entity',
+    contains=c('PLSR'),
+    slots=c(
+        number_components='entity',
         factor_name='entity',
-        scores='data.frame',
+        scores='DatasetExperiment',
         loadings='data.frame',
         yhat='data.frame',
         design_matrix='data.frame',
@@ -25,7 +27,9 @@ PLSDA = function(number_components=2,factor_name,...) {
         vip='data.frame',
         pls_model='list',
         pred='data.frame',
-        threshold='numeric'
+        threshold='numeric',
+        sr = 'entity',
+        sr_pvalue='entity'
         
     ),
     prototype = list(name='Partial least squares discriminant analysis',
@@ -49,7 +53,9 @@ PLSDA = function(number_components=2,factor_name,...) {
             'vip',
             'pls_model',
             'pred',
-            'threshold'),
+            'threshold',
+            'sr',
+            'sr_pvalue'),
         
         number_components=entity(value = 2,
             name = 'Number of components',
@@ -57,6 +63,25 @@ PLSDA = function(number_components=2,factor_name,...) {
             type = c('numeric','integer')
         ),
         factor_name=ents$factor_name,
+        sr = entity(
+            name = 'Selectivity ratio',
+            description = paste0(
+                "Selectivity ratio for a variable represents a measure of a ",
+                "variable's importance in the PLS model. The output data.frame ",
+                "contains a column of selectivity ratios, a column of p-values ",
+                "based on an F-distribution and a column indicating ",
+                "significance at p < 0.05."
+            ),
+            type='data.frame'
+        ),
+        sr_pvalue = entity(
+            name = 'Selectivity ratio p-value',
+            description = paste0(
+                "A p-value computed from the Selectivity Ratio based on an ",
+                "F-distribution."
+            ),
+            type='data.frame'
+        ),
         ontology='STATO:0000572',
         citations=list(
             bibentry(
@@ -92,7 +117,7 @@ setMethod(f="model_train",
     definition=function(M,D)
     {
         SM=D$sample_meta
-        y=(SM[[M$factor_name]])
+        y=SM[[M$factor_name]]
         # convert the factor to a design matrix
         z=model.matrix(~y+0)
         z[z==0]=-1 # +/-1 for PLS
@@ -100,41 +125,35 @@ setMethod(f="model_train",
         X=as.matrix(D$data) # convert X to matrix
         
         Z=as.data.frame(z)
+        colnames(Z)=as.character(interaction('PLSDA',1:ncol(Z),sep='_'))
+        
+        D$sample_meta=cbind(D$sample_meta,Z)
+        
+        # PLSR model
+        N = PLSR(number_components=M$number_components,factor_name=colnames(Z))
+        N = model_apply(N,D)
+        
+        # copy outputs across
+        output_list(M) = output_list(N)
+        
+        # some specific outputs for PLSDA
         output_value(M,'design_matrix')=Z
-        output_value(M,'y')=D$sample_meta
+        output_value(M,'y')=D$sample_meta[,M$factor_name,drop=FALSE]
         
-        #pls_model=pls::plsr(y ~ X,validation="none",method='oscorespls',model=TRUE,ncomp=param_value(M,'number_components'),
-        #    center=FALSE,
-        #    scale=FALSE)
-        
-        
-        pls_model=pls::oscorespls.fit(X,z,ncomp=param_value(M,'number_components'),
-            center=FALSE)
-        class(pls_model)='mvr'
-        
-        ny=ncol(z)
-        nr=ncol(output_value(M,'reg_coeff'))
-        output_value(M,'reg_coeff')=as.data.frame(pls_model$coefficients[,,M$number_components]) # keep only the requested number of components
-        output_value(M,'vip')=as.data.frame(vips(pls_model))
-        colnames(M$vip)=levels(y)
-        yhat=predict(pls_model, ncomp = param_value(M,'number_components'), newdata = X)
-        yhat=as.matrix(yhat[,,dim(yhat)[3]])
-        output_value(M,'yhat')=as.data.frame(yhat)
-        probs=prob(yhat,yhat,D$sample_meta[[M$factor_name]])
+        # for PLSDA compute probabilities
+        probs=prob(as.matrix(M$yhat),as.matrix(M$yhat),D$sample_meta[[M$factor_name]])
         output_value(M,'probability')=as.data.frame(probs$ingroup)
         output_value(M,'threshold')=probs$threshold
-        output_value(M,'pls_model')=list(pls_model)
-        scores=pls::scores(pls_model)
-        output_value(M,'scores')=as.data.frame(matrix(scores,nrow = nrow(scores),ncol=ncol(scores)))
-        colnames(M$scores)=as.character(interaction('LV',1:ncol(M$scores)))
-        rownames(M$scores)=rownames(D$data)
-        loadings=pls::loadings(pls_model)
-        M$loadings=as.data.frame(matrix(pls_model$loadings,nrow=nrow(loadings),ncol=ncol(loadings)))
-        colnames(M$loadings)=as.character(interaction('LV',1:ncol(M$loadings)))
-        rownames(M$loadings)=colnames(D$data)
-        rownames(M$vip)=rownames(M$loadings)
-        rownames(M$reg_coeff)=rownames(M$loadings)
-        colnames(M$reg_coeff)=colnames(M$vip)
+
+        # update column names for outputs
+        colnames(M$reg_coeff)=levels(y)
+        colnames(M$sr)=levels(y)
+        colnames(M$vip)=levels(y)
+        colnames(M$yhat)=levels(y)
+        colnames(M$design_matrix)=levels(y)
+        colnames(M$probability)=levels(y)
+        names(M$threshold)=levels(y)
+        colnames(M$sr_pvalue)=levels(y)
         
         return(M)
     }
@@ -146,29 +165,21 @@ setMethod(f="model_predict",
     signature=c("PLSDA",'DatasetExperiment'),
     definition=function(M,D)
     {
-        # convert X to matrix
-        X=as.matrix(D$data)
-        # get training set y vector
-        SM=D$sample_meta
-        y=(SM[[M$factor_name]])
-        # get predictions
-        p=predict(output_value(M,'pls_model')[[1]], ncomp = param_value(M,'number_components'), newdata = X)
-        p=p[,,dim(p)[3]]
-        if (!is.matrix(p)){
-            p=t(as.matrix(p)) # in case of leave one out p is a numeric instead of a matrix
-        }
+        # call PLSR predict
+        N=callNextMethod(M,D)
+        SM=N$y
         
         ## probability estimate
         # http://www.eigenvector.com/faq/index.php?id=38%7C
-        d=prob(x=p,yhat=output_value(M,'yhat'),ytrue=M$y[,M$factor_name])
+        p=as.matrix(N$pred)
+        d=prob(x=p,yhat=as.matrix(N$yhat),ytrue=SM[[M$factor_name]])
         pred=(p>d$threshold)*1
         pred=apply(pred,MARGIN=1,FUN=which.max)
         hi=apply(d$ingroup,MARGIN=1,FUN=which.max) # max probability
-        if (sum(is.na(pred)>0))
-        {
+        if (sum(is.na(pred)>0)) {
             pred[is.na(pred)]=hi[is.na(pred)] # if none above threshold, use group with highest probability
         }
-        pred=factor(pred,levels=1:length(levels(SM[[M$factor_name]])),labels=levels(SM[[M$factor_name]])) # make sure pred has all the levels of y
+        pred=factor(pred,levels=1:nlevels(SM[[M$factor_name]]),labels=levels(SM[[M$factor_name]])) # make sure pred has all the levels of y
         q=data.frame("pred"=pred)
         output_value(M,'pred')=q
         return(M)
@@ -260,30 +271,6 @@ gauss_intersect=function(m1,m2,s1,s2)
     return() # in reverse order vs numpy.roots
 }
 
-vips<-function(object)
-{
-    # modified from http://mevik.net/work/software/pls.html
-    q=object$Yloadings
-    ny=nrow(object$Yloadings) # number of groups
-    vip=matrix(0,nrow=nrow(object$loadings),ny)
-    for (i in 1:ny)
-    {
-        qq=q[i,,drop=FALSE] # for group i only
-        SS <- c(qq)^2 * colSums(object$scores^2)
-        Wnorm2 <- colSums(object$loading.weights^2)
-        SSW <- sweep(object$loading.weights^2, 2, SS / Wnorm2, "*")
-        v=sqrt(nrow(SSW) * apply(SSW, 1, cumsum) / cumsum(SS))
-        if (ncol(SSW)>1)
-            vip[,i]=t(v[nrow(v),,drop=FALSE]) # get number of calculated components only
-        else
-        {
-            vip[,i]=t(v)
-        }
-    }
-    return(vip)
-}
-
-
 set_scale <- function(y=NULL,name='PCA',...){
     
     #library(scales)
@@ -298,3 +285,4 @@ set_scale <- function(y=NULL,name='PCA',...){
     }
     discrete_scale(c("colour","fill"),"Publication",manual_pal(values = pal), drop=FALSE, name=NULL,...) # sets both fill and colour aesthetics to chosen palette.
 }
+

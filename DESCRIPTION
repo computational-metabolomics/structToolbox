@@ -40,10 +40,11 @@ Collate:
     'HSDEM_class.R'
     'MTBLS79_dataset_class.R'
     'PCA_class.R'
+    'scatter_chart_class.R'
     'PCA_plotfcns.R'
+    'PLSR_class.R'
     'PLSDA_class.R'
     'PLSDA_charts.R'
-    'PLSR_class.R'
     'as_data_frame_doc.R'
     'autoscale_class.R'
     'balanced_accuracy_class.R'
@@ -57,6 +58,8 @@ Collate:
     'corr_coef_class.R'
     'd_ratio_filter_class.R'
     'dataset_chart_classes.R'
+    'split_data_class.R'
+    'equal_split_class.R'
     'factor_barchart_class.R'
     'feature_plot_array_class.R'
     'feature_profile_class.R'
@@ -90,14 +93,14 @@ Collate:
     'paretoscale_class.R'
     'permutation_test_class.R'
     'permute_sample_order_class.R'
-    'plsda_vip_summary_chart.R'
+    'plsda_feature_significance_chart.R'
     'pqn_norm_method_class.R'
     'prop_na_class.R'
     'r_squared_class.R'
+    'resample_class.R'
     'rsd_filter.R'
     'run_doc.R'
     'sb_corr.R'
-    'split_data_class.R'
     'stratified_split_class.R'
     'structToolbox.R'
     'svm_classifier_class.R'
@@ -140,3 +143,4 @@ Suggests: agricolae,
  rappdirs
 VignetteBuilder: knitr
 biocViews: WorkflowStep, Metabolomics
+URL: https://github.com/computational-metabolomics/structToolbox

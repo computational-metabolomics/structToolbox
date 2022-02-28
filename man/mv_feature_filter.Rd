@@ -42,7 +42,8 @@ M = mv_feature_filter(factor_name='Species',qc_label='versicolor')
 M = model_apply(M,D)
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (????).
-\emph{pmp: Peak Matrix Processing and signal batch correction for metabolomics datasets}.
-R package version 1.7.1.
+Jankevics A, Lloyd GR, Weber RJM (2021).
+\emph{pmp: Peak Matrix Processing and signal batch correction for
+metabolomics datasets}.
+R package version 1.6.0.
 }

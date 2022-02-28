@@ -4,7 +4,7 @@
 \alias{kfold_xval}
 \title{k-fold cross-validation}
 \usage{
-kfold_xval(folds = 10, method = "venetian", factor_name, ...)
+kfold_xval(folds = 10, method = "venetian", factor_name, collect = NULL, ...)
 }
 \arguments{
 \item{folds}{(numeric, integer) The number of cross-validation folds. The default is \code{10}.}
@@ -12,6 +12,8 @@ kfold_xval(folds = 10, method = "venetian", factor_name, ...)
 \item{method}{(character) Fold selection method. Allowed values are limited to the following: \itemize{\item{\code{"venetian"}: Every nth sample is assigned to the same fold, where n is the number of folds.}\item{\code{"blocks"}: Blocks of adjacent samples are assigned to the same fold.}\item{\code{"random"}: Samples are randomly assigned to a fold.}} The default is \code{"venetian"}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
+
+\item{collect}{(NULL, character) The name of a model output to collect over all bootstrap repetitions, in addition to the input metric. The default is \code{NULL}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -22,6 +24,7 @@ A  \code{kfold_xval} object with the following \code{output} slots:
 \code{metric} \tab          (data.frame)  \cr
 \code{metric.train} \tab          (numeric)  \cr
 \code{metric.test} \tab          (numeric)  \cr
+\code{collected} \tab          (list)  \cr
 }
 }
 \description{

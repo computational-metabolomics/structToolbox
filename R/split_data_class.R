@@ -14,7 +14,8 @@ split_data = function(p_train,...) {
 .split_data<-setClass(
     "split_data",
     contains = c('model'),
-    slots=c(p_train='entity',
+    slots=c(
+        p_train='entity',
         training='entity',
         testing='entity'
     ),

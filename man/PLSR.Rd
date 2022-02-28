@@ -9,21 +9,23 @@ PLSR(number_components = 2, factor_name, ...)
 \arguments{
 \item{number_components}{(numeric, integer) The number of PLS components. The default is \code{2}.}
 
-\item{factor_name}{(character) The name of a sample-meta column to use.}
+\item{factor_name}{(character) The name of sample meta column(s) to use.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
 A  \code{PLSR} object with the following \code{output} slots:
 \tabular{ll}{
-\code{scores} \tab          (data.frame)  \cr
+\code{scores} \tab          (DatasetExperiment)  \cr
 \code{loadings} \tab          (data.frame)  \cr
-\code{y} \tab          (data.frame)  \cr
 \code{yhat} \tab          (data.frame)  \cr
+\code{y} \tab          (data.frame)  \cr
 \code{reg_coeff} \tab          (data.frame)  \cr
 \code{vip} \tab          (data.frame)  \cr
 \code{pls_model} \tab          (list)  \cr
 \code{pred} \tab          (data.frame)  \cr
+\code{sr} \tab          (data.frame) Selectivity ratio for a variable represents a measure of a variable's importance in the PLS model. The output data.frame contains a column of selectivity ratios, a column of p-values based on an F-distribution and a column indicating significance at p < 0.05. \cr
+\code{sr_pvalue} \tab          (data.frame) A p-value computed from the Selectivity Ratio based on an F-distribution. \cr
 }
 }
 \description{

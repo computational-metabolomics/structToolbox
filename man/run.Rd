@@ -2,7 +2,7 @@
 % Please edit documentation in R/bootstrap_class.R,
 %   R/forward_selection_by_rank_class.R, R/grid_search_1d_class.R,
 %   R/kfold_xval_class.R, R/permutation_test_class.R,
-%   R/permute_sample_order_class.R, R/run_doc.R
+%   R/permute_sample_order_class.R, R/resample_class.R, R/run_doc.R
 \name{run,bootstrap,DatasetExperiment,metric-method}
 \alias{run,bootstrap,DatasetExperiment,metric-method}
 \alias{run,forward_selection_by_rank,DatasetExperiment,metric-method}
@@ -10,6 +10,7 @@
 \alias{run,kfold_xval,DatasetExperiment,metric-method}
 \alias{run,permutation_test,DatasetExperiment,metric-method}
 \alias{run,permute_sample_order,DatasetExperiment,metric-method}
+\alias{run,resample,DatasetExperiment,metric-method}
 \alias{run}
 \title{Runs an iterator, applying the chosen model multiple times.}
 \usage{
@@ -24,6 +25,8 @@
 \S4method{run}{permutation_test,DatasetExperiment,metric}(I, D, MET = NULL)
 
 \S4method{run}{permute_sample_order,DatasetExperiment,metric}(I, D, MET)
+
+\S4method{run}{resample,DatasetExperiment,metric}(I, D, MET)
 }
 \arguments{
 \item{I}{an iterator object}

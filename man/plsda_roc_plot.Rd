@@ -4,10 +4,12 @@
 \alias{plsda_roc_plot}
 \title{PLSDA ROC plot}
 \usage{
-plsda_roc_plot(factor_name, ...)
+plsda_roc_plot(factor_name, ycol = 1, ...)
 }
 \arguments{
 \item{factor_name}{(character) The name of a sample-meta column to use.}
+
+\item{ycol}{(character, numeric, integer) The column of the Y block to be plotted. The default is \code{1}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
