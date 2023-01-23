@@ -422,8 +422,17 @@ setMethod(f="chart_plot",
         # 2D plot
         if (length(opt$components)==2) {
             A=data.frame("x"=P[,opt$components[1]],"y"=P[,opt$components[2]])
-            out=ggplot(data=A,aes_(x=~x,y=~y)) +
-                geom_point() +
+            out=ggplot(data=A,aes_(x=~x,y=~y))
+            if (opt$style=='points'){
+                out=out+
+                    geom_point(data=A,inherit.aes = FALSE,color='black',mapping = aes_(x=~x,y=~y))
+            }
+            if (opt$style=='arrows'){
+                out=out+
+                    geom_segment(data=A,inherit.aes = FALSE,color='black',mapping = aes_(x=~0,y=~0,xend=~x,yend=~y),arrow=arrow(length=unit(8,'points')))
+                
+            }
+            out= out + 
                 ggtitle('PCA Loadings', subtitle=NULL) +
                 xlab(paste0('Component ',opt$components[1])) +
                 ylab(paste0('Component ',opt$components[2])) +
