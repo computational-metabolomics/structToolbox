@@ -441,7 +441,7 @@ setMethod(f="chart_plot",
             
             if (!is.null(obj$label_features)) {
                 
-                if (obj$label_features=='rownames') {
+                if (obj$label_features=='row.names') {
                     vlabels=rownames(dobj$loadings)
                 } else {
                     vlabels=obj$label_features
