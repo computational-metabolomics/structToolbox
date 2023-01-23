@@ -53,9 +53,9 @@ chart_plot(C,M[2])
 
 }
 \references{
-Wickham H, Seidel D (2020).
+Wickham H, Seidel D (2022).
 \emph{scales: Scale Functions for Visualization}.
-R package version 1.1.1, \url{https://CRAN.R-project.org/package=scales}.
+R package version 1.2.1, \url{https://CRAN.R-project.org/package=scales}.
 
 Wickham H (2016).
 \emph{ggplot2: Elegant Graphics for Data Analysis}.

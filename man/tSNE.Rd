@@ -60,5 +60,5 @@ van der Maaten L (2014).
 Krijthe JH (2015).
 \emph{Rtsne: T-Distributed Stochastic Neighbor Embedding using Barnes-Hut
 Implementation}.
-R package version 0.15, \url{https://github.com/jkrijthe/Rtsne}.
+R package version 0.16, \url{https://github.com/jkrijthe/Rtsne}.
 }

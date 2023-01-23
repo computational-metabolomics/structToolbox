@@ -37,8 +37,8 @@ chart_plot(C,M[4],predicted(M[3]))
 
 }
 \references{
-Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2021).
+Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2022).
 \emph{e1071: Misc Functions of the Department of Statistics, Probability
 Theory Group (Formerly: E1071), TU Wien}.
-R package version 1.7-9, \url{https://CRAN.R-project.org/package=e1071}.
+R package version 1.7-12, \url{https://CRAN.R-project.org/package=e1071}.
 }

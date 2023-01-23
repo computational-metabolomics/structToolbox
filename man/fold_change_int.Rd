@@ -46,7 +46,8 @@ M = filter_smeta(mode='exclude',levels='QC',factor_name='Class') +
 M = model_apply(M,D)
 }
 \references{
-Lloyd GR, Weber RJM (2021).
-\emph{struct: Statistics in R Using Class-based Templates}.
-R package version 1.6.0.
+Lloyd GR, Jankevics A, Weber RJM (2020).
+``struct: an R/Bioconductor-based framework for standardized metabolomics data analysis and beyond.''
+\emph{Bioinformatics}, \bold{36}(22-23), 5551-5552.
+\url{https://doi.org/10.1093/bioinformatics/btaa1031}.
 }

@@ -5,8 +5,9 @@
 %   R/filter_by_name_class.R, R/filter_na_count.R, R/filter_smeta_class.R,
 %   R/glog_class.R, R/linear_model_class.R, R/mean_centre_class.R,
 %   R/model_train_doc.R, R/mv_feature_filter_class.R,
-%   R/mv_sample_filter_class.R, R/paretoscale_class.R,
-%   R/pqn_norm_method_class.R, R/svm_classifier_class.R, R/vec_norm_class.R
+%   R/mv_sample_filter_class.R, R/oplsr_class.R, R/oplsda_class.R,
+%   R/paretoscale_class.R, R/pqn_norm_method_class.R, R/svm_classifier_class.R,
+%   R/vec_norm_class.R
 \name{model_train,DFA,DatasetExperiment-method}
 \alias{model_train,DFA,DatasetExperiment-method}
 \alias{model_train,PCA,DatasetExperiment-method}
@@ -25,6 +26,8 @@
 \alias{model_train}
 \alias{model_train,mv_feature_filter,DatasetExperiment-method}
 \alias{model_train,mv_sample_filter,DatasetExperiment-method}
+\alias{model_train,OPLSR,DatasetExperiment-method}
+\alias{model_train,OPLSDA,DatasetExperiment-method}
 \alias{model_train,pareto_scale,DatasetExperiment-method}
 \alias{model_train,pqn_norm,DatasetExperiment-method}
 \alias{model_train,SVM,DatasetExperiment-method}
@@ -62,6 +65,10 @@
 \S4method{model_train}{mv_feature_filter,DatasetExperiment}(M, D)
 
 \S4method{model_train}{mv_sample_filter,DatasetExperiment}(M, D)
+
+\S4method{model_train}{OPLSR,DatasetExperiment}(M, D)
+
+\S4method{model_train}{OPLSDA,DatasetExperiment}(M, D)
 
 \S4method{model_train}{pareto_scale,DatasetExperiment}(M, D)
 

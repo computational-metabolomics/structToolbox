@@ -39,7 +39,7 @@ M = linear_model(formula = y~Species)
 
 }
 \references{
-R Core Team (2021).
+R Core Team (2022).
 \emph{R: A Language and Environment for Statistical Computing}.
 R Foundation for Statistical Computing, Vienna, Austria.
 \url{https://www.R-project.org/}.

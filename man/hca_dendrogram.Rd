@@ -25,7 +25,7 @@ This object makes use of functionality from the following packages:\itemize{\ite
 C = hca_dendrogram()
 }
 \references{
-de Vries A, Ripley BD (2020).
+de Vries A, Ripley BD (2022).
 \emph{ggdendro: Create Dendrograms and Tree Diagrams Using 'ggplot2'}.
-R package version 0.1.22, \url{https://CRAN.R-project.org/package=ggdendro}.
+R package version 0.1.23, \url{https://CRAN.R-project.org/package=ggdendro}.
 }

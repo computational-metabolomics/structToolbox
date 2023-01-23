@@ -91,6 +91,8 @@ Collate:
     'mv_feature_filter_class.R'
     'mv_sample_filter_class.R'
     'nroot_transform_class.R'
+    'oplsr_class.R'
+    'oplsda_class.R'
     'pairs_filter_class.R'
     'paretoscale_class.R'
     'permutation_test_class.R'
@@ -121,7 +123,7 @@ Imports: ggplot2,
     sp,
     stats,
     utils
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.2
 Suggests: agricolae,
  BiocFileCache,
  BiocStyle,
