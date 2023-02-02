@@ -54,10 +54,10 @@ setMethod(f="model_apply",
         smeta=D$sample_meta
         x=D$data
         
-        coeff = apply(x,MARGIN = 2,FUN = function(z) sum(z, na.rm = TRUE))
-        normalised = apply(x,MARGIN = 2,FUN = function(z) {
+        coeff = apply(x,MARGIN = 1,FUN = function(z) sum(z, na.rm = TRUE))
+        normalised = apply(x,MARGIN = 1,FUN = function(z) {
             (z/sum(z, na.rm=TRUE))*M$scaling_factor})
-        D$data = as.data.frame(normalised)
+        D$data = as.data.frame(t(normalised))
         
         output_value(M,'normalised') = D
         output_value(M,'coeff') = data.frame('coeff'=coeff)
