@@ -176,15 +176,14 @@ setMethod(f="chart_plot",
         } else {
             slabels = dobj$sample_meta[[obj$label_factor]]
         }
-        obj$factor_name=obj$factor_name[[1]] # only use the first factor from now on
-        
+
         x=dobj$data[,obj$xcol]
         y=dobj$data[,obj$ycol]
         xlabel=obj$xcol
         ylabel=obj$ycol
         
         # get the factor from meta data
-        groups=dobj$sample_meta[[obj$factor_name]]
+        groups=dobj$sample_meta[[obj$factor_name[[1]]]]
         
         # add a space to the front of the labels to offset them from the points, because nudge_x is in data units
         for (i in 1:length(slabels)) {
@@ -210,24 +209,21 @@ setMethod(f="chart_plot",
         # add invisible sample points for ellipse
         out = out+geom_point(data=A,aes_string(x='x',y='y'),alpha=0,show.legend=FALSE)
         
-        
-        if (length(obj$factor_name)==2) {
+        if (length(shapes)>1) {
             out=out+geom_point(data=A, aes_(x=~x,y=~y,colour=~group,shape=~shapes))
-        }   else {
-            out=out+geom_point(data=A, aes_(x=~x,y=~y,colour=~group))
+        } else {
+            out=out+geom_point(data=A, aes_(x=~x,y=~y,colour=~group),shape=shapes)
         }
-        
-        
         out=out+
             
             geom_point(na.rm=TRUE) +
             xlab(xlabel) +
             ylab(ylabel) 
         
-        if (length(obj$factor_name)==2) {
+        if (length(shapes)>1) {
             out=out+labs(shape=obj$factor_name[[2]],colour=obj$factor_name[[1]])
         } else {
-            out=out+labs(shape=obj$factor_name[[1]])
+            out=out+labs(color=obj$factor_name[[1]])
         }
         
         if (obj$ellipse %in% c('all','group')) {
@@ -237,10 +233,10 @@ setMethod(f="chart_plot",
         
         if (is(groups,'factor')) { # if a factor then plot by group using the colours from pmp package
             out=out+scale_colour_manual(values=plotClass$manual_colors,
-                name=obj$factor_name)
+                name=obj$factor_name[[1]])
         }else {# assume continuous and use the default colour gradient
             out=out+scale_colour_viridis_c(limits=quantile(groups,
-                c(0.05,0.95),na.rm = TRUE),oob=squish,name=obj$factor_name)
+                c(0.05,0.95),na.rm = TRUE),oob=squish,name=obj$factor_name[[1]])
         }
         out=out+theme_Publication(base_size = 12)
         # add ellipse for all samples (ignoring group)
