@@ -202,7 +202,7 @@ setMethod(f="chart_plot",
         }
         
         # build the plot
-        A <- data.frame (group=groups,x=x, y=y,slabels=slabels)
+        A <- data.frame (group=groups,x=x, y=y,slabels=slabels,shape=shapes)
         
         out = ggplot()
         
@@ -210,10 +210,11 @@ setMethod(f="chart_plot",
         out = out+geom_point(data=A,aes_string(x='x',y='y'),alpha=0,show.legend=FALSE)
         
         if (length(shapes)>1) {
-            out=out+geom_point(data=A, aes_(x=~x,y=~y,colour=~group,shape=~shapes))
+            out=out+geom_point(data=A, aes_(x=~x,y=~y,colour=~group,shape=~shape)) 
         } else {
-            out=out+geom_point(data=A, aes_(x=~x,y=~y,colour=~group),shape=shapes)
+            out=out+geom_point(data=A, aes_(x=~x,y=~y,colour=~group),shape=shapes) 
         }
+
         out=out+
             
             geom_point(na.rm=TRUE) +
@@ -227,16 +228,23 @@ setMethod(f="chart_plot",
         }
         
         if (obj$ellipse %in% c('all','group')) {
-            out = out +stat_ellipse(data=A, aes_(x=~x,y=~y,colour=~group),type=obj$ellipse_type,
+            if (is.factor(groups)) {
+            out = out +stat_ellipse(data=A, aes_(x=~x,y=~y,colour=~group,group=~group),type=obj$ellipse_type,
                 level=obj$ellipse_confidence) # ellipse for individual groups
+            } else {
+                if (is.factor(shapes)) {
+                    out = out +stat_ellipse(data=A, aes_(x=~x,y=~y,group=~shape),color="#C0C0C0",type=obj$ellipse_type,
+                        level=obj$ellipse_confidence) # ellipse for individual groups
+                }
+            }
         }
         
         if (is(groups,'factor')) { # if a factor then plot by group using the colours from pmp package
             out=out+scale_colour_manual(values=plotClass$manual_colors,
                 name=obj$factor_name[[1]])
-        }else {# assume continuous and use the default colour gradient
+        } else {# assume continuous and use the default colour gradient
             out=out+scale_colour_viridis_c(limits=quantile(groups,
-                c(0.05,0.95),na.rm = TRUE),oob=squish,name=obj$factor_name[[1]])
+                c(0.05,0.95),na.rm = TRUE),oob=scales::squish,name=obj$factor_name[[1]])
         }
         out=out+theme_Publication(base_size = 12)
         # add ellipse for all samples (ignoring group)
