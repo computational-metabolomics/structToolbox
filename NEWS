@@ -1,3 +1,8 @@
+Changes 1.10.1
++ fix pca loadings plot
++ fix constant usm normalisation
++ fix scatter plot with shapes
+
 Changes 1.7.2
 + internal updates to PLS
 + some PLS charts have been renamed for consistency with other methods
