@@ -53,7 +53,7 @@ setMethod(f="model_predict",
         X=D$data
         Xc=pscale(X,output_value(M,'mean'),output_value(M,'sd'))
         D$data=as.data.frame(Xc)
-        D$name=c(D$name,'The data has been autoscaled')
+        D$name=c(D$name,'The data has been pareto scaled')
         output_value(M,'scaled')=D
         return(M)
     }
