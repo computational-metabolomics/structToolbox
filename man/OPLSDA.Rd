@@ -22,8 +22,8 @@ A  \code{OPLSDA} object with the following \code{output} slots:
 }
 }
 \description{
-OPLS splits a data matrix into two parts. One part 
-        contains information orthogonal to the input vector, and the other is non-orthogonal.
+OPLS splits a data matrix into two parts. One part
+contains information orthogonal to the input vector, and the other is non-orthogonal.
 }
 \examples{
 M = OPLSR('number_components'=2,factor_name='Species')

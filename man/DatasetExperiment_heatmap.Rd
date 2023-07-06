@@ -29,8 +29,7 @@ C = DatasetExperiment_heatmap()
 chart_plot(C,D)
 }
 \references{
-Wickham H (2007).
-``Reshaping Data with the reshape Package.''
-\emph{Journal of Statistical Software}, \bold{21}(12), 1--20.
+Wickham H (2007). "Reshaping Data with the reshape Package." \emph{Journal
+of Statistical Software}, \emph{21}(12), 1-20.
 \url{http://www.jstatsoft.org/v21/i12/}.
 }

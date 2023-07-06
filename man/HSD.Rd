@@ -39,7 +39,7 @@ M = HSD(formula=y~Species)
 M = model_apply(M,D)
 }
 \references{
-de Mendiburu F (2021).
-\emph{agricolae: Statistical Procedures for Agricultural Research}.
-R package version 1.3-5, \url{https://CRAN.R-project.org/package=agricolae}.
+de Mendiburu F (2023). \emph{agricolae: Statistical Procedures for
+Agricultural Research}. R package version 1.3-6,
+\url{https://CRAN.R-project.org/package=agricolae}.
 }

@@ -230,10 +230,10 @@ dfa_scores_plot = function(
         ellipse=enum(
             name = 'Plot ellipses',
             description=c(
-                "all" = paste0('Hotelling T2 95\\% ellipses are plotted for all groups and all samples.'),
-                "group" = 'Hotelling T2 95\\% ellipses are plotted for all groups.',
+                "all" = 'Hotelling T2 ellipses (p=0.95) are plotted for all groups and all samples.',
+                "group" = 'Hotelling T2 ellipses (p=0.95) are plotted for all groups.',
                 "none" = 'Ellipses are not included on the plot.',
-                "sample" = 'A Hotelling T2 95\\% ellipse is plotted for all samples (ignoring group)'),
+                "sample" = 'A Hotelling T2 ellipse (p=0.95) is plotted for all samples (ignoring group)'),
             allowed=c('all','group','none','sample'),
             value='all'
         ),

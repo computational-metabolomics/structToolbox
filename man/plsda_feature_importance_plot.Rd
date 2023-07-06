@@ -34,21 +34,19 @@ C = plsda_feature_importance_plot(n_features=30,metric='vip')
 chart_plot(C,M[2])
 }
 \references{
-Liland K, Mevik B, Wehrens R (2022).
-\emph{pls: Partial Least Squares and Principal Component Regression}.
-R package version 2.8-1, \url{https://CRAN.R-project.org/package=pls}.
+Liland K, Mevik B, Wehrens R (2023). \emph{pls: Partial Least Squares and
+Principal Component Regression}. R package version 2.8-2,
+\url{https://CRAN.R-project.org/package=pls}.
 
-Wickham H (2016).
-\emph{ggplot2: Elegant Graphics for Data Analysis}.
-Springer-Verlag New York.
-ISBN 978-3-319-24277-4, \url{https://ggplot2.tidyverse.org}.
+Wickham H (2016). \emph{ggplot2: Elegant Graphics for Data Analysis}.
+Springer-Verlag New York. ISBN 978-3-319-24277-4,
+\url{https://ggplot2.tidyverse.org}.
 
-Wickham H (2007).
-``Reshaping Data with the reshape Package.''
-\emph{Journal of Statistical Software}, \bold{21}(12), 1--20.
+Wickham H (2007). "Reshaping Data with the reshape Package." \emph{Journal
+of Statistical Software}, \emph{21}(12), 1-20.
 \url{http://www.jstatsoft.org/v21/i12/}.
 
-Wilke C (2020).
-\emph{cowplot: Streamlined Plot Theme and Plot Annotations for 'ggplot2'}.
-R package version 1.1.1, \url{https://CRAN.R-project.org/package=cowplot}.
+Wilke C (2020). \emph{cowplot: Streamlined Plot Theme and Plot Annotations
+for 'ggplot2'}. R package version 1.1.1,
+\url{https://CRAN.R-project.org/package=cowplot}.
 }

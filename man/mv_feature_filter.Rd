@@ -27,7 +27,7 @@ mv_feature_filter(
 A  \code{mv_feature_filter} object with the following \code{output} slots:
 \tabular{ll}{
 \code{filtered} \tab          (DatasetExperiment) A DatasetExperiment object containing the filtered data. \cr
-\code{flags} \tab          (data.frame) % missing values and a flag indicating whether the sample was rejected. \cr
+\code{flags} \tab          (data.frame) \% missing values and a flag indicating whether the sample was rejected. \cr
 }
 }
 \description{
@@ -42,8 +42,8 @@ M = mv_feature_filter(factor_name='Species',qc_label='versicolor')
 M = model_apply(M,D)
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (2022).
-\emph{pmp: Peak Matrix Processing and signal batch correction for
-metabolomics datasets}.
-R package version 1.10.0.
+Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
+and signal batch correction for metabolomics datasets}.
+doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
+package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
 }

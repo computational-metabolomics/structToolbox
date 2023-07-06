@@ -41,15 +41,15 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = PLSDA('number_components'=2,factor_name='Species')
 }
 \references{
-Liland K, Mevik B, Wehrens R (2022).
-\emph{pls: Partial Least Squares and Principal Component Regression}.
-R package version 2.8-1, \url{https://CRAN.R-project.org/package=pls}.
+Liland K, Mevik B, Wehrens R (2023). \emph{pls: Partial Least Squares and
+Principal Component Regression}. R package version 2.8-2,
+\url{https://CRAN.R-project.org/package=pls}.
 
-Perez NF, Ferre J, Boque R (2009).
-``Calculation of the reliability of classification in discriminant partial least-squares binary classification.''
-\emph{Chemometrics and Intelligent Laboratory Systems}, \bold{95}(2), 122-128.
+Perez NF, Ferre J, Boque R (2009). "Calculation of the reliability of
+classification in discriminant partial least-squares binary
+classification." \emph{Chemometrics and Intelligent Laboratory Systems},
+\emph{95}(2), 122-128.
 
-Barker M, Rayens W (2003).
-``Partial least squares for discrimination.''
-\emph{Journal of Chemometrics}, \bold{17}(3), 166-173.
+Barker M, Rayens W (2003). "Partial least squares for discrimination."
+\emph{Journal of Chemometrics}, \emph{17}(3), 166-173.
 }

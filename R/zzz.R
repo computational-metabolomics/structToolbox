@@ -26,7 +26,7 @@ get_description=function(id) {
     cits=citations(M)
     cits[length(cits)]=NULL
     for (k in seq_along(cits)) {
-        cit=format(cits[[k]],style='latex')
+        cit=format(cits[[k]],style='text')
         str=c(str,paste0('@references ',cit))
     }
     

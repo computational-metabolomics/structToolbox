@@ -32,7 +32,9 @@ M = dratio_filter(threshold=20,qc_label='QC',factor_name='Class')
 M = model_apply(M,D)
 }
 \references{
-Broadhurst D, Goodacre R, Reinke SN, Kuligowski J, Wilson ID, Lewis MR, Dunn WB (2018).
-``Guidelines and considerations for the use of system suitability and quality control samples in mass spectrometry assays applied in untargeted clinical metabolomic studies.''
-\emph{Metabolomics}, \bold{14}(6).
+Broadhurst D, Goodacre R, Reinke SN, Kuligowski J, Wilson ID, Lewis MR,
+Dunn WB (2018). "Guidelines and considerations for the use of system
+suitability and quality control samples in mass spectrometry assays
+applied in untargeted clinical metabolomic studies." \emph{Metabolomics},
+\emph{14}(6).
 }

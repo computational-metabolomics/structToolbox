@@ -36,12 +36,11 @@ C = plsda_predicted_plot(factor_name='Species')
 chart_plot(C,M[2])
 }
 \references{
-Liland K, Mevik B, Wehrens R (2022).
-\emph{pls: Partial Least Squares and Principal Component Regression}.
-R package version 2.8-1, \url{https://CRAN.R-project.org/package=pls}.
+Liland K, Mevik B, Wehrens R (2023). \emph{pls: Partial Least Squares and
+Principal Component Regression}. R package version 2.8-2,
+\url{https://CRAN.R-project.org/package=pls}.
 
-Wickham H (2016).
-\emph{ggplot2: Elegant Graphics for Data Analysis}.
-Springer-Verlag New York.
-ISBN 978-3-319-24277-4, \url{https://ggplot2.tidyverse.org}.
+Wickham H (2016). \emph{ggplot2: Elegant Graphics for Data Analysis}.
+Springer-Verlag New York. ISBN 978-3-319-24277-4,
+\url{https://ggplot2.tidyverse.org}.
 }

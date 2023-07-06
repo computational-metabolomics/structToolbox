@@ -28,7 +28,7 @@ SVM(
 
 \item{cost}{(numeric) The cost of violating the constraints. The default is \code{1}.}
 
-\item{class_weights}{(numeric, character, NULL) A named vector of weights for the different classes.  Specifying 
+\item{class_weights}{(numeric, character, NULL) A named vector of weights for the different classes.  Specifying
 "inverse" will choose the weights inversely proportional to the class distribution. The default is \code{NULL}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
@@ -55,12 +55,11 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = SVM(factor_name='Species',gamma=1)
 }
 \references{
-Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2022).
+Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2023).
 \emph{e1071: Misc Functions of the Department of Statistics, Probability
-Theory Group (Formerly: E1071), TU Wien}.
-R package version 1.7-12, \url{https://CRAN.R-project.org/package=e1071}.
+Theory Group (Formerly: E1071), TU Wien}. R package version 1.7-13,
+\url{https://CRAN.R-project.org/package=e1071}.
 
-Brereton RG, Lloyd GR (2010).
-``Support Vector Machines for classification and regression.''
-\emph{The Analyst}, \bold{135}(2), 230-267.
+Brereton RG, Lloyd GR (2010). "Support Vector Machines for
+classification and regression." \emph{The Analyst}, \emph{135}(2), 230-267.
 }

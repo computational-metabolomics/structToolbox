@@ -28,16 +28,13 @@ M = tSNE_scatter(factor_name='Species')
 
 }
 \references{
-van der Maaten L, Hinton G (2008).
-``Visualizing High-Dimensional Data Using t-SNE.''
-\emph{Journal of Machine Learning Research}, \bold{9}, 2579-2605.
+van der Maaten L, Hinton G (2008). "Visualizing High-Dimensional Data
+Using t-SNE." \emph{Journal of Machine Learning Research}, \emph{9}, 2579-2605.
 
-van der Maaten L (2014).
-``Accelerating t-SNE using Tree-Based Algorithms.''
-\emph{Journal of Machine Learning Research}, \bold{15}, 3221-3245.
+van der Maaten L (2014). "Accelerating t-SNE using Tree-Based
+Algorithms." \emph{Journal of Machine Learning Research}, \emph{15}, 3221-3245.
 
-Krijthe JH (2015).
-\emph{Rtsne: T-Distributed Stochastic Neighbor Embedding using Barnes-Hut
-Implementation}.
-R package version 0.16, \url{https://github.com/jkrijthe/Rtsne}.
+Krijthe JH (2015). \emph{Rtsne: T-Distributed Stochastic Neighbor Embedding
+using Barnes-Hut Implementation}. R package version 0.16,
+\url{https://github.com/jkrijthe/Rtsne}.
 }

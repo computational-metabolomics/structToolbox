@@ -7,10 +7,10 @@
 filter_by_name(mode = "exclude", dimension = "sample", names, ...)
 }
 \arguments{
-\item{mode}{"include" or ["exclude"] to subsample a DatasetExperiment by including or
+\item{mode}{"include" or \link{"exclude"} to subsample a DatasetExperiment by including or
 excluding samples/features based on the provided labels}
 
-\item{dimension}{["sample"] or "variable" to filter by sample or feature
+\item{dimension}{\link{"sample"} or "variable" to filter by sample or feature
 labels}
 
 \item{names}{the sample/feature identifiers to filter by. Can provide column

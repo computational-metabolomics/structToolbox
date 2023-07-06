@@ -34,18 +34,17 @@ M = glog_transform(qc_label='versicolor',factor_name='Species')
 M = model_apply(M,D)
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (2022).
-\emph{pmp: Peak Matrix Processing and signal batch correction for
-metabolomics datasets}.
-R package version 1.10.0.
+Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
+and signal batch correction for metabolomics datasets}.
+doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
+package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
 
-Durbin B, Hardin J, Hawkins D, Rocke D (2002).
-``A variance-stabilizing transformation for gene-expression microarray data.''
-\emph{Bioinformatics}, \bold{18}(Suppl 1), S105-S110.
+Durbin B, Hardin J, Hawkins D, Rocke D (2002). "A variance-stabilizing
+transformation for gene-expression microarray data." \emph{Bioinformatics},
+\emph{18}(Suppl 1), S105-S110.
 
-Parsons HM, Ludwig C, Gunther UL, Viant MR (2007).
-``Improved classification accuracy in 1- and ',
-'2-dimensional NMR metabolomics data using the variance ',
-'stabilising generalised logarithm transformation.''
-\emph{Bioinformatics}, \bold{8}(1), 234.
+Parsons HM, Ludwig C, Gunther UL, Viant MR (2007). "Improved
+classification accuracy in 1- and ', '2-dimensional NMR metabolomics
+data using the variance ', 'stabilising generalised logarithm
+transformation." \emph{Bioinformatics}, \emph{8}(1), 234.
 }

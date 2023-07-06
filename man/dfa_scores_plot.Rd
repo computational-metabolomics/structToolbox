@@ -22,7 +22,7 @@ dfa_scores_plot(
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{ellipse}{(character) Plot ellipses. Allowed values are limited to the following: \itemize{\item{\code{"all"}: Hotelling T2 95\% ellipses are plotted for all groups and all samples.}\item{\code{"group"}: Hotelling T2 95\% ellipses are plotted for all groups.}\item{\code{"none"}: Ellipses are not included on the plot.}\item{\code{"sample"}: A Hotelling T2 95\% ellipse is plotted for all samples (ignoring group).}} The default is \code{"all"}.}
+\item{ellipse}{(character) Plot ellipses. Allowed values are limited to the following: \itemize{\item{\code{"all"}: Hotelling T2 ellipses (p=0.95) are plotted for all groups and all samples.}\item{\code{"group"}: Hotelling T2 ellipses (p=0.95) are plotted for all groups.}\item{\code{"none"}: Ellipses are not included on the plot.}\item{\code{"sample"}: A Hotelling T2 ellipse (p=0.95) is plotted for all samples (ignoring group).}} The default is \code{"all"}.}
 
 \item{label_filter}{(character) Labels are only plotted for the named groups. If zero-length then all groups are included. The default is \code{character(0)}.}
 
@@ -53,12 +53,11 @@ chart_plot(C,M[2])
 
 }
 \references{
-Wickham H, Seidel D (2022).
-\emph{scales: Scale Functions for Visualization}.
-R package version 1.2.1, \url{https://CRAN.R-project.org/package=scales}.
+Wickham H, Seidel D (2022). \emph{scales: Scale Functions for
+Visualization}. R package version 1.2.1,
+\url{https://CRAN.R-project.org/package=scales}.
 
-Wickham H (2016).
-\emph{ggplot2: Elegant Graphics for Data Analysis}.
-Springer-Verlag New York.
-ISBN 978-3-319-24277-4, \url{https://ggplot2.tidyverse.org}.
+Wickham H (2016). \emph{ggplot2: Elegant Graphics for Data Analysis}.
+Springer-Verlag New York. ISBN 978-3-319-24277-4,
+\url{https://ggplot2.tidyverse.org}.
 }

@@ -31,7 +31,6 @@ M = DFA(factor_name='Species')
 M = model_apply(M,D)
 }
 \references{
-Manly B (1986).
-\emph{Multivariate Statistical Methods: A Primer}.
-Chapman and Hall, Boca Raton.
+Manly B (1986). \emph{Multivariate Statistical Methods: A Primer}. Chapman
+and Hall, Boca Raton.
 }

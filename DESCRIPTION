@@ -148,3 +148,4 @@ Suggests: agricolae,
 VignetteBuilder: knitr
 biocViews: WorkflowStep, Metabolomics
 URL: https://github.com/computational-metabolomics/structToolbox
+Roxygen: list(markdown = TRUE)

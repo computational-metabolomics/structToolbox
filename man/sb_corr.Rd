@@ -32,7 +32,7 @@ leave-one-out cross-validation. The default is \code{0}.}
 
 \item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
-\item{spar_lim}{(numeric) A two element vector specifying the upper and lower limits when `spar = 0`. Allows the value of `spar` to be constrained within these limits to prevent overfitting. The default is \code{c(-1.5, 1.5)}.}
+\item{spar_lim}{(numeric) A two element vector specifying the upper and lower limits when \code{spar = 0}. Allows the value of \code{spar} to be constrained within these limits to prevent overfitting. The default is \code{c(-1.5, 1.5)}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -55,12 +55,13 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = sb_corr(order_col='run_order',batch_col='batch_no',qc_col='class')
 }
 \references{
-Jankevics A, Lloyd GR, Weber RJM (2022).
-\emph{pmp: Peak Matrix Processing and signal batch correction for
-metabolomics datasets}.
-R package version 1.10.0.
+Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
+and signal batch correction for metabolomics datasets}.
+doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
+package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
 
-Kirwan JA, Broadhurst DI, Davidson RL, Viant MR (2013).
-``Characterising and correcting batch variation in an automated direct infusion mass spectrometry (DIMS) metabolomics workflow.''
-\emph{Analytical and Bioanalytical Chemistry}, \bold{405}(15), 5147-5157.
+Kirwan JA, Broadhurst DI, Davidson RL, Viant MR (2013). "Characterising
+and correcting batch variation in an automated direct infusion mass
+spectrometry (DIMS) metabolomics workflow." \emph{Analytical and
+Bioanalytical Chemistry}, \emph{405}(15), 5147-5157.
 }

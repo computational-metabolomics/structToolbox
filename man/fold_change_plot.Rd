@@ -7,7 +7,7 @@
 fold_change_plot(number_features = 20, orientation = "portrait", ...)
 }
 \arguments{
-\item{number_features}{(numeric) The number randomly selected features to plot, or 
+\item{number_features}{(numeric) The number randomly selected features to plot, or
 a list of column numbers. The default is \code{20}.}
 
 \item{orientation}{(character) Plot orientation. Allowed values are limited to the following: \itemize{\item{\code{"landscape"}: Features are plotted on the y-axis.}\item{\code{"portrait"}: Features are plotted on the x-axis.}} The default is \code{"portrait"}.}
