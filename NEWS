@@ -1,3 +1,8 @@
+Changes 1.13.1
++ hotfix vector_norm now correctly normalises samples to length 1
++ re-sync with Bioc devel
++ fix broken documentation
+
 Changes 1.7.2
 + internal updates to PLS
 + some PLS charts have been renamed for consistency with other methods
