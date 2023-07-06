@@ -7,27 +7,25 @@
 filter_by_name(mode = "exclude", dimension = "sample", names, ...)
 }
 \arguments{
-\item{mode}{"include" or \link{"exclude"} to subsample a DatasetExperiment by including or
-excluding samples/features based on the provided labels}
+\item{mode}{(character) The filtering mode controls whether samples/features are mode="included" or mode="excluded" based on their name. The default is \code{"exclude"}.}
 
-\item{dimension}{\link{"sample"} or "variable" to filter by sample or feature
-labels}
+\item{dimension}{(character) The filtering dimensions controls whether dimension="sample" or dimension="variable" are filtered based on their name. The default is \code{"sample"}.}
 
-\item{names}{the sample/feature identifiers to filter by. Can provide column
-names, column indices or logical.}
+\item{names}{(character, numeric, logical) The name of features/samples to be filtered. Must be an exact match. Can also provide indexes (numeric) or logical.}
 
-\item{...}{additional slots and values passed to struct_class}
+\item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{
-struct object
+A  \code{filter_by_name} object with the following \code{output} slots:
+\tabular{ll}{
+\code{filtered} \tab          (DatasetExperiment)  \cr
+}
 }
 \description{
-A filter to subsample a DatasetExperiment object based on sample or feature name,
-id, row/column index or using a vector of TRUE/FALSE.
+Filter samples/variables by row/column name, index or logicals.
 }
 \examples{
 D = MTBLS79_DatasetExperiment()
 M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
 M = model_apply(M,D)
-
 }

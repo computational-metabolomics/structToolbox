@@ -1,22 +1,8 @@
-#' Filter by name
-#'
-#' A filter to subsample a DatasetExperiment object based on sample or feature name,
-#' id, row/column index or using a vector of TRUE/FALSE.
-#'
-#' @param mode "include" or ["exclude"] to subsample a DatasetExperiment by including or
-#' excluding samples/features based on the provided labels
-#' @param dimension ["sample"] or "variable" to filter by sample or feature
-#' labels
-#' @param names the sample/feature identifiers to filter by. Can provide column
-#' names, column indices or logical.
-#'
+#' @eval get_description('filter_by_name')
 #' @examples
 #' D = MTBLS79_DatasetExperiment()
 #' M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
 #' M = model_apply(M,D)
-#'
-#' @param ... additional slots and values passed to struct_class
-#' @return struct object
 #' @export filter_by_name
 filter_by_name = function(mode='exclude',dimension='sample',names,...) {
     out=struct::new_struct('filter_by_name',
@@ -36,7 +22,13 @@ filter_by_name = function(mode='exclude',dimension='sample',names,...) {
         names='entity',
         filtered='DatasetExperiment'
     ),
-    prototype=list(type = 'filter',
+    prototype=list(
+        name = 'Filter by name',
+        description = paste0( 
+            'Filter samples/variables by row/column name, index or ',
+            'logicals.'),
+
+        type = 'filter',
         predicted = 'filtered',
         .params=c('mode','dimension','names'),
         .outputs=c('filtered'),
