@@ -1,3 +1,8 @@
+Changes 1.12.1
++ dratio_filter now correctly removes features
++ updated documentation for missing value filters
++ added tests for dratio_filter
+
 Changes 1.7.2
 + internal updates to PLS
 + some PLS charts have been renamed for consistency with other methods

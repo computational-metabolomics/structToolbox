@@ -1,7 +1,7 @@
 Package: structToolbox
 Type: Package
 Title: Data processing & analysis tools for Metabolomics and other omics
-Version: 1.12.0
+Version: 1.12.1
 Authors@R: c(
     person(
         c("Gavin","Rhys"),
@@ -121,7 +121,7 @@ Imports: ggplot2,
     sp,
     stats,
     utils
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Suggests: agricolae,
  BiocFileCache,
  BiocStyle,
