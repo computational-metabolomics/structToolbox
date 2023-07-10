@@ -115,7 +115,7 @@ setMethod(f="model_predict",
         # get flags
         OUT=M$flags$rejected
         # remove flagged
-        D=D[,-OUT]
+        D=D[,!OUT]
         # store
         M$filtered=D
 
