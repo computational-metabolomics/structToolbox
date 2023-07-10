@@ -4,7 +4,11 @@
 #' D = iris_DatasetExperiment()
 #' M = mv_feature_filter(factor_name='Species',qc_label='versicolor')
 #' M = model_apply(M,D)
-mv_feature_filter = function(threshold=20,qc_label='QC',method='QC',factor_name,...) {
+mv_feature_filter = function(
+        threshold=20,
+        qc_label='QC',
+        method='QC',
+        factor_name,...) {
     out=struct::new_struct('mv_feature_filter',
         threshold=threshold,
         qc_label=qc_label,
@@ -24,9 +28,10 @@ mv_feature_filter = function(threshold=20,qc_label='QC',method='QC',factor_name,
         filtered='entity',
         flags='entity'
     ),
-    prototype=list(name = 'Filter by fraction missing values',
-        description = paste0('Filters features where the percent number ',
-        'of missing values exceeds a predefined threshold.'),
+    prototype=list(
+        name = 'Filter features by missing values',
+        description = paste0('Removes features where the percentage ',
+        'of non-missing values falls below a threshold.'),
         type = 'filter',
         predicted = 'filtered',
         libraries='pmp',
@@ -35,22 +40,30 @@ mv_feature_filter = function(threshold=20,qc_label='QC',method='QC',factor_name,
 
         factor_name=ents$factor_name,
 
-        threshold=entity(name = 'Missing value threshold (\\%)',
-            description = 'The threshold for excluding features.',
+        threshold=entity(name = 'Missing value threshold (%)',
+            description = 'The minimum percentage of non-missing values.',
             value = 20,
             type='numeric'),
 
-        qc_label=entity(name = 'QC label',
-            description = 'The label used to identify QC samples.',
+        qc_label=entity(name = 'QC/group label',
+            description = paste0('The label used to identify QC/group ',
+                'samples when using the "QC" (within a named group) filtering ',
+                'method.'),
             value = 'QC',
             type='character'),
 
         method=enum(name='Filtering method',
             description=c(
-                "within_all" = 'The filter is applied within classes',
-                "within_one" = 'The filter is applied within any one class',
-                "QC" = 'The filter is applied within QC samples',
-                "across" = 'The filter is applied across all samples'),
+                "within_all" = paste0(
+                    'Features are removed if the threshold for ',
+                    'non-missing values is not met for all groups.'),
+                "within_one" = paste0(
+                    'Features are removed if the threshold for ',
+                    'non-missing values is not met for at least one group.'),
+                "QC" = paste0(
+                    'Features are removed if the threshold for ',
+                    'non-missing values is not met for the named group.'),
+                "across" = 'The filter is applied ignoring sample group.'),
             value='QC',
             type='character',
             allowed=c('within_all','within_one','QC','across')),
@@ -61,7 +74,9 @@ mv_feature_filter = function(threshold=20,qc_label='QC',method='QC',factor_name,
             value=DatasetExperiment()
         ),
         flags=entity(name = 'Flags',
-            description = '% missing values and a flag indicating whether the sample was rejected.',
+            description = paste0(
+            '% missing values and a flag indicating whether the ',
+                'sample was rejected. 0 = rejected.'),
             type='data.frame',
             value=data.frame()
         )
@@ -81,7 +96,10 @@ setMethod(f="model_train",
 
         s=strsplit(opt$method,'_')[[1]][1]
 
-        filtered = pmp::filter_peaks_by_fraction(t(x), min_frac = opt$threshold/100, classes=smeta[[M$factor_name]], method=s,qc_label=opt$qc_label,remove_peaks = FALSE)
+        filtered = pmp::filter_peaks_by_fraction(t(x), 
+            min_frac = opt$threshold/100, 
+            classes=smeta[[M$factor_name]],
+            method=s,qc_label=opt$qc_label,remove_peaks = FALSE)
         #D$data = as.data.frame(t(filtered$df))
 
         flags<-data.frame(attributes(filtered)$flags)
@@ -151,8 +169,7 @@ setMethod(f="chart_plot",
     signature=c("mv_feature_filter_hist",'mv_feature_filter'),
     definition=function(obj,dobj)
     {
-        if (param_value(dobj,'method')=='within')
-        {
+        if (param_value(dobj,'method')=='within') {
             stop('plot not implemented for within class filter')
         }
 

@@ -7,7 +7,7 @@
 mv_sample_filter(mv_threshold = 20, ...)
 }
 \arguments{
-\item{mv_threshold}{(numeric) The theshold for excluding samples. The default is \code{20}.}
+\item{mv_threshold}{(numeric) The maximum percentage of features with missing values in a sample. The default is \code{20}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -20,7 +20,7 @@ A  \code{mv_sample_filter} object with the following \code{output} slots:
 }
 }
 \description{
-Filters samples by removing those where the percent number of missing values exceeds a predefined threshold.
+Removes samples where the percent number of missing values exceeds a threshold.
 }
 \details{
 This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
