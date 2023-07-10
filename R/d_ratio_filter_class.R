@@ -42,7 +42,10 @@ dratio_filter = function(threshold=20, qc_label='QC', factor_name, ...) {
                 month = 'May',
                 volume = 14,
                 number = 6,
-                author = as.person('David Broadhurst, Royston Goodacre, Stacey N. Reinke, Julia Kuligowski, Ian D. Wilson, Matthew R. Lewis, Warwick B. Dunn'),
+                author = as.person(
+                    paste0('David Broadhurst, Royston Goodacre, ',
+                    'Stacey N. Reinke, Julia Kuligowski, Ian D. Wilson, ',
+                    'Matthew R. Lewis, Warwick B. Dunn')),
                 title = paste0('Guidelines and considerations for the use of ',
                     'system suitability and quality control samples in mass ',
                     'spectrometry assays applied in untargeted clinical ',
@@ -52,7 +55,7 @@ dratio_filter = function(threshold=20, qc_label='QC', factor_name, ...) {
         ),
 
         threshold=entity(name = 'Dispersion ratio threshold',
-            description = 'The threshold below which features are removed.',
+            description = 'The threshold above which features are removed.',
             value = 20,
             type='numeric'),
 
@@ -83,17 +86,23 @@ setMethod(f="model_train",
     signature=c("dratio_filter","DatasetExperiment"),
     definition=function(M,D)
     {
-        # median QC samples
-        QC=filter_smeta(mode='include',levels=M$qc_label,factor_name=M$factor_name)
+        # mad QC samples
+        QC = filter_smeta(
+                mode='include',
+                levels=M$qc_label,
+                factor_name=M$factor_name)
         QC = model_apply(QC,D)
         QC = predicted(QC)$data
-        QC=apply(QC,2,mad,na.rm=TRUE)
+        QC = apply(QC,2,mad,na.rm=TRUE)
 
-        # median samples
-        S=filter_smeta(mode='exclude',levels=M$qc_label,factor_name=M$factor_name)
+        # mad not qc samples
+        S = filter_smeta(
+                mode='exclude',
+                levels=M$qc_label,
+                factor_name=M$factor_name)
         S = model_apply(S,D)
         S = predicted(S)$data
-        S=apply(S,2,mad,na.rm=TRUE)
+        S = apply(S,2,mad,na.rm=TRUE)
 
         d_ratio=(QC/(QC+S))*100
 

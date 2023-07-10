@@ -7,7 +7,7 @@
 dratio_filter(threshold = 20, qc_label = "QC", factor_name, ...)
 }
 \arguments{
-\item{threshold}{(numeric) The threshold below which features are removed. The default is \code{20}.}
+\item{threshold}{(numeric) The threshold above which features are removed. The default is \code{20}.}
 
 \item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
