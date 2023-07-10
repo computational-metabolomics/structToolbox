@@ -19,25 +19,31 @@ mv_sample_filter = function(mv_threshold=20,...) {
         percent_missing='entity'
     ),
     prototype=list(name = 'Missing value sample filter',
-        description = paste0('Filters samples by removing those where the ',
-        'percent number of missing values exceeds a predefined threshold.'),
+        description = paste0(
+            'Removes samples where the ',
+        'percent number of missing values exceeds a threshold.'),
         type = 'filter',
         predicted = 'filtered',
         libraries='pmp',
         .params=c('mv_threshold'),
         .outputs=c('filtered','flags','percent_missing'),
 
-        mv_threshold=entity(name = 'Missing value threshold (\\%)',
-            description = 'The theshold for excluding samples.',
+        mv_threshold=entity(name = 'Missing value threshold (%)',
+            description = paste0(
+                'The maximum percentage of features with missing ',
+                'values in a sample.'),
             value = 20,
             type='numeric'),
         filtered=entity(name = 'Filtered DatasetExperiment',
-            description = 'A DatasetExperiment object containing the filtered data.',
+            description = 
+                'A DatasetExperiment object containing the filtered data.',
             type='DatasetExperiment',
             value=DatasetExperiment()
         ),
         flags=entity(name = 'Flags',
-            description = 'A flag indicating whether the sample was rejected. 0 = rejected.',
+            description = paste0(
+                'A flag indicating whether the sample was rejected. ',
+                '0 = rejected.'),
             type='data.frame',
             value=data.frame()
         ),
