@@ -1,3 +1,8 @@
+Changes 1.13.2
++ d-ratio filter now correctly removes features
++ update descriptions/documentation for missing value filters
++ add tests for d-ratio
+
 Changes 1.13.1
 + hotfix vector_norm now correctly normalises samples to length 1
 + re-sync with Bioc devel
