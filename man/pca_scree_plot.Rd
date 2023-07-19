@@ -4,9 +4,11 @@
 \alias{pca_scree_plot}
 \title{Scree plot}
 \usage{
-pca_scree_plot(...)
+pca_scree_plot(max_pc = 15, ...)
 }
 \arguments{
+\item{max_pc}{(numeric, integer) The maximum number of components to include in the plot. The default is \code{15}.}
+
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
 \value{

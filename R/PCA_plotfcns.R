@@ -472,8 +472,10 @@ setMethod(f="chart_plot",
 #' @include PCA_class.R
 #' @examples
 #' C = pca_scree_plot()
-pca_scree_plot = function(...) {
-    out=struct::new_struct('pca_scree_plot',...)
+pca_scree_plot = function(max_pc=15,...) {
+    out=struct::new_struct('pca_scree_plot',
+                           max_pc=max_pc,
+                           ...)
     return(out)
 }
 
@@ -481,11 +483,20 @@ pca_scree_plot = function(...) {
 .pca_scree_plot<-setClass(
     "pca_scree_plot",
     contains=c('chart'),
+    slots=c(max_pc='entity'),
     prototype = list(name='Scree plot',
         description=paste0('A plot of the percent variance and cumulative ',
             'percent variance for the components of a PCA model. '),
         type="line",
-        ontology="STATO:0000386"
+        ontology="STATO:0000386",
+        .params=c('max_pc'),
+        max_pc=entity(
+            name='Maximum number of components',
+            description='The maximum number of components to include in the plot.',
+            value=15,
+            type=c('numeric','integer'),
+            max_length=1
+        )
     )
 )
 
@@ -498,6 +509,10 @@ setMethod(f="chart_plot",
         ## percent variance
         scores=output_value(dobj,'scores')$data
         pvar=(colSums(scores*scores)/output_value(dobj,'ssx'))*100
+        
+        # only include up to max number of components
+        pvar=pvar[1:min(c(obj$max_pc,length(pvar)))]
+        
         A=data.frame("x"=1:length(pvar),"y"=c(pvar,cumsum(pvar)),"Variance"=as.factor(c(rep('Single component',length(pvar)),rep('Cumulative',length(pvar)))))
         labels=round(A$y,digits = 1)
         labels=format(labels,1)
