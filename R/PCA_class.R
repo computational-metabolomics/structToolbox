@@ -84,7 +84,7 @@ setMethod(f="model_train",
         colnames(P)=varnames
         output_value(M,'loadings')=P
 
-        E=data.frame('Eigenvalues'=sqrt(model$d[1:A]))
+        E=data.frame('Eigenvalues'=colSums(scores^2))
         rownames(E)=varnames
         output_value(M,'eigenvalues')=E
 
