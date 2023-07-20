@@ -1,3 +1,8 @@
+Changes 1.12.2
++ dratio equations changed to match Broadhurst et al (2018)
++ added more tests for dratio_filter
++ fix PCA eigenvalue calculation
+
 Changes 1.12.1
 + dratio_filter now correctly removes features
 + updated documentation for missing value filters
