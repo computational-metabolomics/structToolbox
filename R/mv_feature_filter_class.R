@@ -59,7 +59,7 @@ mv_feature_filter = function(
                     'non-missing values is not met for all groups.'),
                 "within_one" = paste0(
                     'Features are removed if the threshold for ',
-                    'non-missing values is not met for at least one group.'),
+                    'non-missing values is not met for any group.'),
                 "QC" = paste0(
                     'Features are removed if the threshold for ',
                     'non-missing values is not met for the named group.'),
