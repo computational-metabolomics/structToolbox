@@ -13,7 +13,7 @@ test_that('permutation test',{
   # calculate metric
   B=calculate(B,Yhat=output_value(I,'results.unpermuted')$predicted,
     Y=output_value(I,'results.unpermuted')$actual)
-  expect_equal(value(B),expected=0.211,tolerance=0.004)
+  expect_equal(value(B),expected=0.105,tolerance=0.0005)
 })
 
 # permutation test box plot
