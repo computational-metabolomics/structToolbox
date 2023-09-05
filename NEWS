@@ -1,3 +1,8 @@
+Changes 1.13.4
++ fix PLSDA predicted group assignment
++ add option to PLSDA to use probability for yhat for predictions
++ update tests
+
 Changes 1.13.3
 + d-ratio equations changed to match Broadhurst et al (2018)
 + add tests for d-ratio
