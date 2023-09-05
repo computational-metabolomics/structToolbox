@@ -4,12 +4,14 @@
 \alias{PLSDA}
 \title{Partial least squares discriminant analysis}
 \usage{
-PLSDA(number_components = 2, factor_name, ...)
+PLSDA(number_components = 2, factor_name, pred_method = "max_prob", ...)
 }
 \arguments{
 \item{number_components}{(numeric, integer) The number of PLS components. The default is \code{2}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
+
+\item{pred_method}{(character) Prediction method. Allowed values are limited to the following: \itemize{\item{\code{"max_yhat"}: The predicted group is selected based on the largest value of y_hat.}\item{\code{"max_prob"}: The predicted group is selected based on the largest probability of group membership.}} The default is \code{"max_prob"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -32,7 +34,7 @@ A  \code{PLSDA} object with the following \code{output} slots:
 }
 }
 \description{
-PLS is a multivariate regression technique that extracts latent variables maximising covariance between the input data and the response. The Discriminant Analysis variant uses group labels in the response variable and applies a threshold to the predicted values in order to predict group membership for new samples.
+PLS is a multivariate regression technique that extracts latent variables maximising covariance between the input data and the response. The Discriminant Analysis variant uses group labels in the response variable. For >2 groups a 1-vs-all approach is used. Group membership can be predicted for test samples based on a probability estimate of group membership, or the estimated y-value.
 }
 \details{
 This object makes use of functionality from the following packages:\itemize{\item{\code{pls}}}
@@ -41,9 +43,9 @@ This object makes use of functionality from the following packages:\itemize{\ite
 M = PLSDA('number_components'=2,factor_name='Species')
 }
 \references{
-Liland K, Mevik B, Wehrens R (2021).
+Liland K, Mevik B, Wehrens R (2023).
 \emph{pls: Partial Least Squares and Principal Component Regression}.
-R package version 2.8-0, \url{https://CRAN.R-project.org/package=pls}.
+R package version 2.8-2, \url{https://CRAN.R-project.org/package=pls}.
 
 Perez NF, Ferre J, Boque R (2009).
 ``Calculation of the reliability of classification in discriminant partial least-squares binary classification.''

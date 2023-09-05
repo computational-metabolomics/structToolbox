@@ -9,7 +9,7 @@ test_that('permute sample order model_seq',{
   B=balanced_accuracy()
   # run
   I=run(I,D,B)
-  expect_equal(I$metric$mean,expected=0.335,tolerance=0.05)
+  expect_equal(I$metric$mean,expected=0.04,tolerance=0.005)
 })
 
 # permute sample order
@@ -23,5 +23,5 @@ test_that('permute sample order iterator',{
   B=balanced_accuracy()
   # run
   I=run(I,D,B)
-  expect_equal(I$metric$mean,expected=0.339,tolerance=0.05)
+  expect_equal(I$metric$mean,expected=0.048,tolerance=0.0005)
 })
