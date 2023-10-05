@@ -1,3 +1,7 @@
+Changes 1.13.5
++ improve consistency between methods in fold change computations
++ better handling of NA in fold change computations
+
 Changes 1.13.4
 + fix PLSDA predicted group assignment
 + add option to PLSDA to use probability for yhat for predictions

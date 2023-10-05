@@ -373,15 +373,17 @@ setMethod(f="model_apply",
             M$fold_change=as.data.frame(2^FC)
             M$lower_ci=as.data.frame(2^LCI)
             M$upper_ci=as.data.frame(2^UCI) 
-            M$significant=as.data.frame((UCI < (-log2(M$threshold))) | (LCI>log2(M$threshold)))
         } else {
             M$fold_change = as.data.frame(FC)
             M$lower_ci = as.data.frame(LCI)
             M$upper_ci = as.data.frame(UCI)
-            M$significant=as.data.frame((UCI < (-M$threshold)) | (LCI>(M$threshold)))
         }
         
+        check1 = M$lower_ci > M$threshold
+        check2 = M$upper_ci < 1/M$threshold
+        M$significant = data.frame(significant=check1 | check2)
         colnames(M$significant)=comp
+        rownames(M$significant)=colnames(D)
         return(M)
     }
 )
@@ -506,6 +508,7 @@ ci_delta_nu = function(y1,y2,alpha=0.05,paired=FALSE) {
             stop('the same number of samples must be present in all groups for a paired comparison')
         } 
         r = y1/y2
+        r=r[!is.na(r)]
         mr=mean(r)
         md=median(r)
         s=sd(r)/sqrt(length(r)) # standard error of mean
@@ -530,6 +533,9 @@ ci.mean.bs <- function(alpha, y1, y2){
     #   y2:     n2 x 1 vector of scores for group 2
     # Returns:
     #   confidence interval
+    y1=y1[!is.na(y1)]
+    y2=y2[!is.na(y2)]
+    
     n1 <- length(y1)
     n2 <- length(y2)
     m1 <- mean(y1)
@@ -551,11 +557,13 @@ ci.mean.bs <- function(alpha, y1, y2){
 
 
 ci.mean.paired = function(alpha,x,y) {
-    
     r = x/y
+    r=r[!is.na(r)]
+    
     mr=mean(r)
-    s=sd(r)/sqrt(length(x)) # standard error of mean
-    z=qt(1-(alpha/2),length(x)-1)
+
+    s=sd(r)/sqrt(length(r)) # standard error of mean
+    z=qt(1-(alpha/2),length(r)-1)
     
     out=t(c(mr,mr-(z*s),mr+z*s))
     colnames(out)=c('fold_change','lower_ci','upper_ci')
@@ -575,6 +583,8 @@ ci.median.bs <- function(alpha, y1, y2) {
     #   y2:    n2 x 1 vector of scores for group 2  
     # Returns:
     #   confidence interval
+    y1=y1[!is.na(y1)]
+    y2=y2[!is.na(y2)]
     z <- qnorm(1 - alpha/2)
     n1 <- length(y1)
     y1 <- sort(y1)
