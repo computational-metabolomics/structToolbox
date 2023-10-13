@@ -1,0 +1,10 @@
+pandoc: 2.19.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  data_analysis_omics_using_the_structtoolbox: data_analysis_omics_using_the_structtoolbox.html
+last_built: 2023-10-13T20:09Z
+urls:
+  reference: https://computational-metabolomics.github.io/structToolbox/reference
+  article: https://computational-metabolomics.github.io/structToolbox/articles
+
