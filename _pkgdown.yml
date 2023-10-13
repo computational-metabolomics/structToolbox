@@ -1,0 +1,6 @@
+url: https://computational-metabolomics.github.io/structToolbox/
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  
+

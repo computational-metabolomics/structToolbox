@@ -16,3 +16,4 @@ README.rst
 ^notebooks/
 man-roxygen
 ^\.github$
+^pkgdown$
