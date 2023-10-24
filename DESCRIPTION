@@ -1,7 +1,7 @@
 Package: structToolbox
 Type: Package
 Title: Data processing & analysis tools for Metabolomics and other omics
-Version: 1.13.5
+Version: 1.14.0
 Authors@R: c(
     person(
         c("Gavin","Rhys"),
