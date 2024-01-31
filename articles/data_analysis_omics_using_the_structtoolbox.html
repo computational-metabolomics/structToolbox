@@ -621,7 +621,7 @@ spectrometry-based metabolomics data.<a class="anchor" aria-label="anchor" href=
 workflow implemented to process (e.g. filter features, signal drift and
 batch correction, normalise and missing value imputation) mass
 spectrometry data. The workflow exists of methods that are part of the
-Peak Matrix Processing (<em><a href="https://bioconductor.org/packages/3.18/pmp" class="external-link">pmp</a></em>) package,
+Peak Matrix Processing (<em><a href="https://bioconductor.org/packages/3.19/pmp" class="external-link">pmp</a></em>) package,
 including a range of additional filters that are described in Kirwan et
 al., <a href="https://link.springer.com/article/10.1007/s00216-013-6856-7" class="external-link">2013</a>,
 <a href="https://doi.org/10.1038/sdata.2014.12" class="external-link">2014</a>.</p>
@@ -642,7 +642,7 @@ Data are presented from each step of the data processing workflow and
 are available through MetaboLights (<a href="https://www.ebi.ac.uk/metabolights/MTBLS79" class="external-link uri">https://www.ebi.ac.uk/metabolights/MTBLS79</a>).</p>
 <p>The <code>MTBLS79_DatasetExperiment</code> object included in the
 <code>structToolbox</code> package is a processed version of the MTBLS79
-dataset available in peak matrix processing (<em><a href="https://bioconductor.org/packages/3.18/pmp" class="external-link">pmp</a></em>) package.
+dataset available in peak matrix processing (<em><a href="https://bioconductor.org/packages/3.19/pmp" class="external-link">pmp</a></em>) package.
 This vignette describes step by step how the <code>structToolbox</code>
 version was created from the <code>pmp</code> version (i.e. ‘Dataset
 7:SFPM’ from the Scientific Data publication - <a href="https://doi.org/10.1038/sdata.2014.12" class="external-link uri">https://doi.org/10.1038/sdata.2014.12</a>).</p>
@@ -906,7 +906,7 @@ chromatography coupled to high-resolution mass spectrometry.</p>
 <p><a href="https://pubs.acs.org/doi/10.1021/acs.jproteome.5b00354" class="external-link">Thevenot
 et al. (2015)</a></p>
 <p>The “Sacurine” dataset needs to be converted to a
-<code>DatasetExperiment</code> object. The <em><a href="https://bioconductor.org/packages/3.18/ropls" class="external-link">ropls</a></em>
+<code>DatasetExperiment</code> object. The <em><a href="https://bioconductor.org/packages/3.19/ropls" class="external-link">ropls</a></em>
 package provides the data as a list containing a
 <code>dataMatrix</code>, <code>sampleMetadata</code> and
 <code>variableMetadata</code>.</p>
@@ -971,7 +971,7 @@ scaling (autoscaling) by default. The same approach is applied here.</p>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist<span class="op">=</span><span class="va">g</span>, nrow<span class="op">=</span><span class="fl">1</span>, align<span class="op">=</span><span class="st">'vh'</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>,<span class="st">'B'</span>,<span class="st">'C'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-40-1.png"><!-- --></p>
 <p>The third plot coloured by gender (C) is identical to Figure 2 of the
-<em><a href="https://bioconductor.org/packages/3.18/ropls" class="external-link">ropls</a></em>
+<em><a href="https://bioconductor.org/packages/3.19/ropls" class="external-link">ropls</a></em>
 package vignette. The <code>structToolbox</code> package provides a
 range of PCA-related diagnostic plots, including D-statistic, scree, and
 loadings plots. These plots can be used to further explore the variance
@@ -1006,7 +1006,7 @@ approaches. For simplicity only the scores plots are compared.</p>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pls_scores_plot.html">pls_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'gender'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-42-1.png"><!-- --></p>
-<p>The plot is similar to fig.3 of the <em><a href="https://bioconductor.org/packages/3.18/ropls" class="external-link">ropls</a></em>
+<p>The plot is similar to fig.3 of the <em><a href="https://bioconductor.org/packages/3.19/ropls" class="external-link">ropls</a></em>
 vignette. Differences are due to inverted LV axes, a common occurrence
 with the NIPALS algorithm (used by both <code>structToolbox</code> and
 <code>ropls</code>) which depends on how the algorithm is
@@ -1106,10 +1106,8 @@ manipulated as required.</p>
 <span><span class="co"># X=read.xlsx(url)</span></span>
 <span></span>
 <span><span class="co"># ...or use BiocFileCache</span></span>
-<span><span class="va">path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html" class="external-link">bfcrpath</a></span><span class="op">(</span><span class="va">bfc</span>,<span class="va">url</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## adding rname 'https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx'</span></span></code></pre>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">read.xlsx</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
+<span><span class="va">path</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html" class="external-link">bfcrpath</a></span><span class="op">(</span><span class="va">bfc</span>,<span class="va">url</span><span class="op">)</span></span>
+<span><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">read.xlsx</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># sample meta data</span></span>
 <span><span class="va">SM</span><span class="op">=</span><span class="va">X</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
@@ -1153,7 +1151,7 @@ manipulated as required.</p>
 quality, and to assess the quality of the data in general. In the
 Tutorial features with QC-RSD &gt; 20% and where more than 10% of the
 features are missing are retained.</p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model sequence</span></span>
 <span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/rsd_filter.html">rsd_filter</a></span><span class="op">(</span>rsd_threshold<span class="op">=</span><span class="fl">20</span>,qc_label<span class="op">=</span><span class="st">'QC'</span>,factor_name<span class="op">=</span><span class="st">'Class'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/mv_feature_filter.html">mv_feature_filter</a></span><span class="op">(</span>threshold <span class="op">=</span> <span class="fl">10</span>,method<span class="op">=</span><span class="st">'across'</span>,factor_name<span class="op">=</span><span class="st">'Class'</span><span class="op">)</span></span>
@@ -1189,7 +1187,7 @@ the following steps were applied:</p>
 <p>The transformed and scaled matrix in then used as input to PCA. Using
 <code>struct</code> we can chain all of these steps into a single model
 sequence.</p>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare the model sequence</span></span>
 <span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/log_transform.html">log_transform</a></span><span class="op">(</span>base <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/autoscale.html">autoscale</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -1221,7 +1219,7 @@ counting numbers of features etc. For brevity only the ttest is
 calculated for comparison with the workflow we are following (<a href="https://cimcb.github.io/MetabWorkflowTutorial/Tutorial1.html" class="external-link">link</a>).
 The QC samples need to be excluded, and the data reduced to only the GC
 and HE groups.</p>
-<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model</span></span>
 <span><span class="va">TT</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span>mode<span class="op">=</span><span class="st">'include'</span>,factor_name<span class="op">=</span><span class="st">'Class'</span>,levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'GC'</span>,<span class="st">'HE'</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  </span>
 <span>     <span class="fu"><a href="../reference/ttest.html">ttest</a></span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.05</span>,mtc<span class="op">=</span><span class="st">'fdr'</span>,factor_names<span class="op">=</span><span class="st">'Class'</span><span class="op">)</span></span>
@@ -1263,7 +1261,7 @@ machine learning. In <code>structToolbox</code> this is implemented
 using the <code>split_data</code> object for random subsampling across
 the whole dataset, and <code>stratified_split</code> for splitting based
 on group sizes, which is the approach used by Mendez et al.</p>
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model</span></span>
 <span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/stratified_split.html">stratified_split</a></span><span class="op">(</span>p_train<span class="op">=</span><span class="fl">0.75</span>,factor_name<span class="op">=</span><span class="st">'Class'</span><span class="op">)</span></span>
 <span><span class="co"># apply to filtered data</span></span>
@@ -1280,9 +1278,9 @@ on group sizes, which is the approach used by Mendez et al.</p>
 <span><span class="co">## data:          62 rows x 53 columns</span></span>
 <span><span class="co">## sample_meta:   62 rows x 5 columns</span></span>
 <span><span class="co">## variable_meta: 53 rows x 1 columns</span></span></code></pre>
-<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">'\n'</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">test</span> <span class="op">=</span> <span class="va">M</span><span class="op">$</span><span class="va">testing</span></span>
 <span><span class="va">test</span></span></code></pre></div>
 <pre><code><span><span class="co">## A "DatasetExperiment" object</span></span>
@@ -1305,7 +1303,7 @@ implemented using “iterator” objects, that can be combined with model
 objects. R2 is used as the metric for optimisation, so the
 <code>PLSR</code> model in structToolbox will be used. For speed only 10
 bootstrap iterations are used here.</p>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># scale/transform training data</span></span>
 <span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/log_transform.html">log_transform</a></span><span class="op">(</span>base <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/autoscale.html">autoscale</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -1348,7 +1346,7 @@ that here.</p>
 </h4>
 <p>To evaluate the model for discriminant analysis in structToolbox the
 <code>PLSDA</code> model is appropriate.</p>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare the discriminant model</span></span>
 <span><span class="va">P</span> <span class="op">=</span> <span class="fu"><a href="../reference/PLSDA.html">PLSDA</a></span><span class="op">(</span>number_components <span class="op">=</span> <span class="fl">2</span>, factor_name<span class="op">=</span><span class="st">'Class'</span><span class="op">)</span></span>
 <span></span>
@@ -1367,7 +1365,7 @@ that here.</p>
 <span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span>,<span class="va">g3</span>,align<span class="op">=</span><span class="st">'vh'</span>,axis<span class="op">=</span><span class="st">'tblr'</span>,nrow<span class="op">=</span><span class="fl">1</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>,<span class="st">'B'</span>,<span class="st">'C'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-53-1.png"><!-- --></p>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># AUC for comparison with Mendez et al</span></span>
 <span><span class="va">MET</span> <span class="op">=</span> <span class="fu"><a href="../reference/calculate.html">calculate</a></span><span class="op">(</span><span class="fu"><a href="../reference/AUC.html">AUC</a></span><span class="op">(</span><span class="op">)</span>,<span class="va">P</span><span class="op">$</span><span class="va">y</span><span class="op">$</span><span class="va">Class</span>,<span class="va">P</span><span class="op">$</span><span class="va">yhat</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">MET</span></span></code></pre></div>
@@ -1388,7 +1386,7 @@ model.</p>
 result is to have occurred by chance. In structToolbox
 <code>permutation_test</code> is an iterator object that can be combined
 with other iterators and models.</p>
-<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># model sequence</span></span>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/permutation_test.html">permutation_test</a></span><span class="op">(</span>number_of_permutations <span class="op">=</span> <span class="fl">20</span>,factor_name <span class="op">=</span> <span class="st">'Class_num'</span><span class="op">)</span> <span class="op">*</span> </span>
 <span>     <span class="fu"><a href="../reference/kfold_xval.html">kfold_xval</a></span><span class="op">(</span>folds <span class="op">=</span> <span class="fl">5</span>,factor_name <span class="op">=</span> <span class="st">'Class_num'</span><span class="op">)</span> <span class="op">*</span></span>
@@ -1410,7 +1408,7 @@ than the permuted (null) models. i.e. the model is reliable.</p>
 </h4>
 <p>PLS can also be used to visualise the model and interpret the latent
 variables.</p>
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare the discriminant model</span></span>
 <span><span class="va">P</span> <span class="op">=</span> <span class="fu"><a href="../reference/PLSDA.html">PLSDA</a></span><span class="op">(</span>number_components <span class="op">=</span> <span class="fl">2</span>, factor_name<span class="op">=</span><span class="st">'Class'</span><span class="op">)</span></span>
 <span></span>
@@ -1428,7 +1426,7 @@ variables.</p>
 importance of individual features to the PLS model. In Mendez et al
 bootstrapping is used to estimate the confidence intervals, but for
 brevity here we will skip this.</p>
-<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare chart</span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pls_vip_plot.html">pls_vip_plot</a></span><span class="op">(</span>ycol <span class="op">=</span> <span class="st">'HE'</span><span class="op">)</span></span>
 <span><span class="va">g1</span> <span class="op">=</span> <span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">P</span><span class="op">)</span></span>
@@ -1476,7 +1474,7 @@ as an Excel data file.</p>
 Details in regards to pre-processing are reported in the
 “NMR_clinical_metabolomics” vignette of the `r Biocpkg(“structToolbox”)
 package.</p>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># summary of DatasetExperiment object</span></span>
 <span><span class="va">DE</span></span></code></pre></div>
 <pre><code><span><span class="co">## A "DatasetExperiment" object</span></span>
@@ -1491,7 +1489,7 @@ boundary between groups, we reduce the data to include only the GC and
 HE groups and apply PLS to reduce the data to two components. We then
 treat the PLS scores as as a two group dataset with only two
 features.</p>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># model sequence and pls model (NB data already centred)</span></span>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">'include'</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'GC'</span>,<span class="st">'HE'</span><span class="op">)</span>, factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>     <span class="fu"><a href="../reference/PLSDA.html">PLSDA</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'Class'</span>,number_components <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
@@ -1503,7 +1501,7 @@ features.</p>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pls_scores_plot.html">pls_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">MS</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-60-1.png"><!-- --></p>
-<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># new DatasetExperiment object from the PLS scores</span></span>
 <span><span class="va">DE2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/struct_DatasetExperiment.html" class="external-link">DatasetExperiment</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">MS</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">$</span><span class="va">scores</span><span class="op">$</span><span class="va">data</span>, </span>
@@ -1529,7 +1527,7 @@ features.</p>
 <code>structToolbox</code> the <code>SVM</code> model can be used to
 train and apply SVM models. A <code>svm_plot_2d</code> chart object is
 provided for visualisation of boundaries in two dimensions.</p>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># SVM model</span></span>
 <span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/SVM.html">SVM</a></span><span class="op">(</span></span>
 <span>  factor_name <span class="op">=</span> <span class="st">'Class'</span>,</span>
@@ -1554,7 +1552,7 @@ of the margins. A high penalty results in a narrow margin and tries to
 force more samples to be on the correct side of the boundary. A low
 penalty makes for a wider margin and is less strict about samples being
 misclassified. The optimal cost to use is data dependent.</p>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># low cost</span></span>
 <span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">0.01</span></span>
 <span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
@@ -1604,7 +1602,7 @@ kernels allows the boundary to be more flexible, but often require
 additional parameters to be specified. The best kernel to use will vary
 depending on the dataset, but a common choice is the radial kernel as it
 allows high flexibility with a single parameter.</p>
-<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set a fixed cost for this comparison</span></span>
 <span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">1</span></span>
 <span></span>
@@ -1660,7 +1658,7 @@ the boundary. Here I show how the radial kernel parameter “gamma” can be
 used to change the complexity of the boundary. In combination with the
 cost parameter (which I keep constant here) this allows for highly
 flexible boundary models.</p>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># rbf kernel and cost</span></span>
 <span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span> <span class="op">=</span> <span class="st">'radial'</span></span>
 <span><span class="va">M</span><span class="op">$</span><span class="va">cost</span> <span class="op">=</span> <span class="fl">1</span></span>
@@ -1736,7 +1734,7 @@ complemented with single-cell data.</p>
 <p>The LC-MS-based proteomics dataset from the STATegra multi-omics
 dataset (see Introduction) can be found on <a href="https://github.com/STATegraData/STATegraData" class="external-link">github</a> and must
 be extracted from the zip file prior to data analysis.</p>
-<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># path to zip</span></span>
 <span><span class="va">zipfile</span> <span class="op">=</span> <span class="st">"https://raw.github.com/STATegraData/STATegraData/master/Script_STATegra_Proteomics.zip"</span></span>
 <span></span>
@@ -1756,7 +1754,7 @@ be extracted from the zip file prior to data analysis.</p>
 <p>The imported data needs to be converted to
 <code>DatasetExperiment</code> format for use with
 <code>structToolbox</code>.</p>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># extract data matrix</span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="va">all_data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2527</span>,<span class="fl">51</span><span class="op">:</span><span class="fl">86</span><span class="op">]</span></span>
 <span><span class="co"># shorten sample names</span></span>
@@ -1807,7 +1805,7 @@ be extracted from the zip file prior to data analysis.</p>
 <span><span class="co">## variable_meta: 2527 rows x 3 columns</span></span></code></pre>
 <p>A number of Reporter genes were included in the study. We plot two of
 them here to illustrate some trends in the data.</p>
-<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># find id of reporters</span></span>
 <span><span class="va">Ldha</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">DS</span><span class="op">$</span><span class="va">variable_meta</span><span class="op">$</span><span class="va">Gene.names</span><span class="op">==</span><span class="st">'Ldha'</span><span class="op">)</span></span>
 <span><span class="va">Hk2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">DS</span><span class="op">$</span><span class="va">variable_meta</span><span class="op">$</span><span class="va">Gene.names</span><span class="op">==</span><span class="st">'Hk2'</span><span class="op">)</span></span>
@@ -1827,7 +1825,7 @@ them here to illustrate some trends in the data.</p>
 medians is equal for all conditions. These steps are available in
 <code>structToolbox</code> using <code>log_transform</code> and
 <code>mean_of_medians</code> objects.</p>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model sequence</span></span>
 <span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/log_transform.html">log_transform</a></span><span class="op">(</span></span>
 <span>  base<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -1839,7 +1837,7 @@ medians is equal for all conditions. These steps are available in
 <span><span class="co"># get transformed data</span></span>
 <span><span class="va">DST</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/predicted.html" class="external-link">predicted</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span></code></pre></div>
 <p>The Reporter genes are plotted again for comparison.</p>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># chart object</span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/feature_boxplot.html">feature_boxplot</a></span><span class="op">(</span>feature_to_plot<span class="op">=</span><span class="va">Ldha</span>,factor_name<span class="op">=</span><span class="st">'time'</span>,label_outliers<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">g1</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">DST</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Ldha'</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">'log2(expression)'</span><span class="op">)</span></span>
@@ -1869,7 +1867,7 @@ along the model sequence it passes unchanged through the
 changed, so the <code>filter_na_count</code> and
 <code>filter_by_name</code> objects are working together as a single
 filter.</p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># build model sequence</span></span>
 <span><span class="va">M2</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_na_count.html">filter_na_count</a></span><span class="op">(</span></span>
 <span>  threshold<span class="op">=</span><span class="fl">2</span>,</span>
@@ -1904,7 +1902,7 @@ where values are missing for all samples using a “random value below
 discovery”. We create a new struct object using
 <code>set_struct_obj</code> in the global environment, and a
 “method_apply” method that implements the imputation.</p>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create new imputation object</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/struct/man/set_struct_obj.html" class="external-link">set_struct_obj</a></span><span class="op">(</span></span>
 <span>  class_name <span class="op">=</span> <span class="st">'STATegra_impute1'</span>,</span>
@@ -1956,7 +1954,7 @@ discovery”. We create a new struct object using
 condition with exactly 1 missing value with the mean of the values for
 that condition. Again we create a new struct object and corresponding
 method for the the new object to implement the filter.</p>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create new imputation object</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/struct/man/set_struct_obj.html" class="external-link">set_struct_obj</a></span><span class="op">(</span></span>
 <span>  class_name <span class="op">=</span> <span class="st">'STATegra_impute2'</span>,</span>
@@ -2022,7 +2020,7 @@ method for the the new object to implement the filter.</p>
 sequences like any other <code>struct</code> object. A final filter is
 added to remove any feature that has missing values after
 imputation.</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># model sequence</span></span>
 <span><span class="va">M3</span> <span class="op">=</span> <span class="fu">STATegra_impute1</span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'treatment'</span>,factor_sd<span class="op">=</span><span class="st">'condition'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>     <span class="fu">STATegra_impute2</span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'condition'</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -2054,7 +2052,7 @@ positive effect.</p>
 <p>PCA is used to provide a graphical representation of the data. For
 comparison with the outputs from STATegra a filter is included to reduce
 the data to include only the treated samples (IKA)</p>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># model sequence</span></span>
 <span><span class="va">P</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span>mode<span class="op">=</span><span class="st">'include'</span>,factor_name<span class="op">=</span><span class="st">'treatment'</span>,levels<span class="op">=</span><span class="st">'IKA'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/mean_centre.html">mean_centre</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -2082,7 +2080,7 @@ by time point “24” and some potentially outlying points from time points
 <p>The LC-MS-based metabolomics dataset from the STATegra multi-omics
 dataset (see Introduction) can be found on <a href="https://github.com/STATegraData/STATegraData" class="external-link">github</a> and must
 be extracted from zip file prior to data analysis.</p>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># path to zip</span></span>
 <span><span class="va">zipfile</span> <span class="op">=</span> <span class="st">"https://raw.github.com/STATegraData/STATegraData/master/Script_STATegra_Metabolomics.zip"</span></span>
 <span></span>
@@ -2103,7 +2101,7 @@ be extracted from zip file prior to data analysis.</p>
 <p>The imported data needs to be converted to
 <code>DatasetExperiment</code> format for use with
 <code>structToolbox</code>.</p>
-<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># extract sample meta data</span></span>
 <span><span class="va">SM</span> <span class="op">=</span> <span class="va">data</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span></span>
 <span></span>
@@ -2166,7 +2164,7 @@ multiblock analysis was conducted. Here only the LCMS will be explored,
 so the data will be processed differently in comparison to <a href="https://www.nature.com/articles/s41597-019-0202-7" class="external-link">Gomez-Cabrero
 et al</a>. Some basic processing steps will be applied in order to
 generate a valid PCA plot from the biological and QC samples.</p>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model sequence</span></span>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">'include'</span>, levels<span class="op">=</span><span class="st">'QC'</span>, factor_name <span class="op">=</span> <span class="st">'sample_type'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>     <span class="fu"><a href="../reference/knn_impute.html">knn_impute</a></span><span class="op">(</span>neighbours<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
@@ -2183,7 +2181,7 @@ generate a valid PCA plot from the biological and QC samples.</p>
 </h4>
 <p>First we will use PCA to look at the QC samples in order to make an
 assessment of the data quality.</p>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># pca model sequence</span></span>
 <span><span class="va">M</span> <span class="op">=</span>  <span class="fu"><a href="../reference/mean_centre.html">mean_centre</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>     <span class="fu"><a href="../reference/PCA.html">PCA</a></span><span class="op">(</span>number_components <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
@@ -2201,7 +2199,7 @@ assessment of the data quality.</p>
 STATegra this QC was removed, so we will exclude it here as well. This
 corresponds to QC H1. STATegra also excluded QC samples measured
 immediately after a blank, which we will also do here.</p>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model sequence</span></span>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span></span>
 <span>      mode <span class="op">=</span> <span class="st">'include'</span>, </span>
@@ -2230,7 +2228,7 @@ immediately after a blank, which we will also do here.</p>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">MS</span>, <span class="va">DE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 4 rows with more than 50 % entries missing;</span></span>
 <span><span class="co">##  mean imputation used for these rows</span></span></code></pre>
-<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># PCA scores plot</span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_scores_plot.html">pca_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'sample_type'</span>,label_factor <span class="op">=</span> <span class="st">'order'</span>,points_to_label <span class="op">=</span> <span class="st">'all'</span><span class="op">)</span></span>
 <span><span class="co"># plot</span></span>
@@ -2242,7 +2240,7 @@ applying PCA to the full dataset including the QCs. We will exclude the
 blanks as it is likely that they will dominate the plot if not removed.
 All samples from batch 12 were excluded from STATegra and we will
 replicate that here.</p>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model sequence</span></span>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span></span>
 <span>      mode <span class="op">=</span> <span class="st">'exclude'</span>, </span>
@@ -2278,7 +2276,7 @@ replicate that here.</p>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">MS</span>, <span class="va">DE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 2 rows with more than 50 % entries missing;</span></span>
 <span><span class="co">##  mean imputation used for these rows</span></span></code></pre>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># PCA scores plots</span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_scores_plot.html">pca_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'sample_type'</span><span class="op">)</span></span>
 <span><span class="co"># plot</span></span>
@@ -2289,7 +2287,7 @@ clusters in the data, including the QC samples which have no biological
 variation. There is likely to be a number of ‘low quality’ features that
 should be excluded, so we will do that now, and use more sophisticated
 normalisation (PQN) and scaling methods (glog).</p>
-<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MS</span> <span class="op">=</span>  <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span></span>
 <span>       mode <span class="op">=</span> <span class="st">'exclude'</span>, </span>
 <span>       levels <span class="op">=</span> <span class="st">'12'</span>, </span>
@@ -2380,7 +2378,7 @@ the condition factor and only explore the Ikaros group. Removing the
 condition factor variation will potentially make it easier to spot any
 more subtle trends. We will extract the glog transformed matrix from the
 previous model sequence and continue from there.</p>
-<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get the glog scaled data</span></span>
 <span><span class="va">GL</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/predicted.html" class="external-link">predicted</a></span><span class="op">(</span><span class="va">MS</span><span class="op">[</span><span class="fl">11</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
@@ -2411,10 +2409,10 @@ but by adding a <code>ggplot</code> continuous colour scale “viridis”
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.3.2 (2023-10-31)</span></span>
-<span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2024-01-23 r85822)</span></span>
+<span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
 <span><span class="co">## Running under: Ubuntu 22.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
@@ -2422,10 +2420,12 @@ but by adding a <code>ggplot</code> continuous colour scale “viridis”
 <span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
-<span><span class="co">##  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
-<span><span class="co">##  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span></span>
-<span><span class="co">##  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span></span>
-<span><span class="co">## [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span></span>
+<span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span><span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
+<span><span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span><span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span><span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span><span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## time zone: UTC</span></span>
 <span><span class="co">## tzcode source: system (glibc)</span></span>
@@ -2435,69 +2435,69 @@ but by adding a <code>ggplot</code> continuous colour scale “viridis”
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
 <span><span class="co">##  [1] openxlsx_4.2.5.2     cowplot_1.1.3        gridExtra_2.3       </span></span>
-<span><span class="co">##  [4] ggplot2_3.4.4        BiocFileCache_2.10.1 dbplyr_2.4.0        </span></span>
-<span><span class="co">##  [7] ropls_1.34.0         pmp_1.14.0           structToolbox_1.15.1</span></span>
-<span><span class="co">## [10] struct_1.14.0        BiocStyle_2.30.0    </span></span>
+<span><span class="co">##  [4] ggplot2_3.4.4        BiocFileCache_2.11.1 dbplyr_2.4.0        </span></span>
+<span><span class="co">##  [7] ropls_1.35.4         pmp_1.15.0           structToolbox_1.15.1</span></span>
+<span><span class="co">## [10] struct_1.15.1        BiocStyle_2.31.0    </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##   [1] DBI_1.2.1                   bitops_1.0-7               </span></span>
-<span><span class="co">##   [3] MultiDataSet_1.30.0         rlang_1.1.3                </span></span>
+<span><span class="co">##   [3] MultiDataSet_1.31.0         rlang_1.1.3                </span></span>
 <span><span class="co">##   [5] magrittr_2.0.3              e1071_1.7-14               </span></span>
-<span><span class="co">##   [7] matrixStats_1.2.0           compiler_4.3.2             </span></span>
+<span><span class="co">##   [7] matrixStats_1.2.0           compiler_4.4.0             </span></span>
 <span><span class="co">##   [9] RSQLite_2.3.5               systemfonts_1.0.5          </span></span>
 <span><span class="co">##  [11] vctrs_0.6.5                 reshape2_1.4.4             </span></span>
 <span><span class="co">##  [13] stringr_1.5.1               pkgconfig_2.0.3            </span></span>
 <span><span class="co">##  [15] crayon_1.5.2                fastmap_1.1.1              </span></span>
-<span><span class="co">##  [17] XVector_0.42.0              labeling_0.4.3             </span></span>
+<span><span class="co">##  [17] XVector_0.43.1              labeling_0.4.3             </span></span>
 <span><span class="co">##  [19] utf8_1.2.4                  rmarkdown_2.25             </span></span>
 <span><span class="co">##  [21] itertools_0.1-3             ragg_1.2.7                 </span></span>
 <span><span class="co">##  [23] bit_4.0.5                   purrr_1.0.2                </span></span>
-<span><span class="co">##  [25] xfun_0.41                   MultiAssayExperiment_1.28.0</span></span>
-<span><span class="co">##  [27] randomForest_4.7-1.1        zlibbioc_1.48.0            </span></span>
-<span><span class="co">##  [29] cachem_1.0.8                GenomeInfoDb_1.38.5        </span></span>
+<span><span class="co">##  [25] xfun_0.41                   MultiAssayExperiment_1.29.0</span></span>
+<span><span class="co">##  [27] randomForest_4.7-1.1        zlibbioc_1.49.0            </span></span>
+<span><span class="co">##  [29] cachem_1.0.8                GenomeInfoDb_1.39.5        </span></span>
 <span><span class="co">##  [31] jsonlite_1.8.8              progress_1.2.3             </span></span>
 <span><span class="co">##  [33] blob_1.2.4                  highr_0.10                 </span></span>
-<span><span class="co">##  [35] DelayedArray_0.28.0         prettyunits_1.2.0          </span></span>
-<span><span class="co">##  [37] parallel_4.3.2              rols_2.30.0                </span></span>
+<span><span class="co">##  [35] DelayedArray_0.29.0         prettyunits_1.2.0          </span></span>
+<span><span class="co">##  [37] parallel_4.4.0              rols_2.31.0                </span></span>
 <span><span class="co">##  [39] R6_2.5.1                    bslib_0.6.1                </span></span>
-<span><span class="co">##  [41] stringi_1.8.3               limma_3.58.1               </span></span>
-<span><span class="co">##  [43] GenomicRanges_1.54.1        jquerylib_0.1.4            </span></span>
+<span><span class="co">##  [41] stringi_1.8.3               limma_3.59.1               </span></span>
+<span><span class="co">##  [43] GenomicRanges_1.55.2        jquerylib_0.1.4            </span></span>
 <span><span class="co">##  [45] Rcpp_1.0.12                 bookdown_0.37              </span></span>
-<span><span class="co">##  [47] SummarizedExperiment_1.32.0 iterators_1.0.14           </span></span>
-<span><span class="co">##  [49] knitr_1.45                  IRanges_2.36.0             </span></span>
-<span><span class="co">##  [51] Matrix_1.6-1.1              tidyselect_1.2.0           </span></span>
+<span><span class="co">##  [47] SummarizedExperiment_1.33.3 iterators_1.0.14           </span></span>
+<span><span class="co">##  [49] knitr_1.45                  IRanges_2.37.1             </span></span>
+<span><span class="co">##  [51] Matrix_1.6-5                tidyselect_1.2.0           </span></span>
 <span><span class="co">##  [53] abind_1.4-5                 yaml_2.3.8                 </span></span>
 <span><span class="co">##  [55] codetools_0.2-19            curl_5.2.0                 </span></span>
-<span><span class="co">##  [57] doRNG_1.8.6                 lattice_0.21-9             </span></span>
+<span><span class="co">##  [57] doRNG_1.8.6                 lattice_0.22-5             </span></span>
 <span><span class="co">##  [59] tibble_3.2.1                plyr_1.8.9                 </span></span>
-<span><span class="co">##  [61] withr_3.0.0                 Biobase_2.62.0             </span></span>
+<span><span class="co">##  [61] withr_3.0.0                 Biobase_2.63.0             </span></span>
 <span><span class="co">##  [63] evaluate_0.23               ontologyIndex_2.11         </span></span>
 <span><span class="co">##  [65] desc_1.4.3                  isoband_0.2.7              </span></span>
 <span><span class="co">##  [67] proxy_0.4-27                zip_2.3.1                  </span></span>
 <span><span class="co">##  [69] filelock_1.0.3              pillar_1.9.0               </span></span>
-<span><span class="co">##  [71] BiocManager_1.30.22         MatrixGenerics_1.14.0      </span></span>
+<span><span class="co">##  [71] BiocManager_1.30.22         MatrixGenerics_1.15.0      </span></span>
 <span><span class="co">##  [73] rngtools_1.5.2              foreach_1.5.2              </span></span>
-<span><span class="co">##  [75] stats4_4.3.2                generics_0.1.3             </span></span>
-<span><span class="co">##  [77] sp_2.1-2                    RCurl_1.98-1.14            </span></span>
-<span><span class="co">##  [79] hms_1.1.3                   S4Vectors_0.40.2           </span></span>
+<span><span class="co">##  [75] stats4_4.4.0                generics_0.1.3             </span></span>
+<span><span class="co">##  [77] sp_2.1-3                    RCurl_1.98-1.14            </span></span>
+<span><span class="co">##  [79] hms_1.1.3                   S4Vectors_0.41.3           </span></span>
 <span><span class="co">##  [81] munsell_0.5.0               scales_1.3.0               </span></span>
 <span><span class="co">##  [83] calibrate_1.7.7             class_7.3-22               </span></span>
-<span><span class="co">##  [85] glue_1.7.0                  tools_4.3.2                </span></span>
-<span><span class="co">##  [87] fs_1.6.3                    grid_4.3.2                 </span></span>
-<span><span class="co">##  [89] impute_1.76.0               missForest_1.5             </span></span>
+<span><span class="co">##  [85] glue_1.7.0                  tools_4.4.0                </span></span>
+<span><span class="co">##  [87] fs_1.6.3                    grid_4.4.0                 </span></span>
+<span><span class="co">##  [89] impute_1.77.0               missForest_1.5             </span></span>
 <span><span class="co">##  [91] colorspace_2.1-0            GenomeInfoDbData_1.2.11    </span></span>
 <span><span class="co">##  [93] cli_3.6.2                   textshaping_0.3.7          </span></span>
 <span><span class="co">##  [95] fansi_1.0.6                 viridisLite_0.4.2          </span></span>
-<span><span class="co">##  [97] ggthemes_5.0.0              S4Arrays_1.2.0             </span></span>
+<span><span class="co">##  [97] ggthemes_5.0.0              S4Arrays_1.3.2             </span></span>
 <span><span class="co">##  [99] dplyr_1.1.4                 pls_2.8-3                  </span></span>
-<span><span class="co">## [101] pcaMethods_1.94.0           gtable_0.3.4               </span></span>
+<span><span class="co">## [101] pcaMethods_1.95.0           gtable_0.3.4               </span></span>
 <span><span class="co">## [103] sass_0.4.8                  digest_0.6.34              </span></span>
-<span><span class="co">## [105] BiocGenerics_0.48.1         SparseArray_1.2.3          </span></span>
+<span><span class="co">## [105] BiocGenerics_0.49.1         SparseArray_1.3.3          </span></span>
 <span><span class="co">## [107] farver_2.1.1                memoise_2.0.1              </span></span>
-<span><span class="co">## [109] htmltools_0.5.7             pkgdown_2.0.7              </span></span>
+<span><span class="co">## [109] htmltools_0.5.7             pkgdown_2.0.7.9000         </span></span>
 <span><span class="co">## [111] lifecycle_1.0.4             httr_1.4.7                 </span></span>
 <span><span class="co">## [113] statmod_1.5.0               bit64_4.0.5                </span></span>
-<span><span class="co">## [115] qqman_0.1.9                 MASS_7.3-60</span></span></code></pre>
+<span><span class="co">## [115] qqman_0.1.9                 MASS_7.3-60.2</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
@@ -2512,7 +2512,7 @@ but by adding a <code>ggplot</code> continuous colour scale “viridis”
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
 </div>
 
     </footer>
