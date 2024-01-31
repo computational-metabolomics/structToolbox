@@ -14,11 +14,11 @@ forward_selection_by_rank(
 )
 }
 \arguments{
-\item{min_no_vars}{(numeric) The minimum number of variables to include in the model. The default is \code{1}.}
+\item{min_no_vars}{(numeric) The minimum number of variables to include in the model. The default is \code{1}.\cr}
 
-\item{max_no_vars}{(numeric) The maximum number of variables to include in the model. The default is \code{100}.}
+\item{max_no_vars}{(numeric) The maximum number of variables to include in the model. The default is \code{100}.\cr}
 
-\item{step_size}{(numeric) The incremental change in number of features in the model. The default is \code{1}.}
+\item{step_size}{(numeric) The incremental change in number of features in the model. The default is \code{1}.\cr}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
@@ -39,7 +39,20 @@ A  \code{forward_selection_by_rank} object with the following \code{output} slot
 \description{
 A model is trained and performance metric computed by including increasing numbers of features in the model. The features to be included in each step are defined by their rank, which is computed from another variable e.g. VIP score. An "optimal"subset of features is suggested by minimising the input performance metric.
 }
+\section{Inheritance}{
+
+A \code{forward_selection_by_rank} object inherits the following \code{struct} classes: \cr\cr
+\code{forward_selection_by_rank()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = forward_selection_by_rank(
+      min_no_vars = 1,
+      max_no_vars = 100,
+      step_size = 1,
+      factor_name = "V1",
+      variable_rank = 1)
+
 # some data
 D = MTBLS79_DatasetExperiment(filtered=TRUE)
 

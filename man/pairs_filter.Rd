@@ -25,6 +25,16 @@ struct object
 \description{
 This filter is used for study designs with paired sampling to ensure that  measurements from the same source (e.g. patient) are represented in all factor levels and interactions.
 }
+\section{Inheritance}{
+
+A \code{pairs_filter} object inherits the following \code{struct} classes: \cr\cr
+\code{pairs_filter()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pairs_filter(
+      factor_name = "V1",
+      sample_id = "V1")
+
 M=pairs_filter(factor_name='Class',sample_id='ids')
 }

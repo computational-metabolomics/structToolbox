@@ -13,11 +13,11 @@ HCA(
 )
 }
 \arguments{
-\item{dist_method}{(character) Distance measure. Allowed values are limited to the following: \itemize{\item{\code{"euclidean"}: The euclidean distance (2 norm).}\item{\code{"maximum"}: The maximum distance.}\item{\code{"manhattan"}: The absolute distance (1 norm).}\item{\code{"canberra"}: A weighted version of the mahattan distance.}\item{\code{"minkowski"}: A generalisation of manhattan and euclidean distance to nth norm.}} The default is \code{"euclidean"}.}
+\item{dist_method}{(character) Distance measure. Allowed values are limited to the following: \itemize{ \item{\code{"euclidean"}: The euclidean distance (2 norm).}\item{\code{"maximum"}: The maximum distance.}\item{\code{"manhattan"}: The absolute distance (1 norm).}\item{\code{"canberra"}: A weighted version of the mahattan distance.}\item{\code{"minkowski"}: A generalisation of manhattan and euclidean distance to nth norm.}} The default is \code{"euclidean"}.}
 
-\item{cluster_method}{(character) Agglomeration method. Allowed values are limited to the following: \itemize{\item{\code{"ward.D"}: Ward clustering.}\item{\code{"ward.D2"}: Ward clustering using sqaured distances.}\item{\code{"single"}: Single linkage.}\item{\code{"complete"}: Complete linkage.}\item{\code{"average"}: Average linkage (UPGMA).}\item{\code{"mcquitty"}: McQuitty linkage (WPGMA).}\item{\code{"median"}: Median linkage (WPGMC).}\item{\code{"centroid"}: Centroid linkage (UPGMC).}} The default is \code{"complete"}.}
+\item{cluster_method}{(character) Agglomeration method. Allowed values are limited to the following: \itemize{ \item{\code{"ward.D"}: Ward clustering.}\item{\code{"ward.D2"}: Ward clustering using sqaured distances.}\item{\code{"single"}: Single linkage.}\item{\code{"complete"}: Complete linkage.}\item{\code{"average"}: Average linkage (UPGMA).}\item{\code{"mcquitty"}: McQuitty linkage (WPGMA).}\item{\code{"median"}: Median linkage (WPGMC).}\item{\code{"centroid"}: Centroid linkage (UPGMC).}} The default is \code{"complete"}.}
 
-\item{minkowski_power}{(numeric)  The default is \code{2}.}
+\item{minkowski_power}{(numeric)  The default is \code{2}.\cr}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
@@ -35,9 +35,21 @@ A  \code{HCA} object with the following \code{output} slots:
 Hierarchical Cluster Analysis is a numerical technique that uses agglomerative clustering to identify clusters or groupings of samples.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{stats}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{stats}}}
 }
+\section{Inheritance}{
+
+A \code{HCA} object inherits the following \code{struct} classes: \cr\cr
+\code{HCA()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = HCA(
+      dist_method = "euclidean",
+      cluster_method = "complete",
+      minkowski_power = numeric(0),
+      factor_name = "V1")
+
 D = iris_DatasetExperiment()
 M = HCA(factor_name='Species')
 M = model_apply(M,D)

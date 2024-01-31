@@ -7,9 +7,9 @@
 mv_histogram(label_outliers = TRUE, by_sample = TRUE, ...)
 }
 \arguments{
-\item{label_outliers}{(logical) Label outliers. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Sample labels for potential outliers are displayed on the plot.}\item{\code{"FALSE"}: Sample labels are not included on the plot.}} The default is \code{TRUE}.}
+\item{label_outliers}{(logical) Label outliers. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: Sample labels for potential outliers are displayed on the plot.}\item{\code{"FALSE"}: Sample labels are not included on the plot.}} The default is \code{TRUE}.\cr}
 
-\item{by_sample}{(logical) Plot by sample or by feature. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Missing values are plotted per sample.}\item{\code{"FALSE"}: Missing values are plotted per feature.}} The default is \code{TRUE}.}
+\item{by_sample}{(logical) Plot by sample or by feature. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: Missing values are plotted per sample.}\item{\code{"FALSE"}: Missing values are plotted per feature.}} The default is \code{TRUE}.\cr}
 
 \item{...}{additional slots and values passed to struct_class}
 }
@@ -24,7 +24,17 @@ struct object
 \description{
 A histogram of the numbers of missing values per sample/feature
 }
+\section{Inheritance}{
+
+A \code{mv_histogram} object inherits the following \code{struct} classes: \cr\cr
+\code{mv_histogram()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = mv_histogram(
+      label_outliers = FALSE,
+      by_sample = FALSE)
+
 D = MTBLS79_DatasetExperiment()
 C = mv_histogram(label_outliers=FALSE,by_sample=FALSE)
 chart_plot(C,D)

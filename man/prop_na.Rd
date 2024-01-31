@@ -7,9 +7,9 @@
 prop_na(alpha = 0.05, mtc = "fdr", factor_name, ...)
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.\cr}
 
-\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{ \item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
@@ -28,7 +28,18 @@ struct object
 \description{
 A Fisher's exact test is used to compare the number of missing values in each group. Multiple test corrected p-values are computed to indicate whether there is a significant difference in the number of missing values across groups for each feature.
 }
+\section{Inheritance}{
+
+A \code{prop_na} object inherits the following \code{struct} classes: \cr\cr
+\code{prop_na()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = prop_na(
+      alpha = 0.05,
+      mtc = "fdr",
+      factor_name = "V1")
+
 M = prop_na(factor_name='Species')
 
 }

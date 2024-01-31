@@ -7,7 +7,7 @@
 filter_smeta(mode = "include", levels, factor_name, ...)
 }
 \arguments{
-\item{mode}{(character) Mode of action. Allowed values are limited to the following: \itemize{\item{\code{"include"}: Samples in the specified levels are retained.}\item{\code{"exclude"}: Samples in the specified levels are excluded.}} The default is \code{"include"}.}
+\item{mode}{(character) Mode of action. Allowed values are limited to the following: \itemize{ \item{\code{"include"}: Samples in the specified levels are retained.}\item{\code{"exclude"}: Samples in the specified levels are excluded.}} The default is \code{"include"}.}
 
 \item{levels}{(character) The level name(s) for filtering.}
 
@@ -24,7 +24,18 @@ A  \code{filter_smeta} object with the following \code{output} slots:
 \description{
 The data is filtered by so that the named levels of a factor are included/excluded from the dataset.
 }
+\section{Inheritance}{
+
+A \code{filter_smeta} object inherits the following \code{struct} classes: \cr\cr
+\code{filter_smeta()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = filter_smeta(
+      mode = "include",
+      levels = character(0),
+      factor_name = "V1")
+
 D = MTBLS79_DatasetExperiment()
 M = filter_smeta(mode='exclude',levels='QC',factor_name='QC')
 M = model_apply(M,D)

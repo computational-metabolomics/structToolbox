@@ -26,9 +26,9 @@ feature_profile_array(
 
 \item{feature_to_plot}{(numeric, character, integer) The name or column id of the plotted feature.}
 
-\item{nrow}{(numeric, integer) The number of rows in the plot. The default is \code{5}.}
+\item{nrow}{(numeric, integer) The number of rows in the plot. The default is \code{5}.\cr}
 
-\item{log}{(logical) Log transform. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The data is log tranformed before plotting.}\item{\code{"FALSE"}: The data is not transformed before plotting.}} The default is \code{TRUE}.}
+\item{log}{(logical) Log transform. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: The data is log tranformed before plotting.}\item{\code{"FALSE"}: The data is not transformed before plotting.}} The default is \code{TRUE}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -41,7 +41,22 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A plot visualising the change in intensity of a feature with a continuous variable such as time, dose, or run order.
 }
+\section{Inheritance}{
+
+A \code{feature_profile_array} object inherits the following \code{struct} classes: \cr\cr
+\code{feature_profile_array()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = feature_profile_array(
+      run_order = character(0),
+      qc_label = character(0),
+      qc_column = character(0),
+      colour_by = character(0),
+      feature_to_plot = numeric(0),
+      nrow = 1,
+      log = FALSE)
+
 D = MTBLS79_DatasetExperiment()
 C = feature_profile_array(
     run_order='run_order',

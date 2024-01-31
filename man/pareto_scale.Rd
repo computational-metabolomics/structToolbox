@@ -20,7 +20,15 @@ A  \code{pareto_scale} object with the following \code{output} slots:
 \description{
 The mean sample is subtracted from all samples and then scaled by the square root of the standard deviation. The transformed data has zero mean.
 }
+\section{Inheritance}{
+
+A \code{pareto_scale} object inherits the following \code{struct} classes: \cr\cr
+\code{pareto_scale()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pareto_scale()
+
 D = iris_DatasetExperiment()
 M = pareto_scale()
 M = model_train(M,D)

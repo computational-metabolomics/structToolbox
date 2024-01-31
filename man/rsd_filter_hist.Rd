@@ -18,7 +18,15 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A histogram of the calculated RSD values.
 }
+\section{Inheritance}{
+
+A \code{rsd_filter_hist} object inherits the following \code{struct} classes: \cr\cr
+\code{rsd_filter_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = rsd_filter_hist()
+
 C = rsd_filter_hist()
 
 }

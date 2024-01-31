@@ -21,20 +21,29 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 plots the new representation of data after applying tSNE.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{Rtsne}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{Rtsne}}}
 }
+\section{Inheritance}{
+
+A \code{tSNE_scatter} object inherits the following \code{struct} classes: \cr\cr
+\code{tSNE_scatter()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = tSNE_scatter(
+      factor_name = "V1")
+
 M = tSNE_scatter(factor_name='Species')
 
 }
 \references{
+Krijthe JH (2015). \emph{Rtsne: T-Distributed Stochastic Neighbor Embedding
+using Barnes-Hut Implementation}. R package version 0.17,
+\url{https://github.com/jkrijthe/Rtsne}.
+
 van der Maaten L, Hinton G (2008). "Visualizing High-Dimensional Data
 Using t-SNE." \emph{Journal of Machine Learning Research}, \emph{9}, 2579-2605.
 
 van der Maaten L (2014). "Accelerating t-SNE using Tree-Based
 Algorithms." \emph{Journal of Machine Learning Research}, \emph{15}, 3221-3245.
-
-Krijthe JH (2015). \emph{Rtsne: T-Distributed Stochastic Neighbor Embedding
-using Barnes-Hut Implementation}. R package version 0.16,
-\url{https://github.com/jkrijthe/Rtsne}.
 }

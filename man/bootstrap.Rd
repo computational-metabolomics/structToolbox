@@ -7,7 +7,7 @@
 bootstrap(number_of_repetitions = 100, collect, ...)
 }
 \arguments{
-\item{number_of_repetitions}{(numeric, integer) The number of bootstrap repetitions. The default is \code{100}.}
+\item{number_of_repetitions}{(numeric, integer) The number of bootstrap repetitions. The default is \code{100}.\cr}
 
 \item{collect}{(character) The name of a model output to collect over all bootstrap repetitions, in addition to the input metric.}
 
@@ -24,6 +24,16 @@ A  \code{bootstrap} object with the following \code{output} slots:
 \description{
 In bootstrap resampling a subset of samples is selected at random with replacement to form a training set. Any sample not selected for training is included in the test set. This process is repeated many times, and performance metrics are computed for each repetition.
 }
+\section{Inheritance}{
+
+A \code{bootstrap} object inherits the following \code{struct} classes: \cr\cr
+\code{bootstrap()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = bootstrap(
+      number_of_repetitions = 10,
+      collect = "vip")
+
 I = bootstrap(number_of_repetitions = 10, collect = 'vip')
 }

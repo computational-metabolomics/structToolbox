@@ -23,7 +23,17 @@ A  \code{stratified_split} object with the following \code{output} slots:
 \description{
 The dataset is divided into two subsets. A predefined proportion of samples from each level of a factor is selected for the training set, and the remaining samples are used for the test set. The stratification by factor level means that the relative number of samples per level is approximately equal to the original dataset.
 }
+\section{Inheritance}{
+
+A \code{stratified_split} object inherits the following \code{struct} classes: \cr\cr
+\code{stratified_split()} ⭢ \code{split_data()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = stratified_split(
+      factor_name = "V1",
+      p_train = 0.75)
+
 D = iris_DatasetExperiment()
 M = stratified_split(p_train=0.75,factor_name='Species')
 M = model_apply(M,D)

@@ -7,7 +7,7 @@
 log_transform(base = 10, ...)
 }
 \arguments{
-\item{base}{(numeric) The base of the logarithm used for the transform. The default is \code{10}.}
+\item{base}{(numeric) The base of the logarithm used for the transform. The default is \code{10}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -22,6 +22,15 @@ struct object
 \description{
 A logarithmic transform is applied to all values in the data matrix.
 }
+\section{Inheritance}{
+
+A \code{log_transform} object inherits the following \code{struct} classes: \cr\cr
+\code{log_transform()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = log_transform(
+      base = 10)
+
 M = log_transform()
 }

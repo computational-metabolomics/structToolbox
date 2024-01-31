@@ -7,7 +7,7 @@
 mean_centre(mode = "data", ...)
 }
 \arguments{
-\item{mode}{(character) Mode of action. Allowed values are limited to the following: \itemize{\item{\code{"data"}: Centring is applied to the data block.}\item{\code{"sample_meta"}: Centring is applied to the sample_meta block.}\item{\code{"both"}: Centring is applied to both the data and the sample_meta blocks.}} The default is \code{"data"}.}
+\item{mode}{(character) Mode of action. Allowed values are limited to the following: \itemize{ \item{\code{"data"}: Centring is applied to the data block.}\item{\code{"sample_meta"}: Centring is applied to the sample_meta block.}\item{\code{"both"}: Centring is applied to both the data and the sample_meta blocks.}} The default is \code{"data"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -22,6 +22,15 @@ A  \code{mean_centre} object with the following \code{output} slots:
 \description{
 The mean sample is subtracted from all samples in the data matrix. The features in the centred matrix all have zero mean.
 }
+\section{Inheritance}{
+
+A \code{mean_centre} object inherits the following \code{struct} classes: \cr\cr
+\code{mean_centre()} ⭢ \code{preprocess()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = mean_centre(
+      mode = "data")
+
 M = mean_centre()
 }

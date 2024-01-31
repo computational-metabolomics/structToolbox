@@ -1,8 +1,6 @@
-#' @eval get_description('PCA')
+#' @eval struct::get_description('PCA')
 #' @import struct
 #' @export PCA
-#' @examples
-#' M = PCA()
 PCA = function(number_components=2,...) {
     out=struct::new_struct('PCA',
         number_components=number_components,

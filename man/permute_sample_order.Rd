@@ -7,7 +7,7 @@
 permute_sample_order(number_of_permutations = 10, ...)
 }
 \arguments{
-\item{number_of_permutations}{(numeric, integer) The number of times the sample order is permuted. The default is \code{10}.}
+\item{number_of_permutations}{(numeric, integer) The number of times the sample order is permuted. The default is \code{10}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -22,6 +22,15 @@ A  \code{permute_sample_order} object with the following \code{output} slots:
 \description{
 The order of samples in the data matrix is randomly permuted. The relationship between the samples and the sample meta data is maintained.
 }
+\section{Inheritance}{
+
+A \code{permute_sample_order} object inherits the following \code{struct} classes: \cr\cr
+\code{permute_sample_order()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = permute_sample_order(
+      number_of_permutations = 100)
+
 C = permute_sample_order()
 }

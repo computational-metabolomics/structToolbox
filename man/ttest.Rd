@@ -16,19 +16,19 @@ ttest(
 )
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.\cr}
 
-\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{ \item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
 \item{factor_names}{(character) The name of sample meta column(s) to use.}
 
-\item{paired}{(logical) Apply a paired t-test. The default is \code{FALSE}.}
+\item{paired}{(logical) Apply a paired t-test. The default is \code{FALSE}.\cr}
 
 \item{paired_factor}{(character) The factor name that encodes the sample id for pairing. The default is \code{character(0)}.}
 
-\item{equal_variance}{(logical) Equal variance. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The variance of each group is treated as being equal using the pooled variance to estimate the variance.}\item{\code{"FALSE"}: The variance of each group is not assumed to be equal and the Welch (or Satterthwaite) approximation is used.}} The default is \code{FALSE}.}
+\item{equal_variance}{(logical) Equal variance. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: The variance of each group is treated as being equal using the pooled variance to estimate the variance.}\item{\code{"FALSE"}: The variance of each group is not assumed to be equal and the Welch (or Satterthwaite) approximation is used.}} The default is \code{FALSE}.\cr}
 
-\item{conf_level}{(numeric) The confidence level of the interval. The default is \code{0.95}.}
+\item{conf_level}{(numeric) The confidence level of the interval. The default is \code{0.95}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -46,7 +46,22 @@ A  \code{ttest} object with the following \code{output} slots:
 \description{
 A t-test compares the means of two factor levels. Multiple-test corrected p-values are used to indicate the significance of the computed difference for all features.
 }
+\section{Inheritance}{
+
+A \code{ttest} object inherits the following \code{struct} classes: \cr\cr
+\code{ttest()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = ttest(
+      alpha = 0.05,
+      mtc = "fdr",
+      factor_names = "V1",
+      paired = FALSE,
+      paired_factor = "NA",
+      equal_variance = FALSE,
+      conf_level = 0.95)
+
 M = ttest(factor_name='Class')
 
 }

@@ -7,7 +7,7 @@
 PLSR(number_components = 2, factor_name, ...)
 }
 \arguments{
-\item{number_components}{(numeric, integer) The number of PLS components. The default is \code{2}.}
+\item{number_components}{(numeric, integer) The number of PLS components. The default is \code{2}.\cr}
 
 \item{factor_name}{(character) The name of sample meta column(s) to use.}
 
@@ -32,13 +32,23 @@ A  \code{PLSR} object with the following \code{output} slots:
 PLS is a multivariate regression technique that extracts latent variables maximising covariance between the input data and the response. For regression the response is a continuous variable.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pls}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pls}}}
 }
+\section{Inheritance}{
+
+A \code{PLSR} object inherits the following \code{struct} classes: \cr\cr
+\code{PLSR()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = PLSR(
+      number_components = 2,
+      factor_name = "V1")
+
 M = PLSR(factor_name='run_order')
 }
 \references{
 Liland K, Mevik B, Wehrens R (2023). \emph{pls: Partial Least Squares and
-Principal Component Regression}. R package version 2.8-2,
+Principal Component Regression}. R package version 2.8-3,
 \url{https://CRAN.R-project.org/package=pls}.
 }

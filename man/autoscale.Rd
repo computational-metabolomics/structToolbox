@@ -7,7 +7,7 @@
 autoscale(mode = "data", ...)
 }
 \arguments{
-\item{mode}{(character) Mode of action. Allowed values are limited to the following: \itemize{\item{\code{"data"}: Autoscaling is applied to the data matrix only.}\item{\code{"sample_meta"}: Autoscaling is applied to the sample_meta data only.}\item{\code{"both"}: Autoscaling is applied to both the data matrix and the meta data.}} The default is \code{"data"}.}
+\item{mode}{(character) Mode of action. Allowed values are limited to the following: \itemize{ \item{\code{"data"}: Autoscaling is applied to the data matrix only.}\item{\code{"sample_meta"}: Autoscaling is applied to the sample_meta data only.}\item{\code{"both"}: Autoscaling is applied to both the data matrix and the meta data.}} The default is \code{"data"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -24,7 +24,16 @@ A  \code{autoscale} object with the following \code{output} slots:
 \description{
 Each variable/feature is mean centred and scaled by the standard deviation. The transformed variables have zero-mean and unit-variance.
 }
+\section{Inheritance}{
+
+A \code{autoscale} object inherits the following \code{struct} classes: \cr\cr
+\code{autoscale()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = autoscale(
+      mode = "data")
+
 D = iris_DatasetExperiment()
 M = autoscale()
 M = model_train(M,D)

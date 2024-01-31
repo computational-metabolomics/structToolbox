@@ -13,13 +13,13 @@ mv_boxplot(
 )
 }
 \arguments{
-\item{label_outliers}{(logical) Label outliers. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Sample labels for potential outliers are displayed on the plot.}\item{\code{"FALSE"}: Sample labels are not included on the plot.}} The default is \code{TRUE}.}
+\item{label_outliers}{(logical) Label outliers. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: Sample labels for potential outliers are displayed on the plot.}\item{\code{"FALSE"}: Sample labels are not included on the plot.}} The default is \code{TRUE}.\cr}
 
-\item{by_sample}{(logical) Plot by sample or by feature. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Missing values are plotted per sample.}\item{\code{"FALSE"}: Missing values are plotted per feature.}} The default is \code{TRUE}.}
+\item{by_sample}{(logical) Plot by sample or by feature. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: Missing values are plotted per sample.}\item{\code{"FALSE"}: Missing values are plotted per feature.}} The default is \code{TRUE}.\cr}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{show_counts}{(logical) Show counts. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The number of samples for each box is displayed.}\item{\code{"FALSE"}: The number of samples for each box is not displayed.}} The default is \code{TRUE}.}
+\item{show_counts}{(logical) Show counts. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: The number of samples for each box is displayed.}\item{\code{"FALSE"}: The number of samples for each box is not displayed.}} The default is \code{TRUE}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -32,7 +32,19 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 Boxplots of the number of missing values per sample/feature.
 }
+\section{Inheritance}{
+
+A \code{mv_boxplot} object inherits the following \code{struct} classes: \cr\cr
+\code{mv_boxplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = mv_boxplot(
+      label_outliers = FALSE,
+      by_sample = FALSE,
+      factor_name = "V1",
+      show_counts = FALSE)
+
 D = MTBLS79_DatasetExperiment()
 C = mv_boxplot(factor_name='Class')
 chart_plot(C,D)

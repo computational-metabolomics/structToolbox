@@ -18,17 +18,17 @@ fold_change(
 \arguments{
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{paired}{(logical) Paired fold change. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Fold change is calculated taking into account paired sampling.}\item{\code{"FALSE"}: Fold change is calculated assuming there is no paired sampling.}} The default is \code{FALSE}.}
+\item{paired}{(logical) Paired fold change. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: Fold change is calculated taking into account paired sampling.}\item{\code{"FALSE"}: Fold change is calculated assuming there is no paired sampling.}} The default is \code{FALSE}.\cr}
 
 \item{sample_name}{(character) The name of a sample_meta column containing sample identifiers for paired sampling. The default is \code{character(0)}.}
 
-\item{threshold}{(numeric) The fold change threshold for labelling features as significant. The default is \code{2}.}
+\item{threshold}{(numeric) The fold change threshold for labelling features as significant. The default is \code{2}.\cr}
 
 \item{control_group}{(character) The level name of the group used in the denominator (where possible) when computing fold change. The default is \code{character(0)}.}
 
-\item{method}{(character) Fold change method. Allowed values are limited to the following: \itemize{\item{\code{"geometric"}: A log transform is applied before using group means to calculate fold change. In the non-tranformedspace this is equivalent to using geometric group means. Confidence intervals for independant and paired sampling are estimated using standard error of the mean in log transformed space before being transformed back to the original space.}\item{\code{"median"}: The group medians and the method described by Price and Bonett is used to estimate confidence intervals. For paired data standard error of the median is used to estimate confidence intervals from the median fold change of all pairs.}\item{\code{"mean"}: The group means and the method described by Price and Bonnet is used to estimate confidence intervals. For paired data standard error of the mean is used to estimate confidence intervals from the mean fold change of all pairs.}} The default is \code{"geometric"}.}
+\item{method}{(character) Fold change method. Allowed values are limited to the following: \itemize{ \item{\code{"geometric"}: A log transform is applied before using group means to calculate fold change. In the non-tranformedspace this is equivalent to using geometric group means. Confidence intervals for independant and paired sampling are estimated using standard error of the mean in log transformed space before being transformed back to the original space.}\item{\code{"median"}: The group medians and the method described by Price and Bonett is used to estimate confidence intervals. For paired data standard error of the median is used to estimate confidence intervals from the median fold change of all pairs.}\item{\code{"mean"}: The group means and the method described by Price and Bonnet is used to estimate confidence intervals. For paired data standard error of the mean is used to estimate confidence intervals from the mean fold change of all pairs.}} The default is \code{"geometric"}.}
 
-\item{conf_level}{(numeric) The confidence level of the interval. The default is \code{0.95}.}
+\item{conf_level}{(numeric) The confidence level of the interval. The default is \code{0.95}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -44,7 +44,22 @@ A  \code{fold_change} object with the following \code{output} slots:
 \description{
 Fold change is the relative change in mean (or non-parametric equivalent) intensities of a feature between all pairs of levels in a factor.
 }
+\section{Inheritance}{
+
+A \code{fold_change} object inherits the following \code{struct} classes: \cr\cr
+\code{fold_change()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = fold_change(
+      factor_name = "V1",
+      sample_name = character(0),
+      paired = FALSE,
+      threshold = 2,
+      control_group = character(0),
+      method = "geometric",
+      conf_level = 0.95)
+
 D = MTBLS79_DatasetExperiment()
 M = fold_change(factor_name='Class')
 M = model_apply(M,D)

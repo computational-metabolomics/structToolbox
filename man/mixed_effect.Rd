@@ -7,13 +7,13 @@
 mixed_effect(alpha = 0.05, mtc = "fdr", formula, ss_type = "marginal", ...)
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.\cr}
 
-\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{ \item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
 \item{formula}{(formula) A symbolic description of the model to be fitted.}
 
-\item{ss_type}{(character) Sum of squares type. Allowed values are limited to the following: \itemize{\item{\code{"marginal"}: Type III sum of squares.}\item{\code{"sequential"}: Type II sum of squares.}} The default is \code{"marginal"}.}
+\item{ss_type}{(character) Sum of squares type. Allowed values are limited to the following: \itemize{ \item{\code{"marginal"}: Type III sum of squares.}\item{\code{"sequential"}: Type II sum of squares.}} The default is \code{"marginal"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -29,9 +29,21 @@ A  \code{mixed_effect} object with the following \code{output} slots:
 A mixed effects model is an extension of ANOVA where there are both fixed and random effects.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{nlme}}\item{\code{emmeans}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{nlme}} \item{\code{emmeans}}}
 }
+\section{Inheritance}{
+
+A \code{mixed_effect} object inherits the following \code{struct} classes: \cr\cr
+\code{mixed_effect()} ⭢ \code{ANOVA()} ⭢ \code{model()} ⭢ \code{stato()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = mixed_effect(
+      alpha = 0.05,
+      mtc = "fdr",
+      formula = y ~ x,
+      ss_type = "marginal")
+
 D = iris_DatasetExperiment()
 D$sample_meta$id=rownames(D) # dummy id column
 M = mixed_effect(formula = y~Species+ Error(id/Species))
@@ -39,7 +51,7 @@ M = model_apply(M,D)
 }
 \references{
 Pinheiro J, Bates D, R Core Team (2023). \emph{nlme: Linear and Nonlinear
-Mixed Effects Models}. R package version 3.1-162,
+Mixed Effects Models}. R package version 3.1-164,
 \url{https://CRAN.R-project.org/package=nlme}.
 
 Pinheiro JC, Bates DM (2000). \emph{Mixed-Effects Models in S and S-PLUS}.
@@ -47,7 +59,7 @@ Springer, New York. doi:10.1007/b98882
 \url{https://doi.org/10.1007/b98882}.
 
 Lenth R (2023). \emph{emmeans: Estimated Marginal Means, aka Least-Squares
-Means}. R package version 1.8.7,
+Means}. R package version 1.9.0,
 \url{https://CRAN.R-project.org/package=emmeans}.
 
 Fox J, Weisberg S (2019). \emph{An R Companion to Applied Regression}, Third

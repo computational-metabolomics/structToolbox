@@ -18,6 +18,14 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A plot of the calculated performance metric against the model input parameter values used to train the model. The optimum parameter value is indicated based on minimising (or maximising) the chosen metric.
 }
+\section{Inheritance}{
+
+A \code{gs_line} object inherits the following \code{struct} classes: \cr\cr
+\code{gs_line()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = gs_line()
+
 C = gs_line()
 }

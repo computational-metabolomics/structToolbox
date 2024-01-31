@@ -7,7 +7,7 @@
 PCA(number_components = 2, ...)
 }
 \arguments{
-\item{number_components}{(numeric, integer) The number of Principal Components calculated. The default is \code{2}.}
+\item{number_components}{(numeric, integer) The number of Principal Components calculated. The default is \code{2}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -25,6 +25,14 @@ A  \code{PCA} object with the following \code{output} slots:
 \description{
 PCA is a multivariate data reduction technique. It summarises the data in a smaller number of Principal Components that maximise variance.
 }
+\section{Inheritance}{
+
+A \code{PCA} object inherits the following \code{struct} classes: \cr\cr
+\code{PCA()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
-M = PCA()
+M = PCA(
+      number_components = 2)
+
 }

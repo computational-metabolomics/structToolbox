@@ -7,7 +7,7 @@
 rsd_filter(rsd_threshold = 20, qc_label = "QC", factor_name, ...)
 }
 \arguments{
-\item{rsd_threshold}{(numeric) The RSD threshold above which features are removed. The default is \code{20}.}
+\item{rsd_threshold}{(numeric) The RSD threshold above which features are removed. The default is \code{20}.\cr}
 
 \item{qc_label}{(character) The label used to identify QC samples. The default is \code{"QC"}.}
 
@@ -27,9 +27,20 @@ A  \code{rsd_filter} object with the following \code{output} slots:
 An RSD filter calculates the relative standard deviation (the ratio of the standard deviation to the mean) for all features. Any feature with an RSD greater than a predefined threshold is excluded.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pmp}}}
 }
+\section{Inheritance}{
+
+A \code{rsd_filter} object inherits the following \code{struct} classes: \cr\cr
+\code{rsd_filter()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = rsd_filter(
+      rsd_threshold = 20,
+      qc_label = "QC",
+      factor_name = "V1")
+
 M = rsd_filter(factor_name='Class')
 
 }
@@ -37,5 +48,5 @@ M = rsd_filter(factor_name='Class')
 Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
 and signal batch correction for metabolomics datasets}.
 doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
-package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
+package version 1.14.0, \url{https://bioconductor.org/packages/pmp}.
 }

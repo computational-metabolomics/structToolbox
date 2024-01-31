@@ -14,7 +14,7 @@ blank_filter(
 )
 }
 \arguments{
-\item{fold_change}{(numeric) Features with fold change less than this value are removed. The default is \code{20}.}
+\item{fold_change}{(numeric) Features with fold change less than this value are removed. The default is \code{20}.\cr}
 
 \item{blank_label}{(character) The label used to identify blank samples. The default is \code{"blank"}.}
 
@@ -22,7 +22,7 @@ blank_filter(
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{fraction_in_blank}{(numeric) Features present in less than this proportion of the blanks are not considered for removal. The default is \code{0}.}
+\item{fraction_in_blank}{(numeric) Features present in less than this proportion of the blanks are not considered for removal. The default is \code{0}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -37,9 +37,22 @@ A  \code{blank_filter} object with the following \code{output} slots:
 A blank filter filters features by comparing the median intensity of blank samples to the median intensity of samples. Features where the relative intensity (fold change) is not large when compared to the blank are removed. The number of times a feature is detected across all blank samples may also be considered. If the feature is not detected in a high enough proportion of the blanks then it is not removed.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pmp}}}
 }
+\section{Inheritance}{
+
+A \code{blank_filter} object inherits the following \code{struct} classes: \cr\cr
+\code{blank_filter()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = blank_filter(
+      fold_change = 20,
+      blank_label = "Blank",
+      qc_label = "QC",
+      factor_name = "V1",
+      fraction_in_blank = 0)
+
 D = iris_DatasetExperiment()
 M = blank_filter(fold_change=2,
                  factor_name='Species',
@@ -51,5 +64,5 @@ M = model_apply(M,D)
 Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
 and signal batch correction for metabolomics datasets}.
 doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
-package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
+package version 1.14.0, \url{https://bioconductor.org/packages/pmp}.
 }

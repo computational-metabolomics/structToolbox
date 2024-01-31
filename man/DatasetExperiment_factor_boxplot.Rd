@@ -22,7 +22,17 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 Boxplot for a feature to visualise the distribution of values within each group
 }
+\section{Inheritance}{
+
+A \code{DatasetExperiment_factor_boxplot} object inherits the following \code{struct} classes: \cr\cr
+\code{DatasetExperiment_factor_boxplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = DatasetExperiment_factor_boxplot(
+      factor_names = "V1",
+      feature_to_plot = "V1")
+
 D = iris_DatasetExperiment()
 C = DatasetExperiment_factor_boxplot(factor_names='Species',feature_to_plot='Petal.Width')
 chart_plot(C,D)

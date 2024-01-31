@@ -20,7 +20,16 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 Histograms and boxplots computed across samples and features are used to visually compare two datasets e.g. before and after filtering and/or normalisation.
 }
+\section{Inheritance}{
+
+A \code{compare_dist} object inherits the following \code{struct} classes: \cr\cr
+\code{compare_dist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = compare_dist(
+      factor_name = "V1")
+
 D1=MTBLS79_DatasetExperiment(filtered=FALSE)
 D2=MTBLS79_DatasetExperiment(filtered=TRUE)
 C = compare_dist(factor_name='Class')

@@ -7,7 +7,7 @@
 glog_opt_plot(plot_grid = 100, ...)
 }
 \arguments{
-\item{plot_grid}{(numeric)  The default is \code{100}.}
+\item{plot_grid}{(numeric)  The default is \code{100}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -21,9 +21,18 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 A plot of the sum of squares error (SSE) vs different values of lambda for the glog transform. The indicated optimum value for lambda minimises the SSE.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pmp}}}
 }
+\section{Inheritance}{
+
+A \code{glog_opt_plot} object inherits the following \code{struct} classes: \cr\cr
+\code{glog_opt_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = glog_opt_plot(
+      plot_grid = numeric(0))
+
 D = iris_DatasetExperiment()
 M = glog_transform(qc_label='versicolor',factor_name='Species')
 M = model_apply(M,D)
@@ -34,5 +43,5 @@ chart_plot(C,M,D)
 Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
 and signal batch correction for metabolomics datasets}.
 doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
-package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
+package version 1.14.0, \url{https://bioconductor.org/packages/pmp}.
 }

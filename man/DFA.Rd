@@ -9,7 +9,7 @@ DFA(factor_name, number_components = 2, ...)
 \arguments{
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{number_components}{(numeric, integer) The number of DFA components calculated. The default is \code{2}.}
+\item{number_components}{(numeric, integer) The number of DFA components calculated. The default is \code{2}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -25,7 +25,17 @@ A  \code{DFA} object with the following \code{output} slots:
 \description{
 Discriminant Factor Analysis (DFA) is a supervised classification method. Using a linear combination of the input variables, DFA finds new orthogonal axes (canonical values) to minimize the variance within each given class and maximize variance between classes.
 }
+\section{Inheritance}{
+
+A \code{DFA} object inherits the following \code{struct} classes: \cr\cr
+\code{DFA()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = DFA(
+      factor_name = "V1",
+      number_components = 2)
+
 D = iris_DatasetExperiment()
 M = DFA(factor_name='Species')
 M = model_apply(M,D)

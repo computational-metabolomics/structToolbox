@@ -7,7 +7,7 @@
 mv_sample_filter(mv_threshold = 20, ...)
 }
 \arguments{
-\item{mv_threshold}{(numeric) The maximum percentage of features with missing values in a sample. The default is \code{20}.}
+\item{mv_threshold}{(numeric) The maximum percentage of features with missing values in a sample. The default is \code{20}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -23,14 +23,23 @@ A  \code{mv_sample_filter} object with the following \code{output} slots:
 Removes samples where the percent number of missing values exceeds a threshold.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pmp}}}
 }
+\section{Inheritance}{
+
+A \code{mv_sample_filter} object inherits the following \code{struct} classes: \cr\cr
+\code{mv_sample_filter()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = mv_sample_filter(
+      mv_threshold = 20)
+
 C = mv_sample_filter()
 }
 \references{
 Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
 and signal batch correction for metabolomics datasets}.
 doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
-package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
+package version 1.14.0, \url{https://bioconductor.org/packages/pmp}.
 }

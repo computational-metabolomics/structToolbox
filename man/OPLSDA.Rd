@@ -7,7 +7,7 @@
 OPLSDA(number_components = 1, factor_name, ...)
 }
 \arguments{
-\item{number_components}{(numeric, integer) The number of orthgonal components. The default is \code{1}.}
+\item{number_components}{(numeric, integer) The number of orthgonal components. The default is \code{1}.\cr}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
@@ -25,6 +25,16 @@ A  \code{OPLSDA} object with the following \code{output} slots:
 OPLS splits a data matrix into two parts. One part
 contains information orthogonal to the input vector, and the other is non-orthogonal.
 }
+\section{Inheritance}{
+
+A \code{OPLSDA} object inherits the following \code{struct} classes: \cr\cr
+\code{OPLSDA()} ⭢ \code{OPLSR()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = OPLSDA(
+      number_components = 2,
+      factor_name = "V1")
+
 M = OPLSR('number_components'=2,factor_name='Species')
 }

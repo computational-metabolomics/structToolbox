@@ -18,17 +18,17 @@ dfa_scores_plot(
 \arguments{
 \item{components}{(numeric) The components selected for plotting. The default is \code{c(1, 2)}.}
 
-\item{points_to_label}{(character) Points to label. Allowed values are limited to the following: \itemize{\item{\code{"none"}: No samples labels are displayed.}\item{\code{"all"}: The labels for all samples are displayed.}\item{\code{"outliers"}: Labels for for potential outlier samples are displayed.}} The default is \code{"none"}.}
+\item{points_to_label}{(character) Points to label. Allowed values are limited to the following: \itemize{ \item{\code{"none"}: No samples labels are displayed.}\item{\code{"all"}: The labels for all samples are displayed.}\item{\code{"outliers"}: Labels for for potential outlier samples are displayed.}} The default is \code{"none"}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{ellipse}{(character) Plot ellipses. Allowed values are limited to the following: \itemize{\item{\code{"all"}: Hotelling T2 ellipses (p=0.95) are plotted for all groups and all samples.}\item{\code{"group"}: Hotelling T2 ellipses (p=0.95) are plotted for all groups.}\item{\code{"none"}: Ellipses are not included on the plot.}\item{\code{"sample"}: A Hotelling T2 ellipse (p=0.95) is plotted for all samples (ignoring group).}} The default is \code{"all"}.}
+\item{ellipse}{(character) Plot ellipses. Allowed values are limited to the following: \itemize{ \item{\code{"all"}: Hotelling T2 ellipses (p=0.95) are plotted for all groups and all samples.}\item{\code{"group"}: Hotelling T2 ellipses (p=0.95) are plotted for all groups.}\item{\code{"none"}: Ellipses are not included on the plot.}\item{\code{"sample"}: A Hotelling T2 ellipse (p=0.95) is plotted for all samples (ignoring group).}} The default is \code{"all"}.}
 
 \item{label_filter}{(character) Labels are only plotted for the named groups. If zero-length then all groups are included. The default is \code{character(0)}.}
 
 \item{label_factor}{(character) The column name of sample_meta to use for labelling samples on the plot. "rownames" will use the row names from sample_meta. The default is \code{"rownames"}.}
 
-\item{label_size}{(numeric) The text size of labels. Note this is not in Font Units. The default is \code{3.88}.}
+\item{label_size}{(numeric) The text size of labels. Note this is not in Font Units. The default is \code{3.88}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -42,9 +42,24 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 A scatter plot of the selected DFA components.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{scales}}\item{\code{ggplot2}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{scales}} \item{\code{ggplot2}}}
 }
+\section{Inheritance}{
+
+A \code{dfa_scores_plot} object inherits the following \code{struct} classes: \cr\cr
+\code{dfa_scores_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = dfa_scores_plot(
+      components = c(1, 2),
+      points_to_label = "none",
+      factor_name = "V1",
+      ellipse = "all",
+      label_filter = character(0),
+      label_factor = "rownames",
+      label_size = 3.88)
+
 D = iris_DatasetExperiment()
 M = mean_centre() + DFA(factor_name='Species')
 M = model_apply(M,D)
@@ -53,8 +68,8 @@ chart_plot(C,M[2])
 
 }
 \references{
-Wickham H, Seidel D (2022). \emph{scales: Scale Functions for
-Visualization}. R package version 1.2.1,
+Wickham H, Pedersen T, Seidel D (2023). \emph{scales: Scale Functions for
+Visualization}. R package version 1.3.0,
 \url{https://CRAN.R-project.org/package=scales}.
 
 Wickham H (2016). \emph{ggplot2: Elegant Graphics for Data Analysis}.

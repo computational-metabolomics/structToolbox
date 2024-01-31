@@ -20,7 +20,16 @@ A  \code{mean_of_medians} object with the following \code{output} slots:
 \description{
 The data matrix is normalised by the mean of the median of each factor level.
 }
+\section{Inheritance}{
+
+A \code{mean_of_medians} object inherits the following \code{struct} classes: \cr\cr
+\code{mean_of_medians()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = mean_of_medians(
+      factor_name = "V1")
+
 D = iris_DatasetExperiment()
 M = mean_of_medians(factor_name='Species')
 M = model_apply(M,D)

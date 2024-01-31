@@ -17,7 +17,15 @@ balanced_accuracy
 \description{
 Balanced Accuracy is the average proportion of correctly classified samples across all groups.
 }
+\section{Inheritance}{
+
+A \code{balanced_accuracy} object inherits the following \code{struct} classes: \cr\cr
+\code{balanced_accuracy()} ⭢ \code{metric()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = balanced_accuracy()
+
 D = iris_DatasetExperiment()
 XCV = kfold_xval(folds=5,factor_name='Species') *
       (mean_centre() + PLSDA(number_components=2,factor_name='Species'))

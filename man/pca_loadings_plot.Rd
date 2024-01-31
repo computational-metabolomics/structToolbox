@@ -14,9 +14,9 @@ pca_loadings_plot(
 \arguments{
 \item{components}{(numeric) The principal components used to generate the plot. The default is \code{c(1, 2)}.}
 
-\item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{\item{\code{"points"}: Loadings and scores are plotted as a scatter plot.}\item{\code{"arrows"}: The loadings are plotted as arrow vectors.}} The default is \code{"points"}.}
+\item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{ \item{\code{"points"}: Loadings and scores are plotted as a scatter plot.}\item{\code{"arrows"}: The loadings are plotted as arrow vectors.}} The default is \code{"points"}.}
 
-\item{label_features}{(character, NULL) Feature labels. Allowed values are limited to the following: \itemize{\item{\code{"character()"}: A vector of labels for the features.}\item{\code{"NULL"}: No labels.}\item{\code{"row.names"}: Labels will be extracted from the column names of the data matrix.}} The default is \code{NULL}.}
+\item{label_features}{(character, NULL) Feature labels. Allowed values are limited to the following: \itemize{ \item{\code{"character()"}: A vector of labels for the features.}\item{\code{"NULL"}: No labels.}\item{\code{"row.names"}: Labels will be extracted from the column names of the data matrix.}} The default is \code{NULL}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -29,6 +29,17 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A barchart (one component) or scatter plot (two components) of the selected principal component loadings.
 }
+\section{Inheritance}{
+
+A \code{pca_loadings_plot} object inherits the following \code{struct} classes: \cr\cr
+\code{pca_loadings_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pca_loadings_plot(
+      components = c(1, 2),
+      style = "points",
+      label_features = NULL)
+
 C = pca_loadings_plot()
 }

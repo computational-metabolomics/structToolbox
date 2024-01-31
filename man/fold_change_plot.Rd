@@ -8,9 +8,9 @@ fold_change_plot(number_features = 20, orientation = "portrait", ...)
 }
 \arguments{
 \item{number_features}{(numeric) The number randomly selected features to plot, or
-a list of column numbers. The default is \code{20}.}
+a list of column numbers. The default is \code{20}.\cr}
 
-\item{orientation}{(character) Plot orientation. Allowed values are limited to the following: \itemize{\item{\code{"landscape"}: Features are plotted on the y-axis.}\item{\code{"portrait"}: Features are plotted on the x-axis.}} The default is \code{"portrait"}.}
+\item{orientation}{(character) Plot orientation. Allowed values are limited to the following: \itemize{ \item{\code{"landscape"}: Features are plotted on the y-axis.}\item{\code{"portrait"}: Features are plotted on the x-axis.}} The default is \code{"portrait"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -23,6 +23,16 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A plot of fold changes calculated for a chosen subset of features. A predefined fold change threshold is indicated by shaded regions.
 }
+\section{Inheritance}{
+
+A \code{fold_change_plot} object inherits the following \code{struct} classes: \cr\cr
+\code{fold_change_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = fold_change_plot(
+      number_features = 10,
+      orientation = "portrait")
+
 C = fold_change_plot()
 }

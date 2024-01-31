@@ -7,7 +7,7 @@
 pca_scree_plot(max_pc = 15, ...)
 }
 \arguments{
-\item{max_pc}{(numeric, integer) The maximum number of components to include in the plot. The default is \code{15}.}
+\item{max_pc}{(numeric, integer) The maximum number of components to include in the plot. The default is \code{15}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -22,6 +22,15 @@ struct object
 \description{
 A plot of the percent variance and cumulative percent variance for the components of a PCA model.
 }
+\section{Inheritance}{
+
+A \code{pca_scree_plot} object inherits the following \code{struct} classes: \cr\cr
+\code{pca_scree_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pca_scree_plot(
+      max_pc = 15)
+
 C = pca_scree_plot()
 }

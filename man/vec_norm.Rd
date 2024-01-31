@@ -21,7 +21,15 @@ struct object
 \description{
 The samples in the data matrix are normalised to account for differences in concentration by scaling each sample such that the sum of squares is equal to 1.
 }
+\section{Inheritance}{
+
+A \code{vec_norm} object inherits the following \code{struct} classes: \cr\cr
+\code{vec_norm()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = vec_norm()
+
 M = vec_norm()
 
 }

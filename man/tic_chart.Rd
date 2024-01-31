@@ -11,7 +11,7 @@ tic_chart(run_order, factor_name, connected = FALSE, ...)
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{connected}{(logical) Plot samples connected by a grey line. The default is \code{FALSE}.}
+\item{connected}{(logical) Plot samples connected by a grey line. The default is \code{FALSE}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -24,7 +24,18 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A scatter plot of Total Ion Count (sum of each sample) versus run order.
 }
+\section{Inheritance}{
+
+A \code{tic_chart} object inherits the following \code{struct} classes: \cr\cr
+\code{tic_chart()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = tic_chart(
+      factor_name = "V1",
+      run_order = character(0),
+      connected = FALSE)
+
 D = iris_DatasetExperiment()
 D$sample_meta$run_order=1:nrow(D)
 C = tic_chart(factor_name='Species',run_order='run_order')

@@ -7,13 +7,13 @@
 ANOVA(alpha = 0.05, mtc = "fdr", formula, ss_type = "III", ...)
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.\cr}
 
-\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{ \item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
 \item{formula}{(formula) A symbolic description of the model to be fitted.}
 
-\item{ss_type}{(character) ANOVA sum of squares. Allowed values are limited to the following: \itemize{\item{\code{"I"}: Type I sum of squares.}\item{\code{"II"}: Type II sum of squares.}\item{\code{"III"}: Type III sum of squares.}} The default is \code{"III"}.}
+\item{ss_type}{(character) ANOVA sum of squares. Allowed values are limited to the following: \itemize{ \item{\code{"I"}: Type I sum of squares.}\item{\code{"II"}: Type II sum of squares.}\item{\code{"III"}: Type III sum of squares.}} The default is \code{"III"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -29,9 +29,21 @@ A  \code{ANOVA} object with the following \code{output} slots:
 Analysis of Variance (ANOVA) is a univariate method used to analyse the difference among group means. Multiple test corrected p-values are computed to indicate significance for each feature.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{car}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{car}}}
 }
+\section{Inheritance}{
+
+A \code{ANOVA} object inherits the following \code{struct} classes: \cr\cr
+\code{ANOVA()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = ANOVA(
+      alpha = 0.05,
+      mtc = "fdr",
+      formula = y ~ x,
+      ss_type = "III")
+
 D = iris_DatasetExperiment()
 M = ANOVA(formula=y~Species)
 M = model_apply(M,D)

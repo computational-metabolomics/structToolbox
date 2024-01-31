@@ -7,9 +7,9 @@
 pca_dstat_plot(number_components = 2, alpha = 0.05, ...)
 }
 \arguments{
-\item{number_components}{(numeric) The number of principal components to use. The default is \code{2}.}
+\item{number_components}{(numeric) The number of principal components to use. The default is \code{2}.\cr}
 
-\item{alpha}{(numeric) A confidence threshold for rejecting samples based on the d-statistic. The default is \code{0.05}.}
+\item{alpha}{(numeric) A confidence threshold for rejecting samples based on the d-statistic. The default is \code{0.05}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -22,6 +22,16 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A bar chart of the d-statistics for samples in the input PCA model. Samples above the indicated threshold are considered to be outlying.
 }
+\section{Inheritance}{
+
+A \code{pca_dstat_plot} object inherits the following \code{struct} classes: \cr\cr
+\code{pca_dstat_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pca_dstat_plot(
+      number_components = 2,
+      alpha = 0.95)
+
 C = pca_dstat_plot()
 }

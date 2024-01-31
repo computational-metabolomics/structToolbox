@@ -7,7 +7,7 @@
 plsr_cook_dist(ycol = 1, ...)
 }
 \arguments{
-\item{ycol}{(numeric, integer, character) The y-block column to plot. The default is \code{1}.}
+\item{ycol}{(numeric, integer, character) The y-block column to plot. The default is \code{1}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -20,6 +20,15 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A barchart of Cook's distance for each sample used to train a PLSR model. Cook's distance is used to estimate the influence of a sample on the model and can be used to identify potential outliers.
 }
+\section{Inheritance}{
+
+A \code{plsr_cook_dist} object inherits the following \code{struct} classes: \cr\cr
+\code{plsr_cook_dist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = plsr_cook_dist(
+      ycol = 1)
+
 C = plsr_cook_dist()
 }

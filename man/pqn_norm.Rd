@@ -19,11 +19,11 @@ pqn_norm(
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{qc_frac}{(numeric) A value between 0 and 1 to indicate the minimum proportion of QC samples a feature must be present in for it to be included when computing the reference. Default qc_frac = 0. . The default is \code{0}.}
+\item{qc_frac}{(numeric) A value between 0 and 1 to indicate the minimum proportion of QC samples a feature must be present in for it to be included when computing the reference. Default qc_frac = 0. . The default is \code{0}.\cr}
 
-\item{sample_frac}{(numeric) A value between 0 and 1 to indicate the minimum proportion of samples a feature must be present in for it to be considered when computing the normalisation coefficients. . The default is \code{0}.}
+\item{sample_frac}{(numeric) A value between 0 and 1 to indicate the minimum proportion of samples a feature must be present in for it to be considered when computing the normalisation coefficients. . The default is \code{0}.\cr}
 
-\item{ref_method}{(character) Reference computation method. Allowed values are limited to the following: \itemize{\item{\code{"mean"}: The reference is computed as the mean of the samples matching the qc_label input.}\item{\code{"median"}: The reference is computed as the median of the samples matching the qc_label_input.}} The default is \code{"mean"}.}
+\item{ref_method}{(character) Reference computation method. Allowed values are limited to the following: \itemize{ \item{\code{"mean"}: The reference is computed as the mean of the samples matching the qc_label input.}\item{\code{"median"}: The reference is computed as the median of the samples matching the qc_label_input.}} The default is \code{"mean"}.}
 
 \item{ref_mean}{(numeric, NULL) A single sample to use as the reference for normalisation. If set to NULL then the reference will be computed based on the other input parameters (ref_mean, qc_label etc). . The default is \code{NULL}.}
 
@@ -40,9 +40,23 @@ A  \code{pqn_norm} object with the following \code{output} slots:
 PQN is used to normalise for differences in concentration between samples. It makes use of Quality Control (QC) samples as a reference. PQN scales by the median change relative to the reference in order to be more robust against changes caused by response to perturbation.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pmp}}}
 }
+\section{Inheritance}{
+
+A \code{pqn_norm} object inherits the following \code{struct} classes: \cr\cr
+\code{pqn_norm()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pqn_norm(
+      qc_label = "QC",
+      factor_name = "V1",
+      qc_frac = 0,
+      sample_frac = 0,
+      ref_mean = NULL,
+      ref_method = "mean")
+
 D = iris_DatasetExperiment()
 M = pqn_norm(factor_name='Species',qc_label='all')
 M = model_apply(M,D)
@@ -52,5 +66,5 @@ M = model_apply(M,D)
 Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
 and signal batch correction for metabolomics datasets}.
 doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
-package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
+package version 1.14.0, \url{https://bioconductor.org/packages/pmp}.
 }

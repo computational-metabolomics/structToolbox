@@ -13,11 +13,11 @@ knn_impute(
 )
 }
 \arguments{
-\item{neighbours}{(numeric) The number of neighbours (k) to use for imputation. The default is \code{5}.}
+\item{neighbours}{(numeric) The number of neighbours (k) to use for imputation. The default is \code{5}.\cr}
 
-\item{sample_max}{(numeric) The maximum percent missing values per sample. The default is \code{50}.}
+\item{sample_max}{(numeric) The maximum percent missing values per sample. The default is \code{50}.\cr}
 
-\item{feature_max}{(numeric) The maximum percent missing values per feature. The default is \code{50}.}
+\item{feature_max}{(numeric) The maximum percent missing values per feature. The default is \code{50}.\cr}
 
 \item{by}{(character) Impute using similar "samples" or "features". Default features. The default is \code{"features"}.}
 
@@ -33,14 +33,26 @@ A  \code{knn_impute} object with the following \code{output} slots:
 k-nearest neighbour missing value imputation replaces missing values in the data with the average of a predefined number of the most similar neighbours for which the value is present
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pmp}}}
 }
+\section{Inheritance}{
+
+A \code{knn_impute} object inherits the following \code{struct} classes: \cr\cr
+\code{knn_impute()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = knn_impute(
+      neighbours = 5,
+      feature_max = 50,
+      sample_max = 50,
+      by = "features")
+
 M = knn_impute()
 }
 \references{
 Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
 and signal batch correction for metabolomics datasets}.
 doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
-package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
+package version 1.14.0, \url{https://bioconductor.org/packages/pmp}.
 }

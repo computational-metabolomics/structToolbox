@@ -7,13 +7,13 @@
 HSD(alpha = 0.05, mtc = "fdr", formula, unbalanced = FALSE, ...)
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.\cr}
 
-\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{ \item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
 \item{formula}{(formula) A symbolic description of the model to be fitted.}
 
-\item{unbalanced}{(logical) Unbalanced model. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: A correction is applied for unbalanced designs.}\item{\code{"FALSE"}: No correction is applied for unbalanced designs.}} The default is \code{FALSE}.}
+\item{unbalanced}{(logical) Unbalanced model. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: A correction is applied for unbalanced designs.}\item{\code{"FALSE"}: No correction is applied for unbalanced designs.}} The default is \code{FALSE}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -31,15 +31,27 @@ A  \code{HSD} object with the following \code{output} slots:
 Tukey's HSD post hoc test is a modified t-test applied for all features to all pairs of levels in a factor. It is used to determine which groups are different (if any). A multiple test corrected p-value is computed to indicate which groups are significantly different to the others for each feature.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{agricolae}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{agricolae}}}
 }
+\section{Inheritance}{
+
+A \code{HSD} object inherits the following \code{struct} classes: \cr\cr
+\code{HSD()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = HSD(
+      alpha = 0.05,
+      mtc = "fdr",
+      formula = y ~ x,
+      unbalanced = FALSE)
+
 D = iris_DatasetExperiment()
 M = HSD(formula=y~Species)
 M = model_apply(M,D)
 }
 \references{
 de Mendiburu F (2023). \emph{agricolae: Statistical Procedures for
-Agricultural Research}. R package version 1.3-6,
+Agricultural Research}. R package version 1.3-7,
 \url{https://CRAN.R-project.org/package=agricolae}.
 }

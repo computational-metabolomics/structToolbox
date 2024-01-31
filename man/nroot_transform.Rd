@@ -7,7 +7,7 @@
 nroot_transform(root = 2, ...)
 }
 \arguments{
-\item{root}{(numeric) The nth root used for the transform. The default is \code{2}.}
+\item{root}{(numeric) The nth root used for the transform. The default is \code{2}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -20,6 +20,15 @@ A  \code{nroot_transform} object with the following \code{output} slots:
 \description{
 All values in the data matrix are transformed by raising them to the power of 1/n.
 }
+\section{Inheritance}{
+
+A \code{nroot_transform} object inherits the following \code{struct} classes: \cr\cr
+\code{nroot_transform()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = nroot_transform(
+      root = 2)
+
 M = nroot_transform()
 }

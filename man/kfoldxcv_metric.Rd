@@ -18,6 +18,14 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A boxplot of the performance metric computed for each fold of a k-fold cross-validation.
 }
+\section{Inheritance}{
+
+A \code{kfoldxcv_metric} object inherits the following \code{struct} classes: \cr\cr
+\code{kfoldxcv_metric()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = kfoldxcv_metric()
+
 C = kfoldxcv_metric()
 }

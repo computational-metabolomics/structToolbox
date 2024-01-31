@@ -7,7 +7,7 @@
 plsr_residual_hist(ycol = 1, ...)
 }
 \arguments{
-\item{ycol}{(numeric, integer, character) The y-block column to plot. The default is \code{1}.}
+\item{ycol}{(numeric, integer, character) The y-block column to plot. The default is \code{1}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -20,6 +20,15 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A histogram of the residuals for a PLSR model.
 }
+\section{Inheritance}{
+
+A \code{plsr_residual_hist} object inherits the following \code{struct} classes: \cr\cr
+\code{plsr_residual_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = plsr_residual_hist(
+      ycol = 1)
+
 C = plsr_residual_hist()
 }

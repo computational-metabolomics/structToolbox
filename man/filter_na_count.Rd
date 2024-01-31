@@ -25,7 +25,17 @@ A  \code{filter_na_count} object with the following \code{output} slots:
 \description{
 The number of measured values is counted for each feature, and any feature with less than a predefined minimum number of values in each group is removed. If there are several factors, then the threshold is applied so that the minimum number of samples is present for all combinations (interactions) of groups.
 }
+\section{Inheritance}{
+
+A \code{filter_na_count} object inherits the following \code{struct} classes: \cr\cr
+\code{filter_na_count()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = filter_na_count(
+      threshold = 2,
+      factor_name = "V1")
+
 D = MTBLS79_DatasetExperiment()
 M = filter_na_count(threshold=3,factor_name='Class')
 M = model_apply(M,D)

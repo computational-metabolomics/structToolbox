@@ -14,13 +14,13 @@ resample(
 )
 }
 \arguments{
-\item{number_of_iterations}{(numeric, integer) The number of training sets to generate. The default is \code{10}.}
+\item{number_of_iterations}{(numeric, integer) The number of training sets to generate. The default is \code{10}.\cr}
 
-\item{method}{(character) Resampling method. Allowed values are limited to the following: \itemize{\item{\code{"split_data"}: Samples for the training set are selected at random from the full dataset.}\item{\code{"stratified_split"}: Samples for the training set are randomly selected from each level of the chosen factor.}\item{\code{"equal_split"}: Samples for the training set are selected at random from each level of the main factor such that all group sizes are equal.}} The default is \code{"split_data"}.}
+\item{method}{(character) Resampling method. Allowed values are limited to the following: \itemize{ \item{\code{"split_data"}: Samples for the training set are selected at random from the full dataset.}\item{\code{"stratified_split"}: Samples for the training set are randomly selected from each level of the chosen factor.}\item{\code{"equal_split"}: Samples for the training set are selected at random from each level of the main factor such that all group sizes are equal.}} The default is \code{"split_data"}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{p_train}{(numeric) The proportion of samples selected for the training set. The default is \code{0.8}.}
+\item{p_train}{(numeric) The proportion of samples selected for the training set. The default is \code{0.8}.\cr}
 
 \item{collect}{(NULL, character) The name of a model output to collect over all bootstrap repetitions, in addition to the input metric. The default is \code{NULL}.}
 
@@ -40,7 +40,20 @@ A  \code{resample} object with the following \code{output} slots:
 \description{
 New training sets are generated from the original data by selecting samples at random. This can be based on levels in a factor or on the whole dataset.
 }
+\section{Inheritance}{
+
+A \code{resample} object inherits the following \code{struct} classes: \cr\cr
+\code{resample()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = resample(
+      number_of_iterations = 100,
+      method = "split_data",
+      factor_name = "V1",
+      p_train = 0.75,
+      collect = NULL)
+
 I = resample(
     number_of_iterations = 10, 
     factor_name = 'Species', 

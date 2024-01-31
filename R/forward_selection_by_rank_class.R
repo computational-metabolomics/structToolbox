@@ -21,7 +21,13 @@
 #' M = run(M,D,balanced_accuracy())
 #'
 #' @export forward_selection_by_rank
-forward_selection_by_rank = function(min_no_vars=1,max_no_vars=100,step_size=1,factor_name,variable_rank,...) {
+forward_selection_by_rank = function(
+        min_no_vars=1,
+        max_no_vars=100,
+        step_size=1,
+        factor_name,
+        variable_rank,
+        ...) {
     out=struct::new_struct('forward_selection_by_rank',
         min_no_vars=min_no_vars,
         max_no_vars=max_no_vars,
@@ -49,7 +55,7 @@ forward_selection_by_rank = function(min_no_vars=1,max_no_vars=100,step_size=1,f
         smoothed='entity',
         searchlist='entity'
     ),
-    prototype = list(variable_rank=c(1,2,3),
+    prototype = list(
         name = 'Forward selection by rank',
         description = paste0('A model is trained and performance metric ',
             'computed by including increasing numbers of features in the model. ',
@@ -57,13 +63,13 @@ forward_selection_by_rank = function(min_no_vars=1,max_no_vars=100,step_size=1,f
             'which is computed from another variable e.g. VIP score. An "optimal"', 
             'subset of features is suggested by minimising the input performance metric.'),
         result='results',
-        .params=c('min_no_vars','max_no_vars','step_size','factor_name'),
+        .params=c('min_no_vars','max_no_vars','step_size','factor_name','variable_rank'),
         .outputs=c('metric','results','chosen_vars','smoothed','searchlist'),
         variable_rank=entity(
             name = 'Variable rank',
             description = 'The values used to rank the features.',
             type=c('numeric','integer'),
-            value=numeric(0)
+            value=1
         ),
         min_no_vars = entity(
             name = 'Minimum number of variables',

@@ -9,7 +9,7 @@ DatasetExperiment_dist(factor_name, per_class = TRUE, ...)
 \arguments{
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{per_class}{(logical) Plot per class. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The distributions are plotted for each class.}\item{\code{"FALSE"}: The distribution is plotted for all samples.}} The default is \code{TRUE}.}
+\item{per_class}{(logical) Plot per class. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: The distributions are plotted for each class.}\item{\code{"FALSE"}: The distribution is plotted for all samples.}} The default is \code{TRUE}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -22,7 +22,17 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A histogram to visualise the distribution of values within features.
 }
+\section{Inheritance}{
+
+A \code{DatasetExperiment_dist} object inherits the following \code{struct} classes: \cr\cr
+\code{DatasetExperiment_dist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = DatasetExperiment_dist(
+      factor_name = "V1",
+      per_class = FALSE)
+
 D = MTBLS79_DatasetExperiment()
 C = DatasetExperiment_dist(factor_name='Class')
 chart_plot(C,D)

@@ -7,9 +7,9 @@
 kfold_xval(folds = 10, method = "venetian", factor_name, collect = NULL, ...)
 }
 \arguments{
-\item{folds}{(numeric, integer) The number of cross-validation folds. The default is \code{10}.}
+\item{folds}{(numeric, integer) The number of cross-validation folds. The default is \code{10}.\cr}
 
-\item{method}{(character) Fold selection method. Allowed values are limited to the following: \itemize{\item{\code{"venetian"}: Every nth sample is assigned to the same fold, where n is the number of folds.}\item{\code{"blocks"}: Blocks of adjacent samples are assigned to the same fold.}\item{\code{"random"}: Samples are randomly assigned to a fold.}} The default is \code{"venetian"}.}
+\item{method}{(character) Fold selection method. Allowed values are limited to the following: \itemize{ \item{\code{"venetian"}: Every nth sample is assigned to the same fold, where n is the number of folds.}\item{\code{"blocks"}: Blocks of adjacent samples are assigned to the same fold.}\item{\code{"random"}: Samples are randomly assigned to a fold.}} The default is \code{"venetian"}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
@@ -30,7 +30,19 @@ A  \code{kfold_xval} object with the following \code{output} slots:
 \description{
 k-fold cross-validation is an iterative approach applied to validate models. The samples are divided into k "folds", or subsets. Each subset is excluded from model training and used for model validation once, resulting in a single left-out prediction for each sample. Model performance metrics are then computed for the training and test sets across all folds.
 }
+\section{Inheritance}{
+
+A \code{kfold_xval} object inherits the following \code{struct} classes: \cr\cr
+\code{kfold_xval()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = kfold_xval(
+      folds = 5,
+      method = "random",
+      factor_name = "V1",
+      collect = NULL)
+
 D = iris_DatasetExperiment()
 I = kfold_xval(factor_name='Species') *
     (mean_centre() + PLSDA(factor_name='Species'))

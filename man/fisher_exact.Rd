@@ -7,9 +7,9 @@
 fisher_exact(alpha = 0.05, mtc = "fdr", factor_name, factor_pred, ...)
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.\cr}
 
-\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{ \item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
@@ -27,7 +27,19 @@ A  \code{fisher_exact} object with the following \code{output} slots:
 \description{
 A fisher exact test is used to analyse contingency tables by comparing the number of correctly/incorrectly predicted group labels. A multiple test corrected p-value indicates whether the number of measured values is significantly different between groups.
 }
+\section{Inheritance}{
+
+A \code{fisher_exact} object inherits the following \code{struct} classes: \cr\cr
+\code{fisher_exact()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = fisher_exact(
+      alpha = 0.05,
+      mtc = "fdr",
+      factor_name = "V1",
+      factor_pred = data.frame(id=NA))
+
 # load some data
 D=MTBLS79_DatasetExperiment()
 

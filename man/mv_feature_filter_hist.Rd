@@ -18,6 +18,14 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A histogram of the proportion of missing values per feature.
 }
+\section{Inheritance}{
+
+A \code{mv_feature_filter_hist} object inherits the following \code{struct} classes: \cr\cr
+\code{mv_feature_filter_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = mv_feature_filter_hist()
+
 C = mv_feature_filter_hist()
 }

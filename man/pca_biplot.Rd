@@ -17,15 +17,15 @@ pca_biplot(
 \arguments{
 \item{components}{(numeric) The principal components used to generate the plot. The default is \code{c(1, 2)}.}
 
-\item{points_to_label}{(character) points_to_label. Allowed values are limited to the following: \itemize{\item{\code{"none"}: No samples are labelled on the plot.}\item{\code{"all"}: All samples are labelled on the plot.}\item{\code{"outliers"}: Potential outliers are labelled on the plot.}} The default is \code{"none"}.}
+\item{points_to_label}{(character) points_to_label. Allowed values are limited to the following: \itemize{ \item{\code{"none"}: No samples are labelled on the plot.}\item{\code{"all"}: All samples are labelled on the plot.}\item{\code{"outliers"}: Potential outliers are labelled on the plot.}} The default is \code{"none"}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{scale_factor}{(numeric) The scaling factor applied to the loadings. The default is \code{0.95}.}
+\item{scale_factor}{(numeric) The scaling factor applied to the loadings. The default is \code{0.95}.\cr}
 
-\item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{\item{\code{"points"}: Loadings and scores are plotted as a scatter plot.}\item{\code{"arrows"}: The loadings are plotted as arrow vectors.}} The default is \code{"points"}.}
+\item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{ \item{\code{"points"}: Loadings and scores are plotted as a scatter plot.}\item{\code{"arrows"}: The loadings are plotted as arrow vectors.}} The default is \code{"points"}.}
 
-\item{label_features}{(logical) Add feature labels. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Features are labelled.}\item{\code{"FALSE"}: Features are not labelled.}} The default is \code{FALSE}.}
+\item{label_features}{(logical) Add feature labels. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: Features are labelled.}\item{\code{"FALSE"}: Features are not labelled.}} The default is \code{FALSE}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -38,6 +38,20 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A scatter plot of the selected principal component scores overlaid with the corresponding principal component loadings.
 }
+\section{Inheritance}{
+
+A \code{pca_biplot} object inherits the following \code{struct} classes: \cr\cr
+\code{pca_biplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pca_biplot(
+      components = c(1, 2),
+      points_to_label = "none",
+      factor_name = "V1",
+      scale_factor = 0.95,
+      style = "points",
+      label_features = FALSE)
+
 C = pca_biplot(factor_name='Species')
 }

@@ -18,15 +18,15 @@ SVM(
 \arguments{
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{kernel}{(character) Kernel type. Allowed values are limited to the following: \itemize{\item{\code{"linear"}: .}\item{\code{"polynomial"}: .}\item{\code{"radial"}: .}\item{\code{"sigmoid"}: .}} The default is \code{"linear"}.}
+\item{kernel}{(character) Kernel type. Allowed values are limited to the following: \itemize{ \item{\code{"linear"}: .}\item{\code{"polynomial"}: .}\item{\code{"radial"}: .}\item{\code{"sigmoid"}: .}} The default is \code{"linear"}.}
 
-\item{degree}{(numeric) The polynomial degree. The default is \code{3}.}
+\item{degree}{(numeric) The polynomial degree. The default is \code{3}.\cr}
 
-\item{gamma}{(numeric) The gamma parameter. The default is \code{1}.}
+\item{gamma}{(numeric) The gamma parameter. The default is \code{1}.\cr}
 
-\item{coef0}{(numeric) The offset coefficient. The default is \code{0}.}
+\item{coef0}{(numeric) The offset coefficient. The default is \code{0}.\cr}
 
-\item{cost}{(numeric) The cost of violating the constraints. The default is \code{1}.}
+\item{cost}{(numeric) The cost of violating the constraints. The default is \code{1}.\cr}
 
 \item{class_weights}{(numeric, character, NULL) A named vector of weights for the different classes.  Specifying
 "inverse" will choose the weights inversely proportional to the class distribution. The default is \code{NULL}.}
@@ -49,15 +49,30 @@ struct object
 Support Vector Machines (SVM) are a machine learning algorithm for classification. They can make use of kernel functions to generate highly non-linear boundaries between groups.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{e1071}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{e1071}}}
 }
+\section{Inheritance}{
+
+A \code{SVM} object inherits the following \code{struct} classes: \cr\cr
+\code{SVM()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = SVM(
+      factor_name = "V1",
+      kernel = "linear",
+      degree = 3,
+      gamma = 1,
+      coef0 = 0,
+      cost = 1,
+      class_weights = 1)
+
 M = SVM(factor_name='Species',gamma=1)
 }
 \references{
 Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2023).
 \emph{e1071: Misc Functions of the Department of Statistics, Probability
-Theory Group (Formerly: E1071), TU Wien}. R package version 1.7-13,
+Theory Group (Formerly: E1071), TU Wien}. R package version 1.7-14,
 \url{https://CRAN.R-project.org/package=e1071}.
 
 Brereton RG, Lloyd GR (2010). "Support Vector Machines for

@@ -7,9 +7,9 @@
 HSDEM(alpha = 0.05, mtc = "fdr", formula, ...)
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.\cr}
 
-\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{ \item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
 \item{formula}{(formula) A symbolic description of the model to be fitted.}
 
@@ -26,9 +26,20 @@ A  \code{HSDEM} object with the following \code{output} slots:
 Tukey's HSD post hoc test is a modified t-test applied for all features to all pairs of levels in a factor. It is used to determine which groups are different (if any). A multiple test corrected p-value is computed to indicate which groups are significantly different to the others for each feature. For mixed effects models estimated marginal means are used.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{emmeans}}\item{\code{nlme}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{emmeans}} \item{\code{nlme}}}
 }
+\section{Inheritance}{
+
+A \code{HSDEM} object inherits the following \code{struct} classes: \cr\cr
+\code{HSDEM()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = HSDEM(
+      alpha = 0.05,
+      mtc = "fdr",
+      formula = y ~ x)
+
 D = iris_DatasetExperiment()
 D$sample_meta$id=rownames(D) # dummy id column
 M = HSDEM(formula = y~Species+ Error(id/Species))
@@ -37,11 +48,11 @@ M = model_apply(M,D)
 }
 \references{
 Lenth R (2023). \emph{emmeans: Estimated Marginal Means, aka Least-Squares
-Means}. R package version 1.8.7,
+Means}. R package version 1.9.0,
 \url{https://CRAN.R-project.org/package=emmeans}.
 
 Pinheiro J, Bates D, R Core Team (2023). \emph{nlme: Linear and Nonlinear
-Mixed Effects Models}. R package version 3.1-162,
+Mixed Effects Models}. R package version 3.1-164,
 \url{https://CRAN.R-project.org/package=nlme}.
 
 Pinheiro JC, Bates DM (2000). \emph{Mixed-Effects Models in S and S-PLUS}.

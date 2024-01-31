@@ -7,7 +7,7 @@
 pls_regcoeff_plot(ycol = 1, ...)
 }
 \arguments{
-\item{ycol}{(character, numeric, integer) The Y column to plot. The default is \code{1}.}
+\item{ycol}{(character, numeric, integer) The Y column to plot. The default is \code{1}.\cr}
 
 \item{...}{additional slots and values passed to struct_class}
 }
@@ -25,9 +25,18 @@ Plots the regression coefficients of a PLSDA model.
 Plots the regression coefficient scores of a PLSDA model
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pls}}\item{\code{ggplot2}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pls}} \item{\code{ggplot2}}}
 }
+\section{Inheritance}{
+
+A \code{pls_regcoeff_plot} object inherits the following \code{struct} classes: \cr\cr
+\code{pls_regcoeff_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pls_regcoeff_plot(
+      ycol = 1)
+
 D = iris_DatasetExperiment()
 M = mean_centre()+PLSDA(factor_name='Species')
 M = model_apply(M,D)
@@ -37,7 +46,7 @@ chart_plot(C,M[2])
 }
 \references{
 Liland K, Mevik B, Wehrens R (2023). \emph{pls: Partial Least Squares and
-Principal Component Regression}. R package version 2.8-2,
+Principal Component Regression}. R package version 2.8-3,
 \url{https://CRAN.R-project.org/package=pls}.
 
 Wickham H (2016). \emph{ggplot2: Elegant Graphics for Data Analysis}.

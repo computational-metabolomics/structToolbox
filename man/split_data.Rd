@@ -21,7 +21,16 @@ A  \code{split_data} object with the following \code{output} slots:
 \description{
 The data matrix is divided into two subsets.A predefined proportion of the samples are randomly selected for a training set, and the remaining samples are used for the test set.
 }
+\section{Inheritance}{
+
+A \code{split_data} object inherits the following \code{struct} classes: \cr\cr
+\code{split_data()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = split_data(
+      p_train = 0.75)
+
 M = split_data(p_train=0.75)
 
 }

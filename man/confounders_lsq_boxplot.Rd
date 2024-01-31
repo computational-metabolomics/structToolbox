@@ -7,7 +7,7 @@
 confounders_lsq_boxplot(threshold = 10, ...)
 }
 \arguments{
-\item{threshold}{(numeric) A horizontal line is plotted to indicate the threshold. The default is \code{10}.}
+\item{threshold}{(numeric) A horizontal line is plotted to indicate the threshold. The default is \code{10}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -20,7 +20,16 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A boxplot of the relative change (delta) in regression coefficient when potential confounding factors are included, and excluded, from the model. Factors with a large delta are considered to be confounding factors.
 }
+\section{Inheritance}{
+
+A \code{confounders_lsq_boxplot} object inherits the following \code{struct} classes: \cr\cr
+\code{confounders_lsq_boxplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = confounders_lsq_boxplot(
+      threshold = 10)
+
 D = MTBLS79_DatasetExperiment()
 M = filter_by_name(mode='include',dimension='variable',
         names=colnames(D$data)[1:10]) + # first 10 features

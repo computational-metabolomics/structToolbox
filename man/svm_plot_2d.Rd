@@ -9,7 +9,7 @@ svm_plot_2d(factor_name, npoints = 100, ...)
 \arguments{
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{npoints}{(numeric) The number of grid points used to plot the boundary. The default is \code{100}.}
+\item{npoints}{(numeric) The number of grid points used to plot the boundary. The default is \code{100}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -23,9 +23,19 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 A scatter plot of the input data by group and the calculated boundary of a SVM model.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{e1071}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{e1071}}}
 }
+\section{Inheritance}{
+
+A \code{svm_plot_2d} object inherits the following \code{struct} classes: \cr\cr
+\code{svm_plot_2d()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = svm_plot_2d(
+      factor_name = "V1",
+      npoints = 100)
+
 D = iris_DatasetExperiment()
 M = filter_smeta(mode='exclude',levels='setosa',factor_name='Species') +
     mean_centre()+PCA(number_components=2)+
@@ -39,6 +49,6 @@ chart_plot(C,M[4],predicted(M[3]))
 \references{
 Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2023).
 \emph{e1071: Misc Functions of the Department of Statistics, Probability
-Theory Group (Formerly: E1071), TU Wien}. R package version 1.7-13,
+Theory Group (Formerly: E1071), TU Wien}. R package version 1.7-14,
 \url{https://CRAN.R-project.org/package=e1071}.
 }

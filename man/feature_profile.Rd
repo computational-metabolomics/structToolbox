@@ -25,7 +25,7 @@ feature_profile(
 
 \item{feature_to_plot}{(numeric, character, integer) The name or column id of the plotted feature.}
 
-\item{plot_sd}{(logical) Plot standard deviation. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Standard deviation of samples and QCs are included on the plot.}\item{\code{"FALSE"}: Standard deviation is not plotted.}} The default is \code{FALSE}.}
+\item{plot_sd}{(logical) Plot standard deviation. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: Standard deviation of samples and QCs are included on the plot.}\item{\code{"FALSE"}: Standard deviation is not plotted.}} The default is \code{FALSE}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -38,7 +38,21 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A plot visualising the change in intensity of a feature with a continuous variable such as time, dose, or run order.
 }
+\section{Inheritance}{
+
+A \code{feature_profile} object inherits the following \code{struct} classes: \cr\cr
+\code{feature_profile()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = feature_profile(
+      run_order = character(0),
+      qc_label = character(0),
+      qc_column = character(0),
+      colour_by = character(0),
+      feature_to_plot = numeric(0),
+      plot_sd = FALSE)
+
 D = MTBLS79_DatasetExperiment()
 C = feature_profile(run_order='run_order',
     qc_label='QC',

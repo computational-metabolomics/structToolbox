@@ -18,6 +18,14 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A histogram of the p-values computed by the kruskal-wallis method
 }
+\section{Inheritance}{
+
+A \code{kw_p_hist} object inherits the following \code{struct} classes: \cr\cr
+\code{kw_p_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = kw_p_hist()
+
 C = kw_p_hist()
 }

@@ -7,13 +7,13 @@
 corr_coef(alpha = 0.05, mtc = "fdr", factor_names, method = "spearman", ...)
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.\cr}
 
-\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{ \item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
 \item{factor_names}{(character) The name of sample meta column(s) to use.}
 
-\item{method}{(character) Type of correlation. Allowed values are limited to the following: \itemize{\item{\code{"kendall"}: Kendall's tau is computed.}\item{\code{"pearson"}: Pearson product moment correlation is computed.}\item{\code{"spearman"}: Spearman's rho statistic is computed.}} The default is \code{"spearman"}.}
+\item{method}{(character) Type of correlation. Allowed values are limited to the following: \itemize{ \item{\code{"kendall"}: Kendall's tau is computed.}\item{\code{"pearson"}: Pearson product moment correlation is computed.}\item{\code{"spearman"}: Spearman's rho statistic is computed.}} The default is \code{"spearman"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -29,9 +29,21 @@ A  \code{corr_coef} object with the following \code{output} slots:
 The correlation between features and a set of continuous factor are calculated. Multiple-test corrected p-values are used to indicate whether the computed coefficients may have occurred by chance.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{stats}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{stats}}}
 }
+\section{Inheritance}{
+
+A \code{corr_coef} object inherits the following \code{struct} classes: \cr\cr
+\code{corr_coef()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = corr_coef(
+      alpha = 0.05,
+      mtc = "fdr",
+      factor_names = "V1",
+      method = "spearman")
+
 D = MTBLS79_DatasetExperiment(filtered=TRUE)
 
 # subset for this example

@@ -17,7 +17,15 @@ AUC
 \description{
 The area under the ROC curve of a classifier is estimated using the trapezoid method.
 }
+\section{Inheritance}{
+
+A \code{AUC} object inherits the following \code{struct} classes: \cr\cr
+\code{AUC()} ⭢ \code{metric()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = AUC()
+
 D = iris_DatasetExperiment()
 XCV = kfold_xval(folds=5,factor_name='Species') *
       (mean_centre() + PLSDA(number_components=2,factor_name='Species'))

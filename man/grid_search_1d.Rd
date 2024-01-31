@@ -22,7 +22,7 @@ grid_search_1d(
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{max_min}{(character) Maximise or minimise. Allowed values are limited to the following: \itemize{\item{\code{"max"}: The optimium parameter value is suggested based on maximising the performance metric.}\item{\code{"min"}: The optimium parameter value is suggested based on minimising the performance metric.}} The default is \code{"min"}.}
+\item{max_min}{(character) Maximise or minimise. Allowed values are limited to the following: \itemize{ \item{\code{"max"}: The optimium parameter value is suggested based on maximising the performance metric.}\item{\code{"min"}: The optimium parameter value is suggested based on minimising the performance metric.}} The default is \code{"min"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -37,7 +37,20 @@ A  \code{grid_search_1d} object with the following \code{output} slots:
 \description{
 A one dimensional grid search calculates a performance metric for a model at evenly spaced values for a model input parameter. The "optimum" value for the parameter is suggested as the one which maximises performance, or minimises error (whichever is appropriate for the chosen metric)
 }
+\section{Inheritance}{
+
+A \code{grid_search_1d} object inherits the following \code{struct} classes: \cr\cr
+\code{grid_search_1d()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = grid_search_1d(
+      param_to_optimise = character(0),
+      search_values = numeric(0),
+      model_index = numeric(0),
+      factor_name = "V1",
+      max_min = "min")
+
 D = MTBLS79_DatasetExperiment()
 # some preprocessing
 M = pqn_norm(qc_label='QC',factor_name='Class') +

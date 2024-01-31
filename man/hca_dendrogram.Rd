@@ -19,9 +19,17 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 A dendrogram visualising the clustering by HCA.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{ggdendro}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{ggdendro}}}
 }
+\section{Inheritance}{
+
+A \code{hca_dendrogram} object inherits the following \code{struct} classes: \cr\cr
+\code{hca_dendrogram()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = hca_dendrogram()
+
 C = hca_dendrogram()
 }
 \references{

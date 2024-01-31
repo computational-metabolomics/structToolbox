@@ -13,11 +13,11 @@ mv_feature_filter(
 )
 }
 \arguments{
-\item{threshold}{(numeric) The minimum percentage of non-missing values. The default is \code{20}.}
+\item{threshold}{(numeric) The minimum percentage of non-missing values. The default is \code{20}.\cr}
 
 \item{qc_label}{(character) The label used to identify QC/group samples when using the "QC" (within a named group) filtering method. The default is \code{"QC"}.}
 
-\item{method}{(character) Filtering method. Allowed values are limited to the following: \itemize{\item{\code{"within_all"}: Features are removed if the threshold for non-missing values is not met for all groups.}\item{\code{"within_one"}: Features are removed if the threshold for non-missing values is not met for at least one group.}\item{\code{"QC"}: Features are removed if the threshold for non-missing values is not met for the named group.}\item{\code{"across"}: The filter is applied ignoring sample group.}} The default is \code{"QC"}.}
+\item{method}{(character) Filtering method. Allowed values are limited to the following: \itemize{ \item{\code{"within_all"}: Features are removed if the threshold for non-missing values is not met for all groups.}\item{\code{"within_one"}: Features are removed if the threshold for non-missing values is not met for any group.}\item{\code{"QC"}: Features are removed if the threshold for non-missing values is not met for the named group.}\item{\code{"across"}: The filter is applied ignoring sample group.}} The default is \code{"QC"}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
@@ -34,9 +34,21 @@ A  \code{mv_feature_filter} object with the following \code{output} slots:
 Removes features where the percentage of non-missing values falls below a threshold.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pmp}}}
 }
+\section{Inheritance}{
+
+A \code{mv_feature_filter} object inherits the following \code{struct} classes: \cr\cr
+\code{mv_feature_filter()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = mv_feature_filter(
+      threshold = 20,
+      qc_label = "QC",
+      method = "QC",
+      factor_name = "V1")
+
 D = iris_DatasetExperiment()
 M = mv_feature_filter(factor_name='Species',qc_label='versicolor')
 M = model_apply(M,D)
@@ -45,5 +57,5 @@ M = model_apply(M,D)
 Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
 and signal batch correction for metabolomics datasets}.
 doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
-package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
+package version 1.14.0, \url{https://bioconductor.org/packages/pmp}.
 }

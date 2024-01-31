@@ -16,19 +16,19 @@ tSNE(
 )
 }
 \arguments{
-\item{dims}{(numeric) The number of tSNE dimensions computed. The default is \code{2}.}
+\item{dims}{(numeric) The number of tSNE dimensions computed. The default is \code{2}.\cr}
 
-\item{perplexity}{(numeric) Perplexity parameter. The default is \code{30}.}
+\item{perplexity}{(numeric) Perplexity parameter. The default is \code{30}.\cr}
 
-\item{max_iter}{(numeric) The maximum number of tSNE iterations. The default is \code{100}.}
+\item{max_iter}{(numeric) The maximum number of tSNE iterations. The default is \code{100}.\cr}
 
-\item{theta}{(numeric) Speed/accuracy trade-off. A value of 0 gives an exact tSNE. The default is \code{0.5}.}
+\item{theta}{(numeric) Speed/accuracy trade-off. A value of 0 gives an exact tSNE. The default is \code{0.5}.\cr}
 
-\item{check_duplicates}{(logical) Check for duplicates. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: Checks for the presence of exact duplicate samples.}\item{\code{"FALSE"}: Does not check for exact duplicate samples.}} The default is \code{FALSE}.}
+\item{check_duplicates}{(logical) Check for duplicates. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: Checks for the presence of exact duplicate samples.}\item{\code{"FALSE"}: Does not check for exact duplicate samples.}} The default is \code{FALSE}.\cr}
 
 \item{init}{(NULL, data.frame, DatasetExperiment) A set of coordinates for initialising the tSNE algorithm. NULL uses random initialisation. The default is \code{NULL}.}
 
-\item{eta}{(numeric) The learning rate parameter. The default is \code{200}.}
+\item{eta}{(numeric) The learning rate parameter. The default is \code{200}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -42,20 +42,35 @@ A  \code{tSNE} object with the following \code{output} slots:
 t-Distributed Stochastic Neighbor Embedding.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{Rtsne}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{Rtsne}}}
 }
+\section{Inheritance}{
+
+A \code{tSNE} object inherits the following \code{struct} classes: \cr\cr
+\code{tSNE()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = tSNE(
+      dims = 2,
+      perplexity = 30,
+      max_iter = 1000,
+      theta = 0.5,
+      check_duplicates = FALSE,
+      init = NULL,
+      eta = 200)
+
 M = tSNE()
 
 }
 \references{
+Krijthe JH (2015). \emph{Rtsne: T-Distributed Stochastic Neighbor Embedding
+using Barnes-Hut Implementation}. R package version 0.17,
+\url{https://github.com/jkrijthe/Rtsne}.
+
 van der Maaten L, Hinton G (2008). "Visualizing High-Dimensional Data
 Using t-SNE." \emph{Journal of Machine Learning Research}, \emph{9}, 2579-2605.
 
 van der Maaten L (2014). "Accelerating t-SNE using Tree-Based
 Algorithms." \emph{Journal of Machine Learning Research}, \emph{15}, 3221-3245.
-
-Krijthe JH (2015). \emph{Rtsne: T-Distributed Stochastic Neighbor Embedding
-using Barnes-Hut Implementation}. R package version 0.16,
-\url{https://github.com/jkrijthe/Rtsne}.
 }

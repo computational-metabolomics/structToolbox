@@ -21,9 +21,18 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 A heatmap to visualise the measured values in a data matrix.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{reshape2}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{reshape2}}}
 }
+\section{Inheritance}{
+
+A \code{DatasetExperiment_heatmap} object inherits the following \code{struct} classes: \cr\cr
+\code{DatasetExperiment_heatmap()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = DatasetExperiment_heatmap(
+      na_colour = "#FF00E4")
+
 D = iris_DatasetExperiment()
 C = DatasetExperiment_heatmap()
 chart_plot(C,D)

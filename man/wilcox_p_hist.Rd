@@ -18,7 +18,15 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A histogram of p values for the wilcoxon signed rank test
 }
+\section{Inheritance}{
+
+A \code{wilcox_p_hist} object inherits the following \code{struct} classes: \cr\cr
+\code{wilcox_p_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = wilcox_p_hist()
+
 M = wilcox_p_hist()
 
 }

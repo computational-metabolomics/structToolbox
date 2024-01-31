@@ -18,6 +18,14 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A histogram of the PQN coefficients for all features
 }
+\section{Inheritance}{
+
+A \code{pqn_norm_hist} object inherits the following \code{struct} classes: \cr\cr
+\code{pqn_norm_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pqn_norm_hist()
+
 C = pqn_norm_hist()
 }

@@ -22,7 +22,17 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A graphic for visualising the true class and the predicted class of samples in all groups for all cross-validation folds.
 }
+\section{Inheritance}{
+
+A \code{kfoldxcv_grid} object inherits the following \code{struct} classes: \cr\cr
+\code{kfoldxcv_grid()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = kfoldxcv_grid(
+      factor_name = "V1",
+      level = "level_1")
+
 D = iris_DatasetExperiment()
 I = kfold_xval(factor_name='Species') *
     (mean_centre() + PLSDA(factor_name='Species'))

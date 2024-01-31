@@ -17,7 +17,15 @@ r_squared
 \description{
 R-squared is a metric used to assess the goodness of fit for regression models. It measures how much variance of one variable can be explained by another variable.
 }
+\section{Inheritance}{
+
+A \code{r_squared} object inherits the following \code{struct} classes: \cr\cr
+\code{r_squared()} ⭢ \code{metric()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = r_squared()
+
 MET = r_squared()
 
 }

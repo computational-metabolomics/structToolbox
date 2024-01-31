@@ -24,7 +24,18 @@ A  \code{filter_by_name} object with the following \code{output} slots:
 \description{
 Filter samples/variables by row/column name, index or logicals.
 }
+\section{Inheritance}{
+
+A \code{filter_by_name} object inherits the following \code{struct} classes: \cr\cr
+\code{filter_by_name()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = filter_by_name(
+      mode = "exclude",
+      dimension = "sample",
+      names = character(0))
+
 D = MTBLS79_DatasetExperiment()
 M = filter_by_name(mode='exclude',dimension='variable',names=c(1,2,3))
 M = model_apply(M,D)

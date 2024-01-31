@@ -7,9 +7,9 @@
 plsda_feature_importance_plot(n_features = 30, metric = "vip", ...)
 }
 \arguments{
-\item{n_features}{(numeric, integer) The number of features to include in the summary. The default is \code{30}.}
+\item{n_features}{(numeric, integer) The number of features to include in the summary. The default is \code{30}.\cr}
 
-\item{metric}{(character) Metric to plot. Allowed values are limited to the following: \itemize{\item{\code{"sr"}: Plot Selectivity Ratio.}\item{\code{"sr_pvalue"}: Plot SR p-values.}\item{\code{"vip"}: Plot Variable Importance in Projection scores.}} The default is \code{"vip"}.}
+\item{metric}{(character) Metric to plot. Allowed values are limited to the following: \itemize{ \item{\code{"sr"}: Plot Selectivity Ratio.}\item{\code{"sr_pvalue"}: Plot SR p-values.}\item{\code{"vip"}: Plot Variable Importance in Projection scores.}} The default is \code{"vip"}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -23,9 +23,19 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 A plot of the selected feature significance metric for a PLSDA model for the top selected features.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pls}}\item{\code{ggplot2}}\item{\code{reshape2}}\item{\code{cowplot}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pls}} \item{\code{ggplot2}} \item{\code{reshape2}} \item{\code{cowplot}}}
 }
+\section{Inheritance}{
+
+A \code{plsda_feature_importance_plot} object inherits the following \code{struct} classes: \cr\cr
+\code{plsda_feature_importance_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = plsda_feature_importance_plot(
+      n_features = 50,
+      metric = "vip")
+
 D = iris_DatasetExperiment()
 M = mean_centre()+PLSDA(factor_name='Species')
 M = model_apply(M,D)
@@ -35,7 +45,7 @@ chart_plot(C,M[2])
 }
 \references{
 Liland K, Mevik B, Wehrens R (2023). \emph{pls: Partial Least Squares and
-Principal Component Regression}. R package version 2.8-2,
+Principal Component Regression}. R package version 2.8-3,
 \url{https://CRAN.R-project.org/package=pls}.
 
 Wickham H (2016). \emph{ggplot2: Elegant Graphics for Data Analysis}.
@@ -46,7 +56,7 @@ Wickham H (2007). "Reshaping Data with the reshape Package." \emph{Journal
 of Statistical Software}, \emph{21}(12), 1-20.
 \url{http://www.jstatsoft.org/v21/i12/}.
 
-Wilke C (2020). \emph{cowplot: Streamlined Plot Theme and Plot Annotations
-for 'ggplot2'}. R package version 1.1.1,
+Wilke C (2023). \emph{cowplot: Streamlined Plot Theme and Plot Annotations
+for 'ggplot2'}. R package version 1.1.2,
 \url{https://CRAN.R-project.org/package=cowplot}.
 }

@@ -9,9 +9,9 @@ linear_model(formula, na_action = "na.omit", contrasts = list(), ...)
 \arguments{
 \item{formula}{(formula) A symbolic description of the model to be fitted.}
 
-\item{na_action}{(character) NA action. Allowed values are limited to the following: \itemize{\item{\code{"na.omit"}: Incomplete cases are removed.}\item{\code{"na.fail"}: An error is thrown if NA are present.}\item{\code{"na.exclude"}: Incomplete cases are removed, and the output result is padded to the correct size using NA.}\item{\code{"na.pass"}: Does not apply a linear model if NA are present.}} The default is \code{"na.omit"}.}
+\item{na_action}{(character) NA action. Allowed values are limited to the following: \itemize{ \item{\code{"na.omit"}: Incomplete cases are removed.}\item{\code{"na.fail"}: An error is thrown if NA are present.}\item{\code{"na.exclude"}: Incomplete cases are removed, and the output result is padded to the correct size using NA.}\item{\code{"na.pass"}: Does not apply a linear model if NA are present.}} The default is \code{"na.omit"}.}
 
-\item{contrasts}{(list) The contrasts associated with a factor. The default is \code{list}.}
+\item{contrasts}{(list) The contrasts associated with a factor. The default is \code{list()}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -31,9 +31,20 @@ A  \code{linear_model} object with the following \code{output} slots:
 Linear models can be used to carry out regression, single stratum analysis of variance and analysis of covariance.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{stats}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{stats}}}
 }
+\section{Inheritance}{
+
+A \code{linear_model} object inherits the following \code{struct} classes: \cr\cr
+\code{linear_model()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = linear_model(
+      formula = y ~ x,
+      na_action = "na.omit",
+      contrasts = list())
+
 D = iris_DatasetExperiment()
 M = linear_model(formula = y~Species)
 

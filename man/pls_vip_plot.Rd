@@ -7,9 +7,9 @@
 pls_vip_plot(threshold = 1, ycol = 1, ...)
 }
 \arguments{
-\item{threshold}{(numeric, integer) The threshold for indicating significant features. The default is \code{1}.}
+\item{threshold}{(numeric, integer) The threshold for indicating significant features. The default is \code{1}.\cr}
 
-\item{ycol}{(character, numeric, integer) The column of the Y block to be plotted. The default is \code{1}.}
+\item{ycol}{(character, numeric, integer) The column of the Y block to be plotted. The default is \code{1}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -23,9 +23,19 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 A plot of the Variable Importance for Projection (VIP) scores for a PLSDA model.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pls}}\item{\code{ggplot2}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pls}} \item{\code{ggplot2}}}
 }
+\section{Inheritance}{
+
+A \code{pls_vip_plot} object inherits the following \code{struct} classes: \cr\cr
+\code{pls_vip_plot()} ⭢ \code{chart()} ⭢ \code{stato()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pls_vip_plot(
+      threshold = 1,
+      ycol = 1)
+
 D = iris_DatasetExperiment()
 M = mean_centre()+PLSDA(factor_name='Species')
 M = model_apply(M,D)
@@ -35,7 +45,7 @@ chart_plot(C,M[2])
 }
 \references{
 Liland K, Mevik B, Wehrens R (2023). \emph{pls: Partial Least Squares and
-Principal Component Regression}. R package version 2.8-2,
+Principal Component Regression}. R package version 2.8-3,
 \url{https://CRAN.R-project.org/package=pls}.
 
 Wickham H (2016). \emph{ggplot2: Elegant Graphics for Data Analysis}.

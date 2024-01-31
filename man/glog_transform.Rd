@@ -26,9 +26,20 @@ A  \code{glog_transform} object with the following \code{output} slots:
 The generalised logarithm (glog) transformation applies a log transformation while applying an offset to account for technical variation.
 }
 \details{
-This object makes use of functionality from the following packages:\itemize{\item{\code{pmp}}}
+This object makes use of functionality from the following packages:\itemize{  \item{\code{pmp}}}
 }
+\section{Inheritance}{
+
+A \code{glog_transform} object inherits the following \code{struct} classes: \cr\cr
+\code{glog_transform()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = glog_transform(
+      qc_label = "QC",
+      factor_name = "V1",
+      lambda = NULL)
+
 D = iris_DatasetExperiment()
 M = glog_transform(qc_label='versicolor',factor_name='Species')
 M = model_apply(M,D)
@@ -37,7 +48,7 @@ M = model_apply(M,D)
 Jankevics A, Lloyd GR, Weber RJM (2023). \emph{pmp: Peak Matrix Processing
 and signal batch correction for metabolomics datasets}.
 doi:10.18129/B9.bioc.pmp \url{https://doi.org/10.18129/B9.bioc.pmp}, R
-package version 1.12.0, \url{https://bioconductor.org/packages/pmp}.
+package version 1.14.0, \url{https://bioconductor.org/packages/pmp}.
 
 Durbin B, Hardin J, Hawkins D, Rocke D (2002). "A variance-stabilizing
 transformation for gene-expression microarray data." \emph{Bioinformatics},

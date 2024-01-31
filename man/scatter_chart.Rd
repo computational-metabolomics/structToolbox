@@ -19,25 +19,25 @@ scatter_chart(
 )
 }
 \arguments{
-\item{xcol}{(numeric, integer, character) The column name, or index, of data to plot on the x-axis. The default is \code{1}.}
+\item{xcol}{(numeric, integer, character) The column name, or index, of data to plot on the x-axis. The default is \code{1}.\cr}
 
-\item{ycol}{(numeric, integer, character) The column name, or index, of data to plot on the y-axis. The default is \code{2}.}
+\item{ycol}{(numeric, integer, character) The column name, or index, of data to plot on the y-axis. The default is \code{2}.\cr}
 
-\item{points_to_label}{(character) Points to label. Allowed values are limited to the following: \itemize{\item{\code{"none"}: No samples labels are displayed.}\item{\code{"all"}: The labels for all samples are displayed.}\item{\code{"outliers"}: Labels for for potential outlier samples are displayed.}} The default is \code{"none"}.}
+\item{points_to_label}{(character) Points to label. Allowed values are limited to the following: \itemize{ \item{\code{"none"}: No samples labels are displayed.}\item{\code{"all"}: The labels for all samples are displayed.}\item{\code{"outliers"}: Labels for for potential outlier samples are displayed.}} The default is \code{"none"}.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use. The default is \code{"none"}.}
 
-\item{ellipse}{(character) Plot ellipses. Allowed values are limited to the following: \itemize{\item{\code{"all"}: Ellipses are plotted for all groups and all samples.}\item{\code{"group"}: Ellipses are plotted for all groups.}\item{\code{"none"}: Ellipses are not included on the plot.}\item{\code{"sample"}: An ellipse is plotted for all samples (ignoring group).}} The default is \code{"all"}.}
+\item{ellipse}{(character) Plot ellipses. Allowed values are limited to the following: \itemize{ \item{\code{"all"}: Ellipses are plotted for all groups and all samples.}\item{\code{"group"}: Ellipses are plotted for all groups.}\item{\code{"none"}: Ellipses are not included on the plot.}\item{\code{"sample"}: An ellipse is plotted for all samples (ignoring group).}} The default is \code{"all"}.}
 
-\item{ellipse_type}{(character) Type of ellipse. Allowed values are limited to the following: \itemize{\item{\code{"norm"}: Multivariate normal (p = 0.95).}\item{\code{"t"}: Multivariate t (p = 0.95).}} The default is \code{"norm"}.}
+\item{ellipse_type}{(character) Type of ellipse. Allowed values are limited to the following: \itemize{ \item{\code{"norm"}: Multivariate normal (p = 0.95).}\item{\code{"t"}: Multivariate t (p = 0.95).}} The default is \code{"norm"}.}
 
-\item{ellipse_confidence}{(numeric) The confidence level for plotting ellipses. The default is \code{0.95}.}
+\item{ellipse_confidence}{(numeric) The confidence level for plotting ellipses. The default is \code{0.95}.\cr}
 
 \item{label_filter}{(character) Labels are only plotted for the named groups. If zero-length then all groups are included. The default is \code{character(0)}.}
 
 \item{label_factor}{(character) The column name of sample_meta to use for labelling samples on the plot. "rownames" will use the row names from sample_meta. The default is \code{"rownames"}.}
 
-\item{label_size}{(numeric) The text size of labels. Note this is not in Font Units. The default is \code{3.88}.}
+\item{label_size}{(numeric) The text size of labels. Note this is not in Font Units. The default is \code{3.88}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -50,7 +50,25 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 Plots a 2d scatter plot of the input data.
 }
+\section{Inheritance}{
+
+A \code{scatter_chart} object inherits the following \code{struct} classes: \cr\cr
+\code{scatter_chart()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = scatter_chart(
+      xcol = 1,
+      ycol = 2,
+      points_to_label = "none",
+      factor_name = "V1",
+      ellipse = "all",
+      label_filter = character(0),
+      label_factor = "rownames",
+      label_size = 3.88,
+      ellipse_type = "norm",
+      ellipse_confidence = 0.95)
+
 D = iris_DatasetExperiment()
 C = scatter_chart(
         xcol = 'Petal.Width',

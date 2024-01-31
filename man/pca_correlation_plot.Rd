@@ -20,6 +20,15 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A plot of the correlation between the variables/features and the selected principal component scores. Features with high correlation are well represented by the selected component(s)
 }
+\section{Inheritance}{
+
+A \code{pca_correlation_plot} object inherits the following \code{struct} classes: \cr\cr
+\code{pca_correlation_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = pca_correlation_plot(
+      components = c(1, 2))
+
 C = pca_correlation_plot()
 }

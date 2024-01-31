@@ -16,19 +16,19 @@ feature_boxplot(
 )
 }
 \arguments{
-\item{label_outliers}{(logical) Label outliers. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The index for outlier samples is included on the plot.}\item{\code{"FALSE"}: No labels are displayed.}} The default is \code{TRUE}.}
+\item{label_outliers}{(logical) Label outliers. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: The index for outlier samples is included on the plot.}\item{\code{"FALSE"}: No labels are displayed.}} The default is \code{TRUE}.\cr}
 
 \item{feature_to_plot}{(character, numeric, integer) The column name of the plotted feature.}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
-\item{show_counts}{(logical) Show counts. Allowed values are limited to the following: \itemize{\item{\code{"TRUE"}: The number of samples for each box is displayed.}\item{\code{"FALSE"}: The number of samples for each box is not displayed.}} The default is \code{TRUE}.}
+\item{show_counts}{(logical) Show counts. Allowed values are limited to the following: \itemize{ \item{\code{"TRUE"}: The number of samples for each box is displayed.}\item{\code{"FALSE"}: The number of samples for each box is not displayed.}} The default is \code{TRUE}.\cr}
 
-\item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{\item{\code{"boxplot"}: Boxplot style.}\item{\code{"violin"}: Violon plot style.}} The default is \code{"boxplot"}.}
+\item{style}{(character) Plot style. Allowed values are limited to the following: \itemize{ \item{\code{"boxplot"}: Boxplot style.}\item{\code{"violin"}: Violon plot style.}} The default is \code{"boxplot"}.}
 
-\item{jitter}{(logical) Include points plotted with added jitter. The default is \code{FALSE}.}
+\item{jitter}{(logical) Include points plotted with added jitter. The default is \code{FALSE}.\cr}
 
-\item{fill}{(logical) Block fill the boxes or violins with the group colour. The default is \code{FALSE}.}
+\item{fill}{(logical) Block fill the boxes or violins with the group colour. The default is \code{FALSE}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -41,7 +41,22 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A boxplot to visualise the distribution of values within a feature.
 }
+\section{Inheritance}{
+
+A \code{feature_boxplot} object inherits the following \code{struct} classes: \cr\cr
+\code{feature_boxplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = feature_boxplot(
+      label_outliers = FALSE,
+      feature_to_plot = "V1",
+      factor_name = "V1",
+      show_counts = FALSE,
+      style = "boxplot",
+      jitter = FALSE,
+      fill = FALSE)
+
 D = MTBLS79_DatasetExperiment
 C = feature_boxplot(factor_name='Species',feature_to_plot='Petal.Width')
 chart_plot(C,D)

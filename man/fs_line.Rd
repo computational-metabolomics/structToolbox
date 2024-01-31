@@ -18,7 +18,15 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A line plot for forward selection. The computed model performance metric is plotted against the number of features included in the model.
 }
+\section{Inheritance}{
+
+A \code{fs_line} object inherits the following \code{struct} classes: \cr\cr
+\code{fs_line()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = fs_line()
+
 # some data
 D = MTBLS79_DatasetExperiment(filtered=TRUE)
 

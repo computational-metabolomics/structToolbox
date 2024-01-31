@@ -14,15 +14,15 @@ confounders_clsq(
 )
 }
 \arguments{
-\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.}
+\item{alpha}{(numeric) The p-value cutoff for determining significance. The default is \code{0.05}.\cr}
 
-\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{\item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
+\item{mtc}{(character) Multiple test correction method. Allowed values are limited to the following: \itemize{ \item{\code{"bonferroni"}: Bonferroni correction in which the p-values are multiplied by the number of comparisons.}\item{\code{"fdr"}: Benjamini and Hochberg False Discovery Rate correction.}\item{\code{"none"}: No correction.}} The default is \code{"fdr"}.}
 
 \item{factor_name}{(character) The name of the main factor with which other factors may be confounding.}
 
 \item{confounding_factors}{(character) The name(s) of factor(s) that are potential confounding factors.}
 
-\item{threshold}{(numeric) Factors with a delta greater than the the threshold are considered to be confounding. The default is \code{0.15}.}
+\item{threshold}{(numeric) Factors with a delta greater than the the threshold are considered to be confounding. The default is \code{0.15}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -39,7 +39,20 @@ A  \code{confounders_clsq} object with the following \code{output} slots:
 \description{
 Univariate least squares regression models are used to compare models with and without potential confounding factors included. The change in coefficients (delta) is then computed for each potential confounding factor. Factors with a large delta are said to be having a large impact on the model and are therefore confounding. p-values are computed for models with confounders included to reduce potential false positives. Only suitable for main factors with 2 levels.
 }
+\section{Inheritance}{
+
+A \code{confounders_clsq} object inherits the following \code{struct} classes: \cr\cr
+\code{confounders_clsq()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = confounders_clsq(
+      alpha = 0.05,
+      mtc = "fdr",
+      factor_name = character(0),
+      confounding_factors = character(0),
+      threshold = 0.15)
+
 D = MTBLS79_DatasetExperiment()
 M = filter_by_name(mode='include',dimension='variable',
         names=colnames(D$data)[1:10]) + # first 10 features

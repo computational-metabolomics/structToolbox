@@ -7,7 +7,7 @@
 permutation_test(number_of_permutations = 50, factor_name, ...)
 }
 \arguments{
-\item{number_of_permutations}{(numeric, integer) The number of permutations. The default is \code{50}.}
+\item{number_of_permutations}{(numeric, integer) The number of permutations. The default is \code{50}.\cr}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
@@ -24,6 +24,16 @@ A  \code{permutation_test} object with the following \code{output} slots:
 \description{
 A permutation test generates a "null" model by randomising the response (for regression models) or group labels (for classification models). This is repeated many times to generate a distribution of performance metrics for the null model. This distribution can then be compared to the performance of the true model. If there is overlap between the true and null model performances then the model is overfitted.
 }
+\section{Inheritance}{
+
+A \code{permutation_test} object inherits the following \code{struct} classes: \cr\cr
+\code{permutation_test()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = permutation_test(
+      number_of_permutations = 100,
+      factor_name = "V1")
+
 I=permutation_test(factor_name='Species')
 }

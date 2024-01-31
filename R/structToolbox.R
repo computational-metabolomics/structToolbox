@@ -7,5 +7,6 @@
 #' @import struct
 #' @import methods
 #' @import stats
+#' @import utils
 NULL
 ## NULL

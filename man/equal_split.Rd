@@ -7,7 +7,7 @@
 equal_split(p_train = 1, factor_name, ...)
 }
 \arguments{
-\item{p_train}{(numeric) The proportion of samples selected for the training set. The default is \code{1}.}
+\item{p_train}{(numeric) The proportion of samples selected for the training set. The default is \code{1}.\cr}
 
 \item{factor_name}{(character) The name of a sample-meta column to use.}
 
@@ -23,7 +23,17 @@ A  \code{equal_split} object with the following \code{output} slots:
 \description{
 Samples are randomly chosen from each level such that the training set has equal numbers of samples for all levels. The number of samples is based on the input proportion and the smallest group size.
 }
+\section{Inheritance}{
+
+A \code{equal_split} object inherits the following \code{struct} classes: \cr\cr
+\code{equal_split()} ⭢ \code{split_data()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = equal_split(
+      factor_name = "V1",
+      p_train = 0.75)
+
 D = iris_DatasetExperiment()
 M = equal_split(factor_name='Species')
 M = model_apply(M,D)

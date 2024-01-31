@@ -18,6 +18,14 @@ See \code{\link[struct]{chart_plot}} in the \code{struct} package to plot this c
 \description{
 A histogram of the calculated fold changes for the blank filter (median samples divided by median blanks)
 }
+\section{Inheritance}{
+
+A \code{blank_filter_hist} object inherits the following \code{struct} classes: \cr\cr
+\code{blank_filter_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = blank_filter_hist()
+
 C = blank_filter_hist()
 }

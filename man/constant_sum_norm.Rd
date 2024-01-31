@@ -7,7 +7,7 @@
 constant_sum_norm(scaling_factor = 1, ...)
 }
 \arguments{
-\item{scaling_factor}{(numeric) The scaling factor applied after normalisation. The default is \code{1}.}
+\item{scaling_factor}{(numeric) The scaling factor applied after normalisation. The default is \code{1}.\cr}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
@@ -21,7 +21,16 @@ A  \code{constant_sum_norm} object with the following \code{output} slots:
 \description{
 Each sample is normalised such that the total signal is equal to one (or a scaling factor if specified).
 }
+\section{Inheritance}{
+
+A \code{constant_sum_norm} object inherits the following \code{struct} classes: \cr\cr
+\code{constant_sum_norm()} ⭢ \code{model()} ⭢ \code{struct_class()}
+}
+
 \examples{
+M = constant_sum_norm(
+      scaling_factor = 1)
+
 M = constant_sum_norm()
 
 }
