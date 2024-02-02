@@ -36,7 +36,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{HSD} object inherits the following \code{struct} classes: \cr\cr
-\code{HSD()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[HSD]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

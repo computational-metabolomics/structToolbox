@@ -25,7 +25,7 @@ A histogram to visualise the distribution of values within features.
 \section{Inheritance}{
 
 A \code{DatasetExperiment_dist} object inherits the following \code{struct} classes: \cr\cr
-\code{DatasetExperiment_dist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[DatasetExperiment_dist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

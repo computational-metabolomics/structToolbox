@@ -36,7 +36,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{linear_model} object inherits the following \code{struct} classes: \cr\cr
-\code{linear_model()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[linear_model]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

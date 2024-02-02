@@ -25,7 +25,7 @@ The mean sample is subtracted from all samples in the data matrix. The features 
 \section{Inheritance}{
 
 A \code{mean_centre} object inherits the following \code{struct} classes: \cr\cr
-\code{mean_centre()} ⭢ \code{preprocess()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[mean_centre]} >> \verb{[preprocess]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

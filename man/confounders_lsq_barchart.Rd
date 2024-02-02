@@ -25,7 +25,7 @@ A barchart of the relative change (delta) in regression coefficient when potenti
 \section{Inheritance}{
 
 A \code{confounders_lsq_barchart} object inherits the following \code{struct} classes: \cr\cr
-\code{confounders_lsq_barchart()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[confounders_lsq_barchart]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

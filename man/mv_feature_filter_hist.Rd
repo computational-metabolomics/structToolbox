@@ -21,7 +21,7 @@ A histogram of the proportion of missing values per feature.
 \section{Inheritance}{
 
 A \code{mv_feature_filter_hist} object inherits the following \code{struct} classes: \cr\cr
-\code{mv_feature_filter_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[mv_feature_filter_hist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

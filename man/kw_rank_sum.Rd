@@ -31,7 +31,7 @@ The Kruskal-Wallis test is a univariate hypothesis testing method that allows mu
 \section{Inheritance}{
 
 A \code{kw_rank_sum} object inherits the following \code{struct} classes: \cr\cr
-\code{kw_rank_sum()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[kw_rank_sum]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -32,7 +32,7 @@ A barchart (one component) or scatter plot (two components) of the selected prin
 \section{Inheritance}{
 
 A \code{pca_loadings_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{pca_loadings_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[pca_loadings_plot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -26,7 +26,7 @@ Samples are randomly chosen from each level such that the training set has equal
 \section{Inheritance}{
 
 A \code{equal_split} object inherits the following \code{struct} classes: \cr\cr
-\code{equal_split()} ⭢ \code{split_data()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[equal_split]} >> \verb{[split_data]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -23,7 +23,7 @@ A boxplot of the relative change (delta) in regression coefficient when potentia
 \section{Inheritance}{
 
 A \code{confounders_lsq_boxplot} object inherits the following \code{struct} classes: \cr\cr
-\code{confounders_lsq_boxplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[confounders_lsq_boxplot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -40,7 +40,7 @@ A one dimensional grid search calculates a performance metric for a model at eve
 \section{Inheritance}{
 
 A \code{grid_search_1d} object inherits the following \code{struct} classes: \cr\cr
-\code{grid_search_1d()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+\verb{[grid_search_1d]} >> \verb{[resampler]} >> \verb{[iterator]} >> \verb{[struct_class]}
 }
 
 \examples{

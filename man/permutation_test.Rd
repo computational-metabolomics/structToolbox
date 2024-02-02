@@ -27,7 +27,7 @@ A permutation test generates a "null" model by randomising the response (for reg
 \section{Inheritance}{
 
 A \code{permutation_test} object inherits the following \code{struct} classes: \cr\cr
-\code{permutation_test()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+\verb{[permutation_test]} >> \verb{[resampler]} >> \verb{[iterator]} >> \verb{[struct_class]}
 }
 
 \examples{

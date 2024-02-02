@@ -41,7 +41,7 @@ A plot visualising the change in intensity of a feature with a continuous variab
 \section{Inheritance}{
 
 A \code{feature_profile} object inherits the following \code{struct} classes: \cr\cr
-\code{feature_profile()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[feature_profile]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

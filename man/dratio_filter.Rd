@@ -40,7 +40,7 @@ The dispersion ratio (d-ratio) compares the standard deviation (or non-parametri
 \section{Inheritance}{
 
 A \code{dratio_filter} object inherits the following \code{struct} classes: \cr\cr
-\code{dratio_filter()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[dratio_filter]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

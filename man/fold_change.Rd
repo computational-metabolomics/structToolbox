@@ -47,7 +47,7 @@ Fold change is the relative change in mean (or non-parametric equivalent) intens
 \section{Inheritance}{
 
 A \code{fold_change} object inherits the following \code{struct} classes: \cr\cr
-\code{fold_change()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[fold_change]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

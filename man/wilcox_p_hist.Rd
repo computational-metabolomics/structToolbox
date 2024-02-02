@@ -21,7 +21,7 @@ A histogram of p values for the wilcoxon signed rank test
 \section{Inheritance}{
 
 A \code{wilcox_p_hist} object inherits the following \code{struct} classes: \cr\cr
-\code{wilcox_p_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[wilcox_p_hist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -27,7 +27,7 @@ In bootstrap resampling a subset of samples is selected at random with replaceme
 \section{Inheritance}{
 
 A \code{bootstrap} object inherits the following \code{struct} classes: \cr\cr
-\code{bootstrap()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+\verb{[bootstrap]} >> \verb{[resampler]} >> \verb{[iterator]} >> \verb{[struct_class]}
 }
 
 \examples{

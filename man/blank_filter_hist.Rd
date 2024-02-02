@@ -21,7 +21,7 @@ A histogram of the calculated fold changes for the blank filter (median samples 
 \section{Inheritance}{
 
 A \code{blank_filter_hist} object inherits the following \code{struct} classes: \cr\cr
-\code{blank_filter_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[blank_filter_hist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

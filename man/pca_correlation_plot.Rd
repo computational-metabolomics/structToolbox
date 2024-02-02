@@ -23,7 +23,7 @@ A plot of the correlation between the variables/features and the selected princi
 \section{Inheritance}{
 
 A \code{pca_correlation_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{pca_correlation_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[pca_correlation_plot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

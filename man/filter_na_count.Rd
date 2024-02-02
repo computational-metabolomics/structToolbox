@@ -28,7 +28,7 @@ The number of measured values is counted for each feature, and any feature with 
 \section{Inheritance}{
 
 A \code{filter_na_count} object inherits the following \code{struct} classes: \cr\cr
-\code{filter_na_count()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[filter_na_count]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -49,7 +49,7 @@ A t-test compares the means of two factor levels. Multiple-test corrected p-valu
 \section{Inheritance}{
 
 A \code{ttest} object inherits the following \code{struct} classes: \cr\cr
-\code{ttest()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[ttest]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

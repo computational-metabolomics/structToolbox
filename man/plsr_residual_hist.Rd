@@ -23,7 +23,7 @@ A histogram of the residuals for a PLSR model.
 \section{Inheritance}{
 
 A \code{plsr_residual_hist} object inherits the following \code{struct} classes: \cr\cr
-\code{plsr_residual_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[plsr_residual_hist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

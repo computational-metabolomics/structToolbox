@@ -25,7 +25,7 @@ A logarithmic transform is applied to all values in the data matrix.
 \section{Inheritance}{
 
 A \code{log_transform} object inherits the following \code{struct} classes: \cr\cr
-\code{log_transform()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[log_transform]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

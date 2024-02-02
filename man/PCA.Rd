@@ -28,7 +28,7 @@ PCA is a multivariate data reduction technique. It summarises the data in a smal
 \section{Inheritance}{
 
 A \code{PCA} object inherits the following \code{struct} classes: \cr\cr
-\code{PCA()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[PCA]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

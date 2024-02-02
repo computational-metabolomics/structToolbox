@@ -21,7 +21,7 @@ A plot of the calculated performance metric against the model input parameter va
 \section{Inheritance}{
 
 A \code{gs_line} object inherits the following \code{struct} classes: \cr\cr
-\code{gs_line()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[gs_line]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

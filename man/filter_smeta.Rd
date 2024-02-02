@@ -27,7 +27,7 @@ The data is filtered by so that the named levels of a factor are included/exclud
 \section{Inheritance}{
 
 A \code{filter_smeta} object inherits the following \code{struct} classes: \cr\cr
-\code{filter_smeta()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[filter_smeta]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -27,7 +27,7 @@ A scatter plot of Total Ion Count (sum of each sample) versus run order.
 \section{Inheritance}{
 
 A \code{tic_chart} object inherits the following \code{struct} classes: \cr\cr
-\code{tic_chart()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[tic_chart]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -30,7 +30,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{plsda_predicted_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{plsda_predicted_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[plsda_predicted_plot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

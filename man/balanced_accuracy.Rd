@@ -20,7 +20,7 @@ Balanced Accuracy is the average proportion of correctly classified samples acro
 \section{Inheritance}{
 
 A \code{balanced_accuracy} object inherits the following \code{struct} classes: \cr\cr
-\code{balanced_accuracy()} ⭢ \code{metric()} ⭢ \code{struct_class()}
+\verb{[balanced_accuracy]} >> \verb{[metric]} >> \verb{[struct_class]}
 }
 
 \examples{

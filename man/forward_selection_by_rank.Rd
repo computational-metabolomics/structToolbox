@@ -42,7 +42,7 @@ A model is trained and performance metric computed by including increasing numbe
 \section{Inheritance}{
 
 A \code{forward_selection_by_rank} object inherits the following \code{struct} classes: \cr\cr
-\code{forward_selection_by_rank()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+\verb{[forward_selection_by_rank]} >> \verb{[resampler]} >> \verb{[iterator]} >> \verb{[struct_class]}
 }
 
 \examples{

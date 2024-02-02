@@ -20,7 +20,7 @@ R-squared is a metric used to assess the goodness of fit for regression models. 
 \section{Inheritance}{
 
 A \code{r_squared} object inherits the following \code{struct} classes: \cr\cr
-\code{r_squared()} ⭢ \code{metric()} ⭢ \code{struct_class()}
+\verb{[r_squared]} >> \verb{[metric]} >> \verb{[struct_class]}
 }
 
 \examples{

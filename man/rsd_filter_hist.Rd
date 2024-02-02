@@ -21,7 +21,7 @@ A histogram of the calculated RSD values.
 \section{Inheritance}{
 
 A \code{rsd_filter_hist} object inherits the following \code{struct} classes: \cr\cr
-\code{rsd_filter_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[rsd_filter_hist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -28,7 +28,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{mv_sample_filter} object inherits the following \code{struct} classes: \cr\cr
-\code{mv_sample_filter()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[mv_sample_filter]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -42,7 +42,7 @@ Univariate least squares regression models are used to compare models with and w
 \section{Inheritance}{
 
 A \code{confounders_clsq} object inherits the following \code{struct} classes: \cr\cr
-\code{confounders_clsq()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[confounders_clsq]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

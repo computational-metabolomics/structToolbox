@@ -28,7 +28,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{svm_plot_2d} object inherits the following \code{struct} classes: \cr\cr
-\code{svm_plot_2d()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[svm_plot_2d]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

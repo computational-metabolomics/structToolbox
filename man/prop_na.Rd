@@ -31,7 +31,7 @@ A Fisher's exact test is used to compare the number of missing values in each gr
 \section{Inheritance}{
 
 A \code{prop_na} object inherits the following \code{struct} classes: \cr\cr
-\code{prop_na()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[prop_na]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

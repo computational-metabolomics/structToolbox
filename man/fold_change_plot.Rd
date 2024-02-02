@@ -26,7 +26,7 @@ A plot of fold changes calculated for a chosen subset of features. A predefined 
 \section{Inheritance}{
 
 A \code{fold_change_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{fold_change_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[fold_change_plot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

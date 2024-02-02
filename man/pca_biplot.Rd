@@ -41,7 +41,7 @@ A scatter plot of the selected principal component scores overlaid with the corr
 \section{Inheritance}{
 
 A \code{pca_biplot} object inherits the following \code{struct} classes: \cr\cr
-\code{pca_biplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[pca_biplot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

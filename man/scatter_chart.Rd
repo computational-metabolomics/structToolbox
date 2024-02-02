@@ -53,7 +53,7 @@ Plots a 2d scatter plot of the input data.
 \section{Inheritance}{
 
 A \code{scatter_chart} object inherits the following \code{struct} classes: \cr\cr
-\code{scatter_chart()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[scatter_chart]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

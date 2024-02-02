@@ -23,7 +23,7 @@ A scatter plot of the true response values against the predicted values for a PL
 \section{Inheritance}{
 
 A \code{plsr_prediction_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{plsr_prediction_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[plsr_prediction_plot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

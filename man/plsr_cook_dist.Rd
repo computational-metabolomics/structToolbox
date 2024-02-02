@@ -23,7 +23,7 @@ A barchart of Cook's distance for each sample used to train a PLSR model. Cook's
 \section{Inheritance}{
 
 A \code{plsr_cook_dist} object inherits the following \code{struct} classes: \cr\cr
-\code{plsr_cook_dist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[plsr_cook_dist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

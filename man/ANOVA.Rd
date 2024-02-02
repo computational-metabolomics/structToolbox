@@ -34,7 +34,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{ANOVA} object inherits the following \code{struct} classes: \cr\cr
-\code{ANOVA()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[ANOVA]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

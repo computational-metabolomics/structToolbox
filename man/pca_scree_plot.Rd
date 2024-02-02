@@ -25,7 +25,7 @@ A plot of the percent variance and cumulative percent variance for the component
 \section{Inheritance}{
 
 A \code{pca_scree_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{pca_scree_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[pca_scree_plot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

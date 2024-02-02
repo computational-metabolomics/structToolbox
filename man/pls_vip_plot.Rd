@@ -28,7 +28,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{pls_vip_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{pls_vip_plot()} ⭢ \code{chart()} ⭢ \code{stato()} ⭢ \code{struct_class()}
+\verb{[pls_vip_plot]} >> \verb{[chart]} >> \verb{[stato]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -33,7 +33,7 @@ In univariate classical least squares regression a line is fitted between each f
 \section{Inheritance}{
 
 A \code{classical_lsq} object inherits the following \code{struct} classes: \cr\cr
-\code{classical_lsq()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[classical_lsq]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

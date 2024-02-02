@@ -28,7 +28,7 @@ contains information orthogonal to the input vector, and the other is non-orthog
 \section{Inheritance}{
 
 A \code{OPLSDA} object inherits the following \code{struct} classes: \cr\cr
-\code{OPLSDA()} ⭢ \code{OPLSR()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[OPLSDA]} >> \verb{[OPLSR]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

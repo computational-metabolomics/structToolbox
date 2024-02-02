@@ -42,7 +42,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{blank_filter} object inherits the following \code{struct} classes: \cr\cr
-\code{blank_filter()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[blank_filter]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -40,7 +40,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{HCA} object inherits the following \code{struct} classes: \cr\cr
-\code{HCA()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[HCA]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

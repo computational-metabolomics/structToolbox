@@ -25,7 +25,7 @@ A graphic for visualising the true class and the predicted class of samples in a
 \section{Inheritance}{
 
 A \code{kfoldxcv_grid} object inherits the following \code{struct} classes: \cr\cr
-\code{kfoldxcv_grid()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[kfoldxcv_grid]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

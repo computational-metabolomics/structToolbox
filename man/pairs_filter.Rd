@@ -28,7 +28,7 @@ This filter is used for study designs with paired sampling to ensure that  measu
 \section{Inheritance}{
 
 A \code{pairs_filter} object inherits the following \code{struct} classes: \cr\cr
-\code{pairs_filter()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[pairs_filter]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

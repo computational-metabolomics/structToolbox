@@ -25,7 +25,7 @@ The order of samples in the data matrix is randomly permuted. The relationship b
 \section{Inheritance}{
 
 A \code{permute_sample_order} object inherits the following \code{struct} classes: \cr\cr
-\code{permute_sample_order()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+\verb{[permute_sample_order]} >> \verb{[resampler]} >> \verb{[iterator]} >> \verb{[struct_class]}
 }
 
 \examples{

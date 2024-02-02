@@ -20,7 +20,7 @@ The area under the ROC curve of a classifier is estimated using the trapezoid me
 \section{Inheritance}{
 
 A \code{AUC} object inherits the following \code{struct} classes: \cr\cr
-\code{AUC()} ⭢ \code{metric()} ⭢ \code{struct_class()}
+\verb{[AUC]} >> \verb{[metric]} >> \verb{[struct_class]}
 }
 
 \examples{

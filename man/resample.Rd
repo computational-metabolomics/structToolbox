@@ -43,7 +43,7 @@ New training sets are generated from the original data by selecting samples at r
 \section{Inheritance}{
 
 A \code{resample} object inherits the following \code{struct} classes: \cr\cr
-\code{resample()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+\verb{[resample]} >> \verb{[resampler]} >> \verb{[iterator]} >> \verb{[struct_class]}
 }
 
 \examples{

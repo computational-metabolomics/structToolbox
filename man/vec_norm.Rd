@@ -24,7 +24,7 @@ The samples in the data matrix are normalised to account for differences in conc
 \section{Inheritance}{
 
 A \code{vec_norm} object inherits the following \code{struct} classes: \cr\cr
-\code{vec_norm()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[vec_norm]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

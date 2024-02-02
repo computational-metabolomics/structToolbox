@@ -47,7 +47,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{tSNE} object inherits the following \code{struct} classes: \cr\cr
-\code{tSNE()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[tSNE]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

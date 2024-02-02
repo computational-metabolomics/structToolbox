@@ -35,7 +35,7 @@ Boxplots of the number of missing values per sample/feature.
 \section{Inheritance}{
 
 A \code{mv_boxplot} object inherits the following \code{struct} classes: \cr\cr
-\code{mv_boxplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[mv_boxplot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

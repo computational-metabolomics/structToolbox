@@ -45,7 +45,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{pqn_norm} object inherits the following \code{struct} classes: \cr\cr
-\code{pqn_norm()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[pqn_norm]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

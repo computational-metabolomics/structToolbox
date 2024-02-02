@@ -48,7 +48,7 @@ A Mann-Whitney-Wilcoxon signed rank test compares ,the ranks of values in two gr
 \section{Inheritance}{
 
 A \code{wilcox_test} object inherits the following \code{struct} classes: \cr\cr
-\code{wilcox_test()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[wilcox_test]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

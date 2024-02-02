@@ -56,7 +56,7 @@ Plots a 2d scatter plot of the selected components
 \section{Inheritance}{
 
 A \code{pca_scores_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{pca_scores_plot()} ⭢ \code{scatter_chart()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[pca_scores_plot]} >> \verb{[scatter_chart]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

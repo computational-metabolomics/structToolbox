@@ -27,7 +27,7 @@ Each variable/feature is mean centred and scaled by the standard deviation. The 
 \section{Inheritance}{
 
 A \code{autoscale} object inherits the following \code{struct} classes: \cr\cr
-\code{autoscale()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[autoscale]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

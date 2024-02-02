@@ -27,7 +27,7 @@ Filter samples/variables by row/column name, index or logicals.
 \section{Inheritance}{
 
 A \code{filter_by_name} object inherits the following \code{struct} classes: \cr\cr
-\code{filter_by_name()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[filter_by_name]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

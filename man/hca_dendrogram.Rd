@@ -24,7 +24,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{hca_dendrogram} object inherits the following \code{struct} classes: \cr\cr
-\code{hca_dendrogram()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[hca_dendrogram]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

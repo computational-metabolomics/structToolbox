@@ -21,7 +21,7 @@ A histogram of the PQN coefficients for all features
 \section{Inheritance}{
 
 A \code{pqn_norm_hist} object inherits the following \code{struct} classes: \cr\cr
-\code{pqn_norm_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[pqn_norm_hist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -41,7 +41,7 @@ For more than one factor the fold change calculation is extended to include all 
 \section{Inheritance}{
 
 A \code{fold_change_int} object inherits the following \code{struct} classes: \cr\cr
-\code{fold_change_int()} ⭢ \code{fold_change()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[fold_change_int]} >> \verb{[fold_change]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

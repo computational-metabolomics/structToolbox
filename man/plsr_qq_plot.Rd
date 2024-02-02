@@ -23,7 +23,7 @@ A plot of the quantiles of the residuals from a PLSR model against the quantiles
 \section{Inheritance}{
 
 A \code{plsr_qq_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{plsr_qq_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[plsr_qq_plot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

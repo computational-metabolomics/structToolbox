@@ -44,7 +44,7 @@ A boxplot to visualise the distribution of values within a feature.
 \section{Inheritance}{
 
 A \code{feature_boxplot} object inherits the following \code{struct} classes: \cr\cr
-\code{feature_boxplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[feature_boxplot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

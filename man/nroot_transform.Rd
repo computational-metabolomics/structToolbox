@@ -23,7 +23,7 @@ All values in the data matrix are transformed by raising them to the power of 1/
 \section{Inheritance}{
 
 A \code{nroot_transform} object inherits the following \code{struct} classes: \cr\cr
-\code{nroot_transform()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[nroot_transform]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

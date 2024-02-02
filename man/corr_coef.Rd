@@ -34,7 +34,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{corr_coef} object inherits the following \code{struct} classes: \cr\cr
-\code{corr_coef()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[corr_coef]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

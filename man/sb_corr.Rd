@@ -54,7 +54,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{sb_corr} object inherits the following \code{struct} classes: \cr\cr
-\code{sb_corr()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[sb_corr]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

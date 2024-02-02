@@ -73,7 +73,7 @@ A scatter plot of the selected PLSDA scores.
 \section{Inheritance}{
 
 A \code{pls_scores_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{pls_scores_plot()} ⭢ \code{scatter_chart()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[pls_scores_plot]} >> \verb{[scatter_chart]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

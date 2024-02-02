@@ -39,7 +39,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{mv_feature_filter} object inherits the following \code{struct} classes: \cr\cr
-\code{mv_feature_filter()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[mv_feature_filter]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

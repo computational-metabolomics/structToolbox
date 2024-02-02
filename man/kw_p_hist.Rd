@@ -21,7 +21,7 @@ A histogram of the p-values computed by the kruskal-wallis method
 \section{Inheritance}{
 
 A \code{kw_p_hist} object inherits the following \code{struct} classes: \cr\cr
-\code{kw_p_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[kw_p_hist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

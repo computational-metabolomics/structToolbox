@@ -28,7 +28,7 @@ Discriminant Factor Analysis (DFA) is a supervised classification method. Using 
 \section{Inheritance}{
 
 A \code{DFA} object inherits the following \code{struct} classes: \cr\cr
-\code{DFA()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[DFA]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

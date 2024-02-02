@@ -24,7 +24,7 @@ Each sample is normalised such that the total signal is equal to one (or a scali
 \section{Inheritance}{
 
 A \code{constant_sum_norm} object inherits the following \code{struct} classes: \cr\cr
-\code{constant_sum_norm()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[constant_sum_norm]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

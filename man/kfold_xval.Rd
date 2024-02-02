@@ -33,7 +33,7 @@ k-fold cross-validation is an iterative approach applied to validate models. The
 \section{Inheritance}{
 
 A \code{kfold_xval} object inherits the following \code{struct} classes: \cr\cr
-\code{kfold_xval()} ⭢ \code{resampler()} ⭢ \code{iterator()} ⭢ \code{struct_class()}
+\verb{[kfold_xval]} >> \verb{[resampler]} >> \verb{[iterator]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -37,7 +37,7 @@ A boxplot to visualise the distribution of values within a subset of features.
 \section{Inheritance}{
 
 A \code{DatasetExperiment_boxplot} object inherits the following \code{struct} classes: \cr\cr
-\code{DatasetExperiment_boxplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[DatasetExperiment_boxplot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -21,7 +21,7 @@ A histogram of the the proportion of missing values per sample
 \section{Inheritance}{
 
 A \code{mv_sample_filter_hist} object inherits the following \code{struct} classes: \cr\cr
-\code{mv_sample_filter_hist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[mv_sample_filter_hist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

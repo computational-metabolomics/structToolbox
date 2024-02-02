@@ -25,7 +25,7 @@ A bar chart of the d-statistics for samples in the input PCA model. Samples abov
 \section{Inheritance}{
 
 A \code{pca_dstat_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{pca_dstat_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[pca_dstat_plot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

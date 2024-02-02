@@ -23,7 +23,7 @@ The mean sample is subtracted from all samples and then scaled by the square roo
 \section{Inheritance}{
 
 A \code{pareto_scale} object inherits the following \code{struct} classes: \cr\cr
-\code{pareto_scale()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[pareto_scale]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

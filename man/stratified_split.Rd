@@ -26,7 +26,7 @@ The dataset is divided into two subsets. A predefined proportion of samples from
 \section{Inheritance}{
 
 A \code{stratified_split} object inherits the following \code{struct} classes: \cr\cr
-\code{stratified_split()} ⭢ \code{split_data()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[stratified_split]} >> \verb{[split_data]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

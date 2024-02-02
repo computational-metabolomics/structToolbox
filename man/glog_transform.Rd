@@ -31,7 +31,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{glog_transform} object inherits the following \code{struct} classes: \cr\cr
-\code{glog_transform()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[glog_transform]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

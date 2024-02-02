@@ -24,7 +24,7 @@ The data matrix is divided into two subsets.A predefined proportion of the sampl
 \section{Inheritance}{
 
 A \code{split_data} object inherits the following \code{struct} classes: \cr\cr
-\code{split_data()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[split_data]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

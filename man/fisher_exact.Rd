@@ -30,7 +30,7 @@ A fisher exact test is used to analyse contingency tables by comparing the numbe
 \section{Inheritance}{
 
 A \code{fisher_exact} object inherits the following \code{struct} classes: \cr\cr
-\code{fisher_exact()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[fisher_exact]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{

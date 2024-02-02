@@ -26,7 +26,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{tSNE_scatter} object inherits the following \code{struct} classes: \cr\cr
-\code{tSNE_scatter()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[tSNE_scatter]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

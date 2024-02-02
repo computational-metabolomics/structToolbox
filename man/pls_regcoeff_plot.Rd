@@ -30,7 +30,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{pls_regcoeff_plot} object inherits the following \code{struct} classes: \cr\cr
-\code{pls_regcoeff_plot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[pls_regcoeff_plot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

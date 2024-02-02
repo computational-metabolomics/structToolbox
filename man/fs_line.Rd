@@ -21,7 +21,7 @@ A line plot for forward selection. The computed model performance metric is plot
 \section{Inheritance}{
 
 A \code{fs_line} object inherits the following \code{struct} classes: \cr\cr
-\code{fs_line()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[fs_line]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

@@ -25,7 +25,7 @@ Boxplot for a feature to visualise the distribution of values within each group
 \section{Inheritance}{
 
 A \code{DatasetExperiment_factor_boxplot} object inherits the following \code{struct} classes: \cr\cr
-\code{DatasetExperiment_factor_boxplot()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[DatasetExperiment_factor_boxplot]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

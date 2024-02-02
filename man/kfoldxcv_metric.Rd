@@ -21,7 +21,7 @@ A boxplot of the performance metric computed for each fold of a k-fold cross-val
 \section{Inheritance}{
 
 A \code{kfoldxcv_metric} object inherits the following \code{struct} classes: \cr\cr
-\code{kfoldxcv_metric()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[kfoldxcv_metric]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

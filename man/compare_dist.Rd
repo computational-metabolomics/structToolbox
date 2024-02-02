@@ -23,7 +23,7 @@ Histograms and boxplots computed across samples and features are used to visuall
 \section{Inheritance}{
 
 A \code{compare_dist} object inherits the following \code{struct} classes: \cr\cr
-\code{compare_dist()} ⭢ \code{chart()} ⭢ \code{struct_class()}
+\verb{[compare_dist]} >> \verb{[chart]} >> \verb{[struct_class]}
 }
 
 \examples{

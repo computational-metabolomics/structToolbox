@@ -23,7 +23,7 @@ The data matrix is normalised by the mean of the median of each factor level.
 \section{Inheritance}{
 
 A \code{mean_of_medians} object inherits the following \code{struct} classes: \cr\cr
-\code{mean_of_medians()} ⭢ \code{model()} ⭢ \code{struct_class()}
+\verb{[mean_of_medians]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{
