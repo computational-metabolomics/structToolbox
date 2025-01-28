@@ -1,3 +1,6 @@
+Changes 1.81.1
++ fix missing interactions for ANOVA outputs
+
 Changes 1.15.2
 + fix ANOVA type 1
 + add control_group param to ttest
