@@ -144,12 +144,15 @@ setMethod(f="model_apply",
             return(A)
         })
         
+        out_cols=terms(M$formula)
+        out_cols=attributes(out_cols)$term.labels
+        
         f_statistic=sapply(output,function(x){
             x$`F value`
         })
         f_statistic=as.data.frame(t(f_statistic))
         colnames(f_statistic)=rownames(output[[1]])
-        f_statistic=f_statistic[,colnames(y),drop=FALSE]
+        f_statistic=f_statistic[,out_cols,drop=FALSE]
         
         
         p_value=sapply(output,function(x){
@@ -157,7 +160,7 @@ setMethod(f="model_apply",
         })
         p_value=as.data.frame(t(p_value))
         colnames(p_value)=rownames(output[[1]])
-        p_value=p_value[,colnames(y),drop=FALSE]
+        p_value=p_value[,out_cols,drop=FALSE]
         
         # fdr correct the p.values
         for (k in 1:ncol(p_value)) {
