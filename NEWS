@@ -1,3 +1,9 @@
+Changes 1.19.2
++ fix pca_biplot
+
+Changes 1.19.1
++ fix ANOVA output with interaction terms
+
 Changes 1.15.2
 + fix ANOVA type 1
 + add control_group param to ttest
