@@ -277,29 +277,10 @@ setMethod(f="chart_plot",
         P=output_value(dobj,'loadings')
         Ev=output_value(dobj,'eigenvalues')
         
-        # eigenvalues were square rooted when training PCA
-        Ev=Ev[,1]
-        Ev=Ev^2
-        
-        ## unscale the scores
-        #ev are the norms of scores
-        Ts=as.matrix(Ts) %*% diag(1/Ev) # these are normalised scores
-        
-        # scale scores and loadings by alpha
-        Ts=Ts %*% diag(Ev^(1-opt$scale_factor))
-        P=as.matrix(P) %*% diag(Ev^(opt$scale_factor))
-        
-        # additionally scale the loadings
-        sf=min(max(abs(Ts[,opt$components[1]]))/max(abs(P[,opt$components[1]])),
-            max(abs(Ts[,opt$components[2]]))/max(abs(P[,opt$components[2]])))
-        Ts=as.data.frame(Ts)
-        
-        rownames(Ts)=rownames(dobj$scores) # fix dimnames for SE object
-        colnames(Ts)=colnames(dobj$scores)
-        dobj$scores$data=as.data.frame(Ts) # nb object not returned, so only temporary scaling
+        sf = max(abs(Ts)) / max(abs(P)) * opt$scale_factor
         
         # plot
-        A=data.frame("x"=P[,opt$components[1]]*sf*0.8,"y"=P[,opt$components[2]]*sf*0.8)
+        A=data.frame("x"=P[,opt$components[1]]*sf,"y"=P[,opt$components[2]]*sf)
         C=pca_scores_plot(points_to_label=obj$points_to_label,xcol=obj$components[1],ycol=obj$components[2],factor_name=obj$factor_name)
         out=chart_plot(C,dobj)
         

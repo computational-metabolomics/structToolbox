@@ -1,3 +1,6 @@
+Changes 1.18.2
++ fix pca_biplot
+
 Changes 1.81.1
 + fix missing interactions for ANOVA outputs
 
