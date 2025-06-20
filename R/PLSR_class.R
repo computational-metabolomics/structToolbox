@@ -20,19 +20,18 @@ PLSR = function(number_components=2,factor_name,...) {
         factor_name='entity',
         scores='DatasetExperiment',
         loadings='data.frame',
-        yhat='data.frame',
         y='data.frame',
+        yhat = 'data.frame',
         reg_coeff='data.frame',
         vip='data.frame',
         pls_model='list',
-        pred='data.frame',
         sr = 'entity',
         sr_pvalue='entity'
     ),
     
     prototype = list(name='Partial least squares regression',
         type="regression",
-        predicted='pred',
+        predicted='yhat',
         libraries='pls',
         ontology='STATO:0000572',
         description=paste0('PLS is a multivariate regression technique that ',
@@ -43,12 +42,11 @@ PLSR = function(number_components=2,factor_name,...) {
         .outputs=c(
             'scores',
             'loadings',
-            'yhat',
             'y',
+            'yhat',
             'reg_coeff',
             'vip',
             'pls_model',
-            'pred',
             'sr',
             'sr_pvalue'),
         number_components=entity(value = 2,
@@ -104,8 +102,9 @@ setMethod(f="model_train",
         output_value(M,'vip')=as.data.frame(vips(pls_model))
         colnames(M$vip)=levels(y)
         
-        yhat=predict(pls_model, ncomp = param_value(M,'number_components'), newdata = X)
-        yhat=as.matrix(yhat[,,dim(yhat)[3]])
+        yhat=predict(pls_model, ncomp = param_value(M,'number_components'), newdata = X,type='response')
+        yhat = array(yhat, dim = dim(yhat)[1:2])
+        colnames(yhat)=colnames(y)
         output_value(M,'yhat')=as.data.frame(yhat)
         
         output_value(M,'pls_model')=list(pls_model)
@@ -159,15 +158,32 @@ setMethod(f="model_predict",
     {
         # convert X to matrix
         X=as.matrix(D$data)
-        # get training set y
-        y=output_value(M,'y')
+        y=M$y
+        
+        # yhat estimate
+        yhat = predict(output_value(M,'pls_model')[[1]], ncomp = param_value(M,'number_components'), newdata = X,type='response')
+        yhat = array(yhat, dim = dim(yhat)[1:2])
+        colnames(yhat)=colnames(y)
+        yhat=as.data.frame(yhat)
+        
+        # scores estimate
+        that = predict(output_value(M,'pls_model')[[1]], ncomp = 1:param_value(M,'number_components'), newdata = X,type='scores')
+        colnames(that) = paste0('LV',1:ncol(that))
+        that=as.data.frame(that)
+        
+        # convert to DE
+        DE = DatasetExperiment(
+            name = 'PLS predicted scores',
+            description = 'The predicted scores for the new samples.',
+            data = that,
+            sample_meta = D$sample_meta,
+            variable_meta = M$scores$variable_meta
+        )
+        # add yhat to meta data
+        DE$sample_meta$pls_pred = yhat
 
-        # get predictions
-        p=predict(output_value(M,'pls_model')[[1]], ncomp = param_value(M,'number_components'), newdata = X)
-        p=p[,,dim(p)[3]]
-
-        q=data.frame("pred"=p)
-        output_value(M,'pred')=q
+        M$yhat = yhat
+        M$scores = DE
         
         return(M)
     }

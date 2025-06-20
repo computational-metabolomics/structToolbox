@@ -81,7 +81,7 @@ setMethod(f="run",
     {
         X=D$data
         y=D$sample_meta[,I$factor_name,drop=FALSE]
-        all_results=data.frame('actual'=rep(y[,1],param_value(I,'folds')),'predicted'=rep(y[,1],param_value(I,'folds')),'fold'=0,'in.test'=FALSE,'sampleid'=rep(rownames(X),param_value(I,'folds')))
+        all_results=list()
         WF=models(I)
         
         # venetian 123123123123
@@ -102,9 +102,8 @@ setMethod(f="run",
         collected=list()
         
         # for each value of k, split the data and run the workflow
-        for (i in 1:param_value(I,'folds'))
-        {
-            fold_results=data.frame('actual'=y[,1],'predicted'=y,'fold'=i,'in.test'=FALSE,'sampleid'=rownames(X))
+        for (i in 1:param_value(I,'folds')) {
+            fold_results=data.frame('actual'= y[,1],'predicted'=y[,1],'fold'=i,'in.test'=FALSE,'sampleid'=rownames(X))
             fold_results[fold_id==i,4]=TRUE
             
             # prep the training data
@@ -149,10 +148,10 @@ setMethod(f="run",
             # p=predicted(WF[length(WF)])
             # val_result[,1]=p[,1]
             
-            all_results[((nrow(X)*(i-1))+1):(nrow(X)*i),]=fold_results
+            all_results[[i]]=fold_results
         }
         models(I)=WF # last model
-        output_value(I,'results')=all_results
+        output_value(I,'results')=do.call(rbind,all_results)
         I=evaluate(I,MET)
         
         return(I)

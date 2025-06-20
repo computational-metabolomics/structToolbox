@@ -26,9 +26,9 @@ Description: An extensive set of data (pre-)processing and analysis methods and
     imputation and scaling), univariate (e.g. ttest, various forms of ANOVA, 
     Kruskal–Wallis test and more) and multivariate statistical methods (e.g. PCA and
     PLS, including cross-validation and permutation testing) as well as machine 
-    learning methods (e.g. Support Vector Machines). The 
-    STATistics Ontology (STATO) has been integrated and implemented to provide 
-    standardised definitions for the different methods, inputs and outputs.
+    learning methods (e.g. Support Vector Machines). Ontology terms have been 
+    integrated to provide standardised definitions for the different methods, 
+    inputs and outputs.
 License: GPL-3
 Encoding: UTF-8
 Collate:
@@ -122,7 +122,7 @@ Imports: ggplot2,
     scales,
     sp,
     stats
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Suggests: agricolae,
  BiocFileCache,
  BiocStyle,

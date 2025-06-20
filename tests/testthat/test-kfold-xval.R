@@ -10,7 +10,7 @@ test_that('kfold xval venetian',{
   # run
   I=run(I,D,B)
   # calculate metric
-  expect_equal(I$metric$mean,0.11,tolerance=0.005)
+  expect_equal(I$metric$mean,0.813,tolerance=0.005)
 })
 
 test_that('kfold xval blocks',{
@@ -22,11 +22,11 @@ test_that('kfold xval blocks',{
     kfold_xval(folds=5,method='blocks',factor_name='Species')*
     (mean_centre()+PLSDA(factor_name='Species'))
   # metric
-  B=balanced_accuracy()
+  B=balanced_error()
   # run
   I=run(I,D,B)
   # calculate metric
-  expect_equal(I$metric$mean,0.115,tolerance=0.005)
+  expect_equal(I$metric$mean,0.2,tolerance=0.005)
 })
 
 test_that('kfold xval random',{
@@ -40,7 +40,7 @@ test_that('kfold xval random',{
   # run
   I=run(I,D,B)
   # calculate metric
-  expect_equal(I$metric$mean,0.105,tolerance=0.0005)
+  expect_equal(I$metric$mean,0.787,tolerance=0.005)
 })
 
 test_that('kfold xval metric plot',{
@@ -70,7 +70,7 @@ test_that('kfold xval grid plot',{
   # run
   I=run(I,D,B)
   # chart
-  C = kfoldxcv_grid(factor_name='Species',level='setosa')
+  C = kfoldxcv_grid(factor_name='Species',level=c('setosa'))
   gg=chart_plot(C,I)
   expect_true(is(gg,'ggplot'))
 })

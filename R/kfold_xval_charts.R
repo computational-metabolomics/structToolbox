@@ -56,7 +56,9 @@ setMethod(f="chart_plot",
         dopt=param_list(dobj)
         X=output_value(dobj,'results')
         L=levels(as.factor(X$actual))
-        plotClass= structToolbox:::createClassAndColors(X$actual)
+        plotClass= createClassAndColors(X$actual)
+        plotClass$manual_colors=plotClass$manual_colors[1:nlevels(plotClass$class)]
+        names(plotClass$manual_colors)=levels(plotClass$class)
         X$actual=plotClass$class
         
         p=list()
@@ -71,7 +73,7 @@ setMethod(f="chart_plot",
         X$actual=plotClass$class
         
         # reduce to level i for split factor
-        X=X[X$actual==L[i],,drop=FALSE]
+        X=X[X$actual %in% L[i],,drop=FALSE]
         
         X2=X[,-2]
         X=X[,-1]
@@ -84,21 +86,44 @@ setMethod(f="chart_plot",
         uS=unique(as.character(X$sampleid))
         uL=L
         
+        # to make legend include all levels
+        dummy=X[1:length(plotClass$manual_colors),]
+        dummy$Group=names(plotClass$manual_colors)
+        dummy$in.test=FALSE
+        dummy$fold=NA
+        X=rbind(X,dummy)
+        
         # for test set boxes
         X2=X
         X2$sampleid[!X$in.test]=NA
         X2$fold[!X$in.test]=NA
         
-        p=ggplot(data=X,aes_string(x="sampleid",y="fold",fill="Group")) +
-            geom_tile(colour = "grey50") +
+        p=ggplot(data=X,aes(x=.data[["sampleid"]],y=.data[["fold"]],fill=.data[["Group"]])) +
+            geom_tile(
+                colour = "grey50",na.rm = TRUE) +
             #geom_point(data=te,aes_(x=~sampleid,y=~fold),shape=20,size=2) +
-            geom_tile(data=X2,aes_(x=~sampleid,y=~fold,fill=~Group),colour = "black") +
+            geom_tile(
+                data=X2,
+                aes(
+                    x=.data[['sampleid']],
+                    y=.data[['fold']],
+                    fill=.data[['Group']],
+                    colour = .data[['in.test']]),
+                na.rm = TRUE) +
             scale_x_discrete(limits=uS) +
-            structToolbox:::theme_Publication(base_size = 12) +
+            theme_Publication(base_size = 12) +
             coord_equal() +
             theme(axis.text.x = element_text(angle = 90, hjust = 1,vjust=0.5)) +
             scale_fill_manual(values=plotClass$manual_colors,drop=FALSE,name=copt$factor_name) +
-            facet_grid(rows=vars(X$Set))
+            scale_colour_manual(
+                values=c('TRUE'='black','FALSE'='grey'),
+                breaks = c(FALSE, TRUE),
+                labels = c("Training set", "Test set"),
+                name = "Data")+
+            facet_grid(rows=vars(X$Set),drop = FALSE)+
+            guides(
+                colour = guide_legend(
+                    override.aes = list(fill = "white", size = 1.5)))
         
         return(p)
         
