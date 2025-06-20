@@ -44,8 +44,9 @@ C = plsda_feature_importance_plot(n_features=30,metric='vip')
 chart_plot(C,M[2])
 }
 \references{
-Liland K, Mevik B, Wehrens R (2023). \emph{pls: Partial Least Squares and
-Principal Component Regression}. R package version 2.8-3,
+Liland K, Mevik B, Wehrens R (2024). \emph{pls: Partial Least Squares and
+Principal Component Regression}. doi:10.32614/CRAN.package.pls
+\url{https://doi.org/10.32614/CRAN.package.pls}, R package version 2.8-5,
 \url{https://CRAN.R-project.org/package=pls}.
 
 Wickham H (2016). \emph{ggplot2: Elegant Graphics for Data Analysis}.
@@ -57,6 +58,7 @@ of Statistical Software}, \emph{21}(12), 1-20.
 \url{http://www.jstatsoft.org/v21/i12/}.
 
 Wilke C (2024). \emph{cowplot: Streamlined Plot Theme and Plot Annotations
-for 'ggplot2'}. R package version 1.1.3,
-\url{https://CRAN.R-project.org/package=cowplot}.
+for 'ggplot2'}. doi:10.32614/CRAN.package.cowplot
+\url{https://doi.org/10.32614/CRAN.package.cowplot}, R package version
+1.1.3, \url{https://CRAN.R-project.org/package=cowplot}.
 }

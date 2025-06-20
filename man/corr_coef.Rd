@@ -57,7 +57,7 @@ M = corr_coef(factor_names=c('sample_order','sample_rep'))
 M = model_apply(M,D)
 }
 \references{
-R Core Team (2024). \emph{R: A Language and Environment for Statistical
+R Core Team (2025). \emph{R: A Language and Environment for Statistical
 Computing}. R Foundation for Statistical Computing, Vienna, Austria.
 \url{https://www.R-project.org/}.
 }

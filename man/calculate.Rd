@@ -4,6 +4,7 @@
 \name{calculate,AUC-method}
 \alias{calculate,AUC-method}
 \alias{calculate,balanced_accuracy-method}
+\alias{calculate,balanced_error-method}
 \alias{calculate}
 \alias{calculate,r_squared-method}
 \title{Calculate metric}
@@ -11,6 +12,8 @@
 \S4method{calculate}{AUC}(obj, Y, Yhat)
 
 \S4method{calculate}{balanced_accuracy}(obj, Y, Yhat)
+
+\S4method{calculate}{balanced_error}(obj, Y, Yhat)
 
 \S4method{calculate}{r_squared}(obj, Y, Yhat)
 }

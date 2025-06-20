@@ -50,6 +50,5 @@ M = model_apply(M,D)
 }
 \references{
 Fox J, Weisberg S (2019). \emph{An R Companion to Applied Regression}, Third
-edition. Sage, Thousand Oaks CA.
-\url{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}.
+edition. Sage, Thousand Oaks CA. \url{https://www.john-fox.ca/Companion/}.
 }

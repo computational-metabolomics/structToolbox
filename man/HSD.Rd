@@ -52,6 +52,7 @@ M = model_apply(M,D)
 }
 \references{
 de Mendiburu F (2023). \emph{agricolae: Statistical Procedures for
-Agricultural Research}. R package version 1.3-7,
-\url{https://CRAN.R-project.org/package=agricolae}.
+Agricultural Research}. doi:10.32614/CRAN.package.agricolae
+\url{https://doi.org/10.32614/CRAN.package.agricolae}, R package version
+1.3-7, \url{https://CRAN.R-project.org/package=agricolae}.
 }

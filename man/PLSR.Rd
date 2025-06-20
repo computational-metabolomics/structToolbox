@@ -18,12 +18,11 @@ A  \code{PLSR} object with the following \code{output} slots:
 \tabular{ll}{
 \code{scores} \tab          (DatasetExperiment)  \cr
 \code{loadings} \tab          (data.frame)  \cr
-\code{yhat} \tab          (data.frame)  \cr
 \code{y} \tab          (data.frame)  \cr
+\code{yhat} \tab          (data.frame)  \cr
 \code{reg_coeff} \tab          (data.frame)  \cr
 \code{vip} \tab          (data.frame)  \cr
 \code{pls_model} \tab          (list)  \cr
-\code{pred} \tab          (data.frame)  \cr
 \code{sr} \tab          (data.frame) Selectivity ratio for a variable represents a measure of a variable's importance in the PLS model. The output data.frame contains a column of selectivity ratios, a column of p-values based on an F-distribution and a column indicating significance at p < 0.05. \cr
 \code{sr_pvalue} \tab          (data.frame) A p-value computed from the Selectivity Ratio based on an F-distribution. \cr
 }
@@ -48,7 +47,8 @@ M = PLSR(
 M = PLSR(factor_name='run_order')
 }
 \references{
-Liland K, Mevik B, Wehrens R (2023). \emph{pls: Partial Least Squares and
-Principal Component Regression}. R package version 2.8-3,
+Liland K, Mevik B, Wehrens R (2024). \emph{pls: Partial Least Squares and
+Principal Component Regression}. doi:10.32614/CRAN.package.pls
+\url{https://doi.org/10.32614/CRAN.package.pls}, R package version 2.8-5,
 \url{https://CRAN.R-project.org/package=pls}.
 }

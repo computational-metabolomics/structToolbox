@@ -44,8 +44,9 @@ C = plsda_roc_plot(factor_name='Species')
 chart_plot(C,M[2])
 }
 \references{
-Liland K, Mevik B, Wehrens R (2023). \emph{pls: Partial Least Squares and
-Principal Component Regression}. R package version 2.8-3,
+Liland K, Mevik B, Wehrens R (2024). \emph{pls: Partial Least Squares and
+Principal Component Regression}. doi:10.32614/CRAN.package.pls
+\url{https://doi.org/10.32614/CRAN.package.pls}, R package version 2.8-5,
 \url{https://CRAN.R-project.org/package=pls}.
 
 Wickham H (2016). \emph{ggplot2: Elegant Graphics for Data Analysis}.

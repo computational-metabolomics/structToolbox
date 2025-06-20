@@ -34,6 +34,7 @@ C = hca_dendrogram()
 }
 \references{
 de Vries A, Ripley BD (2024). \emph{ggdendro: Create Dendrograms and Tree
-Diagrams Using 'ggplot2'}. R package version 0.2.0,
-\url{https://CRAN.R-project.org/package=ggdendro}.
+Diagrams Using 'ggplot2'}. doi:10.32614/CRAN.package.ggdendro
+\url{https://doi.org/10.32614/CRAN.package.ggdendro}, R package version
+0.2.0, \url{https://CRAN.R-project.org/package=ggdendro}.
 }

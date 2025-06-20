@@ -27,17 +27,16 @@ PLSDA = function(number_components=2,factor_name,pred_method='max_prob',...) {
         probability='data.frame',
         vip='data.frame',
         pls_model='list',
-        pred='data.frame',
-        threshold='numeric',
         sr = 'entity',
         sr_pvalue='entity',
-        pred_method='entity'
-        
+        pred_method='entity',
+        predicted_labels = 'entity',
+        prob_model = 'data.frame'
     ),
     prototype = list(
         name='Partial least squares discriminant analysis',
         type="classification",
-        predicted='pred',
+        predicted='predicted_labels',
         libraries='pls',
         description=paste0(
             'PLS is a multivariate regression technique that ',
@@ -58,10 +57,11 @@ PLSDA = function(number_components=2,factor_name,pred_method='max_prob',...) {
             'probability',
             'vip',
             'pls_model',
-            'pred',
-            'threshold',
             'sr',
-            'sr_pvalue'),
+            'sr_pvalue',
+            'predicted_labels',
+            'prob_model'
+            ),
         
         number_components=entity(
             value = 2,
@@ -101,6 +101,13 @@ PLSDA = function(number_components=2,factor_name,pred_method='max_prob',...) {
             description = paste0(
                 "A p-value computed from the Selectivity Ratio based on an ",
                 "F-distribution."
+            ),
+            type='data.frame'
+        ),
+        predicted_labels = entity(
+            name = 'Predicted label',
+            description = paste0(
+                "Predicted label(s) for the input samples."
             ),
             type='data.frame'
         ),
@@ -163,18 +170,16 @@ setMethod(f="model_train",
               output_value(M,'y')=D$sample_meta[,M$factor_name,drop=FALSE]
               
               # for PLSDA compute probabilities
-              probs=prob(as.matrix(M$yhat),as.matrix(M$yhat),D$sample_meta[[M$factor_name]])
-              output_value(M,'probability')=as.data.frame(probs$ingroup)
-              output_value(M,'threshold')=probs$threshold
-              
+              probs = prob_train(as.matrix(M$yhat),D$sample_meta[[M$factor_name]])
+              M$prob_model=probs
+
               # update column names for outputs
               colnames(M$reg_coeff)=levels(y)
               colnames(M$sr)=levels(y)
               colnames(M$vip)=levels(y)
               colnames(M$yhat)=levels(y)
               colnames(M$design_matrix)=levels(y)
-              colnames(M$probability)=levels(y)
-              names(M$threshold)=levels(y)
+              rownames(M$prob_model)=levels(y)
               colnames(M$sr_pvalue)=levels(y)
               
               return(M)
@@ -187,15 +192,21 @@ setMethod(f="model_predict",
           signature=c("PLSDA",'DatasetExperiment'),
           definition=function(M,D)
           {
+              # input meta data
+              SM=M$y
+              
+              # set for PLSR
+              M$y=M$design_matrix
               # call PLSR predict
               N=callNextMethod(M,D)
-              SM=N$y
+              # reset
+              M$y=SM
               
               ## probability estimate
               # http://www.eigenvector.com/faq/index.php?id=38%7C
-              p=as.matrix(N$pred)
-              d=prob(x=p,yhat=as.matrix(N$yhat),ytrue=M$y[[M$factor_name]])
-              
+              p=as.matrix(N$yhat)
+              d=prob_predict(x=p,M$prob_model)
+
               # predictions
               if (M$pred_method=='max_yhat') {
                   pred=apply(p,MARGIN=1,FUN=which.max)
@@ -203,37 +214,34 @@ setMethod(f="model_predict",
                   pred=apply(d$ingroup,MARGIN=1,FUN=which.max)
               }
               pred=factor(pred,levels=1:nlevels(SM[[M$factor_name]]),labels=levels(SM[[M$factor_name]])) # make sure pred has all the levels of y
-              q=data.frame("pred"=pred)
-              output_value(M,'pred')=q
+              
+              q=data.frame("predicted_labels"=pred)
+              rownames(q)=rownames(D)
+              output_value(M,'predicted_labels')=q
+              
+              M$probability=as.data.frame(d$ingroup)
+              rownames(M$probability)=rownames(D)
+              
               return(M)
           }
 )
 
 
-
-
-prob=function(x,yhat,ytrue)
-{
-    # x is predicted values
+prob_train=function(yhat,ytrue) {
     # yhat is training model
     # ytrue are real group labels
     ytrue=as.factor(ytrue)
     L=levels(ytrue)
     
-    din=dout=x*0
-    d=list()
-    threshold=numeric(length(L))
-    for (i in 1:length(L))
-    {
+    prob_model=list()
+    for (i in 1:length(L)) {
         ingroup=yhat[ytrue==L[i],i]
         m1=mean(ingroup)
         s1=max(c(sd(ingroup),1e-5)) # make sure sd is not zero
-        din[,i]=dnorm(x[,i,drop=FALSE],m1,s1)
         
         outgroup=yhat[ytrue!=L[i],i]
         m2=mean(outgroup)
         s2=max(c(sd(outgroup),1e-5)) # make sure sd is not 0
-        dout[,i]=dnorm(x[,i,drop=FALSE],m2,s2)
         
         # threshold where distributions cross
         t=gauss_intersect(m1,m2,s1,s2)
@@ -262,15 +270,38 @@ prob=function(x,yhat,ytrue)
             t=0
         }
         
-        
-        threshold[i]=t
+        prob_model[[i]] = data.frame(
+            ingroup.mean = m1,
+            ingroup.sd = s1,
+            outgroup.mean = m2,
+            outgroup.sd = s2,
+            threshold = t
+        )
     }
+    
+    prob_model = do.call(rbind,prob_model)
+    return(prob_model)
+}
+
+prob_predict=function(x,prob_model)
+{
+    din=list()
+    dout=list()
+    for (i in 1:nrow(prob_model)) {
+        pin=dnorm(x[,i,drop=FALSE],prob_model$ingroup.mean,prob_model$ingroup.sd)
+        pout=dnorm(x[,i,drop=FALSE],prob_model$outgroup.mean,prob_model$outgroup.sd)
+        din[[i]]=pin
+        dout[[i]]=pout
+    }
+    din=do.call(cbind,din)
+    dout=do.call(cbind,dout)
+    
+    d=list()
     d$ingroup=din/(din+dout) # assume probabilities sum to 1
     d$outgroup=dout/(din+dout) # assume probabilities sum to 1
     # (has to belong to in or outgroup)
     d$ingroup[is.nan(d$ingroup)]=0
     d$outgroup[is.nan(d$outgroup)]=0
-    d$threshold=threshold
     return(d)
 }
 
