@@ -277,9 +277,12 @@ setMethod(f="chart_plot",
         R2=r_squared()
         R2=calculate(R2,dobj$y[,obj$ycol],dobj$yhat[,obj$ycol])
 
-        B=data.frame(x=rep(dobj$y[,obj$ycol],2),y=c(dobj$y[,obj$ycol],dobj$yhat[,obj$ycol]),group=rep(1:nrow(dobj$y),2))
+        B=data.frame(x=rep(dobj$y[,obj$ycol],2),
+                     y=c(dobj$y[,obj$ycol],
+                         dobj$yhat[,obj$ycol]),
+                     group=rep(1:nrow(dobj$y),2))
         A=data.frame(x=dobj$y[,obj$ycol],y=dobj$yhat[,obj$ycol])
-        p=ggplot(data=A,aes_string(x='x',y='y')) +
+        p=ggplot(data=A,aes(x=.data[['x']],y=.data[['y']])) +
             geom_line(data=B,aes(x=x,y=y,group=group),color='#B2B2B2') +
             geom_point(color="blue") +
             geom_abline(slope=1,intercept=0,color="red")+
@@ -289,7 +292,10 @@ setMethod(f="chart_plot",
             ylab('Predicted values') +
 
 
-            annotate("text",x=-Inf,y=Inf,label=paste0('R^2 == ',format(value(R2),digits = 2)),vjust=2,hjust=-1,parse=TRUE)
+            annotate("text",x=-Inf,y=Inf,
+                     label=paste0('R^2 == ',
+                                  format(value(R2),digits = 2)),
+                     vjust=2,hjust=-1,parse=TRUE)
         return(p)
     }
 )
@@ -338,7 +344,7 @@ setMethod(f="chart_plot",
 
         B=data.frame(nx,nc)
         A=data.frame(y=d)
-        p=ggplot(data=A,aes_string(x='y')) +
+        p=ggplot(data=A,aes(x=.data[['y']])) +
             geom_histogram(color="#10C8CD",fill="#b2e9eb",binwidth=0.2) +
             geom_line(data=B,aes(x=nx,y=nc),color="blue") +
             scale_colour_Publication() +
@@ -394,7 +400,7 @@ setMethod(f="chart_plot",
         p=seq(0,1,length.out = length(x))
         q=qnorm(p,0,sd(x))
         A=data.frame('x'=q,'y'=x)
-        p=ggplot(data=A,aes_string(x='x',y='y')) +
+        p=ggplot(data=A,aes(x=.data[['x']],y=.data[['y']])) +
             geom_point(color="blue")+
             geom_abline(slope=1,intercept=0,color="red")+
 
@@ -460,7 +466,7 @@ setMethod(f="chart_plot",
         CD=(e/(s2*ncol(T)))*(H/((1-H)^2))
 
         A=data.frame(x=seq_len(length(CD)),y=CD[,1])
-        p=ggplot(data=A,aes_string(x='x',y='y')) +
+        p=ggplot(data=A,aes(x=.data[['x']],y=.data[['y']])) +
             geom_col(width=1,color="black",fill='#B2B2B2')+
             scale_colour_Publication() +
             theme_Publication(base_size = 12) +

@@ -121,7 +121,7 @@ setMethod(f="chart_plot",
         A$rsd_qc=log2(dobj$rsd_qc[,1])
         A$features=factor(A$rsd_flags,levels=c(1,0),labels=c('accepted','rejected'))
 
-        out=ggplot(data=A, aes_(x=~rsd_qc,fill=~features)) +
+        out=ggplot(data=A, aes(x=.data[['rsd_qc']],fill=.data[['features']])) +
             geom_histogram(boundary=log2(t),color='white') +
             xlab('log2(RSD), QC samples') +
             ylab('Count') +

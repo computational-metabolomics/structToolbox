@@ -127,7 +127,7 @@ setMethod(f="chart_plot",
         A=output_value(dobj,'flags')
         A$perc_mv=(dobj$percent_missing[,1])*100
         A$features=factor(A$flags,levels=c(1,0),labels=c('accepted','rejected'))
-        out=ggplot(data=A, aes_(x=~perc_mv,fill=~features)) +
+        out=ggplot(data=A, aes(x=.data[['perc_mv']],fill=.data[['features']])) +
             geom_histogram(boundary=(t),color='white') +
             xlab('% missing values (per sample)') +
             ylab('Count') +

@@ -172,7 +172,8 @@ setMethod(f="chart_plot",
         X$Set=as.factor(X$Set)
         plotClass= createClassAndColors(X$Set)
         
-        p=ggplot(data=X,aes_(y=~Metric,x=~Set,colour=~Set)) +
+        p=ggplot(data=X,
+                 aes(y=.data[['Metric']],x=.data[['Set']],colour=.data[['Set']])) +
             geom_boxplot() +
             theme_Publication(base_size = 12) +
             scale_colour_manual(values=plotClass$manual_colors,name='Crossvalidation set') +

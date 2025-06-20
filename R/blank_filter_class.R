@@ -149,7 +149,7 @@ setMethod(f="chart_plot",
         A$fold_change=log2(A$fold_change)
         A$features=factor(A$blank_flags,levels=c(1,0),labels=c('accepted','rejected'))
         
-        out=ggplot(data=A, aes_(x=~fold_change,fill=~features)) +
+        out=ggplot(data=A, aes(x=.data[['fold_change']],fill=.data[['features']])) +
             geom_histogram(boundary=log2(t),color='white') +
             xlab('log2(fold change)') +
             ylab('Count') +
@@ -163,7 +163,9 @@ setMethod(f="chart_plot",
         breaks=po$layout$panel_scales_x[[1]]$get_breaks()
         
         # add second axis with labels
-        out=out+scale_x_continuous(breaks=breaks,sec.axis=dup_axis(labels=2^breaks,name='Fold change'))
+        out=out+scale_x_continuous(
+            breaks=breaks,
+            sec.axis=dup_axis(labels=2^breaks,name='Fold change'))
         
         return(out)
     }

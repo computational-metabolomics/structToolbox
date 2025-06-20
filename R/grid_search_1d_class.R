@@ -224,11 +224,26 @@ setMethod(f="chart_plot",
         A=result(dobj)
         opt=output_value(dobj,'optimum_value')
         A$values=param_value(dobj,'search_values')
-        out=ggplot(data=A, aes_(x=~values,y=~mean,group=~1)) +
-            geom_errorbar(aes_(ymin=~mean-(1.96*`sd`), ymax=~mean+(1.96*`sd`)), width=.1) +
+        out=ggplot(data=A, 
+                   aes(
+                       x=.data[['values']],
+                       y=.data[['mean']],
+                       group=.data[['1']])) +
+            geom_errorbar(
+                aes(
+                    ymin=.data[['mean']]-(1.96*.data[['sd']]), 
+                    ymax=.data[['mean']]+(1.96*.data[['sd']])), 
+                width=0.1) +
             geom_line(color="red")+
             geom_point() +
-            geom_point(data=A[A$values==as.numeric(opt),],aes_(x=~values,y=~mean),group=1,color='blue',shape=1,size=4) +
+            geom_point(data=A[A$values==as.numeric(opt),],
+                       aes(
+                           x=.data[['values']],
+                           y=.data[['mean']]),
+                       group=1,
+                       color='blue',
+                       shape=1,
+                       size=4) +
             ggtitle(NULL, subtitle=paste0('Suggested optimum: ',opt)) +
             theme_Publication(base_size = 12) +
             xlab(param_name(dobj,'param_to_optimise')) +

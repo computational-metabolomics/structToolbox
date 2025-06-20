@@ -32,14 +32,18 @@ theme_Publication <- function(base_size=14){ #, base_family="helvetica") {
 
 scale_fill_Publication <- function(...){
     #library(scales)
-    discrete_scale("fill","Publication",manual_pal(values = c("#386cb0","#ef3b2c","#7fc97f","#fdb462","#984ea3","#a6cee3","#778899","#fb9a99","#ffff33")), ...)
+    #discrete_scale("fill","Publication",manual_pal(values = c("#386cb0","#ef3b2c","#7fc97f","#fdb462","#984ea3","#a6cee3","#778899","#fb9a99","#ffff33")), ...)
+    scale_fill_manual(
+        values = c("#386cb0","#ef3b2c","#7fc97f","#fdb462","#984ea3",
+                   "#a6cee3","#778899","#fb9a99","#ffff33"), ...)
 }
 
 
 scale_colour_Publication <- function(...){
     #library(scales)
-    discrete_scale("colour","Publication",manual_pal(values = c("#386cb0","#ef3b2c","#7fc97f","#fdb462","#984ea3","#a6cee3","#778899","#fb9a99","#ffff33")), ...)
-
+    scale_colour_manual(
+        values = c("#386cb0","#ef3b2c","#7fc97f","#fdb462","#984ea3",
+                   "#a6cee3","#778899","#fb9a99","#ffff33"), ...)
 }
 
 createClassAndColors <- function (class, QC_label="QC", Blank_label="Blank", QC_color="#000000",

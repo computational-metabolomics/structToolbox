@@ -123,9 +123,16 @@ setMethod(f="chart_plot",
         temp=data.frame(x=SM,y=Xt,row.names=names(SM))
         
         if (obj$fill) {
-            A = aes_string(x='x',y='y',color='x',fill='x')
+            A = aes(
+                x=.data[['x']],
+                y=.data[['y']],
+                color=.data[['x']],
+                fill=.data[['x']])
         } else {
-            A = aes_string(x='x',y='y',color='x')
+            A = aes(
+                x=.data[['x']],
+                y=.data[['y']],
+                color=.data[['x']])
         }
 
         
@@ -166,7 +173,11 @@ setMethod(f="chart_plot",
             }
             outlier_df=temp[outliers,]
             outlier_df$out_label=paste0('  ',rownames(temp))[outliers]
-            p=p+geom_text(data=outlier_df,aes_(group=~x,color=~x,label=~out_label),hjust='left')
+            p=p+geom_text(data=outlier_df,aes(
+                    group=.data[['x']],
+                    color=.data[['x']],
+                    label=.data[['out_label']]),
+                hjust='left')
         }
         
         return(p)
@@ -241,7 +252,7 @@ setMethod(f="chart_plot",
         }
         
         A=data.frame(x=count)
-        p=ggplot (data=A, aes_(x=~x)) + geom_histogram()+
+        p=ggplot (data=A, aes(x=.data[['x']])) + geom_histogram()+
             xlab ("missing values, %")+ ggtitle(txt)+
             xlim (0,100)+
             scale_colour_Publication()+ theme_Publication(base_size = 12)
@@ -345,7 +356,8 @@ setMethod(f="chart_plot",
         }
         
         
-        p=ggplot (data=A, aes_(x=~x,y=~y,color=~x)) +
+        p=ggplot (data=A, 
+                  aes(x=.data[['x']],y=.data[['y']],color=.data[['x']])) +
             geom_boxplot() +
             ggtitle(txt) +
             xlab(opt$factor) +
@@ -383,7 +395,13 @@ setMethod(f="chart_plot",
                 {
                     outlier_df$out_label=paste0('  ',rep(colnames(dobj$data),length(L))[outliers])
                 }
-                p=p+geom_text(data=outlier_df,aes_(group=~x,color=~x,label=~out_label,angle =~ 90),hjust='left')
+                p=p+geom_text(data=outlier_df,
+                              aes(
+                                  group=.data[['x']],
+                                  color=.data[['x']],
+                                  label=.data[['out_label']],
+                                  angle = 90),
+                              hjust='left')
             }
             
         }
@@ -452,11 +470,16 @@ setMethod(f="chart_plot",
                     temp=rbind(temp,data.frame(values=as.vector(M),group=k))
                 }
             }
-            out=ggplot(data=temp, aes_(x=~values,color=~group))+
+            out=ggplot(data=temp, 
+                       aes(x=.data[['values']],
+                           color=.data[['group']]))+
                 geom_freqpoly(bins=100)
         } else {
             temp=data.frame(values=as.vector(X),group='Sample')
-            out=ggplot(data=temp, aes_(x=~values,color=~group)) +
+            out=ggplot(data=temp, 
+                       aes(
+                           x=.data[['values']],
+                           color=.data[['group']])) +
                 geom_freqpoly(bins=100,color='black')
         }
         out = out  +
@@ -566,7 +589,11 @@ setMethod(f="chart_plot",
                 temp=rbind(temp,data.frame(value=X[,i],feature=colnames(X)[i],group=sm))
             }
         }
-        out=ggplot(data=temp, aes_(x=~feature,y=~value,color=~group)) +
+        out=ggplot(data=temp, 
+                   aes(
+                    x=.data[['feature']],
+                    y=.data[['value']],
+                    color=.data[['group']])) +
             geom_boxplot()+
             xlab(ylabel) +
             ylab('Values') +
@@ -741,7 +768,11 @@ setMethod(f="chart_plot",
         colnames(X)=c('Sample','Feature','peak_area')
         X$Feature=as.character(X$Feature)
         X$Sample=as.character(X$Sample)
-        p=ggplot(data=X,aes_string(x='Feature',y='Sample',fill='peak_area')) + geom_raster() +
+        p=ggplot(data=X,aes(
+                x = .data[['Feature']],
+                y = .data[['Sample']],
+                fill = .data[['peak_area']])) + 
+            geom_raster() +
             scale_colour_Publication()+
             theme_Publication(base_size = 12)+
             scale_fill_viridis_c(na.value=obj$na_colour)+

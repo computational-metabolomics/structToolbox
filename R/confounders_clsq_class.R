@@ -231,7 +231,7 @@ setMethod(f="chart_plot",
         N=ncol(dobj$percent_change)
         A=data.frame(percent_change=t(dobj$percent_change[varn,2:N])*100,group=colnames(dobj$percent_change)[2:N])
         colnames(A)=c('percent_change','group')
-        out=ggplot(data=A,aes_(x=~group,y=~percent_change,fill=~group)) +
+        out=ggplot(data=A,aes(x=.data[['group']],y=.data[['percent_change']],fill=.data[['group']])) +
             geom_bar(stat='identity') +
             theme_Publication(base_size = 12) +
             ylab('Percent change') +
@@ -239,7 +239,7 @@ setMethod(f="chart_plot",
             theme(legend.position="none") +
             scale_fill_manual(values=c("#386cb0", "#ef3b2c", "#7fc97f", "#fdb462", "#984ea3",
                 "#a6cee3", "#778899", "#fb9a99", "#ffff33")) +
-            geom_hline(yintercept = obj$threshold,color='black',size=1,linetype= "dashed") + ggtitle(rownames(dobj$percent_change)[varn])
+            geom_hline(yintercept = obj$threshold,color='black',linewidth=1,linetype= "dashed") + ggtitle(rownames(dobj$percent_change)[varn])
 
         return(out)
     }
@@ -307,7 +307,7 @@ setMethod(f="chart_plot",
         }
 
         colnames(A)=c('percent_change','group')
-        out=ggplot(data=A,aes_(x=~group,y=~percent_change,colour=~group)) +
+        out=ggplot(data=A,aes(x=.data[['group']],y=.data[['percent_change']],colour=.data[['group']])) +
             geom_boxplot() +
             theme_Publication(base_size = 12) +
             ylab('Percent change') +
@@ -315,7 +315,7 @@ setMethod(f="chart_plot",
             theme(legend.position="none") +
             scale_color_manual(values=c("#386cb0", "#ef3b2c", "#7fc97f", "#fdb462", "#984ea3",
                 "#a6cee3", "#778899", "#fb9a99", "#ffff33")) +
-            geom_hline(yintercept = obj$threshold,color='black',size=1,linetype= "dashed")
+            geom_hline(yintercept = obj$threshold,color='black',linewidth=1,linetype= "dashed")
 
         return(out)
     }

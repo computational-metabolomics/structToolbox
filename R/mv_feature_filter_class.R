@@ -178,7 +178,7 @@ setMethod(f="chart_plot",
         n=colnames(A)
         A$x=100-((A[,1])*100) # filter report number of values, not number of missing values
         A$features=factor(A[,2],levels=c(1,0),labels=c('accepted','rejected'))
-        out=ggplot(data=A, aes_(x=~x,fill=~features)) +
+        out=ggplot(data=A, aes(x=.data[['x']],fill=.data[['features']])) +
             geom_histogram(boundary=(100-t),color='white') +
             xlab('% missing values (per feature)') +
             ylab('Count') +
