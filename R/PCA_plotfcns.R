@@ -420,7 +420,7 @@ setMethod(f="chart_plot",
                 scale_colour_Publication() +
                 theme_Publication(base_size = 12)
             
-            if (!is.null(obj$label_features)) {
+            if (!is.null(obj$label_features[1])) {
                 
                 if (obj$label_features=='row.names') {
                     vlabels=rownames(dobj$loadings)
