@@ -288,8 +288,8 @@ prob_predict=function(x,prob_model)
     din=list()
     dout=list()
     for (i in 1:nrow(prob_model)) {
-        pin=dnorm(x[,i,drop=FALSE],prob_model$ingroup.mean,prob_model$ingroup.sd)
-        pout=dnorm(x[,i,drop=FALSE],prob_model$outgroup.mean,prob_model$outgroup.sd)
+        pin=dnorm(x[,i,drop=FALSE],prob_model$ingroup.mean[i],prob_model$ingroup.sd[i])
+        pout=dnorm(x[,i,drop=FALSE],prob_model$outgroup.mean[i],prob_model$outgroup.sd[i])
         din[[i]]=pin
         dout[[i]]=pout
     }
