@@ -1,3 +1,7 @@
+Changes 1.23.1
++ general maintenance
++ fix PLSDA probability calculation
+
 Changes 1.19.2
 + fix pca_biplot
 
