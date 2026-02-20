@@ -228,7 +228,7 @@ setMethod(f="chart_plot",
                    aes(
                        x=.data[['values']],
                        y=.data[['mean']],
-                       group=.data[['1']])) +
+                       group=.data[['metric']])) +
             geom_errorbar(
                 aes(
                     ymin=.data[['mean']]-(1.96*.data[['sd']]), 
@@ -246,7 +246,7 @@ setMethod(f="chart_plot",
                        size=4) +
             ggtitle(NULL, subtitle=paste0('Suggested optimum: ',opt)) +
             theme_Publication(base_size = 12) +
-            xlab(param_name(dobj,'param_to_optimise')) +
+            xlab(param_value(dobj,'param_to_optimise')) +
             ylab(A$metric[1])
         return(out)
     }

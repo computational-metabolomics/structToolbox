@@ -118,11 +118,14 @@ Imports: ggplot2,
     ggthemes,
     grid,
     gridExtra,
+    httr,
+    jsonlite,
     methods,
     scales,
     sp,
-    stats
-RoxygenNote: 7.3.2
+    stats,
+    limma
+RoxygenNote: 7.3.3
 Suggests: agricolae,
  BiocFileCache,
  BiocStyle,
