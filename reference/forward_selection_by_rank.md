@@ -1,0 +1,100 @@
+# Forward selection by rank
+
+A model is trained and performance metric computed by including
+increasing numbers of features in the model. The features to be included
+in each step are defined by their rank, which is computed from another
+variable e.g. VIP score. An "optimal"subset of features is suggested by
+minimising the input performance metric.
+
+## Usage
+
+``` r
+forward_selection_by_rank(
+  min_no_vars = 1,
+  max_no_vars = 100,
+  step_size = 1,
+  factor_name,
+  variable_rank,
+  ...
+)
+```
+
+## Arguments
+
+- min_no_vars:
+
+  (numeric) The minimum number of variables to include in the model. The
+  default is `1`.\
+
+- max_no_vars:
+
+  (numeric) The maximum number of variables to include in the model. The
+  default is `100`.\
+
+- step_size:
+
+  (numeric) The incremental change in number of features in the model.
+  The default is `1`.\
+
+- factor_name:
+
+  (character) The name of a sample-meta column to use.
+
+- variable_rank:
+
+  (numeric, integer) The values used to rank the features.
+
+- ...:
+
+  Additional slots and values passed to `struct_class`.
+
+## Value
+
+A `forward_selection_by_rank` object with the following `output` slots:
+
+|  |  |
+|----|----|
+| `metric` | (data.frame) The value of the computed metric for each model. For nested models the metric is averaged. |
+| `results` | (data.frame) The predicted outputs from collated from all models computed during forward selection. |
+| `chosen_vars` | (numeric, integer) The column number of the variables chosen for the best performing model. |
+| `smoothed` | (numeric) The value of the performance metric for each evaluated model after smoothing. |
+| `searchlist` | (numeric) The maxmimum rank of features included in each model. |
+
+## Inheritance
+
+A `forward_selection_by_rank` object inherits the following `struct`
+classes:\
+\
+`[forward_selection_by_rank]` \>\> `[resampler]` \>\> `[iterator]` \>\>
+`[struct_class]`
+
+## Examples
+
+``` r
+M = forward_selection_by_rank(
+      min_no_vars = 1,
+      max_no_vars = 100,
+      step_size = 1,
+      factor_name = "V1",
+      variable_rank = 1)
+
+# some data
+D = MTBLS79_DatasetExperiment(filtered=TRUE)
+
+# normalise, impute and scale then remove QCs
+P = pqn_norm(qc_label='QC',factor_name='Class') +
+    knn_impute(neighbours=5) +
+    glog_transform(qc_label='QC',factor_name='Class') +
+    filter_smeta(mode='exclude',levels='QC',factor_name='Class')
+P = model_apply(P,D)
+D = predicted(P)
+
+# forward selection using a PLSDA model
+M = forward_selection_by_rank(factor_name='Class',
+                             min_no_vars=2,
+                             max_no_vars=11,
+                             variable_rank=1:2063) *
+    (mean_centre() + PLSDA(number_components=1,
+                           factor_name='Class'))
+M = run(M,D,balanced_accuracy())
+```

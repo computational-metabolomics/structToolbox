@@ -1,0 +1,127 @@
+# Fold change
+
+Fold change is the relative change in mean (or non-parametric
+equivalent) intensities of a feature between all pairs of levels in a
+factor.
+
+## Usage
+
+``` r
+fold_change(
+  factor_name,
+  paired = FALSE,
+  sample_name = character(0),
+  threshold = 2,
+  control_group = character(0),
+  method = "geometric",
+  conf_level = 0.95,
+  ...
+)
+```
+
+## Arguments
+
+- factor_name:
+
+  (character) The name of a sample-meta column to use.
+
+- paired:
+
+  (logical) Paired fold change. Allowed values are limited to the
+  following:
+
+  - `"TRUE"`: Fold change is calculated taking into account paired
+    sampling.
+
+  - `"FALSE"`: Fold change is calculated assuming there is no paired
+    sampling.
+
+  The default is `FALSE`.\
+
+- sample_name:
+
+  (character) The name of a sample_meta column containing sample
+  identifiers for paired sampling. The default is `character(0)`.
+
+- threshold:
+
+  (numeric) The fold change threshold for labelling features as
+  significant. The default is `2`.\
+
+- control_group:
+
+  (character) The level name of the group used in the denominator (where
+  possible) when computing fold change. The default is `character(0)`.
+
+- method:
+
+  (character) Fold change method. Allowed values are limited to the
+  following:
+
+  - `"geometric"`: A log transform is applied before using group means
+    to calculate fold change. In the non-tranformedspace this is
+    equivalent to using geometric group means. Confidence intervals for
+    independant and paired sampling are estimated using standard error
+    of the mean in log transformed space before being transformed back
+    to the original space.
+
+  - `"median"`: The group medians and the method described by Price and
+    Bonett is used to estimate confidence intervals. For paired data
+    standard error of the median is used to estimate confidence
+    intervals from the median fold change of all pairs.
+
+  - `"mean"`: The group means and the method described by Price and
+    Bonnet is used to estimate confidence intervals. For paired data
+    standard error of the mean is used to estimate confidence intervals
+    from the mean fold change of all pairs.
+
+  The default is `"geometric"`.
+
+- conf_level:
+
+  (numeric) The confidence level of the interval. The default is
+  `0.95`.\
+
+- ...:
+
+  Additional slots and values passed to `struct_class`.
+
+## Value
+
+A `fold_change` object with the following `output` slots:
+
+|  |  |
+|----|----|
+| `fold_change` | (data.frame) The fold change between groups. |
+| `lower_ci` | (data.frame) Lower confidence interval for fold change. |
+| `upper_ci` | (data.frame) Upper confidence interval for fold change. |
+| `significant` | (data.frame) A logical indictor of whether the calculated fold change including the estimated confidence limits is greater than the selected threshold. |
+
+## Inheritance
+
+A `fold_change` object inherits the following `struct` classes:\
+\
+`[fold_change]` \>\> `[model]` \>\> `[struct_class]`
+
+## References
+
+Price Jr RM, Bonett DG (2020). "Confidence Intervals for Ratios of Means
+and Medians." *Journal of Educational and Behavioral Statistics*,
+*45*(6), 750-770.
+
+## Examples
+
+``` r
+M = fold_change(
+      factor_name = "V1",
+      sample_name = character(0),
+      paired = FALSE,
+      threshold = 2,
+      control_group = character(0),
+      method = "geometric",
+      conf_level = 0.95)
+
+D = MTBLS79_DatasetExperiment()
+M = fold_change(factor_name='Class')
+M = model_apply(M,D)
+```

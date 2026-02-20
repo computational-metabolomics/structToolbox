@@ -1,0 +1,373 @@
+# Package index
+
+## All functions
+
+- [`ANOVA()`](https://computational-metabolomics.github.io/structToolbox/reference/ANOVA.md)
+  : Analysis of Variance
+- [`AUC()`](https://computational-metabolomics.github.io/structToolbox/reference/AUC.md)
+  : Area under ROC curve
+- [`DFA()`](https://computational-metabolomics.github.io/structToolbox/reference/DFA.md)
+  : Discriminant Factor Analysis
+- [`DatasetExperiment_boxplot()`](https://computational-metabolomics.github.io/structToolbox/reference/DatasetExperiment_boxplot.md)
+  : Feature distribution histogram
+- [`DatasetExperiment_dist()`](https://computational-metabolomics.github.io/structToolbox/reference/DatasetExperiment_dist.md)
+  : Feature distribution histogram
+- [`DatasetExperiment_factor_boxplot()`](https://computational-metabolomics.github.io/structToolbox/reference/DatasetExperiment_factor_boxplot.md)
+  : Factor boxplot
+- [`DatasetExperiment_heatmap()`](https://computational-metabolomics.github.io/structToolbox/reference/DatasetExperiment_heatmap.md)
+  : DatasetExperiment heatmap
+- [`HCA()`](https://computational-metabolomics.github.io/structToolbox/reference/HCA.md)
+  : Hierarchical Cluster Analysis
+- [`HSD()`](https://computational-metabolomics.github.io/structToolbox/reference/HSD.md)
+  : Tukey's Honest Significant Difference
+- [`HSDEM()`](https://computational-metabolomics.github.io/structToolbox/reference/HSDEM.md)
+  : Tukey's Honest Significant Difference using estimated marginal means
+- [`MTBLS79_DatasetExperiment()`](https://computational-metabolomics.github.io/structToolbox/reference/MTBLS79_DatasetExperiment.md)
+  : MTBLS79: Direct infusion mass spectrometry metabolomics dataset: a
+  benchmark for data processing and quality control
+- [`OPLSDA()`](https://computational-metabolomics.github.io/structToolbox/reference/OPLSDA.md)
+  : Orthogonal Partial Least Squares regression
+- [`OPLSR()`](https://computational-metabolomics.github.io/structToolbox/reference/OPLSR.md)
+  : Orthogonal Partial Least Squares regression
+- [`PCA()`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)
+  : Principal Component Analysis (PCA)
+- [`PLSDA()`](https://computational-metabolomics.github.io/structToolbox/reference/PLSDA.md)
+  : Partial least squares discriminant analysis
+- [`PLSR()`](https://computational-metabolomics.github.io/structToolbox/reference/PLSR.md)
+  : Partial least squares regression
+- [`SVM()`](https://computational-metabolomics.github.io/structToolbox/reference/SVM.md)
+  : Support Vector Machine Classifier
+- [`as_data_frame(`*`<filter_na_count>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/as_data_frame.md)
+  [`as_data_frame(`*`<ttest>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/as_data_frame.md)
+  [`as_data_frame(`*`<wilcox_test>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/as_data_frame.md)
+  : Convert to data.frame
+- [`autoscale()`](https://computational-metabolomics.github.io/structToolbox/reference/autoscale.md)
+  : Autoscaling
+- [`balanced_accuracy()`](https://computational-metabolomics.github.io/structToolbox/reference/balanced_accuracy.md)
+  : Balanced Accuracy
+- [`balanced_error()`](https://computational-metabolomics.github.io/structToolbox/reference/balanced_error.md)
+  : Balanced error
+- [`blank_filter()`](https://computational-metabolomics.github.io/structToolbox/reference/blank_filter.md)
+  : Blank filter
+- [`blank_filter_hist()`](https://computational-metabolomics.github.io/structToolbox/reference/blank_filter_hist.md)
+  : Histogram of blank filter fold changes
+- [`bootstrap()`](https://computational-metabolomics.github.io/structToolbox/reference/bootstrap.md)
+  : Bootstrap resampling
+- [`calculate(`*`<AUC>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/calculate.md)
+  [`calculate(`*`<balanced_accuracy>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/calculate.md)
+  [`calculate(`*`<balanced_error>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/calculate.md)
+  [`calculate(`*`<r_squared>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/calculate.md)
+  : Calculate metric
+- [`chart_plot(`*`<dfa_scores_plot>`*`,`*`<DFA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<scatter_chart>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<pca_correlation_plot>`*`,`*`<PCA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<pca_scores_plot>`*`,`*`<PCA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<pca_biplot>`*`,`*`<PCA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<pca_loadings_plot>`*`,`*`<PCA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<pca_scree_plot>`*`,`*`<PCA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<pca_dstat_plot>`*`,`*`<PCA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<plsr_prediction_plot>`*`,`*`<PLSR>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<plsr_residual_hist>`*`,`*`<PLSR>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<plsr_qq_plot>`*`,`*`<PLSR>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<plsr_cook_dist>`*`,`*`<PLSR>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<pls_scores_plot>`*`,`*`<PLSR>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<plsda_predicted_plot>`*`,`*`<PLSDA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<plsda_roc_plot>`*`,`*`<PLSDA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<pls_vip_plot>`*`,`*`<PLSR>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<pls_regcoeff_plot>`*`,`*`<PLSR>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<blank_filter_hist>`*`,`*`<blank_filter>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<confounders_lsq_barchart>`*`,`*`<confounders_clsq>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<confounders_lsq_boxplot>`*`,`*`<confounders_clsq>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<feature_boxplot>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<mv_histogram>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<mv_boxplot>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<DatasetExperiment_dist>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<DatasetExperiment_boxplot>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<compare_dist>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<DatasetExperiment_heatmap>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<DatasetExperiment_factor_boxplot>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<feature_profile_array>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<feature_profile>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<fold_change_plot>`*`,`*`<fold_change>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<fs_line>`*`,`*`<forward_selection_by_rank>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<glog_opt_plot>`*`,`*`<glog_transform>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<gs_line>`*`,`*`<grid_search_1d>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<hca_dendrogram>`*`,`*`<HCA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<kfoldxcv_grid>`*`,`*`<kfold_xval>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<kfoldxcv_metric>`*`,`*`<kfold_xval>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<kw_p_hist>`*`,`*`<kw_rank_sum>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<mv_feature_filter_hist>`*`,`*`<mv_feature_filter>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<mv_sample_filter_hist>`*`,`*`<mv_sample_filter>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<permutation_test_plot>`*`,`*`<permutation_test>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<plsda_feature_importance_plot>`*`,`*`<PLSDA>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<pqn_norm_hist>`*`,`*`<pqn_norm>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<resample_chart>`*`,`*`<resample>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<rsd_filter_hist>`*`,`*`<rsd_filter>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<feature_profile>`*`,`*`<sb_corr>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<svm_plot_2d>`*`,`*`<SVM>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<tSNE_scatter>`*`,`*`<tSNE>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<tic_chart>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  [`chart_plot(`*`<wilcox_p_hist>`*`,`*`<wilcox_test>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)
+  : chart_plot method
+- [`classical_lsq()`](https://computational-metabolomics.github.io/structToolbox/reference/classical_lsq.md)
+  : Univariate Classical Least Squares Regression
+- [`compare_dist()`](https://computational-metabolomics.github.io/structToolbox/reference/compare_dist.md)
+  : Compare distributions
+- [`confounders_clsq()`](https://computational-metabolomics.github.io/structToolbox/reference/confounders_clsq.md)
+  : Check for confounding factors
+- [`confounders_lsq_barchart()`](https://computational-metabolomics.github.io/structToolbox/reference/confounders_lsq_barchart.md)
+  : Confounding factor relative change barchart
+- [`confounders_lsq_boxplot()`](https://computational-metabolomics.github.io/structToolbox/reference/confounders_lsq_boxplot.md)
+  : Confounding factor relative change boxplot
+- [`constant_sum_norm()`](https://computational-metabolomics.github.io/structToolbox/reference/constant_sum_norm.md)
+  : Normalisation to constant sum
+- [`corr_coef()`](https://computational-metabolomics.github.io/structToolbox/reference/corr_coef.md)
+  : Correlation coefficient
+- [`dfa_scores_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/dfa_scores_plot.md)
+  : DFA scores plot
+- [`dratio_filter()`](https://computational-metabolomics.github.io/structToolbox/reference/dratio_filter.md)
+  : Dispersion ratio filter
+- [`equal_split()`](https://computational-metabolomics.github.io/structToolbox/reference/equal_split.md)
+  : Equal group sized sampling
+- [`feature_boxplot()`](https://computational-metabolomics.github.io/structToolbox/reference/feature_boxplot.md)
+  : Feature boxplot
+- [`feature_profile()`](https://computational-metabolomics.github.io/structToolbox/reference/feature_profile.md)
+  : Feature profile
+- [`feature_profile_array()`](https://computational-metabolomics.github.io/structToolbox/reference/feature_profile_array.md)
+  : Feature profile
+- [`filter_by_name()`](https://computational-metabolomics.github.io/structToolbox/reference/filter_by_name.md)
+  : Filter by name
+- [`filter_na_count()`](https://computational-metabolomics.github.io/structToolbox/reference/filter_na_count.md)
+  : Minimum number of measured values filter
+- [`filter_smeta()`](https://computational-metabolomics.github.io/structToolbox/reference/filter_smeta.md)
+  : Filter by sample meta data
+- [`fisher_exact()`](https://computational-metabolomics.github.io/structToolbox/reference/fisher_exact.md)
+  : Fisher Exact Test
+- [`fold_change()`](https://computational-metabolomics.github.io/structToolbox/reference/fold_change.md)
+  : Fold change
+- [`fold_change_int()`](https://computational-metabolomics.github.io/structToolbox/reference/fold_change_int.md)
+  : Fold change for interactions between factors
+- [`fold_change_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/fold_change_plot.md)
+  : Fold change plot
+- [`forward_selection_by_rank()`](https://computational-metabolomics.github.io/structToolbox/reference/forward_selection_by_rank.md)
+  : Forward selection by rank
+- [`fs_line()`](https://computational-metabolomics.github.io/structToolbox/reference/fs_line.md)
+  : Forward selection line plot
+- [`glog_opt_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/glog_opt_plot.md)
+  : Glog optimisation
+- [`glog_transform()`](https://computational-metabolomics.github.io/structToolbox/reference/glog_transform.md)
+  : Generalised logarithmic transform
+- [`grid_search_1d()`](https://computational-metabolomics.github.io/structToolbox/reference/grid_search_1d.md)
+  : One dimensional grid search
+- [`gs_line()`](https://computational-metabolomics.github.io/structToolbox/reference/gs_line.md)
+  : Grid search line plot
+- [`hca_dendrogram()`](https://computational-metabolomics.github.io/structToolbox/reference/hca_dendrogram.md)
+  : HCA dendrogram
+- [`kfold_xval()`](https://computational-metabolomics.github.io/structToolbox/reference/kfold_xval.md)
+  : k-fold cross-validation
+- [`kfoldxcv_grid()`](https://computational-metabolomics.github.io/structToolbox/reference/kfoldxcv_grid.md)
+  : k-fold cross validation plot
+- [`kfoldxcv_metric()`](https://computational-metabolomics.github.io/structToolbox/reference/kfoldxcv_metric.md)
+  : kfoldxcv metric plot
+- [`knn_impute()`](https://computational-metabolomics.github.io/structToolbox/reference/knn_impute.md)
+  : kNN missing value imputation
+- [`kw_p_hist()`](https://computational-metabolomics.github.io/structToolbox/reference/kw_p_hist.md)
+  : Histogram of p values
+- [`kw_rank_sum()`](https://computational-metabolomics.github.io/structToolbox/reference/kw_rank_sum.md)
+  : Kruskal-Wallis rank sum test
+- [`linear_model()`](https://computational-metabolomics.github.io/structToolbox/reference/linear_model.md)
+  : Linear model
+- [`log_transform()`](https://computational-metabolomics.github.io/structToolbox/reference/log_transform.md)
+  : logarithm transform
+- [`mean_centre()`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)
+  : Mean centre
+- [`mean_of_medians()`](https://computational-metabolomics.github.io/structToolbox/reference/mean_of_medians.md)
+  : Mean of medians
+- [`mixed_effect()`](https://computational-metabolomics.github.io/structToolbox/reference/mixed_effect.md)
+  : Mixed effects model
+- [`model_apply(`*`<ANOVA>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<HSD>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<mixed_effect>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<HSDEM>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<classical_lsq>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<confounders_clsq>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<constant_sum_norm>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<corr_coef>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<split_data>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<equal_split>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<filter_smeta>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<fisher_exact>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<fold_change>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<fold_change_int>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<HCA>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<knn_impute>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<kw_rank_sum>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<log_transform>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<mean_of_medians>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<nroot_transform>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<pairs_filter>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<prop_na>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<rsd_filter>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<sb_corr>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<stratified_split>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<tSNE>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<ttest>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<vec_norm>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  [`model_apply(`*`<wilcox_test>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)
+  : Apply method
+- [`model_predict(`*`<DFA>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<PCA>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<PLSR>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<PLSDA>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<autoscale>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<blank_filter>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<constant_sum_norm>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<dratio_filter>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<filter_by_name>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<filter_na_count>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<filter_smeta>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<glog_transform>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<linear_model>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<mean_centre>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<mv_feature_filter>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<mv_sample_filter>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<OPLSR>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<OPLSDA>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<pareto_scale>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<pqn_norm>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<SVM>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  [`model_predict(`*`<vec_norm>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)
+  : Model prediction
+- [`model_reverse(`*`<autoscale>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_reverse.md)
+  [`model_reverse(`*`<mean_centre>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_reverse.md)
+  : Reverse preprocessing
+- [`model_train(`*`<DFA>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<PCA>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<PLSR>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<PLSDA>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<autoscale>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<blank_filter>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<constant_sum_norm>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<dratio_filter>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<filter_by_name>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<filter_na_count>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<filter_smeta>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<glog_transform>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<linear_model>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<mean_centre>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<mv_feature_filter>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<mv_sample_filter>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<OPLSR>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<OPLSDA>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<pareto_scale>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<pqn_norm>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<SVM>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  [`model_train(`*`<vec_norm>`*`,`*`<DatasetExperiment>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)
+  : Train a model
+- [`mv_boxplot()`](https://computational-metabolomics.github.io/structToolbox/reference/mv_boxplot.md)
+  : Missing value boxplots
+- [`mv_feature_filter()`](https://computational-metabolomics.github.io/structToolbox/reference/mv_feature_filter.md)
+  : Filter features by missing values
+- [`mv_feature_filter_hist()`](https://computational-metabolomics.github.io/structToolbox/reference/mv_feature_filter_hist.md)
+  : Histogram of missing values per feature
+- [`mv_histogram()`](https://computational-metabolomics.github.io/structToolbox/reference/mv_histogram.md)
+  : Missing value histogram
+- [`mv_sample_filter()`](https://computational-metabolomics.github.io/structToolbox/reference/mv_sample_filter.md)
+  : Missing value sample filter
+- [`mv_sample_filter_hist()`](https://computational-metabolomics.github.io/structToolbox/reference/mv_sample_filter_hist.md)
+  : Histogram of missing values per sample
+- [`nroot_transform()`](https://computational-metabolomics.github.io/structToolbox/reference/nroot_transform.md)
+  : nth root transform
+- [`ontology_cache()`](https://computational-metabolomics.github.io/structToolbox/reference/ontology_cache.md)
+  : ontology cache
+- [`pairs_filter()`](https://computational-metabolomics.github.io/structToolbox/reference/pairs_filter.md)
+  : Pairs filter
+- [`pareto_scale()`](https://computational-metabolomics.github.io/structToolbox/reference/pareto_scale.md)
+  : Pareto scaling
+- [`pca_biplot()`](https://computational-metabolomics.github.io/structToolbox/reference/pca_biplot.md)
+  : PCA biplot
+- [`pca_correlation_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/pca_correlation_plot.md)
+  : PCA correlation plot
+- [`pca_dstat_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/pca_dstat_plot.md)
+  : d-statistic plot
+- [`pca_loadings_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/pca_loadings_plot.md)
+  : PCA loadings plot
+- [`pca_scores_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)
+  : PCA scores plot
+- [`pca_scree_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scree_plot.md)
+  : Scree plot
+- [`permutation_test()`](https://computational-metabolomics.github.io/structToolbox/reference/permutation_test.md)
+  : Permutation test
+- [`permutation_test_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/permutation_test_plot.md)
+  : permutation_test_plot class
+- [`permute_sample_order()`](https://computational-metabolomics.github.io/structToolbox/reference/permute_sample_order.md)
+  : Permute Sample Order
+- [`pls_regcoeff_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/pls_regcoeff_plot.md)
+  : pls_regcoeff_plot class
+- [`pls_scores_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/pls_scores_plot.md)
+  [`plsda_scores_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/pls_scores_plot.md)
+  : PLSDA scores plot
+- [`pls_vip_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/pls_vip_plot.md)
+  : PLSDA VIP plot
+- [`plsda_feature_importance_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/plsda_feature_importance_plot.md)
+  : PLSDA feature importance summary plot
+- [`plsda_predicted_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/plsda_predicted_plot.md)
+  : PLSDA predicted plot
+- [`plsda_roc_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/plsda_roc_plot.md)
+  : PLSDA ROC plot
+- [`plsr_cook_dist()`](https://computational-metabolomics.github.io/structToolbox/reference/plsr_cook_dist.md)
+  : Cook's distance barchart
+- [`plsr_prediction_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/plsr_prediction_plot.md)
+  : PLSR prediction plot
+- [`plsr_qq_plot()`](https://computational-metabolomics.github.io/structToolbox/reference/plsr_qq_plot.md)
+  : PLSR QQ plot
+- [`plsr_residual_hist()`](https://computational-metabolomics.github.io/structToolbox/reference/plsr_residual_hist.md)
+  : PLSR residuals histogram
+- [`pqn_norm()`](https://computational-metabolomics.github.io/structToolbox/reference/pqn_norm.md)
+  : Probabilistic Quotient Normalisation (PQN)
+- [`pqn_norm_hist()`](https://computational-metabolomics.github.io/structToolbox/reference/pqn_norm_hist.md)
+  : PQN coefficient histogram
+- [`prop_na()`](https://computational-metabolomics.github.io/structToolbox/reference/prop_na.md)
+  : Fisher's exact test for missing values
+- [`r_squared()`](https://computational-metabolomics.github.io/structToolbox/reference/r_squared.md)
+  : Coefficient of determination (R-squared)
+- [`resample()`](https://computational-metabolomics.github.io/structToolbox/reference/resample.md)
+  : Data resampling
+- [`resample_chart()`](https://computational-metabolomics.github.io/structToolbox/reference/resample_chart.md)
+  : resample_chart class
+- [`rsd_filter()`](https://computational-metabolomics.github.io/structToolbox/reference/rsd_filter.md)
+  : RSD filter
+- [`rsd_filter_hist()`](https://computational-metabolomics.github.io/structToolbox/reference/rsd_filter_hist.md)
+  : RSD histogram
+- [`run(`*`<bootstrap>`*`,`*`<DatasetExperiment>`*`,`*`<metric>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/run.md)
+  [`run(`*`<forward_selection_by_rank>`*`,`*`<DatasetExperiment>`*`,`*`<metric>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/run.md)
+  [`run(`*`<grid_search_1d>`*`,`*`<DatasetExperiment>`*`,`*`<metric>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/run.md)
+  [`run(`*`<kfold_xval>`*`,`*`<DatasetExperiment>`*`,`*`<metric>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/run.md)
+  [`run(`*`<permutation_test>`*`,`*`<DatasetExperiment>`*`,`*`<metric>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/run.md)
+  [`run(`*`<permute_sample_order>`*`,`*`<DatasetExperiment>`*`,`*`<metric>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/run.md)
+  [`run(`*`<resample>`*`,`*`<DatasetExperiment>`*`,`*`<metric>`*`)`](https://computational-metabolomics.github.io/structToolbox/reference/run.md)
+  : Runs an iterator, applying the chosen model multiple times.
+- [`sb_corr()`](https://computational-metabolomics.github.io/structToolbox/reference/sb_corr.md)
+  : Signal/batch correction for mass spectrometry data
+- [`scatter_chart()`](https://computational-metabolomics.github.io/structToolbox/reference/scatter_chart.md)
+  : Group scatter chart
+- [`split_data()`](https://computational-metabolomics.github.io/structToolbox/reference/split_data.md)
+  : Split data
+- [`stratified_split()`](https://computational-metabolomics.github.io/structToolbox/reference/stratified_split.md)
+  : Stratified sampling
+- [`svm_plot_2d()`](https://computational-metabolomics.github.io/structToolbox/reference/svm_plot_2d.md)
+  : SVM scatter plot
+- [`tSNE()`](https://computational-metabolomics.github.io/structToolbox/reference/tSNE.md)
+  : tSNE
+- [`tSNE_scatter()`](https://computational-metabolomics.github.io/structToolbox/reference/tSNE_scatter.md)
+  : Feature boxplot
+- [`tic_chart()`](https://computational-metabolomics.github.io/structToolbox/reference/tic_chart.md)
+  : Total Ion Count chart.
+- [`ttest()`](https://computational-metabolomics.github.io/structToolbox/reference/ttest.md)
+  : t-test
+- [`vec_norm()`](https://computational-metabolomics.github.io/structToolbox/reference/vec_norm.md)
+  : Vector normalisation
+- [`wilcox_p_hist()`](https://computational-metabolomics.github.io/structToolbox/reference/wilcox_p_hist.md)
+  : Histogram of p values
+- [`wilcox_test()`](https://computational-metabolomics.github.io/structToolbox/reference/wilcox_test.md)
+  : wilcoxon signed rank test
