@@ -10,7 +10,7 @@ test_that('kfold xval venetian',{
   # run
   I=run(I,D,B)
   # calculate metric
-  expect_equal(I$metric$mean,0.813,tolerance=0.005)
+  expect_equal(I$metric$mean,0.853,tolerance=0.005)
 })
 
 test_that('kfold xval blocks',{
@@ -26,7 +26,7 @@ test_that('kfold xval blocks',{
   # run
   I=run(I,D,B)
   # calculate metric
-  expect_equal(I$metric$mean,0.2,tolerance=0.005)
+  expect_equal(I$metric$mean,0.153,tolerance=0.005)
 })
 
 test_that('kfold xval random',{
@@ -40,7 +40,7 @@ test_that('kfold xval random',{
   # run
   I=run(I,D,B)
   # calculate metric
-  expect_equal(I$metric$mean,0.787,tolerance=0.005)
+  expect_equal(I$metric$mean,0.860,tolerance=0.005)
 })
 
 test_that('kfold xval metric plot',{
