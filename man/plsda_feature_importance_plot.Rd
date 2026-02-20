@@ -55,10 +55,10 @@ Springer-Verlag New York. ISBN 978-3-319-24277-4,
 
 Wickham H (2007). "Reshaping Data with the reshape Package." \emph{Journal
 of Statistical Software}, \emph{21}(12), 1-20.
-\url{http://www.jstatsoft.org/v21/i12/}.
+\url{https://www.jstatsoft.org/v21/i12/}.
 
-Wilke C (2024). \emph{cowplot: Streamlined Plot Theme and Plot Annotations
+Wilke C (2025). \emph{cowplot: Streamlined Plot Theme and Plot Annotations
 for 'ggplot2'}. doi:10.32614/CRAN.package.cowplot
 \url{https://doi.org/10.32614/CRAN.package.cowplot}, R package version
-1.1.3, \url{https://CRAN.R-project.org/package=cowplot}.
+1.2.0, \url{https://CRAN.R-project.org/package=cowplot}.
 }

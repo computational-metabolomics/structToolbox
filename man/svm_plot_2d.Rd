@@ -47,10 +47,10 @@ chart_plot(C,M[4],predicted(M[3]))
 
 }
 \references{
-Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2024).
+Meyer D, Dimitriadou E, Hornik K, Weingessel A, Leisch F (2025).
 \emph{e1071: Misc Functions of the Department of Statistics, Probability
 Theory Group (Formerly: E1071), TU Wien}.
 doi:10.32614/CRAN.package.e1071
 \url{https://doi.org/10.32614/CRAN.package.e1071}, R package version
-1.7-16, \url{https://CRAN.R-project.org/package=e1071}.
+1.7-17, \url{https://CRAN.R-project.org/package=e1071}.
 }

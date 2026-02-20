@@ -47,10 +47,10 @@ M = model_apply(M,D)
 
 }
 \references{
-Lenth R (2025). \emph{emmeans: Estimated Marginal Means, aka Least-Squares
-Means}. doi:10.32614/CRAN.package.emmeans
+Lenth R, Piaskowski J (2025). \emph{emmeans: Estimated Marginal Means, aka
+Least-Squares Means}. doi:10.32614/CRAN.package.emmeans
 \url{https://doi.org/10.32614/CRAN.package.emmeans}, R package version
-1.11.1, \url{https://CRAN.R-project.org/package=emmeans}.
+2.0.1, \url{https://CRAN.R-project.org/package=emmeans}.
 
 Pinheiro J, Bates D, R Core Team (2025). \emph{nlme: Linear and Nonlinear
 Mixed Effects Models}. doi:10.32614/CRAN.package.nlme
