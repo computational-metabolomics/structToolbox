@@ -2,5 +2,30 @@ url: https://computational-metabolomics.github.io/structToolbox/
 template:
   bootstrap: 5
   bootswatch: flatly
-  
 
+vignettes:
+  exclude:
+    - data_analysis_omics_using_the_structtoolbox.Rmd
+
+navbar:
+  components:
+    articles:
+      text: Articles
+      menu:
+        - text: "Getting Started"
+        - text: "Introduction to struct objects"
+          href: articles/introduction_to_struct_objects.html
+        - text: "---------"
+        - text: "Case Studies"
+        - text: "Typical workflow for Mass Spectrometry data"
+          href: articles/typical_MS_workflow.html
+        - text: "Partial Least Squares (PLS) (LCMS)"
+          href: articles/pls_clinical_lcms.html
+        - text: "Univariate Analysis (NMR)"
+          href: articles/univariate_clinical_nmr.html
+        - text: "Uni- and Multi- variate analysis of 'omics data"
+          href: articles/stategra_proteomics_metabolomics.html
+        - text: "---------"
+        - text: "Tutorials"
+        - text: Support Vector Machines 
+          href: articles/metabolomics_and_svm.html

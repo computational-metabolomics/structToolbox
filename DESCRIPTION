@@ -151,3 +151,4 @@ VignetteBuilder: knitr
 biocViews: WorkflowStep, Metabolomics
 URL: https://github.com/computational-metabolomics/structToolbox, https://computational-metabolomics.github.io/structToolbox/
 Roxygen: list(markdown = TRUE)
+Config/Needs/website: rmarkdown
