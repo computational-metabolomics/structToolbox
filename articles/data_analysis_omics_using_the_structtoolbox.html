@@ -30,10 +30,20 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
+<li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/data_analysis_omics_using_the_structtoolbox.html">Data analysis of metabolomics and other omics datasets using the structToolbox</a></li>
+<li><h6 class="dropdown-header" data-toc-skip>Getting Started</h6></li>
+    <li><a class="dropdown-item" href="../articles/introduction_to_struct_objects.html">Introduction to struct objects</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Case Studies</h6></li>
+    <li><a class="dropdown-item" href="../articles/typical_MS_workflow.html">Typical workflow for Mass Spectrometry data</a></li>
+    <li><a class="dropdown-item" href="../articles/pls_clinical_lcms.html">Partial Least Squares (PLS) (LCMS)</a></li>
+    <li><a class="dropdown-item" href="../articles/univariate_clinical_nmr.html">Univariate Analysis (NMR)</a></li>
+    <li><a class="dropdown-item" href="../articles/stategra_proteomics_metabolomics.html">Uni- and Multi- variate analysis of 'omics data</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Tutorials</h6></li>
+    <li><a class="dropdown-item" href="../articles/metabolomics_and_svm.html">Support Vector Machines</a></li>
   </ul>
 </li>
       </ul>
@@ -134,6 +144,7 @@ current R version can be installed using <code>BiocManager</code>.</p>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pmp</span><span class="op">)</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://doi.org/10.1021/acs.jproteome.5b00354" class="external-link">ropls</a></span><span class="op">)</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">BiocFileCache</span><span class="op">)</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Bioconductor/BiocStyle" class="external-link">BiocStyle</a></span><span class="op">)</span></span>
 <span>  </span>
 <span>    <span class="co"># CRAN libraries</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -358,7 +369,7 @@ model.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_scores_plot.html">pca_scores_plot</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'class'</span><span class="op">)</span> <span class="co"># colour by class</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-16-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-28-1.png"><!-- --></p>
 <p>Note that indexing the PCA model is required because the
 <code>pca_scores_plot</code> object requires a PCA object as input, not
 a model_sequence.</p>
@@ -370,7 +381,7 @@ a model_sequence.</p>
 <span><span class="co"># update plot</span></span>
 <span><span class="va">C</span><span class="op">$</span><span class="va">factor_name</span><span class="op">=</span><span class="st">'example'</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-17-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-29-1.png"><!-- --></p>
 <p>The <code>chart_plot</code> method returns a ggplot object so that
 you can easily combine it with other plots using the
 <code>gridExtra</code> or <code>cowplot</code> packages for example.</p>
@@ -385,7 +396,7 @@ you can easily combine it with other plots using the
 <span></span>
 <span><span class="co"># arange in grid</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></span><span class="op">(</span>grobs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span><span class="op">)</span>,nrow<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-18-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-30-1.png"><!-- --></p>
 </div>
 <div class="section level4">
 <h4 id="ontology">Ontology<a class="anchor" aria-label="anchor" href="#ontology"></a>
@@ -580,7 +591,7 @@ way as charts for any other object.</p>
 <span>  factor_name<span class="op">=</span><span class="st">'class'</span>,</span>
 <span>  level<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">D</span><span class="op">$</span><span class="va">sample_meta</span><span class="op">$</span><span class="va">class</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="co"># first level</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">XCV</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-27-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-39-1.png"><!-- --></p>
 <p>It is possible to combine multiple iterators by using the
 multiplication symbol. This is equivalent to nesting one iterator inside
 the other. For example, we can repeat our cross-validation multiple
@@ -598,8 +609,7 @@ times by permuting the sample order.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="a-typical-workflow-for-processing-and-analysing-mass-spectrometry-based-metabolomics-data-">A typical workflow for processing and analysing mass
-spectrometry-based metabolomics data.<a class="anchor" aria-label="anchor" href="#a-typical-workflow-for-processing-and-analysing-mass-spectrometry-based-metabolomics-data-"></a>
+<h2 id="case-studies">Case Studies<a class="anchor" aria-label="anchor" href="#case-studies"></a>
 </h2>
 <div class="section level3">
 <h3 id="introduction-2">Introduction<a class="anchor" aria-label="anchor" href="#introduction-2"></a>
@@ -712,10 +722,10 @@ and between batches.</p>
 <span></span>
 <span><span class="co"># plot and modify using ggplot2 </span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">'Peak area'</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Before'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-31-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-71-1.png"><!-- --></p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="fu"><a href="https://rdrr.io/pkg/struct/man/predicted.html" class="external-link">predicted</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">'Peak area'</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'After'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-31-2.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-71-2.png"><!-- --></p>
 <p>An additional step is added to the published workflow to remove any
 feature not corrected by QCRCMS. This can occur if there are not enough
 measured QC values within a batch. <code>QCRMS</code> in the
@@ -856,7 +866,7 @@ components.</p>
 <span><span class="co">## <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
 <span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
 <span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-37-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-77-1.png"><!-- --></p>
 <p>This plot is very similar to Figure 3b of the original publication <a href="https://www.nature.com/articles/sdata201412/figures/3" class="external-link">link</a>.
 Sample replicates are represented by colours and samples groups (C = cow
 and S = Sheep) by different shapes.</p>
@@ -868,13 +878,8 @@ overlapping.</p>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_scores_plot.html">pca_scores_plot</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Batch'</span><span class="op">)</span>,ellipse<span class="op">=</span><span class="st">'none'</span><span class="op">)</span></span>
 <span><span class="co"># plot</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M7</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-38-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-78-1.png"><!-- --></p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="partial-least-squares-pls-analysis-of-a-untargeted-lc-ms-based-clinical-metabolomics-dataset-">Partial Least Squares (PLS) analysis of a untargeted LC-MS-based
-clinical metabolomics dataset.<a class="anchor" aria-label="anchor" href="#partial-least-squares-pls-analysis-of-a-untargeted-lc-ms-based-clinical-metabolomics-dataset-"></a>
-</h2>
 <div class="section level3">
 <h3 id="introduction-3">Introduction<a class="anchor" aria-label="anchor" href="#introduction-3"></a>
 </h3>
@@ -886,10 +891,13 @@ et al. (2015)</a> and 3. compare different implementations of PLS.</p>
 <div class="section level3">
 <h3 id="dataset-2">Dataset<a class="anchor" aria-label="anchor" href="#dataset-2"></a>
 </h3>
-<p>The objective of the original study was to: &gt; …study the influence
-of age, body mass index (bmi), and gender on metabolite concentrations
-in urine, by analysing 183 samples from a cohort of adults with liquid
-chromatography coupled to high-resolution mass spectrometry.</p>
+<p>The objective of the original study was to:</p>
+<blockquote>
+<p>…study the influence of age, body mass index (bmi), and gender on
+metabolite concentrations in urine, by analysing 183 samples from a
+cohort of adults with liquid chromatography coupled to high-resolution
+mass spectrometry.</p>
+</blockquote>
 <p><a href="https://pubs.acs.org/doi/10.1021/acs.jproteome.5b00354" class="external-link">Thevenot
 et al. (2015)</a></p>
 <p>The “Sacurine” dataset needs to be converted to a
@@ -956,7 +964,7 @@ scaling (autoscaling) by default. The same approach is applied here.</p>
 <span><span class="op">}</span></span>
 <span><span class="co"># plot using cowplot</span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist<span class="op">=</span><span class="va">g</span>, nrow<span class="op">=</span><span class="fl">1</span>, align<span class="op">=</span><span class="st">'vh'</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>,<span class="st">'B'</span>,<span class="st">'C'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-40-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-93-1.png"><!-- --></p>
 <p>The third plot coloured by gender (C) is identical to Figure 2 of the
 <em><a href="https://bioconductor.org/packages/3.23/ropls" class="external-link">ropls</a></em>
 package vignette. The <code>structToolbox</code> package provides a
@@ -976,7 +984,7 @@ of the data.</p>
 <span><span class="va">p1</span><span class="op">=</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span><span class="op">)</span>,align<span class="op">=</span><span class="st">'h'</span>,nrow<span class="op">=</span><span class="fl">1</span>,axis<span class="op">=</span><span class="st">'b'</span><span class="op">)</span></span>
 <span><span class="va">p2</span><span class="op">=</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">g3</span><span class="op">)</span>,nrow<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">p1</span>,<span class="va">p2</span>,nrow<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-41-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-94-1.png"><!-- --></p>
 </div>
 <div class="section level3">
 <h3 id="partial-least-squares-pls-analysis">Partial Least Squares (PLS) analysis<a class="anchor" aria-label="anchor" href="#partial-least-squares-pls-analysis"></a>
@@ -992,7 +1000,7 @@ approaches. For simplicity only the scores plots are compared.</p>
 <span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pls_scores_plot.html">pls_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'gender'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-42-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-95-1.png"><!-- --></p>
 <p>The plot is similar to fig.3 of the <em><a href="https://bioconductor.org/packages/3.23/ropls" class="external-link">ropls</a></em>
 vignette. Differences are due to inverted LV axes, a common occurrence
 with the NIPALS algorithm (used by both <code>structToolbox</code> and
@@ -1024,7 +1032,7 @@ model.</p>
 <span><span class="va">g4</span> <span class="op">=</span> <span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span>,<span class="va">g3</span>,<span class="va">g4</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">2</span>,align<span class="op">=</span><span class="st">'vh'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-43-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-96-1.png"><!-- --></p>
 <p>The <code>ropls</code> package automatically applies cross-validation
 to asses the performance of the PLSDA model. In
 <code>structToolbox</code> this is applied separately to give more
@@ -1052,17 +1060,12 @@ testing. For this we will return to a discriminant model.</p>
 <span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/permutation_test_plot.html">permutation_test_plot</a></span><span class="op">(</span>style<span class="op">=</span><span class="st">'boxplot'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">'1 - balanced accuracy'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-46-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-99-1.png"><!-- --></p>
 <p>The permuted models have a balanced accuracy of around 50%, which is
 to be expected for a dataset with two groups. The unpermuted models have
 a balanced accuracy of around 90% and is therefore much better than
 might be expected to occur by chance.</p>
 </div>
-</div>
-<div class="section level2">
-<h2 id="univariate-and-multivariate-statistical-analysis-of-a-nmr-based-clinical-metabolomics-dataset-">Univariate and multivariate statistical analysis of a NMR-based
-clinical metabolomics dataset.<a class="anchor" aria-label="anchor" href="#univariate-and-multivariate-statistical-analysis-of-a-nmr-based-clinical-metabolomics-dataset-"></a>
-</h2>
 <div class="section level3">
 <h3 id="introduction-4">Introduction<a class="anchor" aria-label="anchor" href="#introduction-4"></a>
 </h3>
@@ -1196,7 +1199,7 @@ sequence.</p>
 <span><span class="va">g2</span> <span class="op">=</span> <span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span>,align<span class="op">=</span><span class="st">'hv'</span>,nrow<span class="op">=</span><span class="fl">1</span>,axis<span class="op">=</span><span class="st">'tblr'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-49-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-113-1.png"><!-- --></p>
 </div>
 <div class="section level3">
 <h3 id="univariate-statistics">Univariate statistics<a class="anchor" aria-label="anchor" href="#univariate-statistics"></a>
@@ -1323,7 +1326,7 @@ bootstrap iterations are used here.</p>
 <span><span class="co">#</span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/gs_line.html">gs_line</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">MS</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-52-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-116-1.png"><!-- --></p>
 <p>The chart plotted shows Q2, which is comparable with Figure 13 of <a href="(https://cimcb.github.io/MetabWorkflowTutorial/Tutorial1.html)" class="external-link">Mendez
 et al</a> . Two components were selected by Mendez et al, so we will use
 that here.</p>
@@ -1351,7 +1354,7 @@ that here.</p>
 <span><span class="va">g3</span> <span class="op">=</span> <span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">P</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span>,<span class="va">g3</span>,align<span class="op">=</span><span class="st">'vh'</span>,axis<span class="op">=</span><span class="st">'tblr'</span>,nrow<span class="op">=</span><span class="fl">1</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>,<span class="st">'B'</span>,<span class="st">'C'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-53-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-117-1.png"><!-- --></p>
 <div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># AUC for comparison with Mendez et al</span></span>
 <span><span class="va">MET</span> <span class="op">=</span> <span class="fu"><a href="../reference/calculate.html">calculate</a></span><span class="op">(</span><span class="fu"><a href="../reference/AUC.html">AUC</a></span><span class="op">(</span><span class="op">)</span>,<span class="va">P</span><span class="op">$</span><span class="va">y</span><span class="op">$</span><span class="va">Class</span>,<span class="va">P</span><span class="op">$</span><span class="va">yhat</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
@@ -1385,7 +1388,7 @@ with other iterators and models.</p>
 <span><span class="co"># chart</span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/permutation_test_plot.html">permutation_test_plot</a></span><span class="op">(</span>style <span class="op">=</span> <span class="st">'density'</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">MS</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">xlim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">'R Squared'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-55-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-119-1.png"><!-- --></p>
 <p>This plot is comparable to the bottom half of Figure 17 in <a href="https://cimcb.github.io/MetabWorkflowTutorial/Tutorial1.html" class="external-link">Mendez
 et. al.</a>. The unpermuted (true) Q2 values are consistently better
 than the permuted (null) models. i.e. the model is reliable.</p>
@@ -1404,7 +1407,7 @@ variables.</p>
 <span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pls_scores_plot.html">pls_scores_plot</a></span><span class="op">(</span>components<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">P</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-56-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-120-1.png"><!-- --></p>
 </div>
 <div class="section level4">
 <h4 id="pls-feature-importance">PLS feature importance<a class="anchor" aria-label="anchor" href="#pls-feature-importance"></a>
@@ -1422,272 +1425,8 @@ brevity here we will skip this.</p>
 <span><span class="va">g2</span> <span class="op">=</span> <span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">P</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span>,align<span class="op">=</span><span class="st">'hv'</span>,axis<span class="op">=</span><span class="st">'tblr'</span>,nrow<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-57-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-121-1.png"><!-- --></p>
 </div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="classification-of-metabolomics-data-using-support-vector-machines-">Classification of Metabolomics Data using Support Vector
-Machines.<a class="anchor" aria-label="anchor" href="#classification-of-metabolomics-data-using-support-vector-machines-"></a>
-</h2>
-<div class="section level3">
-<h3 id="introduction-5">Introduction<a class="anchor" aria-label="anchor" href="#introduction-5"></a>
-</h3>
-<p>The aim of this vignette is to illustrate how to apply SVM analysis
-for Classifying Metabolomics data.</p>
-<p>Support vector Machines (SVM) are a commonly used method in Machine
-Learning. For classification tasks they are used to generate a boundary
-between groups of samples in the training set. As well as generating
-linear boundaries, SVM can be extended to exploit the use of kernels and
-generate complex non-linear boundaries between groups if required.</p>
-<p>For the <code>structToolbox</code> package, SVM functionality
-provided by the <em><a href="https://CRAN.R-project.org/package=e1071" class="external-link">e1071</a></em> package
-has been incorporated into a <code>model</code> object. A chart object
-(<code>svm_plot_2d</code>) is also available to plot SVM boundaries for
-data with two variables.</p>
-</div>
-<div class="section level3">
-<h3 id="dataset-4">Dataset<a class="anchor" aria-label="anchor" href="#dataset-4"></a>
-</h3>
-<p>The 1H-NMR dataset used and described in <a href="https://link.springer.com/article/10.1007/s11306-019-1588-0,%20https://github.com/CIMCB/MetabWorkflowTutorial" class="external-link">Mendez
-et al., (2020)</a> and in this vignette contains processed spectra of
-urine samples obtained from gastric cancer and healthy patients <a href="https://www.nature.com/articles/bjc2015414" class="external-link">Chan et al.,
-(2016)</a>. The raw experimental data is available through Metabolomics
-Workbench (<a href="http://dx.doi.org/10.21228/M8B10B" class="external-link">PR000699</a>) and
-the processed version is available from <a href="https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx" class="external-link">here</a>
-as an Excel data file.</p>
-<p>For simplicity we will use a pre-processed version of the 1H-NMR
-“Gastric cancer” dataset using the <code>structToolbox</code> package.
-Details in regards to pre-processing are reported in the
-“NMR_clinical_metabolomics” vignette of the `r Biocpkg(“structToolbox”)
-package.</p>
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># summary of DatasetExperiment object</span></span>
-<span><span class="va">DE</span></span></code></pre></div>
-<pre><code><span><span class="co">## A "DatasetExperiment" object</span></span>
-<span><span class="co">## ----------------------------</span></span>
-<span><span class="co">## name:          </span></span>
-<span><span class="co">## description:   </span></span>
-<span><span class="co">## data:          140 rows x 53 columns</span></span>
-<span><span class="co">## sample_meta:   140 rows x 5 columns</span></span>
-<span><span class="co">## variable_meta: 53 rows x 1 columns</span></span></code></pre>
-<p>For the purposes of illustrating the effect of SVM parameters on the
-boundary between groups, we reduce the data to include only the GC and
-HE groups and apply PLS to reduce the data to two components. We then
-treat the PLS scores as as a two group dataset with only two
-features.</p>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># model sequence and pls model (NB data already centred)</span></span>
-<span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">'include'</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'GC'</span>,<span class="st">'HE'</span><span class="op">)</span>, factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span> <span class="op">+</span></span>
-<span>     <span class="fu"><a href="../reference/PLSDA.html">PLSDA</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'Class'</span>,number_components <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># apply PLS model</span></span>
-<span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">MS</span>,<span class="va">DE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># plot the data</span></span>
-<span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pls_scores_plot.html">pls_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">MS</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-60-1.png"><!-- --></p>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># new DatasetExperiment object from the PLS scores</span></span>
-<span><span class="va">DE2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/struct_DatasetExperiment.html" class="external-link">DatasetExperiment</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">MS</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">$</span><span class="va">scores</span><span class="op">$</span><span class="va">data</span>, </span>
-<span>  sample_meta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/predicted.html" class="external-link">predicted</a></span><span class="op">(</span><span class="va">MS</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">sample_meta</span>,</span>
-<span>  variable_meta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">'LV'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">MS</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">$</span><span class="va">scores</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  name <span class="op">=</span> <span class="st">'Illustrativate SVM dataset'</span>,</span>
-<span>  description <span class="op">=</span> <span class="st">'Generated by applying PLS to the processed Gastric cancer (NMR) dataset'</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">DE2</span></span></code></pre></div>
-<pre><code><span><span class="co">## A "DatasetExperiment" object</span></span>
-<span><span class="co">## ----------------------------</span></span>
-<span><span class="co">## name:          Illustrativate SVM dataset</span></span>
-<span><span class="co">## description:   Generated by applying PLS to the processed Gastric cancer (NMR) dataset</span></span>
-<span><span class="co">## data:          83 rows x 2 columns</span></span>
-<span><span class="co">## sample_meta:   83 rows x 5 columns</span></span>
-<span><span class="co">## variable_meta: 2 rows x 1 columns</span></span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="basic-svm-model">Basic SVM model<a class="anchor" aria-label="anchor" href="#basic-svm-model"></a>
-</h3>
-<p>The simplest SVM model uses a linear kernel. In
-<code>structToolbox</code> the <code>SVM</code> model can be used to
-train and apply SVM models. A <code>svm_plot_2d</code> chart object is
-provided for visualisation of boundaries in two dimensions.</p>
-<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># SVM model</span></span>
-<span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/SVM.html">SVM</a></span><span class="op">(</span></span>
-<span>  factor_name <span class="op">=</span> <span class="st">'Class'</span>,</span>
-<span>  kernel <span class="op">=</span> <span class="st">'linear'</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># apply model</span></span>
-<span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># plot boundary</span></span>
-<span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>, <span class="va">DE2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-61-1.png"><!-- --></p>
-<p>The SVM boundary is plotted in black, the margins in grey and support
-vectors are indicated by grey circles.</p>
-</div>
-<div class="section level3">
-<h3 id="svm-cost-function">SVM cost function<a class="anchor" aria-label="anchor" href="#svm-cost-function"></a>
-</h3>
-<p>The SVM cost function applies a penalty to samples on the wrong side
-of the margins. A high penalty results in a narrow margin and tries to
-force more samples to be on the correct side of the boundary. A low
-penalty makes for a wider margin and is less strict about samples being
-misclassified. The optimal cost to use is data dependent.</p>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># low cost</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">0.01</span></span>
-<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
-<span><span class="va">g1</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># medium cost</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">0.05</span></span>
-<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
-<span><span class="va">g2</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># high cost</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">100</span></span>
-<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
-<span><span class="va">g3</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># plot</span></span>
-<span><span class="va">prow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span></span>
-<span>  <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  <span class="va">g2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  <span class="va">g3</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  align <span class="op">=</span> <span class="st">'vh'</span>,</span>
-<span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Low cost"</span>, <span class="st">"Medium cost"</span>, <span class="st">"High cost"</span><span class="op">)</span>,</span>
-<span>  hjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
-<span>  nrow <span class="op">=</span> <span class="fl">2</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">legend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/get_legend.html" class="external-link">get_legend</a></span><span class="op">(</span></span>
-<span>  <span class="co"># create some space to the left of the legend</span></span>
-<span>  <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">prow</span>, <span class="va">legend</span>, ncol<span class="op">=</span><span class="fl">1</span>, rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-62-1.png"><!-- --></p>
-</div>
-<div class="section level3">
-<h3 id="kernel-functions">Kernel functions<a class="anchor" aria-label="anchor" href="#kernel-functions"></a>
-</h3>
-<p>A number of different kernels can be used with support vector
-machines. For the <code>structToolbox</code> wrapper ‘linear’,
-‘polynomial’,‘radial’ and ‘sigmoid’ kernels can be specified. Using
-kernels allows the boundary to be more flexible, but often require
-additional parameters to be specified. The best kernel to use will vary
-depending on the dataset, but a common choice is the radial kernel as it
-allows high flexibility with a single parameter.</p>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># set a fixed cost for this comparison</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">1</span></span>
-<span></span>
-<span><span class="co"># linear kernel</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span><span class="op">=</span><span class="st">'linear'</span></span>
-<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
-<span><span class="va">g1</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># polynomial kernel</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span><span class="op">=</span><span class="st">'polynomial'</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">1</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">coef0</span><span class="op">=</span><span class="fl">0</span></span>
-<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
-<span><span class="va">g2</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># rbf kernel</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span><span class="op">=</span><span class="st">'radial'</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">1</span></span>
-<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
-<span><span class="va">g3</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># sigmoid kernel</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span><span class="op">=</span><span class="st">'sigmoid'</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">1</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">coef0</span><span class="op">=</span><span class="fl">0</span></span>
-<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
-<span><span class="va">g4</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># plot</span></span>
-<span><span class="va">prow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span></span>
-<span>  <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  <span class="va">g2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  <span class="va">g3</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  <span class="va">g4</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  align <span class="op">=</span> <span class="st">'vh'</span>,</span>
-<span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Linear"</span>, <span class="st">"Polynomial"</span>, <span class="st">"Radial"</span>,<span class="st">"Sigmoid"</span><span class="op">)</span>,</span>
-<span>  hjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
-<span>  nrow <span class="op">=</span> <span class="fl">2</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">legend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/get_legend.html" class="external-link">get_legend</a></span><span class="op">(</span></span>
-<span>  <span class="co"># create some space to the left of the legend</span></span>
-<span>  <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">prow</span>, <span class="va">legend</span>, ncol <span class="op">=</span> <span class="fl">1</span>, rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-63-1.png"><!-- --></p>
-<p>The parameters of a kernel can be used to control the complexity of
-the boundary. Here I show how the radial kernel parameter “gamma” can be
-used to change the complexity of the boundary. In combination with the
-cost parameter (which I keep constant here) this allows for highly
-flexible boundary models.</p>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># rbf kernel and cost</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span> <span class="op">=</span> <span class="st">'radial'</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">cost</span> <span class="op">=</span> <span class="fl">1</span></span>
-<span></span>
-<span><span class="co"># low gamma</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">0.01</span></span>
-<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
-<span><span class="va">g1</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># medium gamma</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">0.1</span></span>
-<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
-<span><span class="va">g2</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># high gamma</span></span>
-<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">1</span></span>
-<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
-<span><span class="va">g3</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># plot</span></span>
-<span><span class="va">prow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span></span>
-<span> <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
-<span> <span class="va">g2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
-<span> <span class="va">g3</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
-<span> align <span class="op">=</span> <span class="st">'vh'</span>,</span>
-<span> labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Low gamma"</span>, <span class="st">"Medium gamma"</span>, <span class="st">"High gamma"</span><span class="op">)</span>,</span>
-<span> hjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
-<span> nrow <span class="op">=</span> <span class="fl">2</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">legend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/get_legend.html" class="external-link">get_legend</a></span><span class="op">(</span></span>
-<span>  <span class="co"># create some space to the left of the legend</span></span>
-<span>  <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">prow</span>, <span class="va">legend</span>, ncol <span class="op">=</span> <span class="fl">1</span>, rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-64-1.png"><!-- --></p>
-<p>Note that best practice would be to select the optimal kernel
-parameter(s) in combination with the cost parameter (e.g. by 2d grid
-search) so that the best combination of both is identified.</p>
 </div>
 </div>
 <div class="section level2">
@@ -1695,7 +1434,7 @@ search) so that the best combination of both is identified.</p>
 datasets (STATegra project)<a class="anchor" aria-label="anchor" href="#exploratory-data-analysis-of-lc-ms-based-proteomics-and-metabolomics-datasets-stategra-project"></a>
 </h2>
 <div class="section level3">
-<h3 id="introduction-6">Introduction<a class="anchor" aria-label="anchor" href="#introduction-6"></a>
+<h3 id="introduction-5">Introduction<a class="anchor" aria-label="anchor" href="#introduction-5"></a>
 </h3>
 <p>The aim of this vignette is to conduct data preprocessing and
 exploratory analysis of data from the STATegra project (<a href="https://www.nature.com/articles/s41597-019-0202-7" class="external-link uri">https://www.nature.com/articles/s41597-019-0202-7</a>). For
@@ -1721,7 +1460,7 @@ complemented with single-cell data.</p>
 <p>The LC-MS-based proteomics dataset from the STATegra multi-omics
 dataset (see Introduction) can be found on <a href="https://github.com/STATegraData/STATegraData" class="external-link">github</a> and must
 be extracted from the zip file prior to data analysis.</p>
-<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># path to zip</span></span>
 <span><span class="va">zipfile</span> <span class="op">=</span> <span class="st">"https://raw.github.com/STATegraData/STATegraData/master/Script_STATegra_Proteomics.zip"</span></span>
 <span></span>
@@ -1741,7 +1480,7 @@ be extracted from the zip file prior to data analysis.</p>
 <p>The imported data needs to be converted to
 <code>DatasetExperiment</code> format for use with
 <code>structToolbox</code>.</p>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># extract data matrix</span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="va">all_data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2527</span>,<span class="fl">51</span><span class="op">:</span><span class="fl">86</span><span class="op">]</span></span>
 <span><span class="co"># shorten sample names</span></span>
@@ -1792,7 +1531,7 @@ be extracted from the zip file prior to data analysis.</p>
 <span><span class="co">## variable_meta: 2527 rows x 3 columns</span></span></code></pre>
 <p>A number of Reporter genes were included in the study. We plot two of
 them here to illustrate some trends in the data.</p>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># find id of reporters</span></span>
 <span><span class="va">Ldha</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">DS</span><span class="op">$</span><span class="va">variable_meta</span><span class="op">$</span><span class="va">Gene.names</span><span class="op">==</span><span class="st">'Ldha'</span><span class="op">)</span></span>
 <span><span class="va">Hk2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">DS</span><span class="op">$</span><span class="va">variable_meta</span><span class="op">$</span><span class="va">Gene.names</span><span class="op">==</span><span class="st">'Hk2'</span><span class="op">)</span></span>
@@ -1804,7 +1543,7 @@ them here to illustrate some trends in the data.</p>
 <span><span class="va">g2</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">DS</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Hk2'</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">'expression'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span>,nrow<span class="op">=</span><span class="fl">1</span>,align<span class="op">=</span><span class="st">'vh'</span>,axis<span class="op">=</span><span class="st">'tblr'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-67-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-137-1.png"><!-- --></p>
 <div class="section level4">
 <h4 id="data-transformation">Data transformation<a class="anchor" aria-label="anchor" href="#data-transformation"></a>
 </h4>
@@ -1812,7 +1551,7 @@ them here to illustrate some trends in the data.</p>
 medians is equal for all conditions. These steps are available in
 <code>structToolbox</code> using <code>log_transform</code> and
 <code>mean_of_medians</code> objects.</p>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model sequence</span></span>
 <span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/log_transform.html">log_transform</a></span><span class="op">(</span></span>
 <span>  base<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -1824,7 +1563,7 @@ medians is equal for all conditions. These steps are available in
 <span><span class="co"># get transformed data</span></span>
 <span><span class="va">DST</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/predicted.html" class="external-link">predicted</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span></code></pre></div>
 <p>The Reporter genes are plotted again for comparison.</p>
-<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># chart object</span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/feature_boxplot.html">feature_boxplot</a></span><span class="op">(</span>feature_to_plot<span class="op">=</span><span class="va">Ldha</span>,factor_name<span class="op">=</span><span class="st">'time'</span>,label_outliers<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">g1</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">DST</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Ldha'</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">'log2(expression)'</span><span class="op">)</span></span>
@@ -1832,7 +1571,7 @@ medians is equal for all conditions. These steps are available in
 <span><span class="va">g2</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">DST</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Hk2'</span><span class="op">)</span><span class="op">+</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">'log2(expression)'</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span>,nrow<span class="op">=</span><span class="fl">1</span>,align<span class="op">=</span><span class="st">'vh'</span>,axis<span class="op">=</span><span class="st">'tblr'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-69-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-139-1.png"><!-- --></p>
 </div>
 <div class="section level4">
 <h4 id="missing-value-filtering">Missing value filtering<a class="anchor" aria-label="anchor" href="#missing-value-filtering"></a>
@@ -1854,7 +1593,7 @@ along the model sequence it passes unchanged through the
 changed, so the <code>filter_na_count</code> and
 <code>filter_by_name</code> objects are working together as a single
 filter.</p>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># build model sequence</span></span>
 <span><span class="va">M2</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_na_count.html">filter_na_count</a></span><span class="op">(</span></span>
 <span>  threshold<span class="op">=</span><span class="fl">2</span>,</span>
@@ -1889,7 +1628,7 @@ where values are missing for all samples using a “random value below
 discovery”. We create a new struct object using
 <code>set_struct_obj</code> in the global environment, and a
 “method_apply” method that implements the imputation.</p>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create new imputation object</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/struct/man/set_struct_obj.html" class="external-link">set_struct_obj</a></span><span class="op">(</span></span>
 <span>  class_name <span class="op">=</span> <span class="st">'STATegra_impute1'</span>,</span>
@@ -1941,7 +1680,7 @@ discovery”. We create a new struct object using
 condition with exactly 1 missing value with the mean of the values for
 that condition. Again we create a new struct object and corresponding
 method for the the new object to implement the filter.</p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create new imputation object</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/struct/man/set_struct_obj.html" class="external-link">set_struct_obj</a></span><span class="op">(</span></span>
 <span>  class_name <span class="op">=</span> <span class="st">'STATegra_impute2'</span>,</span>
@@ -2007,7 +1746,7 @@ method for the the new object to implement the filter.</p>
 sequences like any other <code>struct</code> object. A final filter is
 added to remove any feature that has missing values after
 imputation.</p>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># model sequence</span></span>
 <span><span class="va">M3</span> <span class="op">=</span> <span class="fu">STATegra_impute1</span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'treatment'</span>,factor_sd<span class="op">=</span><span class="st">'condition'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>     <span class="fu">STATegra_impute2</span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'condition'</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -2031,7 +1770,7 @@ imputation.</p>
 <p>It is often useful to visualise the distribution of values across
 samples to verify that the transformations/normalisation/filtering etc
 have been effective.</p>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-74-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-144-1.png"><!-- --></p>
 <p>The values are no longer skewed and show an approximately normal
 distribution. The boxplots are comparable in width with very few
 outliers indicated, so the transformations etc have had an overall
@@ -2039,7 +1778,7 @@ positive effect.</p>
 <p>PCA is used to provide a graphical representation of the data. For
 comparison with the outputs from STATegra a filter is included to reduce
 the data to include only the treated samples (IKA)</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># model sequence</span></span>
 <span><span class="va">P</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span>mode<span class="op">=</span><span class="st">'include'</span>,factor_name<span class="op">=</span><span class="st">'treatment'</span>,levels<span class="op">=</span><span class="st">'IKA'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="../reference/mean_centre.html">mean_centre</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -2055,7 +1794,7 @@ the data to include only the treated samples (IKA)</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">g</span>,nrow<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-75-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-145-1.png"><!-- --></p>
 <p>There does not appear to be a strong batch effect. PC1 is dominated
 by time point “24” and some potentially outlying points from time points
 “2” and “0”.</p>
@@ -2067,7 +1806,7 @@ by time point “24” and some potentially outlying points from time points
 <p>The LC-MS-based metabolomics dataset from the STATegra multi-omics
 dataset (see Introduction) can be found on <a href="https://github.com/STATegraData/STATegraData" class="external-link">github</a> and must
 be extracted from zip file prior to data analysis.</p>
-<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># path to zip</span></span>
 <span><span class="va">zipfile</span> <span class="op">=</span> <span class="st">"https://raw.github.com/STATegraData/STATegraData/master/Script_STATegra_Metabolomics.zip"</span></span>
 <span></span>
@@ -2088,7 +1827,7 @@ be extracted from zip file prior to data analysis.</p>
 <p>The imported data needs to be converted to
 <code>DatasetExperiment</code> format for use with
 <code>structToolbox</code>.</p>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># extract sample meta data</span></span>
 <span><span class="va">SM</span> <span class="op">=</span> <span class="va">data</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span></span>
 <span></span>
@@ -2151,7 +1890,7 @@ multiblock analysis was conducted. Here only the LCMS will be explored,
 so the data will be processed differently in comparison to <a href="https://www.nature.com/articles/s41597-019-0202-7" class="external-link">Gomez-Cabrero
 et al</a>. Some basic processing steps will be applied in order to
 generate a valid PCA plot from the biological and QC samples.</p>
-<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model sequence</span></span>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">'include'</span>, levels<span class="op">=</span><span class="st">'QC'</span>, factor_name <span class="op">=</span> <span class="st">'sample_type'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>     <span class="fu"><a href="../reference/knn_impute.html">knn_impute</a></span><span class="op">(</span>neighbours<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">+</span></span>
@@ -2168,7 +1907,7 @@ generate a valid PCA plot from the biological and QC samples.</p>
 </h4>
 <p>First we will use PCA to look at the QC samples in order to make an
 assessment of the data quality.</p>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># pca model sequence</span></span>
 <span><span class="va">M</span> <span class="op">=</span>  <span class="fu"><a href="../reference/mean_centre.html">mean_centre</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>     <span class="fu"><a href="../reference/PCA.html">PCA</a></span><span class="op">(</span>number_components <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
@@ -2181,12 +1920,12 @@ assessment of the data quality.</p>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_scores_plot.html">pca_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'sample_type'</span>,label_factor <span class="op">=</span> <span class="st">'order'</span>,points_to_label <span class="op">=</span> <span class="st">'all'</span><span class="op">)</span></span>
 <span><span class="co"># plot</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-79-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-149-1.png"><!-- --></p>
 <p>The QC labelled “36” is clearly very different to the other QCs. In
 STATegra this QC was removed, so we will exclude it here as well. This
 corresponds to QC H1. STATegra also excluded QC samples measured
 immediately after a blank, which we will also do here.</p>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model sequence</span></span>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span></span>
 <span>      mode <span class="op">=</span> <span class="st">'include'</span>, </span>
@@ -2215,19 +1954,19 @@ immediately after a blank, which we will also do here.</p>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">MS</span>, <span class="va">DE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 4 rows with more than 50 % entries missing;</span></span>
 <span><span class="co">##  mean imputation used for these rows</span></span></code></pre>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># PCA scores plot</span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_scores_plot.html">pca_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'sample_type'</span>,label_factor <span class="op">=</span> <span class="st">'order'</span>,points_to_label <span class="op">=</span> <span class="st">'all'</span><span class="op">)</span></span>
 <span><span class="co"># plot</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">MS</span><span class="op">[</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-80-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-150-1.png"><!-- --></p>
 <p>Now we will plot the QC samples in context with the samples. There
 are several possible approaches, and we will apply the approach of
 applying PCA to the full dataset including the QCs. We will exclude the
 blanks as it is likely that they will dominate the plot if not removed.
 All samples from batch 12 were excluded from STATegra and we will
 replicate that here.</p>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># prepare model sequence</span></span>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span></span>
 <span>      mode <span class="op">=</span> <span class="st">'exclude'</span>, </span>
@@ -2263,18 +2002,18 @@ replicate that here.</p>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">MS</span>, <span class="va">DE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 2 rows with more than 50 % entries missing;</span></span>
 <span><span class="co">##  mean imputation used for these rows</span></span></code></pre>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># PCA scores plots</span></span>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_scores_plot.html">pca_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'sample_type'</span><span class="op">)</span></span>
 <span><span class="co"># plot</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">MS</span><span class="op">[</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-81-1.png"><!-- -->
-The QCs appear to representative of the samples, but there are strong
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-151-1.png"><!-- --></p>
+<p>The QCs appear to representative of the samples, but there are strong
 clusters in the data, including the QC samples which have no biological
 variation. There is likely to be a number of ‘low quality’ features that
 should be excluded, so we will do that now, and use more sophisticated
 normalisation (PQN) and scaling methods (glog).</p>
-<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MS</span> <span class="op">=</span>  <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span></span>
 <span>       mode <span class="op">=</span> <span class="st">'exclude'</span>, </span>
 <span>       levels <span class="op">=</span> <span class="st">'12'</span>, </span>
@@ -2346,7 +2085,7 @@ normalisation (PQN) and scaling methods (glog).</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">g</span>,align<span class="op">=</span><span class="st">'vh'</span>,axis<span class="op">=</span><span class="st">'tblr'</span>,nrow<span class="op">=</span><span class="fl">2</span>,labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>,<span class="st">'B'</span>,<span class="st">'C'</span>,<span class="st">'D'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-82-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-152-1.png"><!-- --></p>
 <p>We can see now that the QCs are tightly clustered. This indicates
 that the biological variance of the remaining high quality features is
 much greater than the technical variance represented by the QCs.</p>
@@ -2365,7 +2104,7 @@ the condition factor and only explore the Ikaros group. Removing the
 condition factor variation will potentially make it easier to spot any
 more subtle trends. We will extract the glog transformed matrix from the
 previous model sequence and continue from there.</p>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get the glog scaled data</span></span>
 <span><span class="va">GL</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/predicted.html" class="external-link">predicted</a></span><span class="op">(</span><span class="va">MS</span><span class="op">[</span><span class="fl">11</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
@@ -2386,7 +2125,7 @@ previous model sequence and continue from there.</p>
 <span><span class="va">g2</span><span class="op">=</span><span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># add continuous scale colouring</span></span>
 <span></span>
 <span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span>,nrow<span class="op">=</span><span class="fl">2</span>,align<span class="op">=</span><span class="st">'vh'</span>,axis <span class="op">=</span> <span class="st">'tblr'</span>,labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>,<span class="st">'B'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-83-1.png"><!-- --></p>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-153-1.png"><!-- --></p>
 <p>Colouring by groups (A) makes the time point trend difficult to see,
 but by adding a <code>ggplot</code> continuous colour scale “viridis”
 (B) the trend with time along PC1 becomes much clearer.</p>
@@ -2394,13 +2133,276 @@ but by adding a <code>ggplot</code> continuous colour scale “viridis”
 </div>
 </div>
 <div class="section level2">
+<h2 id="tutorials">Tutorials<a class="anchor" aria-label="anchor" href="#tutorials"></a>
+</h2>
+<div class="section level3">
+<h3 id="introduction-6">Introduction<a class="anchor" aria-label="anchor" href="#introduction-6"></a>
+</h3>
+<p>The aim of this vignette is to illustrate how to apply SVM analysis
+for Classifying Metabolomics data.</p>
+<p>Support vector Machines (SVM) are a commonly used method in Machine
+Learning. For classification tasks they are used to generate a boundary
+between groups of samples in the training set. As well as generating
+linear boundaries, SVM can be extended to exploit the use of kernels and
+generate complex non-linear boundaries between groups if required.</p>
+<p>For the <code>structToolbox</code> package, SVM functionality
+provided by the <em><a href="https://CRAN.R-project.org/package=e1071" class="external-link">e1071</a></em> package
+has been incorporated into a <code>model</code> object. A chart object
+(<code>svm_plot_2d</code>) is also available to plot SVM boundaries for
+data with two variables.</p>
+</div>
+<div class="section level3">
+<h3 id="dataset-4">Dataset<a class="anchor" aria-label="anchor" href="#dataset-4"></a>
+</h3>
+<p>The 1H-NMR dataset used and described in <a href="https://link.springer.com/article/10.1007/s11306-019-1588-0,%20https://github.com/CIMCB/MetabWorkflowTutorial" class="external-link">Mendez
+et al., (2020)</a> and in this vignette contains processed spectra of
+urine samples obtained from gastric cancer and healthy patients <a href="https://www.nature.com/articles/bjc2015414" class="external-link">Chan et al.,
+(2016)</a>. The raw experimental data is available through Metabolomics
+Workbench (<a href="http://dx.doi.org/10.21228/M8B10B" class="external-link">PR000699</a>) and
+the processed version is available from <a href="https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx" class="external-link">here</a>
+as an Excel data file.</p>
+<p>For simplicity we will use a pre-processed version of the 1H-NMR
+“Gastric cancer” dataset using the <code>structToolbox</code> package.
+Details in regards to pre-processing are reported in the “NMR-based
+clinical metabolomics” vignette of the `r Biocpkg(“structToolbox”)
+package.</p>
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># summary of DatasetExperiment object</span></span>
+<span><span class="va">DE</span></span></code></pre></div>
+<pre><code><span><span class="co">## A "DatasetExperiment" object</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## name:          </span></span>
+<span><span class="co">## description:   </span></span>
+<span><span class="co">## data:          140 rows x 53 columns</span></span>
+<span><span class="co">## sample_meta:   140 rows x 5 columns</span></span>
+<span><span class="co">## variable_meta: 53 rows x 1 columns</span></span></code></pre>
+<p>For the purposes of illustrating the effect of SVM parameters on the
+boundary between groups, we reduce the data to include only the GC and
+HE groups and apply PLS to reduce the data to two components. We then
+treat the PLS scores as as a two group dataset with only two
+features.</p>
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># model sequence and pls model (NB data already centred)</span></span>
+<span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">'include'</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'GC'</span>,<span class="st">'HE'</span><span class="op">)</span>, factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>     <span class="fu"><a href="../reference/PLSDA.html">PLSDA</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'Class'</span>,number_components <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># apply PLS model</span></span>
+<span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">MS</span>,<span class="va">DE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot the data</span></span>
+<span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pls_scores_plot.html">pls_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">MS</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-179-1.png"><!-- --></p>
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># new DatasetExperiment object from the PLS scores</span></span>
+<span><span class="va">DE2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/struct_DatasetExperiment.html" class="external-link">DatasetExperiment</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">MS</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">$</span><span class="va">scores</span><span class="op">$</span><span class="va">data</span>, </span>
+<span>  sample_meta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/predicted.html" class="external-link">predicted</a></span><span class="op">(</span><span class="va">MS</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">sample_meta</span>,</span>
+<span>  variable_meta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">'LV'</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">MS</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">$</span><span class="va">scores</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  name <span class="op">=</span> <span class="st">'Illustrativate SVM dataset'</span>,</span>
+<span>  description <span class="op">=</span> <span class="st">'Generated by applying PLS to the processed Gastric cancer (NMR) dataset'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DE2</span></span></code></pre></div>
+<pre><code><span><span class="co">## A "DatasetExperiment" object</span></span>
+<span><span class="co">## ----------------------------</span></span>
+<span><span class="co">## name:          Illustrativate SVM dataset</span></span>
+<span><span class="co">## description:   Generated by applying PLS to the processed Gastric cancer (NMR) dataset</span></span>
+<span><span class="co">## data:          83 rows x 2 columns</span></span>
+<span><span class="co">## sample_meta:   83 rows x 5 columns</span></span>
+<span><span class="co">## variable_meta: 2 rows x 1 columns</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="basic-svm-model">Basic SVM model<a class="anchor" aria-label="anchor" href="#basic-svm-model"></a>
+</h3>
+<p>The simplest SVM model uses a linear kernel. In
+<code>structToolbox</code> the <code>SVM</code> model can be used to
+train and apply SVM models. A <code>svm_plot_2d</code> chart object is
+provided for visualisation of boundaries in two dimensions.</p>
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># SVM model</span></span>
+<span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/SVM.html">SVM</a></span><span class="op">(</span></span>
+<span>  factor_name <span class="op">=</span> <span class="st">'Class'</span>,</span>
+<span>  kernel <span class="op">=</span> <span class="st">'linear'</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># apply model</span></span>
+<span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot boundary</span></span>
+<span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>, <span class="va">DE2</span><span class="op">)</span></span></code></pre></div>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-180-1.png"><!-- --></p>
+<p>The SVM boundary is plotted in black, the margins in grey and support
+vectors are indicated by grey circles.</p>
+</div>
+<div class="section level3">
+<h3 id="svm-cost-function">SVM cost function<a class="anchor" aria-label="anchor" href="#svm-cost-function"></a>
+</h3>
+<p>The SVM cost function applies a penalty to samples on the wrong side
+of the margins. A high penalty results in a narrow margin and tries to
+force more samples to be on the correct side of the boundary. A low
+penalty makes for a wider margin and is less strict about samples being
+misclassified. The optimal cost to use is data dependent.</p>
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># low cost</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">0.01</span></span>
+<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
+<span><span class="va">g1</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># medium cost</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">0.05</span></span>
+<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
+<span><span class="va">g2</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># high cost</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">100</span></span>
+<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
+<span><span class="va">g3</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot</span></span>
+<span><span class="va">prow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span></span>
+<span>  <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
+<span>  <span class="va">g2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
+<span>  <span class="va">g3</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
+<span>  align <span class="op">=</span> <span class="st">'vh'</span>,</span>
+<span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Low cost"</span>, <span class="st">"Medium cost"</span>, <span class="st">"High cost"</span><span class="op">)</span>,</span>
+<span>  hjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span>  nrow <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">legend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/get_legend.html" class="external-link">get_legend</a></span><span class="op">(</span></span>
+<span>  <span class="co"># create some space to the left of the legend</span></span>
+<span>  <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">prow</span>, <span class="va">legend</span>, ncol<span class="op">=</span><span class="fl">1</span>, rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-181-1.png"><!-- --></p>
+</div>
+<div class="section level3">
+<h3 id="kernel-functions">Kernel functions<a class="anchor" aria-label="anchor" href="#kernel-functions"></a>
+</h3>
+<p>A number of different kernels can be used with support vector
+machines. For the <code>structToolbox</code> wrapper ‘linear’,
+‘polynomial’,‘radial’ and ‘sigmoid’ kernels can be specified. Using
+kernels allows the boundary to be more flexible, but often require
+additional parameters to be specified. The best kernel to use will vary
+depending on the dataset, but a common choice is the radial kernel as it
+allows high flexibility with a single parameter.</p>
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># set a fixed cost for this comparison</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">1</span></span>
+<span></span>
+<span><span class="co"># linear kernel</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span><span class="op">=</span><span class="st">'linear'</span></span>
+<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
+<span><span class="va">g1</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># polynomial kernel</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span><span class="op">=</span><span class="st">'polynomial'</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">1</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">coef0</span><span class="op">=</span><span class="fl">0</span></span>
+<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
+<span><span class="va">g2</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># rbf kernel</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span><span class="op">=</span><span class="st">'radial'</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">1</span></span>
+<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
+<span><span class="va">g3</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># sigmoid kernel</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span><span class="op">=</span><span class="st">'sigmoid'</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">1</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">coef0</span><span class="op">=</span><span class="fl">0</span></span>
+<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
+<span><span class="va">g4</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot</span></span>
+<span><span class="va">prow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span></span>
+<span>  <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
+<span>  <span class="va">g2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
+<span>  <span class="va">g3</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
+<span>  <span class="va">g4</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
+<span>  align <span class="op">=</span> <span class="st">'vh'</span>,</span>
+<span>  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Linear"</span>, <span class="st">"Polynomial"</span>, <span class="st">"Radial"</span>,<span class="st">"Sigmoid"</span><span class="op">)</span>,</span>
+<span>  hjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span>  nrow <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">legend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/get_legend.html" class="external-link">get_legend</a></span><span class="op">(</span></span>
+<span>  <span class="co"># create some space to the left of the legend</span></span>
+<span>  <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">prow</span>, <span class="va">legend</span>, ncol <span class="op">=</span> <span class="fl">1</span>, rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-182-1.png"><!-- --></p>
+<p>The parameters of a kernel can be used to control the complexity of
+the boundary. Here I show how the radial kernel parameter “gamma” can be
+used to change the complexity of the boundary. In combination with the
+cost parameter (which I keep constant here) this allows for highly
+flexible boundary models.</p>
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># rbf kernel and cost</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span> <span class="op">=</span> <span class="st">'radial'</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">cost</span> <span class="op">=</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="co"># low gamma</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">0.01</span></span>
+<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
+<span><span class="va">g1</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># medium gamma</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">0.1</span></span>
+<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
+<span><span class="va">g2</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># high gamma</span></span>
+<span><span class="va">M</span><span class="op">$</span><span class="va">gamma</span><span class="op">=</span><span class="fl">1</span></span>
+<span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span><span class="va">C</span><span class="op">=</span><span class="fu"><a href="../reference/svm_plot_2d.html">svm_plot_2d</a></span><span class="op">(</span>factor_name<span class="op">=</span><span class="st">'Species'</span><span class="op">)</span></span>
+<span><span class="va">g3</span><span class="op">=</span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot</span></span>
+<span><span class="va">prow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span></span>
+<span> <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
+<span> <span class="va">g2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
+<span> <span class="va">g3</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>,</span>
+<span> align <span class="op">=</span> <span class="st">'vh'</span>,</span>
+<span> labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Low gamma"</span>, <span class="st">"Medium gamma"</span>, <span class="st">"High gamma"</span><span class="op">)</span>,</span>
+<span> hjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span> nrow <span class="op">=</span> <span class="fl">2</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">legend</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wilkelab.org/cowplot/reference/get_legend.html" class="external-link">get_legend</a></span><span class="op">(</span></span>
+<span>  <span class="co"># create some space to the left of the legend</span></span>
+<span>  <span class="va">g1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">prow</span>, <span class="va">legend</span>, ncol <span class="op">=</span> <span class="fl">1</span>, rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-183-1.png"><!-- --></p>
+<p>Note that best practice would be to select the optimal kernel
+parameter(s) in combination with the cost parameter (e.g. by 2d grid
+search) so that the best combination of both is identified.</p>
+</div>
+</div>
+<div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
 <div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R Under development (unstable) (2026-02-14 r89420)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2026-02-19 r89439)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">## Running under: Ubuntu 24.04.3 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 24.04.4 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
@@ -2474,7 +2476,7 @@ but by adding a <code>ggplot</code> continuous colour scale “viridis”
 <span><span class="co">##  [89] rappdirs_0.3.4              textshaping_1.0.4          </span></span>
 <span><span class="co">##  [91] viridisLite_0.4.3           ggthemes_5.2.0             </span></span>
 <span><span class="co">##  [93] S4Arrays_1.11.1             dplyr_1.2.0                </span></span>
-<span><span class="co">##  [95] pls_2.8-5                   pcaMethods_2.3.0           </span></span>
+<span><span class="co">##  [95] pls_2.9-0                   pcaMethods_2.3.0           </span></span>
 <span><span class="co">##  [97] gtable_0.3.6                sass_0.4.10                </span></span>
 <span><span class="co">##  [99] digest_0.6.39               BiocGenerics_0.57.0        </span></span>
 <span><span class="co">## [101] SparseArray_1.11.10         htmlwidgets_1.6.4          </span></span>

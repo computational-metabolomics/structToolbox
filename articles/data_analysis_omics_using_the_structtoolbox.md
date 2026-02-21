@@ -54,6 +54,7 @@ suppressPackageStartupMessages({
     library(pmp)
     library(ropls)
     library(BiocFileCache)
+    library(BiocStyle)
   
     # CRAN libraries
     library(ggplot2)
@@ -326,7 +327,7 @@ C = pca_scores_plot(factor_name='class') # colour by class
 chart_plot(C,M[2])
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-16-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-28-1.png)
 
 Note that indexing the PCA model is required because the
 `pca_scores_plot` object requires a PCA object as input, not a
@@ -344,7 +345,7 @@ C$factor_name='example'
 chart_plot(C,M[2])
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-17-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-29-1.png)
 
 The `chart_plot` method returns a ggplot object so that you can easily
 combine it with other plots using the `gridExtra` or `cowplot` packages
@@ -364,7 +365,7 @@ g2 = chart_plot(C2,M[2])
 grid.arrange(grobs=list(g1,g2),nrow=1)
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-18-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-30-1.png)
 
 #### Ontology
 
@@ -596,7 +597,7 @@ C = kfoldxcv_grid(
 chart_plot(C,XCV)
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-27-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-39-1.png)
 
 It is possible to combine multiple iterators by using the multiplication
 symbol. This is equivalent to nesting one iterator inside the other. For
@@ -616,7 +617,7 @@ P$metric
     ##              metric  mean          sd
     ## 1 balanced_accuracy 0.854 0.006629526
 
-## A typical workflow for processing and analysing mass spectrometry-based metabolomics data.
+## Case Studies
 
 ### Introduction
 
@@ -742,14 +743,14 @@ C = feature_profile(
 chart_plot(C,M,DE)+ylab('Peak area')+ggtitle('Before')
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-31-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-71-1.png)
 
 ``` r
 
 chart_plot(C,predicted(M))+ylab('Peak area')+ggtitle('After')
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-31-2.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-71-2.png)
 
 An additional step is added to the published workflow to remove any
 feature not corrected by QCRCMS. This can occur if there are not enough
@@ -915,7 +916,7 @@ chart_plot(C,M7[2]) + coord_fixed() +guides(colour=FALSE)
     ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
     ## generated.
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-37-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-77-1.png)
 
 This plot is very similar to Figure 3b of the original publication
 [link](https://www.nature.com/articles/sdata201412/figures/3). Sample
@@ -933,9 +934,7 @@ C = pca_scores_plot(factor_name=c('Batch'),ellipse='none')
 chart_plot(C,M7[2]) + coord_fixed()
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-38-1.png)
-
-## Partial Least Squares (PLS) analysis of a untargeted LC-MS-based clinical metabolomics dataset.
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-78-1.png)
 
 ### Introduction
 
@@ -947,10 +946,12 @@ al. (2015)](https://pubs.acs.org/doi/10.1021/acs.jproteome.5b00354) and
 
 ### Dataset
 
-The objective of the original study was to: \> …study the influence of
-age, body mass index (bmi), and gender on metabolite concentrations in
-urine, by analysing 183 samples from a cohort of adults with liquid
-chromatography coupled to high-resolution mass spectrometry.
+The objective of the original study was to:
+
+> …study the influence of age, body mass index (bmi), and gender on
+> metabolite concentrations in urine, by analysing 183 samples from a
+> cohort of adults with liquid chromatography coupled to high-resolution
+> mass spectrometry.
 
 [Thevenot et
 al. (2015)](https://pubs.acs.org/doi/10.1021/acs.jproteome.5b00354)
@@ -1023,7 +1024,7 @@ for (k in colnames(DE$sample_meta)) {
 plot_grid(plotlist=g, nrow=1, align='vh', labels=c('A','B','C'))
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-40-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-93-1.png)
 
 The third plot coloured by gender (C) is identical to Figure 2 of the
 *[ropls](https://bioconductor.org/packages/3.23/ropls)* package
@@ -1047,7 +1048,7 @@ p2=plot_grid(plotlist = list(g3),nrow=1)
 plot_grid(p1,p2,nrow=2)
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-41-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-94-1.png)
 
 ### Partial Least Squares (PLS) analysis
 
@@ -1066,7 +1067,7 @@ C = pls_scores_plot(factor_name = 'gender')
 chart_plot(C,M[2])
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-42-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-95-1.png)
 
 The plot is similar to fig.3 of the
 *[ropls](https://bioconductor.org/packages/3.23/ropls)* vignette.
@@ -1103,7 +1104,7 @@ g4 = chart_plot(C,M[2])
 plot_grid(plotlist = list(g1,g2,g3,g4), nrow=2,align='vh')
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-43-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-96-1.png)
 
 The `ropls` package automatically applies cross-validation to asses the
 performance of the PLSDA model. In `structToolbox` this is applied
@@ -1141,14 +1142,12 @@ C = permutation_test_plot(style='boxplot')
 chart_plot(C,M)+ylab('1 - balanced accuracy')
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-46-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-99-1.png)
 
 The permuted models have a balanced accuracy of around 50%, which is to
 be expected for a dataset with two groups. The unpermuted models have a
 balanced accuracy of around 90% and is therefore much better than might
 be expected to occur by chance.
-
-## Univariate and multivariate statistical analysis of a NMR-based clinical metabolomics dataset.
 
 ### Introduction
 
@@ -1299,7 +1298,7 @@ g2 = chart_plot(C,M[4])
 plot_grid(g1,g2,align='hv',nrow=1,axis='tblr')
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-49-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-113-1.png)
 
 ### Univariate statistics
 
@@ -1442,7 +1441,7 @@ C = gs_line()
 chart_plot(C,MS)
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-52-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-116-1.png)
 
 The chart plotted shows Q2, which is comparable with Figure 13 of
 [Mendez et al](NA) . Two components were selected by Mendez et al, so we
@@ -1474,7 +1473,7 @@ g3 = chart_plot(C,P)
 plot_grid(g1,g2,g3,align='vh',axis='tblr',nrow=1, labels=c('A','B','C'))
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-53-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-117-1.png)
 
 ``` r
 
@@ -1514,7 +1513,7 @@ C = permutation_test_plot(style = 'density')
 chart_plot(C,MS) + xlim(c(-1,1)) + xlab('R Squared')
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-55-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-119-1.png)
 
 This plot is comparable to the bottom half of Figure 17 in [Mendez et.
 al.](https://cimcb.github.io/MetabWorkflowTutorial/Tutorial1.html). The
@@ -1538,7 +1537,7 @@ C = pls_scores_plot(components=c(1,2),factor_name = 'Class')
 chart_plot(C,P)
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-56-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-120-1.png)
 
 #### PLS feature importance
 
@@ -1559,299 +1558,7 @@ g2 = chart_plot(C,P)
 plot_grid(g1,g2,align='hv',axis='tblr',nrow=2)
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-57-1.png)
-
-## Classification of Metabolomics Data using Support Vector Machines.
-
-### Introduction
-
-The aim of this vignette is to illustrate how to apply SVM analysis for
-Classifying Metabolomics data.
-
-Support vector Machines (SVM) are a commonly used method in Machine
-Learning. For classification tasks they are used to generate a boundary
-between groups of samples in the training set. As well as generating
-linear boundaries, SVM can be extended to exploit the use of kernels and
-generate complex non-linear boundaries between groups if required.
-
-For the `structToolbox` package, SVM functionality provided by the
-*[e1071](https://CRAN.R-project.org/package=e1071)* package has been
-incorporated into a `model` object. A chart object (`svm_plot_2d`) is
-also available to plot SVM boundaries for data with two variables.
-
-### Dataset
-
-The 1H-NMR dataset used and described in [Mendez et al.,
-(2020)](https://link.springer.com/article/10.1007/s11306-019-1588-0,%20https://github.com/CIMCB/MetabWorkflowTutorial)
-and in this vignette contains processed spectra of urine samples
-obtained from gastric cancer and healthy patients [Chan et al.,
-(2016)](https://www.nature.com/articles/bjc2015414). The raw
-experimental data is available through Metabolomics Workbench
-([PR000699](http://dx.doi.org/10.21228/M8B10B)) and the processed
-version is available from
-[here](https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx)
-as an Excel data file.
-
-For simplicity we will use a pre-processed version of the 1H-NMR
-“Gastric cancer” dataset using the `structToolbox` package. Details in
-regards to pre-processing are reported in the
-“NMR_clinical_metabolomics” vignette of the \`r Biocpkg(“structToolbox”)
-package.
-
-``` r
-
-# summary of DatasetExperiment object
-DE
-```
-
-    ## A "DatasetExperiment" object
-    ## ----------------------------
-    ## name:          
-    ## description:   
-    ## data:          140 rows x 53 columns
-    ## sample_meta:   140 rows x 5 columns
-    ## variable_meta: 53 rows x 1 columns
-
-For the purposes of illustrating the effect of SVM parameters on the
-boundary between groups, we reduce the data to include only the GC and
-HE groups and apply PLS to reduce the data to two components. We then
-treat the PLS scores as as a two group dataset with only two features.
-
-``` r
-
-# model sequence and pls model (NB data already centred)
-MS = filter_smeta(mode = 'include', levels = c('GC','HE'), factor_name = 'Class') +
-     PLSDA(factor_name = 'Class',number_components = 2)
-
-# apply PLS model
-MS = model_apply(MS,DE)
-
-# plot the data
-C = pls_scores_plot(factor_name = 'Class')
-chart_plot(C,MS[2])
-```
-
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-60-1.png)
-
-``` r
-
-# new DatasetExperiment object from the PLS scores
-DE2 = DatasetExperiment(
-  data = MS[2]$scores$data, 
-  sample_meta = predicted(MS[1])$sample_meta,
-  variable_meta = data.frame('LV'=c(1,2),row.names = colnames(MS[2]$scores)),
-  name = 'Illustrativate SVM dataset',
-  description = 'Generated by applying PLS to the processed Gastric cancer (NMR) dataset'
-)
-
-DE2
-```
-
-    ## A "DatasetExperiment" object
-    ## ----------------------------
-    ## name:          Illustrativate SVM dataset
-    ## description:   Generated by applying PLS to the processed Gastric cancer (NMR) dataset
-    ## data:          83 rows x 2 columns
-    ## sample_meta:   83 rows x 5 columns
-    ## variable_meta: 2 rows x 1 columns
-
-### Basic SVM model
-
-The simplest SVM model uses a linear kernel. In `structToolbox` the
-`SVM` model can be used to train and apply SVM models. A `svm_plot_2d`
-chart object is provided for visualisation of boundaries in two
-dimensions.
-
-``` r
-
-# SVM model
-M = SVM(
-  factor_name = 'Class',
-  kernel = 'linear'
-)
-
-# apply model
-M = model_apply(M,DE2)
-
-# plot boundary
-C = svm_plot_2d(factor_name = 'Class')
-chart_plot(C,M, DE2)
-```
-
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-61-1.png)
-
-The SVM boundary is plotted in black, the margins in grey and support
-vectors are indicated by grey circles.
-
-### SVM cost function
-
-The SVM cost function applies a penalty to samples on the wrong side of
-the margins. A high penalty results in a narrow margin and tries to
-force more samples to be on the correct side of the boundary. A low
-penalty makes for a wider margin and is less strict about samples being
-misclassified. The optimal cost to use is data dependent.
-
-``` r
-
-# low cost
-M$cost=0.01
-M=model_apply(M,DE2)
-C=svm_plot_2d(factor_name='Species')
-g1=chart_plot(C,M,DE2)
-
-# medium cost
-M$cost=0.05
-M=model_apply(M,DE2)
-C=svm_plot_2d(factor_name='Species')
-g2=chart_plot(C,M,DE2)
-
-# high cost
-M$cost=100
-M=model_apply(M,DE2)
-
-C=svm_plot_2d(factor_name='Species')
-g3=chart_plot(C,M,DE2)
-
-# plot
-prow <- plot_grid(
-  g1 + theme(legend.position="none"),
-  g2 + theme(legend.position="none"),
-  g3 + theme(legend.position="none"),
-  align = 'vh',
-  labels = c("Low cost", "Medium cost", "High cost"),
-  hjust = -1,
-  nrow = 2
-)
-
-legend <- get_legend(
-  # create some space to the left of the legend
-  g1 + guides(color = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom")
-)
-
-plot_grid(prow, legend, ncol=1, rel_heights = c(1, .1))
-```
-
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-62-1.png)
-
-### Kernel functions
-
-A number of different kernels can be used with support vector machines.
-For the `structToolbox` wrapper ‘linear’, ‘polynomial’,‘radial’ and
-‘sigmoid’ kernels can be specified. Using kernels allows the boundary to
-be more flexible, but often require additional parameters to be
-specified. The best kernel to use will vary depending on the dataset,
-but a common choice is the radial kernel as it allows high flexibility
-with a single parameter.
-
-``` r
-
-# set a fixed cost for this comparison
-M$cost=1
-
-# linear kernel
-M$kernel='linear'
-M=model_apply(M,DE2)
-C=svm_plot_2d(factor_name='Species')
-g1=chart_plot(C,M,DE2)
-
-# polynomial kernel
-M$kernel='polynomial'
-M$gamma=1
-M$coef0=0
-M=model_apply(M,DE2)
-C=svm_plot_2d(factor_name='Species')
-g2=chart_plot(C,M,DE2)
-
-# rbf kernel
-M$kernel='radial'
-M$gamma=1
-M=model_apply(M,DE2)
-C=svm_plot_2d(factor_name='Species')
-g3=chart_plot(C,M,DE2)
-
-# sigmoid kernel
-M$kernel='sigmoid'
-M$gamma=1
-M$coef0=0
-M=model_apply(M,DE2)
-C=svm_plot_2d(factor_name='Species')
-g4=chart_plot(C,M,DE2)
-
-# plot
-prow <- plot_grid(
-  g1 + theme(legend.position="none"),
-  g2 + theme(legend.position="none"),
-  g3 + theme(legend.position="none"),
-  g4 + theme(legend.position="none"),
-  align = 'vh',
-  labels = c("Linear", "Polynomial", "Radial","Sigmoid"),
-  hjust = -1,
-  nrow = 2
-)
-legend <- get_legend(
-  # create some space to the left of the legend
-  g1 + guides(color = guide_legend(nrow = 1)) +
-    theme(legend.position = "bottom")
-)
-plot_grid(prow, legend, ncol = 1, rel_heights = c(1, .1))
-```
-
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-63-1.png)
-
-The parameters of a kernel can be used to control the complexity of the
-boundary. Here I show how the radial kernel parameter “gamma” can be
-used to change the complexity of the boundary. In combination with the
-cost parameter (which I keep constant here) this allows for highly
-flexible boundary models.
-
-``` r
-
-# rbf kernel and cost
-M$kernel = 'radial'
-M$cost = 1
-
-# low gamma
-M$gamma=0.01
-M=model_apply(M,DE2)
-C=svm_plot_2d(factor_name='Species')
-g1=chart_plot(C,M,DE2)
-
-# medium gamma
-M$gamma=0.1
-M=model_apply(M,DE2)
-C=svm_plot_2d(factor_name='Species')
-g2=chart_plot(C,M,DE2)
-
-# high gamma
-M$gamma=1
-M=model_apply(M,DE2)
-C=svm_plot_2d(factor_name='Species')
-g3=chart_plot(C,M,DE2)
-
-# plot
-prow <- plot_grid(
- g1 + theme(legend.position="none"),
- g2 + theme(legend.position="none"),
- g3 + theme(legend.position="none"),
- align = 'vh',
- labels = c("Low gamma", "Medium gamma", "High gamma"),
- hjust = -1,
- nrow = 2
-)
-legend <- get_legend(
-  # create some space to the left of the legend
-  g1 + guides(color = guide_legend(nrow = 1)) +
-  theme(legend.position = "bottom")
-)
-plot_grid(prow, legend, ncol = 1, rel_heights = c(1, .1))
-```
-
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-64-1.png)
-
-Note that best practice would be to select the optimal kernel
-parameter(s) in combination with the cost parameter (e.g. by 2d grid
-search) so that the best combination of both is identified.
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-121-1.png)
 
 ## Exploratory data analysis of LC-MS-based proteomics and metabolomics datasets (STATegra project)
 
@@ -1976,7 +1683,7 @@ g2=chart_plot(C,DS)+ggtitle('Hk2')+ylab('expression')
 plot_grid(g1,g2,nrow=1,align='vh',axis='tblr')
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-67-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-137-1.png)
 
 #### Data transformation
 
@@ -2011,7 +1718,7 @@ g2=chart_plot(C,DST)+ggtitle('Hk2')+ylab('log2(expression)')
 plot_grid(g1,g2,nrow=1,align='vh',axis='tblr')
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-69-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-139-1.png)
 
 #### Missing value filtering
 
@@ -2221,7 +1928,7 @@ It is often useful to visualise the distribution of values across
 samples to verify that the transformations/normalisation/filtering etc
 have been effective.
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-74-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-144-1.png)
 
 The values are no longer skewed and show an approximately normal
 distribution. The boxplots are comparable in width with very few
@@ -2251,7 +1958,7 @@ for (k in c('batch','time')) {
 plot_grid(plotlist = g,nrow=1)
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-75-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-145-1.png)
 
 There does not appear to be a strong batch effect. PC1 is dominated by
 time point “24” and some potentially outlying points from time points
@@ -2393,7 +2100,7 @@ C = pca_scores_plot(factor_name = 'sample_type',label_factor = 'order',points_to
 chart_plot(C,M[2])
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-79-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-149-1.png)
 
 The QC labelled “36” is clearly very different to the other QCs. In
 STATegra this QC was removed, so we will exclude it here as well. This
@@ -2441,7 +2148,7 @@ C = pca_scores_plot(factor_name = 'sample_type',label_factor = 'order',points_to
 chart_plot(C,MS[7])
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-80-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-150-1.png)
 
 Now we will plot the QC samples in context with the samples. There are
 several possible approaches, and we will apply the approach of applying
@@ -2498,7 +2205,8 @@ C = pca_scores_plot(factor_name = 'sample_type')
 chart_plot(C,MS[8])
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-81-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-151-1.png)
+
 The QCs appear to representative of the samples, but there are strong
 clusters in the data, including the QC samples which have no biological
 variation. There is likely to be a number of ‘low quality’ features that
@@ -2580,7 +2288,7 @@ for (k in c('order','biol.batch','time.point','condition')) {
 plot_grid(plotlist = g,align='vh',axis='tblr',nrow=2,labels=c('A','B','C','D'))
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-82-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-152-1.png)
 
 We can see now that the QCs are tightly clustered. This indicates that
 the biological variance of the remaining high quality features is much
@@ -2629,11 +2337,302 @@ g2=g1 + scale_color_viridis_d() # add continuous scale colouring
 plot_grid(g1,g2,nrow=2,align='vh',axis = 'tblr',labels=c('A','B'))
 ```
 
-![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-83-1.png)
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-153-1.png)
 
 Colouring by groups (A) makes the time point trend difficult to see, but
 by adding a `ggplot` continuous colour scale “viridis” (B) the trend
 with time along PC1 becomes much clearer.
+
+## Tutorials
+
+### Introduction
+
+The aim of this vignette is to illustrate how to apply SVM analysis for
+Classifying Metabolomics data.
+
+Support vector Machines (SVM) are a commonly used method in Machine
+Learning. For classification tasks they are used to generate a boundary
+between groups of samples in the training set. As well as generating
+linear boundaries, SVM can be extended to exploit the use of kernels and
+generate complex non-linear boundaries between groups if required.
+
+For the `structToolbox` package, SVM functionality provided by the
+*[e1071](https://CRAN.R-project.org/package=e1071)* package has been
+incorporated into a `model` object. A chart object (`svm_plot_2d`) is
+also available to plot SVM boundaries for data with two variables.
+
+### Dataset
+
+The 1H-NMR dataset used and described in [Mendez et al.,
+(2020)](https://link.springer.com/article/10.1007/s11306-019-1588-0,%20https://github.com/CIMCB/MetabWorkflowTutorial)
+and in this vignette contains processed spectra of urine samples
+obtained from gastric cancer and healthy patients [Chan et al.,
+(2016)](https://www.nature.com/articles/bjc2015414). The raw
+experimental data is available through Metabolomics Workbench
+([PR000699](http://dx.doi.org/10.21228/M8B10B)) and the processed
+version is available from
+[here](https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx)
+as an Excel data file.
+
+For simplicity we will use a pre-processed version of the 1H-NMR
+“Gastric cancer” dataset using the `structToolbox` package. Details in
+regards to pre-processing are reported in the “NMR-based clinical
+metabolomics” vignette of the \`r Biocpkg(“structToolbox”) package.
+
+``` r
+
+# summary of DatasetExperiment object
+DE
+```
+
+    ## A "DatasetExperiment" object
+    ## ----------------------------
+    ## name:          
+    ## description:   
+    ## data:          140 rows x 53 columns
+    ## sample_meta:   140 rows x 5 columns
+    ## variable_meta: 53 rows x 1 columns
+
+For the purposes of illustrating the effect of SVM parameters on the
+boundary between groups, we reduce the data to include only the GC and
+HE groups and apply PLS to reduce the data to two components. We then
+treat the PLS scores as as a two group dataset with only two features.
+
+``` r
+
+# model sequence and pls model (NB data already centred)
+MS = filter_smeta(mode = 'include', levels = c('GC','HE'), factor_name = 'Class') +
+     PLSDA(factor_name = 'Class',number_components = 2)
+
+# apply PLS model
+MS = model_apply(MS,DE)
+
+# plot the data
+C = pls_scores_plot(factor_name = 'Class')
+chart_plot(C,MS[2])
+```
+
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-179-1.png)
+
+``` r
+
+# new DatasetExperiment object from the PLS scores
+DE2 = DatasetExperiment(
+  data = MS[2]$scores$data, 
+  sample_meta = predicted(MS[1])$sample_meta,
+  variable_meta = data.frame('LV'=c(1,2),row.names = colnames(MS[2]$scores)),
+  name = 'Illustrativate SVM dataset',
+  description = 'Generated by applying PLS to the processed Gastric cancer (NMR) dataset'
+)
+
+DE2
+```
+
+    ## A "DatasetExperiment" object
+    ## ----------------------------
+    ## name:          Illustrativate SVM dataset
+    ## description:   Generated by applying PLS to the processed Gastric cancer (NMR) dataset
+    ## data:          83 rows x 2 columns
+    ## sample_meta:   83 rows x 5 columns
+    ## variable_meta: 2 rows x 1 columns
+
+### Basic SVM model
+
+The simplest SVM model uses a linear kernel. In `structToolbox` the
+`SVM` model can be used to train and apply SVM models. A `svm_plot_2d`
+chart object is provided for visualisation of boundaries in two
+dimensions.
+
+``` r
+
+# SVM model
+M = SVM(
+  factor_name = 'Class',
+  kernel = 'linear'
+)
+
+# apply model
+M = model_apply(M,DE2)
+
+# plot boundary
+C = svm_plot_2d(factor_name = 'Class')
+chart_plot(C,M, DE2)
+```
+
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-180-1.png)
+
+The SVM boundary is plotted in black, the margins in grey and support
+vectors are indicated by grey circles.
+
+### SVM cost function
+
+The SVM cost function applies a penalty to samples on the wrong side of
+the margins. A high penalty results in a narrow margin and tries to
+force more samples to be on the correct side of the boundary. A low
+penalty makes for a wider margin and is less strict about samples being
+misclassified. The optimal cost to use is data dependent.
+
+``` r
+
+# low cost
+M$cost=0.01
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g1=chart_plot(C,M,DE2)
+
+# medium cost
+M$cost=0.05
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g2=chart_plot(C,M,DE2)
+
+# high cost
+M$cost=100
+M=model_apply(M,DE2)
+
+C=svm_plot_2d(factor_name='Species')
+g3=chart_plot(C,M,DE2)
+
+# plot
+prow <- plot_grid(
+  g1 + theme(legend.position="none"),
+  g2 + theme(legend.position="none"),
+  g3 + theme(legend.position="none"),
+  align = 'vh',
+  labels = c("Low cost", "Medium cost", "High cost"),
+  hjust = -1,
+  nrow = 2
+)
+
+legend <- get_legend(
+  # create some space to the left of the legend
+  g1 + guides(color = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom")
+)
+
+plot_grid(prow, legend, ncol=1, rel_heights = c(1, .1))
+```
+
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-181-1.png)
+
+### Kernel functions
+
+A number of different kernels can be used with support vector machines.
+For the `structToolbox` wrapper ‘linear’, ‘polynomial’,‘radial’ and
+‘sigmoid’ kernels can be specified. Using kernels allows the boundary to
+be more flexible, but often require additional parameters to be
+specified. The best kernel to use will vary depending on the dataset,
+but a common choice is the radial kernel as it allows high flexibility
+with a single parameter.
+
+``` r
+
+# set a fixed cost for this comparison
+M$cost=1
+
+# linear kernel
+M$kernel='linear'
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g1=chart_plot(C,M,DE2)
+
+# polynomial kernel
+M$kernel='polynomial'
+M$gamma=1
+M$coef0=0
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g2=chart_plot(C,M,DE2)
+
+# rbf kernel
+M$kernel='radial'
+M$gamma=1
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g3=chart_plot(C,M,DE2)
+
+# sigmoid kernel
+M$kernel='sigmoid'
+M$gamma=1
+M$coef0=0
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g4=chart_plot(C,M,DE2)
+
+# plot
+prow <- plot_grid(
+  g1 + theme(legend.position="none"),
+  g2 + theme(legend.position="none"),
+  g3 + theme(legend.position="none"),
+  g4 + theme(legend.position="none"),
+  align = 'vh',
+  labels = c("Linear", "Polynomial", "Radial","Sigmoid"),
+  hjust = -1,
+  nrow = 2
+)
+legend <- get_legend(
+  # create some space to the left of the legend
+  g1 + guides(color = guide_legend(nrow = 1)) +
+    theme(legend.position = "bottom")
+)
+plot_grid(prow, legend, ncol = 1, rel_heights = c(1, .1))
+```
+
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-182-1.png)
+
+The parameters of a kernel can be used to control the complexity of the
+boundary. Here I show how the radial kernel parameter “gamma” can be
+used to change the complexity of the boundary. In combination with the
+cost parameter (which I keep constant here) this allows for highly
+flexible boundary models.
+
+``` r
+
+# rbf kernel and cost
+M$kernel = 'radial'
+M$cost = 1
+
+# low gamma
+M$gamma=0.01
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g1=chart_plot(C,M,DE2)
+
+# medium gamma
+M$gamma=0.1
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g2=chart_plot(C,M,DE2)
+
+# high gamma
+M$gamma=1
+M=model_apply(M,DE2)
+C=svm_plot_2d(factor_name='Species')
+g3=chart_plot(C,M,DE2)
+
+# plot
+prow <- plot_grid(
+ g1 + theme(legend.position="none"),
+ g2 + theme(legend.position="none"),
+ g3 + theme(legend.position="none"),
+ align = 'vh',
+ labels = c("Low gamma", "Medium gamma", "High gamma"),
+ hjust = -1,
+ nrow = 2
+)
+legend <- get_legend(
+  # create some space to the left of the legend
+  g1 + guides(color = guide_legend(nrow = 1)) +
+  theme(legend.position = "bottom")
+)
+plot_grid(prow, legend, ncol = 1, rel_heights = c(1, .1))
+```
+
+![](data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-183-1.png)
+
+Note that best practice would be to select the optimal kernel
+parameter(s) in combination with the cost parameter (e.g. by 2d grid
+search) so that the best combination of both is identified.
 
 ## Session Info
 
@@ -2642,9 +2641,9 @@ with time along PC1 becomes much clearer.
 sessionInfo()
 ```
 
-    ## R Under development (unstable) (2026-02-14 r89420)
+    ## R Under development (unstable) (2026-02-19 r89439)
     ## Platform: x86_64-pc-linux-gnu
-    ## Running under: Ubuntu 24.04.3 LTS
+    ## Running under: Ubuntu 24.04.4 LTS
     ## 
     ## Matrix products: default
     ## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -2718,7 +2717,7 @@ sessionInfo()
     ##  [89] rappdirs_0.3.4              textshaping_1.0.4          
     ##  [91] viridisLite_0.4.3           ggthemes_5.2.0             
     ##  [93] S4Arrays_1.11.1             dplyr_1.2.0                
-    ##  [95] pls_2.8-5                   pcaMethods_2.3.0           
+    ##  [95] pls_2.9-0                   pcaMethods_2.3.0           
     ##  [97] gtable_0.3.6                sass_0.4.10                
     ##  [99] digest_0.6.39               BiocGenerics_0.57.0        
     ## [101] SparseArray_1.11.10         htmlwidgets_1.6.4          
