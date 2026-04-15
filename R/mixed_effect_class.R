@@ -18,7 +18,7 @@ mixed_effect = function(alpha=0.05,mtc='fdr',formula,ss_type='marginal',...) {
 
 .mixed_effect<-setClass(
     "mixed_effect",
-    contains=c('model','stato','ANOVA'), # inherits from ANOVA
+    contains=c('model','ANOVA'), # inherits from ANOVA
     prototype = list(name='Mixed effects model',
         description='A mixed effects model is an extension of ANOVA where there are both fixed and random effects.',
         type="univariate",

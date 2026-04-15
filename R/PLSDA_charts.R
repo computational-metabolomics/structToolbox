@@ -304,7 +304,7 @@ pls_vip_plot = function(threshold=1,ycol=1,...) {
 
 .pls_vip_plot<-setClass(
     "pls_vip_plot",
-    contains=c('chart','stato'),
+    contains=c('chart'),
     slots=c(
         # INPUTS
         threshold='entity',

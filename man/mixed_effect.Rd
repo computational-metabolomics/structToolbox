@@ -34,7 +34,7 @@ This object makes use of functionality from the following packages:\itemize{  \i
 \section{Inheritance}{
 
 A \code{mixed_effect} object inherits the following \code{struct} classes: \cr\cr
-\verb{[mixed_effect]} >> \verb{[ANOVA]} >> \verb{[model]} >> \verb{[stato]} >> \verb{[struct_class]}
+\verb{[mixed_effect]} >> \verb{[ANOVA]} >> \verb{[model]} >> \verb{[struct_class]}
 }
 
 \examples{
