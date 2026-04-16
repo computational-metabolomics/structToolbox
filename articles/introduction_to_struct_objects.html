@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">structToolbox</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.23.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.23.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +85,7 @@ Weber</h4>
 UK<br><a class="author_email" href="mailto:#"></a><a href="mailto:r.j.weber@bham.ac.uk" class="email">r.j.weber@bham.ac.uk</a>
       </address>
                   
-            <h4 data-toc-skip class="date">2026-02-21</h4>
+            <h4 data-toc-skip class="date">2026-04-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/computational-metabolomics/structToolbox/blob/devel/vignettes/articles/introduction_to_struct_objects.Rmd" class="external-link"><code>vignettes/articles/introduction_to_struct_objects.Rmd</code></a></small>
       <div class="d-none name"><code>introduction_to_struct_objects.Rmd</code></div>
@@ -371,9 +371,9 @@ to prevent issues connecting to the OLS API when building the
 package.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/struct/man/ontology.html" class="external-link">ontology</a></span><span class="op">(</span><span class="va">P</span>,cache <span class="op">=</span> <span class="fu"><a href="../reference/ontology_cache.html">ontology_cache</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="co"># set cache = NULL (default) for online use</span></span></code></pre></div>
-<pre><code><span><span class="co">## [[1]]</span></span>
-<span><span class="co">## An object of class "ontology_list"</span></span>
-<span><span class="co">## Slot "terms":</span></span>
+<pre><code><span><span class="co">## Warning: The `cache` argument to ontology() is deprecated and ignored; ontology</span></span>
+<span><span class="co">## terms are resolved via OLS when IDs are present.</span></span></code></pre>
+<pre><code><span><span class="co">## An "ontology_list" with  2  terms</span></span>
 <span><span class="co">## [[1]]</span></span>
 <span><span class="co">## term id:       OBI:0200051</span></span>
 <span><span class="co">## ontology:      obi</span></span>
@@ -383,12 +383,7 @@ package.</p>
 <span><span class="co">##                  components and excluding higher-order ones.</span></span>
 <span><span class="co">## iri:           http://purl.obolibrary.org/obo/OBI_0200051</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
 <span><span class="co">## [[2]]</span></span>
-<span><span class="co">## An object of class "ontology_list"</span></span>
-<span><span class="co">## Slot "terms":</span></span>
-<span><span class="co">## [[1]]</span></span>
 <span><span class="co">## term id:       STATO:0000555</span></span>
 <span><span class="co">## ontology:      stato</span></span>
 <span><span class="co">## label:         number of predictive components</span></span>
@@ -412,7 +407,7 @@ testing through <code>iterator</code> objects.</p>
 of classification models. For this example we will use a Partial least
 squares-discriminant analysis (PLS-DA) model. Data should be mean
 centred prior to PLS, so we will build a model sequence first.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/mean_centre.html">mean_centre</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/PLSDA.html">PLSDA</a></span><span class="op">(</span>number_components<span class="op">=</span><span class="fl">2</span>,factor_name<span class="op">=</span><span class="st">'class'</span><span class="op">)</span></span>
 <span><span class="va">M</span></span></code></pre></div>
 <pre><code><span><span class="co">## A model_seq object containing:</span></span>
@@ -445,7 +440,7 @@ centred prior to PLS, so we will build a model sequence first.</p>
 (<code>kfold_xval</code>) can be created just like any other
 <code>struct</code> object. Parameters can be set at creation using the
 equals sign, and accessed or changed later using dollar notation.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create object</span></span>
 <span><span class="va">XCV</span> <span class="op">=</span> <span class="fu"><a href="../reference/kfold_xval.html">kfold_xval</a></span><span class="op">(</span>folds<span class="op">=</span><span class="fl">5</span>,factor_name<span class="op">=</span><span class="st">'class'</span><span class="op">)</span></span>
 <span></span>
@@ -455,7 +450,7 @@ equals sign, and accessed or changed later using dollar notation.</p>
 <pre><code><span><span class="co">## [1] 10</span></span></code></pre>
 <p>The model to be cross-validated can be set/accessed using the
 <code>models</code> method.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/struct/man/models.html" class="external-link">models</a></span><span class="op">(</span><span class="va">XCV</span><span class="op">)</span><span class="op">=</span><span class="va">M</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/struct/man/models.html" class="external-link">models</a></span><span class="op">(</span><span class="va">XCV</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## A model_seq object containing:</span></span>
@@ -487,7 +482,7 @@ equals sign, and accessed or changed later using dollar notation.</p>
 <p>Alternatively, iterators can be combined with models using the
 multiplication symbol was shorthand for the <code>models</code>
 assignement method:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># cross validation of a mean centred PLSDA model</span></span>
 <span><span class="va">XCV</span> <span class="op">=</span> <span class="fu"><a href="../reference/kfold_xval.html">kfold_xval</a></span><span class="op">(</span></span>
 <span>        folds<span class="op">=</span><span class="fl">5</span>,</span>
@@ -505,7 +500,7 @@ metric may be calculated once after all iterations, or after each
 iteration, depending on the iterator type (resampling, permutation etc).
 For cross-validation we will calculate “balanced accuracy” after all
 iterations.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">XCV</span> <span class="op">=</span> <span class="fu"><a href="../reference/run.html">run</a></span><span class="op">(</span><span class="va">XCV</span>,<span class="va">D</span>,<span class="fu"><a href="../reference/balanced_accuracy.html">balanced_accuracy</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">XCV</span><span class="op">$</span><span class="va">metric</span></span></code></pre></div>
 <pre><code><span><span class="co">##              metric      mean sd</span></span>
@@ -517,12 +512,12 @@ permutation.</p>
 <p>Like other <code>struct</code> objects, iterators can have chart
 objects associated with them. The <code>chart_names</code> function will
 list them for an object.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/struct/man/chart_names.html" class="external-link">chart_names</a></span><span class="op">(</span><span class="va">XCV</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "kfoldxcv_grid"   "kfoldxcv_metric"</span></span></code></pre>
 <p>Charts for <code>iterator</code> objects can be plotted in the same
 way as charts for any other object.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/kfoldxcv_grid.html">kfoldxcv_grid</a></span><span class="op">(</span></span>
 <span>  factor_name<span class="op">=</span><span class="st">'class'</span>,</span>
 <span>  level<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">D</span><span class="op">$</span><span class="va">sample_meta</span><span class="op">$</span><span class="va">class</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="co"># first level</span></span>
@@ -532,7 +527,7 @@ way as charts for any other object.</p>
 multiplication symbol. This is equivalent to nesting one iterator inside
 the other. For example, we can repeat our cross-validation multiple
 times by permuting the sample order.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># permute sample order 10 times and run cross-validation</span></span>
 <span><span class="va">P</span> <span class="op">=</span> <span class="fu"><a href="../reference/permute_sample_order.html">permute_sample_order</a></span><span class="op">(</span>number_of_permutations <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">*</span> </span>
 <span>    <span class="fu"><a href="../reference/kfold_xval.html">kfold_xval</a></span><span class="op">(</span>folds<span class="op">=</span><span class="fl">5</span>,factor_name<span class="op">=</span><span class="st">'class'</span><span class="op">)</span><span class="op">*</span></span>

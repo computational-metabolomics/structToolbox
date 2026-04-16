@@ -43,7 +43,7 @@ This object makes use of functionality from the following packages:
 
 A `pls_vip_plot` object inherits the following `struct` classes:\
 \
-`[pls_vip_plot]` \>\> `[chart]` \>\> `[stato]` \>\> `[struct_class]`
+`[pls_vip_plot]` \>\> `[chart]` \>\> `[struct_class]`
 
 ## References
 

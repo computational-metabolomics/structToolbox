@@ -71,8 +71,7 @@ This object makes use of functionality from the following packages:
 
 A `mixed_effect` object inherits the following `struct` classes:\
 \
-`[mixed_effect]` \>\> `[ANOVA]` \>\> `[model]` \>\> `[stato]` \>\>
-`[struct_class]`
+`[mixed_effect]` \>\> `[ANOVA]` \>\> `[model]` \>\> `[struct_class]`
 
 ## References
 

@@ -343,9 +343,10 @@ prevent issues connecting to the OLS API when building the package.
 ontology(P,cache = ontology_cache()) # set cache = NULL (default) for online use
 ```
 
-    ## [[1]]
-    ## An object of class "ontology_list"
-    ## Slot "terms":
+    ## Warning: The `cache` argument to ontology() is deprecated and ignored; ontology
+    ## terms are resolved via OLS when IDs are present.
+
+    ## An "ontology_list" with  2  terms
     ## [[1]]
     ## term id:       OBI:0200051
     ## ontology:      obi
@@ -355,12 +356,7 @@ ontology(P,cache = ontology_cache()) # set cache = NULL (default) for online use
     ##                  components and excluding higher-order ones.
     ## iri:           http://purl.obolibrary.org/obo/OBI_0200051
     ## 
-    ## 
-    ## 
     ## [[2]]
-    ## An object of class "ontology_list"
-    ## Slot "terms":
-    ## [[1]]
     ## term id:       STATO:0000555
     ## ontology:      stato
     ## label:         number of predictive components

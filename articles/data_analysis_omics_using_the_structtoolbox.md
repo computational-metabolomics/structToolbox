@@ -411,9 +411,10 @@ prevent issues connecting to the OLS API when building the package.
 ontology(P,cache = ontology_cache()) # set cache = NULL (default) for online use
 ```
 
-    ## [[1]]
-    ## An object of class "ontology_list"
-    ## Slot "terms":
+    ## Warning: The `cache` argument to ontology() is deprecated and ignored; ontology
+    ## terms are resolved via OLS when IDs are present.
+
+    ## An "ontology_list" with  2  terms
     ## [[1]]
     ## term id:       OBI:0200051
     ## ontology:      obi
@@ -423,12 +424,7 @@ ontology(P,cache = ontology_cache()) # set cache = NULL (default) for online use
     ##                  components and excluding higher-order ones.
     ## iri:           http://purl.obolibrary.org/obo/OBI_0200051
     ## 
-    ## 
-    ## 
     ## [[2]]
-    ## An object of class "ontology_list"
-    ## Slot "terms":
-    ## [[1]]
     ## term id:       STATO:0000555
     ## ontology:      stato
     ## label:         number of predictive components
@@ -2641,7 +2637,7 @@ search) so that the best combination of both is identified.
 sessionInfo()
 ```
 
-    ## R Under development (unstable) (2026-02-19 r89439)
+    ## R Under development (unstable) (2026-04-12 r89873)
     ## Platform: x86_64-pc-linux-gnu
     ## Running under: Ubuntu 24.04.4 LTS
     ## 
@@ -2666,63 +2662,62 @@ sessionInfo()
     ## other attached packages:
     ##  [1] openxlsx_4.2.8.1     cowplot_1.2.0        gridExtra_2.3       
     ##  [4] ggplot2_4.0.2        BiocFileCache_3.1.0  dbplyr_2.5.2        
-    ##  [7] ropls_1.43.0         pmp_1.23.1           structToolbox_1.23.1
-    ## [10] struct_1.23.1        BiocStyle_2.39.0    
+    ##  [7] ropls_1.43.0         pmp_1.23.1           structToolbox_1.23.2
+    ## [10] struct_1.23.2        BiocStyle_2.39.0    
     ## 
     ## loaded via a namespace (and not attached):
-    ##   [1] Rdpack_2.6.6                DBI_1.2.3                  
+    ##   [1] Rdpack_2.6.6                DBI_1.3.0                  
     ##   [3] MultiDataSet_1.39.0         httr2_1.2.2                
-    ##   [5] rlang_1.1.7                 magrittr_2.0.4             
+    ##   [5] rlang_1.2.0                 magrittr_2.0.5             
     ##   [7] otel_0.2.0                  e1071_1.7-17               
-    ##   [9] matrixStats_1.5.0           compiler_4.6.0             
-    ##  [11] RSQLite_2.4.6               systemfonts_1.3.1          
-    ##  [13] vctrs_0.7.1                 reshape2_1.4.5             
+    ##   [9] matrixStats_1.5.0           compiler_4.7.0             
+    ##  [11] RSQLite_2.4.6               systemfonts_1.3.2          
+    ##  [13] vctrs_0.7.3                 reshape2_1.4.5             
     ##  [15] stringr_1.6.0               pkgconfig_2.0.3            
     ##  [17] fastmap_1.2.0               XVector_0.51.0             
-    ##  [19] labeling_0.4.3              rmarkdown_2.30             
-    ##  [21] itertools_0.1-3             ragg_1.5.0                 
-    ##  [23] purrr_1.2.1                 bit_4.6.0                  
-    ##  [25] xfun_0.56                   MultiAssayExperiment_1.37.2
+    ##  [19] labeling_0.4.3              rmarkdown_2.31             
+    ##  [21] itertools_0.1-3             ragg_1.5.2                 
+    ##  [23] purrr_1.2.2                 bit_4.6.0                  
+    ##  [25] xfun_0.57                   MultiAssayExperiment_1.37.4
     ##  [27] randomForest_4.7-1.2        cachem_1.1.0               
     ##  [29] jsonlite_2.0.0              blob_1.3.0                 
-    ##  [31] DelayedArray_0.37.0         parallel_4.6.0             
-    ##  [33] rols_3.7.1                  R6_2.6.1                   
-    ##  [35] bslib_0.10.0                stringi_1.8.7              
-    ##  [37] RColorBrewer_1.1-3          ranger_0.18.0              
-    ##  [39] limma_3.67.0                GenomicRanges_1.63.1       
-    ##  [41] jquerylib_0.1.4             Rcpp_1.1.1                 
-    ##  [43] Seqinfo_1.1.0               bookdown_0.46              
-    ##  [45] SummarizedExperiment_1.41.1 iterators_1.0.14           
-    ##  [47] knitr_1.51                  IRanges_2.45.0             
-    ##  [49] Matrix_1.7-4                tidyselect_1.2.1           
-    ##  [51] abind_1.4-8                 yaml_2.3.12                
-    ##  [53] codetools_0.2-20            curl_7.0.0                 
-    ##  [55] doRNG_1.8.6.3               lattice_0.22-9             
-    ##  [57] tibble_3.3.1                plyr_1.8.9                 
-    ##  [59] withr_3.0.2                 Biobase_2.71.0             
-    ##  [61] S7_0.2.1                    evaluate_1.0.5             
-    ##  [63] ontologyIndex_2.12          desc_1.4.3                 
-    ##  [65] isoband_0.3.0               proxy_0.4-29               
-    ##  [67] zip_2.3.3                   filelock_1.0.3             
-    ##  [69] pillar_1.11.1               BiocManager_1.30.27        
-    ##  [71] MatrixGenerics_1.23.0       rngtools_1.5.2             
-    ##  [73] foreach_1.5.2               stats4_4.6.0               
-    ##  [75] generics_0.1.4              sp_2.2-1                   
-    ##  [77] S4Vectors_0.49.0            scales_1.4.0               
-    ##  [79] calibrate_1.7.7             class_7.3-23               
-    ##  [81] glue_1.8.0                  tools_4.6.0                
-    ##  [83] fs_1.6.6                    grid_4.6.0                 
-    ##  [85] impute_1.85.0               missForest_1.6.1           
-    ##  [87] rbibutils_2.4.1             cli_3.6.5                  
-    ##  [89] rappdirs_0.3.4              textshaping_1.0.4          
-    ##  [91] viridisLite_0.4.3           ggthemes_5.2.0             
-    ##  [93] S4Arrays_1.11.1             dplyr_1.2.0                
-    ##  [95] pls_2.9-0                   pcaMethods_2.3.0           
-    ##  [97] gtable_0.3.6                sass_0.4.10                
-    ##  [99] digest_0.6.39               BiocGenerics_0.57.0        
-    ## [101] SparseArray_1.11.10         htmlwidgets_1.6.4          
-    ## [103] farver_2.1.2                memoise_2.0.1              
-    ## [105] htmltools_0.5.9             pkgdown_2.2.0.9000         
-    ## [107] lifecycle_1.0.5             statmod_1.5.1              
-    ## [109] qqman_0.1.9                 bit64_4.6.0-1              
-    ## [111] MASS_7.3-65
+    ##  [31] DelayedArray_0.37.1         parallel_4.7.0             
+    ##  [33] R6_2.6.1                    bslib_0.10.0               
+    ##  [35] stringi_1.8.7               RColorBrewer_1.1-3         
+    ##  [37] ranger_0.18.0               limma_3.67.1               
+    ##  [39] GenomicRanges_1.63.2        jquerylib_0.1.4            
+    ##  [41] Rcpp_1.1.1-1                Seqinfo_1.1.0              
+    ##  [43] bookdown_0.46               SummarizedExperiment_1.41.1
+    ##  [45] iterators_1.0.14            knitr_1.51                 
+    ##  [47] IRanges_2.45.0              Matrix_1.7-5               
+    ##  [49] tidyselect_1.2.1            abind_1.4-8                
+    ##  [51] yaml_2.3.12                 codetools_0.2-20           
+    ##  [53] curl_7.0.0                  doRNG_1.8.6.3              
+    ##  [55] lattice_0.22-9              tibble_3.3.1               
+    ##  [57] plyr_1.8.9                  withr_3.0.2                
+    ##  [59] Biobase_2.71.0              S7_0.2.1-1                 
+    ##  [61] evaluate_1.0.5              desc_1.4.3                 
+    ##  [63] isoband_0.3.0               proxy_0.4-29               
+    ##  [65] zip_2.3.3                   filelock_1.0.3             
+    ##  [67] pillar_1.11.1               BiocManager_1.30.27        
+    ##  [69] MatrixGenerics_1.23.0       rngtools_1.5.2             
+    ##  [71] foreach_1.5.2               stats4_4.7.0               
+    ##  [73] generics_0.1.4              sp_2.2-1                   
+    ##  [75] S4Vectors_0.49.1-1          scales_1.4.0               
+    ##  [77] calibrate_1.7.7             class_7.3-23               
+    ##  [79] glue_1.8.0                  tools_4.7.0                
+    ##  [81] fs_2.0.1                    grid_4.7.0                 
+    ##  [83] impute_1.85.0               missForest_1.6.1           
+    ##  [85] rbibutils_2.4.1             cli_3.6.6                  
+    ##  [87] rappdirs_0.3.4              textshaping_1.0.5          
+    ##  [89] viridisLite_0.4.3           ggthemes_5.2.0             
+    ##  [91] S4Arrays_1.11.1             dplyr_1.2.1                
+    ##  [93] pls_2.9-0                   pcaMethods_2.3.0           
+    ##  [95] gtable_0.3.6                sass_0.4.10                
+    ##  [97] digest_0.6.39               BiocGenerics_0.57.0        
+    ##  [99] SparseArray_1.11.13         htmlwidgets_1.6.4          
+    ## [101] farver_2.1.2                memoise_2.0.1              
+    ## [103] htmltools_0.5.9             pkgdown_2.2.0.9000         
+    ## [105] lifecycle_1.0.5             statmod_1.5.1              
+    ## [107] qqman_0.1.9                 bit64_4.6.0-1              
+    ## [109] MASS_7.3-65
