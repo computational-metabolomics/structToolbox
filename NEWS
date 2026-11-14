@@ -1,3 +1,8 @@
+Changes 1.25.1
++ fix pqn_norm passing qc_frac as sample_frac
++ fix pqn_norm ignoring ref_method
++ fix pqn_norm predict not using the reference computed during training
+
 Changes 1.23.2
 + remove deprecated stato classes; use ontology slots instead
 
