@@ -97,4 +97,9 @@ M = forward_selection_by_rank(factor_name='Class',
     (mean_centre() + PLSDA(number_components=1,
                            factor_name='Class'))
 M = run(M,D,balanced_accuracy())
+#> Warning: span too small.   fewer data values than degrees of freedom.
+#> Warning: pseudoinverse used at 1.955
+#> Warning: neighborhood radius 2.045
+#> Warning: reciprocal condition number  0
+#> Warning: There are other near singularities as well. 4.182
 ```

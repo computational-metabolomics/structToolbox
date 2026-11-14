@@ -57,10 +57,10 @@ pqn_norm(
 
 - ref_mean:
 
-  (numeric, NULL) A single sample to use as the reference for
-  normalisation. If set to NULL then the reference will be computed
-  based on the other input parameters (ref_mean, qc_label etc). . The
-  default is `NULL`.
+  (numeric, NULL) A named numeric vector (one value per feature) to use
+  as the reference for normalisation. If set to NULL then the reference
+  will be computed based on the other input parameters (ref_method,
+  qc_label etc). . The default is `NULL`.
 
 - ...:
 

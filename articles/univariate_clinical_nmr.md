@@ -27,45 +27,43 @@ into a DatasetExperiment object. Using the `openxlsx` package the file
 can be read directly into an R `data.frame` and then manipulated as
 required.
 
-``` r
-
-url = 'https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx'
-
-# read in file directly from github...
-# X=read.xlsx(url)
-
-# ...or use BiocFileCache
-path = bfcrpath(bfc,url)
-X = read.xlsx(path)
-
-# sample meta data
-SM=X[,1:4]
-rownames(SM)=SM$SampleID
-# convert to factors
-SM$SampleType=factor(SM$SampleType)
-SM$Class=factor(SM$Class)
-# keep a numeric version of class for regression
-SM$Class_num = as.numeric(SM$Class)
-
-## data matrix
-# remove meta data
-X[,1:4]=NULL
-rownames(X)=SM$SampleID
-
-# feature meta data
-VM=data.frame(idx=1:ncol(X))
-rownames(VM)=colnames(X)
-
-# prepare DatasetExperiment
-DE = DatasetExperiment(
-    data=X,
-    sample_meta=SM,
-    variable_meta=VM,
-    description='1H-NMR urinary metabolomic profiling for diagnosis of gastric cancer',
-    name='Gastric cancer (NMR)')
-
-DE
-```
+\
+`url`` ``=`` ``'https://github.com/CIMCB/MetabWorkflowTutorial/raw/master/GastricCancer_NMR.xlsx'`\
+\
+`# read in file directly from github...`\
+`# X=read.xlsx(url)`\
+\
+`# ...or use BiocFileCache`\
+`path`` ``=`` `[`bfcrpath`](https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html)`(``bfc``,``url``)`\
+`X`` ``=`` `[`read.xlsx`](https://rdrr.io/pkg/openxlsx/man/read.xlsx.html)`(``path``)`\
+\
+`# sample meta data`\
+`SM``=``X``[``,``1``:``4``]`\
+[`rownames`](https://rdrr.io/r/base/colnames.html)`(``SM``)``=``SM``$``SampleID`\
+`# convert to factors`\
+`SM``$``SampleType``=`[`factor`](https://rdrr.io/r/base/factor.html)`(``SM``$``SampleType``)`\
+`SM``$``Class``=`[`factor`](https://rdrr.io/r/base/factor.html)`(``SM``$``Class``)`\
+`# keep a numeric version of class for regression`\
+`SM``$``Class_num`` ``=`` `[`as.numeric`](https://rdrr.io/r/base/numeric.html)`(``SM``$``Class``)`\
+\
+`## data matrix`\
+`# remove meta data`\
+`X``[``,``1``:``4``]``=``NULL`\
+[`rownames`](https://rdrr.io/r/base/colnames.html)`(``X``)``=``SM``$``SampleID`\
+\
+`# feature meta data`\
+`VM``=`[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(``idx``=``1``:`[`ncol`](https://rdrr.io/r/base/nrow.html)`(``X``)``)`\
+[`rownames`](https://rdrr.io/r/base/colnames.html)`(``VM``)``=`[`colnames`](https://rdrr.io/r/base/colnames.html)`(``X``)`\
+\
+`# prepare DatasetExperiment`\
+`DE`` ``=`` `[`DatasetExperiment`](https://rdrr.io/pkg/struct/man/struct_DatasetExperiment.html)`(`\
+`    data``=``X``,`\
+`    sample_meta``=``SM``,`\
+`    variable_meta``=``VM``,`\
+`    description``=``'1H-NMR urinary metabolomic profiling for diagnosis of gastric cancer'``,`\
+`    name``=``'Gastric cancer (NMR)'``)`\
+\
+`DE`
 
     ## A "DatasetExperiment" object
     ## ----------------------------
@@ -82,21 +80,19 @@ and to assess the quality of the data in general. In the Tutorial
 features with QC-RSD \> 20% and where more than 10% of the features are
 missing are retained.
 
-``` r
-
-# prepare model sequence
-M = rsd_filter(rsd_threshold=20,qc_label='QC',factor_name='Class') +
-    mv_feature_filter(threshold = 10,method='across',factor_name='Class')
-
-# apply model
-M = model_apply(M,DE)
-
-# get the model output
-filtered = predicted(M)
-
-# summary of filtered data
-filtered
-```
+\
+`# prepare model sequence`\
+`M`` ``=`` `[`rsd_filter`](https://computational-metabolomics.github.io/structToolbox/reference/rsd_filter.md)`(``rsd_threshold``=``20``,qc_label``=``'QC'``,factor_name``=``'Class'``)`` ``+`\
+`    `[`mv_feature_filter`](https://computational-metabolomics.github.io/structToolbox/reference/mv_feature_filter.md)`(``threshold ``=`` ``10``,method``=``'across'``,factor_name``=``'Class'``)`\
+\
+`# apply model`\
+`M`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M``,``DE``)`\
+\
+`# get the model output`\
+`filtered`` ``=`` `[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M``)`\
+\
+`# summary of filtered data`\
+`filtered`
 
     ## A "DatasetExperiment" object
     ## ----------------------------
@@ -124,30 +120,28 @@ the following steps were applied:
 The transformed and scaled matrix in then used as input to PCA. Using
 `struct` we can chain all of these steps into a single model sequence.
 
-``` r
-
-# prepare the model sequence
-M = log_transform(base = 10) +
-    autoscale() + 
-    knn_impute(neighbours = 3) +
-    PCA(number_components = 10)
-
-# apply model sequence to data
-M = model_apply(M,filtered)
-
-# get the transformed, scaled and imputed matrix
-TSI = predicted(M[3])
-
-# scores plot
-C = pca_scores_plot(factor_name = 'SampleType')
-g1 = chart_plot(C,M[4])
-
-# loadings plot
-C = pca_loadings_plot()
-g2 = chart_plot(C,M[4])
-
-plot_grid(g1,g2,align='hv',nrow=1,axis='tblr')
-```
+\
+`# prepare the model sequence`\
+`M`` ``=`` `[`log_transform`](https://computational-metabolomics.github.io/structToolbox/reference/log_transform.md)`(``base ``=`` ``10``)`` ``+`\
+`    `[`autoscale`](https://computational-metabolomics.github.io/structToolbox/reference/autoscale.md)`(``)`` ``+`` `\
+`    `[`knn_impute`](https://computational-metabolomics.github.io/structToolbox/reference/knn_impute.md)`(``neighbours ``=`` ``3``)`` ``+`\
+`    `[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(``number_components ``=`` ``10``)`\
+\
+`# apply model sequence to data`\
+`M`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M``,``filtered``)`\
+\
+`# get the transformed, scaled and imputed matrix`\
+`TSI`` ``=`` `[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M``[``3``]``)`\
+\
+`# scores plot`\
+`C`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name ``=`` ``'SampleType'``)`\
+`g1`` ``=`` `[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``M``[``4``]``)`\
+\
+`# loadings plot`\
+`C`` ``=`` `[`pca_loadings_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_loadings_plot.md)`(``)`\
+`g2`` ``=`` `[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``M``[``4``]``)`\
+\
+[`plot_grid`](https://wilkelab.org/cowplot/reference/plot_grid.html)`(``g1``,``g2``,align``=``'hv'``,nrow``=``1``,axis``=``'tblr'``)`
 
 ![](univariate_clinical_nmr_files/figure-html/unnamed-chunk-4-1.png)
 
@@ -160,24 +154,22 @@ with the workflow we are following
 The QC samples need to be excluded, and the data reduced to only the GC
 and HE groups.
 
-``` r
-
-# prepare model
-TT = filter_smeta(mode='include',factor_name='Class',levels=c('GC','HE')) +  
-     ttest(alpha=0.05,mtc='fdr',factor_names='Class')
-
-# apply model
-TT = model_apply(TT,filtered)
-
-# keep the data filtered by group for later
-filtered = predicted(TT[1])
-
-# convert to data frame
-out=as_data_frame(TT[2])
-
-# show first few features
-head(out)
-```
+\
+`# prepare model`\
+`TT`` ``=`` `[`filter_smeta`](https://computational-metabolomics.github.io/structToolbox/reference/filter_smeta.md)`(``mode``=``'include'``,factor_name``=``'Class'``,levels``=`[`c`](https://rdrr.io/r/base/c.html)`(``'GC'``,``'HE'``)``)`` ``+``  `\
+`     `[`ttest`](https://computational-metabolomics.github.io/structToolbox/reference/ttest.md)`(``alpha``=``0.05``,mtc``=``'fdr'``,factor_names``=``'Class'``)`\
+\
+`# apply model`\
+`TT`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``TT``,``filtered``)`\
+\
+`# keep the data filtered by group for later`\
+`filtered`` ``=`` `[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``TT``[``1``]``)`\
+\
+`# convert to data frame`\
+`out``=`[`as_data_frame`](https://computational-metabolomics.github.io/structToolbox/reference/as_data_frame.md)`(``TT``[``2``]``)`\
+\
+`# show first few features`\
+[`head`](https://rdrr.io/r/utils/head.html)`(``out``)`
 
     ##     t_statistic   t_p_value t_significant estimate.mean.GC estimate.mean.HE
     ## M4    3.5392652 0.008421042          TRUE         51.73947         26.47778
@@ -204,16 +196,14 @@ machine learning. In `structToolbox` this is implemented using the
 `stratified_split` for splitting based on group sizes, which is the
 approach used by Mendez et al.
 
-``` r
-
-# prepare model
-M = stratified_split(p_train=0.75,factor_name='Class')
-# apply to filtered data
-M = model_apply(M,filtered)
-# get data from object
-train = M$training
-train
-```
+\
+`# prepare model`\
+`M`` ``=`` `[`stratified_split`](https://computational-metabolomics.github.io/structToolbox/reference/stratified_split.md)`(``p_train``=``0.75``,factor_name``=``'Class'``)`\
+`# apply to filtered data`\
+`M`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M``,``filtered``)`\
+`# get data from object`\
+`train`` ``=`` ``M``$``training`\
+`train`
 
     ## A "DatasetExperiment" object
     ## ----------------------------
@@ -225,16 +215,12 @@ train
     ## sample_meta:   62 rows x 5 columns
     ## variable_meta: 53 rows x 1 columns
 
-``` r
+\
+[`cat`](https://rdrr.io/r/base/cat.html)`(``'\n'``)`
 
-cat('\n')
-```
-
-``` r
-
-test = M$testing
-test
-```
+\
+`test`` ``=`` ``M``$``testing`\
+`test`
 
     ## A "DatasetExperiment" object
     ## ----------------------------
@@ -256,41 +242,39 @@ used as the metric for optimisation, so the `PLSR` model in
 structToolbox will be used. For speed only 10 bootstrap iterations are
 used here.
 
-``` r
-
-# scale/transform training data
-M = log_transform(base = 10) +
-    autoscale() + 
-    knn_impute(neighbours = 3,by='samples')
-
-# apply model
-M = model_apply(M,train)
-
-# get scaled/transformed training data
-train_st = predicted(M)
-
-# prepare model sequence
-MS = grid_search_1d(
-        param_to_optimise = 'number_components',
-        search_values = as.numeric(c(1:6)),
-        model_index = 2,
-        factor_name = 'Class_num',
-        max_min = 'max') *
-     permute_sample_order(
-        number_of_permutations = 10) *
-     kfold_xval(
-        folds = 5,
-        factor_name = 'Class_num') * 
-     (mean_centre(mode='sample_meta')+
-      PLSR(factor_name='Class_num'))
-
-# run the validation
-MS = struct::run(MS,train_st,r_squared())
-
-#
-C = gs_line()
-chart_plot(C,MS)
-```
+\
+`# scale/transform training data`\
+`M`` ``=`` `[`log_transform`](https://computational-metabolomics.github.io/structToolbox/reference/log_transform.md)`(``base ``=`` ``10``)`` ``+`\
+`    `[`autoscale`](https://computational-metabolomics.github.io/structToolbox/reference/autoscale.md)`(``)`` ``+`` `\
+`    `[`knn_impute`](https://computational-metabolomics.github.io/structToolbox/reference/knn_impute.md)`(``neighbours ``=`` ``3``,by``=``'samples'``)`\
+\
+`# apply model`\
+`M`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M``,``train``)`\
+\
+`# get scaled/transformed training data`\
+`train_st`` ``=`` `[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M``)`\
+\
+`# prepare model sequence`\
+`MS`` ``=`` `[`grid_search_1d`](https://computational-metabolomics.github.io/structToolbox/reference/grid_search_1d.md)`(`\
+`        param_to_optimise ``=`` ``'number_components'``,`\
+`        search_values ``=`` `[`as.numeric`](https://rdrr.io/r/base/numeric.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``1``:``6``)``)``,`\
+`        model_index ``=`` ``2``,`\
+`        factor_name ``=`` ``'Class_num'``,`\
+`        max_min ``=`` ``'max'``)`` ``*`\
+`     `[`permute_sample_order`](https://computational-metabolomics.github.io/structToolbox/reference/permute_sample_order.md)`(`\
+`        number_of_permutations ``=`` ``10``)`` ``*`\
+`     `[`kfold_xval`](https://computational-metabolomics.github.io/structToolbox/reference/kfold_xval.md)`(`\
+`        folds ``=`` ``5``,`\
+`        factor_name ``=`` ``'Class_num'``)`` ``*`` `\
+`     ``(`[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``mode``=``'sample_meta'``)``+`\
+`      `[`PLSR`](https://computational-metabolomics.github.io/structToolbox/reference/PLSR.md)`(``factor_name``=``'Class_num'``)``)`\
+\
+`# run the validation`\
+`MS`` ``=`` ``struct``::`[`run`](https://rdrr.io/pkg/struct/man/iterator.html)`(``MS``,``train_st``,`[`r_squared`](https://computational-metabolomics.github.io/structToolbox/reference/r_squared.md)`(``)``)`\
+\
+`#`\
+`C`` ``=`` `[`gs_line`](https://computational-metabolomics.github.io/structToolbox/reference/gs_line.md)`(``)`\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``MS``)`
 
 ![](univariate_clinical_nmr_files/figure-html/unnamed-chunk-7-1.png)
 
@@ -303,35 +287,31 @@ will use that here.
 To evaluate the model for discriminant analysis in structToolbox the
 `PLSDA` model is appropriate.
 
-``` r
-
-# prepare the discriminant model
-P = PLSDA(number_components = 2, factor_name='Class')
-
-# apply the model
-P = model_apply(P,train_st)
-
-# charts
-C = plsda_predicted_plot(factor_name='Class',style='boxplot')
-g1 = chart_plot(C,P)
-
-C = plsda_predicted_plot(factor_name='Class',style='density')
-g2 = chart_plot(C,P)+xlim(c(-2,2))
-
-C = plsda_roc_plot(factor_name='Class')
-g3 = chart_plot(C,P)
-
-plot_grid(g1,g2,g3,align='vh',axis='tblr',nrow=1, labels=c('A','B','C'))
-```
+\
+`# prepare the discriminant model`\
+`P`` ``=`` `[`PLSDA`](https://computational-metabolomics.github.io/structToolbox/reference/PLSDA.md)`(``number_components ``=`` ``2``, factor_name``=``'Class'``)`\
+\
+`# apply the model`\
+`P`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``P``,``train_st``)`\
+\
+`# charts`\
+`C`` ``=`` `[`plsda_predicted_plot`](https://computational-metabolomics.github.io/structToolbox/reference/plsda_predicted_plot.md)`(``factor_name``=``'Class'``,style``=``'boxplot'``)`\
+`g1`` ``=`` `[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``P``)`\
+\
+`C`` ``=`` `[`plsda_predicted_plot`](https://computational-metabolomics.github.io/structToolbox/reference/plsda_predicted_plot.md)`(``factor_name``=``'Class'``,style``=``'density'``)`\
+`g2`` ``=`` `[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``P``)``+`[`xlim`](https://ggplot2.tidyverse.org/reference/lims.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``-``2``,``2``)``)`\
+\
+`C`` ``=`` `[`plsda_roc_plot`](https://computational-metabolomics.github.io/structToolbox/reference/plsda_roc_plot.md)`(``factor_name``=``'Class'``)`\
+`g3`` ``=`` `[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``P``)`\
+\
+[`plot_grid`](https://wilkelab.org/cowplot/reference/plot_grid.html)`(``g1``,``g2``,``g3``,align``=``'vh'``,axis``=``'tblr'``,nrow``=``1``, labels``=`[`c`](https://rdrr.io/r/base/c.html)`(``'A'``,``'B'``,``'C'``)``)`
 
 ![](univariate_clinical_nmr_files/figure-html/unnamed-chunk-8-1.png)
 
-``` r
-
-# AUC for comparison with Mendez et al
-MET = calculate(AUC(),P$y$Class,P$yhat[,1])
-MET
-```
+\
+`# AUC for comparison with Mendez et al`\
+`MET`` ``=`` `[`calculate`](https://computational-metabolomics.github.io/structToolbox/reference/calculate.md)`(`[`AUC`](https://computational-metabolomics.github.io/structToolbox/reference/AUC.md)`(``)``,``P``$``y``$``Class``,``P``$``yhat``[``,``1``]``)`\
+`MET`
 
     ## A "AUC" object
     ## --------------
@@ -349,20 +329,18 @@ A permutation test can be used to assess how likely the observed result
 is to have occurred by chance. In structToolbox `permutation_test` is an
 iterator object that can be combined with other iterators and models.
 
-``` r
-
-# model sequence
-MS = permutation_test(number_of_permutations = 20,factor_name = 'Class_num') * 
-     kfold_xval(folds = 5,factor_name = 'Class_num') *
-     (mean_centre(mode='sample_meta') + PLSR(factor_name='Class_num', number_components = 2))
-
-# run iterator
-MS = struct::run(MS,train_st,r_squared())
-
-# chart
-C = permutation_test_plot(style = 'density') 
-chart_plot(C,MS) + xlim(c(-1,1)) + xlab('R Squared')
-```
+\
+`# model sequence`\
+`MS`` ``=`` `[`permutation_test`](https://computational-metabolomics.github.io/structToolbox/reference/permutation_test.md)`(``number_of_permutations ``=`` ``20``,factor_name ``=`` ``'Class_num'``)`` ``*`` `\
+`     `[`kfold_xval`](https://computational-metabolomics.github.io/structToolbox/reference/kfold_xval.md)`(``folds ``=`` ``5``,factor_name ``=`` ``'Class_num'``)`` ``*`\
+`     ``(`[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``mode``=``'sample_meta'``)`` ``+`` `[`PLSR`](https://computational-metabolomics.github.io/structToolbox/reference/PLSR.md)`(``factor_name``=``'Class_num'``, number_components ``=`` ``2``)``)`\
+\
+`# run iterator`\
+`MS`` ``=`` ``struct``::`[`run`](https://rdrr.io/pkg/struct/man/iterator.html)`(``MS``,``train_st``,`[`r_squared`](https://computational-metabolomics.github.io/structToolbox/reference/r_squared.md)`(``)``)`\
+\
+`# chart`\
+`C`` ``=`` `[`permutation_test_plot`](https://computational-metabolomics.github.io/structToolbox/reference/permutation_test_plot.md)`(``style ``=`` ``'density'``)`` `\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``MS``)`` ``+`` `[`xlim`](https://ggplot2.tidyverse.org/reference/lims.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``-``1``,``1``)``)`` ``+`` `[`xlab`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'R Squared'``)`
 
 ![](univariate_clinical_nmr_files/figure-html/unnamed-chunk-10-1.png)
 
@@ -376,17 +354,15 @@ unpermuted (true) Q2 values are consistently better than the permuted
 PLS can also be used to visualise the model and interpret the latent
 variables.
 
-``` r
-
-# prepare the discriminant model
-P = PLSDA(number_components = 2, factor_name='Class')
-
-# apply the model
-P = model_apply(P,train_st)
-
-C = pls_scores_plot(components=c(1,2),factor_name = 'Class')
-chart_plot(C,P)
-```
+\
+`# prepare the discriminant model`\
+`P`` ``=`` `[`PLSDA`](https://computational-metabolomics.github.io/structToolbox/reference/PLSDA.md)`(``number_components ``=`` ``2``, factor_name``=``'Class'``)`\
+\
+`# apply the model`\
+`P`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``P``,``train_st``)`\
+\
+`C`` ``=`` `[`pls_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pls_scores_plot.md)`(``components``=`[`c`](https://rdrr.io/r/base/c.html)`(``1``,``2``)``,factor_name ``=`` ``'Class'``)`\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``P``)`
 
 ![](univariate_clinical_nmr_files/figure-html/unnamed-chunk-11-1.png)
 
@@ -397,16 +373,14 @@ importance of individual features to the PLS model. In Mendez et al
 bootstrapping is used to estimate the confidence intervals, but for
 brevity here we will skip this.
 
-``` r
-
-# prepare chart
-C = pls_vip_plot(ycol = 'HE')
-g1 = chart_plot(C,P)
-
-C = pls_regcoeff_plot(ycol='HE')
-g2 = chart_plot(C,P)
-
-plot_grid(g1,g2,align='hv',axis='tblr',nrow=2)
-```
+\
+`# prepare chart`\
+`C`` ``=`` `[`pls_vip_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pls_vip_plot.md)`(``ycol ``=`` ``'HE'``)`\
+`g1`` ``=`` `[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``P``)`\
+\
+`C`` ``=`` `[`pls_regcoeff_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pls_regcoeff_plot.md)`(``ycol``=``'HE'``)`\
+`g2`` ``=`` `[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``P``)`\
+\
+[`plot_grid`](https://wilkelab.org/cowplot/reference/plot_grid.html)`(``g1``,``g2``,align``=``'hv'``,axis``=``'tblr'``,nrow``=``2``)`
 
 ![](univariate_clinical_nmr_files/figure-html/unnamed-chunk-12-1.png)

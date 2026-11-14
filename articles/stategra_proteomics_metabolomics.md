@@ -29,73 +29,69 @@ The LC-MS-based proteomics dataset from the STATegra multi-omics dataset
 [github](https://github.com/STATegraData/STATegraData) and must be
 extracted from the zip file prior to data analysis.
 
-``` r
-
-# path to zip
-zipfile = "https://raw.github.com/STATegraData/STATegraData/master/Script_STATegra_Proteomics.zip"
-
-## retrieve from BiocFileCache
-path = bfcrpath(bfc,zipfile)
-temp = bfccache(bfc)
-
-## ... or download to temp location
-# path = tempfile()
-# temp = tempdir()
-# download.file(zipfile,path)
-
-# unzip
-unzip(path, files = "Proteomics_01_uniprot_canonical_normalized.txt", exdir=temp)
-# read samples
-all_data <-  read.delim(file.path(temp,"Proteomics_01_uniprot_canonical_normalized.txt"), as.is = TRUE, header = TRUE, sep = "\t")
-```
+\
+`# path to zip`\
+`zipfile`` ``=`` ``"https://raw.github.com/STATegraData/STATegraData/master/Script_STATegra_Proteomics.zip"`\
+\
+`## retrieve from BiocFileCache`\
+`path`` ``=`` `[`bfcrpath`](https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html)`(``bfc``,``zipfile``)`\
+`temp`` ``=`` `[`bfccache`](https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html)`(``bfc``)`\
+\
+`## ... or download to temp location`\
+`# path = tempfile()`\
+`# temp = tempdir()`\
+`# download.file(zipfile,path)`\
+\
+`# unzip`\
+[`unzip`](https://rdrr.io/r/utils/unzip.html)`(``path``, files ``=`` ``"Proteomics_01_uniprot_canonical_normalized.txt"``, exdir``=``temp``)`\
+`# read samples`\
+`all_data`` ``<-``  `[`read.delim`](https://rdrr.io/r/utils/read.table.html)`(`[`file.path`](https://rdrr.io/r/base/file.path.html)`(``temp``,``"Proteomics_01_uniprot_canonical_normalized.txt"``)``, as.is ``=`` ``TRUE``, header ``=`` ``TRUE``, sep ``=`` ``"\t"``)`
 
 The imported data needs to be converted to `DatasetExperiment` format
 for use with `structToolbox`.
 
-``` r
-
-# extract data matrix
-data = all_data[1:2527,51:86]
-# shorten sample names
-colnames(data) = lapply(colnames(data), function (x) substr(x, 27, nchar(x)))
-# replace 0 with NA
-data[data == 0] <- NA
-# transpose
-data=as.data.frame(t(data))
-
-# prepare sample meta
-SM = lapply(rownames(data),function(x) {
-  s=strsplit(x,'_')[[1]] # split at underscore
-  out=data.frame(
-    'treatment' = s[[1]],
-    'time' = substr(s[[2]],1,nchar(s[[2]])-1) ,    
-    'batch' = substr(s[[3]],6,nchar(s[[3]])),
-    'condition' = substr(x,1,6) # interaction between treatment and time
-  )
-  return(out)
-})
-SM = do.call(rbind,SM)
-rownames(SM)=rownames(data)
-# convert to factors
-SM$treatment=factor(SM$treatment)
-SM$time=ordered(SM$time,c("0","2","6","12","18","24"))
-SM$batch=ordered(SM$batch,c(1,3,4,5,6,7))
-SM$condition=factor(SM$condition)
-
-# variable meta data
-VM = all_data[1:2527,c(1,6,7)]
-rownames(VM)=colnames(data)
-
-# prepare DatasetExperiment
-DS = DatasetExperiment(
-  data = data, 
-  sample_meta = SM, 
-  variable_meta = VM, 
-  name = 'STATegra Proteomics',
-  description = 'downloaded from: https://github.com/STATegraData/STATegraData/'
-)
-DS
-```
+\
+`# extract data matrix`\
+`data`` ``=`` ``all_data``[``1``:``2527``,``51``:``86``]`\
+`# shorten sample names`\
+[`colnames`](https://rdrr.io/r/base/colnames.html)`(``data``)`` ``=`` `[`lapply`](https://rdrr.io/r/base/lapply.html)`(`[`colnames`](https://rdrr.io/r/base/colnames.html)`(``data``)``, ``function`` ``(``x``)`` `[`substr`](https://rdrr.io/r/base/substr.html)`(``x``, ``27``, `[`nchar`](https://rdrr.io/r/base/nchar.html)`(``x``)``)``)`\
+`# replace 0 with NA`\
+`data``[``data`` ``==`` ``0``]`` ``<-`` ``NA`\
+`# transpose`\
+`data``=`[`as.data.frame`](https://rdrr.io/r/base/as.data.frame.html)`(`[`t`](https://rdrr.io/r/base/t.html)`(``data``)``)`\
+\
+`# prepare sample meta`\
+`SM`` ``=`` `[`lapply`](https://rdrr.io/r/base/lapply.html)`(`[`rownames`](https://rdrr.io/r/base/colnames.html)`(``data``)``,``function``(``x``)`` ``{`\
+`  ``s``=`[`strsplit`](https://rdrr.io/r/base/strsplit.html)`(``x``,``'_'``)``[[``1``]``]`` ``# split at underscore`\
+`  ``out``=`[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`\
+`    ``'treatment'`` ``=`` ``s``[[``1``]``]``,`\
+`    ``'time'`` ``=`` `[`substr`](https://rdrr.io/r/base/substr.html)`(``s``[[``2``]``]``,``1``,`[`nchar`](https://rdrr.io/r/base/nchar.html)`(``s``[[``2``]``]``)``-``1``)`` ,    `\
+`    ``'batch'`` ``=`` `[`substr`](https://rdrr.io/r/base/substr.html)`(``s``[[``3``]``]``,``6``,`[`nchar`](https://rdrr.io/r/base/nchar.html)`(``s``[[``3``]``]``)``)``,`\
+`    ``'condition'`` ``=`` `[`substr`](https://rdrr.io/r/base/substr.html)`(``x``,``1``,``6``)`` ``# interaction between treatment and time`\
+`  ``)`\
+`  `[`return`](https://rdrr.io/r/base/function.html)`(``out``)`\
+`}``)`\
+`SM`` ``=`` `[`do.call`](https://rdrr.io/r/base/do.call.html)`(``rbind``,``SM``)`\
+[`rownames`](https://rdrr.io/r/base/colnames.html)`(``SM``)``=`[`rownames`](https://rdrr.io/r/base/colnames.html)`(``data``)`\
+`# convert to factors`\
+`SM``$``treatment``=`[`factor`](https://rdrr.io/r/base/factor.html)`(``SM``$``treatment``)`\
+`SM``$``time``=`[`ordered`](https://rdrr.io/r/base/factor.html)`(``SM``$``time``,`[`c`](https://rdrr.io/r/base/c.html)`(``"0"``,``"2"``,``"6"``,``"12"``,``"18"``,``"24"``)``)`\
+`SM``$``batch``=`[`ordered`](https://rdrr.io/r/base/factor.html)`(``SM``$``batch``,`[`c`](https://rdrr.io/r/base/c.html)`(``1``,``3``,``4``,``5``,``6``,``7``)``)`\
+`SM``$``condition``=`[`factor`](https://rdrr.io/r/base/factor.html)`(``SM``$``condition``)`\
+\
+`# variable meta data`\
+`VM`` ``=`` ``all_data``[``1``:``2527``,`[`c`](https://rdrr.io/r/base/c.html)`(``1``,``6``,``7``)``]`\
+[`rownames`](https://rdrr.io/r/base/colnames.html)`(``VM``)``=`[`colnames`](https://rdrr.io/r/base/colnames.html)`(``data``)`\
+\
+`# prepare DatasetExperiment`\
+`DS`` ``=`` `[`DatasetExperiment`](https://rdrr.io/pkg/struct/man/struct_DatasetExperiment.html)`(`\
+`  data ``=`` ``data``, `\
+`  sample_meta ``=`` ``SM``, `\
+`  variable_meta ``=`` ``VM``, `\
+`  name ``=`` ``'STATegra Proteomics'``,`\
+`  description ``=`` ``'downloaded from: https://github.com/STATegraData/STATegraData/'`\
+`)`\
+`DS`
 
     ## A "DatasetExperiment" object
     ## ----------------------------
@@ -108,20 +104,18 @@ DS
 A number of Reporter genes were included in the study. We plot two of
 them here to illustrate some trends in the data.
 
-``` r
-
-# find id of reporters
-Ldha = which(DS$variable_meta$Gene.names=='Ldha')
-Hk2 = which(DS$variable_meta$Gene.names=='Hk2')
-
-# chart object
-C = feature_boxplot(feature_to_plot=Ldha,factor_name='time',label_outliers=FALSE)
-g1=chart_plot(C,DS)+ggtitle('Ldha')+ylab('expression')
-C = feature_boxplot(feature_to_plot=Hk2,factor_name='time',label_outliers=FALSE)
-g2=chart_plot(C,DS)+ggtitle('Hk2')+ylab('expression')
-
-plot_grid(g1,g2,nrow=1,align='vh',axis='tblr')
-```
+\
+`# find id of reporters`\
+`Ldha`` ``=`` `[`which`](https://rdrr.io/r/base/which.html)`(``DS``$``variable_meta``$``Gene.names``==``'Ldha'``)`\
+`Hk2`` ``=`` `[`which`](https://rdrr.io/r/base/which.html)`(``DS``$``variable_meta``$``Gene.names``==``'Hk2'``)`\
+\
+`# chart object`\
+`C`` ``=`` `[`feature_boxplot`](https://computational-metabolomics.github.io/structToolbox/reference/feature_boxplot.md)`(``feature_to_plot``=``Ldha``,factor_name``=``'time'``,label_outliers``=``FALSE``)`\
+`g1``=`[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``DS``)``+`[`ggtitle`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'Ldha'``)``+`[`ylab`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'expression'``)`\
+`C`` ``=`` `[`feature_boxplot`](https://computational-metabolomics.github.io/structToolbox/reference/feature_boxplot.md)`(``feature_to_plot``=``Hk2``,factor_name``=``'time'``,label_outliers``=``FALSE``)`\
+`g2``=`[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``DS``)``+`[`ggtitle`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'Hk2'``)``+`[`ylab`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'expression'``)`\
+\
+[`plot_grid`](https://wilkelab.org/cowplot/reference/plot_grid.html)`(``g1``,``g2``,nrow``=``1``,align``=``'vh'``,axis``=``'tblr'``)`
 
 ![](stategra_proteomics_metabolomics_files/figure-html/unnamed-chunk-4-1.png)
 
@@ -131,32 +125,28 @@ The data is log2 transformed, then scaled such that the mean of the
 medians is equal for all conditions. These steps are available in
 `structToolbox` using `log_transform` and `mean_of_medians` objects.
 
-``` r
-
-# prepare model sequence
-M = log_transform(
-  base=2) + 
-  mean_of_medians(
-    factor_name = 'condition')
-# apply model sequence
-M = model_apply(M,DS) 
-
-# get transformed data
-DST = predicted(M)
-```
+\
+`# prepare model sequence`\
+`M`` ``=`` `[`log_transform`](https://computational-metabolomics.github.io/structToolbox/reference/log_transform.md)`(`\
+`  base``=``2``)`` ``+`` `\
+`  `[`mean_of_medians`](https://computational-metabolomics.github.io/structToolbox/reference/mean_of_medians.md)`(`\
+`    factor_name ``=`` ``'condition'``)`\
+`# apply model sequence`\
+`M`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M``,``DS``)`` `\
+\
+`# get transformed data`\
+`DST`` ``=`` `[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M``)`
 
 The Reporter genes are plotted again for comparison.
 
-``` r
-
-# chart object
-C = feature_boxplot(feature_to_plot=Ldha,factor_name='time',label_outliers=FALSE)
-g1=chart_plot(C,DST)+ggtitle('Ldha')+ylab('log2(expression)')
-C = feature_boxplot(feature_to_plot=Hk2,factor_name='time',label_outliers=FALSE)
-g2=chart_plot(C,DST)+ggtitle('Hk2')+ylab('log2(expression)')
-
-plot_grid(g1,g2,nrow=1,align='vh',axis='tblr')
-```
+\
+`# chart object`\
+`C`` ``=`` `[`feature_boxplot`](https://computational-metabolomics.github.io/structToolbox/reference/feature_boxplot.md)`(``feature_to_plot``=``Ldha``,factor_name``=``'time'``,label_outliers``=``FALSE``)`\
+`g1``=`[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``DST``)``+`[`ggtitle`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'Ldha'``)``+`[`ylab`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'log2(expression)'``)`\
+`C`` ``=`` `[`feature_boxplot`](https://computational-metabolomics.github.io/structToolbox/reference/feature_boxplot.md)`(``feature_to_plot``=``Hk2``,factor_name``=``'time'``,label_outliers``=``FALSE``)`\
+`g2``=`[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``DST``)``+`[`ggtitle`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'Hk2'``)``+`[`ylab`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'log2(expression)'``)`\
+\
+[`plot_grid`](https://wilkelab.org/cowplot/reference/plot_grid.html)`(``g1``,``g2``,nrow``=``1``,align``=``'vh'``,axis``=``'tblr'``)`
 
 ![](stategra_proteomics_metabolomics_files/figure-html/unnamed-chunk-6-1.png)
 
@@ -179,30 +169,28 @@ sequence it passes unchanged through the `filter_na_count` object
 becuase the default output has been changed, so the `filter_na_count`
 and `filter_by_name` objects are working together as a single filter.
 
-``` r
-
-# build model sequence
-M2 = filter_na_count(
-  threshold=2,
-  factor_name='condition', 
-  predicted='na_count') +    # override the default output
-  filter_by_name(
-    mode='exclude',
-    dimension='variable',
-    names='place_holder',
-    seq_in='names',
-    seq_fcn=function(x) {      # convert NA count pre group to true/false
-      x=x>2                  # more the two missing per group
-      x=rowSums(x)>10        # in more than 10 groups
-      return(x)
-    }
-  )
-# apply to transformed data
-M2 = model_apply(M2,DST)
-
-# get the filtered data
-DSTF = predicted(M2)
-```
+\
+`# build model sequence`\
+`M2`` ``=`` `[`filter_na_count`](https://computational-metabolomics.github.io/structToolbox/reference/filter_na_count.md)`(`\
+`  threshold``=``2``,`\
+`  factor_name``=``'condition'``, `\
+`  predicted``=``'na_count'``)`` ``+``    ``# override the default output`\
+`  `[`filter_by_name`](https://computational-metabolomics.github.io/structToolbox/reference/filter_by_name.md)`(`\
+`    mode``=``'exclude'``,`\
+`    dimension``=``'variable'``,`\
+`    names``=``'place_holder'``,`\
+`    seq_in``=``'names'``,`\
+`    seq_fcn``=``function``(``x``)`` ``{``      ``# convert NA count pre group to true/false`\
+`      ``x``=``x``>``2``                  ``# more the two missing per group`\
+`      ``x``=`[`rowSums`](https://rdrr.io/r/base/colSums.html)`(``x``)``>``10``        ``# in more than 10 groups`\
+`      `[`return`](https://rdrr.io/r/base/function.html)`(``x``)`\
+`    ``}`\
+`  ``)`\
+`# apply to transformed data`\
+`M2`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M2``,``DST``)`\
+\
+`# get the filtered data`\
+`DSTF`` ``=`` `[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M2``)`
 
 #### Missing value imputation
 
@@ -216,143 +204,137 @@ discovery”. We create a new struct object using `set_struct_obj` in the
 global environment, and a “method_apply” method that implements the
 imputation.
 
-``` r
-
-# create new imputation object
-set_struct_obj(
-  class_name = 'STATegra_impute1',
-  struct_obj = 'model',
-  params=c(factor_sd='character',factor_name='character'),
-  outputs=c(imputed='DatasetExperiment'),
-  prototype = list(
-    name = 'STATegra imputation 1',
-    description = 'If missing values are present for all one group then they are replaced with min/2 + "random value below discovery".',
-    predicted = 'imputed'
-  ) 
-)
-
-# create method_apply for imputation method 1
-set_obj_method(
-  class_name='STATegra_impute1',
-  method_name='model_apply',
-  definition=function(M,D) {
-    
-    # for each feature count NA within each level
-    na = apply(D$data,2,function(x){
-      tapply(x,D$sample_meta[[M$factor_name]],function(y){
-        sum(is.na(y))
-      })
-    })
-    # count number of samples in each group
-    count=summary(D$sample_meta[[M$factor_name]])
-    # standard deviation of features within levels of factor_sd
-    sd = apply(D$data,2,function(x) {tapply(x,D$sample_meta[[M$factor_sd]],sd,na.rm=TRUE)})
-    sd = median(sd,na.rm=TRUE)
-    
-    # impute or not
-    check=na == matrix(count,nrow=2,ncol=ncol(D)) # all missing in one class
-    
-    # impute matrix
-    mi = D$data
-    for (j in 1:nrow(mi)) {
-      # index of group for this sample
-      g = which(levels(D$sample_meta[[M$factor_name]])==D$sample_meta[[M$factor_name]][j])
-      iv=rnorm(ncol(D),min(D$data[j,],na.rm=TRUE)/2,sd)
-      mi[j,is.na(mi[j,]) & check[g,]] = iv[is.na(mi[j,]) & check[g,]]
-    }
-    D$data = mi
-    M$imputed=D
-    return(M)
-  }
-)
-```
+\
+`# create new imputation object`\
+[`set_struct_obj`](https://rdrr.io/pkg/struct/man/set_struct_obj.html)`(`\
+`  class_name ``=`` ``'STATegra_impute1'``,`\
+`  struct_obj ``=`` ``'model'``,`\
+`  params``=`[`c`](https://rdrr.io/r/base/c.html)`(``factor_sd``=``'character'``,factor_name``=``'character'``)``,`\
+`  outputs``=`[`c`](https://rdrr.io/r/base/c.html)`(``imputed``=``'DatasetExperiment'``)``,`\
+`  prototype ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(`\
+`    name ``=`` ``'STATegra imputation 1'``,`\
+`    description ``=`` ``'If missing values are present for all one group then they are replaced with min/2 + "random value below discovery".'``,`\
+`    predicted ``=`` ``'imputed'`\
+`  ``)`` `\
+`)`\
+\
+`# create method_apply for imputation method 1`\
+[`set_obj_method`](https://rdrr.io/pkg/struct/man/set_obj_method.html)`(`\
+`  class_name``=``'STATegra_impute1'``,`\
+`  method_name``=``'model_apply'``,`\
+`  definition``=``function``(``M``,``D``)`` ``{`\
+`    `\
+`    ``# for each feature count NA within each level`\
+`    ``na`` ``=`` `[`apply`](https://rdrr.io/r/base/apply.html)`(``D``$``data``,``2``,``function``(``x``)``{`\
+`      `[`tapply`](https://rdrr.io/r/base/tapply.html)`(``x``,``D``$``sample_meta``[[``M``$``factor_name``]``]``,``function``(``y``)``{`\
+`        `[`sum`](https://rdrr.io/r/base/sum.html)`(`[`is.na`](https://rdrr.io/r/base/NA.html)`(``y``)``)`\
+`      ``}``)`\
+`    ``}``)`\
+`    ``# count number of samples in each group`\
+`    ``count``=`[`summary`](https://rdrr.io/r/base/summary.html)`(``D``$``sample_meta``[[``M``$``factor_name``]``]``)`\
+`    ``# standard deviation of features within levels of factor_sd`\
+`    ``sd`` ``=`` `[`apply`](https://rdrr.io/r/base/apply.html)`(``D``$``data``,``2``,``function``(``x``)`` ``{`[`tapply`](https://rdrr.io/r/base/tapply.html)`(``x``,``D``$``sample_meta``[[``M``$``factor_sd``]``]``,``sd``,na.rm``=``TRUE``)``}``)`\
+`    ``sd`` ``=`` `[`median`](https://rdrr.io/r/stats/median.html)`(``sd``,na.rm``=``TRUE``)`\
+`    `\
+`    ``# impute or not`\
+`    ``check``=``na`` ``==`` `[`matrix`](https://rdrr.io/r/base/matrix.html)`(``count``,nrow``=``2``,ncol``=`[`ncol`](https://rdrr.io/r/base/nrow.html)`(``D``)``)`` ``# all missing in one class`\
+`    `\
+`    ``# impute matrix`\
+`    ``mi`` ``=`` ``D``$``data`\
+`    ``for`` ``(``j`` ``in`` ``1``:`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``mi``)``)`` ``{`\
+`      ``# index of group for this sample`\
+`      ``g`` ``=`` `[`which`](https://rdrr.io/r/base/which.html)`(`[`levels`](https://rdrr.io/r/base/levels.html)`(``D``$``sample_meta``[[``M``$``factor_name``]``]``)``==``D``$``sample_meta``[[``M``$``factor_name``]``]``[``j``]``)`\
+`      ``iv``=`[`rnorm`](https://rdrr.io/r/stats/Normal.html)`(`[`ncol`](https://rdrr.io/r/base/nrow.html)`(``D``)``,`[`min`](https://rdrr.io/r/base/Extremes.html)`(``D``$``data``[``j``,``]``,na.rm``=``TRUE``)``/``2``,``sd``)`\
+`      ``mi``[``j``,`[`is.na`](https://rdrr.io/r/base/NA.html)`(``mi``[``j``,``]``)`` ``&`` ``check``[``g``,``]``]`` ``=`` ``iv``[`[`is.na`](https://rdrr.io/r/base/NA.html)`(``mi``[``j``,``]``)`` ``&`` ``check``[``g``,``]``]`\
+`    ``}`\
+`    ``D``$``data`` ``=`` ``mi`\
+`    ``M``$``imputed``=``D`\
+`    `[`return`](https://rdrr.io/r/base/function.html)`(``M``)`\
+`  ``}`\
+`)`
 
 The second imputation method replacing missing values in any condition
 with exactly 1 missing value with the mean of the values for that
 condition. Again we create a new struct object and corresponding method
 for the the new object to implement the filter.
 
-``` r
-
-# create new imputation object
-set_struct_obj(
-  class_name = 'STATegra_impute2',
-  struct_obj = 'model',
-  params=c(factor_name='character'),
-  outputs=c(imputed='DatasetExperiment'),
-  prototype = list(
-    name = 'STATegra imputation 2',
-    description = 'For those conditions with only 1 NA impute with the mean of the condition.',
-    predicted = 'imputed'
-  ) 
-)
-
-# create method_apply for imputation method 2
-set_obj_method(
-  class_name='STATegra_impute2',
-  method_name='model_apply',
-  definition=function(M,D) {
-    # levels in condition
-    L = levels(D$sample_meta[[M$factor_name]])
-    
-    # for each feature count NA within each level
-    na = apply(D$data,2,function(x){
-      tapply(x,D$sample_meta[[M$factor_name]],function(y){
-        sum(is.na(y))
-      })
-    })
-    
-    # standard deviation of features within levels of factor_sd
-    sd = apply(D$data,2,function(x) {tapply(x,D$sample_meta[[M$factor_name]],sd,na.rm=TRUE)})
-    sd = median(sd,na.rm=TRUE)
-    
-    # impute or not
-    check=na == 1 # only one missing for a condition
-    
-    # index of samples for each condition
-    IDX = list()
-    for (k in L) {
-      IDX[[k]]=which(D$sample_meta[[M$factor_name]]==k)
-    }
-    
-    ## impute
-    # for each feature
-    for (k in 1:ncol(D)) {
-      # for each condition
-      for (j in 1:length(L)) {
-        # if passes test
-        if (check[j,k]) {
-          # mean of samples in group
-          m = mean(D$data[IDX[[j]],k],na.rm=TRUE)
-          # imputed value
-          im = rnorm(1,m,sd)
-          # replace NA with imputed
-          D$data[is.na(D$data[,k]) & D$sample_meta[[M$factor_name]]==L[j],k]=im
-        }
-      }
-    }
-    M$imputed=D
-    return(M)
-  }
-)
-```
+\
+`# create new imputation object`\
+[`set_struct_obj`](https://rdrr.io/pkg/struct/man/set_struct_obj.html)`(`\
+`  class_name ``=`` ``'STATegra_impute2'``,`\
+`  struct_obj ``=`` ``'model'``,`\
+`  params``=`[`c`](https://rdrr.io/r/base/c.html)`(``factor_name``=``'character'``)``,`\
+`  outputs``=`[`c`](https://rdrr.io/r/base/c.html)`(``imputed``=``'DatasetExperiment'``)``,`\
+`  prototype ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(`\
+`    name ``=`` ``'STATegra imputation 2'``,`\
+`    description ``=`` ``'For those conditions with only 1 NA impute with the mean of the condition.'``,`\
+`    predicted ``=`` ``'imputed'`\
+`  ``)`` `\
+`)`\
+\
+`# create method_apply for imputation method 2`\
+[`set_obj_method`](https://rdrr.io/pkg/struct/man/set_obj_method.html)`(`\
+`  class_name``=``'STATegra_impute2'``,`\
+`  method_name``=``'model_apply'``,`\
+`  definition``=``function``(``M``,``D``)`` ``{`\
+`    ``# levels in condition`\
+`    ``L`` ``=`` `[`levels`](https://rdrr.io/r/base/levels.html)`(``D``$``sample_meta``[[``M``$``factor_name``]``]``)`\
+`    `\
+`    ``# for each feature count NA within each level`\
+`    ``na`` ``=`` `[`apply`](https://rdrr.io/r/base/apply.html)`(``D``$``data``,``2``,``function``(``x``)``{`\
+`      `[`tapply`](https://rdrr.io/r/base/tapply.html)`(``x``,``D``$``sample_meta``[[``M``$``factor_name``]``]``,``function``(``y``)``{`\
+`        `[`sum`](https://rdrr.io/r/base/sum.html)`(`[`is.na`](https://rdrr.io/r/base/NA.html)`(``y``)``)`\
+`      ``}``)`\
+`    ``}``)`\
+`    `\
+`    ``# standard deviation of features within levels of factor_sd`\
+`    ``sd`` ``=`` `[`apply`](https://rdrr.io/r/base/apply.html)`(``D``$``data``,``2``,``function``(``x``)`` ``{`[`tapply`](https://rdrr.io/r/base/tapply.html)`(``x``,``D``$``sample_meta``[[``M``$``factor_name``]``]``,``sd``,na.rm``=``TRUE``)``}``)`\
+`    ``sd`` ``=`` `[`median`](https://rdrr.io/r/stats/median.html)`(``sd``,na.rm``=``TRUE``)`\
+`    `\
+`    ``# impute or not`\
+`    ``check``=``na`` ``==`` ``1`` ``# only one missing for a condition`\
+`    `\
+`    ``# index of samples for each condition`\
+`    ``IDX`` ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``)`\
+`    ``for`` ``(``k`` ``in`` ``L``)`` ``{`\
+`      ``IDX``[[``k``]``]``=`[`which`](https://rdrr.io/r/base/which.html)`(``D``$``sample_meta``[[``M``$``factor_name``]``]``==``k``)`\
+`    ``}`\
+`    `\
+`    ``## impute`\
+`    ``# for each feature`\
+`    ``for`` ``(``k`` ``in`` ``1``:`[`ncol`](https://rdrr.io/r/base/nrow.html)`(``D``)``)`` ``{`\
+`      ``# for each condition`\
+`      ``for`` ``(``j`` ``in`` ``1``:`[`length`](https://rdrr.io/r/base/length.html)`(``L``)``)`` ``{`\
+`        ``# if passes test`\
+`        ``if`` ``(``check``[``j``,``k``]``)`` ``{`\
+`          ``# mean of samples in group`\
+`          ``m`` ``=`` `[`mean`](https://rdrr.io/r/base/mean.html)`(``D``$``data``[``IDX``[[``j``]``]``,``k``]``,na.rm``=``TRUE``)`\
+`          ``# imputed value`\
+`          ``im`` ``=`` `[`rnorm`](https://rdrr.io/r/stats/Normal.html)`(``1``,``m``,``sd``)`\
+`          ``# replace NA with imputed`\
+`          ``D``$``data``[`[`is.na`](https://rdrr.io/r/base/NA.html)`(``D``$``data``[``,``k``]``)`` ``&`` ``D``$``sample_meta``[[``M``$``factor_name``]``]``==``L``[``j``]``,``k``]``=``im`\
+`        ``}`\
+`      ``}`\
+`    ``}`\
+`    ``M``$``imputed``=``D`\
+`    `[`return`](https://rdrr.io/r/base/function.html)`(``M``)`\
+`  ``}`\
+`)`
 
 The new STATegra imputation objects can now be used in model sequences
 like any other `struct` object. A final filter is added to remove any
 feature that has missing values after imputation.
 
-``` r
-
-# model sequence
-M3 = STATegra_impute1(factor_name='treatment',factor_sd='condition') +
-     STATegra_impute2(factor_name = 'condition') + 
-     filter_na_count(threshold = 3, factor_name='condition')
-# apply model
-M3 = model_apply(M3,DSTF)
-# get imputed data
-DSTFI = predicted(M3)
-DSTFI
-```
+\
+`# model sequence`\
+`M3`` ``=`` ``STATegra_impute1``(``factor_name``=``'treatment'``,factor_sd``=``'condition'``)`` ``+`\
+`     ``STATegra_impute2``(``factor_name ``=`` ``'condition'``)`` ``+`` `\
+`     `[`filter_na_count`](https://computational-metabolomics.github.io/structToolbox/reference/filter_na_count.md)`(``threshold ``=`` ``3``, factor_name``=``'condition'``)`\
+`# apply model`\
+`M3`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M3``,``DSTF``)`\
+`# get imputed data`\
+`DSTFI`` ``=`` `[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M3``)`\
+`DSTFI`
 
     ## A "DatasetExperiment" object
     ## ----------------------------
@@ -379,24 +361,22 @@ PCA is used to provide a graphical representation of the data. For
 comparison with the outputs from STATegra a filter is included to reduce
 the data to include only the treated samples (IKA)
 
-``` r
-
-# model sequence
-P = filter_smeta(mode='include',factor_name='treatment',levels='IKA') +
-    mean_centre() + 
-    PCA(number_components = 2)
-# apply model
-P = model_apply(P,DSTFI)
-
-# scores plots coloured by factors
-g = list()
-for (k in c('batch','time')) {
-  C = pca_scores_plot(factor_name=k,ellipse='none')
-  g[[k]]=chart_plot(C,P[3])
-}
-
-plot_grid(plotlist = g,nrow=1)
-```
+\
+`# model sequence`\
+`P`` ``=`` `[`filter_smeta`](https://computational-metabolomics.github.io/structToolbox/reference/filter_smeta.md)`(``mode``=``'include'``,factor_name``=``'treatment'``,levels``=``'IKA'``)`` ``+`\
+`    `[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`` `\
+`    `[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(``number_components ``=`` ``2``)`\
+`# apply model`\
+`P`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``P``,``DSTFI``)`\
+\
+`# scores plots coloured by factors`\
+`g`` ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``)`\
+`for`` ``(``k`` ``in`` `[`c`](https://rdrr.io/r/base/c.html)`(``'batch'``,``'time'``)``)`` ``{`\
+`  ``C`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name``=``k``,ellipse``=``'none'``)`\
+`  ``g``[[``k``]``]``=`[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``P``[``3``]``)`\
+`}`\
+\
+[`plot_grid`](https://wilkelab.org/cowplot/reference/plot_grid.html)`(``plotlist ``=`` ``g``,nrow``=``1``)`
 
 ![](stategra_proteomics_metabolomics_files/figure-html/unnamed-chunk-12-1.png)
 
@@ -411,80 +391,76 @@ dataset (see Introduction) can be found on
 [github](https://github.com/STATegraData/STATegraData) and must be
 extracted from zip file prior to data analysis.
 
-``` r
-
-# path to zip
-zipfile = "https://raw.github.com/STATegraData/STATegraData/master/Script_STATegra_Metabolomics.zip"
-
-## retrieve from BiocFileCache
-path = bfcrpath(bfc,zipfile)
-temp = bfccache(bfc)
-
-## ... or download to temp location
-# path = tempfile()
-# temp = tempdir()
-# download.file(zipfile,path)
-
-# unzip
-unzip(zipfile=path, files = "LC_MS_raw_data.xlsx", exdir=temp)
-
-# read samples
-data <- as.data.frame(read.xlsx(file.path(temp,"LC_MS_raw_data.xlsx"),sheet = 'Data'))
-```
+\
+`# path to zip`\
+`zipfile`` ``=`` ``"https://raw.github.com/STATegraData/STATegraData/master/Script_STATegra_Metabolomics.zip"`\
+\
+`## retrieve from BiocFileCache`\
+`path`` ``=`` `[`bfcrpath`](https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html)`(``bfc``,``zipfile``)`\
+`temp`` ``=`` `[`bfccache`](https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html)`(``bfc``)`\
+\
+`## ... or download to temp location`\
+`# path = tempfile()`\
+`# temp = tempdir()`\
+`# download.file(zipfile,path)`\
+\
+`# unzip`\
+[`unzip`](https://rdrr.io/r/utils/unzip.html)`(``zipfile``=``path``, files ``=`` ``"LC_MS_raw_data.xlsx"``, exdir``=``temp``)`\
+\
+`# read samples`\
+`data`` ``<-`` `[`as.data.frame`](https://rdrr.io/r/base/as.data.frame.html)`(`[`read.xlsx`](https://rdrr.io/pkg/openxlsx/man/read.xlsx.html)`(`[`file.path`](https://rdrr.io/r/base/file.path.html)`(``temp``,``"LC_MS_raw_data.xlsx"``)``,sheet ``=`` ``'Data'``)``)`
 
 The imported data needs to be converted to `DatasetExperiment` format
 for use with `structToolbox`.
 
-``` r
-
-# extract sample meta data
-SM = data[ ,1:8]
-
-# add coloumn for sample type (QC, blank etc)
-blanks=c(1,2,33,34,65,66)
-QCs=c(3,4,11,18,25,32,35,36,43,50,57,64)
-SM$sample_type='Sample'
-SM$sample_type[blanks]='Blank'
-SM$sample_type[QCs]='QC'
-
-# put qc/blank labels in all factors for plotting later
-SM$biol.batch[SM$sample_type!='Sample']=SM$sample_type[SM$sample_type!='Sample']
-SM$time.point[SM$sample_type!='Sample']=SM$sample_type[SM$sample_type!='Sample']
-SM$condition[SM$sample_type!='Sample']=SM$sample_type[SM$sample_type!='Sample']
-
-# convert to factors
-SM$biol.batch=ordered(SM$biol.batch,c('9','10','11','12','QC','Blank'))
-SM$time.point=ordered(SM$time.point,c('0h','2h','6h','12h','18h','24h','QC','Blank'))
-SM$condition=factor(SM$condition)
-SM$sample_type=factor(SM$sample_type)
-
-# variable meta data
-VM = data.frame('annotation'=colnames(data)[9:ncol(data)])
-
-# raw data
-X = data[,9:ncol(data)]
-# convert 0 to NA
-X[X==0]=NA
-# force to numeric; any non-numerics will become NA
-X=data.frame(lapply(X,as.numeric),check.names = FALSE)
-
-# make sure row/col names match
-rownames(X)=data$label
-rownames(SM)=data$label
-rownames(VM)=colnames(X)
-
-
-# create DatasetExperiment object
-DE = DatasetExperiment(
-  data = X, 
-  sample_meta = SM, 
-  variable_meta = VM, 
-  name = 'STATegra Metabolomics LCMS',
-  description = 'https://www.nature.com/articles/s41597-019-0202-7'
-)
-
-DE
-```
+\
+`# extract sample meta data`\
+`SM`` ``=`` ``data``[`` ,``1``:``8``]`\
+\
+`# add coloumn for sample type (QC, blank etc)`\
+`blanks``=`[`c`](https://rdrr.io/r/base/c.html)`(``1``,``2``,``33``,``34``,``65``,``66``)`\
+`QCs``=`[`c`](https://rdrr.io/r/base/c.html)`(``3``,``4``,``11``,``18``,``25``,``32``,``35``,``36``,``43``,``50``,``57``,``64``)`\
+`SM``$``sample_type``=``'Sample'`\
+`SM``$``sample_type``[``blanks``]``=``'Blank'`\
+`SM``$``sample_type``[``QCs``]``=``'QC'`\
+\
+`# put qc/blank labels in all factors for plotting later`\
+`SM``$``biol.batch``[``SM``$``sample_type``!=``'Sample'``]``=``SM``$``sample_type``[``SM``$``sample_type``!=``'Sample'``]`\
+`SM``$``time.point``[``SM``$``sample_type``!=``'Sample'``]``=``SM``$``sample_type``[``SM``$``sample_type``!=``'Sample'``]`\
+`SM``$``condition``[``SM``$``sample_type``!=``'Sample'``]``=``SM``$``sample_type``[``SM``$``sample_type``!=``'Sample'``]`\
+\
+`# convert to factors`\
+`SM``$``biol.batch``=`[`ordered`](https://rdrr.io/r/base/factor.html)`(``SM``$``biol.batch``,`[`c`](https://rdrr.io/r/base/c.html)`(``'9'``,``'10'``,``'11'``,``'12'``,``'QC'``,``'Blank'``)``)`\
+`SM``$``time.point``=`[`ordered`](https://rdrr.io/r/base/factor.html)`(``SM``$``time.point``,`[`c`](https://rdrr.io/r/base/c.html)`(``'0h'``,``'2h'``,``'6h'``,``'12h'``,``'18h'``,``'24h'``,``'QC'``,``'Blank'``)``)`\
+`SM``$``condition``=`[`factor`](https://rdrr.io/r/base/factor.html)`(``SM``$``condition``)`\
+`SM``$``sample_type``=`[`factor`](https://rdrr.io/r/base/factor.html)`(``SM``$``sample_type``)`\
+\
+`# variable meta data`\
+`VM`` ``=`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(``'annotation'``=`[`colnames`](https://rdrr.io/r/base/colnames.html)`(``data``)``[``9``:`[`ncol`](https://rdrr.io/r/base/nrow.html)`(``data``)``]``)`\
+\
+`# raw data`\
+`X`` ``=`` ``data``[``,``9``:`[`ncol`](https://rdrr.io/r/base/nrow.html)`(``data``)``]`\
+`# convert 0 to NA`\
+`X``[``X``==``0``]``=``NA`\
+`# force to numeric; any non-numerics will become NA`\
+`X``=`[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`[`lapply`](https://rdrr.io/r/base/lapply.html)`(``X``,``as.numeric``)``,check.names ``=`` ``FALSE``)`\
+\
+`# make sure row/col names match`\
+[`rownames`](https://rdrr.io/r/base/colnames.html)`(``X``)``=``data``$``label`\
+[`rownames`](https://rdrr.io/r/base/colnames.html)`(``SM``)``=``data``$``label`\
+[`rownames`](https://rdrr.io/r/base/colnames.html)`(``VM``)``=`[`colnames`](https://rdrr.io/r/base/colnames.html)`(``X``)`\
+\
+\
+`# create DatasetExperiment object`\
+`DE`` ``=`` `[`DatasetExperiment`](https://rdrr.io/pkg/struct/man/struct_DatasetExperiment.html)`(`\
+`  data ``=`` ``X``, `\
+`  sample_meta ``=`` ``SM``, `\
+`  variable_meta ``=`` ``VM``, `\
+`  name ``=`` ``'STATegra Metabolomics LCMS'``,`\
+`  description ``=`` ``'https://www.nature.com/articles/s41597-019-0202-7'`\
+`)`\
+\
+`DE`
 
     ## A "DatasetExperiment" object
     ## ----------------------------
@@ -504,17 +480,15 @@ al](https://www.nature.com/articles/s41597-019-0202-7). Some basic
 processing steps will be applied in order to generate a valid PCA plot
 from the biological and QC samples.
 
-``` r
-
-# prepare model sequence
-MS = filter_smeta(mode = 'include', levels='QC', factor_name = 'sample_type') +
-     knn_impute(neighbours=5) +
-     vec_norm() + 
-     log_transform(base = 10) 
-
-# apply model sequence
-MS = model_apply(MS, DE)
-```
+\
+`# prepare model sequence`\
+`MS`` ``=`` `[`filter_smeta`](https://computational-metabolomics.github.io/structToolbox/reference/filter_smeta.md)`(``mode ``=`` ``'include'``, levels``=``'QC'``, factor_name ``=`` ``'sample_type'``)`` ``+`\
+`     `[`knn_impute`](https://computational-metabolomics.github.io/structToolbox/reference/knn_impute.md)`(``neighbours``=``5``)`` ``+`\
+`     `[`vec_norm`](https://computational-metabolomics.github.io/structToolbox/reference/vec_norm.md)`(``)`` ``+`` `\
+`     `[`log_transform`](https://computational-metabolomics.github.io/structToolbox/reference/log_transform.md)`(``base ``=`` ``10``)`` `\
+\
+`# apply model sequence`\
+`MS`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``MS``, ``DE``)`
 
     ## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 3 rows with more than 50 % entries missing;
     ##  mean imputation used for these rows
@@ -524,21 +498,19 @@ MS = model_apply(MS, DE)
 First we will use PCA to look at the QC samples in order to make an
 assessment of the data quality.
 
-``` r
-
-# pca model sequence
-M =  mean_centre() +
-     PCA(number_components = 3)
-
-# apply model
-M = model_apply(M,predicted(MS))
-
-
-# PCA scores plot
-C = pca_scores_plot(factor_name = 'sample_type',label_factor = 'order',points_to_label = 'all')
-# plot
-chart_plot(C,M[2])
-```
+\
+`# pca model sequence`\
+`M`` ``=``  `[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`\
+`     `[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(``number_components ``=`` ``3``)`\
+\
+`# apply model`\
+`M`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M``,`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``MS``)``)`\
+\
+\
+`# PCA scores plot`\
+`C`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name ``=`` ``'sample_type'``,label_factor ``=`` ``'order'``,points_to_label ``=`` ``'all'``)`\
+`# plot`\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``M``[``2``]``)`
 
 ![](stategra_proteomics_metabolomics_files/figure-html/unnamed-chunk-16-1.png)
 
@@ -547,46 +519,42 @@ STATegra this QC was removed, so we will exclude it here as well. This
 corresponds to QC H1. STATegra also excluded QC samples measured
 immediately after a blank, which we will also do here.
 
-``` r
-
-# prepare model sequence
-MS = filter_smeta(
-      mode = 'include', 
-      levels='QC', 
-      factor_name = 'sample_type') +
-  
-     filter_by_name(
-      mode = 'exclude', 
-      dimension='sample',
-      names = c('1358BZU_0001QC_H1','1358BZU_0001QC_A1','1358BZU_0001QC_G1')) +
-  
-     knn_impute(
-      neighbours=5) +
-  
-     vec_norm() + 
-  
-     log_transform(
-       base = 10) + 
-  
-     mean_centre() +
-  
-     PCA(
-       number_components = 3)
-
-# apply model sequence
-MS = model_apply(MS, DE)
-```
+\
+`# prepare model sequence`\
+`MS`` ``=`` `[`filter_smeta`](https://computational-metabolomics.github.io/structToolbox/reference/filter_smeta.md)`(`\
+`      mode ``=`` ``'include'``, `\
+`      levels``=``'QC'``, `\
+`      factor_name ``=`` ``'sample_type'``)`` ``+`\
+`  `\
+`     `[`filter_by_name`](https://computational-metabolomics.github.io/structToolbox/reference/filter_by_name.md)`(`\
+`      mode ``=`` ``'exclude'``, `\
+`      dimension``=``'sample'``,`\
+`      names ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``'1358BZU_0001QC_H1'``,``'1358BZU_0001QC_A1'``,``'1358BZU_0001QC_G1'``)``)`` ``+`\
+`  `\
+`     `[`knn_impute`](https://computational-metabolomics.github.io/structToolbox/reference/knn_impute.md)`(`\
+`      neighbours``=``5``)`` ``+`\
+`  `\
+`     `[`vec_norm`](https://computational-metabolomics.github.io/structToolbox/reference/vec_norm.md)`(``)`` ``+`` `\
+`  `\
+`     `[`log_transform`](https://computational-metabolomics.github.io/structToolbox/reference/log_transform.md)`(`\
+`       base ``=`` ``10``)`` ``+`` `\
+`  `\
+`     `[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`\
+`  `\
+`     `[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(`\
+`       number_components ``=`` ``3``)`\
+\
+`# apply model sequence`\
+`MS`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``MS``, ``DE``)`
 
     ## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 4 rows with more than 50 % entries missing;
     ##  mean imputation used for these rows
 
-``` r
-
-# PCA scores plot
-C = pca_scores_plot(factor_name = 'sample_type',label_factor = 'order',points_to_label = 'all')
-# plot
-chart_plot(C,MS[7])
-```
+\
+`# PCA scores plot`\
+`C`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name ``=`` ``'sample_type'``,label_factor ``=`` ``'order'``,points_to_label ``=`` ``'all'``)`\
+`# plot`\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``MS``[``7``]``)`
 
 ![](stategra_proteomics_metabolomics_files/figure-html/unnamed-chunk-17-1.png)
 
@@ -597,53 +565,49 @@ it is likely that they will dominate the plot if not removed. All
 samples from batch 12 were excluded from STATegra and we will replicate
 that here.
 
-``` r
-
-# prepare model sequence
-MS = filter_smeta(
-      mode = 'exclude', 
-      levels='Blank', 
-      factor_name = 'sample_type') +
-  
-     filter_smeta(
-      mode = 'exclude', 
-      levels='12', 
-      factor_name = 'biol.batch') +
-  
-     filter_by_name(
-      mode = 'exclude', 
-      dimension='sample',
-      names = c('1358BZU_0001QC_H1',
-                '1358BZU_0001QC_A1',
-                '1358BZU_0001QC_G1')) +
-  
-     knn_impute(
-      neighbours=5) +
-  
-     vec_norm() + 
-  
-     log_transform(
-       base = 10) + 
-  
-     mean_centre() +
-  
-     PCA(
-       number_components = 3)
-
-# apply model sequence
-MS = model_apply(MS, DE)
-```
+\
+`# prepare model sequence`\
+`MS`` ``=`` `[`filter_smeta`](https://computational-metabolomics.github.io/structToolbox/reference/filter_smeta.md)`(`\
+`      mode ``=`` ``'exclude'``, `\
+`      levels``=``'Blank'``, `\
+`      factor_name ``=`` ``'sample_type'``)`` ``+`\
+`  `\
+`     `[`filter_smeta`](https://computational-metabolomics.github.io/structToolbox/reference/filter_smeta.md)`(`\
+`      mode ``=`` ``'exclude'``, `\
+`      levels``=``'12'``, `\
+`      factor_name ``=`` ``'biol.batch'``)`` ``+`\
+`  `\
+`     `[`filter_by_name`](https://computational-metabolomics.github.io/structToolbox/reference/filter_by_name.md)`(`\
+`      mode ``=`` ``'exclude'``, `\
+`      dimension``=``'sample'``,`\
+`      names ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``'1358BZU_0001QC_H1'``,`\
+`                ``'1358BZU_0001QC_A1'``,`\
+`                ``'1358BZU_0001QC_G1'``)``)`` ``+`\
+`  `\
+`     `[`knn_impute`](https://computational-metabolomics.github.io/structToolbox/reference/knn_impute.md)`(`\
+`      neighbours``=``5``)`` ``+`\
+`  `\
+`     `[`vec_norm`](https://computational-metabolomics.github.io/structToolbox/reference/vec_norm.md)`(``)`` ``+`` `\
+`  `\
+`     `[`log_transform`](https://computational-metabolomics.github.io/structToolbox/reference/log_transform.md)`(`\
+`       base ``=`` ``10``)`` ``+`` `\
+`  `\
+`     `[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`\
+`  `\
+`     `[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(`\
+`       number_components ``=`` ``3``)`\
+\
+`# apply model sequence`\
+`MS`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``MS``, ``DE``)`
 
     ## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 2 rows with more than 50 % entries missing;
     ##  mean imputation used for these rows
 
-``` r
-
-# PCA scores plots
-C = pca_scores_plot(factor_name = 'sample_type')
-# plot
-chart_plot(C,MS[8])
-```
+\
+`# PCA scores plots`\
+`C`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name ``=`` ``'sample_type'``)`\
+`# plot`\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``MS``[``8``]``)`
 
 ![](stategra_proteomics_metabolomics_files/figure-html/unnamed-chunk-18-1.png)
 
@@ -653,80 +617,78 @@ variation. There is likely to be a number of ‘low quality’ features that
 should be excluded, so we will do that now, and use more sophisticated
 normalisation (PQN) and scaling methods (glog).
 
-``` r
-
-MS =  filter_smeta(
-       mode = 'exclude', 
-       levels = '12', 
-       factor_name = 'biol.batch') +
-  
-      filter_by_name(
-       mode = 'exclude', 
-       dimension='sample',
-       names = c('1358BZU_0001QC_H1',
-                 '1358BZU_0001QC_A1',
-                 '1358BZU_0001QC_G1')) +
-
-      blank_filter(
-       fold_change = 20,
-       qc_label = 'QC',
-       factor_name = 'sample_type') +
-
-      filter_smeta(
-       mode='exclude',
-       levels='Blank',
-       factor_name='sample_type') +
-  
-      mv_feature_filter(
-       threshold = 80, 
-       qc_label = 'QC', 
-       factor_name = 'sample_type', 
-       method = 'QC') +
-     
-      mv_feature_filter(
-        threshold = 50, 
-        factor_name = 'sample_type', 
-        method='across') +
-  
-     rsd_filter(
-       rsd_threshold=20, 
-       qc_label='QC',
-       factor_name='sample_type') +
-  
-     mv_sample_filter(
-       mv_threshold = 50) +
-     
-     pqn_norm(
-       qc_label='QC',
-       factor_name='sample_type') +
-     
-     knn_impute(
-       neighbours=5, 
-       by='samples') +
-     
-     glog_transform(
-       qc_label = 'QC',
-       factor_name = 'sample_type') +
-     
-     mean_centre() + 
-     
-     PCA(
-       number_components = 10)
-
-# apply model sequence
-MS = model_apply(MS, DE)
-
-
-# PCA plots using different factors
-g=list()
-for (k in c('order','biol.batch','time.point','condition')) {
-  C = pca_scores_plot(factor_name = k,ellipse='none')
-  # plot
-  g[[k]]=chart_plot(C,MS[length(MS)])
-}
-
-plot_grid(plotlist = g,align='vh',axis='tblr',nrow=2,labels=c('A','B','C','D'))
-```
+\
+`MS`` ``=``  `[`filter_smeta`](https://computational-metabolomics.github.io/structToolbox/reference/filter_smeta.md)`(`\
+`       mode ``=`` ``'exclude'``, `\
+`       levels ``=`` ``'12'``, `\
+`       factor_name ``=`` ``'biol.batch'``)`` ``+`\
+`  `\
+`      `[`filter_by_name`](https://computational-metabolomics.github.io/structToolbox/reference/filter_by_name.md)`(`\
+`       mode ``=`` ``'exclude'``, `\
+`       dimension``=``'sample'``,`\
+`       names ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``'1358BZU_0001QC_H1'``,`\
+`                 ``'1358BZU_0001QC_A1'``,`\
+`                 ``'1358BZU_0001QC_G1'``)``)`` ``+`\
+\
+`      `[`blank_filter`](https://computational-metabolomics.github.io/structToolbox/reference/blank_filter.md)`(`\
+`       fold_change ``=`` ``20``,`\
+`       qc_label ``=`` ``'QC'``,`\
+`       factor_name ``=`` ``'sample_type'``)`` ``+`\
+\
+`      `[`filter_smeta`](https://computational-metabolomics.github.io/structToolbox/reference/filter_smeta.md)`(`\
+`       mode``=``'exclude'``,`\
+`       levels``=``'Blank'``,`\
+`       factor_name``=``'sample_type'``)`` ``+`\
+`  `\
+`      `[`mv_feature_filter`](https://computational-metabolomics.github.io/structToolbox/reference/mv_feature_filter.md)`(`\
+`       threshold ``=`` ``80``, `\
+`       qc_label ``=`` ``'QC'``, `\
+`       factor_name ``=`` ``'sample_type'``, `\
+`       method ``=`` ``'QC'``)`` ``+`\
+`     `\
+`      `[`mv_feature_filter`](https://computational-metabolomics.github.io/structToolbox/reference/mv_feature_filter.md)`(`\
+`        threshold ``=`` ``50``, `\
+`        factor_name ``=`` ``'sample_type'``, `\
+`        method``=``'across'``)`` ``+`\
+`  `\
+`     `[`rsd_filter`](https://computational-metabolomics.github.io/structToolbox/reference/rsd_filter.md)`(`\
+`       rsd_threshold``=``20``, `\
+`       qc_label``=``'QC'``,`\
+`       factor_name``=``'sample_type'``)`` ``+`\
+`  `\
+`     `[`mv_sample_filter`](https://computational-metabolomics.github.io/structToolbox/reference/mv_sample_filter.md)`(`\
+`       mv_threshold ``=`` ``50``)`` ``+`\
+`     `\
+`     `[`pqn_norm`](https://computational-metabolomics.github.io/structToolbox/reference/pqn_norm.md)`(`\
+`       qc_label``=``'QC'``,`\
+`       factor_name``=``'sample_type'``)`` ``+`\
+`     `\
+`     `[`knn_impute`](https://computational-metabolomics.github.io/structToolbox/reference/knn_impute.md)`(`\
+`       neighbours``=``5``, `\
+`       by``=``'samples'``)`` ``+`\
+`     `\
+`     `[`glog_transform`](https://computational-metabolomics.github.io/structToolbox/reference/glog_transform.md)`(`\
+`       qc_label ``=`` ``'QC'``,`\
+`       factor_name ``=`` ``'sample_type'``)`` ``+`\
+`     `\
+`     `[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`` `\
+`     `\
+`     `[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(`\
+`       number_components ``=`` ``10``)`\
+\
+`# apply model sequence`\
+`MS`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``MS``, ``DE``)`\
+\
+\
+`# PCA plots using different factors`\
+`g``=`[`list`](https://rdrr.io/r/base/list.html)`(``)`\
+`for`` ``(``k`` ``in`` `[`c`](https://rdrr.io/r/base/c.html)`(``'order'``,``'biol.batch'``,``'time.point'``,``'condition'``)``)`` ``{`\
+`  ``C`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name ``=`` ``k``,ellipse``=``'none'``)`\
+`  ``# plot`\
+`  ``g``[[``k``]``]``=`[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``MS``[`[`length`](https://rdrr.io/r/base/length.html)`(``MS``)``]``)`\
+`}`\
+\
+[`plot_grid`](https://wilkelab.org/cowplot/reference/plot_grid.html)`(``plotlist ``=`` ``g``,align``=``'vh'``,axis``=``'tblr'``,nrow``=``2``,labels``=`[`c`](https://rdrr.io/r/base/c.html)`(``'A'``,``'B'``,``'C'``,``'D'``)``)`
 
 ![](stategra_proteomics_metabolomics_files/figure-html/unnamed-chunk-19-1.png)
 
@@ -753,29 +715,27 @@ condition factor variation will potentially make it easier to spot any
 more subtle trends. We will extract the glog transformed matrix from the
 previous model sequence and continue from there.
 
-``` r
-
-# get the glog scaled data
-GL = predicted(MS[11])
-
-# extract the Ikaros group and apply PCA
-IK = filter_smeta(
-      mode='include',
-      factor_name='condition',
-      levels='Ikaros') +
-     mean_centre() + 
-     PCA(number_components = 5)
-
-# apply the model sequence to glog transformed data
-IK = model_apply(IK,GL)
-
-# plot the PCA scores
-C = pca_scores_plot(factor_name='time.point',ellipse = 'sample')
-g1=chart_plot(C,IK[3])
-g2=g1 + scale_color_viridis_d() # add continuous scale colouring
-
-plot_grid(g1,g2,nrow=2,align='vh',axis = 'tblr',labels=c('A','B'))
-```
+\
+`# get the glog scaled data`\
+`GL`` ``=`` `[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``MS``[``11``]``)`\
+\
+`# extract the Ikaros group and apply PCA`\
+`IK`` ``=`` `[`filter_smeta`](https://computational-metabolomics.github.io/structToolbox/reference/filter_smeta.md)`(`\
+`      mode``=``'include'``,`\
+`      factor_name``=``'condition'``,`\
+`      levels``=``'Ikaros'``)`` ``+`\
+`     `[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`` `\
+`     `[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(``number_components ``=`` ``5``)`\
+\
+`# apply the model sequence to glog transformed data`\
+`IK`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``IK``,``GL``)`\
+\
+`# plot the PCA scores`\
+`C`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name``=``'time.point'``,ellipse ``=`` ``'sample'``)`\
+`g1``=`[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``IK``[``3``]``)`\
+`g2``=``g1`` ``+`` `[`scale_color_viridis_d`](https://ggplot2.tidyverse.org/reference/scale_viridis.html)`(``)`` ``# add continuous scale colouring`\
+\
+[`plot_grid`](https://wilkelab.org/cowplot/reference/plot_grid.html)`(``g1``,``g2``,nrow``=``2``,align``=``'vh'``,axis ``=`` ``'tblr'``,labels``=`[`c`](https://rdrr.io/r/base/c.html)`(``'A'``,``'B'``)``)`
 
 ![](stategra_proteomics_metabolomics_files/figure-html/unnamed-chunk-20-1.png)
 

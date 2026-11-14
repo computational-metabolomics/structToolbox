@@ -30,24 +30,22 @@ al., *Sci Data* *1*, 140012 (2014)
 Both datasets are available as part of the structToolbox package and
 already prepared as a `DatasetExperiment` object.
 
-``` r
-
-## Iris dataset (comment if using MTBLS79 benchmark data)
-D = iris_DatasetExperiment()
-D$sample_meta$class = D$sample_meta$Species
-
-## MTBLS (comment if using Iris data)
-# D = MTBLS79_DatasetExperiment(filtered=TRUE)
-# M = pqn_norm(qc_label='QC',factor_name='sample_type') + 
-#   knn_impute(neighbours=5) +
-#   glog_transform(qc_label='QC',factor_name='sample_type') +
-#   filter_smeta(mode='exclude',levels='QC',factor_name='sample_type')
-# M = model_apply(M,D)
-# D = predicted(M)
-
-# show info
-D
-```
+\
+`## Iris dataset (comment if using MTBLS79 benchmark data)`\
+`D`` ``=`` `[`iris_DatasetExperiment`](https://rdrr.io/pkg/struct/man/iris_DatasetExperiment.html)`(``)`\
+`D``$``sample_meta``$``class`` ``=`` ``D``$``sample_meta``$``Species`\
+\
+`## MTBLS (comment if using Iris data)`\
+`# D = MTBLS79_DatasetExperiment(filtered=TRUE)`\
+`# M = pqn_norm(qc_label='QC',factor_name='sample_type') + `\
+`#   knn_impute(neighbours=5) +`\
+`#   glog_transform(qc_label='QC',factor_name='sample_type') +`\
+`#   filter_smeta(mode='exclude',levels='QC',factor_name='sample_type')`\
+`# M = model_apply(M,D)`\
+`# D = predicted(M)`\
+\
+`# show info`\
+`D`
 
     ## A "DatasetExperiment" object
     ## ----------------------------
@@ -82,11 +80,9 @@ the opposite is true for `SummarizedExperiment` objects.
 
 All slots are accessible using dollar notation.
 
-``` r
-
-# show some data
-head(D$data[,1:4])
-```
+\
+`# show some data`\
+[`head`](https://rdrr.io/r/utils/head.html)`(``D``$``data``[``,``1``:``4``]``)`
 
     ##   Sepal.Length Sepal.Width Petal.Length Petal.Width
     ## 1          5.1         3.5          1.4         0.2
@@ -106,30 +102,24 @@ We can set parameters such as the number of components when the PCA
 model is created, but we can also use dollar notation to change/view it
 later.
 
-``` r
-
-P = PCA(number_components=15)
-P$number_components=5
-P$number_components
-```
+\
+`P`` ``=`` `[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(``number_components``=``15``)`\
+`P``$``number_components``=``5`\
+`P``$``number_components`
 
     ## [1] 5
 
 The inputs for a model can be listed using `param_ids(object)`:
 
-``` r
-
-param_ids(P)
-```
+\
+[`param_ids`](https://rdrr.io/pkg/struct/man/param_ids.html)`(``P``)`
 
     ## [1] "number_components"
 
 Or a summary of the object can be printed to the console:
 
-``` r
-
-P
-```
+\
+`P`
 
     ## A "PCA" object
     ## --------------
@@ -148,10 +138,8 @@ centre the columns of the data before PCA. Using the `STRUCT` framework
 we can create a model sequence that will mean centre and then apply PCA
 to the mean centred data.
 
-``` r
-
-M = mean_centre() + PCA(number_components = 4)
-```
+\
+`M`` ``=`` `[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`` `[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(``number_components ``=`` ``4``)`
 
 In `structToolbox` mean centring and PCA are both model objects, and
 joining them using “+” creates a model_sequence object. In a
@@ -164,10 +152,8 @@ can combine this with dollar notation. For example, the PCA object is
 the second object in our sequence and we can access the number of
 components as follows:
 
-``` r
-
-M[2]$number_components
-```
+\
+`M``[``2``]``$``number_components`
 
     ## [1] 4
 
@@ -178,10 +164,8 @@ form of a `DatasetExperiment` object. For example, the PCA model
 sequence we created (`M`) can be trained using the iris
 `DatasetExperiment` object (‘D’).
 
-``` r
-
-M = model_train(M,D)
-```
+\
+`M`` ``=`` `[`model_train`](https://computational-metabolomics.github.io/structToolbox/reference/model_train.md)`(``M``,``D``)`
 
 This model sequence has now mean centred the original data and
 calculated the PCA scores and loadings.
@@ -195,10 +179,8 @@ example we will just use the training data again (sometimes called
 autoprediction), which for PCA allows us to explore the training data in
 more detail.
 
-``` r
-
-M = model_predict(M,D)
-```
+\
+`M`` ``=`` `[`model_predict`](https://computational-metabolomics.github.io/structToolbox/reference/model_predict.md)`(``M``,``D``)`
 
 Sometimes models don’t make use the training/test approach
 e.g. univariate statsitics, filtering etc. For these models the
@@ -207,26 +189,20 @@ training/test methods, `model_apply` applies autoprediction by default
 i.e. it is a short-cut for applying `model_train` and `model_predict` to
 the same data.
 
-``` r
-
-M = model_apply(M,D)
-```
+\
+`M`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M``,``D``)`
 
 The available outputs for an object can be listed and accessed like
 input params, using dollar notation:
 
-``` r
-
-output_ids(M[2])
-```
+\
+[`output_ids`](https://rdrr.io/pkg/struct/man/output_ids.html)`(``M``[``2``]``)`
 
     ## [1] "scores"      "loadings"    "eigenvalues" "ssx"         "correlation"
     ## [6] "that"
 
-``` r
-
-M[2]$scores
-```
+\
+`M``[``2``]``$``scores`
 
     ## A "DatasetExperiment" object
     ## ----------------------------
@@ -241,10 +217,8 @@ M[2]$scores
 The `struct` framework includes chart objects. Charts associated with a
 model object can be listed.
 
-``` r
-
-chart_names(M[2])
-```
+\
+[`chart_names`](https://rdrr.io/pkg/struct/man/chart_names.html)`(``M``[``2``]``)`
 
     ## [1] "pca_biplot"           "pca_correlation_plot" "pca_dstat_plot"      
     ## [4] "pca_loadings_plot"    "pca_scores_plot"      "pca_scree_plot"
@@ -253,11 +227,9 @@ Like model objects, chart objects need to be created before they can be
 used. Here we will plot the PCA scores plot for our mean centred PCA
 model.
 
-``` r
-
-C = pca_scores_plot(factor_name='class') # colour by class
-chart_plot(C,M[2])
-```
+\
+`C`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name``=``'class'``)`` ``# colour by class`\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``M``[``2``]``)`
 
 ![](introduction_to_struct_objects_files/figure-html/unnamed-chunk-14-1.png)
 
@@ -268,14 +240,12 @@ model_sequence.
 If we make changes to the input parameters of the chart, `chart_plot`
 must be called again to see the effects.
 
-``` r
-
-# add petal width to meta data of pca scores
-M[2]$scores$sample_meta$example=D$data[,1]
-# update plot
-C$factor_name='example'
-chart_plot(C,M[2])
-```
+\
+`# add petal width to meta data of pca scores`\
+`M``[``2``]``$``scores``$``sample_meta``$``example``=``D``$``data``[``,``1``]`\
+`# update plot`\
+`C``$``factor_name``=``'example'`\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``M``[``2``]``)`
 
 ![](introduction_to_struct_objects_files/figure-html/unnamed-chunk-15-1.png)
 
@@ -283,19 +253,17 @@ The `chart_plot` method returns a ggplot object so that you can easily
 combine it with other plots using the `gridExtra` or `cowplot` packages
 for example.
 
-``` r
-
-# scores plot
-C1 = pca_scores_plot(factor_name='class') # colour by class
-g1 = chart_plot(C1,M[2])
-
-# scree plot
-C2 = pca_scree_plot()
-g2 = chart_plot(C2,M[2])
-
-# arange in grid
-grid.arrange(grobs=list(g1,g2),nrow=1)
-```
+\
+`# scores plot`\
+`C1`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name``=``'class'``)`` ``# colour by class`\
+`g1`` ``=`` `[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C1``,``M``[``2``]``)`\
+\
+`# scree plot`\
+`C2`` ``=`` `[`pca_scree_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scree_plot.md)`(``)`\
+`g2`` ``=`` `[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C2``,``M``[``2``]``)`\
+\
+`# arange in grid`\
+[`grid.arrange`](https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html)`(``grobs``=`[`list`](https://rdrr.io/r/base/list.html)`(``g1``,``g2``)``,nrow``=``1``)`
 
 ![](introduction_to_struct_objects_files/figure-html/unnamed-chunk-16-1.png)
 
@@ -320,14 +288,12 @@ The ontology for an object can be set by assigning the ontology term
 identifier to the ontology slot of any `struct_class` object at design
 time. The ids can be listed using `$` notation:
 
-``` r
-
-# create an example PCA object
-P=PCA()
-
-# ontology for the PCA object
-P$ontology
-```
+\
+`# create an example PCA object`\
+`P``=`[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(``)`\
+\
+`# ontology for the PCA object`\
+`P``$``ontology`
 
     ## [1] "OBI:0200051"
 
@@ -338,10 +304,8 @@ description for the provided identifiers. Here we used cached versions
 of the ontology definitions provided in the `structToolbox` package to
 prevent issues connecting to the OLS API when building the package.
 
-``` r
-
-ontology(P,cache = ontology_cache()) # set cache = NULL (default) for online use
-```
+\
+[`ontology`](https://rdrr.io/pkg/struct/man/ontology.html)`(``P``,cache ``=`` `[`ontology_cache`](https://computational-metabolomics.github.io/structToolbox/reference/ontology_cache.md)`(``)``)`` ``# set cache = NULL (default) for online use`
 
     ## Warning: The `cache` argument to ontology() is deprecated and ignored; ontology
     ## terms are resolved via OLS when IDs are present.
@@ -380,11 +344,9 @@ classification models. For this example we will use a Partial least
 squares-discriminant analysis (PLS-DA) model. Data should be mean
 centred prior to PLS, so we will build a model sequence first.
 
-``` r
-
-M = mean_centre() + PLSDA(number_components=2,factor_name='class')
-M
-```
+\
+`M`` ``=`` `[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`` `[`PLSDA`](https://computational-metabolomics.github.io/structToolbox/reference/PLSDA.md)`(``number_components``=``2``,factor_name``=``'class'``)`\
+`M`
 
     ## A model_seq object containing:
     ## 
@@ -418,26 +380,22 @@ M
 Parameters can be set at creation using the equals sign, and accessed or
 changed later using dollar notation.
 
-``` r
-
-# create object
-XCV = kfold_xval(folds=5,factor_name='class')
-
-# change the number of folds
-XCV$folds=10
-XCV$folds
-```
+\
+`# create object`\
+`XCV`` ``=`` `[`kfold_xval`](https://computational-metabolomics.github.io/structToolbox/reference/kfold_xval.md)`(``folds``=``5``,factor_name``=``'class'``)`\
+\
+`# change the number of folds`\
+`XCV``$``folds``=``10`\
+`XCV``$``folds`
 
     ## [1] 10
 
 The model to be cross-validated can be set/accessed using the `models`
 method.
 
-``` r
-
-models(XCV)=M
-models(XCV)
-```
+\
+[`models`](https://rdrr.io/pkg/struct/man/models.html)`(``XCV``)``=``M`\
+[`models`](https://rdrr.io/pkg/struct/man/models.html)`(``XCV``)`
 
     ## A model_seq object containing:
     ## 
@@ -469,15 +427,13 @@ models(XCV)
 Alternatively, iterators can be combined with models using the
 multiplication symbol was shorthand for the `models` assignement method:
 
-``` r
-
-# cross validation of a mean centred PLSDA model
-XCV = kfold_xval(
-        folds=5,
-        method='venetian',
-        factor_name='class') * 
-      (mean_centre() + PLSDA(factor_name='class'))
-```
+\
+`# cross validation of a mean centred PLSDA model`\
+`XCV`` ``=`` `[`kfold_xval`](https://computational-metabolomics.github.io/structToolbox/reference/kfold_xval.md)`(`\
+`        folds``=``5``,`\
+`        method``=``'venetian'``,`\
+`        factor_name``=``'class'``)`` ``*`` `\
+`      ``(`[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`` `[`PLSDA`](https://computational-metabolomics.github.io/structToolbox/reference/PLSDA.md)`(``factor_name``=``'class'``)``)`
 
 The `run` method can be used with any `iterator` object. The iterator
 will then run the set model or model sequence multiple times.
@@ -491,11 +447,9 @@ iterations, or after each iteration, depending on the iterator type
 (resampling, permutation etc). For cross-validation we will calculate
 “balanced accuracy” after all iterations.
 
-``` r
-
-XCV = run(XCV,D,balanced_accuracy())
-XCV$metric
-```
+\
+`XCV`` ``=`` `[`run`](https://computational-metabolomics.github.io/structToolbox/reference/run.md)`(``XCV``,``D``,`[`balanced_accuracy`](https://computational-metabolomics.github.io/structToolbox/reference/balanced_accuracy.md)`(``)``)`\
+`XCV``$``metric`
 
     ##              metric      mean sd
     ## 1 balanced_accuracy 0.8533333 NA
@@ -507,23 +461,19 @@ NA in this example because there is only one permutation.
 Like other `struct` objects, iterators can have chart objects associated
 with them. The `chart_names` function will list them for an object.
 
-``` r
-
-chart_names(XCV)
-```
+\
+[`chart_names`](https://rdrr.io/pkg/struct/man/chart_names.html)`(``XCV``)`
 
     ## [1] "kfoldxcv_grid"   "kfoldxcv_metric"
 
 Charts for `iterator` objects can be plotted in the same way as charts
 for any other object.
 
-``` r
-
-C = kfoldxcv_grid(
-  factor_name='class',
-  level=levels(D$sample_meta$class)[2]) # first level
-chart_plot(C,XCV)
-```
+\
+`C`` ``=`` `[`kfoldxcv_grid`](https://computational-metabolomics.github.io/structToolbox/reference/kfoldxcv_grid.md)`(`\
+`  factor_name``=``'class'``,`\
+`  level``=`[`levels`](https://rdrr.io/r/base/levels.html)`(``D``$``sample_meta``$``class``)``[``2``]``)`` ``# first level`\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``XCV``)`
 
 ![](introduction_to_struct_objects_files/figure-html/unnamed-chunk-25-1.png)
 
@@ -532,15 +482,13 @@ symbol. This is equivalent to nesting one iterator inside the other. For
 example, we can repeat our cross-validation multiple times by permuting
 the sample order.
 
-``` r
-
-# permute sample order 10 times and run cross-validation
-P = permute_sample_order(number_of_permutations = 10) * 
-    kfold_xval(folds=5,factor_name='class')*
-    (mean_centre() + PLSDA(factor_name='class',number_components=2))
-P = run(P,D,balanced_accuracy())
-P$metric
-```
+\
+`# permute sample order 10 times and run cross-validation`\
+`P`` ``=`` `[`permute_sample_order`](https://computational-metabolomics.github.io/structToolbox/reference/permute_sample_order.md)`(``number_of_permutations ``=`` ``10``)`` ``*`` `\
+`    `[`kfold_xval`](https://computational-metabolomics.github.io/structToolbox/reference/kfold_xval.md)`(``folds``=``5``,factor_name``=``'class'``)``*`\
+`    ``(`[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`` `[`PLSDA`](https://computational-metabolomics.github.io/structToolbox/reference/PLSDA.md)`(``factor_name``=``'class'``,number_components``=``2``)``)`\
+`P`` ``=`` `[`run`](https://computational-metabolomics.github.io/structToolbox/reference/run.md)`(``P``,``D``,`[`balanced_accuracy`](https://computational-metabolomics.github.io/structToolbox/reference/balanced_accuracy.md)`(``)``)`\
+`P``$``metric`
 
     ##              metric  mean          sd
     ## 1 balanced_accuracy 0.854 0.006629526

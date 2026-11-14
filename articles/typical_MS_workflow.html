@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>A typical workflow for processing and analysing mass spectrometry-based metabolomics data • structToolbox</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="A typical workflow for processing and analysing mass spectrometry-based metabolomics data">
 </head>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">structToolbox</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.23.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.25.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +85,7 @@ Weber</h4>
 UK<br><a class="author_email" href="mailto:#"></a><a href="mailto:r.j.weber@bham.ac.uk" class="email">r.j.weber@bham.ac.uk</a>
       </address>
                   
-            <h4 data-toc-skip class="date">2026-04-16</h4>
+            <h4 data-toc-skip class="date">2026-11-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/computational-metabolomics/structToolbox/blob/devel/vignettes/articles/typical_MS_workflow.Rmd" class="external-link"><code>vignettes/articles/typical_MS_workflow.Rmd</code></a></small>
       <div class="d-none name"><code>typical_MS_workflow.Rmd</code></div>
@@ -100,7 +100,7 @@ UK<br><a class="author_email" href="mailto:#"></a><a href="mailto:r.j.weber@bham
 workflow implemented to process (e.g. filter features, signal drift and
 batch correction, normalise and missing value imputation) mass
 spectrometry data. The workflow exists of methods that are part of the
-Peak Matrix Processing (<em><a href="https://bioconductor.org/packages/3.23/pmp" class="external-link">pmp</a></em>) package,
+Peak Matrix Processing (<em><a href="https://bioconductor.org/packages/3.24/pmp" class="external-link">pmp</a></em>) package,
 including a range of additional filters that are described in Kirwan et
 al., <a href="https://link.springer.com/article/10.1007/s00216-013-6856-7" class="external-link">2013</a>,
 <a href="https://doi.org/10.1038/sdata.2014.12" class="external-link">2014</a>.</p>
@@ -121,7 +121,7 @@ Data are presented from each step of the data processing workflow and
 are available through MetaboLights (<a href="https://www.ebi.ac.uk/metabolights/MTBLS79" class="external-link uri">https://www.ebi.ac.uk/metabolights/MTBLS79</a>).</p>
 <p>The <code>MTBLS79_DatasetExperiment</code> object included in the
 <code>structToolbox</code> package is a processed version of the MTBLS79
-dataset available in peak matrix processing (<em><a href="https://bioconductor.org/packages/3.23/pmp" class="external-link">pmp</a></em>) package.
+dataset available in peak matrix processing (<em><a href="https://bioconductor.org/packages/3.24/pmp" class="external-link">pmp</a></em>) package.
 This vignette describes step by step how the <code>structToolbox</code>
 version was created from the <code>pmp</code> version (i.e. ‘Dataset
 7:SFPM’ from the Scientific Data publication - <a href="https://doi.org/10.1038/sdata.2014.12" class="external-link uri">https://doi.org/10.1038/sdata.2014.12</a>).</p>
@@ -373,7 +373,7 @@ overlapping.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.9000.</p>
 </div>
 
     </footer>

@@ -6,7 +6,7 @@ This vignette provides an overview of a `structToolbox` workflow
 implemented to process (e.g. filter features, signal drift and batch
 correction, normalise and missing value imputation) mass spectrometry
 data. The workflow exists of methods that are part of the Peak Matrix
-Processing (*[pmp](https://bioconductor.org/packages/3.23/pmp)*)
+Processing (*[pmp](https://bioconductor.org/packages/3.24/pmp)*)
 package, including a range of additional filters that are described in
 Kirwan et al.,
 [2013](https://link.springer.com/article/10.1007/s00216-013-6856-7),
@@ -31,7 +31,7 @@ available through MetaboLights
 
 The `MTBLS79_DatasetExperiment` object included in the `structToolbox`
 package is a processed version of the MTBLS79 dataset available in peak
-matrix processing (*[pmp](https://bioconductor.org/packages/3.23/pmp)*)
+matrix processing (*[pmp](https://bioconductor.org/packages/3.24/pmp)*)
 package. This vignette describes step by step how the `structToolbox`
 version was created from the `pmp` version (i.e. ‘Dataset 7:SFPM’ from
 the Scientific Data publication -
@@ -40,37 +40,35 @@ the Scientific Data publication -
 The `SummarizedExperiment` object from the `pmp` package needs to be
 converted to a `DatasetExperiment` object for use with `structToolbox`.
 
-``` r
-
-# the pmp SE object
-SE = MTBLS79
-
-# convert to DE
-DE = as.DatasetExperiment(SE)
-DE$name = 'MTBLS79'
-DE$description = 'Converted from SE provided by the pmp package'
-
-# add a column indicating the order the samples were measured in
-DE$sample_meta$run_order = 1:nrow(DE)
-
-# add a column indicating if the sample is biological or a QC
-Type=as.character(DE$sample_meta$Class)
-Type[Type != 'QC'] = 'Sample'
-DE$sample_meta$Type = factor(Type)
-
-# add a column for plotting batches
-DE$sample_meta$batch_qc = DE$sample_meta$Batch
-DE$sample_meta$batch_qc[DE$sample_meta$Type=='QC']='QC'
-
-# convert to factors
-DE$sample_meta$Batch = factor(DE$sample_meta$Batch)
-DE$sample_meta$Type = factor(DE$sample_meta$Type)
-DE$sample_meta$Class = factor(DE$sample_meta$Class)
-DE$sample_meta$batch_qc = factor(DE$sample_meta$batch_qc)
-
-# print summary
-DE
-```
+\
+`# the pmp SE object`\
+`SE`` ``=`` ``MTBLS79`\
+\
+`# convert to DE`\
+`DE`` ``=`` `[`as.DatasetExperiment`](https://rdrr.io/pkg/struct/man/as.DatasetExperiment.html)`(``SE``)`\
+`DE``$``name`` ``=`` ``'MTBLS79'`\
+`DE``$``description`` ``=`` ``'Converted from SE provided by the pmp package'`\
+\
+`# add a column indicating the order the samples were measured in`\
+`DE``$``sample_meta``$``run_order`` ``=`` ``1``:`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``DE``)`\
+\
+`# add a column indicating if the sample is biological or a QC`\
+`Type``=`[`as.character`](https://rdrr.io/r/base/character.html)`(``DE``$``sample_meta``$``Class``)`\
+`Type``[``Type`` ``!=`` ``'QC'``]`` ``=`` ``'Sample'`\
+`DE``$``sample_meta``$``Type`` ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(``Type``)`\
+\
+`# add a column for plotting batches`\
+`DE``$``sample_meta``$``batch_qc`` ``=`` ``DE``$``sample_meta``$``Batch`\
+`DE``$``sample_meta``$``batch_qc``[``DE``$``sample_meta``$``Type``==``'QC'``]``=``'QC'`\
+\
+`# convert to factors`\
+`DE``$``sample_meta``$``Batch`` ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(``DE``$``sample_meta``$``Batch``)`\
+`DE``$``sample_meta``$``Type`` ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(``DE``$``sample_meta``$``Type``)`\
+`DE``$``sample_meta``$``Class`` ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(``DE``$``sample_meta``$``Class``)`\
+`DE``$``sample_meta``$``batch_qc`` ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(``DE``$``sample_meta``$``batch_qc``)`\
+\
+`# print summary`\
+`DE`
 
     ## A "DatasetExperiment" object
     ## ----------------------------
@@ -90,46 +88,40 @@ batch variations in the dataset. Quality Control-Robust Spline
 Correction (QC-RSC) is provided in the `pmp` package, and it has been
 wrapped into a `structToolbox` object called `sb_corr`.
 
-``` r
-
-M = # batch correction
-    sb_corr(
-      order_col='run_order',
-      batch_col='Batch', 
-      qc_col='Type', 
-      qc_label='QC',
-      spar_lim = c(0.6,0.8) 
-    )
-
-M = model_apply(M,DE)
-```
+\
+`M`` ``=`` ``# batch correction`\
+`    `[`sb_corr`](https://computational-metabolomics.github.io/structToolbox/reference/sb_corr.md)`(`\
+`      order_col``=``'run_order'``,`\
+`      batch_col``=``'Batch'``, `\
+`      qc_col``=``'Type'``, `\
+`      qc_label``=``'QC'``,`\
+`      spar_lim ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``0.6``,``0.8``)`` `\
+`    ``)`\
+\
+`M`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M``,``DE``)`
 
 The figure below shows a plot of a feature vs run order, before and
 after the correction. The fitted spline for each batch is shown in grey.
 It can be seen that the correction has removed instrument drift within
 and between batches.
 
-``` r
-
-C = feature_profile(
-      run_order='run_order',
-      qc_label='QC',
-      qc_column='Type',
-      colour_by='batch_qc',
-      feature_to_plot='200.03196',
-      plot_sd=FALSE
-  )
-
-# plot and modify using ggplot2 
-chart_plot(C,M,DE)+ylab('Peak area')+ggtitle('Before')
-```
+\
+`C`` ``=`` `[`feature_profile`](https://computational-metabolomics.github.io/structToolbox/reference/feature_profile.md)`(`\
+`      run_order``=``'run_order'``,`\
+`      qc_label``=``'QC'``,`\
+`      qc_column``=``'Type'``,`\
+`      colour_by``=``'batch_qc'``,`\
+`      feature_to_plot``=``'200.03196'``,`\
+`      plot_sd``=``FALSE`\
+`  ``)`\
+\
+`# plot and modify using ggplot2 `\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``M``,``DE``)``+`[`ylab`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'Peak area'``)``+`[`ggtitle`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'Before'``)`
 
 ![](typical_MS_workflow_files/figure-html/unnamed-chunk-4-1.png)
 
-``` r
-
-chart_plot(C,predicted(M))+ylab('Peak area')+ggtitle('After')
-```
+\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M``)``)``+`[`ylab`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'Peak area'``)``+`[`ggtitle`](https://ggplot2.tidyverse.org/reference/labs.html)`(``'After'``)`
 
 ![](typical_MS_workflow_files/figure-html/unnamed-chunk-4-2.png)
 
@@ -139,19 +131,17 @@ measured QC values within a batch. `QCRMS` in the `pmp` package
 currently returns NA for all samples in the feature where this occurs.
 Features where this occurs will be excluded.
 
-``` r
-
-M2 = filter_na_count(
-      threshold=3,
-      factor_name='Batch'
-    )
-M2 = model_apply(M2,predicted(M))
-
-# calculate number of features removed
-nc = ncol(DE) - ncol(predicted(M2))
-
-cat(paste0('Number of features removed: ', nc))
-```
+\
+`M2`` ``=`` `[`filter_na_count`](https://computational-metabolomics.github.io/structToolbox/reference/filter_na_count.md)`(`\
+`      threshold``=``3``,`\
+`      factor_name``=``'Batch'`\
+`    ``)`\
+`M2`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M2``,`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M``)``)`\
+\
+`# calculate number of features removed`\
+`nc`` ``=`` `[`ncol`](https://rdrr.io/r/base/nrow.html)`(``DE``)`` ``-`` `[`ncol`](https://rdrr.io/r/base/nrow.html)`(`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M2``)``)`\
+\
+[`cat`](https://rdrr.io/r/base/cat.html)`(`[`paste0`](https://rdrr.io/r/base/paste.html)`(``'Number of features removed: '``, ``nc``)``)`
 
     ## Number of features removed: 425
 
@@ -166,26 +156,24 @@ reliably detected in the QC samples (p \< 0.0001) of all batches. We
 follow the same parameters as the original article and do not use
 multiple test correction (`mtc = 'none'`).
 
-``` r
-
-M3 = kw_rank_sum(
-      alpha=0.0001,
-      mtc='none',
-      factor_names='Batch',
-      predicted='significant'
-    ) +
-    filter_by_name(
-      mode='exclude',
-      dimension = 'variable',
-      seq_in = 'names', 
-      names='seq_fcn', # this is a placeholder and will be replaced by seq_fcn
-      seq_fcn=function(x){return(x[,1])}
-    )
-M3 = model_apply(M3, predicted(M2))
-
-nc = ncol(predicted(M2)) - ncol(predicted(M3))
-cat(paste0('Number of features removed: ', nc))
-```
+\
+`M3`` ``=`` `[`kw_rank_sum`](https://computational-metabolomics.github.io/structToolbox/reference/kw_rank_sum.md)`(`\
+`      alpha``=``0.0001``,`\
+`      mtc``=``'none'``,`\
+`      factor_names``=``'Batch'``,`\
+`      predicted``=``'significant'`\
+`    ``)`` ``+`\
+`    `[`filter_by_name`](https://computational-metabolomics.github.io/structToolbox/reference/filter_by_name.md)`(`\
+`      mode``=``'exclude'``,`\
+`      dimension ``=`` ``'variable'``,`\
+`      seq_in ``=`` ``'names'``, `\
+`      names``=``'seq_fcn'``, ``# this is a placeholder and will be replaced by seq_fcn`\
+`      seq_fcn``=``function``(``x``)``{`[`return`](https://rdrr.io/r/base/function.html)`(``x``[``,``1``]``)``}`\
+`    ``)`\
+`M3`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M3``, `[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M2``)``)`\
+\
+`nc`` ``=`` `[`ncol`](https://rdrr.io/r/base/nrow.html)`(`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M2``)``)`` ``-`` `[`ncol`](https://rdrr.io/r/base/nrow.html)`(`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M3``)``)`\
+[`cat`](https://rdrr.io/r/base/cat.html)`(`[`paste0`](https://rdrr.io/r/base/paste.html)`(``'Number of features removed: '``, ``nc``)``)`
 
     ## Number of features removed: 262
 
@@ -203,43 +191,39 @@ The second filter is a Wilcoxon Signed-Rank test. It is used to identify
 features that are not representative of the average of the biological
 samples (p \< 1e-14). Again we make use of `seq_in` and `seq_fcn`.
 
-``` r
-
-M4 = wilcox_test(
-      alpha=1e-14,
-      factor_names='Type', 
-      mtc='none', 
-      predicted = 'significant'
-    ) +
-    filter_by_name(
-      mode='exclude',
-      dimension='variable',
-      seq_in='names', 
-      names='place_holder',
-      seq_fcn=function(x){return(x$significant)}
-    )
-M4 = model_apply(M4, predicted(M3))
-
-nc = ncol(predicted(M3)) - ncol(predicted(M4))
-cat(paste0('Number of features removed: ', nc))
-```
+\
+`M4`` ``=`` `[`wilcox_test`](https://computational-metabolomics.github.io/structToolbox/reference/wilcox_test.md)`(`\
+`      alpha``=``1e-14``,`\
+`      factor_names``=``'Type'``, `\
+`      mtc``=``'none'``, `\
+`      predicted ``=`` ``'significant'`\
+`    ``)`` ``+`\
+`    `[`filter_by_name`](https://computational-metabolomics.github.io/structToolbox/reference/filter_by_name.md)`(`\
+`      mode``=``'exclude'``,`\
+`      dimension``=``'variable'``,`\
+`      seq_in``=``'names'``, `\
+`      names``=``'place_holder'``,`\
+`      seq_fcn``=``function``(``x``)``{`[`return`](https://rdrr.io/r/base/function.html)`(``x``$``significant``)``}`\
+`    ``)`\
+`M4`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M4``, `[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M3``)``)`\
+\
+`nc`` ``=`` `[`ncol`](https://rdrr.io/r/base/nrow.html)`(`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M3``)``)`` ``-`` `[`ncol`](https://rdrr.io/r/base/nrow.html)`(`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M4``)``)`\
+[`cat`](https://rdrr.io/r/base/cat.html)`(`[`paste0`](https://rdrr.io/r/base/paste.html)`(``'Number of features removed: '``, ``nc``)``)`
 
     ## Number of features removed: 169
 
 Finally, an RSD filter is used to remove features with high analytical
 variation (QC RSD \> 20 removed)
 
-``` r
-
-M5 = rsd_filter(
-     rsd_threshold=20,
-     factor_name='Type'
-)
-M5 = model_apply(M5,predicted(M4))
-
-nc = ncol(predicted(M4)) - ncol(predicted(M5))
-cat(paste0('Number of features removed: ', nc))
-```
+\
+`M5`` ``=`` `[`rsd_filter`](https://computational-metabolomics.github.io/structToolbox/reference/rsd_filter.md)`(`\
+`     rsd_threshold``=``20``,`\
+`     factor_name``=``'Type'`\
+`)`\
+`M5`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M5``,`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M4``)``)`\
+\
+`nc`` ``=`` `[`ncol`](https://rdrr.io/r/base/nrow.html)`(`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M4``)``)`` ``-`` `[`ncol`](https://rdrr.io/r/base/nrow.html)`(`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M5``)``)`\
+[`cat`](https://rdrr.io/r/base/cat.html)`(`[`paste0`](https://rdrr.io/r/base/paste.html)`(``'Number of features removed: '``, ``nc``)``)`
 
     ## Number of features removed: 53
 
@@ -262,14 +246,12 @@ These steps prepare the data for multivariate analysis by accounting for
 sample concentration differences, imputing missing values and scaling
 the data.
 
-``` r
-
-# peak matrix processing
-M6 = pqn_norm(qc_label='QC',factor_name='Type') + 
-     knn_impute(neighbours=5) +
-     glog_transform(qc_label='QC',factor_name='Type')
-M6 = model_apply(M6,predicted(M5))
-```
+\
+`# peak matrix processing`\
+`M6`` ``=`` `[`pqn_norm`](https://computational-metabolomics.github.io/structToolbox/reference/pqn_norm.md)`(``qc_label``=``'QC'``,factor_name``=``'Type'``)`` ``+`` `\
+`     `[`knn_impute`](https://computational-metabolomics.github.io/structToolbox/reference/knn_impute.md)`(``neighbours``=``5``)`` ``+`\
+`     `[`glog_transform`](https://computational-metabolomics.github.io/structToolbox/reference/glog_transform.md)`(``qc_label``=``'QC'``,factor_name``=``'Type'``)`\
+`M6`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M6``,`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M5``)``)`
 
 ## Exploratory Analysis
 
@@ -278,18 +260,16 @@ high-dimensional data. It is an unsupervised method that maximises
 variance in a reduced number of latent variables, or principal
 components.
 
-``` r
-
-# PCA
-M7  = mean_centre() + PCA(number_components = 2)
-
-# apply model sequence to data
-M7 = model_apply(M7,predicted(M6))
-
-# plot pca scores
-C = pca_scores_plot(factor_name=c('Sample_Rep','Class'),ellipse='none')
-chart_plot(C,M7[2]) + coord_fixed() +guides(colour=FALSE)
-```
+\
+`# PCA`\
+`M7``  ``=`` `[`mean_centre`](https://computational-metabolomics.github.io/structToolbox/reference/mean_centre.md)`(``)`` ``+`` `[`PCA`](https://computational-metabolomics.github.io/structToolbox/reference/PCA.md)`(``number_components ``=`` ``2``)`\
+\
+`# apply model sequence to data`\
+`M7`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``M7``,`[`predicted`](https://rdrr.io/pkg/struct/man/predicted.html)`(``M6``)``)`\
+\
+`# plot pca scores`\
+`C`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name``=`[`c`](https://rdrr.io/r/base/c.html)`(``'Sample_Rep'``,``'Class'``)``,ellipse``=``'none'``)`\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``M7``[``2``]``)`` ``+`` `[`coord_fixed`](https://ggplot2.tidyverse.org/reference/coord_fixed.html)`(``)`` ``+`[`guides`](https://ggplot2.tidyverse.org/reference/guides.html)`(``colour``=``FALSE``)`
 
     ## Warning: The `<scale>` argument of `guides()` cannot be `FALSE`. Use "none" instead as
     ## of ggplot2 3.3.4.
@@ -307,12 +287,10 @@ replicates are represented by colours and samples groups (C = cow and S
 Plotting the scores and colouring by Batch indicates that the
 signal/batch correction was effective as all batches are overlapping.
 
-``` r
-
-# chart object
-C = pca_scores_plot(factor_name=c('Batch'),ellipse='none')
-# plot
-chart_plot(C,M7[2]) + coord_fixed()
-```
+\
+`# chart object`\
+`C`` ``=`` `[`pca_scores_plot`](https://computational-metabolomics.github.io/structToolbox/reference/pca_scores_plot.md)`(``factor_name``=`[`c`](https://rdrr.io/r/base/c.html)`(``'Batch'``)``,ellipse``=``'none'``)`\
+`# plot`\
+[`chart_plot`](https://computational-metabolomics.github.io/structToolbox/reference/chart_plot.md)`(``C``,``M7``[``2``]``)`` ``+`` `[`coord_fixed`](https://ggplot2.tidyverse.org/reference/coord_fixed.html)`(``)`
 
 ![](typical_MS_workflow_files/figure-html/unnamed-chunk-11-1.png)
