@@ -17,3 +17,5 @@ README.rst
 man-roxygen
 ^\.github$
 ^pkgdown$
+^\.positai$
+^\.claude$
