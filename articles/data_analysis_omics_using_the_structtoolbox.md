@@ -2488,7 +2488,7 @@ search) so that the best combination of both is identified.
     ## other attached packages:
     ##  [1] openxlsx_4.2.9       cowplot_1.2.0        gridExtra_2.3.1     
     ##  [4] ggplot2_4.0.3        BiocFileCache_3.3.3  dbplyr_2.6.0        
-    ##  [7] ropls_1.45.0         pmp_1.25.1           structToolbox_1.25.1
+    ##  [7] ropls_1.45.0         pmp_1.25.1           structToolbox_1.23.2
     ## [10] struct_1.25.0        BiocStyle_2.41.0    
     ## 
     ## loaded via a namespace (and not attached):
