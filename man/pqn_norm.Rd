@@ -25,7 +25,7 @@ pqn_norm(
 
 \item{ref_method}{(character) Reference computation method. Allowed values are limited to the following: \itemize{ \item{\code{"mean"}: The reference is computed as the mean of the samples matching the qc_label input.}\item{\code{"median"}: The reference is computed as the median of the samples matching the qc_label_input.}} The default is \code{"mean"}.}
 
-\item{ref_mean}{(numeric, NULL) A single sample to use as the reference for normalisation. If set to NULL then the reference will be computed based on the other input parameters (ref_mean, qc_label etc). . The default is \code{NULL}.}
+\item{ref_mean}{(numeric, NULL) A named numeric vector (one value per feature) to use as the reference for normalisation. If set to NULL then the reference will be computed based on the other input parameters (ref_method, qc_label etc). . The default is \code{NULL}.}
 
 \item{...}{Additional slots and values passed to \code{struct_class}.}
 }
