@@ -90,9 +90,10 @@ pqn_norm = function(
         ),
         ref_mean=entity(name = 'PQN Reference sample',
             description=paste0(
-                "A single sample to use as the reference for normalisation. If ",
-                "set to NULL then the reference will be computed based on ",
-                "the other input parameters (ref_mean, qc_label etc). "
+                "A named numeric vector (one value per feature) to use as the ",
+                "reference for normalisation. If set to NULL then the ",
+                "reference will be computed based on the other input ",
+                "parameters (ref_method, qc_label etc). "
             ),
             type=c('numeric','NULL'),
             value=NULL
@@ -125,7 +126,7 @@ pqn_norm = function(
         computed_ref = entity(name = 'Calculated PQN reference',
             description = paste0('The reference used for normalisation. If ',
                 'ref_mean = NULL then this is the computed reference using the ',
-                'ref_mean method. If ref_mean is provided then it is duplicated ',
+                'ref_method method. If ref_mean is provided then it is duplicated ',
                 'here.'
             ),
             type=c('NULL','numeric'),
@@ -133,14 +134,7 @@ pqn_norm = function(
         ),
         ref_count = entity(name = 'Reference feature count',
             description=paste0('The number of features present in the ',
-                'reference. '
-            ),
-            type=c('NULL','numeric'),
-            value = NULL
-        ),
-        ref_count = entity(name = 'Reference feature count',
-            description=paste0('The number of features present in the ',
-                'reference meeting th qc_frac criteria. '
+                'reference meeting the qc_frac criteria. '
             ),
             type=c('NULL','numeric'),
             value = NULL
@@ -192,9 +186,10 @@ setMethod(f="model_train",
             classes=smeta[,M$factor_name],
             qc_label=opt$qc_label,
             qc_frac=opt$qc_frac,
-            sample_frac=opt$qc_frac,
-            ref_mean=opt$ref_mean
-        ) 
+            sample_frac=opt$sample_frac,
+            ref_mean=opt$ref_mean,
+            ref_method=opt$ref_method
+        )
         D$data = as.data.frame(t(normalised))
         
         output_value(M,'normalised') = D
@@ -228,17 +223,17 @@ setMethod(f="model_predict",
             classes=smeta[,M$factor_name],
             qc_label=opt$qc_label,
             qc_frac=opt$qc_frac,
-            sample_frac=opt$qc_frac,
-            ref_mean=opt$computed_ref # use the computed reference from training
-        ) 
+            sample_frac=opt$sample_frac,
+            ref_mean=M$computed_ref, # use the computed reference from training
+            ref_method=opt$ref_method
+        )
         D$data = as.data.frame(t(normalised))
-        
+
         output_value(M,'normalised') = D
         output_value(M,'coeff') = data.frame('coeff'=attributes(normalised)$flags,row.names = rownames(x))
-        
+
+        # computed_ref and ref_count are kept from training
         A=attributes(normalised)$processing_history$pqn_normalisation
-        M$computed_ref=A$computed_ref
-        M$ref_count=A$reference_feature_count
         M$sample_count=A$sample_feature_count
         M$coef_count=A$coef_feature_count
         M$coef_idx=A$coef_idx
