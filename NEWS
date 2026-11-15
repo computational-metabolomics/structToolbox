@@ -1,3 +1,24 @@
+Changes 1.25.2
++ fix corr_coef p-values and coefficients for pearson
++ fix nroot_transform ignoring the root argument
++ fix knn_impute swapping row/column limits when imputing by samples
++ fix ttest unpaired estimates labelled the wrong way round
++ fix grid_search_1d optimum selection
++ fix HSDEM keeping p-values for only one term
++ fix bootstrap run() failing on a missing parameter
++ fix linear_model model_predict erroring
++ fix tSNE predicted output and init parameter
++ fix log_transform, nroot_transform and mean_of_medians passing empty data when trained
++ add drop_empty option to filter_na_count
++ blank_filter warns when blank_label or qc_label match no samples
++ fix equal_split only choosing the first rows of larger groups
++ fix pairs_filter level check always passing
++ fix PLSDA keeping training yhat and scores after predict
++ fix SVM class_weights only working for a single weight
++ fix empty test set when split training fraction rounds to 0
++ fix mv_feature_filter_hist plotting wrong columns for within methods
++ add tests for the above
+
 Changes 1.25.1
 + fix pqn_norm passing qc_frac as sample_frac
 + fix pqn_norm ignoring ref_method
