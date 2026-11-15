@@ -170,9 +170,6 @@ setMethod(f="model_apply",
             estimate_name='estimate'
         }
 
-        X=D$data
-        y=D$sample_meta[[M$factor_names]]
-
         output=lapply(X,function(x) {
             a=tryCatch({
                 
