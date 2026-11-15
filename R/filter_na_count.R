@@ -4,10 +4,11 @@
 #' M = filter_na_count(threshold=3,factor_name='Class')
 #' M = model_apply(M,D)
 #' @export filter_na_count
-filter_na_count = function(threshold,factor_name,...) {
+filter_na_count = function(threshold,factor_name,drop_empty=FALSE,...) {
     out=struct::new_struct('filter_na_count',
         threshold=threshold,
         factor_name=factor_name,
+        drop_empty=drop_empty,
         ...)
     return(out)
 }
@@ -17,6 +18,7 @@ filter_na_count = function(threshold,factor_name,...) {
     contains = c('model'),
     slots=c(threshold='entity',
         factor_name='entity',
+        drop_empty='entity',
         filtered='entity',
         count='entity',
         na_count='entity',
@@ -30,7 +32,7 @@ filter_na_count = function(threshold,factor_name,...) {
             'is present for all combinations (interactions) of groups.'),
         type = 'filter',
         predicted = 'filtered',
-        .params=c('threshold','factor_name'),
+        .params=c('threshold','factor_name','drop_empty'),
         .outputs=c('filtered','count','na_count','flags'),
 
         factor_name=ents$factor_name,
@@ -39,6 +41,18 @@ filter_na_count = function(threshold,factor_name,...) {
             description = 'The minimum number of samples in each group/interaction.',
             value = 2,
             type='numeric'),
+
+        drop_empty=entity(name = 'Drop empty groups',
+            description = c(
+                'TRUE' = paste0('Groups/interactions with no samples (e.g. unused ',
+                    'factor levels) are ignored.'),
+                'FALSE' = paste0('Groups/interactions with no samples are included. ',
+                    'They have no measured values, so every feature is removed if ',
+                    'any are present.')
+            ),
+            value = FALSE,
+            type='logical',
+            max_length=1),
 
 
         filtered=entity(name = 'Filtered DatasetExperiment',
@@ -72,7 +86,7 @@ setMethod(f="model_train",
     {
 
         # create interaction factor from input factors
-        IF=interaction(D$sample_meta[,M$factor_name])
+        IF=interaction(D$sample_meta[,M$factor_name],drop=M$drop_empty)
 
         # count na per class for each feature
         L=levels(IF)
