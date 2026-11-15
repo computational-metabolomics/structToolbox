@@ -249,7 +249,8 @@ setMethod(f="model_apply",
             M$estimates=output[,6,drop=FALSE]
             colnames(M$estimates)='estimated_mean_difference'
         } else {
-            M$estimates=output[,6:7,drop=FALSE]
+            # t.test(A,B) returns mean(A)=L[2] first, so swap to match L
+            M$estimates=output[,c(7,6),drop=FALSE]
             colnames(M$estimates)=as.character(interaction('estimate.mean',L))
         }
 
