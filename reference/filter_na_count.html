@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">structToolbox</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.23.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.25.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filter_na_count</span><span class="op">(</span><span class="va">threshold</span>, <span class="va">factor_name</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filter_na_count</span><span class="op">(</span><span class="va">threshold</span>, <span class="va">factor_name</span>, drop_empty <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -65,6 +65,12 @@
 
 <dt id="arg-factor-name">factor_name<a class="anchor" aria-label="anchor" href="#arg-factor-name"></a></dt>
 <dd><p>(character) The name of a sample-meta column to use.</p></dd>
+
+
+<dt id="arg-drop-empty">drop_empty<a class="anchor" aria-label="anchor" href="#arg-drop-empty"></a></dt>
+<dd><p>(logical) Drop empty groups. Allowed values are limited to the following:</p><ul><li><p><code>"TRUE"</code>: Groups/interactions with no samples (e.g. unused factor levels) are ignored.</p></li>
+<li><p><code>"FALSE"</code>: Groups/interactions with no samples are included. They have no measured values, so every feature is removed if any are present.</p></li>
+</ul><p>The default is <code>FALSE</code>.<br></p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -85,7 +91,8 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">M</span> <span class="op">=</span> <span class="fu">filter_na_count</span><span class="op">(</span></span></span>
 <span class="r-in"><span>      threshold <span class="op">=</span> <span class="fl">2</span>,</span></span>
-<span class="r-in"><span>      factor_name <span class="op">=</span> <span class="st">"V1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      factor_name <span class="op">=</span> <span class="st">"V1"</span>,</span></span>
+<span class="r-in"><span>      drop_empty <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">D</span> <span class="op">=</span> <span class="fu"><a href="MTBLS79_DatasetExperiment.html">MTBLS79_DatasetExperiment</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">M</span> <span class="op">=</span> <span class="fu">filter_na_count</span><span class="op">(</span>threshold<span class="op">=</span><span class="fl">3</span>,factor_name<span class="op">=</span><span class="st">'Class'</span><span class="op">)</span></span></span>

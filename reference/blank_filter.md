@@ -83,7 +83,7 @@ package version 1.22.1, <https://bioconductor.org/packages/pmp>.
 ``` r
 M = blank_filter(
       fold_change = 20,
-      blank_label = "Blank",
+      blank_label = "blank",
       qc_label = "QC",
       factor_name = "V1",
       fraction_in_blank = 0)

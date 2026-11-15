@@ -44,13 +44,22 @@ model_train(M, D)
 # S4 method for class 'linear_model,DatasetExperiment'
 model_train(M, D)
 
+# S4 method for class 'log_transform,DatasetExperiment'
+model_train(M, D)
+
 # S4 method for class 'mean_centre,DatasetExperiment'
+model_train(M, D)
+
+# S4 method for class 'mean_of_medians,DatasetExperiment'
 model_train(M, D)
 
 # S4 method for class 'mv_feature_filter,DatasetExperiment'
 model_train(M, D)
 
 # S4 method for class 'mv_sample_filter,DatasetExperiment'
+model_train(M, D)
+
+# S4 method for class 'nroot_transform,DatasetExperiment'
 model_train(M, D)
 
 # S4 method for class 'OPLSR,DatasetExperiment'

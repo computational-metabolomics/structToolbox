@@ -1225,12 +1225,12 @@ and HE groups.
 [`head`](https://rdrr.io/r/utils/head.html)`(``out``)`
 
     ##     t_statistic   t_p_value t_significant estimate.mean.GC estimate.mean.HE
-    ## M4    3.5392652 0.008421042          TRUE         51.73947         26.47778
-    ## M5   -1.4296604 0.410396437         FALSE        169.91500        265.11860
-    ## M7   -2.7456506 0.051494976         FALSE         53.98718        118.52558
-    ## M8    2.1294198 0.178392032         FALSE         79.26750         54.39535
-    ## M11  -0.5106536 0.776939682         FALSE        171.27949        201.34390
-    ## M14   1.4786810 0.403091881         FALSE         83.90250         61.53171
+    ## M4    3.5392652 0.008421042          TRUE         26.47778         51.73947
+    ## M5   -1.4296604 0.410396437         FALSE        265.11860        169.91500
+    ## M7   -2.7456506 0.051494976         FALSE        118.52558         53.98718
+    ## M8    2.1294198 0.178392032         FALSE         54.39535         79.26750
+    ## M11  -0.5106536 0.776939682         FALSE        201.34390        171.27949
+    ## M14   1.4786810 0.403091881         FALSE         61.53171         83.90250
     ##           lower     upper
     ## M4    10.961769  39.56162
     ## M5  -228.454679  38.04747
@@ -2115,8 +2115,11 @@ normalisation (PQN) and scaling methods (glog).
 `       number_components ``=`` ``10``)`\
 \
 `# apply model sequence`\
-`MS`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``MS``, ``DE``)`\
-\
+`MS`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``MS``, ``DE``)`
+
+    ## Warning: blank_filter: no samples have blank_label "blank" in factor
+    ## "sample_type", so no features will be removed.
+
 \
 `# PCA plots using different factors`\
 `g``=`[`list`](https://rdrr.io/r/base/list.html)`(``)`\
@@ -2488,7 +2491,7 @@ search) so that the best combination of both is identified.
     ## other attached packages:
     ##  [1] openxlsx_4.2.9       cowplot_1.2.0        gridExtra_2.3.1     
     ##  [4] ggplot2_4.0.3        BiocFileCache_3.3.3  dbplyr_2.6.0        
-    ##  [7] ropls_1.45.0         pmp_1.25.1           structToolbox_1.23.2
+    ##  [7] ropls_1.45.0         pmp_1.25.1           structToolbox_1.25.2
     ## [10] struct_1.25.0        BiocStyle_2.41.0    
     ## 
     ## loaded via a namespace (and not attached):

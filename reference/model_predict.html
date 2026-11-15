@@ -9,7 +9,7 @@ first."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">structToolbox</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.23.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.25.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@ first."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Model prediction</h1>
-      <small class="dont-index">Source: <a href="https://github.com/computational-metabolomics/structToolbox/blob/devel/R/DFA_class.R" class="external-link"><code>R/DFA_class.R</code></a>, <a href="https://github.com/computational-metabolomics/structToolbox/blob/devel/R/PCA_class.R" class="external-link"><code>R/PCA_class.R</code></a>, <a href="https://github.com/computational-metabolomics/structToolbox/blob/devel/R/PLSR_class.R" class="external-link"><code>R/PLSR_class.R</code></a>, and 20 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/computational-metabolomics/structToolbox/blob/devel/R/DFA_class.R" class="external-link"><code>R/DFA_class.R</code></a>, <a href="https://github.com/computational-metabolomics/structToolbox/blob/devel/R/PCA_class.R" class="external-link"><code>R/PCA_class.R</code></a>, <a href="https://github.com/computational-metabolomics/structToolbox/blob/devel/R/PLSR_class.R" class="external-link"><code>R/PLSR_class.R</code></a>, and 23 more</small>
       <div class="d-none name"><code>model_predict.Rd</code></div>
     </div>
 
@@ -94,13 +94,22 @@ first.</p>
 <span><span class="co"># S4 method for class 'linear_model,DatasetExperiment'</span></span>
 <span><span class="fu">model_predict</span><span class="op">(</span><span class="va">M</span>, <span class="va">D</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># S4 method for class 'log_transform,DatasetExperiment'</span></span>
+<span><span class="fu">model_predict</span><span class="op">(</span><span class="va">M</span>, <span class="va">D</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># S4 method for class 'mean_centre,DatasetExperiment'</span></span>
+<span><span class="fu">model_predict</span><span class="op">(</span><span class="va">M</span>, <span class="va">D</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'mean_of_medians,DatasetExperiment'</span></span>
 <span><span class="fu">model_predict</span><span class="op">(</span><span class="va">M</span>, <span class="va">D</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'mv_feature_filter,DatasetExperiment'</span></span>
 <span><span class="fu">model_predict</span><span class="op">(</span><span class="va">M</span>, <span class="va">D</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'mv_sample_filter,DatasetExperiment'</span></span>
+<span><span class="fu">model_predict</span><span class="op">(</span><span class="va">M</span>, <span class="va">D</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'nroot_transform,DatasetExperiment'</span></span>
 <span><span class="fu">model_predict</span><span class="op">(</span><span class="va">M</span>, <span class="va">D</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'OPLSR,DatasetExperiment'</span></span>

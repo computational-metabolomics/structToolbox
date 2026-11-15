@@ -9,7 +9,7 @@ combinations (interactions) of groups.
 ## Usage
 
 ``` r
-filter_na_count(threshold, factor_name, ...)
+filter_na_count(threshold, factor_name, drop_empty = FALSE, ...)
 ```
 
 ## Arguments
@@ -21,6 +21,20 @@ filter_na_count(threshold, factor_name, ...)
 - factor_name:
 
   (character) The name of a sample-meta column to use.
+
+- drop_empty:
+
+  (logical) Drop empty groups. Allowed values are limited to the
+  following:
+
+  - `"TRUE"`: Groups/interactions with no samples (e.g. unused factor
+    levels) are ignored.
+
+  - `"FALSE"`: Groups/interactions with no samples are included. They
+    have no measured values, so every feature is removed if any are
+    present.
+
+  The default is `FALSE`.\
 
 - ...:
 
@@ -48,7 +62,8 @@ A `filter_na_count` object inherits the following `struct` classes:\
 ``` r
 M = filter_na_count(
       threshold = 2,
-      factor_name = "V1")
+      factor_name = "V1",
+      drop_empty = FALSE)
 
 D = MTBLS79_DatasetExperiment()
 M = filter_na_count(threshold=3,factor_name='Class')

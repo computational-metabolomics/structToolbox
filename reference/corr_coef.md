@@ -110,10 +110,4 @@ M = model_apply(M,D)
 #> Warning: cannot compute exact p-value with ties
 #> Warning: cannot compute exact p-value with ties
 #> Warning: cannot compute exact p-value with ties
-#> Warning: NAs introduced by coercion
-#> Warning: NAs introduced by coercion
-#> Warning: NAs introduced by coercion
-#> Warning: NAs introduced by coercion
-#> Warning: NAs introduced by coercion
-#> Warning: NAs introduced by coercion
 ```

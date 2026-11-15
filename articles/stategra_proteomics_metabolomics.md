@@ -677,8 +677,11 @@ normalisation (PQN) and scaling methods (glog).
 `       number_components ``=`` ``10``)`\
 \
 `# apply model sequence`\
-`MS`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``MS``, ``DE``)`\
-\
+`MS`` ``=`` `[`model_apply`](https://computational-metabolomics.github.io/structToolbox/reference/model_apply.md)`(``MS``, ``DE``)`
+
+    ## Warning: blank_filter: no samples have blank_label "blank" in factor
+    ## "sample_type", so no features will be removed.
+
 \
 `# PCA plots using different factors`\
 `g``=`[`list`](https://rdrr.io/r/base/list.html)`(``)`\

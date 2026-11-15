@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">structToolbox</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.23.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.25.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +85,7 @@ Weber</h4>
 UK<br><a class="author_email" href="mailto:#"></a><a href="mailto:r.j.weber@bham.ac.uk" class="email">r.j.weber@bham.ac.uk</a>
       </address>
                   
-            <h4 data-toc-skip class="date">2026-11-14</h4>
+            <h4 data-toc-skip class="date">2026-11-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/computational-metabolomics/structToolbox/blob/devel/vignettes/articles/stategra_proteomics_metabolomics.Rmd" class="external-link"><code>vignettes/articles/stategra_proteomics_metabolomics.Rmd</code></a></small>
       <div class="d-none name"><code>stategra_proteomics_metabolomics.Rmd</code></div>
@@ -737,10 +737,11 @@ normalisation (PQN) and scaling methods (glog).</p>
 <span>       number_components <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># apply model sequence</span></span>
-<span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">MS</span>, <span class="va">DE</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># PCA plots using different factors</span></span>
+<span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">MS</span>, <span class="va">DE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: blank_filter: no samples have blank_label "blank" in factor</span></span>
+<span><span class="co">## "sample_type", so no features will be removed.</span></span></code></pre>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># PCA plots using different factors</span></span>
 <span><span class="va">g</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">k</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'order'</span>,<span class="st">'biol.batch'</span>,<span class="st">'time.point'</span>,<span class="st">'condition'</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_scores_plot.html">pca_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="va">k</span>,ellipse<span class="op">=</span><span class="st">'none'</span><span class="op">)</span></span>
@@ -768,7 +769,7 @@ the condition factor and only explore the Ikaros group. Removing the
 condition factor variation will potentially make it easier to spot any
 more subtle trends. We will extract the glog transformed matrix from the
 previous model sequence and continue from there.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get the glog scaled data</span></span>
 <span><span class="va">GL</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/predicted.html" class="external-link">predicted</a></span><span class="op">(</span><span class="va">MS</span><span class="op">[</span><span class="fl">11</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">structToolbox</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.23.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.25.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -1221,12 +1221,12 @@ and HE groups.</p>
 <span><span class="co"># show first few features</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     t_statistic   t_p_value t_significant estimate.mean.GC estimate.mean.HE</span></span>
-<span><span class="co">## M4    3.5392652 0.008421042          TRUE         51.73947         26.47778</span></span>
-<span><span class="co">## M5   -1.4296604 0.410396437         FALSE        169.91500        265.11860</span></span>
-<span><span class="co">## M7   -2.7456506 0.051494976         FALSE         53.98718        118.52558</span></span>
-<span><span class="co">## M8    2.1294198 0.178392032         FALSE         79.26750         54.39535</span></span>
-<span><span class="co">## M11  -0.5106536 0.776939682         FALSE        171.27949        201.34390</span></span>
-<span><span class="co">## M14   1.4786810 0.403091881         FALSE         83.90250         61.53171</span></span>
+<span><span class="co">## M4    3.5392652 0.008421042          TRUE         26.47778         51.73947</span></span>
+<span><span class="co">## M5   -1.4296604 0.410396437         FALSE        265.11860        169.91500</span></span>
+<span><span class="co">## M7   -2.7456506 0.051494976         FALSE        118.52558         53.98718</span></span>
+<span><span class="co">## M8    2.1294198 0.178392032         FALSE         54.39535         79.26750</span></span>
+<span><span class="co">## M11  -0.5106536 0.776939682         FALSE        201.34390        171.27949</span></span>
+<span><span class="co">## M14   1.4786810 0.403091881         FALSE         61.53171         83.90250</span></span>
 <span><span class="co">##           lower     upper</span></span>
 <span><span class="co">## M4    10.961769  39.56162</span></span>
 <span><span class="co">## M5  -228.454679  38.04747</span></span>
@@ -2068,10 +2068,11 @@ normalisation (PQN) and scaling methods (glog).</p>
 <span>       number_components <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># apply model sequence</span></span>
-<span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">MS</span>, <span class="va">DE</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># PCA plots using different factors</span></span>
+<span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">MS</span>, <span class="va">DE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: blank_filter: no samples have blank_label "blank" in factor</span></span>
+<span><span class="co">## "sample_type", so no features will be removed.</span></span></code></pre>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># PCA plots using different factors</span></span>
 <span><span class="va">g</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">k</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'order'</span>,<span class="st">'biol.batch'</span>,<span class="st">'time.point'</span>,<span class="st">'condition'</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_scores_plot.html">pca_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="va">k</span>,ellipse<span class="op">=</span><span class="st">'none'</span><span class="op">)</span></span>
@@ -2099,7 +2100,7 @@ the condition factor and only explore the Ikaros group. Removing the
 condition factor variation will potentially make it easier to spot any
 more subtle trends. We will extract the glog transformed matrix from the
 previous model sequence and continue from there.</p>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># get the glog scaled data</span></span>
 <span><span class="va">GL</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/predicted.html" class="external-link">predicted</a></span><span class="op">(</span><span class="va">MS</span><span class="op">[</span><span class="fl">11</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
@@ -2161,7 +2162,7 @@ as an Excel data file.</p>
 Details in regards to pre-processing are reported in the “NMR-based
 clinical metabolomics” vignette of the `r Biocpkg(“structToolbox”)
 package.</p>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># summary of DatasetExperiment object</span></span>
 <span><span class="va">DE</span></span></code></pre></div>
 <pre><code><span><span class="co">## A "DatasetExperiment" object</span></span>
@@ -2176,7 +2177,7 @@ boundary between groups, we reduce the data to include only the GC and
 HE groups and apply PLS to reduce the data to two components. We then
 treat the PLS scores as as a two group dataset with only two
 features.</p>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># model sequence and pls model (NB data already centred)</span></span>
 <span><span class="va">MS</span> <span class="op">=</span> <span class="fu"><a href="../reference/filter_smeta.html">filter_smeta</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">'include'</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'GC'</span>,<span class="st">'HE'</span><span class="op">)</span>, factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>     <span class="fu"><a href="../reference/PLSDA.html">PLSDA</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'Class'</span>,number_components <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
@@ -2188,7 +2189,7 @@ features.</p>
 <span><span class="va">C</span> <span class="op">=</span> <span class="fu"><a href="../reference/pls_scores_plot.html">pls_scores_plot</a></span><span class="op">(</span>factor_name <span class="op">=</span> <span class="st">'Class'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/chart_plot.html">chart_plot</a></span><span class="op">(</span><span class="va">C</span>,<span class="va">MS</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="data_analysis_omics_using_the_structtoolbox_files/figure-html/unnamed-chunk-179-1.png"><!-- --></p>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># new DatasetExperiment object from the PLS scores</span></span>
 <span><span class="va">DE2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/struct/man/struct_DatasetExperiment.html" class="external-link">DatasetExperiment</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">MS</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">$</span><span class="va">scores</span><span class="op">$</span><span class="va">data</span>, </span>
@@ -2214,7 +2215,7 @@ features.</p>
 <code>structToolbox</code> the <code>SVM</code> model can be used to
 train and apply SVM models. A <code>svm_plot_2d</code> chart object is
 provided for visualisation of boundaries in two dimensions.</p>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># SVM model</span></span>
 <span><span class="va">M</span> <span class="op">=</span> <span class="fu"><a href="../reference/SVM.html">SVM</a></span><span class="op">(</span></span>
 <span>  factor_name <span class="op">=</span> <span class="st">'Class'</span>,</span>
@@ -2239,7 +2240,7 @@ of the margins. A high penalty results in a narrow margin and tries to
 force more samples to be on the correct side of the boundary. A low
 penalty makes for a wider margin and is less strict about samples being
 misclassified. The optimal cost to use is data dependent.</p>
-<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># low cost</span></span>
 <span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">0.01</span></span>
 <span><span class="va">M</span><span class="op">=</span><span class="fu"><a href="../reference/model_apply.html">model_apply</a></span><span class="op">(</span><span class="va">M</span>,<span class="va">DE2</span><span class="op">)</span></span>
@@ -2289,7 +2290,7 @@ kernels allows the boundary to be more flexible, but often require
 additional parameters to be specified. The best kernel to use will vary
 depending on the dataset, but a common choice is the radial kernel as it
 allows high flexibility with a single parameter.</p>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set a fixed cost for this comparison</span></span>
 <span><span class="va">M</span><span class="op">$</span><span class="va">cost</span><span class="op">=</span><span class="fl">1</span></span>
 <span></span>
@@ -2345,7 +2346,7 @@ the boundary. Here I show how the radial kernel parameter “gamma” can be
 used to change the complexity of the boundary. In combination with the
 cost parameter (which I keep constant here) this allows for highly
 flexible boundary models.</p>
-<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># rbf kernel and cost</span></span>
 <span><span class="va">M</span><span class="op">$</span><span class="va">kernel</span> <span class="op">=</span> <span class="st">'radial'</span></span>
 <span><span class="va">M</span><span class="op">$</span><span class="va">cost</span> <span class="op">=</span> <span class="fl">1</span></span>
@@ -2393,7 +2394,7 @@ search) so that the best combination of both is identified.</p>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
-<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.6.1 (2026-06-24)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
@@ -2420,7 +2421,7 @@ search) so that the best combination of both is identified.</p>
 <span><span class="co">## other attached packages:</span></span>
 <span><span class="co">##  [1] openxlsx_4.2.9       cowplot_1.2.0        gridExtra_2.3.1     </span></span>
 <span><span class="co">##  [4] ggplot2_4.0.3        BiocFileCache_3.3.3  dbplyr_2.6.0        </span></span>
-<span><span class="co">##  [7] ropls_1.45.0         pmp_1.25.1           structToolbox_1.23.2</span></span>
+<span><span class="co">##  [7] ropls_1.45.0         pmp_1.25.1           structToolbox_1.25.2</span></span>
 <span><span class="co">## [10] struct_1.25.0        BiocStyle_2.41.0    </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
