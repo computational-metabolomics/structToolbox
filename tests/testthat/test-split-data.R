@@ -29,3 +29,22 @@ test_that('equal split',{
   }))
   expect_true(any(chosen %in% rownames(D$data)[c(21:60,71:110)]))
 })
+
+test_that('split data with no training samples',{
+  set.seed('57475')
+  # DatasetExperiment
+  D=iris_DatasetExperiment()
+  # training fraction rounds to 0 samples, so all samples are for testing
+  M = model_apply(split_data(p_train=0.001),D)
+  expect_equal(nrow(M$training$data),0)
+  expect_equal(nrow(M$testing$data),150)
+  # same for every group of a stratified split
+  M = model_apply(stratified_split(p_train=0.01,factor_name='Species'),D)
+  expect_equal(nrow(M$training$data),0)
+  expect_equal(nrow(M$testing$data),150)
+  # training and testing sets do not overlap and cover all samples
+  M = model_apply(stratified_split(p_train=0.5,factor_name='Species'),D)
+  expect_equal(sort(c(rownames(M$training$data),rownames(M$testing$data))),
+    sort(rownames(D$data)))
+})
+

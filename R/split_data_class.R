@@ -66,8 +66,9 @@ setMethod(f="model_apply",
             variable_meta=D$variable_meta,
             name=c(D$name,'(Training set)'),
             description=c(D$description,'A subset of the data has been selected as a training set'))
-        testing=DatasetExperiment(data=D$data[-in_training,,drop=FALSE],
-            sample_meta=D$sample_meta[-in_training,,drop=FALSE],
+        # setdiff (not -in_training) so an empty training set gives a full test set
+        testing=DatasetExperiment(data=D$data[setdiff(seq_len(nrow(D$data)),in_training),,drop=FALSE],
+            sample_meta=D$sample_meta[setdiff(seq_len(nrow(D$data)),in_training),,drop=FALSE],
             variable_meta=D$variable_meta,
             name=c(D$name,'(Testing set)'),
             description=c(D$description,'A subset of the data has been selected as a test set'))
