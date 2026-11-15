@@ -52,7 +52,7 @@ ents$significant=entity(name='Significant features',
 
 ents$blank_label=entity(name = 'Blank label',
     description = 'The label used to identify blank samples.',
-    value = 'Blank',
+    value = 'blank',
     type='character')
 
 ents$qc_label=entity(name = 'QC label',
