@@ -151,11 +151,11 @@ setMethod(f="run",
         if (is(models(I),'model_OR_model_seq'))
         { # if a model or list then apply the metric
             
-            k=length(unique((results$search.value)))
+            k=length(sv)
             ts.metric=numeric(k)
             for (i in 1:k)
             {
-                ts=results[results$search.value==i,]
+                ts=results[results$search.value==sv[i],]
                 MET=calculate(MET,ts$actual,ts$predicted)
                 ts.metric[i]=value(MET)
             }
@@ -256,15 +256,20 @@ setMethod(f="chart_plot",
 first_min=function(x,t=0.02)
 {
     
+    n=length(x)
     idxs=1 # force first index to be the first value
     # search for v
-    for (i in 2:(length(x)-1))
+    for (i in seq_len(max(0,n-2))+1)
     {
         if ((x[i-1]>x[i]) & (x[i]<=x[i+1]))
         {
             # add minimum to list
             idxs=c(idxs,i)
         }
+    }
+    # the last value can also be a minimum
+    if (n>1 && x[n-1]>x[n]) {
+        idxs=c(idxs,n)
     }
     if (length(idxs)==1)
     { # only 1 minima found, so return it
@@ -275,7 +280,8 @@ first_min=function(x,t=0.02)
     lo=x[idxs[1]]
     for (i in 2:length(idxs))
     {
-        if (x[idxs[i]]<((1-t)*lo)) # update min if it exceeds threshold for improvement
+        # update min if it exceeds threshold for improvement (abs so it works for negative values)
+        if (x[idxs[i]]<(lo-t*abs(lo)))
         {
             lo=x[idxs[i]]
             id=i
