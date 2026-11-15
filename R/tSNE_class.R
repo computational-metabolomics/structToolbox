@@ -37,7 +37,7 @@ tSNE = function(dims=2,perplexity=30,max_iter=100,theta=0.5,check_duplicates=FAL
         name='tSNE',
         description='t-Distributed Stochastic Neighbor Embedding.',
         type="preprocessing",
-        predicted='tsne',
+        predicted='Y',
         libraries='Rtsne',
         dims=entity(
             name='Dimensionality',
@@ -84,7 +84,7 @@ tSNE = function(dims=2,perplexity=30,max_iter=100,theta=0.5,check_duplicates=FAL
             description=paste0('A set of coordinates for initialising the tSNE ',
                 'algorithm. NULL uses random initialisation.'
             ),
-            max_length=1
+            max_length=Inf
         ),
         eta=entity(
             name = 'Learning rate',
