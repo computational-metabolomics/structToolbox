@@ -58,8 +58,8 @@ setMethod(f="model_apply",
         for (k in L) {
             # indices of this group
             w=which(D$sample_meta[[M$factor_name]]==k)
-            # random indices
-            idx=sample(x=1:nMax,size = n, replace=FALSE, prob=NULL)
+            # random indices from anywhere in this group
+            idx=sample.int(length(w),size = n, replace=FALSE)
             # collect selected indices
             in_training=c(in_training,w[idx])
         }
