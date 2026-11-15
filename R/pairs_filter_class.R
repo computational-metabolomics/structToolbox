@@ -56,43 +56,36 @@ setMethod(f="model_apply",
     {
         # get levels of factor
         L=levels(D$sample_meta[[M$factor_name]])
-        # make the sample id a factor
-        D$sample_meta[[M$sample_id]]=factor(D$sample_meta[[M$sample_id]])
+        # sample ids as a factor (local copy, so the output sample_meta is unchanged)
+        ids=factor(D$sample_meta[[M$sample_id]])
 
         idx=numeric(0)
 
         # for each sample id
-        for (k in levels(D$sample_meta[[M$sample_id]])) {
+        for (k in levels(ids)) {
 
-            OK=TRUE
-            w=which(D$sample_meta[[M$sample_id]]==k)
-            l=levels(D$sample_meta[w,M$factor_name])
+            w=which(ids==k)
+            # number of samples for this id in each level
+            # (levels() of a subset keeps all levels, so count the values instead)
+            n=table(factor(D$sample_meta[w,M$factor_name],levels=L))
 
-            # make sure we have all factors represented
-            if (!(all(L %in% l))){
-                OK=FALSE
-            }
-
-            # make sure all factors represented equally
-            if (length(w) %% length(L) != 0) {
-                OK=FALSE
-            }
+            # make sure all levels are represented, and represented equally
+            OK=all(n>0) && all(n==n[1])
 
             # if not ok then flag for removal
             if (!OK) {
                 idx=c(idx,w)
             }
-
-            flags=matrix(0,nrow=nrow(D$data),ncol=1)
-            flags[idx,1]=1
-            M$flags=data.frame(flags=flags)
-
-            FF=filter_by_name(mode='exclude',dimension='sample',names=as.logical(flags[,1]))
-            FF=model_apply(FF,D)
-            M$filtered=predicted(FF)
-
-
         }
+
+        flags=matrix(0,nrow=nrow(D$data),ncol=1)
+        flags[idx,1]=1
+        M$flags=data.frame(flags=flags)
+
+        FF=filter_by_name(mode='exclude',dimension='sample',names=as.logical(flags[,1]))
+        FF=model_apply(FF,D)
+        M$filtered=predicted(FF)
+
         return(M)
     }
 )

@@ -197,14 +197,14 @@ setMethod(f="model_predict",
               
               # set for PLSR
               M$y=M$design_matrix
-              # call PLSR predict
-              N=callNextMethod(M,D)
+              # call PLSR predict (keep its yhat and scores for the new data)
+              M=callNextMethod(M,D)
               # reset
               M$y=SM
-              
+
               ## probability estimate
               # http://www.eigenvector.com/faq/index.php?id=38%7C
-              p=as.matrix(N$yhat)
+              p=as.matrix(M$yhat)
               d=prob_predict(x=p,M$prob_model)
 
               # predictions

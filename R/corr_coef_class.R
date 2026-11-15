@@ -82,6 +82,8 @@ setMethod(f="model_apply",
 
         fcn2=function(y,x) {
             s=cor.test(x,y,method=M$method,use="na.or.complete")
+            # extract by name; htest element positions differ between methods
+            c(p_value=s$p.value,coeff=unname(s$estimate))
         }
         fcn=function(x) {
             X=D$sample_meta[M$factor_names]
@@ -93,7 +95,7 @@ setMethod(f="model_apply",
         out=as.data.frame(lapply(out,as.numeric))
 
         p_val=as.data.frame(vapply(
-                out[,seq(2,ncol(out),7),drop=FALSE],
+                out[,seq(1,ncol(out),2),drop=FALSE],
                 FUN.VALUE = numeric(ncol(D)),
                 FUN=p.adjust,method=M$mtc),
             row.names = colnames(D$data))
@@ -101,7 +103,7 @@ setMethod(f="model_apply",
         colnames(p_val)=M$factor_names
         M$p_value=p_val
 
-        coeff=as.data.frame(out[,seq(3,ncol(out),7),drop=FALSE],row.names = colnames(D$data))
+        coeff=as.data.frame(out[,seq(2,ncol(out),2),drop=FALSE],row.names = colnames(D$data))
         colnames(coeff)=M$factor_names
         M$coeff=coeff
 

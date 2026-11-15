@@ -76,16 +76,21 @@ setMethod(f="model_apply",
         smeta=D$sample_meta
         x=as.matrix(D$data)
         
+        # pmp expects rows to be features, unless imputing by samples
         if (M$by == 'features') {
             x=t(x)
+            rowmax=opt$feature_max/100
+            colmax=opt$sample_max/100
+        } else {
+            rowmax=opt$sample_max/100
+            colmax=opt$feature_max/100
         }
-        
 
         imputed = pmp::mv_imputation(x,
             method='knn',
             k = opt$neighbours,
-            rowmax=opt$feature_max/100,
-            colmax=opt$sample_max/100,
+            rowmax=rowmax,
+            colmax=colmax,
             maxp = NULL,
             check_df = FALSE)
         

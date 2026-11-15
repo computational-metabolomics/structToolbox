@@ -148,3 +148,20 @@ test_that('paired-wilcox',{
   M3=model_apply(M,D)
   expect_true(is.na(M3$statistic[2,1]))
 })
+test_that('ttest estimates match group means',{
+    # DatasetExperiment
+    D=iris_DatasetExperiment()
+    # need two groups for ttest
+    M = filter_smeta(mode='exclude',levels='versicolor',factor_name='Species')
+    M = model_apply(M,D)
+    D = predicted(M)
+
+    for (cg in c('setosa','virginica')) {
+        M = model_apply(ttest(factor_names='Species',control_group=cg),D)
+        for (L in c('setosa','virginica')) {
+            expect_equal(
+                M$estimates[[paste0('estimate.mean.',L)]],
+                unname(colMeans(D$data[D$sample_meta$Species==L,])))
+        }
+    }
+})

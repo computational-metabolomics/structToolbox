@@ -4,7 +4,7 @@
 #' M = nroot_transform()
 nroot_transform = function(root=2,...) {
     out=struct::new_struct('nroot_transform',
-        root=2,
+        root=root,
         ...)
     return(out)
 }
@@ -56,3 +56,21 @@ setMethod(f="model_apply",
         return(M)
     }
 )
+
+#' @export
+#' @template model_train
+setMethod(f="model_train",
+    signature=c("nroot_transform","DatasetExperiment"),
+    definition=function(M,D){
+        M=model_apply(M,D)
+        return(M)
+    })
+
+#' @export
+#' @template model_predict
+setMethod(f="model_predict",
+    signature=c("nroot_transform","DatasetExperiment"),
+    definition=function(M,D){
+        M=model_apply(M,D)
+        return(M)
+    })

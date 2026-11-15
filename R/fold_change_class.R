@@ -236,7 +236,7 @@ setMethod(f="model_apply",
                     if (M$paired) {
                         fc=TT$estimates[,1]
                     } else {
-                        fc=TT$estimates[,1]-TT$estimates[,2] # log2 fold change
+                        fc=TT$estimates[,2]-TT$estimates[,1] # log2 fold change, same direction as conf_int
                     }
                     FC[,counter]=fc
                     LCI[,counter]=TT$conf_int[,1]

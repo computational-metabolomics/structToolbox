@@ -73,6 +73,19 @@ setMethod(f="model_train",
     {
         smeta=D$sample_meta
         x=D$data
+
+        # labels are matched exactly (case-sensitive); warn if they match nothing
+        cls=as.character(smeta[[M$factor_name]])
+        if (!any(cls==M$blank_label,na.rm=TRUE)) {
+            warning('blank_filter: no samples have blank_label "',M$blank_label,
+                '" in factor "',M$factor_name,'", so no features will be removed.',
+                call.=FALSE)
+        } else if (!is.null(M$qc_label) && !any(cls==M$qc_label,na.rm=TRUE)) {
+            warning('blank_filter: no samples have qc_label "',M$qc_label,
+                '" in factor "',M$factor_name,'", so all features will be removed.',
+                call.=FALSE)
+        }
+
         # remove = NULL does not remove blanks. ANY VALUE removes blanks.
         blank_filtered = pmp::filter_peaks_by_blank(t(x), fold_change=M$fold_change,
             classes=smeta[,M$factor_name],

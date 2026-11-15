@@ -111,8 +111,9 @@ setMethod(f="model_train",
     signature=c("SVM",'DatasetExperiment'),
     definition=function(M,D) {
         
-        # make class_weights a named list of length = 1
-        if (length(M$class_weights==1)) {
+        # a single numeric weight is used for every class
+        # (NULL, "inverse" and named vectors are passed to svm as they are)
+        if (is.numeric(M$class_weights) && length(M$class_weights)==1) {
             L=levels(D$sample_meta[[M$factor_name]])
             cw=rep(M$class_weights,length(L))
             names(cw)=L

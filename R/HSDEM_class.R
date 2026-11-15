@@ -80,14 +80,13 @@ setMethod(f="model_apply",
         FF=apply(FF,1,function(x) var_names_ex[x==1])
         FF=FF[-1]
 
-        output=apply(X,2,function(x) {
+        # lapply (not apply) so the per-feature results are not simplified
+        output=lapply(X,function(x) {
             temp=y
             temp[[var_names_1]]=scale(x,center = TRUE,scale=TRUE)
 
-            dona=FALSE
-
             testlm=tryCatch({ # if any warnings/messages set p-values to NA as unreliable
-                LM=nlme::lme(lmer_formula$f,random=lmer_formula$random,method='ML',data=temp,na.action=na.omit)
+                nlme::lme(lmer_formula$f,random=lmer_formula$random,method='ML',data=temp,na.action=na.omit)
             }, warning = function(w) {
                 NA
             }, message = function(m) {
@@ -96,49 +95,39 @@ setMethod(f="model_apply",
                 NA
             })
 
-            output2=list()
-            for (k in 1:length(FF)) {
-                if (!is.na(testlm[[1]])) {
-                    testhsd=tryCatch({
-                        output2[[k]]=as.data.frame(
-                                pairs(
-                                emmeans::emmeans(LM,FF[[k]],
-                                data=temp)))
+            # named p-values for the contrasts of every term; failed terms are left out
+            pv=numeric(0)
+            if (is(testlm,'lme')) {
+                for (k in seq_along(FF)) {
+                    A=tryCatch({
+                        # emmeans notes about interactions are not failures
+                        suppressMessages(as.data.frame(
+                            pairs(emmeans::emmeans(testlm,FF[[k]],data=temp))))
                     }, warning  = function(w) {
-                        NA
-                    } , message = function(m) {
-                        NA
+                        NULL
                     }, error    = function(e) {
-                        NA
+                        NULL
                     })
-
-                    if (!is.data.frame(testhsd[1])) {
-                        output2[[k]]=NA
+                    if (is.data.frame(A)) {
+                        cn=as.character(A$contrast)
+                        if (length(FF)>1) {
+                            # prefix the term so contrast names are unique
+                            cn=paste0(paste(FF[[k]],collapse=':'),': ',cn)
+                        }
+                        pv=c(pv,setNames(A$p.value,cn))
                     }
-                } else {
-                    output2[[k]]=NA
                 }
             }
-
-            return(output2)
+            return(pv)
         })
 
-        p_value=lapply(output,function(x) {
-            x=as.data.frame(x)
-            return(x$p.value)
-        })
-        ln=length(p_value[[1]])
-        p_value=lapply(p_value,function(x){
-            if (length(x)!=ln) {
-                return(p_value[[1]]*NA)
-            } else {
-                return(x)
-            }
-        })
-
-        p_value=do.call("rbind",p_value)
-        p_value=data.frame(p_value)
-        colnames(p_value)=as.data.frame(output[[1]])$contrast
+        # line up contrasts by name; missing terms become NA
+        # (most complete feature first, so the column order is by term)
+        cn=unique(unlist(lapply(output[order(-lengths(output))],names)))
+        p_value=do.call("rbind",lapply(output,function(x) unname(x[cn])))
+        p_value=data.frame(p_value,check.names=FALSE)
+        colnames(p_value)=cn
+        rownames(p_value)=colnames(X)
 
         # fdr correct
         M$p_value=as.data.frame(apply(p_value,2,p.adjust,method=M$mtc))

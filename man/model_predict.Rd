@@ -3,9 +3,10 @@
 %   R/PLSDA_class.R, R/autoscale_class.R, R/blank_filter_class.R,
 %   R/constant_sum_norm_class.R, R/d_ratio_filter_class.R,
 %   R/filter_by_name_class.R, R/filter_na_count.R, R/filter_smeta_class.R,
-%   R/glog_class.R, R/linear_model_class.R, R/mean_centre_class.R,
-%   R/model_predict_doc.R, R/mv_feature_filter_class.R,
-%   R/mv_sample_filter_class.R, R/oplsr_class.R, R/oplsda_class.R,
+%   R/glog_class.R, R/linear_model_class.R, R/log_transform.R,
+%   R/mean_centre_class.R, R/mean_of_medians.R, R/model_predict_doc.R,
+%   R/mv_feature_filter_class.R, R/mv_sample_filter_class.R,
+%   R/nroot_transform_class.R, R/oplsr_class.R, R/oplsda_class.R,
 %   R/paretoscale_class.R, R/pqn_norm_method_class.R, R/svm_classifier_class.R,
 %   R/vec_norm_class.R
 \name{model_predict,DFA,DatasetExperiment-method}
@@ -22,10 +23,13 @@
 \alias{model_predict,filter_smeta,DatasetExperiment-method}
 \alias{model_predict,glog_transform,DatasetExperiment-method}
 \alias{model_predict,linear_model,DatasetExperiment-method}
+\alias{model_predict,log_transform,DatasetExperiment-method}
 \alias{model_predict,mean_centre,DatasetExperiment-method}
+\alias{model_predict,mean_of_medians,DatasetExperiment-method}
 \alias{model_predict}
 \alias{model_predict,mv_feature_filter,DatasetExperiment-method}
 \alias{model_predict,mv_sample_filter,DatasetExperiment-method}
+\alias{model_predict,nroot_transform,DatasetExperiment-method}
 \alias{model_predict,OPLSR,DatasetExperiment-method}
 \alias{model_predict,OPLSDA,DatasetExperiment-method}
 \alias{model_predict,pareto_scale,DatasetExperiment-method}
@@ -60,11 +64,17 @@
 
 \S4method{model_predict}{linear_model,DatasetExperiment}(M, D)
 
+\S4method{model_predict}{log_transform,DatasetExperiment}(M, D)
+
 \S4method{model_predict}{mean_centre,DatasetExperiment}(M, D)
+
+\S4method{model_predict}{mean_of_medians,DatasetExperiment}(M, D)
 
 \S4method{model_predict}{mv_feature_filter,DatasetExperiment}(M, D)
 
 \S4method{model_predict}{mv_sample_filter,DatasetExperiment}(M, D)
+
+\S4method{model_predict}{nroot_transform,DatasetExperiment}(M, D)
 
 \S4method{model_predict}{OPLSR,DatasetExperiment}(M, D)
 
