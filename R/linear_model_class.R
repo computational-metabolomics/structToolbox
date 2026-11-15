@@ -122,7 +122,7 @@ setMethod(f="model_predict",
     definition=function(M,D)
     {
         X=cbind(D$data,D$sample_meta)
-        M$predicted_values(predict(M$lm,newdata = X))
+        M$predicted_values=predict(M$lm,newdata = X)
         return(M)
     }
 )
