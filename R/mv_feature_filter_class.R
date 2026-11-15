@@ -169,7 +169,8 @@ setMethod(f="chart_plot",
     signature=c("mv_feature_filter_hist",'mv_feature_filter'),
     definition=function(obj,dobj)
     {
-        if (param_value(dobj,'method')=='within') {
+        # within_all/within_one flags have a column per group, which this plot does not use
+        if (startsWith(param_value(dobj,'method'),'within')) {
             stop('plot not implemented for within class filter')
         }
 

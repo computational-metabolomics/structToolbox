@@ -64,3 +64,21 @@ test_that('pmp mv_feature_plot', {
   gg=chart_plot(C,FF)
   expect_true(is(gg,'ggplot'))
 })
+
+test_that('pmp mv_feature_plot within methods not supported', {
+  set.seed('57475')
+  # DatasetExperiment
+  D=iris_DatasetExperiment()
+  D$data[sample(1:150,40),1]=NA
+  C=mv_feature_filter_hist()
+  for (m in c('within_all','within_one')) {
+    FF=mv_feature_filter(qc_label='versicolor',method=m,factor_name='Species')
+    FF=model_apply(FF,D)
+    expect_error(chart_plot(C,FF),'plot not implemented')
+  }
+  # QC method is plotted
+  FF=mv_feature_filter(qc_label='versicolor',method='QC',factor_name='Species')
+  FF=model_apply(FF,D)
+  expect_true(is(chart_plot(C,FF),'ggplot'))
+})
+
