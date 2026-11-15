@@ -4,7 +4,7 @@
 #' M = nroot_transform()
 nroot_transform = function(root=2,...) {
     out=struct::new_struct('nroot_transform',
-        root=2,
+        root=root,
         ...)
     return(out)
 }
