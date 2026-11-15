@@ -61,7 +61,7 @@ setMethod(f="run",
         y=D$sample_meta
         # get the WF
         WF=models(I)
-        n=param_value(I,'number_of_iterations')
+        n=param_value(I,'number_of_repetitions')
 
         all_results=data.frame('actual'=rep(y[,1],n),'predicted'=rep(y[,1],n),'permutation'=0)
 
