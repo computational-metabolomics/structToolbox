@@ -56,3 +56,21 @@ setMethod(f="model_apply",
         return(M)
     }
 )
+
+#' @export
+#' @template model_train
+setMethod(f="model_train",
+    signature=c("nroot_transform","DatasetExperiment"),
+    definition=function(M,D){
+        M=model_apply(M,D)
+        return(M)
+    })
+
+#' @export
+#' @template model_predict
+setMethod(f="model_predict",
+    signature=c("nroot_transform","DatasetExperiment"),
+    definition=function(M,D){
+        M=model_apply(M,D)
+        return(M)
+    })
